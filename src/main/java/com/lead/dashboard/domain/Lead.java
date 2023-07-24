@@ -8,31 +8,12 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "lead")
+@Table(name = "lead_u")
 @Data
 public class Lead {
-
-    public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDiscreption() {
-		return discreption;
-	}
-	public void setDiscreption(String discreption) {
-		this.discreption = discreption;
-	}
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ; 
-	String name;
-	String discreption ;;
+	String leadName;
+	String leadDescription;
 }
