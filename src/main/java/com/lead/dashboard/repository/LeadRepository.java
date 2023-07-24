@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.lead.dashboard.domain.Lead;
 
 @Repository
-public interface LeadRepository extends JpaRepository<Lead,Long>{
+public interface LeadRepository {
 
 	
 

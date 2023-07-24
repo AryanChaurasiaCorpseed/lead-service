@@ -1,19 +1,19 @@
 package com.lead.dashboard.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.lead.dashboard.domain.Lead;
-import com.lead.dashboard.repository.LeadRepository;
-
-@Service
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
+//
+//import com.lead.dashboard.domain.Lead;
+//import com.lead.dashboard.repository.LeadRepository;
+//
+//@Service
 public class LeadService {
-	@Autowired
-	LeadRepository leadRepository;
+//	@Autowired
+//	LeadRepository leadRepository;
 	/*
 	 * static List<Lead> Leads = new ArrayList<Lead>(); static long id = 0;
 	 * 
@@ -43,10 +43,10 @@ public class LeadService {
 	 * public List<Lead> findByPublished(boolean isPublished) { return
 	 * Leads.stream().filter(Lead -> isPublished == Lead.isPublished()).toList(); }
 	 */
-	public Lead getAllData(Long id){
-		Optional<Lead> lead = leadRepository.findById(id);
-		return lead.get();
-		
-	}
+//	public Lead getAllData(Long id){
+//		Optional<Lead> lead = leadRepository.findById(id);
+//		return lead.get();
+//		
+//	}
 
 }
