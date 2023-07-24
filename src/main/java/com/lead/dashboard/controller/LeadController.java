@@ -31,11 +31,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
 @CrossOrigin(origins = "http://localhost:8081")
-@RestController
-@RequestMapping("/api")
+//@RestController
+//@RequestMapping("/api")
 public class LeadController {
-  @Autowired
-  LeadService leadservice;
+//  @Autowired
+//  LeadService leadservice;
 
 	/*
 	 * @Operation(summary = "Create a new Lead", tags = { "Leads", "post" })
@@ -173,17 +173,17 @@ public class LeadController {
 	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); } }
 	 */
   
-  @Operation(summary = "Create a new Lead", tags = { "Leads", "post" })
-  @ApiResponses({
-      @ApiResponse(responseCode = "201", content = {
-          @Content(schema = @Schema(implementation = Lead.class), mediaType = "application/json") }),
-      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-  @PostMapping("/Lead")
-  public Lead createLead(@RequestParam Long LeadId) {
-	  Lead  fb =leadservice.getAllData(LeadId);
-	 System.out.println(fb!=null?fb.getName():"NA------");
-	 return fb;
-  }
+//  @Operation(summary = "Create a new Lead", tags = { "Leads", "post" })
+//  @ApiResponses({
+//      @ApiResponse(responseCode = "201", content = {
+//          @Content(schema = @Schema(implementation = Lead.class), mediaType = "application/json") }),
+//      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+//  @PostMapping("/Lead")
+//  public Lead createLead(@RequestParam Long LeadId) {
+//	  Lead  fb =leadservice.getAllData(LeadId);
+////	 System.out.println(fb!=null?fb.getName():"NA------");
+//	 return fb;
+//  }
 
 }
 
