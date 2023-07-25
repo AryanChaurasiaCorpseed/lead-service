@@ -6,15 +6,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
-@Table(name = "user")
 @Data
+@NoArgsConstructor(force = true)
+@Table(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
-    Long id ; 
-	String name;
-	String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NonNull
+    private String firstName;
+
+    @NonNull
+    private String lastName;
+
+    @NonNull
+    private String email;
+
+    @NonNull
+    private String designation;
+
+    @NonNull
+    private String department;
+
+    private String password;
 }
+
