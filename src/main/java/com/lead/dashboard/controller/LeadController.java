@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.service.LeadService;
+import com.lead.dashboard.util.UrlsMapping;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,11 +32,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
 @CrossOrigin(origins = "http://localhost:8081")
-//@RestController
-//@RequestMapping("/api")
+@RestController
+@RequestMapping("/api")
+
 public class LeadController {
-//  @Autowired
-//  LeadService leadservice;
+
+  @Autowired
+  LeadService leadservice;
+	
+	
 
 	/*
 	 * @Operation(summary = "Create a new Lead", tags = { "Leads", "post" })
@@ -178,12 +183,24 @@ public class LeadController {
 //      @ApiResponse(responseCode = "201", content = {
 //          @Content(schema = @Schema(implementation = Lead.class), mediaType = "application/json") }),
 //      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-//  @PostMapping("/Lead")
-//  public Lead createLead(@RequestParam Long LeadId) {
-//	  Lead  fb =leadservice.getAllData(LeadId);
-////	 System.out.println(fb!=null?fb.getName():"NA------");
-//	 return fb;
-//  }
+  @PostMapping("/v1/lead/createLead")
+  public Lead  createLead(@RequestParam String name,@RequestParam String mobNo,@RequestParam String desc) {
+	  Lead  fb =leadservice.createEnquiryLead( name, mobNo, desc);
+//	 System.out.println(fb!=null?fb.getName():"NA------");
+	 return fb;
+  }
+  
+  @GetMapping("/v1/lead/getAllLead")
+  public  List<Lead>  getLead() {
+  List<Lead> fb = leadservice.getLead();
+//	 System.out.println(fb!=null?fb.getName():"NA------");
+	 return fb;
+  }
+  @GetMapping("/v1/lead/getLead")
+  public  Lead  getLeadById(Long id){
+	  Lead fb = leadservice.getSingleLead(id);
+	 return fb;
+  }
 
 }
 
