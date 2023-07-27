@@ -1,5 +1,15 @@
 package com.lead.dashboard.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.repository.LeadRepository;
+
+
 //import java.util.ArrayList;
 //import java.util.List;
 //import java.util.Optional;
@@ -10,10 +20,32 @@ package com.lead.dashboard.service;
 //import com.lead.dashboard.domain.Lead;
 //import com.lead.dashboard.repository.LeadRepository;
 //
-//@Service
+@Service
 public class LeadService {
-//	@Autowired
-//	LeadRepository leadRepository;
+	@Autowired
+	LeadRepository leadRepository;
+	
+
+	public  Lead createEnquiryLead(String name,String mobNo,String desc) {
+		Lead l = new Lead();
+		l.setLeadDescription(desc);
+		l.setLeadName(name);
+		return leadRepository.save(l);
+		
+	}
+
+
+	public List<Lead> getLead() {
+		// TODO Auto-generated method stub
+		List<Lead> listLead = leadRepository.findAll();
+		return listLead;
+	}
+	public Lead getSingleLead(Long id) {
+		// TODO Auto-generated method stub
+		Optional<Lead> listLead = leadRepository.findById(id);
+		return listLead.get();
+	}
+	
 	/*
 	 * static List<Lead> Leads = new ArrayList<Lead>(); static long id = 0;
 	 * 
