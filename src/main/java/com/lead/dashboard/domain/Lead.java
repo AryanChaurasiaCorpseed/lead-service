@@ -1,11 +1,16 @@
 package com.lead.dashboard.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -37,6 +42,12 @@ public class Lead {
 	String source ;
 	String PrimaryAddress ;
 	boolean isDeleted;
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="lead_clients",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="lead_client_id"
+			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Client>clients;
 
 //	  Long id;
 //	   String name ; 
