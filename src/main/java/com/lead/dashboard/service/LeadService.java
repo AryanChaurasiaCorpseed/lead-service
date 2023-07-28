@@ -1,5 +1,6 @@
 package com.lead.dashboard.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.LeadDto;
+import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.LeadRepository;
-
+import com.lead.dashboard.repository.UserRepo;
 
 //import java.util.ArrayList;
 //import java.util.List;
@@ -24,6 +28,8 @@ import com.lead.dashboard.repository.LeadRepository;
 public class LeadService {
 	@Autowired
 	LeadRepository leadRepository;
+	@Autowired
+	UserRepo UserRepo;
 	
 
 	public  Lead createEnquiryLead(String name,String mobNo,String desc) {
@@ -45,40 +51,60 @@ public class LeadService {
 		Optional<Lead> listLead = leadRepository.findById(id);
 		return listLead.get();
 	}
+
 	
-	/*
-	 * static List<Lead> Leads = new ArrayList<Lead>(); static long id = 0;
-	 * 
-	 * public List<Lead> findAll() { return Leads; }
-	 * 
-	 * public List<Lead> findByTitleContaining(String title) { return
-	 * Leads.stream().filter(Lead -> Lead.getTitle().contains(title)).toList(); }
-	 * 
-	 * public Lead findById(long id) { return Leads.stream().filter(Lead -> id ==
-	 * Lead.getId()).findAny().orElse(null); }
-	 * 
-	 * public Lead save(Lead Lead) { // update Lead if (Lead.getId() != 0) { long
-	 * _id = Lead.getId();
-	 * 
-	 * for (int idx = 0; idx < Leads.size(); idx++) if (_id ==
-	 * Leads.get(idx).getId()) { Leads.set(idx, Lead); break; }
-	 * 
-	 * return Lead; }
-	 * 
-	 * // create new Lead Lead.setId(++id); Leads.add(Lead); return Lead; }
-	 * 
-	 * public void deleteById(long id) { Leads.removeIf(Lead -> id == Lead.getId());
-	 * }
-	 * 
-	 * public void deleteAll() { Leads.removeAll(Leads); }
-	 * 
-	 * public List<Lead> findByPublished(boolean isPublished) { return
-	 * Leads.stream().filter(Lead -> isPublished == Lead.isPublished()).toList(); }
-	 */
-//	public Lead getAllData(Long id){
-//		Optional<Lead> lead = leadRepository.findById(id);
-//		return lead.get();
-//		
-//	}
+
+	public  Lead createEnquiryLead(LeadDto leadDto) {
+		Lead l = new Lead();
+		Optional<User> opUser = UserRepo.findById(leadDto.getUserId());
+		l.setLeadName(leadDto.getLeadName());
+		l.setLeadDescription(leadDto.getLeadDescription());
+        l.setContacts(leadDto.getContacts());
+        l.setCreateDate(new Date());
+        l.setLastUpdated(leadDto.getLastUpdated());
+        if(opUser!=null && opUser.get()!=null) {
+             l.setUpdatedBy(opUser.get());
+             l.setCreatedBy(opUser.get());
+
+        }
+        l.setLatestStatusChangeDate(new Date());
+        l.setPrimaryAddress(leadDto.getPrimaryAddress());
+         l.setSource(leadDto.getSource());
+         l.setUrls(leadDto.getUrls());
+         return leadRepository.save(l);
+		
+	}
+	public Lead updateLeadData(UpdateLeadDto updateLeadDto) {
+		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());  
+		Lead updatedLead  = new Lead();
+		if(lead!=null) {
+			Lead l = lead.get();
+			l.setLeadName(updateLeadDto.getLeadName());
+			l.setLeadDescription(updateLeadDto.getLeadDescription());
+	        l.setContacts(updateLeadDto.getContacts());
+	        l.setLastUpdated(new Date());
+	        l.setLatestStatusChangeDate(updateLeadDto.getLatestStatusChangeDate());
+	        l.setPrimaryAddress(updateLeadDto.getPrimaryAddress());
+	        l.setSource(updateLeadDto.getSource());
+	        l.setUrls(updateLeadDto.getUrls());
+	        updatedLead = leadRepository.save(l);
+		}
+        return updatedLead;
+	}
+	
+
+	public boolean deleteLeadData(Long leadId) {
+		Optional<Lead> opLead = leadRepository.findById(leadId); 
+		boolean flag=false;
+		if(opLead!=null && opLead.get()!=null) {
+			Lead lead = opLead.get();
+			lead.setDeleted(true);
+			flag=true;
+			leadRepository.save(lead);
+		}
+		return flag;
+	}
+
+
 
 }
