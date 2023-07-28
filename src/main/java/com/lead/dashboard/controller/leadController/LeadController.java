@@ -1,4 +1,4 @@
-package com.lead.dashboard.controller;
+package com.lead.dashboard.controller.leadController;
 
 
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
+
 
 public class LeadController {
 
