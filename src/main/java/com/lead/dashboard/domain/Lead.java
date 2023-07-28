@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Lead {
-
+p
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ; 
