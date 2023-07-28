@@ -1,4 +1,4 @@
-package com.lead.dashboard.controller.UserController;
+package com.lead.dashboard.controller.userController;
 
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.service.UserService;
@@ -17,10 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("api/v1/getAllUser")
     public ResponseEntity<List<User>> getAllUserData()
     {
+
     List<User> allUser=userService.getAllUsers();
+
     if(!allUser.isEmpty())
     {
         return  new ResponseEntity<>(allUser,HttpStatus.OK);
@@ -28,16 +30,17 @@ public class UserController {
     else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     }
 
 
-    @PostMapping
+    @PostMapping("api/v1/createUsser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("api/v1/getUser")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         if (user != null) {
@@ -47,8 +50,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    @PutMapping("api/v1/updateUser")
+    public ResponseEntity<User> updateUser(@RequestParam Long id, @RequestBody User user) {
         User existingUser = userService.getUserById(id);
         if (existingUser != null) {
             user.setId(id);
@@ -59,8 +62,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    @DeleteMapping("api/v1/deleteUser")
+    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
         User existingUser = userService.getUserById(id);
         if (existingUser != null) {
             userService.deleteUser(id);
