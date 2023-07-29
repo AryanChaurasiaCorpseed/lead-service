@@ -26,9 +26,12 @@ public class Communication {
 	
 	@OneToOne
 	Mails mails;
-	
+	 
 	@OneToOne
 	Chats chat;
+	
+	@OneToOne
+	User user;
 	
 	@OneToOne
 	Sms sms;

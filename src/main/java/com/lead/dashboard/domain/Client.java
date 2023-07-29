@@ -3,6 +3,7 @@ package com.lead.dashboard.domain;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,26 +28,86 @@ public class Client {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
+	String name;
 	String emails;
 	String contactNo;
-//	String type ;
-//	Date SendDate;
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_communication_id",referencedColumnName="id",nullable=true)},
-	inverseJoinColumns = {@JoinColumn(name="communication_id"
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="client_communication_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Communication>communication;
-//	
-//	@OneToOne
-//	Mails mails;
-//	
-//	@OneToOne
-//	Chats chat;
-//	
-//	@OneToOne
-//	Sms sms;
-//	
-//	@OneToOne
-//	Calls call;
-//	
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the emails
+	 */
+	public String getEmails() {
+		return emails;
+	}
+
+	/**
+	 * @param emails the emails to set
+	 */
+	public void setEmails(String emails) {
+		this.emails = emails;
+	}
+
+	/**
+	 * @return the contactNo
+	 */
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	/**
+	 * @param contactNo the contactNo to set
+	 */
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	/**
+	 * @return the communication
+	 */
+	public List<Communication> getCommunication() {
+		return communication;
+	}
+
+	/**
+	 * @param communication the communication to set
+	 */
+	public void setCommunication(List<Communication> communication) {
+		this.communication = communication;
+	}
+	
+	
+
 }
