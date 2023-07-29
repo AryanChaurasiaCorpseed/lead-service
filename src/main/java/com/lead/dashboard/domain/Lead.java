@@ -1,11 +1,17 @@
 package com.lead.dashboard.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -36,26 +42,15 @@ p
 	String source ;
 	String PrimaryAddress ;
 	boolean isDeleted;
+	@OneToOne
+	Status status;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="lead_clients",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="lead_client_id"
+			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Client>clients;
 
-//	  Long id;
-//	   String name ; 
-//	   Contact contacts;
-//	   String description ; 
-//	   @OneToOne
-//	   Status status_id;
-//	   String urls;
-//	   Date createDate ; 
-//	   User createdBy
-//	   Date updated;
-//	   User updatedBy;
-//	   Date LatestStatus Change Date;
-//	   Source source ;
-//	   String PrimaryAddress ;   
-
-	
-	
-	
-	
     /**
 	 * @return the id
 	 */
@@ -213,6 +208,31 @@ p
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	/**
+	 * @return the clients
+	 */
+	public List<Client> getClients() {
+		return clients;
+	}
+	/**
+	 * @param clients the clients to set
+	 */
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
+	}
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
 	
 
 }

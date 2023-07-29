@@ -16,6 +16,7 @@ public class UpdateLeadDto {
 	Date latestStatusChangeDate;
 	String source ;
 	String PrimaryAddress ;
+	Long statusId;
 	
 	/**
 	 * @return the id
@@ -136,6 +137,19 @@ public class UpdateLeadDto {
 	 */
 	public void setPrimaryAddress(String primaryAddress) {
 		PrimaryAddress = primaryAddress;
+	}
+	/**
+	 * @return the statusId
+	 */
+	public Long getStatusId() {
+		return statusId;
+	}
+	/**
+	 * @param statusId the statusId to set
+	 */
+	public void setStatusId(Long statusId) {
+		this.statusId = statusId;
 	}   
+	
 
 }
