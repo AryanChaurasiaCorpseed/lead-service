@@ -14,6 +14,7 @@ public class LeadDto {
 	String contacts;
 	String urls ;
     Date createDate ; 
+    String status="initiated";
 //	User createdBy
 	Date lastUpdated;
 //	User updatedBy;
@@ -140,6 +141,18 @@ public class LeadDto {
 	 */
 	public void setPrimaryAddress(String primaryAddress) {
 		PrimaryAddress = primaryAddress;
+	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}   
 
 
