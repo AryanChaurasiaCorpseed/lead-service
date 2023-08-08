@@ -23,4 +23,8 @@ public class Mails {
     Long id ;
 	String message ;
 
+	String mailTo;
+	String mailCc;
+	String subject;
+	boolean isDeleted ;
 }

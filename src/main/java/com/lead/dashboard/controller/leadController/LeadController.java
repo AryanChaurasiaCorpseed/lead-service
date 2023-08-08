@@ -6,7 +6,17 @@ import com.lead.dashboard.dto.UpdateLeadDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.lead.dashboard.config.EmailServiceImpl;
 import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +34,9 @@ public class LeadController {
 
   @Autowired
   LeadService leadservice;
+
+  @Autowired
+  EmailServiceImpl emailServiceImpl;
 	
 	
 //
@@ -118,6 +131,15 @@ public class LeadController {
       {
       boolean  deletedLead = leadservice.deleteLead(leadId);
       return deletedLead;
+  }
+  
+  
+  @DeleteMapping("/v1/lead/sendMailInLead")
+  public  boolean  sendMailInLead( String to, String subject, String text){
+	  emailServiceImpl.sendSimpleMessage(to,  subject,  text);
+	  
+	  return true;
+	  
   }
 
 
