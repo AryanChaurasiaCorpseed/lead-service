@@ -21,5 +21,6 @@ public class Mails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
-	String message ; 
+	String message ;
+
 }

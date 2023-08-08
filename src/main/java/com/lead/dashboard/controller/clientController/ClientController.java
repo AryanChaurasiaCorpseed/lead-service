@@ -1,9 +1,11 @@
 package com.lead.dashboard.controller.clientController;
 
+import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.service.ClientService;
+import com.lead.dashboard.serviceImpl.LeadServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.service.LeadService;
@@ -14,14 +16,42 @@ public class ClientController {
 	  @Autowired
 	  LeadService leadservice;
 
-	  @PostMapping("/v1/lead/createLead")
+	  @Autowired
+	  ClientService clientService;
+
+	  @PostMapping("/v1/lead/createClient")
 	  public Lead  createClientInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String contactNo,@RequestParam String email) {
-		  
-		  
-		  Lead  fb =leadservice.createClientInLead(leadId, name , email, contactNo);
-//		  Lead  fb =leadservice.createEnquiryLead( name, mobNo, desc);
-//		 System.out.println(fb!=null?fb.getName():"NA------");
-		 return fb;
+
+
+		  Lead  clientCreated =clientService.createClientInLead(leadId, name , email, contactNo);
+		 return clientCreated;
 	  }
+
+	@DeleteMapping("api/v1/deleteClient")
+	public ResponseEntity<String> deleteClientFromLead(@RequestParam Long leadId, @RequestParam Long clientId)
+	{
+
+		clientService.removeClientFromLead(leadId,clientId);
+        return ResponseEntity.ok("Client has been removed from the lead enquiry");
+
+	}
+
+	@PutMapping("api/v1/updateClientInfo")
+	public ResponseEntity<Client> upddateClientInfo(@RequestBody Client client)
+	{
+		if(client!=null)
+		{
+			Client updatedDeatils =clientService.updateClientInfo(client);
+			return ResponseEntity.ok(updatedDeatils);
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+
+
+
 	
 }

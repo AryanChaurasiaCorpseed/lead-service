@@ -1,90 +1,59 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.dto;
 
 import java.util.Date;
-import java.util.List;
 
-import jakarta.persistence.*;
+import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.User;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "erp_leads")
-@Data
-@Getter
-@Setter
-public class Lead {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
-    Long id ;
+public class LeadDTO {
+	Long id ;
 
-	private String uuid;
+	String uuid;
 
-	//	Here we provide name of client who initiated enquiry from corpseed website
-	@Column(name = "client_name")
-	private String name;
+	String name;
 
-	//	Name of lead like GST service,private company registration
-	@NotBlank
-	private String leadName;
+	String leadName;
 
-	//Lead Description in which customer will fill there requirements
-	private String leadDescription;
+	String email;
 
-	//Client mobile number
-	@Column(name = "client_mob_no",length = 10)
-	@NotBlank
-	private String mobileNo;
+	String leadDescription;
 
-	@Column(length = 50)
-	private String email;
+	String mobileNo;
 
-	//URL of website where client raise this enquiry
-	private String urls ;
+	String urls;
 
-    private Date createDate ;
+	Date createDate ;
 
-	private Date lastUpdated;
+	Date lastUpdated;
 
-	private Date latestStatusChangeDate;
+	Date latestStatusChangeDate;
 
-    //From which source with got this lead like IVR,WhatsApp,Website form Page
-	private String source ;
+	String source ;
 
-	private String PrimaryAddress ;
+	String PrimaryAddress ;
 
 	boolean isDeleted;
 
-	@NotBlank(message = "Please enter your city !!")
-	@Column(length = 50)
-	private String city;
+	String city;
 
-	@Column(length = 100)
-	private String categoryId;
+	String categoryId;
 
-	@Column(length = 100)
-	private String serviceId;
+	String serviceId;
 
-	@Column(length = 100)
-	private String industryId;
+	String industryId;
 
-	@Column(length = 255)
-	private String ipAddress;
+	String ipAddress;
 
-	@Column(length = 2)
-	private String displayStatus="1";
+	String displayStatus;
 
-	@Column(length = 1)
-	private int whatsAppStatus;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="lead_clients",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="lead_client_id"
-					+ "",referencedColumnName = "id",nullable=true,unique=false)})
-	List<Client>clients;
-
+	int whatsAppStatus;
 
 
 	public Long getId() {
@@ -105,14 +74,6 @@ public class Lead {
 
 	public String getMobileNo() {
 		return mobileNo;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getUrls() {
-		return urls;
 	}
 
 	public Date getCreateDate() {
@@ -167,9 +128,19 @@ public class Lead {
 		return whatsAppStatus;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public String getUrls() {
+		return urls;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}
+
+	//Setter
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -186,12 +157,12 @@ public class Lead {
 		this.leadDescription = leadDescription;
 	}
 
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
 	}
 
 	public void setUrls(String urls) {
@@ -250,7 +221,8 @@ public class Lead {
 		this.whatsAppStatus = whatsAppStatus;
 	}
 
-	public void setUuid(String uuid) {		this.uuid = uuid;	}
-
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 }
