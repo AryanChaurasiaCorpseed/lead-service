@@ -14,12 +14,10 @@ import java.util.Optional;
 public interface LeadService {
 
     Lead createLead(LeadDTO leadDTO);
-
     List<Lead> getAllActiveCustomerLead();
-
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
-
     boolean deleteLead(Long leadId);
+	Lead getSingleLeadData(Long leadId);
 
 
 
