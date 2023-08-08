@@ -21,9 +21,8 @@ import java.util.Optional;
 @Service
 public class LeadServiceImpl implements LeadService  {
 
-    @Autowired
+	@Autowired
 	LeadRepository leadRepository;
-
 	@Autowired
 	CommonServices commonServices;
 
@@ -68,15 +67,12 @@ public class LeadServiceImpl implements LeadService  {
 		return leadRepository.findAllByDisplayStatusAndIsDeleted("1",true);
 	}
 
-		public Lead updateLeadData(UpdateLeadDto updateLeadDto) {
-			System.out.println(updateLeadDto.getId());
-//		Optional<Status> statusData = statusRepository.findById(statusId);
+	public Lead updateLeadData(UpdateLeadDto updateLeadDto) {
+		System.out.println(updateLeadDto.getId());
+		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
-
-			System.out.println(lead);
-
+		System.out.println(lead);
 		if(lead!=null) {
-
 			Lead leadData = lead.get();
 			leadData.setLeadName(updateLeadDto.getLeadName());
 			leadData.setEmail(updateLeadDto.getEmail());
@@ -88,20 +84,18 @@ public class LeadServiceImpl implements LeadService  {
 			leadData.setCategoryId(updateLeadDto.getCategoryId());
 			leadData.setUrls(updateLeadDto.getUrls());
 			leadData.setLatestStatusChangeDate(updateLeadDto.getLatestStatusChangeDate());
-	        Lead updatedoneLead = leadRepository.save(leadData);
+			Lead updatedoneLead = leadRepository.save(leadData);
 			return updatedoneLead;
 
 		}
-			return null;
-		}
+		return null;
+	}
 
 	@Override
 	public boolean deleteLead(Long leadId) {
 
 		Optional<Lead> opLead = leadRepository.findById(leadId);
-
 		boolean flag=false;
-
 		if(opLead!=null && opLead.get()!=null)
 		{
 			Lead lead = opLead.get();
@@ -113,11 +107,12 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
-//	public Lead createClientInLead(Long leadId,String name ,String email,String contactNo) {
-//
-//
-//    }
-//
-
-
+	@Override
+	public Lead getSingleLeadData(Long leadId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+
+}
