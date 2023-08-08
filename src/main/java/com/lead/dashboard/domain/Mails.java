@@ -21,9 +21,10 @@ public class Mails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
+	String message ;
+
 	String mailTo;
 	String mailCc;
 	String subject;
-	String message ; 
-	boolean isDeleted ; 
+	boolean isDeleted ;
 }

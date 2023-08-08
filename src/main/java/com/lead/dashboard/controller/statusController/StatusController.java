@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//KPS
 //Here is Status Controller where put all status type
 @RestController
 @RequestMapping("/status")
@@ -43,7 +43,7 @@ public class StatusController {
     }
 
     @DeleteMapping("api/v1/deleteStaus")
-    public ResponseEntity deleteStatus(@RequestParam("id") Long id) {
+    public ResponseEntity<Status> deleteStatus(@RequestParam("id") Long id) {
 
         statusService.deleteStatus(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

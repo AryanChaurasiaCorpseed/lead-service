@@ -3,17 +3,7 @@ package com.lead.dashboard.domain;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,12 +15,17 @@ import lombok.Setter;
 @Setter
 public class Client {
 
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
 	String name;
 	String emails;
 	String contactNo;
+
+	@Column(name = "delete_status") // Set default value to 1 (active)
+	int deleteStatus =1;
+
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},

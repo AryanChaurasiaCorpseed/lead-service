@@ -9,4 +9,6 @@ import com.lead.dashboard.domain.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+    Client getStatusById(Long id);
+
 }
