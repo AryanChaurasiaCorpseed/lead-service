@@ -110,7 +110,14 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public Lead getSingleLeadData(Long leadId) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Lead> opLead = leadRepository.findById(leadId);
+		boolean flag=false;
+		Lead lead = new Lead();
+		if(opLead!=null && opLead.get()!=null)
+		{
+			lead=opLead.get();
+		}
+		return lead;
 	}
 
 
