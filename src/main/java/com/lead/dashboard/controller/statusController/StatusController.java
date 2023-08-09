@@ -44,7 +44,6 @@ public class StatusController {
 
     @DeleteMapping("api/v1/deleteStaus")
     public ResponseEntity<Status> deleteStatus(@RequestParam("id") Long id) {
-
         statusService.deleteStatus(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
