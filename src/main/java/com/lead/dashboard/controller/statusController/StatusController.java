@@ -1,7 +1,9 @@
 package com.lead.dashboard.controller.statusController;
 
 
+import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,9 @@ import java.util.List;
 public class StatusController {
     @Autowired
     private StatusService statusService;
+
+    @Autowired
+    private LeadService leadService;
 
     @PostMapping("api/v1/createStatus")
     public ResponseEntity<Status> createStatus(@RequestBody Status status) {
@@ -42,11 +47,31 @@ public class StatusController {
         return new ResponseEntity<>(updatedStatus, HttpStatus.OK);
     }
 
+//    @PutMapping("api/v1/updateLeadStatus")
+//    public ResponseEntity<Status> updateLeadStatus(@PathVariable Status newStatus, @RequestBody Lead leadId) {
+//        Status updatedLeadStatus = statusService.updateLeadStatus(newStatus,leadId);
+//        return new ResponseEntity<>(updatedLeadStatus, HttpStatus.OK);
+//    }
+
     @DeleteMapping("api/v1/deleteStaus")
     public ResponseEntity<Status> deleteStatus(@RequestParam("id") Long id) {
         statusService.deleteStatus(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @PutMapping("/update/{leadId}")
+//    public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId, @RequestBody Long statusId) {
+//        try {
+//
+//            statusService.updateLeadStatus(leadId, statusId);
+//
+//            return ResponseEntity.ok("Lead status updated successfully.");
+//        }
+//
+//        catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating lead status.");
+//        }
+//    }
 
 
 }

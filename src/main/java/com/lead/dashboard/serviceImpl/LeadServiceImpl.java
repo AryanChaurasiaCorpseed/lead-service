@@ -14,7 +14,9 @@ import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,6 +122,44 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 
+	@Override
+	public boolean updateLeadsStatus(Long leadId, Status statusUpdateRequest) {
+		Optional<Lead> leadOptional = leadRepository.findById(leadId);
+
+		if (leadOptional.isPresent()) {
+			Lead lead = leadOptional.get();
+			Status status = lead.getStatus();
+
+			// Update status properties based on the request
+			status.setDescription(statusUpdateRequest.getDescription());
+			status.setIsDeleted(statusUpdateRequest.getIsDeleted());
+			// Update other properties if needed
+
+			lead.setStatus(status);
+//			lead.setLatestStatusChangeDate(updateLeadStatus());
+
+			leadRepository.save(lead);
+			return true;
+		}
+
+		return false;
+	}
+
+//	@Override
+//	public Status updateLeadStatus(Status statusId, Lead leadId) {
+//
+//		Optional<Lead> leadData = leadRepository.findById(leadId.getId());
+//
+//		if(leadData.isPresent())
+//		{
+//			Lead leadDataall=leadData.get();
+//
+//
+//
+//		}
+//
+//
+//	}
 
 
 }

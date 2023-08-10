@@ -85,6 +85,8 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
 
+	@OneToOne
+	private Status status;
 
 
 	public Long getId() {
@@ -166,6 +168,8 @@ public class Lead {
 	public int getWhatsAppStatus() {
 		return whatsAppStatus;
 	}
+
+	public Status getStatus() {		return status;	}
 
 	public String getUuid() {
 		return uuid;
@@ -250,7 +254,7 @@ public class Lead {
 		this.whatsAppStatus = whatsAppStatus;
 	}
 
-	public void setUuid(String uuid) {		this.uuid = uuid;	}
+	public void setUuid(String uuid) {	this.uuid = uuid;	}
 
-
+	public void setStatus(Status status) {		this.status = status;	}
 }
