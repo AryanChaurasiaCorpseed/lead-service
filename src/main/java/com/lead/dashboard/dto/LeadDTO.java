@@ -12,7 +12,6 @@ import lombok.Setter;
 
 
 public class LeadDTO {
-	Long id ;
 
 	String uuid;
 
@@ -56,9 +55,6 @@ public class LeadDTO {
 	int whatsAppStatus;
 
 
-	public Long getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
@@ -141,9 +137,6 @@ public class LeadDTO {
 	}
 
 	//Setter
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public void setName(String name) {
 		this.name = name;
