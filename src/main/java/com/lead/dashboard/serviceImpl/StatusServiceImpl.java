@@ -54,30 +54,13 @@ public class StatusServiceImpl implements StatusService {
         statusRepository.delete(status);
     }
 
-
-//    @Override
-//    @Transactional
-//    public Status updateLeadStatus(Long leadId, Status newStatus) {
-//        Lead lead = leadRepository.findById(leadId)
-//                .orElseThrow(() -> new EntityNotFoundException("Lead not found"));
-//
-//        lead.setStatus(newStatus);
-//        leadRepository.save(lead);
-//
-//        return newStatus;
-//    }
-
     @Override
-    @Transactional
     public void updateLeadStatus(Long leadId, Long statusId) {
+        Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
+        System.out.println(lead);
+        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
 
-        System.out.println("Hit");
-
-        Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new IllegalArgumentException(" No lead Found"));
-
-        Status newStatus = statusRepository.findById(statusId).orElseThrow(() -> new IllegalArgumentException("Status not found"));
-
-        lead.setStatus(newStatus);
+        lead.setStatus(newstatusdata);
         leadRepository.save(lead);
     }
 
