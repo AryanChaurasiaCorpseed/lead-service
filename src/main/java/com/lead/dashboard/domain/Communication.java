@@ -28,8 +28,7 @@ public class Communication {
 	String subject;
 	String message ; 
 	boolean isDeleted ;
-	@OneToOne
-	Mails mails;
+
 	Date chatTime;
 	 
 //	@OneToOne
@@ -131,20 +130,20 @@ public class Communication {
 		this.isDeleted = isDeleted;
 	}
 	
-	@OneToOne
-	Mails mails;
-
-	@OneToOne
-	Chats chat;
-
-	@OneToOne
-	User user;
-
-	@OneToOne
-	Sms sms;
-
-	@OneToOne
-	Calls call;
+//	@OneToOne
+//	Mails mails;
+//
+//	@OneToOne
+//	Chats chat;
+//
+//	@OneToOne
+//	User user;
+//
+//	@OneToOne
+//	Sms sms;
+//
+//	@OneToOne
+//	Calls call;
 	
 
 
