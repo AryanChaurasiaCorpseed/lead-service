@@ -28,6 +28,12 @@ public class Communication {
 	String subject;
 	String message ; 
 	boolean isDeleted ;
+	@OneToOne
+	Mails mails;
+	Date chatTime;
+	 
+//	@OneToOne
+//	Chats chat;
 	/**
 	 * @return the id
 	 */
