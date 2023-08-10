@@ -122,44 +122,6 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 
-	@Override
-	public boolean updateLeadsStatus(Long leadId, Status statusUpdateRequest) {
-		Optional<Lead> leadOptional = leadRepository.findById(leadId);
-
-		if (leadOptional.isPresent()) {
-			Lead lead = leadOptional.get();
-			Status status = lead.getStatus();
-
-			// Update status properties based on the request
-			status.setDescription(statusUpdateRequest.getDescription());
-			status.setIsDeleted(statusUpdateRequest.getIsDeleted());
-			// Update other properties if needed
-
-			lead.setStatus(status);
-//			lead.setLatestStatusChangeDate(updateLeadStatus());
-
-			leadRepository.save(lead);
-			return true;
-		}
-
-		return false;
-	}
-
-//	@Override
-//	public Status updateLeadStatus(Status statusId, Lead leadId) {
-//
-//		Optional<Lead> leadData = leadRepository.findById(leadId.getId());
-//
-//		if(leadData.isPresent())
-//		{
-//			Lead leadDataall=leadData.get();
-//
-//
-//
-//		}
-//
-//
-//	}
 
 
 }
