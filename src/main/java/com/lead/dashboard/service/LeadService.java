@@ -19,7 +19,7 @@ public interface LeadService {
     boolean deleteLead(Long leadId);
 	Lead getSingleLeadData(Long leadId);
 
-
+//    boolean updateLeadsStatus(Long leadId, Status statusUpdateRequest);
 
 
 }
