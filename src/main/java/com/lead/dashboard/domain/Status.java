@@ -43,8 +43,10 @@ public class Status {
     @Column(name = "updated_by_name")
     private String updatedByName;
 
-	@OneToOne
-	private Lead lead;
+	public Status(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
 	/**
 	 * @return the id
@@ -158,7 +160,4 @@ public class Status {
 		this.updatedByName = updatedByName;
 	}
 
-	public Lead getLead() {		return lead;	}
-
-	public void setLead(Lead lead) {		this.lead = lead;	}
 }

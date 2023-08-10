@@ -59,11 +59,11 @@ public class StatusController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @PutMapping("/update/{leadId}")
-//    public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId, @RequestBody Long statusId) {
+//    @PutMapping("/updateLeadStatus")
+//    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId, @RequestBody Status newsStatus) {
 //        try {
 //
-//            statusService.updateLeadStatus(leadId, statusId);
+//            statusService.updateLeadStatus(leadId, newsStatus);
 //
 //            return ResponseEntity.ok("Lead status updated successfully.");
 //        }
@@ -72,6 +72,19 @@ public class StatusController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating lead status.");
 //        }
 //    }
+    @PutMapping("api/v1/updateLeadStatus")
+    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam Long statusId) {
+        try {
+            statusService.updateLeadStatus(leadId,statusId );
+            return ResponseEntity.ok("Lead status updated successfully");
+        }
 
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+
+        }
+
+    }
 
 }
