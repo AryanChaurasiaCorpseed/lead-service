@@ -6,15 +6,7 @@ import com.lead.dashboard.dto.UpdateLeadDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
 import com.lead.dashboard.domain.Lead;
@@ -39,7 +31,7 @@ public class LeadController {
 	EmailServiceImpl emailServiceImpl;
 
 
-	@PostMapping("/v1/lead/customerLeadCreated")
+	@PostMapping("/v1/lead/leadCreate")
 	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO) 
 	{
 		if (leadDTO!=null) {
@@ -62,7 +54,7 @@ public class LeadController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
-	@PutMapping("/v1/lead/updateCustomerLead")
+	@PutMapping("/v1/lead/updateLead")
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
 	{
 		System.out.println("Hit");
@@ -89,7 +81,17 @@ public class LeadController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
-
+//	@PutMapping("/{leadId}/status")
+//	public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId,@RequestBody Status statusUpdateRequest)
+//	{
+//		boolean updated = leadservice.updateLeadsStatus(leadId, statusUpdateRequest);
+//		if (updated) {
+//			return ResponseEntity.ok("Lead status updated successfully.");
+//		} else {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
+//		}
+//	}
 
 }
+
 
