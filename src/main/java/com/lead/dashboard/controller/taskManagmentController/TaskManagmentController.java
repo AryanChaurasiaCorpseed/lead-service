@@ -20,9 +20,9 @@ public class TaskManagmentController {
 	@Autowired
 	TaskManagmentService taskManagmentService;
 	
-	@GetMapping("/")
-	public TaskManagment createTaskInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String description,@RequestParam Long assigneeId,@RequestParam Long assignedById,@RequestParam Date expectedDate) {
-		TaskManagment task=taskManagmentService.createTaskInLead(leadId ,name,description,assigneeId,assignedById,expectedDate);
+	@GetMapping("api/v1/createStatus")
+	public TaskManagment createTaskInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String description,@RequestParam Long assigneeId,@RequestParam Long assignedById,@RequestParam Date expectedDate,@RequestParam Long statusId) {
+		TaskManagment task=taskManagmentService.createTaskInLead(leadId ,name,description,assigneeId,assignedById,expectedDate,statusId);
 		return task;
 	}
 	
