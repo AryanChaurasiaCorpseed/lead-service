@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Lead {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id ;
 
 	private String uuid;
@@ -57,7 +57,6 @@ public class Lead {
 
 	boolean isDeleted;
 
-	@NotBlank(message = "Please enter your city !!")
 	@Column(length = 50)
 	private String city;
 

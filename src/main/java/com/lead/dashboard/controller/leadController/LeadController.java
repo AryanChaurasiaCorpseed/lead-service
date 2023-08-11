@@ -81,16 +81,7 @@ public class LeadController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
-//	@PutMapping("/{leadId}/status")
-//	public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId,@RequestBody Status statusUpdateRequest)
-//	{
-//		boolean updated = leadservice.updateLeadsStatus(leadId, statusUpdateRequest);
-//		if (updated) {
-//			return ResponseEntity.ok("Lead status updated successfully.");
-//		} else {
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
-//		}
-//	}
+
 
 }
 

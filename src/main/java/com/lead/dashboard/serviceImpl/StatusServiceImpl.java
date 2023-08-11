@@ -1,12 +1,13 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.LeadStatusChangeHistory;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.LeadStatusChangeHisoryRepo;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.service.StatusService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class StatusServiceImpl implements StatusService {
 
     @Autowired
     private LeadRepository leadRepository;
+
+    @Autowired
+    private LeadStatusChangeHisoryRepo leadStatusChangeHisoryRepo;
 
     @Override
     public Status createStatus(Status status) {
@@ -62,6 +66,16 @@ public class StatusServiceImpl implements StatusService {
 
         lead.setStatus(newstatusdata);
         leadRepository.save(lead);
+
+        LeadStatusChangeHistory leadStatusChange= new LeadStatusChangeHistory();
+
+        leadStatusChange.setNewStatus(newstatusdata);
+        leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
+        leadStatusChange.setChangedByUser("Kauhsal");
+        leadStatusChange.setLead(lead);
+        leadStatusChangeHisoryRepo.save(leadStatusChange);
+
+
     }
 
 }
