@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "status_details")
 public class Status {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
