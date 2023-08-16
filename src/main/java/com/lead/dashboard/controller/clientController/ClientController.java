@@ -17,6 +17,11 @@ public class ClientController {
 	LeadService leadservice;
 	@Autowired
 	ClientService clientService;
+	
+	@GetMapping("/test")
+	public String  testMicroservices() {
+		return "this is a person";
+	}
 
 	@PostMapping("/v1/lead/createClient")
 	public Lead  createClientInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String contactNo,@RequestParam String email) {
