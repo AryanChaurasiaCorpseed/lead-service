@@ -1,6 +1,7 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.domain.lead;
 
 
+import com.lead.dashboard.domain.Status;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -47,6 +48,8 @@ public class LeadStatusChangeHistory {
     public LocalDateTime getChangeTime() {
         return changeTime;
     }
+
+
 
 //    =======================================================Setter=======================================
 

@@ -1,8 +1,11 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.domain.lead;
 
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Status;
+//import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -84,9 +87,11 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
 
-	@OneToOne
+	@ManyToOne
 	private Status status;
 
+//	@OneToMany
+//	private List<Opportunities> opportunities;
 
 	public Long getId() {
 		return id;

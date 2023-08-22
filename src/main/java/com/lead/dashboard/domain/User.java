@@ -1,5 +1,6 @@
 package com.lead.dashboard.domain;
 
+//import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,9 +38,9 @@ public class User {
 	@NonNull
 	private String role;
 
-
-
-
+//	@ManyToMany
+//	@JoinTable(name = "opportunities_id")
+//	private Opportunities opportunities;
 
 	public Long getId() {
 		return id;

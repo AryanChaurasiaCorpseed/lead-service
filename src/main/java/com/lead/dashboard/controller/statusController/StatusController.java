@@ -1,7 +1,6 @@
 package com.lead.dashboard.controller.statusController;
 
 
-import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.StatusService;
@@ -67,5 +66,6 @@ public class StatusController {
         }
 
     }
+
 
 }

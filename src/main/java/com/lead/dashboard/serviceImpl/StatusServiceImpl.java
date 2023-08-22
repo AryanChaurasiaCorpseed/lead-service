@@ -1,7 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
-import com.lead.dashboard.domain.Lead;
-import com.lead.dashboard.domain.LeadStatusChangeHistory;
+import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.LeadStatusChangeHisoryRepo;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StatusServiceImpl implements StatusService {
@@ -71,11 +72,20 @@ public class StatusServiceImpl implements StatusService {
 
         leadStatusChange.setNewStatus(newstatusdata);
         leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
-        leadStatusChange.setChangedByUser("Kauhsal");
+        leadStatusChange.setChangedByUser("kaushal");
         leadStatusChange.setLead(lead);
         leadStatusChangeHisoryRepo.save(leadStatusChange);
 
-
     }
+
+    @Override
+    public List<LeadStatusChangeHistory> getStatusHistoryForLead(Long leadId)
+    {
+        Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("No Data found"));
+        Optional<LeadStatusChangeHistory> leadStatusChangeHistory = leadStatusChangeHisoryRepo.findById(leadId);
+        System.out.println(leadStatusChangeHistory);
+     return null;
+    }
+
 
 }

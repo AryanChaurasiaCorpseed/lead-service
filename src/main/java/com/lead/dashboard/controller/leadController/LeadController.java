@@ -1,19 +1,19 @@
 package com.lead.dashboard.controller.leadController;
 
-import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
-import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
@@ -30,9 +30,12 @@ public class LeadController {
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
 
+	@Autowired
+	StatusService statusService;
+
 
 	@PostMapping("/v1/lead/leadCreate")
-	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO) 
+	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO)
 	{
 		if (leadDTO!=null) {
 			try {
@@ -72,7 +75,7 @@ public class LeadController {
 	@DeleteMapping("/v1/lead/sendMailInLead")
 	public  boolean  sendMailInLead( String to, String subject, String text){
 		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
-		return true;  
+		return true;
 	}
 	@GetMapping("/v1/lead/getSingleLeadData")
 	public ResponseEntity <Lead> getSingleLeadData(@RequestParam Long leadId)
@@ -81,7 +84,21 @@ public class LeadController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
+	@GetMapping("/v1/lead/getAllStatusHistory")
+	public ResponseEntity<List<LeadStatusChangeHistory>> getAllStatusHistory(@RequestParam Long leadId )
+	{
 
+	 try
+	 {
+		 List<LeadStatusChangeHistory> statusHistory = statusService.getStatusHistoryForLead(leadId);
+		 return new ResponseEntity<>(statusHistory, HttpStatus.OK);
+	 }
+
+        catch (Exception e)
+	{
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	}
+
+	 }
 
 }
 
