@@ -1,7 +1,6 @@
 package com.lead.dashboard.controller.statusController;
 
 
-import com.lead.dashboard.domain.Lead;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.StatusService;
@@ -47,31 +46,12 @@ public class StatusController {
         return new ResponseEntity<>(updatedStatus, HttpStatus.OK);
     }
 
-//    @PutMapping("api/v1/updateLeadStatus")
-//    public ResponseEntity<Status> updateLeadStatus(@PathVariable Status newStatus, @RequestBody Lead leadId) {
-//        Status updatedLeadStatus = statusService.updateLeadStatus(newStatus,leadId);
-//        return new ResponseEntity<>(updatedLeadStatus, HttpStatus.OK);
-//    }
-
     @DeleteMapping("api/v1/deleteStaus")
     public ResponseEntity<Status> deleteStatus(@RequestParam("id") Long id) {
         statusService.deleteStatus(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @PutMapping("/updateLeadStatus")
-//    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId, @RequestBody Status newsStatus) {
-//        try {
-//
-//            statusService.updateLeadStatus(leadId, newsStatus);
-//
-//            return ResponseEntity.ok("Lead status updated successfully.");
-//        }
-//
-//        catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating lead status.");
-//        }
-//    }
     @PutMapping("api/v1/updateLeadStatus")
     public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam Long statusId) {
         try {
@@ -86,5 +66,6 @@ public class StatusController {
         }
 
     }
+
 
 }

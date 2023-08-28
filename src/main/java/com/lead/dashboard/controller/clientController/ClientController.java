@@ -2,12 +2,11 @@ package com.lead.dashboard.controller.clientController;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.service.ClientService;
-import com.lead.dashboard.serviceImpl.LeadServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
