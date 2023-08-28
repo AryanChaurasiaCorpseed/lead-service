@@ -2,21 +2,16 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
-import com.lead.dashboard.domain.Client;
-import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
