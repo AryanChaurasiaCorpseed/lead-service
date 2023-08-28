@@ -22,6 +22,7 @@ public class Client {
 	String name;
 	String emails;
 	String contactNo;
+	List<ProductDetails>products;
 
 	@Column(name = "delete_status") // Set default value to 1 (active)
 	int deleteStatus =1;
