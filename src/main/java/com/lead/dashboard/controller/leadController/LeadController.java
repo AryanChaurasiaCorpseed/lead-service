@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import java.util.List;
 
 
 public class LeadController {
+
+	private static final String CreateServiceDetails = null;
 
 	@Autowired
 	LeadService leadservice;
@@ -91,6 +94,14 @@ public class LeadController {
 //			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
 //		}
 //	}
+	
+	
+	@PutMapping("/v1/lead/createEstimate")
+	public ResponseEntity<Lead> createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+	{
+		leadservice.createEstimate(createServiceDetails);
+		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+	}
 
 }
 
