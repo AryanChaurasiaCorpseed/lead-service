@@ -23,8 +23,7 @@ public class Client {
 	String emails;
 	String contactNo;
 
-	@Column(name = "delete_status") // Set default value to 1 (active)
-	int deleteStatus =1;
+	boolean deleteStatus =false;
 
 
 	@ManyToMany(cascade = CascadeType.ALL)

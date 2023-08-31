@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
 import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 
@@ -97,10 +98,11 @@ public class LeadController {
 	
 	
 	@PutMapping("/v1/lead/createEstimate")
-	public ResponseEntity<Lead> createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+	public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
 	{
-		leadservice.createEstimate(createServiceDetails);
-		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		ServiceDetails res=leadservice.createEstimate(createServiceDetails);
+//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		 return res;
 	}
 
 }
