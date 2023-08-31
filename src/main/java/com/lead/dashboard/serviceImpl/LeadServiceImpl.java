@@ -2,24 +2,26 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
-import com.lead.dashboard.domain.Client;
-import com.lead.dashboard.domain.Status;
+
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LeadServiceImpl implements LeadService  {
@@ -28,6 +30,9 @@ public class LeadServiceImpl implements LeadService  {
 	LeadRepository leadRepository;
 	@Autowired
 	CommonServices commonServices;
+
+	@Autowired
+	ServiceDetailsRepository serviceDetailsRepository;
 
 	@Autowired
 	StatusRepository statusRepository;
@@ -124,9 +129,66 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public void createEstimate(CreateServiceDetails createservicedetails) {
-		// TODO Auto-generated method stub
+	public ServiceDetails createEstimate(CreateServiceDetails createservicedetails) {
 		
+		ServiceDetails service= new ServiceDetails();
+		service.setName(createservicedetails.getName());
+		service.setCompany(createservicedetails.getCompany());
+		service.setConsultingSale(null); //========= for verification
+		service.setContact(createservicedetails.getContact());
+		service.setEstimateData(createservicedetails.getEstimateData());
+		service.setInvoiceNote(createservicedetails.getInvoiceNote());
+		service.setOpportunity(null);   //========= for verification
+		service.setOrderNumber(createservicedetails.getOrderNumber());
+		service.setProductType(createservicedetails.getProductType());
+		service.setPurchaseDate(createservicedetails.getPurchaseDate());
+		service.setRemarksForOption(createservicedetails.getRemarksForOption());
+		ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
+		Client c = null;
+		List<ServiceDetails> serviceList  = new ArrayList<>();
+		Client client=null;
+		if(createservicedetails.getClientId()!=null) {
+			long cId[] = new long[1];
+			cId[0] = createservicedetails.getClientId();
+			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
+			if(opClient!=null && opClient.get()!=null) {
+				client=opClient.get();
+				serviceList = client.getServiceDetails();
+				client.setServiceDetails(serviceList);
+				 c=clientRepository.save(client);
+
+			}else {
+				client = new Client();
+				client.setName(createservicedetails.getClientName());
+				client.setEmails(createservicedetails.getEmail());
+				client.setContactNo(createservicedetails.getContactNo());
+				client.setDeleteStatus(false);
+				List<ServiceDetails> sList  = new ArrayList<>();
+				sList.add(serviceDetails);
+				serviceList=sList;
+				client.setServiceDetails(serviceList);  
+				 c=clientRepository.save(client);
+			}
+		}else {
+			client = new Client();
+			client.setName(createservicedetails.getClientName());
+			client.setEmails(createservicedetails.getEmail());
+			client.setContactNo(createservicedetails.getContactNo());
+			client.setDeleteStatus(false);
+			List<ServiceDetails> sList  = new ArrayList<>();
+			sList.add(serviceDetails);
+			serviceList=sList;
+			client.setServiceDetails(serviceList); 
+			 c=clientRepository.save(client);
+		}
+		if(lead.getClients()!=null && lead.getClients().size()!=0) {
+			lead.getClients().add(c);
+			leadRepository.save(lead);
+		}
+		return serviceDetails;
+
+
 	}
 
 

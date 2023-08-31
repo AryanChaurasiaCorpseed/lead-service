@@ -2,6 +2,8 @@ package com.lead.dashboard.dto;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -20,6 +22,19 @@ public class CreateServiceDetails {
 	List<String>cc;
 	String  invoiceNote;
 	String remarksForOption;
+	Long leadId;
+	String clientName;
+	String contactNo ;
+    String email ;
+	Long clientId;
+	
+	
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -86,6 +101,31 @@ public class CreateServiceDetails {
 	public void setRemarksForOption(String remarksForOption) {
 		this.remarksForOption = remarksForOption;
 	}
+	public String getClientName() {
+		return clientName;
+	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+	public String getContactNo() {
+		return contactNo;
+	}
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Long getClientId() {
+		return clientId;
+	}
+	public void setClientId(Long clientId) {
+		this.clientId = clientId;
+	}
+	
 	
 	
 	
