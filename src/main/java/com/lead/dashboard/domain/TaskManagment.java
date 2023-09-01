@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,16 +29,17 @@ public class TaskManagment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
+	
 	String name ;
 	String description;
 	
-	@OneToOne
+	@ManyToOne
 	User assignedBy;
 	
-	@OneToOne
+	@ManyToOne
 	TaskStatus TaskStatus;
 	
-	@OneToOne
+	@ManyToOne
 	User assigne;
 	
 	Date expectedDate;

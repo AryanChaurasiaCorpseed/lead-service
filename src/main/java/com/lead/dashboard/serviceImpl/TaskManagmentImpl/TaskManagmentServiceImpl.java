@@ -1,6 +1,10 @@
 package com.lead.dashboard.serviceImpl.TaskManagmentImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,30 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagmentRepository.save(taskManagment);
 	
 		return taskManagment;
+	}
+	@Override
+	public List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId) {
+		// TODO Auto-generated method stub
+		Map<String, Object>result = new HashMap<>();
+		List<Map<String, Object>>res = new ArrayList<>();
+		List<TaskManagment> tasks = taskManagmentRepository.findByAssigneeId(assigneeId);
+		for(TaskManagment t:tasks) {
+			result.put("id", t.getId());
+			result.put("name", t.getName());
+			result.put("description", t.getDescription());
+			result.put("assigneeId",t.getAssigne().getId());
+			result.put("assigneeName", t.getAssigne().getFirstName()+""+t.getAssigne().getLastName());
+			result.put("assignedById",t.getAssignedBy().getId());
+			result.put("assignedByName", t.getAssignedBy().getFirstName()+""+t.getAssignedBy().getLastName());
+			result.put("expectedDate", t.getExpectedDate());
+			result.put("name", t.getName());
+			res.add(result);
+
+		}
+		
+		
+		return res;
+
 	}
 
 }
