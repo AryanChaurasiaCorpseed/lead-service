@@ -1,8 +1,11 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.domain.lead;
 
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Status;
+//import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -17,7 +20,7 @@ import lombok.Setter;
 public class Lead {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id ;
 
 	private String uuid;
@@ -57,7 +60,6 @@ public class Lead {
 
 	boolean isDeleted;
 
-	@NotBlank(message = "Please enter your city !!")
 	@Column(length = 50)
 	private String city;
 
@@ -85,9 +87,11 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
 
-	@OneToOne
+	@ManyToOne
 	private Status status;
 
+//	@OneToMany
+//	private List<Opportunities> opportunities;
 
 	public Long getId() {
 		return id;

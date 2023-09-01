@@ -1,8 +1,7 @@
 package com.lead.dashboard.service;
 
-import com.lead.dashboard.domain.Lead;
+import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.domain.Status;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ public interface StatusService {
 
     void updateLeadStatus(Long leadId, Long statusId);
 
-
+    List<LeadStatusChangeHistory> getStatusHistoryForLead(Long leadId);
 }
