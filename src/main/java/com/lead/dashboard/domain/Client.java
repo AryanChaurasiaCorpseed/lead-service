@@ -42,9 +42,10 @@ public class Client {
 	public Long getId() {
 		return id;
 	}
-	@JoinTable(name="client_opportunities",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
-	inverseJoinColumns = {@JoinColumn(name="client_opportunities_id"+ "",referencedColumnName = "id",nullable=true)})
-	private Opportunities opportunities;
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name="client_opportunities",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
+//	inverseJoinColumns = {@JoinColumn(name="client_opportunities_id"+ "",referencedColumnName = "id",nullable=true)})
+//	private List<Opportunities> opportunities;
 
 
 }
