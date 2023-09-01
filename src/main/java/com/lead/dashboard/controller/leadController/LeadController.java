@@ -1,5 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
+import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,12 +20,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 
 
 public class LeadController {
+
+	private static final String CreateServiceDetails = null;
 
 	@Autowired
 	LeadService leadservice;
@@ -84,6 +89,26 @@ public class LeadController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
+
+//	@PutMapping("/{leadId}/status")
+//	public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId,@RequestBody Status statusUpdateRequest)
+//	{
+//		boolean updated = leadservice.updateLeadsStatus(leadId, statusUpdateRequest);
+//		if (updated) {
+//			return ResponseEntity.ok("Lead status updated successfully.");
+//		} else {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
+//		}
+//	}
+	
+	
+	@PutMapping("/v1/lead/createEstimate")
+	public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+	{
+		ServiceDetails res=leadservice.createEstimate(createServiceDetails);
+//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		 return res;
+	}
 	@GetMapping("/v1/lead/getAllStatusHistory")
 	public ResponseEntity<List<LeadStatusChangeHistory>> getAllStatusHistory(@RequestParam Long leadId )
 	{

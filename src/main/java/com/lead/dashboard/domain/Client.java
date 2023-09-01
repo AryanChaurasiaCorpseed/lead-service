@@ -23,8 +23,7 @@ public class Client {
 	String emails;
 	String contactNo;
 
-	@Column(name = "delete_status") // Set default value to 1 (active)
-	int deleteStatus =1;
+	boolean deleteStatus =false;
 
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -33,6 +32,16 @@ public class Client {
 	List<Communication>communication;
 
 	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="client_service_details",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="client_service_details_id"
+			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<ServiceDetails>serviceDetails;
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 	@JoinTable(name="client_opportunities",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="client_opportunities_id"+ "",referencedColumnName = "id",nullable=true)})
 	private Opportunities opportunities;
