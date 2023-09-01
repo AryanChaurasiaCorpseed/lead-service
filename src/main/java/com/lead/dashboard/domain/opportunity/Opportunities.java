@@ -27,17 +27,17 @@ public class Opportunities {
     private String value;
 
     //In this how customer want to pay the estimate like full payment ,milestone or partial
-    @OneToMany
-    private List<PaymentType> paymentType;
+//    @OneToMany
+//    private List<PaymentType> paymentType;
 
-    @ManyToOne
-    private Lead lead;
-
-    @ManyToMany(mappedBy = "opportunities")
-    private List<Client> client;
-
-    @ManyToMany(mappedBy = "opportunities")
-    private List<User> user;
+//    @ManyToOne
+//    private Lead lead;
+//
+//    @ManyToMany(mappedBy = "opportunities")
+//    private List<Client> client;
+////
+//    @ManyToMany(mappedBy = "opportunities")
+//    private List<User> user;
 
 //    ERP user want to give some remark or want to provide some notes on it
     private String notes;
