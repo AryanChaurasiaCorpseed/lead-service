@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.lead.dashboard.domain.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.lead.dashboard.domain.lead.Lead;
@@ -16,4 +17,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	Client getClientById(Long clientID);
 
 	List<Lead> findAllByDisplayStatusAndIsDeleted(String number, boolean b);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.assignee_id in(:userId)", nativeQuery = true)
+	List<Lead> findAllByAssignee(Long userId);
+
 }

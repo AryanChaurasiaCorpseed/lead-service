@@ -47,17 +47,25 @@ public class UpdateLeadDto {
 
 	String displayStatus;
 
-
 	int whatsAppStatus;
 
     Long userId;
 
 	Long statusId;
 
+	Long assigneeId;
+
 
 //======================================//	ALl Getter=================================================
 
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
 
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+	
 	public Long getId() {
 		return id;
 	}
