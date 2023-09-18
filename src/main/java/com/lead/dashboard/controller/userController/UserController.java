@@ -22,7 +22,6 @@ public class UserController {
 	{
 
 		List<User> allUser=userService.getAllUsers();
-
 		if(!allUser.isEmpty())
 		{
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);

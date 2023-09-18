@@ -56,9 +56,9 @@ public class LeadController {
 	}
 
 	@GetMapping("/v1/lead/getAllLead")
-	public ResponseEntity <List<Lead>> getAllLead()
+	public ResponseEntity <List<Lead>> getAllLead(Long userId)
 	{
-		List<Lead> alllead= leadservice.getAllActiveCustomerLead();
+		List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 

@@ -14,6 +14,14 @@ import java.util.List;
 @Table(name = "user")
 public class User {
 	
+	public List<String> getRole() {
+		return role;
+	}
+
+	public void setRole(List<String> role) {
+		this.role = role;
+	}
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +44,7 @@ public class User {
     private String password;
 
 	@NonNull
-	private String role;
+	private List<String> role;
 
 //	@ManyToMany
 //	@JoinTable(name = "opportunities_id")
@@ -70,11 +78,6 @@ public class User {
 		return password;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-
 
 	//All Setter
 
@@ -107,9 +110,7 @@ public class User {
 		this.password = password;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+
 
 }
 
