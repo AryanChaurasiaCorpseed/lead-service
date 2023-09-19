@@ -47,9 +47,19 @@ public class LeadDTO {
 
 	String industryId;
 
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
 	String ipAddress;
 
 	String displayStatus;
+	
+	Long assigneeId;
 
 
 	int whatsAppStatus;
