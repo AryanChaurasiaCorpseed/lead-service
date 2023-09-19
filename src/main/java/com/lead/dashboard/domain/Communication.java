@@ -129,6 +129,13 @@ public class Communication {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	public Date getChatTime() {
+		return chatTime;
+	}
+	public void setChatTime(Date chatTime) {
+		this.chatTime = chatTime;
+	}
+	
 	
 //	@OneToOne
 //	Mails mails;

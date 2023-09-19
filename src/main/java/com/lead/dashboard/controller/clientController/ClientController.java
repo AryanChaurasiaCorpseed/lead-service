@@ -17,7 +17,7 @@ public class ClientController {
 	@Autowired
 	ClientService clientService;
 	
-	@GetMapping("/test")
+	@GetMapping("/api/v1/test")
 	public String  testMicroservices() {
 		return "this is a person";
 	}

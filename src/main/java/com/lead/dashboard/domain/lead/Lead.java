@@ -260,5 +260,17 @@ public class Lead {
 
 	public void setUuid(String uuid) {	this.uuid = uuid;	}
 
-	public void setStatus(Status status) {		this.status = status;	}
+	public void setStatus(Status status) {		this.status = status;	
+	
+	
+	
+	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
+	}
 }
