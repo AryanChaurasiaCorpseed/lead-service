@@ -5,18 +5,24 @@ import java.util.List;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.User;
+
 //import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "erp_leads")
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Lead {
 
 	@Id
@@ -87,6 +93,10 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
 
+	@ManyToOne
+	private User assignee;
+	
+	
 	@ManyToOne
 	private Status status;
 
@@ -261,4 +271,20 @@ public class Lead {
 	public void setUuid(String uuid) {	this.uuid = uuid;	}
 
 	public void setStatus(Status status) {		this.status = status;	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
+	}
+
+	public User getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
+	}
 }
