@@ -2,15 +2,17 @@ package com.lead.dashboard.service;
 
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.UpdateUser;
+import com.lead.dashboard.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService
 {
-    User createUser(User user);
     User getUserById(Long id);
-    User updateUser(User user);
+    User updateUser(User existingUser,UpdateUser user);
     void deleteUser(Long id);
 
     List<User> getAllUsers();
+	User createUser(UserDto user);
 }
