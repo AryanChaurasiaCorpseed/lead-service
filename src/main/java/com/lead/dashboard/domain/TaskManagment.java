@@ -44,6 +44,56 @@ public class TaskManagment {
 	
 	Date expectedDate;
 	Date assignedDate;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public User getAssignedBy() {
+		return assignedBy;
+	}
+	public void setAssignedBy(User assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+	public TaskStatus getTaskStatus() {
+		return TaskStatus;
+	}
+	public void setTaskStatus(TaskStatus taskStatus) {
+		TaskStatus = taskStatus;
+	}
+	public User getAssigne() {
+		return assigne;
+	}
+	public void setAssigne(User assigne) {
+		this.assigne = assigne;
+	}
+	public Date getExpectedDate() {
+		return expectedDate;
+	}
+	public void setExpectedDate(Date expectedDate) {
+		this.expectedDate = expectedDate;
+	}
+	public Date getAssignedDate() {
+		return assignedDate;
+	}
+	public void setAssignedDate(Date assignedDate) {
+		this.assignedDate = assignedDate;
+	}
+	
+	
 	
 	
 

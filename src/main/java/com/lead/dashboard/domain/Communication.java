@@ -30,8 +30,15 @@ public class Communication {
 	boolean isDeleted ;
 
 	Date chatTime;
+	
 	 
-//	@OneToOne
+public Date getChatTime() {
+		return chatTime;
+	}
+	public void setChatTime(Date chatTime) {
+		this.chatTime = chatTime;
+	}
+	//	@OneToOne
 //	Chats chat;
 	/**
 	 * @return the id
