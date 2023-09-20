@@ -84,7 +84,7 @@ public class LeadServiceImpl implements LeadService  {
           
 		Optional<User> user = userRepo.findById(uId);
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-			return leadRepository.findAllByDisplayStatusAndIsDeleted("1",true);
+			return leadRepository.findAllByIsDeleted(false);
 		}else {
 			return leadRepository.findAllByAssignee(uId);
 		}
