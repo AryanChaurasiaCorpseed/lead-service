@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
+import com.lead.dashboard.config.SecurityFeignClient;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
@@ -37,7 +38,16 @@ public class LeadController {
 
 	@Autowired
 	StatusService statusService;
+	
+	@Autowired
+	SecurityFeignClient securityFeignClient;
 
+	
+	@GetMapping("/v1/lead/test")
+	public String test()
+	{
+		return securityFeignClient.test();		 
+	}
 
 	@PostMapping("/v1/lead/leadCreate")
 	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO)
