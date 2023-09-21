@@ -1,6 +1,7 @@
 package com.lead.dashboard.domain;
 
 //import com.lead.dashboard.domain.opportunity.Opportunities;
+import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,11 @@ public class User {
 
 	@NonNull
 	private String role;
+
+//	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+//	private Opportunities opportunities;
+
+
 
 //	@ManyToMany
 //	@JoinTable(name = "opportunities_id")

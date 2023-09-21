@@ -72,7 +72,6 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public List<Lead> getAllActiveCustomerLead() {
 
-
 		return leadRepository.findAllByDisplayStatusAndIsDeleted("1",true);
 	}
 
@@ -139,7 +138,7 @@ public class LeadServiceImpl implements LeadService  {
 		service.setContact(createservicedetails.getContact());
 		service.setEstimateData(createservicedetails.getEstimateData());
 		service.setInvoiceNote(createservicedetails.getInvoiceNote());
-		service.setOpportunity(null);   //========= for verification
+		service.setOpportunities(null);   //========= for verification
 		service.setOrderNumber(createservicedetails.getOrderNumber());
 		service.setProductType(createservicedetails.getProductType());
 		service.setPurchaseDate(createservicedetails.getPurchaseDate());
