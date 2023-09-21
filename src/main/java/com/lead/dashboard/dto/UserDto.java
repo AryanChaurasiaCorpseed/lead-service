@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 	
+	private Long id;
+	
     private String firstName;
 
     @NonNull
@@ -28,7 +30,6 @@ public class UserDto {
     @NonNull
     private String department;
 
-    private String password;
 
 	@NonNull
 	private List<String> role;
@@ -73,13 +74,7 @@ public class UserDto {
 		this.department = department;
 	}
 
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public List<String> getRole() {
 		return role;
