@@ -2,6 +2,7 @@ package com.lead.dashboard.domain;
 
 import java.util.List;
 
+import com.lead.dashboard.domain.opportunity.Opportunities;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.Column;
@@ -39,6 +40,7 @@ public class ServiceDetails {
 	List<String>cc;
 	String  invoiceNote;
 	String remarksForOption;
+
 	@ManyToOne
-	Opportunity opportunity;
+	Opportunities opportunities;
 }

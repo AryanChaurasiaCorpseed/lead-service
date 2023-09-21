@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class UpdateLeadDto {
 
-
 	Long id ;
 
 	String uuid;
