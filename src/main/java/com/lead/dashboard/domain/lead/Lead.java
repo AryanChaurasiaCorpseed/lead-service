@@ -81,10 +81,8 @@ public class Lead {
 	@Column(length = 255)
 	private String ipAddress;
 
-	@Column(length = 2)
 	private String displayStatus="1";
 
-	@Column(length = 1)
 	private int whatsAppStatus;
 
 	@ManyToMany(cascade = CascadeType.ALL)
