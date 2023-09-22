@@ -9,4 +9,6 @@ public interface InboxService {
 
 	List<Map<String ,Object>> getAllInboxData();
 
+	boolean editView();
+
 }
