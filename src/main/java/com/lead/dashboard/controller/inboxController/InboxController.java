@@ -16,9 +16,13 @@ public class InboxController {
 	@Autowired
 	InboxService inboxService;
 	
-	@GetMapping("/v1/lead/getAllInboxData")
+	@GetMapping("/api/v1/inbox/getAllInboxData")
 	public List<Map<String ,Object>>getAllInboxData(){
 		return inboxService.getAllInboxData();
+	}
+	@GetMapping("/api/v1/inbox/editView")
+	public boolean editView(){
+		return inboxService.editView();
 	}
 
 }
