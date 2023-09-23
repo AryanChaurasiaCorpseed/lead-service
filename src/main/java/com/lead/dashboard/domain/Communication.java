@@ -13,25 +13,39 @@ import lombok.Getter;
 import lombok.Setter;
 @Entity
 @Table(name = "communication")
-@Data
-@Getter
-@Setter
+//@Data
+//@Getter
+//@Setter
 public class Communication {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
-    Long id ;
-	String type ;
-	Date SendDate;	
-	String mailTo;
-	String mailCc;
-	String subject;
-	String message ; 
-	boolean isDeleted ;
+    private Long id ;
+	private String type ;
+	private Date SendDate;	
+	private String mailTo;
+	private String mailCc;
+	private String subject;
+	private String message ; 
+	private boolean isDeleted ;
+	private Date chatTime;
+	private Boolean isView=false;
+    public Date getChatTime() {
+		return chatTime;
+	}
+        
+	public Boolean getIsView() {
+		return isView;
+	}
 
-	Date chatTime;
-	 
-//	@OneToOne
+	public void setIsView(Boolean isView) {
+		this.isView = isView;
+	}
+
+	public void setChatTime(Date chatTime) {
+		this.chatTime = chatTime;
+	}
+	//	@OneToOne
 //	Chats chat;
 	/**
 	 * @return the id

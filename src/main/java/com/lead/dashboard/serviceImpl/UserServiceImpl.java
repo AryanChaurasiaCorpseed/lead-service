@@ -1,6 +1,8 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.UpdateUser;
+import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepo.save(user);
+    public User createUser(UserDto user) {
+    	User u =new User();
+    	u.setId(user.getId());
+    	u.setFirstName(user.getFirstName());
+    	u.setLastName(user.getLastName());
+    	u.setFullName(user.getFullName());
+    	u.setEmail(user.getEmail());
+    	u.setDesignation(user.getDesignation());
+    	u.setDepartment(user.getDepartment());
+    	u.setRole(user.getRole());
+        return userRepo.save(u);
     }
 
     @Override
@@ -26,8 +37,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepo.save(user);
+    public User updateUser(User existingUser,UpdateUser user) {
+    	existingUser.setFirstName(user.getFirstName());
+    	existingUser.setLastName(user.getLastName());
+    	existingUser.setEmail(user.getEmail());
+    	existingUser.setDesignation(user.getDesignation());
+    	existingUser.setDepartment(user.getDepartment());
+    	existingUser.setRole(user.getRole());
+        return userRepo.save(existingUser);
     }
 
     @Override

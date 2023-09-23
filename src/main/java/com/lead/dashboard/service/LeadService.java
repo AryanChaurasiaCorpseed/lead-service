@@ -12,11 +12,11 @@ import java.util.List;
 public interface LeadService {
 
     Lead createLead(LeadDTO leadDTO);
-    List<Lead> getAllActiveCustomerLead();
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
     boolean deleteLead(Long leadId);
 	Lead getSingleLeadData(Long leadId);
 	ServiceDetails createEstimate(CreateServiceDetails createServiceDetails);
+	List<Lead> getAllActiveCustomerLead(Long uId);
 
 
 

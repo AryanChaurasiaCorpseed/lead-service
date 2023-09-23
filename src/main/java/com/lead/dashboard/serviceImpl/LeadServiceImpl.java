@@ -8,10 +8,13 @@ import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.StatusRepository;
+import com.lead.dashboard.repository.UserRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
@@ -31,6 +34,8 @@ public class LeadServiceImpl implements LeadService  {
 	LeadRepository leadRepository;
 	@Autowired
 	CommonServices commonServices;
+	@Autowired
+	UserRepo userRepo;
 
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
@@ -54,6 +59,11 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setCreateDate(leadDTO.getCreateDate());
 		lead.setLastUpdated(leadDTO.getLastUpdated());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
+		if(leadDTO.getAssigneeId()!=null) {
+			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
+			lead.setAssignee(user.get());
+		}
+
 		lead.setSource(leadDTO.getSource());
 		lead.setPrimaryAddress(leadDTO.getPrimaryAddress());
 		lead.setDeleted(leadDTO.isDeleted());
@@ -70,9 +80,19 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllActiveCustomerLead() {
+	public List<Lead> getAllActiveCustomerLead(Long uId) {
+          
+		Optional<User> user = userRepo.findById(uId);
+		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+			return leadRepository.findAllByIsDeleted(false);
+		}else {
+			return leadRepository.findAllByAssignee(uId);
+		}
 
+<<<<<<< HEAD
 		return leadRepository.findAllByDisplayStatusAndIsDeleted("1",true);
+=======
+>>>>>>> 6d9fda56f9f5a10fe98f9b1bfb17750f191241df
 	}
 
 	public Lead updateLeadData(UpdateLeadDto updateLeadDto) {
@@ -88,6 +108,11 @@ public class LeadServiceImpl implements LeadService  {
 			leadData.setName(updateLeadDto.getName());
 			leadData.setLeadDescription(updateLeadDto.getLeadDescription());
 			leadData.setUuid(updateLeadDto.getUuid());
+			if(updateLeadDto.getAssigneeId()!=null) {
+				Optional<User> user = userRepo.findById(updateLeadDto.getAssigneeId());
+				leadData.setAssignee(user.get());
+			}
+
 			leadData.setLastUpdated(updateLeadDto.getLastUpdated());
 			leadData.setCategoryId(updateLeadDto.getCategoryId());
 			leadData.setUrls(updateLeadDto.getUrls());
@@ -96,6 +121,12 @@ public class LeadServiceImpl implements LeadService  {
 			return updatedoneLead;
 
 		}
+		
+//		Lead.builder()
+//		.name(updateLeadDto.getLeadName())
+//		.email(updateLeadDto.getEmail())
+//		.build();
+		
 		return null;
 	}
 
