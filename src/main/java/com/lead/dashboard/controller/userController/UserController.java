@@ -1,6 +1,8 @@
 package com.lead.dashboard.controller.userController;
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.UpdateUser;
+import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,6 @@ public class UserController {
 	{
 
 		List<User> allUser=userService.getAllUsers();
-
 		if(!allUser.isEmpty())
 		{
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
@@ -34,13 +35,13 @@ public class UserController {
 
 
 	@PostMapping("api/v1/createUsser")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@RequestBody UserDto user) {
 		User createdUser = userService.createUser(user);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 
 	@GetMapping("api/v1/getUser")
-	public ResponseEntity<User> getUserById(@PathVariable Long id) {
+	public ResponseEntity<User> getUserById(@RequestParam Long id) {
 		User user = userService.getUserById(id);
 		if (user != null) {
 			return new ResponseEntity<>(user, HttpStatus.OK);
@@ -50,11 +51,10 @@ public class UserController {
 	}
 
 	@PutMapping("api/v1/updateUser")
-	public ResponseEntity<User> updateUser(@RequestParam Long id, @RequestBody User user) {
-		User existingUser = userService.getUserById(id);
+	public ResponseEntity<User> updateUser(@RequestBody UpdateUser user) {
+		User existingUser = userService.getUserById(user.getId());
 		if (existingUser != null) {
-			user.setId(id);
-			User updatedUser = userService.updateUser(user);
+			User updatedUser = userService.updateUser(existingUser,user);
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

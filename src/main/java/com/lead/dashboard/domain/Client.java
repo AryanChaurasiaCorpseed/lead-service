@@ -51,6 +51,49 @@ public class Client {
 //	@JoinTable(name="client_opportunities",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
 //	inverseJoinColumns = {@JoinColumn(name="client_opportunities_id"+ "",referencedColumnName = "id",nullable=true)})
 //	private List<Opportunities> opportunities;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmails() {
+		return emails;
+	}
+	public void setEmails(String emails) {
+		this.emails = emails;
+	}
+	public String getContactNo() {
+		return contactNo;
+	}
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+	public List<Communication> getCommunication() {
+		return communication;
+	}
+	public void setCommunication(List<Communication> communication) {
+		this.communication = communication;
+	}
+	public List<ServiceDetails> getServiceDetails() {
+		return serviceDetails;
+	}
+	public void setServiceDetails(List<ServiceDetails> serviceDetails) {
+		this.serviceDetails = serviceDetails;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
+	
+	
 
 }

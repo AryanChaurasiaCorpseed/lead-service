@@ -10,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
+<<<<<<< HEAD
+=======
+import com.lead.dashboard.config.SecurityFeignClient;
+import com.lead.dashboard.domain.ServiceDetails;
+>>>>>>> 6d9fda56f9f5a10fe98f9b1bfb17750f191241df
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,7 +39,16 @@ public class LeadController {
 
 	@Autowired
 	StatusService statusService;
+	
+	@Autowired
+	SecurityFeignClient securityFeignClient;
 
+	
+	@GetMapping("/v1/lead/test")
+	public String test()
+	{
+		return securityFeignClient.test();		 
+	}
 
 	@PostMapping("/v1/lead/leadCreate")
 	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO)
@@ -53,9 +67,9 @@ public class LeadController {
 	}
 
 	@GetMapping("/v1/lead/getAllLead")
-	public ResponseEntity <List<Lead>> getAllLead()
+	public ResponseEntity <List<Lead>> getAllLead(Long userId)
 	{
-		List<Lead> alllead= leadservice.getAllActiveCustomerLead();
+		List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 

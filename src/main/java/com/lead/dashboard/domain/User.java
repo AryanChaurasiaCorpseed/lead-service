@@ -15,8 +15,9 @@ import java.util.List;
 @Table(name = "user")
 public class User {
 	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -24,6 +25,8 @@ public class User {
 
     @NonNull
     private String lastName;
+        
+    private String fullName;
 
     @NonNull
     private String email;
@@ -34,10 +37,8 @@ public class User {
     @NonNull
     private String department;
 
-    private String password;
-
 	@NonNull
-	private String role;
+	private List<String> role;
 
 //	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
 //	private Opportunities opportunities;
@@ -72,14 +73,6 @@ public class User {
 		return department;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
 
 
 	//All Setter
@@ -109,13 +102,16 @@ public class User {
 		this.department = department;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	
+	public List<String> getRole() {
+		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(List<String> role) {
 		this.role = role;
 	}
+
+
 
 }
 
