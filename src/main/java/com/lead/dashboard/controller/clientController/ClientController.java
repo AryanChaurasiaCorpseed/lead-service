@@ -10,6 +10,7 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
+@RequestMapping("/leadService/")
 public class ClientController {
 
 	@Autowired
@@ -19,23 +20,23 @@ public class ClientController {
 	
 	@GetMapping("/test")
 	public String  testMicroservices() {
-		return "this is a person";
+		return "this is a person by client";
 	}
 
-	@PostMapping("/v1/lead/createClient")
+	@PostMapping("api/v1/client/createClient")
 	public Lead  createClientInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String contactNo,@RequestParam String email) {
 		Lead  clientCreated =clientService.createClientInLead(leadId, name , email, contactNo);
 		return clientCreated;
 	}
 
-	@DeleteMapping("api/v1/deleteClient")
+	@DeleteMapping("api/v1/client/deleteClient")
 	public ResponseEntity<String> deleteClientFromLead(@RequestParam Long leadId, @RequestParam Long clientId)
 	{
 		clientService.removeClientFromLead(leadId,clientId);
 		return ResponseEntity.ok("Client has been removed from the lead enquiry");
 	}
 
-	@PutMapping("api/v1/updateClientInfo")
+	@PutMapping("api/v1/client/updateClientInfo")
 	public ResponseEntity<Client> upddateClientInfo(@RequestBody Client client)
 	{
 		if(client!=null)
