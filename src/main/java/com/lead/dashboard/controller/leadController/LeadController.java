@@ -24,7 +24,7 @@ import java.util.List;
 //@Tag(name = "Lead", description = "Lead management APIs")
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/leadService/api")
 
 
 public class LeadController {
@@ -117,5 +117,3 @@ public class LeadController {
 	 }
 
 }
-
-
