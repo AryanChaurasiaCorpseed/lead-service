@@ -22,7 +22,7 @@ public class MailSendSerivceImpl implements MailSendService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public void sendEmail(String emailTo, String[] ccPersons, String[] bccPersons) {
+    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
