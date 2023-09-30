@@ -89,10 +89,6 @@ public class LeadServiceImpl implements LeadService  {
 			return leadRepository.findAllByAssignee(uId);
 		}
 
-<<<<<<< HEAD
-		return leadRepository.findAllByDisplayStatusAndIsDeleted("1",true);
-=======
->>>>>>> 6d9fda56f9f5a10fe98f9b1bfb17750f191241df
 	}
 
 	public Lead updateLeadData(UpdateLeadDto updateLeadDto) {

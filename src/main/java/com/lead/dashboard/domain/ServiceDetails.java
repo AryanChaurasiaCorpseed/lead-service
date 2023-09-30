@@ -42,10 +42,8 @@ public class ServiceDetails {
 	String remarksForOption;
 
 	@ManyToOne
-<<<<<<< HEAD
 	Opportunities opportunities;
-=======
-	Opportunity opportunity;
+
 	public Long getId() {
 		return id;
 	}
@@ -124,13 +122,7 @@ public class ServiceDetails {
 	public void setRemarksForOption(String remarksForOption) {
 		this.remarksForOption = remarksForOption;
 	}
-	public Opportunity getOpportunity() {
-		return opportunity;
-	}
-	public void setOpportunity(Opportunity opportunity) {
-		this.opportunity = opportunity;
-	}
+
 	
 	
->>>>>>> 6d9fda56f9f5a10fe98f9b1bfb17750f191241df
 }
