@@ -10,11 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
-<<<<<<< HEAD
-=======
 import com.lead.dashboard.config.SecurityFeignClient;
 import com.lead.dashboard.domain.ServiceDetails;
->>>>>>> 6d9fda56f9f5a10fe98f9b1bfb17750f191241df
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
