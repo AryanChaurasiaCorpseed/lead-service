@@ -32,6 +32,14 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("api/v1/users/isUserExistOrNot")
+	public boolean isUserExistOrNot(@RequestParam Long userId) throws Exception
+	{
+
+		boolean userExistOrNot=userService.isUserExistOrNot(userId);
+		return userExistOrNot;
+	}
 
 
 	@PostMapping("api/v1/users/createUsser")
