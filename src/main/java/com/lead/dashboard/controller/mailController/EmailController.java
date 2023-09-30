@@ -1,4 +1,4 @@
-package com.lead.dashboard.controller;
+package com.lead.dashboard.controller.mailController;
 
 
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
