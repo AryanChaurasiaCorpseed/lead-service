@@ -10,6 +10,8 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
+@RequestMapping("/lead")
+
 public class ClientController {
 
 	@Autowired

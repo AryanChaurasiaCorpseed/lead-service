@@ -6,6 +6,8 @@ import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.service.StatusService;
+import com.lead.dashboard.util.UrlsMapping;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ import java.util.List;
 //@Tag(name = "Lead", description = "Lead management APIs")
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 
 
 public class LeadController {
@@ -43,13 +45,14 @@ public class LeadController {
 	SecurityFeignClient securityFeignClient;
 
 	
-	@GetMapping("/v1/lead/test")
+//	@GetMapping("/v1/lead/test")
+	@GetMapping(UrlsMapping.TEST)
 	public String test()
 	{
 		return securityFeignClient.test();		 
 	}
 
-	@PostMapping("/v1/lead/leadCreate")
+	@PostMapping(UrlsMapping.CREATE_LEAD)
 	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO)
 	{
 		if (leadDTO!=null) {
@@ -65,14 +68,16 @@ public class LeadController {
 		}
 	}
 
-	@GetMapping("/v1/lead/getAllLead")
+//	@GetMapping("/v1/lead/getAllLead")
+	@GetMapping(UrlsMapping.GET_ALL_LEAD)
 	public ResponseEntity <List<Lead>> getAllLead(Long userId)
 	{
 		List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
-	@PutMapping("/v1/lead/updateLead")
+//	@PutMapping("/v1/lead/updateLead")
+	@PutMapping(UrlsMapping.UPDATE_LEAD)
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
 	{
 		System.out.println("Hit");
@@ -80,19 +85,22 @@ public class LeadController {
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
 
-	@DeleteMapping("/v1/lead/deleteLead")
+//	@DeleteMapping("/v1/lead/deleteLead")
+	@DeleteMapping(UrlsMapping.DELETE_LEAD)
 	public  boolean  deleteLead(@RequestParam Long leadId)
 	{
 		boolean  deletedLead = leadservice.deleteLead(leadId);
 		return deletedLead;
 	}
 
-	@DeleteMapping("/v1/lead/sendMailInLead")
+//	@DeleteMapping("/v1/lead/sendMailInLead")
+	@PostMapping(UrlsMapping.SEND_MAIL_IN_LEAD)
 	public  boolean  sendMailInLead( String to, String subject, String text){
 		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
 		return true;
 	}
-	@GetMapping("/v1/lead/getSingleLeadData")
+//	@GetMapping("/v1/lead/getSingleLeadData")
+	@GetMapping(UrlsMapping.GET_SINGLE_LEAD_DATA)
 	public ResponseEntity <Lead> getSingleLeadData(@RequestParam Long leadId)
 	{
 		Lead alllead= leadservice.getSingleLeadData(leadId);
@@ -112,27 +120,26 @@ public class LeadController {
 //	}
 	
 	
-	@PutMapping("/v1/lead/createEstimate")
+//	@PutMapping("/v1/lead/createEstimate")
+	@PutMapping(UrlsMapping.CREATE_ESTIMATE)
 	public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
 	{
 		ServiceDetails res=leadservice.createEstimate(createServiceDetails);
 //		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
-	@GetMapping("/v1/lead/getAllStatusHistory")
+//	@GetMapping("/v1/lead/getAllStatusHistory")
+	@GetMapping(UrlsMapping.GET_ALL_STATUS_HISTORY)
 	public ResponseEntity<List<LeadStatusChangeHistory>> getAllStatusHistory(@RequestParam Long leadId )
 	{
-
 	 try
 	 {
 		 List<LeadStatusChangeHistory> statusHistory = statusService.getStatusHistoryForLead(leadId);
 		 return new ResponseEntity<>(statusHistory, HttpStatus.OK);
 	 }
-
         catch (Exception e)
 	{
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	}
-
 	 }
 
 }

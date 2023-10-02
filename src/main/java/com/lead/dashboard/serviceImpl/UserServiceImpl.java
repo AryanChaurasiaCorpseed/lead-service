@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(UserDto user) {
     	User u =new User();
-    	u.setId(user.getId());
+//    	u.setId(user.getId());
     	u.setFirstName(user.getFirstName());
     	u.setLastName(user.getLastName());
     	u.setFullName(user.getFullName());
