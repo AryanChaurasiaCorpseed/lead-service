@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/leadService/")
 public class UserController {
 	private final UserService userService;
 
@@ -19,7 +19,7 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@GetMapping("api/v1/getAllUser")
+	@GetMapping("api/v1/users/getAllUser")
 	public ResponseEntity<List<User>> getAllUserData()
 	{
 
@@ -32,15 +32,23 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("api/v1/users/isUserExistOrNot")
+	public boolean isUserExistOrNot(@RequestParam Long userId) throws Exception
+	{
+
+		boolean userExistOrNot=userService.isUserExistOrNot(userId);
+		return userExistOrNot;
+	}
 
 
-	@PostMapping("api/v1/createUsser")
+	@PostMapping("api/v1/users/createUsser")
 	public ResponseEntity<User> createUser(@RequestBody UserDto user) {
 		User createdUser = userService.createUser(user);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 
-	@GetMapping("api/v1/getUser")
+	@GetMapping("api/v1/users/getUser")
 	public ResponseEntity<User> getUserById(@RequestParam Long id) {
 		User user = userService.getUserById(id);
 		if (user != null) {
@@ -50,7 +58,7 @@ public class UserController {
 		}
 	}
 
-	@PutMapping("api/v1/updateUser")
+	@PutMapping("api/v1/users/updateUser")
 	public ResponseEntity<User> updateUser(@RequestBody UpdateUser user) {
 		User existingUser = userService.getUserById(user.getId());
 		if (existingUser != null) {
@@ -61,7 +69,7 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping("api/v1/deleteUser")
+	@DeleteMapping("api/v1/users/deleteUser")
 	public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
 		User existingUser = userService.getUserById(id);
 		if (existingUser != null) {

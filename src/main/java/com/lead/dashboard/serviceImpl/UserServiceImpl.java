@@ -8,6 +8,7 @@ import com.lead.dashboard.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -56,4 +57,18 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
+
+	@Override
+	public boolean isUserExistOrNot(Long userId) throws Exception {
+		boolean flag=false;
+		try {
+		Optional<User> user = userRepo.findById(userId);
+		if(user!=null && user.get()!=null) {
+			flag=true;
+		}
+		}catch(Exception e) {
+			throw new Exception("User Does not exist");
+		}
+		return flag;
+	}
 }
