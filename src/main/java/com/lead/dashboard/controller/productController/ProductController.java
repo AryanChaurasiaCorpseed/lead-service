@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/product")
+@RequestMapping("/leadService/api/v1/product")
 public class ProductController {
     @Autowired
     private ProductService productService;

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface InboxService {
 
-	List<Map<String ,Object>> getAllInboxData();
+	List<Map<String ,Object>> getAllInboxData(Long userId);
 
-	boolean editView();
+	boolean editView(Long leadId);
+	
 
 }
