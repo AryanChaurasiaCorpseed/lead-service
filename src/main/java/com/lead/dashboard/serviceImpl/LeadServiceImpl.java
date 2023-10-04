@@ -218,6 +218,16 @@ public class LeadServiceImpl implements LeadService  {
 
 	}
 
+	@Override
+	public Lead updateAssignee(Long leadId, Long userId) {
+		// TODO Auto-generated method stub
+	    User user = userRepo.findById(userId).get();
+		Lead lead = leadRepository.findById(leadId).get();
+        lead.setAssignee(user);
+        leadRepository.save(lead);
+		return lead;
+	}
+
 
 
 }
