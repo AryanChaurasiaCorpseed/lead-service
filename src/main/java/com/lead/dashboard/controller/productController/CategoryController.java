@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RequestMapping("/leadService/api/v1/category")
+
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

@@ -13,6 +13,8 @@ import java.util.List;
 //KPS
 //Here is Status Controller where put all status type
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RequestMapping("/leadService/")
 public class StatusController {
     @Autowired

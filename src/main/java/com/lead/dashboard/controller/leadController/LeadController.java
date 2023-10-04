@@ -23,7 +23,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 
 // @RequestMapping("/leadService/api")
