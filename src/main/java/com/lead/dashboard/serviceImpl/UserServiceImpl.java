@@ -71,4 +71,10 @@ public class UserServiceImpl implements UserService {
 		}
 		return flag;
 	}
+
+	@Override
+	public User createUserByEmail(UserDto user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
