@@ -140,5 +140,13 @@ public class LeadController {
 	{
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	}
 	 }
+	
+	@PutMapping(UrlsMapping.UPDATE_ASSIGNEE)
+	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
+	{
+		Lead res=leadservice.updateAssignee(leadId,userId);
+//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		 return res;
+	}
 
 }

@@ -16,4 +16,5 @@ public interface UserService
     List<User> getAllUsers();
 	User createUser(UserDto user);
 	boolean isUserExistOrNot(Long userId) throws Exception;
+	User createUserByEmail(UserDto user);
 }
