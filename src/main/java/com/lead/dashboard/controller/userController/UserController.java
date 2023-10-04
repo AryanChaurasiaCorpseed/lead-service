@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RequestMapping("/leadService/")
 public class UserController {
 	private final UserService userService;
@@ -78,5 +80,11 @@ public class UserController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping("api/v1/users/createUserByEmail")
+	public User createUserByEmail(@RequestParam String email,@RequestParam String role) {
+		User createdUser = userService.createUserByEmail(email,role);
+		return createdUser;
 	}
 }

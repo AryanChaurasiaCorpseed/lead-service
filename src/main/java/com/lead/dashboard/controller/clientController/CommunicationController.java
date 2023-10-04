@@ -3,12 +3,15 @@ package com.lead.dashboard.controller.clientController;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.service.CommunicationService;
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 public class CommunicationController {
 	
