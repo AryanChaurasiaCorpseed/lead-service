@@ -18,7 +18,7 @@ public class UrlsMapping {
 	public static final String GET_SINGLE_LEAD_DATA=PREFIX+"/lead/getSingleLeadData";
 	public static final String CREATE_ESTIMATE=PREFIX+"/lead/createEstimate";
 	public static final String GET_ALL_STATUS_HISTORY=PREFIX+"/lead/getAllStatusHistory";
-
+    public static final String UPDATE_ASSIGNEE =PREFIX+"/lead/updateAssignee";
 
 
 }
