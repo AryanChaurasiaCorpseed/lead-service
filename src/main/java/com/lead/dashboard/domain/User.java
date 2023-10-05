@@ -111,6 +111,16 @@ public class User {
 		this.role = role;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
+	
+
 
 
 }

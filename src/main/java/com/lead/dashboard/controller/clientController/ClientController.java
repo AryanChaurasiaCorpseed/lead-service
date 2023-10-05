@@ -10,7 +10,10 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RequestMapping("/leadService/")
+
 public class ClientController {
 
 	@Autowired
