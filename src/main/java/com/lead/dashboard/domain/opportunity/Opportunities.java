@@ -1,18 +1,22 @@
 package com.lead.dashboard.domain.opportunity;
 
 
+
 import com.lead.dashboard.domain.Client;
-import com.lead.dashboard.domain.PaymentType;
 import com.lead.dashboard.domain.User;
-import com.lead.dashboard.domain.lead.Lead;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.List;
 
 @Entity
 @Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class Opportunities {
 
     @Id
@@ -26,21 +30,26 @@ public class Opportunities {
 
     private String value;
 
-    //In this how customer want to pay the estimate like full payment ,milestone or partial
-//    @OneToMany
-//    private List<PaymentType> paymentType;
+    private String typePayment;
+//
+//    @OneToOne(targetEntity = Client.class)
+//    @JoinColumn(name = "client_id",nullable = false)
+//    private Client client;
+//
+//    @OneToOne(targetEntity = User.class)
+//    @JoinColumn(name = "user_id",nullable = false)
+//    private  User user;
 
 //    @ManyToOne
-//    private Lead lead;
-//
-//    @ManyToMany(mappedBy = "opportunities")
-//    private List<Client> client;
-////
-//    @ManyToMany(mappedBy = "opportunities")
-//    private List<User> user;
+//    @JoinColumn(name = "client_id")
+//    private Client client;
 
-//    ERP user want to give some remark or want to provide some notes on it
-    private String notes;
+
+//    @OneToOne
+//    private User user;
+//
+//    @OneToOne
+//    private Client client;
 
 
 }
