@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
+import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.service.StatusService;
@@ -29,7 +30,7 @@ import java.util.List;
 // @RequestMapping("/leadService/api")
 public class LeadController {
 
-	private static final String CreateServiceDetails = null;
+//	private static final String CreateServiceDetails = null;
 
 	@Autowired
 	LeadService leadservice;

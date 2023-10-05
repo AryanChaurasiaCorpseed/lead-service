@@ -21,6 +21,7 @@ public class ClientController {
 	@Autowired
 	ClientService clientService;
 	
+	
 	@GetMapping("/test")
 	public String  testMicroservices() {
 		return "this is a person by client";

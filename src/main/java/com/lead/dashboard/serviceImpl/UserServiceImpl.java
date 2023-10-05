@@ -5,8 +5,11 @@ import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -14,6 +17,9 @@ import java.util.Random;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
+    
+    @Autowired
+    MailSendSerivceImpl mailSendSerivceImpl;
 
     public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -92,9 +98,25 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String email, String role) {
+	public User createUserByEmail(String email, String role, Long userId) {
 		// TODO Auto-generated method stub
-		 System.out.println(getRandomNumber());
-		return null;
+//		String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text
+//		String[] ccPersons= {"aryan.chaurasia@corpseed.com"};
+		String[] emailTo= {"kaushlendra.pratap@corpseed.com"};
+		String[] bcc= {"kaushlendra.pratap@corpseed.com"};
+
+		User u = new User();
+		u.setId(userId);
+		u.setEmail(email);
+		List<String>listRole = new ArrayList();
+		listRole.add(role);
+		u.setRole(listRole);
+		String subject="this mail for forget password";
+		String text="CLICK ON THIS link and set password";
+		userRepo.save(u);
+		String[] ccPersons= {email};
+
+		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,bcc, subject,text);
+		return u;
 	}
 }
