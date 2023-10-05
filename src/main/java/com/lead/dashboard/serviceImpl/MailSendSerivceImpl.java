@@ -39,5 +39,23 @@ public class MailSendSerivceImpl implements MailSendService {
             e.printStackTrace();
         }
     }
+    
+    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+            helper.setFrom(fromEmail);
+            helper.setTo(emailTo);
+            helper.setCc(ccPersons);
+            helper.setBcc(bccPersons);
+            helper.setSubject(subject);
+            helper.setText(text);
+
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
