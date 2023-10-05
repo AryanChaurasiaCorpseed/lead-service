@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,11 +18,13 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+    
+    
 
     @Override
     public User createUser(UserDto user) {
     	User u =new User();
-    	u.setId(user.getId());
+//    	u.setId(user.getId());
     	u.setFirstName(user.getFirstName());
     	u.setLastName(user.getLastName());
     	u.setFullName(user.getFullName());
@@ -70,5 +73,28 @@ public class UserServiceImpl implements UserService {
 			throw new Exception("User Does not exist");
 		}
 		return flag;
+	}
+	public StringBuilder getRandomNumber() {
+	    String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	    StringBuilder sb = new StringBuilder();
+	    Random random = new Random();
+	    int length = 7;
+	    for(int i = 0; i < length; i++) {
+	      int index = random.nextInt(alphabet.length());
+	      char randomChar = alphabet.charAt(index);
+	      sb.append(randomChar);
+	    }
+		return sb;
+	}
+
+
+
+
+
+	@Override
+	public User createUserByEmail(String email, String role) {
+		// TODO Auto-generated method stub
+		 System.out.println(getRandomNumber());
+		return null;
 	}
 }

@@ -17,6 +17,7 @@ public interface LeadService {
 	Lead getSingleLeadData(Long leadId);
 	ServiceDetails createEstimate(CreateServiceDetails createServiceDetails);
 	List<Lead> getAllActiveCustomerLead(Long uId);
+	Lead updateAssignee(Long leadId, Long userId);
 
 
 
