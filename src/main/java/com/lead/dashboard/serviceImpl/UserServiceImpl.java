@@ -5,8 +5,12 @@ import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
-import org.springframework.stereotype.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -14,6 +18,9 @@ import java.util.Random;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
+    
+    @Autowired
+    MailSendSerivceImpl mailSendSerivceImpl;
 
     public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -87,14 +94,43 @@ public class UserServiceImpl implements UserService {
 		return sb;
 	}
 
-
+	public boolean isUserEmailExistOrNot(String email) {
+		boolean flag=false;
+		User user = userRepo.findByemail(email);
+		if(user!=null) {
+			flag=true;
+		}
+		return flag;
+	}
 
 
 
 	@Override
-	public User createUserByEmail(String email, String role) {
-		// TODO Auto-generated method stub
-		 System.out.println(getRandomNumber());
-		return null;
+	public User createUserByEmail(String email, String role, Long userId) {
+
+		String[] emailTo= {"kaushlendra.pratap@corpseed.com"};
+		 String randomPass = getRandomNumber().toString();
+			User u = new User();
+
+		boolean isExistOrNot = isUserEmailExistOrNot(email);
+        if(isExistOrNot) {
+		u.setId(userId);
+		u.setEmail(email);
+		List<String>listRole = new ArrayList();
+		listRole.add(role);
+		u.setRole(listRole);
+		Context context  = new Context();
+		String subject="Corpseed pvt ltd send a request for adding on team please go and Signup";
+		String text="CLICK ON THIS link and set password";
+		userRepo.save(u);
+		String[] ccPersons= {email};
+
+		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+        }else {
+//        	if User exist
+//   		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+
+        }
+		return u;
 	}
 }
