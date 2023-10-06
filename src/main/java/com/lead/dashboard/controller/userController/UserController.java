@@ -83,8 +83,8 @@ public class UserController {
 	}
 	
 	@PostMapping("api/v1/users/createUserByEmail")
-	public User createUserByEmail(@RequestParam String email,@RequestParam String role) {
-		User createdUser = userService.createUserByEmail(email,role);
+	public User createUserByEmail(@RequestParam String email,@RequestParam String role,@RequestParam Long userId) {
+		User createdUser = userService.createUserByEmail(email,role,userId);
 		return createdUser;
 	}
 }
