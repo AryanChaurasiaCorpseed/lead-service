@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -111,21 +112,30 @@ public class UserServiceImpl implements UserService {
 		String[] emailTo= {"kaushlendra.pratap@corpseed.com"};
 		 String randomPass = getRandomNumber().toString();
 			User u = new User();
+			System.out.println("11111111111111");
 
-		boolean isExistOrNot = isUserEmailExistOrNot(email);
-        if(isExistOrNot) {
+//		boolean isExistOrNot = isUserEmailExistOrNot(email);
+        if(true) {
 		u.setId(userId);
 		u.setEmail(email);
 		List<String>listRole = new ArrayList();
 		listRole.add(role);
 		u.setRole(listRole);
-		Context context  = new Context();
-		String subject="Corpseed pvt ltd send a request for adding on team please go and Signup";
-		String text="CLICK ON THIS link and set password";
 		userRepo.save(u);
+		String feedbackStatusURL = "https://corpseed.com" ;
+
+		Context context = new Context();
+		context.setVariable("userName", "Aryan Chaurasia");
+		context.setVariable("email", email);
+		context.setVariable("Rurl", feedbackStatusURL);
+		context.setVariable("currentYear", LocalDateTime.now().getYear());
+		
+		String subject="Trade bee send a request for adding on team please go and Signup";
+		String text="CLICK ON THIS link and set password";
 		String[] ccPersons= {email};
 
-		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
+
         }else {
 //        	if User exist
 //   		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
