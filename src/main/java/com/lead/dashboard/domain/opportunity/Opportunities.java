@@ -40,6 +40,46 @@ public class Opportunities {
 //    @JoinColumn(name = "user_id",nullable = false)
 //    private  User user;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEstimateClose() {
+		return estimateClose;
+	}
+
+	public void setEstimateClose(String estimateClose) {
+		this.estimateClose = estimateClose;
+	}
+
+	public String getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(String confidence) {
+		this.confidence = confidence;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getTypePayment() {
+		return typePayment;
+	}
+
+	public void setTypePayment(String typePayment) {
+		this.typePayment = typePayment;
+	}
+
 //    @ManyToOne
 //    @JoinColumn(name = "client_id")
 //    private Client client;
@@ -51,5 +91,7 @@ public class Opportunities {
 //    @OneToOne
 //    private Client client;
 
+    
+    
 
 }
