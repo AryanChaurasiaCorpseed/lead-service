@@ -56,9 +56,9 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			result.put("name", t.getName());
 			result.put("description", t.getDescription());
 			result.put("assigneeId",t.getAssigne().getId());
-			result.put("assigneeName", t.getAssigne().getFirstName()+""+t.getAssigne().getLastName());
+			result.put("assigneeName", t.getAssigne().getFullName());
 			result.put("assignedById",t.getAssignedBy().getId());
-			result.put("assignedByName", t.getAssignedBy().getFirstName()+""+t.getAssignedBy().getLastName());
+			result.put("assignedByName", t.getAssignedBy().getFullName());
 			result.put("expectedDate", t.getExpectedDate());
 			result.put("name", t.getName());
 			res.add(result);
