@@ -20,12 +20,12 @@ public class User {
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    private String firstName;
-
-    @NonNull
-    private String lastName;
-        
+//    @NonNull
+//    private String firstName;
+//
+//    @NonNull
+//    private String lastName;
+//        
     private String fullName;
 
     @NonNull
@@ -53,13 +53,7 @@ public class User {
 		return id;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
 
-	public String getLastName() {
-		return lastName;
-	}
 
 	public String getEmail() {
 		return email;
@@ -82,13 +76,7 @@ public class User {
 		this.id = id;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	public void setEmail(String email) {
 		this.email = email;
