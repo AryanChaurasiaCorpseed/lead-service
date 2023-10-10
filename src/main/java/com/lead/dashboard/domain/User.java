@@ -20,12 +20,7 @@ public class User {
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NonNull
-//    private String firstName;
-//
-//    @NonNull
-//    private String lastName;
-//        
+       
     private String fullName;
 
     @NonNull
