@@ -126,7 +126,8 @@ public class UserServiceImpl implements UserService {
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
 			String[] ccPersons= {email};
-			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 			return u;
 		}else {
 			User u = userRepo.findByemail(email);
@@ -138,7 +139,9 @@ public class UserServiceImpl implements UserService {
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
 			String[] ccPersons= {email};
-			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
+
 			return u;
 
 		}
