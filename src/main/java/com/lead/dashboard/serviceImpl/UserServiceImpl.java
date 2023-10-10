@@ -32,9 +32,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(UserDto user) {
 		User u =new User();
-		//    	u.setId(user.getId());
-		u.setFirstName(user.getFirstName());
-		u.setLastName(user.getLastName());
+		u.setId(user.getId());
 		u.setFullName(user.getFullName());
 		u.setEmail(user.getEmail());
 		u.setDesignation(user.getDesignation());
@@ -50,8 +48,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(User existingUser,UpdateUser user) {
-		existingUser.setFirstName(user.getFirstName());
-		existingUser.setLastName(user.getLastName());
+
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
@@ -121,8 +118,14 @@ public class UserServiceImpl implements UserService {
 			listRole.add(role);
 			u.setRole(listRole);
 			u.setDesignation(designation);
-			Context context  = new Context();
-			String subject="Corpseed pvt ltd send a request for adding on team please go and Signup";
+			String feedbackStatusURL = "https://corpseed.com" ;
+			
+					Context context = new Context();
+					context.setVariable("userName", "Aryan Chaurasia");
+					context.setVariable("email", email);
+					context.setVariable("Rurl", feedbackStatusURL);
+					context.setVariable("currentYear", LocalDateTime.now().getYear());
+			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
 			String[] ccPersons= {email};
@@ -134,13 +137,19 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.add(role);
 			u.setRole(listRole);
-			Context context  = new Context();
-			String subject="Corpseed pvt ltd send a request for adding on team please go and Signup";
+			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
+			
+					Context context = new Context();
+					context.setVariable("userName", "Aryan Chaurasia");
+					context.setVariable("email", email);
+					context.setVariable("Rurl", feedbackStatusURL);
+					context.setVariable("currentYear", LocalDateTime.now().getYear());
+			String subject="Corpseed pvt ltd send a request for adding on team please go and Accept";
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
 			String[] ccPersons= {email};
 //			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
-			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
+			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"TeamAdd.html");
 
 			return u;
 

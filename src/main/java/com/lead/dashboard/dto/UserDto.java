@@ -14,9 +14,9 @@ public class UserDto {
 	
 	private Long id;
 	
-    private String firstName;
 
-
+    
+    private String fullName;
 
     @NonNull
     private String email;
@@ -30,14 +30,6 @@ public class UserDto {
 
 	@NonNull
 	private List<String> role;
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
 
 
 	public String getEmail() {
@@ -74,6 +66,14 @@ public class UserDto {
 		this.role = role;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
 	
 	
 
