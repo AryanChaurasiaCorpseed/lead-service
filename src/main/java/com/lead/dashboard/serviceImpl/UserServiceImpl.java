@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	public User createUser(UserDto user) {
 		User u =new User();
 		u.setId(user.getId());
-		u.setFullName(user.getUserName());
+		u.setFullName(user.getUsername());
 		u.setEmail(user.getEmail());
 		u.setDesignation(user.getDesignation());
 		u.setDepartment(user.getDepartment());
