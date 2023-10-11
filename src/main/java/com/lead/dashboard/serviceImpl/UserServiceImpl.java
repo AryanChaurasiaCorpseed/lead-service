@@ -106,10 +106,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUserByEmail(String userName, String email, String role, Long userId, String designation) {
 
-		String[] emailTo= {"kaushlendra.pratap@corpseed.com"};
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(email);
-		
+		System.out.println(isExistOrNot);
 		
 //		
 //			User u = new User();
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
 		
 		
 		
-		if(isExistOrNot) {
+		if(!isExistOrNot) {
 			User u = new User();
 			u.setId(userId);
 			u.setFullName(userName);
@@ -197,7 +197,7 @@ public class UserServiceImpl implements UserService {
 
 			return u;
 
-		}
+	}
 	}
 //		 String randomPass = getRandomNumber().toString();
 //			User u = new User();

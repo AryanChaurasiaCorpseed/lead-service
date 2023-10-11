@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.userController;
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.service.UserService;
@@ -83,8 +84,8 @@ public class UserController {
 	}
 	
 	@PostMapping("api/v1/users/createUserByEmail")
-	public User createUserByEmail(@RequestParam String userName, @RequestParam String email,@RequestParam String role,@RequestParam Long userId,@RequestParam String  designation) {
-		User createdUser = userService.createUserByEmail(userName,email,role,userId,designation);
+	public User createUserByEmail(@RequestBody NewSignupRequest newSignupRequest) {
+		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation());
 		return createdUser;
 	}
 }
