@@ -28,6 +28,7 @@ public class Communication {
 	private String subject;
 	private String message ; 
 	private boolean isDeleted ;
+	private boolean isSendBy;
 	private Date chatTime;
 	private Boolean isView=false;
     public Date getChatTime() {
@@ -143,6 +144,15 @@ public class Communication {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isSendBy() {
+		return isSendBy;
+	}
+
+	public void setSendBy(boolean isSendBy) {
+		this.isSendBy = isSendBy;
+	}
+	
 	
 //	@OneToOne
 //	Mails mails;

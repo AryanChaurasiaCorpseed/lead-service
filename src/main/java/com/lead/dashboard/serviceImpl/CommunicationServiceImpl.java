@@ -1,11 +1,13 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Communication;
@@ -20,10 +22,13 @@ public class CommunicationServiceImpl implements CommunicationService{
 	private ClientRepository clientRepository;
 
 	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
+
+	@Autowired
 	private CommunicationRepository communicationRepository ;
-	
-	
-	public boolean mailsCommunication(String mailTo,String mailCc,String subject,String desc,Long leadId,Long clientId) {
+
+
+	public boolean mailsCommunication(String mailTo,String mailCc,String subject,String desc,Long leadId,Long clientId,boolean isSendBy) {
 		Optional<Client> opClient = clientRepository.findById(clientId);
 		Communication c = new Communication();
 		c.setType("mails");
@@ -33,10 +38,15 @@ public class CommunicationServiceImpl implements CommunicationService{
 		c.setSubject(subject);
 		c.setMessage(desc);
 		c.setDeleted(false);
-		 Communication comm = communicationRepository.save(c);
+		c.setSendBy(isSendBy);
+		//		String[] emailTo= {mailTo};
+
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+
+		Communication comm = communicationRepository.save(c);
 		boolean flag=false;
-		
-		
+
+
 		Client client=null;
 		if(opClient!=null && opClient.get()!=null) {
 			client=opClient.get();
@@ -48,8 +58,19 @@ public class CommunicationServiceImpl implements CommunicationService{
 				flag=true;
 			}
 		}
-		
-		
+		String feedbackStatusURL = "https://corpseed.com" ;
+
+		Context context = new Context();
+		context.setVariable("userName", "Aryan Chaurasia");
+		//		context.setVariable("email", email);
+		context.setVariable("Rurl", feedbackStatusURL);
+		context.setVariable("currentYear", LocalDateTime.now().getYear());
+		String text="CLICK ON THIS link and set password";
+		String[] ccPersons= {mailCc};
+		//mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
+
+
 		return flag;
 	}
 
@@ -63,7 +84,7 @@ public class CommunicationServiceImpl implements CommunicationService{
 			communication.setDeleted(true);
 			communicationRepository.save(communication);
 			flag=true;
-			
+
 		}
 		return false;
 	}
