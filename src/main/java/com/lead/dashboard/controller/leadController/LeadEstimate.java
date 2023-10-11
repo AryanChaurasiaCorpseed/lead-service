@@ -15,7 +15,7 @@ public class LeadEstimate {
     @Autowired
     private LeadService leadservice;
 
-    @PostMapping("/v1/lead/createEstimate")
+    @PostMapping("leadService/api/v1/lead/createEstimate")
     public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
     {
         ServiceDetails res=leadservice.createEstimate(createServiceDetails);
