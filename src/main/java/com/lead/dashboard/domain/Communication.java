@@ -17,7 +17,7 @@ import lombok.Setter;
 //@Getter
 //@Setter
 public class Communication {
-	
+	// Type : - mail,Remark,Chat
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     private Long id ;
@@ -31,6 +31,8 @@ public class Communication {
 	private boolean isSendBy;
 	private Date chatTime;
 	private Boolean isView=false;
+	private User createdBy;
+	private String remark;
     public Date getChatTime() {
 		return chatTime;
 	}
@@ -151,6 +153,22 @@ public class Communication {
 
 	public void setSendBy(boolean isSendBy) {
 		this.isSendBy = isSendBy;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

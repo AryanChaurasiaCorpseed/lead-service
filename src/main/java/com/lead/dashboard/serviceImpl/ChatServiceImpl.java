@@ -34,7 +34,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public Client createChat(Long clientId, Long userId, String message) {
-		Optional<Client> clientOp = clientRepository.findById(userId);
+		Optional<Client> clientOp = clientRepository.findById(clientId);
 		Client client = clientOp.get();
 		User user = userRepo.findById(userId).get();
 		Communication communication = new Communication();
@@ -67,6 +67,33 @@ public class ChatServiceImpl implements ChatService {
 			flag=true;
 		}
 		return flag;
+	}
+
+	@Override
+	public Client createRemarks(Long clientId,Long userId, String message) {
+		// TODO Auto-generated method stub
+		Optional<Client> clientOp = clientRepository.findById(userId);
+		Client client = clientOp.get();
+		User user = userRepo.findById(userId).get();
+		Communication communication = new Communication();
+		communication.setRemark(message);
+		communication.setCreatedBy(user);
+		communication.setType("remark");
+		communication.setChatTime(new Date());
+		Communication com = communicationRepository.save(communication);
+		List<Communication> comList = client.getCommunication();
+		if(comList!=null) {
+			comList.add(com);
+			client.setCommunication(comList);
+			clientRepository.save(client);
+		}else {
+			List<Communication> cList =new ArrayList<>();
+			cList.add(com);
+			client.setCommunication(cList);
+			clientRepository.save(client);
+		}
+
+		return null;
 	}
 
 }
