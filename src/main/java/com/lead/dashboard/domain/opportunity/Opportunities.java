@@ -1,7 +1,5 @@
 package com.lead.dashboard.domain.opportunity;
 
-
-
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.User;
 import jakarta.persistence.*;
@@ -10,7 +8,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Data
@@ -31,67 +28,26 @@ public class Opportunities {
     private String value;
 
     private String typePayment;
-//
-//    @OneToOne(targetEntity = Client.class)
-//    @JoinColumn(name = "client_id",nullable = false)
-//    private Client client;
-//
-//    @OneToOne(targetEntity = User.class)
-//    @JoinColumn(name = "user_id",nullable = false)
-//    private  User user;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private OpportunityStatus opportunityStatus;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pay_term_id ", referencedColumnName = "id")
+    private OpportunityPaymentTerm opportunityPaymentTerm;
 
-	public String getEstimateClose() {
-		return estimateClose;
-	}
-
-	public void setEstimateClose(String estimateClose) {
-		this.estimateClose = estimateClose;
-	}
-
-	public String getConfidence() {
-		return confidence;
-	}
-
-	public void setConfidence(String confidence) {
-		this.confidence = confidence;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public String getTypePayment() {
-		return typePayment;
-	}
-
-	public void setTypePayment(String typePayment) {
-		this.typePayment = typePayment;
-	}
-
-//    @ManyToOne
-//    @JoinColumn(name = "client_id")
-//    private Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
 
-//    @OneToOne
-//    private User user;
-//
-//    @OneToOne
-//    private Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    
-    
+
+
+
 
 }

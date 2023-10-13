@@ -1,14 +1,16 @@
 package com.lead.dashboard.service;
 
+import com.lead.dashboard.dto.request.OpportunityRequest;
+import com.lead.dashboard.dto.response.OpportunityResponse;
 import com.lead.dashboard.exception.CustomException;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 
 import java.util.List;
 
 public interface OpportunitesService {
-    Opportunities createOpportunity(Opportunities opportunity) throws CustomException;
+    OpportunityResponse createOpportunity(OpportunityRequest opportunityRequest) throws CustomException;
 
-    Opportunities updateOpportunity(Long id, Opportunities opportunityDetails);
+    OpportunityResponse updateOpportunity(Long id, OpportunityRequest opportunityRequest);
 
     List<Opportunities> getAllOpportunities();
 

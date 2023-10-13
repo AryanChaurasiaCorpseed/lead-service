@@ -2,20 +2,22 @@ package com.lead.dashboard.domain.opportunity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Data
-public class OpportunityStatus {
+@NoArgsConstructor
+@Table(name = "opportunity_pay_term")
+public class OpportunityPaymentTerm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
-    @Column(name = "opportunity_sts_name")
-    private String opportunityStatusName ;
+    @Column(name = "pay_term_name")
+    private String paymentTermName ;
 
     private String description;
 
@@ -26,6 +28,5 @@ public class OpportunityStatus {
     private String createdByName;
 
     private String updatedByName;
-
 
 }

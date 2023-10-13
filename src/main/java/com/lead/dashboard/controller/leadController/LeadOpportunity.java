@@ -1,8 +1,11 @@
 package com.lead.dashboard.controller.leadController;
 
+import com.lead.dashboard.dto.request.OpportunityRequest;
+import com.lead.dashboard.dto.response.OpportunityResponse;
 import com.lead.dashboard.exception.CustomException;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.service.OpportunitesService;
+import com.lead.dashboard.util.UrlsMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,37 +18,37 @@ public class LeadOpportunity {
 
 
 	@Autowired
-	private OpportunitesService opportunitesService;
+	private OpportunitesService opportunitiesService;
 
-	@PostMapping("/save")
-	public ResponseEntity<Opportunities> createOpportunity(@RequestBody Opportunities opportunity) throws CustomException {
-		Opportunities createdOpportunity = opportunitesService.createOpportunity(opportunity);
-		return new ResponseEntity<>(createdOpportunity, HttpStatus.CREATED);
+//	@PostMapping("/save")
+	@PostMapping(UrlsMapping.CREATE_OPPORTUNITY)
+	public ResponseEntity<OpportunityResponse> createOpportunity(@RequestBody OpportunityRequest opportunityRequest) throws CustomException {
+		OpportunityResponse createdOpportunityResponse = opportunitiesService.createOpportunity(opportunityRequest);
+		return new ResponseEntity<>(createdOpportunityResponse, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<Opportunities> updateOpportunity(@PathVariable Long id, @RequestBody Opportunities opportunityDetails) {
-		Opportunities updatedOpportunity = opportunitesService.updateOpportunity(id, opportunityDetails);
+	@PutMapping(UrlsMapping.UPDATE_OPPORTUNITY)
+	public ResponseEntity<OpportunityResponse> updateOpportunity(@PathVariable Long id,@RequestBody OpportunityRequest opportunityRequest) {
+		OpportunityResponse updatedOpportunity = opportunitiesService.updateOpportunity(id, opportunityRequest);
 		return ResponseEntity.ok(updatedOpportunity);
 	}
 
-	@GetMapping("/getData")
+	@GetMapping(UrlsMapping.GET_OPPORTUNITY)
 	public ResponseEntity<Opportunities> getOpportunity(@PathVariable Long id) {
-		Opportunities opportunity = opportunitesService.getOpportunity(id);
+		Opportunities opportunity = opportunitiesService.getOpportunity(id);
 		return ResponseEntity.ok(opportunity);
 	}
 
-	@GetMapping("/getAllData")
+	@GetMapping(UrlsMapping.GET_ALL_OPPORTUNITY)
 	public ResponseEntity<List<Opportunities>> getAllOpportunities() {
-		List<Opportunities> opportunitiesList = opportunitesService.getAllOpportunities();
+		List<Opportunities> opportunitiesList = opportunitiesService.getAllOpportunities();
 		return ResponseEntity.ok(opportunitiesList);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping(UrlsMapping.DELETE_OPPORTUNITY)
 	public ResponseEntity<Void> deleteOpportunity(@PathVariable Long id) {
-		opportunitesService.deleteOpportunity(id);
+		opportunitiesService.deleteOpportunity(id);
 		return ResponseEntity.noContent().build();
 	}
-
 
 }

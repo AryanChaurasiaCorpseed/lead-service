@@ -19,6 +19,14 @@ public class UrlsMapping {
 	public static final String CREATE_ESTIMATE=PREFIX+"/lead/createEstimate";
 	public static final String GET_ALL_STATUS_HISTORY=PREFIX+"/lead/getAllStatusHistory";
     public static final String UPDATE_ASSIGNEE =PREFIX+"/lead/updateAssignee";
+	public static final String CREATE_OPPORTUNITY=PREFIX+"/lead/createOpportunity";
+
+	public static final String UPDATE_OPPORTUNITY=PREFIX+"/lead/updateOpportunity";
+	public static final String GET_OPPORTUNITY=PREFIX+"/lead/getOpportunity";
+	public static final String GET_ALL_OPPORTUNITY=PREFIX+"/lead/getAllOpportunity";
+
+	public static final String DELETE_OPPORTUNITY=PREFIX+"/lead/removeOpportunity";
+
 
 
 }
