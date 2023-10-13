@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +21,12 @@ import com.lead.dashboard.domain.Client;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-public class ChatController {
-         
+@RequestMapping("/leadService/")
+public class ChatController {       
 	
 	@Autowired
 	ChatService chatService;
 	
-	
-	
-
 	
 	@PostMapping("api/v1/createChat")
 	public ResponseEntity<Client> createChat(@RequestParam Long clientId,Long userId,String message){
@@ -39,6 +37,12 @@ public class ChatController {
 	@DeleteMapping("api/v1/deleteChat")
 	public ResponseEntity<Boolean> deleteChat(@RequestParam Long chatId){
 			Boolean updatedDeatils =chatService.deleteChat(chatId);
+			return ResponseEntity.ok(updatedDeatils);
+	}
+	
+	@PostMapping("api/v1/createRemarks")
+	public ResponseEntity<Client> createRemarks(@RequestParam Long clientId,@RequestParam Long userId,String message){
+			Client updatedDeatils =chatService.createRemarks(clientId,userId,message);
 			return ResponseEntity.ok(updatedDeatils);
 	}
 
