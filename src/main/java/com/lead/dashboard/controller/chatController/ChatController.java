@@ -1,5 +1,7 @@
 package com.lead.dashboard.controller.chatController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.service.ChatService;
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.lead.Remark;
 
 
 
@@ -41,9 +44,14 @@ public class ChatController {
 	}
 	
 	@PostMapping("api/v1/createRemarks")
-	public ResponseEntity<Client> createRemarks(@RequestParam Long clientId,@RequestParam Long userId,String message){
-			Client updatedDeatils =chatService.createRemarks(clientId,userId,message);
-			return ResponseEntity.ok(updatedDeatils);
+	public Remark createRemarks(@RequestParam Long leadId,@RequestParam Long userId,String message){
+		Remark updatedDeatils =chatService.createRemarks(leadId,userId,message);
+			return updatedDeatils;
+	}
+	@GetMapping("api/v1/getAllRemarks")
+	public List<Remark> getAllRemarks(@RequestParam Long leadId){
+		List<Remark> updatedDeatils =chatService.getAllRemarks(leadId);
+			return updatedDeatils;
 	}
 
 }
