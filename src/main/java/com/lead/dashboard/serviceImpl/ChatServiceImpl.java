@@ -13,8 +13,12 @@ import com.lead.dashboard.domain.Chats;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Communication;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.lead.Remark;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CommunicationRepository;
+import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.RemarkRepository;
 import com.lead.dashboard.service.ChatService;
 
 /*
@@ -28,9 +32,15 @@ public class ChatServiceImpl implements ChatService {
 
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	RemarkRepository remarkRepository;
 
 	@Autowired
 	CommunicationRepository communicationRepository;
+	
+	@Autowired
+	LeadRepository leadRepository;
 
 	@Override
 	public Client createChat(Long clientId, Long userId, String message) {
@@ -40,6 +50,8 @@ public class ChatServiceImpl implements ChatService {
 		Communication communication = new Communication();
 		communication.setMessage(message);
 		communication.setType("chat");
+		communication.setCreatedBy(user);
+
 		communication.setChatTime(new Date());
 		Communication com = communicationRepository.save(communication);
 		List<Communication> comList = client.getCommunication();
@@ -70,30 +82,39 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Client createRemarks(Long clientId,Long userId, String message) {
+	public Remark createRemarks(Long leadId,Long userId, String message) {
 		// TODO Auto-generated method stub
-		Optional<Client> clientOp = clientRepository.findById(userId);
-		Client client = clientOp.get();
+		
 		User user = userRepo.findById(userId).get();
-		Communication communication = new Communication();
-		communication.setRemark(message);
-		communication.setCreatedBy(user);
-		communication.setType("remark");
-		communication.setChatTime(new Date());
-		Communication com = communicationRepository.save(communication);
-		List<Communication> comList = client.getCommunication();
-		if(comList!=null) {
-			comList.add(com);
-			client.setCommunication(comList);
-			clientRepository.save(client);
-		}else {
-			List<Communication> cList =new ArrayList<>();
-			cList.add(com);
-			client.setCommunication(cList);
-			clientRepository.save(client);
-		}
+		Optional<Lead> opLead = leadRepository.findById(leadId);
+		Remark remark = new Remark();
 
-		return null;
+		if(opLead!=null && opLead.get()!=null) {
+			Lead lead = opLead.get();
+			List<Remark> remarks = lead.getRemarks();
+
+			if(remarks!=null && remarks.size()!=0) {
+				remark.setMessage(message);
+				remark.setLatestUpdated(new Date());
+				remarkRepository.save(remark);
+				remarks.add(remark);
+				lead.setRemarks(remarks);
+				leadRepository.save(lead);
+			}
+		}  
+		return remark;
+	}
+
+	@Override
+	public List<Remark> getAllRemarks(Long leadId) {
+		// TODO Auto-generated method stub
+		Optional<Lead> opLead = leadRepository.findById(leadId);
+		List<Remark> remark = new ArrayList<>();
+
+		if(opLead!=null && opLead.get()!=null) {
+			remark=opLead.get().getRemarks();
+		}
+		return remark;
 	}
 
 }
