@@ -22,9 +22,9 @@ public class Product {
 
     private Date createdBy;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
 
 	public Long getId() {
 		return id;
@@ -50,13 +50,13 @@ public class Product {
 		this.createdBy = createdBy;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+//	public Category getCategory() {
+//		return category;
+//	}
+//
+//	public void setCategory(Category category) {
+//		this.category = category;
+//	}
 
     
 
