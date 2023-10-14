@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.productController;
 
 
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,12 +38,12 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody CreateProduct createProduct) {
 
 
-        Product createdProduct = productService.createProduct(product);
+        Product result = productService.createProduct(createProduct);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PutMapping("updateProduct")
