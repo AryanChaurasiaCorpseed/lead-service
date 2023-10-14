@@ -1,12 +1,16 @@
 package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
+import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +53,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepo productRepo;
+    
+    @Autowired
+    CategoryRepo categoryRepo;
 
     @Override
     public List<Product> getAllProducts() {
@@ -62,8 +69,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return productRepo.save(product);
+    public Product createProduct(CreateProduct createProduct) {
+        Optional<Category> opCategory = categoryRepo.findById(createProduct.getCategoryId());
+        Category category = opCategory.get();
+    	Product product = new Product();
+    	product.setProductName(createProduct.getName());
+    	productRepo.save(product);
+    	List<Product> productList = category.getProducts();
+    	if(productList!=null && productList.size()!=0) {
+    		productList.add(product);
+    		category.setProducts(productList);
+    	}else {
+    		List<Product> pList = new ArrayList<>();
+    		pList.add(product);
+    		category.setProducts(pList);
+
+;    	}
+    	categoryRepo.save(category);
+        return product;
     }
 
 
@@ -83,6 +106,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         productRepo.deleteById(id);
     }
+
 }
 
 
