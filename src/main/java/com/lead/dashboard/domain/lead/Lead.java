@@ -90,6 +90,12 @@ public class Lead {
 			inverseJoinColumns = {@JoinColumn(name="lead_client_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="lead_remark",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Remark>remarks;
 
 	@ManyToOne
 	private User assignee;
