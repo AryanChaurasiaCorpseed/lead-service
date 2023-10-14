@@ -2,6 +2,8 @@ package com.lead.dashboard.domain.product;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lead.dashboard.domain.Client;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -11,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Data
-@Getter
+//@Entity
+//@Table
+//@Data
+//@Getter
 @Setter
 public class Category {
 
@@ -24,6 +27,13 @@ public class Category {
     private String CategoryName;
 
     private Date createdDate;
+    
+    
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="category_product",joinColumns = {@JoinColumn(name="category_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="category_product_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Product>products;
 
 	public Long getId() {
 		return id;
@@ -48,6 +58,12 @@ public class Category {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+	
+	
 
 //    @OneToMany(mappedBy = "category")
 //    private List<Product> products = new ArrayList<>();
