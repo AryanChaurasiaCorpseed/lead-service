@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.productController;
 
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.UpdateCategory;
 import com.lead.dashboard.service.productservice.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,8 +50,8 @@ public class CategoryController {
 
 
     @PutMapping("/updateCategory")
-    public ResponseEntity<Category> updateCategory(@RequestParam Long categoryId, @RequestParam String newCategoryName) {
-        Category updatedCategory = categoryService.updateCategory(categoryId, newCategoryName);
+    public ResponseEntity<Category> updateCategory(@RequestBody UpdateCategory updateCategory) {
+        Category updatedCategory = categoryService.updateCategory(updateCategory.getId(), updateCategory.getName());
         if (updatedCategory != null) {
 
             System.out.println("controller "+ updatedCategory);
