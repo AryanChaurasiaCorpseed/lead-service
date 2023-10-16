@@ -8,7 +8,10 @@ import lombok.Setter;
 
 import java.util.Date;
 
+import com.lead.dashboard.domain.User;
+
 @Entity
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,9 +21,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ProductName;
+    private String productName;
 
-    private Date createdBy;
+    private Date createdDate;
+    
+    @ManyToOne
+    User createdBy;
 
 //    @ManyToOne
 //    @JoinColumn(name = "category_id")
@@ -35,28 +41,36 @@ public class Product {
 	}
 
 	public String getProductName() {
-		return ProductName;
+		return productName;
 	}
 
 	public void setProductName(String productName) {
-		ProductName = productName;
+		this.productName = productName;
 	}
 
-	public Date getCreatedBy() {
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Date createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
+	
+	
 
-//	public Category getCategory() {
-//		return category;
-//	}
-//
-//	public void setCategory(Category category) {
-//		this.category = category;
-//	}
+
+	
+
+
+
 
     
 
