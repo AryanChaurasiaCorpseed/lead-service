@@ -74,6 +74,7 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
     }
+    
 
     @GetMapping("/getAllCategories")
     public ResponseEntity<List<Category>> getAllCategories() {
