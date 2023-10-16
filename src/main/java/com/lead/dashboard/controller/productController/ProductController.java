@@ -3,6 +3,7 @@ package com.lead.dashboard.controller.productController;
 
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.dto.UpdateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,8 @@ public class ProductController {
     }
 
     @PutMapping("updateProduct")
-    public ResponseEntity<Product> updateProduct(@RequestParam Long id,@RequestBody Product product) {
-        Product updatedProduct = productService.updateProduct(id, product);
+    public ResponseEntity<Product> updateProduct(@RequestBody UpdateProduct updateProduct) {
+        Product updatedProduct = productService.updateProduct(updateProduct.getId(), updateProduct.getName());
         if (updatedProduct == null) {
             return ResponseEntity.notFound().build();
         }
