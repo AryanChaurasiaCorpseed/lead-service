@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.productController;
 
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.CreateCategory;
 import com.lead.dashboard.dto.UpdateCategory;
 import com.lead.dashboard.service.productservice.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/createCategory")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@RequestBody CreateCategory category) {
         Category createdCategory = categoryService.createCategory(category);
         return ResponseEntity.ok(createdCategory);
     }

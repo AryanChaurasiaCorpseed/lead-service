@@ -2,11 +2,13 @@ package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
 import com.lead.dashboard.domain.product.Category;
+import com.lead.dashboard.dto.CreateCategory;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.service.productservice.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,10 @@ public class CategoryImpl implements CategoryService
         return categoryRepo.findById(categoryId).orElse(null);
     }
     @Override
-    public Category createCategory(Category category) {
+    public Category createCategory(CreateCategory createCategory) {
+    	Category category = new Category();
+    	category.setCategoryName(createCategory.getName());
+    	category.setCreatedDate(new Date());
         return categoryRepo.save(category);
     }
 
