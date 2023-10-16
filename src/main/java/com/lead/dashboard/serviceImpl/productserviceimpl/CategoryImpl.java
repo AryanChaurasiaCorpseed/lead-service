@@ -34,7 +34,7 @@ public class CategoryImpl implements CategoryService
         Optional<Category> optionalCategory = categoryRepo.findById(categoryId);
 
         System.out.println("Hitted"+optionalCategory);
-        if (optionalCategory.isPresent()) {
+        if (optionalCategory!=null && optionalCategory.isPresent()) {
 
             Category category = optionalCategory.get();
             category.setCategoryName(newCategoryName);

@@ -100,6 +100,14 @@ public class ChatServiceImpl implements ChatService {
 				remarks.add(remark);
 				lead.setRemarks(remarks);
 				leadRepository.save(lead);
+			}else {
+				List<Remark>remarkList = new ArrayList<>();
+				remark.setMessage(message);
+				remark.setLatestUpdated(new Date());
+				remarkRepository.save(remark);
+				remarks.add(remark);
+				lead.setRemarks(remarks);
+				leadRepository.save(lead);
 			}
 		}  
 		return remark;
