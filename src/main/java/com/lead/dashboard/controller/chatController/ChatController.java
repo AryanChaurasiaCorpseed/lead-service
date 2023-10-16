@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lead.dashboard.service.ChatService;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.lead.Remark;
+import com.lead.dashboard.dto.CreateRemark;
 
 
 
@@ -44,8 +45,8 @@ public class ChatController {
 	}
 	
 	@PostMapping("api/v1/createRemarks")
-	public Remark createRemarks(@RequestParam Long leadId,@RequestParam Long userId,String message){
-		Remark updatedDeatils =chatService.createRemarks(leadId,userId,message);
+	public Remark createRemarks(@RequestBody CreateRemark createRemark){
+		Remark updatedDeatils =chatService.createRemarks(createRemark.getLeadId(),createRemark.getUserId(),createRemark.getMessage());
 			return updatedDeatils;
 	}
 	@GetMapping("api/v1/getAllRemarks")
@@ -53,5 +54,6 @@ public class ChatController {
 		List<Remark> updatedDeatils =chatService.getAllRemarks(leadId);
 			return updatedDeatils;
 	}
+	
 
 }
