@@ -46,8 +46,4 @@ public class Opportunities {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-
-
-
-
 }

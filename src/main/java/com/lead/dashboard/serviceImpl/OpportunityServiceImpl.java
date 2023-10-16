@@ -30,6 +30,10 @@ public class OpportunityServiceImpl implements OpportunitesService {
         opportunity.setConfidence(opportunityRequest.getConfidence());
         opportunity.setValue(opportunityRequest.getValue());
         opportunity.setTypePayment(opportunityRequest.getTypePayment());
+        opportunity.setClient(opportunityRequest.getClientId());
+        opportunity.setUser(opportunityRequest.getUserId());
+        opportunity.setOpportunityStatus(opportunityRequest.getStatusId());
+        opportunity.setOpportunityPaymentTerm(opportunityRequest.getPayTermId());
 //        opportunity.setOpportunityStatus(opportunityRequest.getStatus());
 
         Opportunities savedOpportunity = opportunitiesRepo.save(opportunity);
@@ -40,6 +44,10 @@ public class OpportunityServiceImpl implements OpportunitesService {
         response.setConfidence(savedOpportunity.getConfidence());
         response.setValue(savedOpportunity.getValue());
         response.setTypePayment(savedOpportunity.getTypePayment());
+        response.setClientId(savedOpportunity.getClient());
+        response.setStatusId(savedOpportunity.getOpportunityStatus());
+        response.setUserId(savedOpportunity.getUser());
+        response.setPayTermId(savedOpportunity.getOpportunityPaymentTerm());
 //        response.setStatus(savedOpportunity.getStatus());
 
         return response;

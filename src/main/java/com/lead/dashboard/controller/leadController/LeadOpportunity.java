@@ -28,13 +28,13 @@ public class LeadOpportunity {
 	}
 
 	@PutMapping(UrlsMapping.UPDATE_OPPORTUNITY)
-	public ResponseEntity<OpportunityResponse> updateOpportunity(@PathVariable Long id,@RequestBody OpportunityRequest opportunityRequest) {
+	public ResponseEntity<OpportunityResponse> updateOpportunity(@RequestParam Long id,@RequestBody OpportunityRequest opportunityRequest) {
 		OpportunityResponse updatedOpportunity = opportunitiesService.updateOpportunity(id, opportunityRequest);
 		return ResponseEntity.ok(updatedOpportunity);
 	}
 
 	@GetMapping(UrlsMapping.GET_OPPORTUNITY)
-	public ResponseEntity<Opportunities> getOpportunity(@PathVariable Long id) {
+	public ResponseEntity<Opportunities> getOpportunity(@RequestParam Long id) {
 		Opportunities opportunity = opportunitiesService.getOpportunity(id);
 		return ResponseEntity.ok(opportunity);
 	}
@@ -46,7 +46,7 @@ public class LeadOpportunity {
 	}
 
 	@DeleteMapping(UrlsMapping.DELETE_OPPORTUNITY)
-	public ResponseEntity<Void> deleteOpportunity(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteOpportunity(@RequestParam Long id) {
 		opportunitiesService.deleteOpportunity(id);
 		return ResponseEntity.noContent().build();
 	}
