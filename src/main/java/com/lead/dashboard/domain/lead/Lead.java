@@ -6,6 +6,7 @@ import java.util.List;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.product.Product;
 
 //import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
@@ -74,6 +75,12 @@ public class Lead {
 
 	@Column(length = 100)
 	private String serviceId;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="lead_product",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="lead_product_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Product>products;
 
 	@Column(length = 100)
 	private String industryId;

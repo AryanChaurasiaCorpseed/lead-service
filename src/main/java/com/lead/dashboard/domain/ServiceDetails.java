@@ -3,7 +3,8 @@ package com.lead.dashboard.domain;
 import java.util.List;
 
 import com.lead.dashboard.domain.opportunity.Opportunities;
-import org.springframework.stereotype.Service;
+import com.lead.dashboard.domain.product.Product;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +28,11 @@ public class ServiceDetails {
     Long id ;
 	private String name;
 	@NotBlank
-	private String leadName;
+//	private String leadName;
+	
+	@ManyToOne
+	Product product;
+	
 	String estimateData;
 	
 //	User clientAdmin;
@@ -56,12 +61,12 @@ public class ServiceDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getLeadName() {
-		return leadName;
-	}
-	public void setLeadName(String leadName) {
-		this.leadName = leadName;
-	}
+//	public String getLeadName() {
+//		return leadName;
+//	}
+//	public void setLeadName(String leadName) {
+//		this.leadName = leadName;
+//	}
 	public String getEstimateData() {
 		return estimateData;
 	}
@@ -122,6 +127,20 @@ public class ServiceDetails {
 	public void setRemarksForOption(String remarksForOption) {
 		this.remarksForOption = remarksForOption;
 	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public Opportunities getOpportunities() {
+		return opportunities;
+	}
+	public void setOpportunities(Opportunities opportunities) {
+		this.opportunities = opportunities;
+	}
+	
+	
 
 	
 	
