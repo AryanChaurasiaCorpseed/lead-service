@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
+import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
@@ -147,6 +148,14 @@ public class LeadController {
 	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
 	{
 		Lead res=leadservice.updateAssignee(leadId,userId);
+//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		 return res;
+	}
+	
+	@PutMapping(UrlsMapping.CREATE_PRODUCT_IN_LEAD)
+	public Lead createProductInLead(@RequestBody AddProductInLead addProductInLead)
+	{
+		Lead res=leadservice.createProductInLead(addProductInLead);
 //		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
