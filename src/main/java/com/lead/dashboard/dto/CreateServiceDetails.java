@@ -1,5 +1,6 @@
 package com.lead.dashboard.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -7,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-@Data
+//@Data
 public class CreateServiceDetails {
 
 	private String name;
 	@NotBlank
-	String estimateData;
+	Date estimateData;
 	String company;
 	String contact;
 	Boolean consultingSale;
@@ -41,10 +42,12 @@ public class CreateServiceDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEstimateData() {
+	
+
+	public Date getEstimateData() {
 		return estimateData;
 	}
-	public void setEstimateData(String estimateData) {
+	public void setEstimateData(Date estimateData) {
 		this.estimateData = estimateData;
 	}
 	public String getCompany() {

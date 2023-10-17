@@ -62,7 +62,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(leadDTO.getEmail());
 		lead.setUrls(leadDTO.getUrls());
-		lead.setCreateDate(leadDTO.getCreateDate());
+		lead.setCreateDate(leadDTO.getCreateDate());		
 		lead.setLastUpdated(leadDTO.getLastUpdated());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
@@ -182,7 +182,7 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public ServiceDetails createEstimate(CreateServiceDetails createservicedetails) {
+	public Lead createEstimate(CreateServiceDetails createservicedetails) {
 		
 		ServiceDetails service= new ServiceDetails();
 		service.setName(createservicedetails.getName());
@@ -196,7 +196,6 @@ public class LeadServiceImpl implements LeadService  {
 		service.setProductType(createservicedetails.getProductType());
 		service.setPurchaseDate(createservicedetails.getPurchaseDate());
 		service.setRemarksForOption(createservicedetails.getRemarksForOption());
-		ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
 		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
 		Client c = null;
 		List<ServiceDetails> serviceList  = new ArrayList<>();
@@ -208,6 +207,33 @@ public class LeadServiceImpl implements LeadService  {
 			if(opClient!=null && opClient.get()!=null) {
 				client=opClient.get();
 				serviceList = client.getServiceDetails();
+				
+				String sName[] = new String[1];
+				sName[0]=createservicedetails.getName();
+
+				List<ServiceDetails> checkService = serviceList.stream().filter(i->i.getName().equals(sName[0])).collect(Collectors.toList());
+				//check its 
+				if(checkService!=null && checkService.size()!=0) {
+					ServiceDetails services = checkService.get(0);
+					services.setName(createservicedetails.getName());
+					services.setCompany(createservicedetails.getCompany());
+					services.setConsultingSale(null); //========= for verification
+					services.setContact(createservicedetails.getContact());
+					services.setEstimateData(createservicedetails.getEstimateData());
+					services.setInvoiceNote(createservicedetails.getInvoiceNote());
+//					service.setOpportunities(null);   //========= for verification
+					services.setOrderNumber(createservicedetails.getOrderNumber());
+					services.setProductType(createservicedetails.getProductType());
+					services.setPurchaseDate(createservicedetails.getPurchaseDate());
+					services.setRemarksForOption(createservicedetails.getRemarksForOption());
+					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+					serviceList.add(serviceDetails);
+
+				}else {
+					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+					serviceList.add(serviceDetails);
+
+				}
 				client.setServiceDetails(serviceList);
 				 c=clientRepository.save(client);
 
@@ -218,6 +244,8 @@ public class LeadServiceImpl implements LeadService  {
 				client.setContactNo(createservicedetails.getContactNo());
 				client.setDeleteStatus(false);
 				List<ServiceDetails> sList  = new ArrayList<>();
+				ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+
 				sList.add(serviceDetails);
 				serviceList=sList;
 				client.setServiceDetails(serviceList);  
@@ -230,6 +258,8 @@ public class LeadServiceImpl implements LeadService  {
 			client.setContactNo(createservicedetails.getContactNo());
 			client.setDeleteStatus(false);
 			List<ServiceDetails> sList  = new ArrayList<>();
+			ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+
 			sList.add(serviceDetails);
 			serviceList=sList;
 			client.setServiceDetails(serviceList); 
@@ -239,7 +269,7 @@ public class LeadServiceImpl implements LeadService  {
 			lead.getClients().add(c);
 			leadRepository.save(lead);
 		}
-		return serviceDetails;
+		return lead;
 
 
 	}
