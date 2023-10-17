@@ -16,7 +16,7 @@ public interface LeadService {
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
     boolean deleteLead(Long leadId);
 	Lead getSingleLeadData(Long leadId);
-	ServiceDetails createEstimate(CreateServiceDetails createServiceDetails);
+	Lead createEstimate(CreateServiceDetails createServiceDetails);
 	List<Lead> getAllActiveCustomerLead(Long uId);
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead);
