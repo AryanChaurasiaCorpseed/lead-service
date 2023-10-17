@@ -124,9 +124,9 @@ public class LeadController {
 	
 //	@PutMapping("/v1/lead/createEstimate")
 	@PutMapping(UrlsMapping.CREATE_ESTIMATE)
-	public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+	public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
 	{
-		ServiceDetails res=leadservice.createEstimate(createServiceDetails);
+		Lead res=leadservice.createEstimate(createServiceDetails);
 //		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
