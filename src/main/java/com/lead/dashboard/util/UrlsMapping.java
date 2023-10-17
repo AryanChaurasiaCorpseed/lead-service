@@ -21,4 +21,7 @@ public class UrlsMapping {
     public static final String UPDATE_ASSIGNEE =PREFIX+"/lead/updateAssignee";
 
 
+	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
+
+
 }

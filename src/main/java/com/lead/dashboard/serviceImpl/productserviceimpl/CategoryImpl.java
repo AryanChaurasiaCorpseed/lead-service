@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryImpl implements CategoryService
@@ -53,18 +54,21 @@ public class CategoryImpl implements CategoryService
     public boolean deleteCategory(Long categoryId) {
 
 
-        if (categoryRepo.existsById(categoryId))
-
-        {
-            categoryRepo.deleteById(categoryId);
-            return true;
-        }
-        return false;
+//        if (categoryRepo.existsById(categoryId))
+//
+//        {
+//            categoryRepo.deleteById(categoryId);
+//            return true;
+//        }
+      Category category = categoryRepo.findById(categoryId).get();
+      category.setDeleted(true);
+    	
+        return true;
     }
 
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepo.findAll();
+        return categoryRepo.findAll().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
 }
