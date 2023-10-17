@@ -27,6 +27,7 @@ public class Product {
     
     @ManyToOne
     User createdBy;
+    boolean isDeleted;
 
 //    @ManyToOne
 //    @JoinColumn(name = "category_id")
@@ -63,6 +64,18 @@ public class Product {
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	
+	
+	
 	
 	
 

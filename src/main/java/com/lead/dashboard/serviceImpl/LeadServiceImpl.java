@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
+import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 
 import com.lead.dashboard.dto.LeadDTO;
@@ -9,6 +10,7 @@ import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
+import com.lead.dashboard.repository.product.ProductRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +18,7 @@ import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.LeadService;
@@ -39,6 +42,9 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
+	
+    @Autowired
+    private ProductRepo productRepo;
 
 	@Autowired
 	StatusRepository statusRepository;
@@ -64,6 +70,26 @@ public class LeadServiceImpl implements LeadService  {
 			lead.setAssignee(user.get());
 		}
 
+		Client client = new Client();
+		client.setName(leadDTO.getName());
+		client.setContactNo(leadDTO.getMobileNo());
+		client.setEmails(leadDTO.getEmail());
+		client.setServiceDetails(null);
+		if(leadDTO.getProductId()!=null) {
+			ServiceDetails service = new ServiceDetails();
+
+			 Product product = productRepo.findById(leadDTO.getProductId()).get();
+			 service.setName(product.getProductName());
+			 service.setProduct(product);
+			 serviceDetailsRepository.save(service);
+			 List<ServiceDetails>sList = new ArrayList<>();
+			 sList.add(service);
+			 client.setServiceDetails(sList);
+		}
+		clientRepository.save(client);
+		List<Client>cList = new ArrayList<>();
+		cList.add(client);
+		lead.setClients(cList);
 		lead.setSource(leadDTO.getSource());
 		lead.setPrimaryAddress(leadDTO.getPrimaryAddress());
 		lead.setDeleted(leadDTO.isDeleted());
@@ -225,6 +251,27 @@ public class LeadServiceImpl implements LeadService  {
 		Lead lead = leadRepository.findById(leadId).get();
         lead.setAssignee(user);
         leadRepository.save(lead);
+		return lead;
+	}
+
+	@Override
+	public Lead createProductInLead(AddProductInLead addProductInLead) {
+		// TODO Auto-generated method stub
+		Product product = productRepo.findById(addProductInLead.getProductId()).get();
+		Lead lead = leadRepository.findById(addProductInLead.getLeadId()).get();
+		List<Client> clientList = lead.getClients();
+		Client client = clientList.stream().findFirst().get();
+		List<ServiceDetails> serviceList = client.getServiceDetails();
+		if(serviceList!=null && serviceList.size()!=0) {
+			ServiceDetails serviceDetails = new ServiceDetails();
+			serviceDetails.setProduct(product);
+			serviceDetails.setName(product.getProductName());
+			ServiceDetails service = serviceDetailsRepository.save(serviceDetails);
+			serviceList.add(service);
+			client.setServiceDetails(serviceList);
+			clientRepository.save(client);
+
+		}
 		return lead;
 	}
 

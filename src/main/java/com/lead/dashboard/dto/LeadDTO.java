@@ -40,6 +40,8 @@ public class LeadDTO {
 	boolean isDeleted;
 
 	String city;
+	
+	Long productId;
 
 	String categoryId;
 
@@ -227,5 +229,15 @@ public class LeadDTO {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+	
+	
 
 }

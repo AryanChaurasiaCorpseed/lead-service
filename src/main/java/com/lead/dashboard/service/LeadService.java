@@ -1,6 +1,7 @@
 package com.lead.dashboard.service;
 
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.LeadDTO;
@@ -18,6 +19,7 @@ public interface LeadService {
 	ServiceDetails createEstimate(CreateServiceDetails createServiceDetails);
 	List<Lead> getAllActiveCustomerLead(Long uId);
 	Lead updateAssignee(Long leadId, Long userId);
+	Lead createProductInLead(AddProductInLead addProductInLead);
 
 
 
