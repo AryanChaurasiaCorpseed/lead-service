@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.leadController;
 
 
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ public class LeadEstimate {
     private LeadService leadservice;
 
     @PostMapping("leadService/api/v1/lead/createEstimate")
-    public ServiceDetails createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+    public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
     {
-        ServiceDetails res=leadservice.createEstimate(createServiceDetails);
+    	Lead res=leadservice.createEstimate(createServiceDetails);
         return res;
     }
 }
