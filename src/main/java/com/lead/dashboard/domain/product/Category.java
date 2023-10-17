@@ -34,6 +34,8 @@ public class Category {
 			inverseJoinColumns = {@JoinColumn(name="category_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Product>products;
+	
+	boolean isDeleted;
 
 	public Long getId() {
 		return id;
@@ -62,6 +64,19 @@ public class Category {
 	public List<Product> getProducts() {
 		return products;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	
 	
 	
 
