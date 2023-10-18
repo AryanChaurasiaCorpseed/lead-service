@@ -17,6 +17,9 @@ import com.lead.dashboard.domain.TaskManagment;
 public interface TaskManagmentRepository extends JpaRepository<TaskManagment, Long> {
 
 	@Query(value = "SELECT * FROM task_managment tm WHERE tm.assigne_id=:assigneeId", nativeQuery = true)
-	List<TaskManagment> findByAssigneeId(Long assigneeId); 
+	List<TaskManagment> findByAssigneeId(Long assigneeId);
+
+	@Query(value = "SELECT * FROM task_managment tm WHERE tm.lead_id=:leadId", nativeQuery = true)
+	List<TaskManagment> findAllByLeadId(Long leadId); 
 
 }
