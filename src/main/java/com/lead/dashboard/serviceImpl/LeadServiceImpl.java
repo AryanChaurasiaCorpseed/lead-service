@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class LeadServiceImpl implements LeadService  {
@@ -292,7 +293,11 @@ public class LeadServiceImpl implements LeadService  {
 		List<Client> clientList = lead.getClients();
 		Client client = clientList.stream().findFirst().get();
 		List<ServiceDetails> serviceList = client.getServiceDetails();
-		if(serviceList!=null && serviceList.size()!=0) {
+		 long isPrsent = client.getServiceDetails().stream().filter(i->i.getName().equals(product.getProductName())).count();
+		if(isPrsent!=0) {
+			return lead;
+
+		}else {
 			ServiceDetails serviceDetails = new ServiceDetails();
 			serviceDetails.setProduct(product);
 			serviceDetails.setName(product.getProductName());
@@ -300,7 +305,6 @@ public class LeadServiceImpl implements LeadService  {
 			serviceList.add(service);
 			client.setServiceDetails(serviceList);
 			clientRepository.save(client);
-
 		}
 		return lead;
 	}
