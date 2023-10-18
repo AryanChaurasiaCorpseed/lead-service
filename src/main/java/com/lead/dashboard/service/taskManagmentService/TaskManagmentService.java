@@ -19,6 +19,10 @@ public interface TaskManagmentService {
 
 	List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId);
 
+	TaskManagment updateAssigneTask(Long taskId, Long newAssigneId);
+
+	List<TaskManagment> getAllTaskByLead(Long leadId);
+
 //	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById);
 
 }

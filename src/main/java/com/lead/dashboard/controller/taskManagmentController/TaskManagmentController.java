@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.TaskManagment;
+import com.lead.dashboard.dto.CreateTask;
 import com.lead.dashboard.service.taskManagmentService.TaskManagmentService;
 
 /*
@@ -28,15 +31,27 @@ public class TaskManagmentController {
 	@Autowired
 	TaskManagmentService taskManagmentService;
 	
-	@PostMapping("api/v1/createStatus")
-	public TaskManagment createTaskInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String description,@RequestParam Long assigneeId,@RequestParam Long assignedById,@RequestParam Date expectedDate,@RequestParam Long statusId) {
-		TaskManagment task=taskManagmentService.createTaskInLead(leadId ,name,description,assigneeId,assignedById,expectedDate,statusId);
+	@PostMapping("api/v1/task/createTask")
+	public TaskManagment createTaskInLead(@RequestBody CreateTask createTask) {
+		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getAssigneeId(),createTask.getAssignedById(),createTask.getExpectedDate(),createTask.getStatusId());
 		return task;
 	}
 	
-	@GetMapping("api/v1/getAllTaskByAssignee")
+	@GetMapping("api/v1/task/getAllTaskByAssignee")
 	public List<Map<String, Object>> getAllTaskByAssignee(@RequestParam Long assigneeId) {
 		List<Map<String, Object>> task=taskManagmentService.getAllTaskByAssignee(assigneeId);
+		return task;
+	}
+	
+	@PutMapping("api/v1/task/updateAssigneTask")
+	public TaskManagment updateAssigneTask(@RequestParam Long taskId,@RequestParam Long newAssigneId) {
+		TaskManagment task=taskManagmentService.updateAssigneTask(taskId,newAssigneId);
+		return task;
+	}
+	
+	@GetMapping("api/v1/task/getAllTaskByLead")
+	public List<TaskManagment> getAllTaskByLead(@RequestParam Long leadId) {
+		List<TaskManagment> task=taskManagmentService.getAllTaskByLead(leadId);
 		return task;
 	}
 	
