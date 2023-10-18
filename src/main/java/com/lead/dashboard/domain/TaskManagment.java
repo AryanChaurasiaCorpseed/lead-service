@@ -36,6 +36,8 @@ public class TaskManagment {
 	@ManyToOne
 	User assignedBy;
 	
+	Long leadId;
+	
 	@ManyToOne
 	TaskStatus TaskStatus;
 	
@@ -91,6 +93,12 @@ public class TaskManagment {
 	}
 	public void setAssignedDate(Date assignedDate) {
 		this.assignedDate = assignedDate;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	
