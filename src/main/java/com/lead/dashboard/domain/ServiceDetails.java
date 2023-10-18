@@ -1,5 +1,6 @@
 package com.lead.dashboard.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import com.lead.dashboard.domain.opportunity.Opportunities;
@@ -33,7 +34,7 @@ public class ServiceDetails {
 	@ManyToOne
 	Product product;
 	
-	String estimateData;
+	Date estimateData;
 	
 //	User clientAdmin;
 	String company;
@@ -67,14 +68,17 @@ public class ServiceDetails {
 //	public void setLeadName(String leadName) {
 //		this.leadName = leadName;
 //	}
-	public String getEstimateData() {
-		return estimateData;
-	}
-	public void setEstimateData(String estimateData) {
-		this.estimateData = estimateData;
-	}
+
+	
+	
 	public String getCompany() {
 		return company;
+	}
+	public Date getEstimateData() {
+		return estimateData;
+	}
+	public void setEstimateData(Date estimateData) {
+		this.estimateData = estimateData;
 	}
 	public void setCompany(String company) {
 		this.company = company;
