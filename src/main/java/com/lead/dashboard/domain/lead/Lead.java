@@ -103,6 +103,8 @@ public class Lead {
 			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Remark>remarks;
+	
+	
 
 	@ManyToOne
 	private User assignee;
@@ -298,4 +300,15 @@ public class Lead {
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
 	}
+
+	public List<Remark> getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(List<Remark> remarks) {
+		this.remarks = remarks;
+	}
+	
+	
+	
 }

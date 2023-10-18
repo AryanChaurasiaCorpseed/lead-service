@@ -200,20 +200,26 @@ public class LeadServiceImpl implements LeadService  {
 		Client c = null;
 		List<ServiceDetails> serviceList  = new ArrayList<>();
 		Client client=null;
+		System.out.println("aaaaaaaaaaaaaa");
 		if(createservicedetails.getClientId()!=null) {
 			long cId[] = new long[1];
 			cId[0] = createservicedetails.getClientId();
 			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
+			System.out.println("bbbbbbbbbbbbb");
+
 			if(opClient!=null && opClient.get()!=null) {
 				client=opClient.get();
 				serviceList = client.getServiceDetails();
-				
+				System.out.println("ccccccccccccc");
+
 				String sName[] = new String[1];
 				sName[0]=createservicedetails.getName();
 
 				List<ServiceDetails> checkService = serviceList.stream().filter(i->i.getName().equals(sName[0])).collect(Collectors.toList());
 				//check its 
 				if(checkService!=null && checkService.size()!=0) {
+					System.out.println("dddddddddddddddd");
+
 					ServiceDetails services = checkService.get(0);
 					services.setName(createservicedetails.getName());
 					services.setCompany(createservicedetails.getCompany());
@@ -226,18 +232,26 @@ public class LeadServiceImpl implements LeadService  {
 					services.setProductType(createservicedetails.getProductType());
 					services.setPurchaseDate(createservicedetails.getPurchaseDate());
 					services.setRemarksForOption(createservicedetails.getRemarksForOption());
-					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
-					serviceList.add(serviceDetails);
+					ServiceDetails serviceDetails = serviceDetailsRepository.save(services);
+//					serviceList.add(serviceDetails);
+//					client.setServiceDetails(serviceList);
+//					 c=clientRepository.save(client);
 
 				}else {
+					System.out.println("eeeeeeeeeeeeeeee");
+
 					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
 					serviceList.add(serviceDetails);
+					client.setServiceDetails(serviceList);
+//					 c=clientRepository.save(client);
 
 				}
-				client.setServiceDetails(serviceList);
-				 c=clientRepository.save(client);
+//				client.setServiceDetails(serviceList);
+//				 c=clientRepository.save(client);
 
 			}else {
+				System.out.println("ffffffffffffffffff");
+
 				client = new Client();
 				client.setName(createservicedetails.getClientName());
 				client.setEmails(createservicedetails.getEmail());
@@ -249,9 +263,11 @@ public class LeadServiceImpl implements LeadService  {
 				sList.add(serviceDetails);
 				serviceList=sList;
 				client.setServiceDetails(serviceList);  
-				 c=clientRepository.save(client);
+//				 c=clientRepository.save(client);
 			}
 		}else {
+			System.out.println("hhhhhhhhhhhhhhhh");
+
 			client = new Client();
 			client.setName(createservicedetails.getClientName());
 			client.setEmails(createservicedetails.getEmail());

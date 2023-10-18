@@ -65,6 +65,7 @@ public class Category {
 		return products;
 	}
 
+
 	public boolean isDeleted() {
 		return isDeleted;
 	}
@@ -76,7 +77,7 @@ public class Category {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
+
 	
 	
 
