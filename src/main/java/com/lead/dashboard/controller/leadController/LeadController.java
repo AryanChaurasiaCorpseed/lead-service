@@ -50,7 +50,9 @@ public class LeadController {
 	@GetMapping(UrlsMapping.TEST)
 	public String test()
 	{
-		return securityFeignClient.test();		 
+//		return securityFeignClient.test();	
+		return "Test";		 
+
 	}
 
 	@PostMapping(UrlsMapping.CREATE_LEAD)
