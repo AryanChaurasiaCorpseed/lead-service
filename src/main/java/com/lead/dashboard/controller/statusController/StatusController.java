@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.statusController;
 
 
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.dto.CreateLeadStatus;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class StatusController {
     private LeadService leadService;
 
     @PostMapping("api/v1/status/createStatus")
-    public ResponseEntity<Status> createStatus(@RequestBody Status status) {
+    public ResponseEntity<Status> createStatus(@RequestBody CreateLeadStatus status) {
         Status createdStatus = statusService.createStatus(status);
         return new ResponseEntity<>(createdStatus, HttpStatus.CREATED);
     }
@@ -55,9 +56,9 @@ public class StatusController {
     }
 
     @PutMapping("api/v1/status/updateLeadStatus")
-    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam Long statusId) {
+    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam String status) {
         try {
-            statusService.updateLeadStatus(leadId,statusId );
+            statusService.updateLeadStatus(leadId,status);
             return ResponseEntity.ok("Lead status updated successfully");
         }
 
