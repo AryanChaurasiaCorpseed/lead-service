@@ -24,7 +24,7 @@ public class StatusController {
     @Autowired
     private LeadService leadService;
 
-    @PostMapping("api/v1/status/createStatus")
+    @PostMapping("api/v1/status/CreateLeadStatus")
     public ResponseEntity<Status> createStatus(@RequestBody CreateLeadStatus status) {
         Status createdStatus = statusService.createStatus(status);
         return new ResponseEntity<>(createdStatus, HttpStatus.CREATED);
