@@ -56,9 +56,9 @@ public class StatusController {
     }
 
     @PutMapping("api/v1/status/updateLeadStatus")
-    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam String status) {
+    public ResponseEntity<String> updateLeadStatus(@RequestParam Long leadId,@RequestParam Long statusId) {
         try {
-            statusService.updateLeadStatus(leadId,status);
+            statusService.updateLeadStatus(leadId,statusId);
             return ResponseEntity.ok("Lead status updated successfully");
         }
 
