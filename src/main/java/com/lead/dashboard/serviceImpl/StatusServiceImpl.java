@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
+import com.lead.dashboard.dto.CreateLeadStatus;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.LeadStatusChangeHisoryRepo;
@@ -27,9 +28,12 @@ public class StatusServiceImpl implements StatusService {
     private LeadStatusChangeHisoryRepo leadStatusChangeHisoryRepo;
 
     @Override
-    public Status createStatus(Status status) {
-        status.setCreatedTime(LocalDateTime.now());
-        status.setUpdatedTime(LocalDateTime.now());
+    public Status createStatus(CreateLeadStatus status) {
+    	Status s = new Status();
+    	s.setName(status.getName());
+    	s.setDescription(status.getDescription());
+        s.setCreatedTime(LocalDateTime.now());
+        s.setUpdatedTime(LocalDateTime.now());
         return statusRepository.save(status);
     }
 
@@ -60,11 +64,11 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public void updateLeadStatus(Long leadId, Long statusId) {
+    public void updateLeadStatus(Long leadId, String status) {
         Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
         System.out.println(lead);
-        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
-
+//        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
+        Status newstatusdata = statusRepository.findAllByName(status);
         lead.setStatus(newstatusdata);
         leadRepository.save(lead);
 
@@ -72,7 +76,7 @@ public class StatusServiceImpl implements StatusService {
 
         leadStatusChange.setNewStatus(newstatusdata);
         leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
-        leadStatusChange.setChangedByUser("kaushal");
+//        leadStatusChange.setChangedByUser("Aryan");
         leadStatusChange.setLead(lead);
         leadStatusChangeHisoryRepo.save(leadStatusChange);
 
