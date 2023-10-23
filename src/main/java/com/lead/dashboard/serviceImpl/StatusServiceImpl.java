@@ -34,7 +34,7 @@ public class StatusServiceImpl implements StatusService {
     	s.setDescription(status.getDescription());
         s.setCreatedTime(LocalDateTime.now());
         s.setUpdatedTime(LocalDateTime.now());
-        return statusRepository.save(status);
+        return statusRepository.save(s);
     }
 
     @Override
