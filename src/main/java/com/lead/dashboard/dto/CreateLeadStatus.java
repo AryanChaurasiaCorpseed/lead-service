@@ -1,13 +1,16 @@
 package com.lead.dashboard.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
-@Data
+
+
 public class CreateLeadStatus {
 
-	 private String name;
+	    String name;
 
-	    private String description;
+	     String description;
 
 		public String getName() {
 			return name;
