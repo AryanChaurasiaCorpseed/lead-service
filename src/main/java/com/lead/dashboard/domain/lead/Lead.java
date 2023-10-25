@@ -44,7 +44,7 @@ public class Lead {
 	private String leadDescription;
 
 	//Client mobile number
-	@Column(name = "client_mob_no",length = 10)
+	@Column(name = "client_mob_no")
 	@NotBlank
 	private String mobileNo;
 
