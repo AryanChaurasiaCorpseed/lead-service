@@ -64,11 +64,11 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public void updateLeadStatus(Long leadId, String status) {
+    public void updateLeadStatus(Long leadId, Long statusId) {
         Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
         System.out.println(lead);
-//        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
-        Status newstatusdata = statusRepository.findAllByName(status);
+        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
+//        Status newstatusdata = statusRepository.findAllByName(status);
         lead.setStatus(newstatusdata);
         leadRepository.save(lead);
 
