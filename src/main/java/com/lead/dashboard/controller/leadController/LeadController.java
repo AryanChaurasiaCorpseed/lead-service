@@ -87,6 +87,13 @@ public class LeadController {
 		Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
+	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
+	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,Long leadId)
+	{
+		System.out.println("Hit");
+		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId);
+		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+	}
 
 //	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
