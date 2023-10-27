@@ -48,7 +48,7 @@ public class Lead {
 	@NotBlank
 	private String mobileNo;
 
-	@Column(length = 50)
+	@Column
 	private String email;
 
 	//URL of website where client raise this enquiry
@@ -67,13 +67,13 @@ public class Lead {
 
 	boolean isDeleted;
 
-	@Column(length = 50)
+	@Column
 	private String city;
 
-	@Column(length = 100)
+	@Column
 	private String categoryId;
 
-	@Column(length = 100)
+	@Column
 	private String serviceId;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -82,10 +82,10 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Product>products;
 
-	@Column(length = 100)
+	@Column
 	private String industryId;
 
-	@Column(length = 255)
+	@Column
 	private String ipAddress;
 
 	private String displayStatus="1";

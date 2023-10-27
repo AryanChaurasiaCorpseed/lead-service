@@ -20,6 +20,7 @@ public interface LeadService {
 	List<Lead> getAllActiveCustomerLead(Long uId);
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead);
+	Lead updateLeadName(String leadName, Long leadId);
 
 
 

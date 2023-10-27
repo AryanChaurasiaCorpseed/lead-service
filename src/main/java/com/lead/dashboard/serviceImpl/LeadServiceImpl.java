@@ -333,6 +333,15 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 
+	@Override
+	public Lead updateLeadName(String leadName, Long leadId) {
+		// TODO Auto-generated method stub
+		Lead lead = leadRepository.findById(leadId).get();
+         lead.setLeadName(leadName);
+         leadRepository.save(lead);
+         return lead;
+	}
+
 
 
 }
