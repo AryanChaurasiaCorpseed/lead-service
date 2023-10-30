@@ -25,8 +25,9 @@ import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -182,12 +183,50 @@ public class LeadServiceImpl implements LeadService  {
 		// TODO Auto-generated method stub
 		Optional<Lead> opLead = leadRepository.findById(leadId);
 		boolean flag=false;
+		Map<String,Object>map = new HashMap<>();
 		Lead lead = new Lead();
 		if(opLead!=null && opLead.get()!=null)
 		{
 			lead=opLead.get();
 		}
 		return lead;
+	}
+	
+	public Map<String,Object> getSingleLeadDataV2(Long leadId) {
+		// TODO Auto-generated method stub
+		Optional<Lead> opLead = leadRepository.findById(leadId);
+		boolean flag=false;
+		Map<String,Object>map = new HashMap<>();
+		Lead lead = new Lead();
+		if(opLead!=null && opLead.get()!=null)
+		{
+			lead=opLead.get();
+			map.put("leadId", lead.getId());
+			map.put("leadName", lead.getLeadName());
+			map.put("categoryId", lead.getCategoryId());
+			map.put("city", lead.getCity());
+			map.put("displayStatus", lead.getDisplayStatus());
+			map.put("description", lead.getLeadDescription());
+			map.put("email", lead.getEmail());
+			map.put("ipAddress", lead.getIpAddress());
+			map.put("remarks", lead.getRemarks());
+//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
+			List<Client> clientList = lead.getClients();
+			List<Map<String,Object>>listOfMap = new ArrayList<>();
+			for(Client c:clientList) {
+				Map<String,Object>clientMap = new HashMap<>();
+				clientMap.put("clientId", c.getId());
+				clientMap.put("clientName", c.getName());
+				clientMap.put("email", c.getEmails());
+				clientMap.put("clientCommunication", c.getCommunication().stream().filter(i->i.isDeleted().equals("false")).collect(Collectors.toList()));
+				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+				clientMap.put("contactNo", c.getContactNo());
+				listOfMap.add(clientMap);
+			}
+			map.put("clients", listOfMap);
+
+		}
+		return map;
 	}
 
 	@Override
@@ -344,6 +383,18 @@ public class LeadServiceImpl implements LeadService  {
          lead.setLeadName(leadName);
          leadRepository.save(lead);
          return lead;
+	}
+
+	@Override
+	public boolean deleteProductInLead(Long leadId,Long serviceId) {
+		// TODO Auto-generated method stub
+		boolean flag =false;
+		Optional<ServiceDetails> sList = serviceDetailsRepository.findById(serviceId);
+		ServiceDetails service = sList.get();
+		service.setDeleted(true);
+		serviceDetailsRepository.save(service);
+		flag=true;
+		return flag;
 	}
 
 
