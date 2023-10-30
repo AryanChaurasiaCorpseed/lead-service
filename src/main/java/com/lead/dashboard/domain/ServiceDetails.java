@@ -19,10 +19,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Table(name = "service_details")
-@Data
-@Getter
-@Setter
+//@Table(name = "service_details")
+//@Data
+//@Getter
+//@Setter
 public class ServiceDetails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -57,6 +57,7 @@ public class ServiceDetails {
     int otherFees;
     String otherCode;
     String otherGst;
+    boolean isDeleted; 
 
 	public Long getId() {
 		return id;
@@ -220,6 +221,12 @@ public class ServiceDetails {
 	}
 	public void setServiceName(String serviceName) {
 		ServiceName = serviceName;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 	
