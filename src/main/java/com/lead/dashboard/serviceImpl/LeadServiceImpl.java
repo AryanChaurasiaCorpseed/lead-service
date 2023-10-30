@@ -311,21 +311,7 @@ public class LeadServiceImpl implements LeadService  {
 			serviceDetails.setName(product.getProductName());
 			serviceDetails.setServiceName(addProductInLead.getServiceName());
 				
-			serviceDetails.setGovermentfees(addProductInLead.getGovermentfees());
-			serviceDetails.setGovermentCode(addProductInLead.getGovermentCode());
-			serviceDetails.setGovermentGst(addProductInLead.getGovermentGst());
-
-			serviceDetails.setProfessionalFees(addProductInLead.getProfessionalFees());
-			serviceDetails.setProfessionalCode(addProductInLead.getProfessionalCode());
-			serviceDetails.setProfesionalGst(addProductInLead.getProfesionalGst());
 			
-			serviceDetails.setServiceCharge(addProductInLead.getServiceCharge());			
-			serviceDetails.setServiceCode(addProductInLead.getServiceCode());
-			serviceDetails.setServiceGst(addProductInLead.getServiceGst());
-			serviceDetails.setOtherFees(addProductInLead.getOtherFees());
-			
-			serviceDetails.setOtherCode(addProductInLead.getOtherCode());
-			serviceDetails.setOtherGst(addProductInLead.getOtherGst());
 			
 			ServiceDetails service = serviceDetailsRepository.save(serviceDetails);
 			serviceList.add(service);
