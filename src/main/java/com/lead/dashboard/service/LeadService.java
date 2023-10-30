@@ -8,6 +8,7 @@ import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface LeadService {
@@ -21,6 +22,8 @@ public interface LeadService {
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead);
 	Lead updateLeadName(String leadName, Long leadId);
+	boolean deleteProductInLead(Long leadId,Long productId);
+	Map<String, Object> getSingleLeadDataV2(Long leadId);
 
 
 

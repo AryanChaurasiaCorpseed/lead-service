@@ -22,6 +22,7 @@ public class UrlsMapping {
 
 
 	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
+	public static final String DELETE_PRODUCT_IN_LEAD = PREFIX+"/lead/deleteProductInLead";
 
 
 	public static final String UPDATE_LEAD_NAME = PREFIX+"/lead/updateLeadName";

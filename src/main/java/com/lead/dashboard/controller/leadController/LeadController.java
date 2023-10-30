@@ -21,6 +21,7 @@ import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -111,9 +112,9 @@ public class LeadController {
 	}
 //	@GetMapping("/v1/lead/getSingleLeadData")
 	@GetMapping(UrlsMapping.GET_SINGLE_LEAD_DATA)
-	public ResponseEntity <Lead> getSingleLeadData(@RequestParam Long leadId)
+	public ResponseEntity <Map<String,Object>> getSingleLeadData(@RequestParam Long leadId)
 	{
-		Lead alllead= leadservice.getSingleLeadData(leadId);
+		Map<String,Object> alllead= leadservice.getSingleLeadDataV2(leadId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
@@ -157,7 +158,6 @@ public class LeadController {
 	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
 	{
 		Lead res=leadservice.updateAssignee(leadId,userId);
-//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
 	
@@ -165,7 +165,13 @@ public class LeadController {
 	public Lead createProductInLead(@RequestBody AddProductInLead addProductInLead)
 	{
 		Lead res=leadservice.createProductInLead(addProductInLead);
-//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		 return res;
+	}
+	
+	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)
+	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId)
+	{
+		boolean res=leadservice.deleteProductInLead(leadId,serviceId);
 		 return res;
 	}
 
