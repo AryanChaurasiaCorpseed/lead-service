@@ -19,10 +19,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-//@Table(name = "service_details")
-//@Data
-//@Getter
-//@Setter
+@Table(name = "service_details")
+@Data
+@Getter
+@Setter
 public class ServiceDetails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
