@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.UpdateClientDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.service.ClientService;
@@ -40,7 +41,7 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Override
-    public Client updateClientInfo(Client client) {
+    public Client updateClientInfo(UpdateClientDto client) {
         Client clientDetails = getClientById(client.getId());
 
         if (clientDetails != null)

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateClient;
+import com.lead.dashboard.dto.UpdateClientDto;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
@@ -42,7 +43,7 @@ public class ClientController {
 	}
 
 	@PutMapping("api/v1/client/updateClientInfo")
-	public ResponseEntity<Client> upddateClientInfo(@RequestBody Client client)
+	public ResponseEntity<Client> upddateClientInfo(@RequestBody UpdateClientDto client)
 	{
 		if(client!=null)
 		{
