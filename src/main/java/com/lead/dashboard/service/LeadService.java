@@ -20,7 +20,7 @@ public interface LeadService {
 	Lead createEstimate(CreateServiceDetails createServiceDetails);
 	List<Lead> getAllActiveCustomerLead(Long uId);
 	Lead updateAssignee(Long leadId, Long userId);
-	Lead createProductInLead(AddProductInLead addProductInLead);
+	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
 	Lead updateLeadName(String leadName, Long leadId);
 	boolean deleteProductInLead(Long leadId,Long productId);
 	Map<String, Object> getSingleLeadDataV2(Long leadId);
