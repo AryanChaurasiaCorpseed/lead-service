@@ -162,10 +162,18 @@ public class LeadController {
 	}
 	
 	@PutMapping(UrlsMapping.CREATE_PRODUCT_IN_LEAD)
-	public Lead createProductInLead(@RequestBody AddProductInLead addProductInLead)
+	public  ResponseEntity<Lead> createProductInLead(@RequestBody AddProductInLead addProductInLead)
 	{
-		Lead res=leadservice.createProductInLead(addProductInLead);
-		 return res;
+		Lead res=null;
+		try {
+			res = leadservice.createProductInLead(addProductInLead);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage(), null);
+
+		}
+		 return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)

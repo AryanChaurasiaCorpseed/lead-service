@@ -356,7 +356,7 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public Lead createProductInLead(AddProductInLead addProductInLead) {
+	public Lead createProductInLead(AddProductInLead addProductInLead) throws Exception  {
 		// TODO Auto-generated method stub
 		Product product = productRepo.findById(addProductInLead.getProductId()).get();
 		Lead lead = leadRepository.findById(addProductInLead.getLeadId()).get();
@@ -365,7 +365,8 @@ public class LeadServiceImpl implements LeadService  {
 		List<ServiceDetails> serviceList = client.getServiceDetails();
 		 long isPrsent = client.getServiceDetails().stream().filter(i->i.getName().equals(product.getProductName())).count();
 		if(isPrsent!=0) {
-			return lead;
+//			return lead;
+			throw new Exception("Product already Exist ..!");
 
 		}else {
 			ServiceDetails serviceDetails = new ServiceDetails();
