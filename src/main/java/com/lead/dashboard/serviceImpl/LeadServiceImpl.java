@@ -215,16 +215,21 @@ public class LeadServiceImpl implements LeadService  {
 //			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 			List<Client> clientList = lead.getClients();
 			List<Map<String,Object>>listOfMap = new ArrayList<>();
+			List<ServiceDetails>serviceList = new ArrayList<>();
 			for(Client c:clientList) {
 				Map<String,Object>clientMap = new HashMap<>();
 				clientMap.put("clientId", c.getId());
 				clientMap.put("clientName", c.getName());
 				clientMap.put("email", c.getEmails());
 				clientMap.put("clientCommunication", c.getCommunication().stream().filter(i->i.isDeleted().equals("false")).collect(Collectors.toList()));
-				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+//				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+				 List<ServiceDetails> s = c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+				serviceList.addAll(s);
 				clientMap.put("contactNo", c.getContactNo());
 				listOfMap.add(clientMap);
 			}
+			map.put("serviceDetails",serviceList);
+
 			map.put("clients", listOfMap);
 
 		}
@@ -367,7 +372,7 @@ public class LeadServiceImpl implements LeadService  {
 			serviceDetails.setProduct(product);
 			serviceDetails.setName(product.getProductName());
 			serviceDetails.setServiceName(addProductInLead.getServiceName());
-				
+			serviceDetails.setDeleted(false);
 			
 			
 			ServiceDetails service = serviceDetailsRepository.save(serviceDetails);
