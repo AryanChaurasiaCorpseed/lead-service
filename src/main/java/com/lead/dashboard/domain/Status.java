@@ -48,6 +48,10 @@ public class Status {
 		this.name = name;
 	}
 
+	public Status() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the id
 	 */
