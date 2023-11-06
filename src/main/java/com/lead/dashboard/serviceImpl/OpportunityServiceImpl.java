@@ -2,11 +2,13 @@ package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.exception.CustomException;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.dto.CreateOpportunity;
 import com.lead.dashboard.dto.UpdateOpportunity;
 import com.lead.dashboard.repository.OpportunitiesRepo;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.OpportunitesService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +24,25 @@ public class OpportunityServiceImpl implements OpportunitesService {
     private OpportunitiesRepo opportunitiesRepo;
     
     @Autowired
+    UserRepo userRepo;
+    
+    @Autowired
     ServiceDetailsRepository serviceDetailsRepository;
 //    @Override
     public Opportunities createOpportunity(CreateOpportunity createOpportunity) throws CustomException {
-
+         User user = null;
+    	if(createOpportunity.getUserId()!=null) {
+    		user=userRepo.findById(createOpportunity.getUserId()).get();
+    	}
+    	if(createOpportunity.getStatusId()!=null) {
+    		
+    	}
     	Opportunities opportunities =new Opportunities();
     	opportunities.setConfidence(createOpportunity.getConfidence());
     	opportunities.setDescription(createOpportunity.getDescription());
     	opportunities.setEstimateClose(createOpportunity.getEstimateClose());
     	opportunities.setTypePayment(createOpportunity.getTypePayment());
+    	opportunities.setUser(user);
     	ServiceDetails service = serviceDetailsRepository.findById(createOpportunity.getServiceId()).get();
     	opportunitiesRepo.save(opportunities);
     	service.setOpportunities(opportunities);
