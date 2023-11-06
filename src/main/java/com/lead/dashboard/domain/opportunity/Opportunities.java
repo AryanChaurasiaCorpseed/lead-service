@@ -31,6 +31,8 @@ public class Opportunities {
     private String value;
 
     private String typePayment;
+    
+    private String description;
 //
 //    @OneToOne(targetEntity = Client.class)
 //    @JoinColumn(name = "client_id",nullable = false)
@@ -80,6 +82,14 @@ public class Opportunities {
 		this.typePayment = typePayment;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 //    @ManyToOne
 //    @JoinColumn(name = "client_id")
 //    private Client client;
@@ -90,6 +100,7 @@ public class Opportunities {
 //
 //    @OneToOne
 //    private Client client;
+	
 
     
     
