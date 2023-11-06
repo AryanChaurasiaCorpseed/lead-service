@@ -1,33 +1,48 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.exception.CustomException;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.opportunity.Opportunities;
+import com.lead.dashboard.dto.CreateOpportunity;
+import com.lead.dashboard.dto.UpdateOpportunity;
 import com.lead.dashboard.repository.OpportunitiesRepo;
+import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.OpportunitesService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OpportunityServiceImpl implements OpportunitesService {
 
     @Autowired
     private OpportunitiesRepo opportunitiesRepo;
-    @Override
-    public Opportunities createOpportunity(Opportunities opportunity) throws CustomException {
+    
+    @Autowired
+    ServiceDetailsRepository serviceDetailsRepository;
+//    @Override
+    public Opportunities createOpportunity(CreateOpportunity createOpportunity) throws CustomException {
 
-        if (opportunity == null || opportunity.getEstimateClose() == null || opportunity.getEstimateClose().isEmpty()) {
-            throw new CustomException("Invalid input: Estimate close date is required.");
-        }
-        return opportunitiesRepo.save(opportunity);
+    	Opportunities opportunities =new Opportunities();
+    	opportunities.setConfidence(createOpportunity.getConfidence());
+    	opportunities.setDescription(createOpportunity.getDescription());
+    	opportunities.setEstimateClose(createOpportunity.getEstimateClose());
+    	opportunities.setTypePayment(createOpportunity.getTypePayment());
+    	ServiceDetails service = serviceDetailsRepository.findById(createOpportunity.getServiceId()).get();
+    	opportunitiesRepo.save(opportunities);
+    	service.setOpportunities(opportunities);
+    	serviceDetailsRepository.save(service);
+    	return opportunities;
     }
 
     @Override
-    public Opportunities updateOpportunity(Long id, Opportunities opportunityDetails) {
-        Opportunities existingOpportunity = opportunitiesRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Opportunity not found with id: " + id));
+    public Opportunities updateOpportunity( UpdateOpportunity opportunityDetails) {
+        Opportunities existingOpportunity = opportunitiesRepo.findById(opportunityDetails.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Opportunity not found with id: " + opportunityDetails.getId()
+                ));
 
         existingOpportunity.setEstimateClose(opportunityDetails.getEstimateClose());
         existingOpportunity.setConfidence(opportunityDetails.getConfidence());
