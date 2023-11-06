@@ -16,6 +16,10 @@ public class CreateOpportunity {
     private String typePayment;
     
     private String description;
+    
+    private Long userId;
+    
+    private Long statusId;
 
 	public String getEstimateClose() {
 		return estimateClose;
@@ -53,6 +57,14 @@ public class CreateOpportunity {
 		return description;
 	}
 
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -64,6 +76,10 @@ public class CreateOpportunity {
 	public void setServiceId(Long serviceId) {
 		this.serviceId = serviceId;
 	}
+
+	
+	
+	
     
     
 
