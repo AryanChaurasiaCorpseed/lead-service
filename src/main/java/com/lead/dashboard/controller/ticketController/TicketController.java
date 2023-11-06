@@ -19,7 +19,7 @@ public class TicketController {
 	TicketService ticketService;
 	
 	
-	@PostMapping("api/v1/createTicket")
+	@PostMapping("leadService/api/v1/createTicket")
 	public Ticket createTicket(@RequestBody CreateTicket createTicket){
 			Ticket ticket =ticketService.createTicket(createTicket);
 			return ticket;
