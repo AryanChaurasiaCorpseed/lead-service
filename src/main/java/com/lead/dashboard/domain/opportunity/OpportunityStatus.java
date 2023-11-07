@@ -26,6 +26,8 @@ public class OpportunityStatus {
     private String createdByName;
 
     private String updatedByName;
+    
+    private boolean isDelete;
 
 
 }
