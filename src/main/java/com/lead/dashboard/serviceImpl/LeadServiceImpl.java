@@ -23,6 +23,7 @@ import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	LeadRepository leadRepository;
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 	@Autowired
 	CommonServices commonServices;
 	@Autowired
@@ -259,10 +262,11 @@ public class LeadServiceImpl implements LeadService  {
 		if(createservicedetails.getClientId()!=null) {
 			long cId[] = new long[1];
 			cId[0] = createservicedetails.getClientId();
+			
 			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
-			System.out.println("bbbbbbbbbbbbb");
+			System.out.println("bbbbbbbbbbbbb"+opClient);
 
-			if(opClient!=null && opClient.get()!=null) {
+			if(opClient!=null) {
 				client=opClient.get();
 				serviceList = client.getServiceDetails();
 				System.out.println("ccccccccccccc");
@@ -340,8 +344,29 @@ public class LeadServiceImpl implements LeadService  {
 			lead.getClients().add(c);
 			leadRepository.save(lead);
 		}
+				//		 sendEmail(String subject,String text, Context context,String templateName) {
+		sendEstimateMail(createservicedetails,lead, "this mail for estimate");
 		return lead;
 
+
+	}
+	
+	private void sendEstimateMail(CreateServiceDetails createservicedetails,Lead lead,String subject) {
+//		List<String> emailList = lead.getClients().stream().map(i->i.getEmails()).collect(Collectors.toList());
+//		String[] emailTo= (String[]) emailList.toArray();
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		
+		
+		String[] ccPersons= {"aryan.chaurasia@corpseed.com"};
+		String[] bccPersons= {"aryan.chaurasia@corpseed.com"};
+
+//		String[] ccPersons=(String[]) createservicedetails.getCc().toArray();
+//		String[] bccPersons=(String[]) createservicedetails.getCc().toArray();
+
+		Context context = new Context();
+		context.setVariable("urls", "http://corpseed.com");
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, bccPersons, subject, "for testing Text", context, "sendEstimateMail.html");
+//	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
 
 	}
 

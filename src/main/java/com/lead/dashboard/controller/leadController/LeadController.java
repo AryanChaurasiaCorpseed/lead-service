@@ -107,7 +107,7 @@ public class LeadController {
 //	@DeleteMapping("/v1/lead/sendMailInLead")
 	@PostMapping(UrlsMapping.SEND_MAIL_IN_LEAD)
 	public  boolean  sendMailInLead( String to, String subject, String text){
-		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
+//		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
 		return true;
 	}
 //	@GetMapping("/v1/lead/getSingleLeadData")
