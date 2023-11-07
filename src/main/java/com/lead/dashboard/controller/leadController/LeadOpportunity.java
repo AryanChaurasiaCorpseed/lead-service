@@ -33,7 +33,7 @@ public class LeadOpportunity {
 	}
 
 	@GetMapping(UrlsMapping.GET_OPPORTUNITY_BY_ID)
-	public ResponseEntity<Opportunities> getOpportunityById(@PathVariable Long id) {
+	public ResponseEntity<Opportunities> getOpportunityById(@RequestParam Long id) {
 		Opportunities opportunity = opportunitesService.getOpportunity(id);
 		return ResponseEntity.ok(opportunity);
 	}
