@@ -4,9 +4,11 @@ import com.lead.dashboard.exception.CustomException;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.opportunity.Opportunities;
+import com.lead.dashboard.domain.opportunity.OpportunityStatus;
 import com.lead.dashboard.dto.CreateOpportunity;
 import com.lead.dashboard.dto.UpdateOpportunity;
 import com.lead.dashboard.repository.OpportunitiesRepo;
+import com.lead.dashboard.repository.OpportunityStatusRepo;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.OpportunitesService;
@@ -27,6 +29,9 @@ public class OpportunityServiceImpl implements OpportunitesService {
     UserRepo userRepo;
     
     @Autowired
+    OpportunityStatusRepo opportunityStatusRepo;
+    
+    @Autowired
     ServiceDetailsRepository serviceDetailsRepository;
 //    @Override
     public Opportunities createOpportunity(CreateOpportunity createOpportunity) throws CustomException {
@@ -34,14 +39,16 @@ public class OpportunityServiceImpl implements OpportunitesService {
     	if(createOpportunity.getUserId()!=null) {
     		user=userRepo.findById(createOpportunity.getUserId()).get();
     	}
-    	if(createOpportunity.getStatusId()!=null) {
-    		
-    	}
+
     	Opportunities opportunities =new Opportunities();
     	opportunities.setConfidence(createOpportunity.getConfidence());
     	opportunities.setDescription(createOpportunity.getDescription());
     	opportunities.setEstimateClose(createOpportunity.getEstimateClose());
     	opportunities.setTypePayment(createOpportunity.getTypePayment());
+    	if(createOpportunity.getStatusId()!=null) {
+    		OpportunityStatus status = opportunityStatusRepo.findById(createOpportunity.getStatusId()).get();
+    		opportunities.setOpportunityStatus(status);
+    	}
     	opportunities.setUser(user);
     	ServiceDetails service = serviceDetailsRepository.findById(createOpportunity.getServiceId()).get();
     	opportunitiesRepo.save(opportunities);
