@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.opportunity.OpportunityStatus;
@@ -20,7 +21,7 @@ import com.lead.dashboard.dto.CreateLeadStatus;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.OpportunityStatusService;
 
-@Controller
+@RestController
 @RequestMapping("/leadService/")
 public class OpportunityStatusController {
 
@@ -31,7 +32,7 @@ public class OpportunityStatusController {
 	    private LeadService leadService;
 
 	    @PostMapping("api/v1/OpportunityStatus/CreateOpportunityStatus")
-	    public ResponseEntity<OpportunityStatus> createStatus(@RequestBody String name) {
+	    public ResponseEntity<OpportunityStatus> createStatus(@RequestParam String name) {
 	    	OpportunityStatus createdStatus = opportunityStatusService.createStatus(name);
 	        return new ResponseEntity<>(createdStatus, HttpStatus.CREATED);
 	    }

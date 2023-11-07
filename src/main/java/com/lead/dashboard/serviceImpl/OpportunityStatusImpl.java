@@ -5,11 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.opportunity.OpportunityStatus;
 import com.lead.dashboard.repository.OpportunityStatusRepo;
 import com.lead.dashboard.service.OpportunityStatusService;
-
+@Service
 public class OpportunityStatusImpl implements OpportunityStatusService{
 
 	@Autowired
