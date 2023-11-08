@@ -8,6 +8,7 @@ import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
+import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
@@ -15,6 +16,7 @@ import com.lead.dashboard.repository.product.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -44,6 +46,9 @@ public class LeadServiceImpl implements LeadService  {
 	CommonServices commonServices;
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	CompanyRepository companyRepository;
 
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
@@ -255,6 +260,22 @@ public class LeadServiceImpl implements LeadService  {
 		service.setPurchaseDate(createservicedetails.getPurchaseDate());
 		service.setRemarksForOption(createservicedetails.getRemarksForOption());
 		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
+		Company  company = null;
+		if(createservicedetails.getCompanyId()!=null) {
+			company=companyRepository.findById(createservicedetails.getCompanyId()).get();
+		}else {
+			company = new Company();
+			company.setAddress(createservicedetails.getAddress());
+			company.setCity(createservicedetails.getCity());
+			company.setCountry(createservicedetails.getCountry());
+			company.setGstNo(createservicedetails.getGstNo());
+			company.setName(createservicedetails.getCompany());
+			company.setPanNo(createservicedetails.getPanNo());
+			company.setState(createservicedetails.getState());
+			company.setCompanyAge(createservicedetails.getCompanyAge());
+			companyRepository.save(company);
+		}
+		service.setCompanies(company);
 		Client c = null;
 		List<ServiceDetails> serviceList  = new ArrayList<>();
 		Client client=null;
@@ -291,6 +312,8 @@ public class LeadServiceImpl implements LeadService  {
 					services.setProductType(createservicedetails.getProductType());
 					services.setPurchaseDate(createservicedetails.getPurchaseDate());
 					services.setRemarksForOption(createservicedetails.getRemarksForOption());
+					services.setCompanies(company);
+
 					ServiceDetails serviceDetails = serviceDetailsRepository.save(services);
 //					serviceList.add(serviceDetails);
 //					client.setServiceDetails(serviceList);
