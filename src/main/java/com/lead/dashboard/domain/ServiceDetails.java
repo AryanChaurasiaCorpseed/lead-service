@@ -34,6 +34,8 @@ public class ServiceDetails {
 	Product product;	
 	Date estimateData;
 	String company;
+	@ManyToOne
+	Company companies;
 	String contact;
 	Boolean consultingSale;
 	String productType;
@@ -57,7 +59,14 @@ public class ServiceDetails {
     int otherFees;
     String otherCode;
     String otherGst;
-    boolean isDeleted; 
+    
+    public Company getCompanies() {
+		return companies;
+	}
+	public void setCompanies(Company companies) {
+		this.companies = companies;
+	}
+	boolean isDeleted; 
 
 	public Long getId() {
 		return id;
@@ -222,6 +231,7 @@ public class ServiceDetails {
 	public void setServiceName(String serviceName) {
 		ServiceName = serviceName;
 	}
+   
 	public boolean isDeleted() {
 		return isDeleted;
 	}
