@@ -5,16 +5,30 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lead.dashboard.domain.Company;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-//@Data
+@Data
 public class CreateServiceDetails {
 
 	private String name;
 	@NotBlank
 	Date estimateData;
+	//company
+    Long companyId;
 	String company;
+	String panNo;
+	String gstNo;
+	String companyAge;
+	String Country;
+	String State;
+	String City;
+	String Address;
+//	@ManyToOne
+//	Company companyName;
+	
 	String contact;
 	Boolean consultingSale;
 	String productType;
@@ -128,6 +142,56 @@ public class CreateServiceDetails {
 	public void setClientId(Long clientId) {
 		this.clientId = clientId;
 	}
+	public Long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+	public String getPanNo() {
+		return panNo;
+	}
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
+	}
+	public String getGstNo() {
+		return gstNo;
+	}
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
+	public String getCompanyAge() {
+		return companyAge;
+	}
+	public void setCompanyAge(String companyAge) {
+		this.companyAge = companyAge;
+	}
+	public String getCountry() {
+		return Country;
+	}
+	public void setCountry(String country) {
+		Country = country;
+	}
+	public String getState() {
+		return State;
+	}
+	public void setState(String state) {
+		State = state;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	
+	
 	
 	
 	
