@@ -9,6 +9,7 @@ import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -46,6 +48,9 @@ public class LeadServiceImpl implements LeadService  {
 	CommonServices commonServices;
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	LeadHistoryRepository leadHistoryRepository;
 	
 	@Autowired
 	CompanyRepository companyRepository;
@@ -140,8 +145,11 @@ public class LeadServiceImpl implements LeadService  {
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
 		System.out.println(lead);
+		Lead leadHistory=null;
 		if(lead!=null) {
+			
 			Lead leadData = lead.get();
+			Lead oldLead=leadData;
 			leadData.setLeadName(updateLeadDto.getLeadName());
 			leadData.setEmail(updateLeadDto.getEmail());
 			leadData.setMobileNo(updateLeadDto.getMobileNo());
@@ -158,6 +166,7 @@ public class LeadServiceImpl implements LeadService  {
 			leadData.setUrls(updateLeadDto.getUrls());
 			leadData.setLatestStatusChangeDate(updateLeadDto.getLatestStatusChangeDate());
 			Lead updatedoneLead = leadRepository.save(leadData);
+			
 			return updatedoneLead;
 
 		}
@@ -169,6 +178,16 @@ public class LeadServiceImpl implements LeadService  {
 		
 		return null;
 	}
+	
+	public Lead leadHistory(Lead lead,Lead updateLeadDto) {
+		LeadHistory leadHistory= new LeadHistory();
+		if(lead.getLeadName()!=updateLeadDto.getLeadName()) {
+			leadHistory.setEventType("changes in lead name from "+lead.getLeadName()+" -> "+updateLeadDto.getLeadName());
+		}
+		
+		return null;
+	}
+
 
 	@Override
 	public boolean deleteLead(Long leadId) {
