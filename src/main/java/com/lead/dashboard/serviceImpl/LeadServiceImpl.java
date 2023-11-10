@@ -9,6 +9,7 @@ import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,15 +49,18 @@ public class LeadServiceImpl implements LeadService  {
 	CommonServices commonServices;
 	@Autowired
 	UserRepo userRepo;
-	
+
+	@Autowired
+	LeadHistoryRepository leadHistoryRepository;
+
 	@Autowired
 	CompanyRepository companyRepository;
 
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
-	
-    @Autowired
-    private ProductRepo productRepo;
+
+	@Autowired
+	private ProductRepo productRepo;
 
 	@Autowired
 	StatusRepository statusRepository;
@@ -66,7 +72,7 @@ public class LeadServiceImpl implements LeadService  {
 	public Lead createLead(LeadDTO leadDTO) {
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(leadDTO.getEmail(),leadDTO.getMobileNo());
 		Lead lead = new Lead();
-		
+
 		if(leadList!=null && leadList.size()!=0) {
 			int size = leadList.size();
 			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
@@ -75,7 +81,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 		lead.setName(leadDTO.getName());
-//		lead.setLeadName(leadDTO.getLeadName());
+		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(leadDTO.getEmail());
@@ -96,13 +102,13 @@ public class LeadServiceImpl implements LeadService  {
 		if(leadDTO.getProductId()!=null) {
 			ServiceDetails service = new ServiceDetails();
 
-			 Product product = productRepo.findById(leadDTO.getProductId()).get();
-			 service.setName(product.getProductName());
-			 service.setProduct(product);
-			 serviceDetailsRepository.save(service);
-			 List<ServiceDetails>sList = new ArrayList<>();
-			 sList.add(service);
-			 client.setServiceDetails(sList);
+			Product product = productRepo.findById(leadDTO.getProductId()).get();
+			service.setName(product.getProductName());
+			service.setProduct(product);
+			serviceDetailsRepository.save(service);
+			List<ServiceDetails>sList = new ArrayList<>();
+			sList.add(service);
+			client.setServiceDetails(sList);
 		}
 		clientRepository.save(client);
 		List<Client>cList = new ArrayList<>();
@@ -125,7 +131,7 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Override
 	public List<Lead> getAllActiveCustomerLead(Long uId) {
-          
+
 		Optional<User> user = userRepo.findById(uId);
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 			return leadRepository.findAllByIsDeleted(false);
@@ -140,8 +146,11 @@ public class LeadServiceImpl implements LeadService  {
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
 		System.out.println(lead);
+		Lead leadHistory=null;
 		if(lead!=null) {
+
 			Lead leadData = lead.get();
+			Lead oldLead=leadData;
 			leadData.setLeadName(updateLeadDto.getLeadName());
 			leadData.setEmail(updateLeadDto.getEmail());
 			leadData.setMobileNo(updateLeadDto.getMobileNo());
@@ -158,17 +167,52 @@ public class LeadServiceImpl implements LeadService  {
 			leadData.setUrls(updateLeadDto.getUrls());
 			leadData.setLatestStatusChangeDate(updateLeadDto.getLatestStatusChangeDate());
 			Lead updatedoneLead = leadRepository.save(leadData);
+
 			return updatedoneLead;
 
 		}
-		
-//		Lead.builder()
-//		.name(updateLeadDto.getLeadName())
-//		.email(updateLeadDto.getEmail())
-//		.build();
-		
+		//		leadHistory(oldLead,leadData);
+		//		Lead.builder()
+		//		.name(updateLeadDto.getLeadName())
+		//		.email(updateLeadDto.getEmail())
+		//		.build();
+
 		return null;
 	}
+
+	public LeadHistory leadHistory(Lead lead,Lead updateLeadDto) {
+		LeadHistory leadHistory= new LeadHistory();
+		if(!lead.getLeadName().equals(updateLeadDto.getLeadName())) {
+			leadHistory.setEventType("The 'Lead Name' field was modified");
+			leadHistory.setDescription("changes in lead name from "+lead.getLeadName()+" -> "+updateLeadDto.getLeadName());
+		}
+		if(!lead.getStatus().getId().equals(updateLeadDto.getStatus().getId())) {
+			leadHistory.setEventType("Change the field 'Stage'");
+			leadHistory.setDescription(lead.getStatus().getName()+" -> "+updateLeadDto.getStatus().getName());
+
+		}
+		if(!lead.getMobileNo().equals(updateLeadDto.getMobileNo())) {
+			leadHistory.setEventType("the 'Mobile Number'  field was modified");
+			leadHistory.setDescription(lead.getMobileNo()+" -> "+updateLeadDto.getMobileNo());
+
+		}
+		if(lead.isDeleted()!=updateLeadDto.isDeleted()) {
+			leadHistory.setEventType("lead was deleted");
+			leadHistory.setDescription(lead.getLeadName()+" has been deleted ");
+
+		}
+		if(!lead.getEmail().equals(updateLeadDto.getEmail())) {
+			leadHistory.setEventType("the 'Email'  field was modified");
+			leadHistory.setDescription(lead.getEmail()+" -> "+updateLeadDto.getEmail());
+
+		}
+		leadHistory.setLeadId(updateLeadDto.getId());
+
+		leadHistoryRepository.save(leadHistory);
+
+		return leadHistory;
+	}
+
 
 	@Override
 	public boolean deleteLead(Long leadId) {
@@ -199,7 +243,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		return lead;
 	}
-	
+
 	public Map<String,Object> getSingleLeadDataV2(Long leadId) {
 		// TODO Auto-generated method stub
 		Optional<Lead> opLead = leadRepository.findById(leadId);
@@ -220,7 +264,7 @@ public class LeadServiceImpl implements LeadService  {
 			map.put("remarks", lead.getRemarks());
 			map.put("status", lead.getStatus());
 
-//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
+			//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 			List<Client> clientList = lead.getClients();
 			List<Map<String,Object>>listOfMap = new ArrayList<>();
 			List<ServiceDetails>serviceList = new ArrayList<>();
@@ -230,8 +274,8 @@ public class LeadServiceImpl implements LeadService  {
 				clientMap.put("clientName", c.getName());
 				clientMap.put("email", c.getEmails());
 				clientMap.put("clientCommunication", c.getCommunication().stream().filter(i->i.isDeleted().equals("false")).collect(Collectors.toList()));
-//				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
-				 List<ServiceDetails> s = c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+				//				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+				List<ServiceDetails> s = c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 				serviceList.addAll(s);
 				clientMap.put("contactNo", c.getContactNo());
 				listOfMap.add(clientMap);
@@ -246,7 +290,7 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Override
 	public Lead createEstimate(CreateServiceDetails createservicedetails) {
-		
+
 		ServiceDetails service= new ServiceDetails();
 		service.setName(createservicedetails.getName());
 		service.setCompany(createservicedetails.getCompany());
@@ -254,7 +298,7 @@ public class LeadServiceImpl implements LeadService  {
 		service.setContact(createservicedetails.getContact());
 		service.setEstimateData(createservicedetails.getEstimateData());
 		service.setInvoiceNote(createservicedetails.getInvoiceNote());
-//		service.setOpportunities(null);   //========= for verification
+		//		service.setOpportunities(null);   //========= for verification
 		service.setOrderNumber(createservicedetails.getOrderNumber());
 		service.setProductType(createservicedetails.getProductType());
 		service.setPurchaseDate(createservicedetails.getPurchaseDate());
@@ -283,7 +327,7 @@ public class LeadServiceImpl implements LeadService  {
 		if(createservicedetails.getClientId()!=null) {
 			long cId[] = new long[1];
 			cId[0] = createservicedetails.getClientId();
-			
+
 			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
 			System.out.println("bbbbbbbbbbbbb"+opClient);
 
@@ -307,7 +351,7 @@ public class LeadServiceImpl implements LeadService  {
 					services.setContact(createservicedetails.getContact());
 					services.setEstimateData(createservicedetails.getEstimateData());
 					services.setInvoiceNote(createservicedetails.getInvoiceNote());
-//					service.setOpportunities(null);   //========= for verification
+					//					service.setOpportunities(null);   //========= for verification
 					services.setOrderNumber(createservicedetails.getOrderNumber());
 					services.setProductType(createservicedetails.getProductType());
 					services.setPurchaseDate(createservicedetails.getPurchaseDate());
@@ -315,9 +359,9 @@ public class LeadServiceImpl implements LeadService  {
 					services.setCompanies(company);
 
 					ServiceDetails serviceDetails = serviceDetailsRepository.save(services);
-//					serviceList.add(serviceDetails);
-//					client.setServiceDetails(serviceList);
-//					 c=clientRepository.save(client);
+					//					serviceList.add(serviceDetails);
+					//					client.setServiceDetails(serviceList);
+					//					 c=clientRepository.save(client);
 
 				}else {
 					System.out.println("eeeeeeeeeeeeeeee");
@@ -325,11 +369,11 @@ public class LeadServiceImpl implements LeadService  {
 					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
 					serviceList.add(serviceDetails);
 					client.setServiceDetails(serviceList);
-//					 c=clientRepository.save(client);
+					//					 c=clientRepository.save(client);
 
 				}
-//				client.setServiceDetails(serviceList);
-//				 c=clientRepository.save(client);
+				//				client.setServiceDetails(serviceList);
+				//				 c=clientRepository.save(client);
 
 			}else {
 				System.out.println("ffffffffffffffffff");
@@ -345,7 +389,7 @@ public class LeadServiceImpl implements LeadService  {
 				sList.add(serviceDetails);
 				serviceList=sList;
 				client.setServiceDetails(serviceList);  
-//				 c=clientRepository.save(client);
+				//				 c=clientRepository.save(client);
 			}
 		}else {
 			System.out.println("hhhhhhhhhhhhhhhh");
@@ -361,45 +405,45 @@ public class LeadServiceImpl implements LeadService  {
 			sList.add(serviceDetails);
 			serviceList=sList;
 			client.setServiceDetails(serviceList); 
-			 c=clientRepository.save(client);
+			c=clientRepository.save(client);
 		}
 		if(lead.getClients()!=null && lead.getClients().size()!=0) {
 			lead.getClients().add(c);
 			leadRepository.save(lead);
 		}
-				//		 sendEmail(String subject,String text, Context context,String templateName) {
+		//		 sendEmail(String subject,String text, Context context,String templateName) {
 		sendEstimateMail(createservicedetails,lead, "this mail for estimate");
 		return lead;
 
 
 	}
-	
+
 	private void sendEstimateMail(CreateServiceDetails createservicedetails,Lead lead,String subject) {
-//		List<String> emailList = lead.getClients().stream().map(i->i.getEmails()).collect(Collectors.toList());
-//		String[] emailTo= (String[]) emailList.toArray();
+		//		List<String> emailList = lead.getClients().stream().map(i->i.getEmails()).collect(Collectors.toList());
+		//		String[] emailTo= (String[]) emailList.toArray();
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
-		
-		
+
+
 		String[] ccPersons= {"aryan.chaurasia@corpseed.com"};
 		String[] bccPersons= {"aryan.chaurasia@corpseed.com"};
 
-//		String[] ccPersons=(String[]) createservicedetails.getCc().toArray();
-//		String[] bccPersons=(String[]) createservicedetails.getCc().toArray();
+		//		String[] ccPersons=(String[]) createservicedetails.getCc().toArray();
+		//		String[] bccPersons=(String[]) createservicedetails.getCc().toArray();
 
 		Context context = new Context();
 		context.setVariable("urls", "http://corpseed.com");
 		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, bccPersons, subject, "for testing Text", context, "sendEstimateMail.html");
-//	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
+		//	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
 
 	}
 
 	@Override
 	public Lead updateAssignee(Long leadId, Long userId) {
 		// TODO Auto-generated method stub
-	    User user = userRepo.findById(userId).get();
+		User user = userRepo.findById(userId).get();
 		Lead lead = leadRepository.findById(leadId).get();
-        lead.setAssignee(user);
-        leadRepository.save(lead);
+		lead.setAssignee(user);
+		leadRepository.save(lead);
 		return lead;
 	}
 
@@ -411,9 +455,9 @@ public class LeadServiceImpl implements LeadService  {
 		List<Client> clientList = lead.getClients();
 		Client client = clientList.stream().findFirst().get();
 		List<ServiceDetails> serviceList = client.getServiceDetails();
-		 long isPrsent = client.getServiceDetails().stream().filter(i->i.getName().equals(product.getProductName())).count();
+		long isPrsent = client.getServiceDetails().stream().filter(i->i.getName().equals(product.getProductName())).count();
 		if(isPrsent!=0) {
-//			return lead;
+			//			return lead;
 			throw new Exception("Product already Exist ..!");
 
 		}else {
@@ -422,8 +466,8 @@ public class LeadServiceImpl implements LeadService  {
 			serviceDetails.setName(product.getProductName());
 			serviceDetails.setServiceName(addProductInLead.getServiceName());
 			serviceDetails.setDeleted(false);
-			
-			
+
+
 			ServiceDetails service = serviceDetailsRepository.save(serviceDetails);
 			serviceList.add(service);
 			client.setServiceDetails(serviceList);
@@ -433,13 +477,40 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public Lead updateLeadName(String leadName, Long leadId) {
+	public Lead updateLeadName(String newLeadName, Long leadId,Long userId) {
 		// TODO Auto-generated method stub
 		Lead lead = leadRepository.findById(leadId).get();
-         lead.setLeadName(leadName);
-         leadRepository.save(lead);
-         return lead;
+		
+		String name=lead.getName();
+		lead.setLeadName(newLeadName);
+		lead.setLastUpdated(new Date());
+		leadRepository.save(lead);
+		leadHistory(name,newLeadName,lead,userId);
+
+		return lead;
 	}
+
+
+	public LeadHistory leadHistory(String name,String updateName,Lead lead,Long userId) {
+		LeadHistory leadHistory= new LeadHistory();
+		if(!name.equals(updateName)) {
+			leadHistory.setCreateDate(new Date());
+			leadHistory.setEventType("The 'Lead Name' field was modified");
+			leadHistory.setDescription("changes in Lead Name from "+name+" -> "+updateName);
+             if(userId!=null) {
+     			Optional<User> user = userRepo.findById(userId);
+    			leadHistory.setCreatedBy(user.get()); 
+             }
+
+		}
+
+		leadHistory.setLeadId(lead.getId());
+
+		leadHistoryRepository.save(leadHistory);
+
+		return leadHistory;
+	}
+
 
 	@Override
 	public boolean deleteProductInLead(Long leadId,Long serviceId) {
