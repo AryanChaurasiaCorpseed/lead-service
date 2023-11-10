@@ -21,7 +21,7 @@ public interface LeadService {
 	List<Lead> getAllActiveCustomerLead(Long uId);
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
-	Lead updateLeadName(String leadName, Long leadId);
+	Lead updateLeadName(String leadName, Long leadId, Long userId);
 	boolean deleteProductInLead(Long leadId,Long productId);
 	Map<String, Object> getSingleLeadDataV2(Long leadId);
 

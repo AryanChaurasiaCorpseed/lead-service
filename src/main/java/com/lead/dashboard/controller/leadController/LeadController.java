@@ -89,10 +89,10 @@ public class LeadController {
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
 	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
-	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,Long leadId)
+	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,@RequestParam Long leadId,@RequestParam(required=false) Long userId)
 	{
 		System.out.println("Hit");
-		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId);
+		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId,userId);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
 

@@ -3,7 +3,10 @@ package com.lead.dashboard.domain.lead;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Product;
@@ -107,6 +110,8 @@ public class Lead {
 
 	@ManyToOne
 	private User assignee;
+	
+
 	
 	
 	@ManyToOne
