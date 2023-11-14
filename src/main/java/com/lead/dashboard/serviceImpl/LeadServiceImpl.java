@@ -20,6 +20,7 @@ import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
@@ -146,11 +147,10 @@ public class LeadServiceImpl implements LeadService  {
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
 		System.out.println(lead);
-		Lead leadHistory=null;
 		if(lead!=null) {
+			leadHistory(lead.get(), updateLeadDto);
 
 			Lead leadData = lead.get();
-			Lead oldLead=leadData;
 			leadData.setLeadName(updateLeadDto.getLeadName());
 			leadData.setEmail(updateLeadDto.getEmail());
 			leadData.setMobileNo(updateLeadDto.getMobileNo());
@@ -171,64 +171,102 @@ public class LeadServiceImpl implements LeadService  {
 			return updatedoneLead;
 
 		}
-		//		leadHistory(oldLead,leadData);
-		//		Lead.builder()
-		//		.name(updateLeadDto.getLeadName())
-		//		.email(updateLeadDto.getEmail())
-		//		.build();
+
 
 		return null;
 	}
 
-	public LeadHistory leadHistory(Lead lead,Lead updateLeadDto) {
-		LeadHistory leadHistory= new LeadHistory();
+	public void leadHistory(Lead lead,UpdateLeadDto updateLeadDto) {
+		User user=null;
+		Long userId=updateLeadDto.getUserId();
+		if(userId!=null) {
+ 			user = userRepo.findById(userId).get();
+         }
+
 		if(!lead.getLeadName().equals(updateLeadDto.getLeadName())) {
+			LeadHistory leadHistory= new LeadHistory();
 			leadHistory.setEventType("The 'Lead Name' field was modified");
 			leadHistory.setDescription("changes in lead name from "+lead.getLeadName()+" -> "+updateLeadDto.getLeadName());
+			leadHistory.setLeadId(updateLeadDto.getId());
+			leadHistory.setCreatedBy(user); 
+			leadHistory.setCreateDate(new Date());
+			leadHistoryRepository.save(leadHistory);
+
 		}
-		if(!lead.getStatus().getId().equals(updateLeadDto.getStatus().getId())) {
+		if(!lead.getStatus().getId().equals(updateLeadDto.getStatusId())) {
+			LeadHistory leadHistory= new LeadHistory();
 			leadHistory.setEventType("Change the field 'Stage'");
-			leadHistory.setDescription(lead.getStatus().getName()+" -> "+updateLeadDto.getStatus().getName());
+			Optional<Status> status = statusRepository.findById(updateLeadDto.getId());
+			leadHistory.setDescription(lead.getStatus().getName()+" -> "+status.get()!=null?status.get().getName():"NA");
+			leadHistory.setLeadId(updateLeadDto.getId());
+			leadHistory.setCreatedBy(user);
+			leadHistory.setCreateDate(new Date());
+			leadHistoryRepository.save(leadHistory);
 
 		}
 		if(!lead.getMobileNo().equals(updateLeadDto.getMobileNo())) {
+			LeadHistory leadHistory= new LeadHistory();
 			leadHistory.setEventType("the 'Mobile Number'  field was modified");
 			leadHistory.setDescription(lead.getMobileNo()+" -> "+updateLeadDto.getMobileNo());
+			leadHistory.setLeadId(updateLeadDto.getId());
+			leadHistory.setCreatedBy(user);
+			leadHistory.setCreateDate(new Date());
+			leadHistoryRepository.save(leadHistory);
 
 		}
 		if(lead.isDeleted()!=updateLeadDto.isDeleted()) {
+			LeadHistory leadHistory= new LeadHistory();
 			leadHistory.setEventType("lead was deleted");
 			leadHistory.setDescription(lead.getLeadName()+" has been deleted ");
+			leadHistory.setLeadId(updateLeadDto.getId());
+			leadHistory.setCreatedBy(user);
+			leadHistory.setCreateDate(new Date());
+			leadHistoryRepository.save(leadHistory);
 
 		}
 		if(!lead.getEmail().equals(updateLeadDto.getEmail())) {
+			LeadHistory leadHistory= new LeadHistory();
 			leadHistory.setEventType("the 'Email'  field was modified");
 			leadHistory.setDescription(lead.getEmail()+" -> "+updateLeadDto.getEmail());
+			leadHistory.setLeadId(updateLeadDto.getId());
+			leadHistory.setCreatedBy(user);
+			leadHistory.setCreateDate(new Date());
+			leadHistoryRepository.save(leadHistory);
 
 		}
-		leadHistory.setLeadId(updateLeadDto.getId());
-
-		leadHistoryRepository.save(leadHistory);
-
-		return leadHistory;
 	}
 
 
 	@Override
-	public boolean deleteLead(Long leadId) {
+	public boolean deleteLead(Long leadId,Long userId) {
 
 		Optional<Lead> opLead = leadRepository.findById(leadId);
 		boolean flag=false;
+		User user=null;
+		if(userId!=null) {
+ 			user = userRepo.findById(userId).get();
+         }
 		if(opLead!=null && opLead.get()!=null)
 		{
 			Lead lead = opLead.get();
+			LeadHistory leadHistory= new LeadHistory();
+			leadHistory.setEventType("lead was deleted");
+			leadHistory.setDescription(lead.getLeadName()+" has been deleted ");
+			leadHistory.setLeadId(lead.getId());
+			leadHistory.setCreatedBy(user); 
+			leadHistory.setCreateDate(new Date());
+			
 			lead.setDisplayStatus("2");
 			lead.setDeleted(false);
 			flag=true;
 			leadRepository.save(lead);
+			leadHistoryRepository.save(leadHistory);
+
 		}
 		return flag;
 	}
+
+
 
 	@Override
 	public Lead getSingleLeadData(Long leadId) {
@@ -442,8 +480,16 @@ public class LeadServiceImpl implements LeadService  {
 		// TODO Auto-generated method stub
 		User user = userRepo.findById(userId).get();
 		Lead lead = leadRepository.findById(leadId).get();
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("lead assignee change");
+		String assignee = lead.getAssignee()!=null?lead.getAssignee().getFullName():"NA";
+		leadHistory.setDescription("'Lead Assignee' has been changed from "+assignee+" to "+user.getFullName());
+		leadHistory.setLeadId(lead.getId());
+		leadHistory.setCreatedBy(user); 
+		leadHistory.setCreateDate(new Date());
 		lead.setAssignee(user);
 		leadRepository.save(lead);
+		leadHistoryRepository.save(leadHistory);
 		return lead;
 	}
 
