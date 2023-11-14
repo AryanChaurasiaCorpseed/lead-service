@@ -15,7 +15,6 @@ public interface LeadService {
 
     Lead createLead(LeadDTO leadDTO);
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
-    boolean deleteLead(Long leadId);
 	Lead getSingleLeadData(Long leadId);
 	Lead createEstimate(CreateServiceDetails createServiceDetails);
 	List<Lead> getAllActiveCustomerLead(Long uId);
@@ -24,6 +23,7 @@ public interface LeadService {
 	Lead updateLeadName(String leadName, Long leadId, Long userId);
 	boolean deleteProductInLead(Long leadId,Long productId);
 	Map<String, Object> getSingleLeadDataV2(Long leadId);
+	boolean deleteLead(Long leadId, Long userId);
 
 
 
