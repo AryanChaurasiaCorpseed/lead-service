@@ -98,9 +98,9 @@ public class LeadController {
 
 //	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
-	public  boolean  deleteLead(@RequestParam Long leadId)
+	public  boolean  deleteLead(@RequestParam Long leadId,@RequestParam Long usrId)
 	{
-		boolean  deletedLead = leadservice.deleteLead(leadId);
+		boolean  deletedLead = leadservice.deleteLead(leadId,usrId);
 		return deletedLead;
 	}
 
