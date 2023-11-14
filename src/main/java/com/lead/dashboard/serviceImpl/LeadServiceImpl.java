@@ -570,6 +570,13 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
+	@Override
+	public Lead getAllEstimate() {
+		// TODO Auto-generated method stub
+		List<ServiceDetails>estimates=serviceDetailsRepository.findAll();
+		return null;
+	}
+
 
 
 }
