@@ -24,4 +24,12 @@ public class UrlsMapping {
 	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
 
 
+	
+	
+	
+	// Node
+	public static final String CREATE_NODE=PREFIX+"/node/createNode";
+	public static final String GET_NODE=PREFIX+"/node/getNode";
+
+
 }
