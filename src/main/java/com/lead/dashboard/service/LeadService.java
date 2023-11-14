@@ -24,6 +24,7 @@ public interface LeadService {
 	boolean deleteProductInLead(Long leadId,Long productId);
 	Map<String, Object> getSingleLeadDataV2(Long leadId);
 	boolean deleteLead(Long leadId, Long userId);
+	Lead getAllEstimate();
 
 
 

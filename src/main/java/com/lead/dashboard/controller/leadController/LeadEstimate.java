@@ -5,8 +5,12 @@ import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.service.LeadService;
+import com.lead.dashboard.util.UrlsMapping;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,10 +20,16 @@ public class LeadEstimate {
     @Autowired
     private LeadService leadservice;
 
-    @PostMapping("leadService/api/v1/lead/createEstimate")
+	@PostMapping(UrlsMapping.CREATE_ESTIMATE)
     public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
     {
     	Lead res=leadservice.createEstimate(createServiceDetails);
+        return res;
+    }
+    @GetMapping(UrlsMapping.GET_ALL_ESTIMATE)
+    public Lead getAllEstimate()
+    {
+    	Lead res=leadservice.getAllEstimate();
         return res;
     }
 }
