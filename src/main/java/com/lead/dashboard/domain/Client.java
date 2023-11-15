@@ -22,9 +22,7 @@ public class Client {
 	String name;
 	String emails;
 	String contactNo;
-
 	boolean deleteStatus =false;
-
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
@@ -36,10 +34,6 @@ public class Client {
 	inverseJoinColumns = {@JoinColumn(name="client_service_details_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<ServiceDetails>serviceDetails;
-
-//	@OneToOne(mappedBy = "client", cascade = CascadeType.ALL,orphanRemoval = true)
-//	private Opportunities opportunities;
-
 
 	/**
 	 * @return the id

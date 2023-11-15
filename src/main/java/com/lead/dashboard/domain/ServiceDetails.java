@@ -28,16 +28,14 @@ public class ServiceDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
 	private String name;
+	private String ServiceName;
 	@NotBlank
-//	private String leadName;
-	
 	@ManyToOne
-	Product product;
-	
+	Product product;	
 	Date estimateData;
-	
-//	User clientAdmin;
 	String company;
+	@ManyToOne
+	Company companies;
 	String contact;
 	Boolean consultingSale;
 	String productType;
@@ -46,9 +44,29 @@ public class ServiceDetails {
 	List<String>cc;
 	String  invoiceNote;
 	String remarksForOption;
-
 	@ManyToOne
 	Opportunities opportunities;
+	
+    int  govermentfees;
+    String govermentCode;
+    String govermentGst;
+    int professionalFees;
+    String professionalCode;
+    String profesionalGst;
+    int serviceCharge;
+    String serviceCode;
+    String serviceGst;
+    int otherFees;
+    String otherCode;
+    String otherGst;
+    
+    public Company getCompanies() {
+		return companies;
+	}
+	public void setCompanies(Company companies) {
+		this.companies = companies;
+	}
+	boolean isDeleted; 
 
 	public Long getId() {
 		return id;
@@ -62,14 +80,6 @@ public class ServiceDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-//	public String getLeadName() {
-//		return leadName;
-//	}
-//	public void setLeadName(String leadName) {
-//		this.leadName = leadName;
-//	}
-
-	
 	
 	public String getCompany() {
 		return company;
@@ -143,6 +153,93 @@ public class ServiceDetails {
 	public void setOpportunities(Opportunities opportunities) {
 		this.opportunities = opportunities;
 	}
+	public int getGovermentfees() {
+		return govermentfees;
+	}
+	public void setGovermentfees(int govermentfees) {
+		this.govermentfees = govermentfees;
+	}
+	public String getGovermentCode() {
+		return govermentCode;
+	}
+	public void setGovermentCode(String govermentCode) {
+		this.govermentCode = govermentCode;
+	}
+	public String getGovermentGst() {
+		return govermentGst;
+	}
+	public void setGovermentGst(String govermentGst) {
+		this.govermentGst = govermentGst;
+	}
+	public int getProfessionalFees() {
+		return professionalFees;
+	}
+	public void setProfessionalFees(int professionalFees) {
+		this.professionalFees = professionalFees;
+	}
+	public String getProfessionalCode() {
+		return professionalCode;
+	}
+	public void setProfessionalCode(String professionalCode) {
+		this.professionalCode = professionalCode;
+	}
+	public String getProfesionalGst() {
+		return profesionalGst;
+	}
+	public void setProfesionalGst(String profesionalGst) {
+		this.profesionalGst = profesionalGst;
+	}
+	public int getServiceCharge() {
+		return serviceCharge;
+	}
+	public void setServiceCharge(int serviceCharge) {
+		this.serviceCharge = serviceCharge;
+	}
+	public String getServiceCode() {
+		return serviceCode;
+	}
+	public void setServiceCode(String serviceCode) {
+		this.serviceCode = serviceCode;
+	}
+	public String getServiceGst() {
+		return serviceGst;
+	}
+	public void setServiceGst(String serviceGst) {
+		this.serviceGst = serviceGst;
+	}
+	public int getOtherFees() {
+		return otherFees;
+	}
+	public void setOtherFees(int otherFees) {
+		this.otherFees = otherFees;
+	}
+	public String getOtherCode() {
+		return otherCode;
+	}
+	public void setOtherCode(String otherCode) {
+		this.otherCode = otherCode;
+	}
+	public String getOtherGst() {
+		return otherGst;
+	}
+	public void setOtherGst(String otherGst) {
+		this.otherGst = otherGst;
+	}
+	public String getServiceName() {
+		return ServiceName;
+	}
+	public void setServiceName(String serviceName) {
+		ServiceName = serviceName;
+	}
+   
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	
 	
 	
 

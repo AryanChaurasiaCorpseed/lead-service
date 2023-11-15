@@ -23,5 +23,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b", nativeQuery = true)
 	List<Lead> findAllByIsDeleted(boolean b);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.email =:email or el.client_mob_no =:mobileNo", nativeQuery = true)
+	List<Lead> findAllByEmailAndMobile(String email, String mobileNo);
 
 }

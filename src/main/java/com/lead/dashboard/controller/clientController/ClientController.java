@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.CreateClient;
+import com.lead.dashboard.dto.UpdateClientDto;
 import com.lead.dashboard.service.LeadService;
 
 @RestController
@@ -28,8 +30,8 @@ public class ClientController {
 	}
 
 	@PostMapping("api/v1/client/createClient")
-	public Lead  createClientInLead(@RequestParam Long leadId,@RequestParam String name,@RequestParam String contactNo,@RequestParam String email) {
-		Lead  clientCreated =clientService.createClientInLead(leadId, name , email, contactNo);
+	public Lead  createClientInLead(@RequestBody CreateClient createClient) {
+		Lead  clientCreated =clientService.createClientInLead(createClient.getLeadId(), createClient.getName() , createClient.getEmail(), createClient.getContactNo());
 		return clientCreated;
 	}
 
@@ -41,7 +43,7 @@ public class ClientController {
 	}
 
 	@PutMapping("api/v1/client/updateClientInfo")
-	public ResponseEntity<Client> upddateClientInfo(@RequestBody Client client)
+	public ResponseEntity<Client> upddateClientInfo(@RequestBody UpdateClientDto client)
 	{
 		if(client!=null)
 		{
