@@ -341,6 +341,21 @@ public class LeadServiceImpl implements LeadService  {
 		service.setProductType(createservicedetails.getProductType());
 		service.setPurchaseDate(createservicedetails.getPurchaseDate());
 		service.setRemarksForOption(createservicedetails.getRemarksForOption());
+
+		service.setGovermentfees(createservicedetails.getGovermentfees());
+		service.setGovermentCode(createservicedetails.getGovermentCode());
+		service.setGovermentGst(createservicedetails.getGovermentGst());
+		service.setProfessionalFees(createservicedetails.getProfessionalFees());
+		service.setProfessionalCode(createservicedetails.getProfessionalCode());
+
+		service.setProfesionalGst(createservicedetails.getProfesionalGst());
+		service.setServiceCharge(createservicedetails.getServiceCharge());
+		service.setServiceCode(createservicedetails.getServiceCode());
+		service.setServiceGst(createservicedetails.getServiceGst());
+		service.setOtherFees(createservicedetails.getOtherFees());
+		service.setOtherCode(createservicedetails.getOtherCode());
+		service.setOtherGst(createservicedetails.getOtherGst());
+		
 		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
 		Company  company = null;
 		if(createservicedetails.getCompanyId()!=null) {
@@ -395,6 +410,20 @@ public class LeadServiceImpl implements LeadService  {
 					services.setPurchaseDate(createservicedetails.getPurchaseDate());
 					services.setRemarksForOption(createservicedetails.getRemarksForOption());
 					services.setCompanies(company);
+					
+					service.setGovermentfees(createservicedetails.getGovermentfees());
+					service.setGovermentCode(createservicedetails.getGovermentCode());
+					service.setGovermentGst(createservicedetails.getGovermentGst());
+					service.setProfessionalFees(createservicedetails.getProfessionalFees());
+					service.setProfessionalCode(createservicedetails.getProfessionalCode());
+
+					service.setProfesionalGst(createservicedetails.getProfesionalGst());
+					service.setServiceCharge(createservicedetails.getServiceCharge());
+					service.setServiceCode(createservicedetails.getServiceCode());
+					service.setServiceGst(createservicedetails.getServiceGst());
+					service.setOtherFees(createservicedetails.getOtherFees());
+					service.setOtherCode(createservicedetails.getOtherCode());
+					service.setOtherGst(createservicedetails.getOtherGst());
 
 					ServiceDetails serviceDetails = serviceDetailsRepository.save(services);
 					//					serviceList.add(serviceDetails);
@@ -568,6 +597,21 @@ public class LeadServiceImpl implements LeadService  {
 		serviceDetailsRepository.save(service);
 		flag=true;
 		return flag;
+	}
+
+	@Override
+	public List<ServiceDetails> getAllEstimate() {
+		// TODO Auto-generated method stub
+		List<ServiceDetails>estimates=serviceDetailsRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+				
+		return estimates;
+	}
+
+	@Override
+	public ServiceDetails getEstimate(Long estimateId) {
+		// TODO Auto-generated method stub
+		ServiceDetails service=serviceDetailsRepository.findById(estimateId).get();
+		return service;
 	}
 
 
