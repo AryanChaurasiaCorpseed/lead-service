@@ -1,18 +1,16 @@
 package com.lead.dashboard.domain;
 
 
-import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Table(name = "status_details")
 public class Status {
@@ -46,6 +44,10 @@ public class Status {
 	public Status(Long id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+
+	public Status() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

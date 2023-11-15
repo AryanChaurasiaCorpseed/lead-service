@@ -21,6 +21,7 @@ import com.lead.dashboard.service.LeadService;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 //@Tag(name = "Lead", description = "Lead management APIs")
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -50,7 +51,9 @@ public class LeadController {
 	@GetMapping(UrlsMapping.TEST)
 	public String test()
 	{
-		return securityFeignClient.test();		 
+//		return securityFeignClient.test();	
+		return "Test";		 
+
 	}
 
 	@PostMapping(UrlsMapping.CREATE_LEAD)
@@ -85,26 +88,33 @@ public class LeadController {
 		Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
+	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
+	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,@RequestParam Long leadId,@RequestParam(required=false) Long userId)
+	{
+		System.out.println("Hit");
+		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId,userId);
+		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+	}
 
 //	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
-	public  boolean  deleteLead(@RequestParam Long leadId)
+	public  boolean  deleteLead(@RequestParam Long leadId,@RequestParam Long usrId)
 	{
-		boolean  deletedLead = leadservice.deleteLead(leadId);
+		boolean  deletedLead = leadservice.deleteLead(leadId,usrId);
 		return deletedLead;
 	}
 
 //	@DeleteMapping("/v1/lead/sendMailInLead")
 	@PostMapping(UrlsMapping.SEND_MAIL_IN_LEAD)
 	public  boolean  sendMailInLead( String to, String subject, String text){
-		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
+//		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
 		return true;
 	}
 //	@GetMapping("/v1/lead/getSingleLeadData")
 	@GetMapping(UrlsMapping.GET_SINGLE_LEAD_DATA)
-	public ResponseEntity <Lead> getSingleLeadData(@RequestParam Long leadId)
+	public ResponseEntity <Map<String,Object>> getSingleLeadData(@RequestParam Long leadId)
 	{
-		Lead alllead= leadservice.getSingleLeadData(leadId);
+		Map<String,Object> alllead= leadservice.getSingleLeadDataV2(leadId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 
@@ -148,15 +158,28 @@ public class LeadController {
 	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
 	{
 		Lead res=leadservice.updateAssignee(leadId,userId);
-//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
 	
 	@PutMapping(UrlsMapping.CREATE_PRODUCT_IN_LEAD)
-	public Lead createProductInLead(@RequestBody AddProductInLead addProductInLead)
+	public  ResponseEntity<Lead> createProductInLead(@RequestBody AddProductInLead addProductInLead)
 	{
-		Lead res=leadservice.createProductInLead(addProductInLead);
-//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		Lead res=null;
+		try {
+			res = leadservice.createProductInLead(addProductInLead);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage(), null);
+
+		}
+		 return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)
+	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId)
+	{
+		boolean res=leadservice.deleteProductInLead(leadId,serviceId);
 		 return res;
 	}
 

@@ -3,7 +3,10 @@ package com.lead.dashboard.domain.lead;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Product;
@@ -25,6 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class Lead {
+	
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +48,11 @@ public class Lead {
 	private String leadDescription;
 
 	//Client mobile number
-	@Column(name = "client_mob_no",length = 10)
+	@Column(name = "client_mob_no")
 	@NotBlank
 	private String mobileNo;
 
-	@Column(length = 50)
+	@Column
 	private String email;
 
 	//URL of website where client raise this enquiry
@@ -67,13 +71,13 @@ public class Lead {
 
 	boolean isDeleted;
 
-	@Column(length = 50)
+	@Column
 	private String city;
 
-	@Column(length = 100)
+	@Column
 	private String categoryId;
 
-	@Column(length = 100)
+	@Column
 	private String serviceId;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -82,10 +86,10 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Product>products;
 
-	@Column(length = 100)
+	@Column
 	private String industryId;
 
-	@Column(length = 255)
+	@Column
 	private String ipAddress;
 
 	private String displayStatus="1";
@@ -103,11 +107,11 @@ public class Lead {
 			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Remark>remarks;
-	
-	
 
 	@ManyToOne
 	private User assignee;
+	
+
 	
 	
 	@ManyToOne
@@ -300,15 +304,4 @@ public class Lead {
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
 	}
-
-	public List<Remark> getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(List<Remark> remarks) {
-		this.remarks = remarks;
-	}
-	
-	
-	
 }

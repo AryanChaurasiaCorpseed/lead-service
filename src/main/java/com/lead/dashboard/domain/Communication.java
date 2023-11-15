@@ -28,8 +28,8 @@ public class Communication {
 	private String mailCc;
 	private String subject;
 	private String message ; 
-	private boolean isDeleted ;
-	private boolean isSendBy;
+	private Boolean isDeleted ;
+	private Boolean isSendBy;
 	private Date chatTime;
 	private Boolean isView=false;
 	@ManyToOne
@@ -138,13 +138,13 @@ public class Communication {
 	/**
 	 * @return the isDeleted
 	 */
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 	/**
 	 * @param isDeleted the isDeleted to set
 	 */
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 

@@ -50,6 +50,23 @@ public class ProductServiceImpl implements ProductService {
     	product.setProductName(createProduct.getName());
     	product.setCreatedBy(user);
     	product.setCreatedDate(new Date());
+    	
+    	product.setGovermentfees(createProduct.getGovermentfees());
+    	product.setGovermentCode(createProduct.getGovermentCode());
+    	product.setGovermentGst(createProduct.getGovermentGst());
+
+    	product.setProfessionalFees(createProduct.getProfessionalFees());
+    	product.setProfessionalCode(createProduct.getProfessionalCode());
+    	product.setProfesionalGst(createProduct.getProfesionalGst());
+		
+    	product.setServiceCharge(createProduct.getServiceCharge());			
+    	product.setServiceCode(createProduct.getServiceCode());
+    	product.setServiceGst(createProduct.getServiceGst());
+    	product.setOtherFees(createProduct.getOtherFees());
+		
+    	product.setOtherCode(createProduct.getOtherCode());
+    	product.setOtherGst(createProduct.getOtherGst());
+    	
     	productRepo.save(product);
     	List<Product> productList = category.getProducts();
     	if(productList!=null && productList.size()!=0) {
