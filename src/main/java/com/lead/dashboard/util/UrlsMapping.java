@@ -1,6 +1,7 @@
 package com.lead.dashboard.util;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin(origins = "http://localhost:3000")
 public class UrlsMapping {
@@ -17,7 +18,6 @@ public class UrlsMapping {
 	public static final String DELETE_LEAD=PREFIX+"/lead/deleteLead";
 	public static final String SEND_MAIL_IN_LEAD=PREFIX+"/lead/sendMailInLead";
 	public static final String GET_SINGLE_LEAD_DATA=PREFIX+"/lead/getSingleLeadData";
-	public static final String CREATE_ESTIMATE=PREFIX+"/lead/createEstimate";
 	public static final String GET_ALL_STATUS_HISTORY=PREFIX+"/lead/getAllStatusHistory";
     public static final String UPDATE_ASSIGNEE =PREFIX+"/lead/updateAssignee";
 	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
@@ -36,6 +36,14 @@ public class UrlsMapping {
 	//=================== Lead - History =================================
 	
 	public static final String GET_ALL_LEAD_HISTORY=PREFIX+"/leadHistory/getAllLeadHistory";
+	
+	
+	//===================== Lead - Estimate ==============================================
+	
+	public static final String CREATE_ESTIMATE=PREFIX+"/leadEstimate/createEstimate";
+	public static final String GET_ALL_ESTIMATE=PREFIX+"/leadEstimate/getAllEstimate";
+	public static final String GET_ESTIMATE=PREFIX+"/leadEstimate/getEstimate";
+
 
 	
 	
