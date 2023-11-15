@@ -42,6 +42,7 @@ public class UrlsMapping {
 	
 	public static final String CREATE_ESTIMATE=PREFIX+"/leadEstimate/createEstimate";
 	public static final String GET_ALL_ESTIMATE=PREFIX+"/leadEstimate/getAllEstimate";
+	public static final String GET_ESTIMATE=PREFIX+"/leadEstimate/getEstimate";
 
 
 	
