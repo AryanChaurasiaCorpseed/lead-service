@@ -56,6 +56,21 @@ public class UrlsMapping {
 	// Node
 	public static final String CREATE_NODE=PREFIX+"/node/createNode";
 	public static final String GET_NODE=PREFIX+"/node/getNode";
+	public static final String UPDATE_NODE=PREFIX+"/node/updateNode";
+	public static final String DELETE_NODE=PREFIX+"/node/deleteNode";
+	
+	//Sub Nodes
+	public static final String CREATE_SUB_NODE=PREFIX+"/node/createSubNode";
+	public static final String GET_SUB_NODE=PREFIX+"/node/getSubNode";
+	public static final String UPDATE_SUB_NODE=PREFIX+"/node/updateSubNode";
+	public static final String DELETE_SUB_NODE=PREFIX+"/node/deleteSubNode";
+	
+ 	//Super Sub Nodes
 
+	public static final String CREATE_SUPER_SUB_NODE=PREFIX+"/node/createSuperSubNode";
+	public static final String GET_SUPER_SUB_NODE=PREFIX+"/node/getSuperSubNode";
+	public static final String UPDATE_SUPER_SUB_NODE=PREFIX+"/node/updateSuperSubNode";
+	public static final String DELETE_SUPER_SUB_NODE=PREFIX+"/node/deleteSuperSubNode";
+	
 
 }

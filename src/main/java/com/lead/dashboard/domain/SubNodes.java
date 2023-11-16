@@ -2,10 +2,6 @@ package com.lead.dashboard.domain;
 
 import java.util.List;
 
-import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,26 +10,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Table
-//@Data
-public class Nodes {
+@Data
+public class SubNodes {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id ;
 	
 	String name;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="node_child",joinColumns = {@JoinColumn(name="node_id",referencedColumnName="id",nullable=true)},
-	inverseJoinColumns = {@JoinColumn(name="node_child_id"
+    @ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="sub_node_child",joinColumns = {@JoinColumn(name="sub_node_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="sub_node_child_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
-//    @JsonIgnore
-	List<SubNodes>nodeChild;
+	List<SuperSubNodes>subNodeChild;
     
     boolean isDeleted;
 
@@ -53,12 +48,12 @@ public class Nodes {
 		this.name = name;
 	}
 
-	public List<SubNodes> getNodeChild() {
-		return nodeChild;
+	public List<SuperSubNodes> getSubNodeChild() {
+		return subNodeChild;
 	}
 
-	public void setNodeChild(List<SubNodes> nodeChild) {
-		this.nodeChild = nodeChild;
+	public void setSubNodeChild(List<SuperSubNodes> subNodeChild) {
+		this.subNodeChild = subNodeChild;
 	}
 
 	public boolean isDeleted() {
@@ -68,10 +63,8 @@ public class Nodes {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
-	
-
-
     
-
+    
+    
+    
 }
