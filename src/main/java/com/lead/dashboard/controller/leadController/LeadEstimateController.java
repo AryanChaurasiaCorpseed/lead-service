@@ -4,6 +4,7 @@ package com.lead.dashboard.controller.leadController;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.service.EstimateService;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -18,28 +19,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LeadEstimate {
+public class LeadEstimateController {
 
+
+    
     @Autowired
-    private LeadService leadservice;
+    EstimateService estimateService;
 
 	@PostMapping(UrlsMapping.CREATE_ESTIMATE)
     public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
     {
-    	Lead res=leadservice.createEstimate(createServiceDetails);
+    	Lead res=estimateService.createEstimate(createServiceDetails);
         return res;
     }
     @GetMapping(UrlsMapping.GET_ALL_ESTIMATE)
     public List<ServiceDetails> getAllEstimate()
     {
-    	List<ServiceDetails> res=leadservice.getAllEstimate();
+    	List<ServiceDetails> res=estimateService.getAllEstimate();
         return res;
     }
     
     @GetMapping(UrlsMapping.GET_ESTIMATE)
     public ServiceDetails getEstimate(@RequestParam Long  estimateId)
     {
-    	ServiceDetails res=leadservice.getEstimate(estimateId);
+    	ServiceDetails res=estimateService.getEstimate(estimateId);
         return res;
     }
 
