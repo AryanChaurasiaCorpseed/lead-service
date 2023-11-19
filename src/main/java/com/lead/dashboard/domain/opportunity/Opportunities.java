@@ -92,6 +92,22 @@ public class Opportunities {
 		this.description = description;
 	}
 
+	public OpportunityStatus getOpportunityStatus() {
+		return opportunityStatus;
+	}
+
+	public void setOpportunityStatus(OpportunityStatus opportunityStatus) {
+		this.opportunityStatus = opportunityStatus;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 //    @ManyToOne
 //    @JoinColumn(name = "client_id")
 //    private Client client;
@@ -102,6 +118,8 @@ public class Opportunities {
 //
 //    @OneToOne
 //    private Client client;
+	
+	
 	
 
     
