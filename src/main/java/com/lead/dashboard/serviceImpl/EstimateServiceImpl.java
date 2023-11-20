@@ -218,8 +218,15 @@ public class EstimateServiceImpl implements EstimateService
 		//		String[] bccPersons=(String[]) createservicedetails.getCc().toArray();
 
 		Context context = new Context();
-		context.setVariable("urls", "http://corpseed.com");
-		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, bccPersons, subject, "for testing Text", context, "sendEstimateMail.html");
+		context.setVariable("companyName", "INDIAN INDIA PRIVATE LIMITED");
+		
+		context.setVariable("totalAmount", "79001");
+
+		context.setVariable("estimateUrl", "http://corpseed.com");
+		context.setVariable("estimateNo", "ESTD0626");
+		context.setVariable("estimateDate", "23-10-2023");
+
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, bccPersons, subject, "for testing Text", context, "newEstimateMail.html");
 		//	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
 
 	}
