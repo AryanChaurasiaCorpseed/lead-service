@@ -15,6 +15,8 @@ import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.EditEstimate;
+import com.lead.dashboard.dto.EditEstimateAddress;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadHistoryRepository;
@@ -242,6 +244,46 @@ public class EstimateServiceImpl implements EstimateService
 	@Override
 	public ServiceDetails getEstimate(Long estimateId) {
 		ServiceDetails service=serviceDetailsRepository.findById(estimateId).get();
+		return service;
+	}
+
+	@Override
+	public ServiceDetails editEstimateInvoice(EditEstimate editEstimate) {
+		ServiceDetails service=serviceDetailsRepository.findById(editEstimate.getServiceDetailsId()).get();
+		service.setGovermentfees(editEstimate.getGovermentfees());
+		service.setGovermentCode(editEstimate.getGovermentCode());
+		service.setGovermentGst(editEstimate.getGovermentGst());
+		service.setProfessionalFees(editEstimate.getProfessionalFees());
+		service.setProfessionalCode(editEstimate.getProfessionalCode());
+		service.setProfesionalGst(editEstimate.getProfesionalGst());
+		service.setServiceCharge(editEstimate.getServiceCharge());
+		service.setServiceCode(editEstimate.getServiceCode());
+		service.setServiceGst(editEstimate.getServiceGst());
+		service.setOtherFees(editEstimate.getOtherFees());
+		service.setOtherCode(editEstimate.getOtherCode());
+		service.setOtherGst(editEstimate.getOtherGst());
+		serviceDetailsRepository.save(service);
+		
+		
+		return service;
+	}
+
+	@Override
+	public ServiceDetails editEstimateAddress(EditEstimateAddress editEstimateAddress) {
+		ServiceDetails service=serviceDetailsRepository.findById(editEstimateAddress.getServiceId()).get();
+		Company company = new Company();
+		company.setAddress(editEstimateAddress.getAddress());
+		company.setCity(editEstimateAddress.getCity());
+		company.setCountry(editEstimateAddress.getCountry());
+		company.setGstNo(editEstimateAddress.getGstNo());
+		company.setName(editEstimateAddress.getName());
+		company.setPanNo(editEstimateAddress.getPanNo());
+		company.setState(editEstimateAddress.getState());
+		company.setCompanyAge(editEstimateAddress.getCompanyAge());
+		companyRepository.save(company);
+		service.setCompanies(company);
+		serviceDetailsRepository.save(service);
+
 		return service;
 	}
 
