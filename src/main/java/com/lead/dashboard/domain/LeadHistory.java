@@ -69,6 +69,22 @@ public class LeadHistory {
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Long getLeadId() {
+		return leadId;
+	}
+
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
 	
 	
 	
