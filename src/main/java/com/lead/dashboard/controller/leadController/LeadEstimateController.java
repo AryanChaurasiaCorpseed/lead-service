@@ -4,6 +4,8 @@ package com.lead.dashboard.controller.leadController;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.EditEstimate;
+import com.lead.dashboard.dto.EditEstimateAddress;
 import com.lead.dashboard.service.EstimateService;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.util.UrlsMapping;
@@ -46,5 +48,18 @@ public class LeadEstimateController {
         return res;
     }
 
+    @PutMapping(UrlsMapping.EDIT_ESTIMATE_INVOICE)
+    public ServiceDetails editEstimateInvoice(@RequestBody EditEstimate  editEstimate)
+    {
+    	ServiceDetails res=estimateService.editEstimateInvoice(editEstimate);
+        return res;
+    }
+    
+    @PutMapping(UrlsMapping.EDIT_ESTIMATE_ADDRESS)
+    public ServiceDetails editEstimateAddress(@RequestBody EditEstimateAddress  editEstimateAddress)
+    {
+    	ServiceDetails res=estimateService.editEstimateAddress(editEstimateAddress);
+        return res;
+    }
 }
 
