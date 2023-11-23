@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+
+
+<html>
+
+<body>
+
+	<table style="width: 100%; border: 1px solid #ddd">
+
+		<tbody>
+
+			<tr>
+
+				<td>
+
+					<table style="width: 100%; background: #ddd">
+
+						<tbody>
+
+							<tr>
+
+								<td style="padding: 10px"><img
+
+									src="https://ci6.googleusercontent.com/proxy/aN3uAFoh3jAtqYYXzFGj-ZrsPbKUvjruIlNKpWAG6C-IT0-at_EF7tJYbeBr3P444FSNMe1cq4RtlST1cOEr=s0-d-e1-ft#https://www.corpseed.com/assets/img/logo.png">
+
+								</td>
+
+							</tr>
+
+						</tbody>
+
+					</table>
+
+				</td>
+
+			</tr>
+
+
+
+			<tr>
+
+				<td style="padding: 10px;">
+
+					<table style="width: 100%;">
+
+						<tbody>
+
+							<tr>
+
+								<td style="color: #333; font-size: 20px; padding: 6px 10px;">
+
+<!--									<img width="48" height="48" th:src="${oldSupervisorImage}"
+
+									style="float: left; border: 1px solid #ddd;" alt="user" />-->
+
+									<table>
+
+										<tbody>
+
+											<tr>
+
+												<td style="font-size: 20px; padding: 0px 70px 0px 300px;"><strong
+
+													style="font-weight: 800;"><h1><span th:text="${estimateNo}"/></h1> 
+
+												</strong></td>
+
+											</tr>
+											<tr>
+
+												<td style="font-size: 20px; padding: 20px 0 10px 0;"><strong
+
+													style="font-weight: 800;"> Hi   <strong><span th:text="${companyName}"/></strong> ,
+
+												</strong></td>
+
+											</tr>
+											
+
+<p>Thank you for contacting us. Your Estimate can be Viewed, Printed and Downloaded as PDF from the link below.</p><br>
+
+											
+												<div style="font-size: 20px; padding: 20px; text-align: center; border: 5px solid #e5e5e5; border-bottom: 5px solid blue; width: 100%;">
+												<p><b>Estimate Ammount</b></p>
+												
+												<p>	<b>Rs :</b><span th:text="${totalAmount}"/> </p>
+											   
+												<p>
+													<b>Estimate No :</b><span th:text="${estimateNo}"/>
+											    </p>
+											    <p>
+													<b>Estimate Date :</b><span th:text="${estimateDate}"/>
+											    </p>
+												<p>
+													 <span> 
+				                            	     <a th:href="${estimateUrl}" style="display: inline-block; border-radius: 2px; padding: 4px 8px; background-color: #5cb85c;border-color: #4cae4c; text-decoration: none; font-size: 13px; color: #fff; margin: 10px 0;">
+					                                      View Estimate
+					                                   </a>
+				                                   </span>
+												</p>
+
+																					
+
+											<tr><!--
+				                            	  <span style="float:left;width:100%;"> 
+				                            	     <a th:href="${estimateUrl}" style="display: inline-block; border-radius: 2px; padding: 4px 8px; background-color: #5cb85c;border-color: #4cae4c; text-decoration: none; float: left; font-size: 13px; color: #fff; margin: 10px 0;">
+					                                      View Invoice
+					                                   </a>
+				                                   </span>			                                   
+				                           </tr-->
+</div>
+
+										</tbody>
+
+									</table>
+
+								</td>
+
+							</tr>
+
+						</tbody>
+
+					</table>
+				</td>
+
+			</tr>
+			<div style="font-size: 20px;text-align: center;">
+				<b>Estimate No #<span th:text="${estimateNo}"/></b>
+			</div>
+
+
+			<tr>
+
+				<td style="font-size: 17px; padding: 20px; text-align: center;">Address:Corpseed, 2nd Floor, A-154A, A Block, Sector 63, Noida, Uttar Pradesh - 201301
+
+                 </td>
+
+			</tr>
+<!--
+			<tr>
+
+				<td style="padding: 0 25px 20px 25px">Corpseed Team IT </td>
+
+			</tr>-->
+
+
+
+			<tr>
+
+				<td
+
+					style="background: #ddd; border-top: 5px solid #ddd; padding: 15px 0; text-align: center">
+
+					 <p>Copyright 2009-2023<span th:text="${#dates.format(currentDate, 'yyyy')}"/> <b>Corpseed</b> ITES Pvt. Ltd . All rights reserved.</p></td>
+
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+
+</html>
