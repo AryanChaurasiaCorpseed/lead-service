@@ -6,14 +6,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Entity
-@Table(name = "lead_u")
+@Table(name = "calls")
 @Data
-public class Lead {
-    @Id
+@Getter
+@Setter
+public class Calls {
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
-    Long id ; 
-	String leadName;
-	String leadDescription;
+    Long id ;
+	String mobileNo;
+	String description;
 }

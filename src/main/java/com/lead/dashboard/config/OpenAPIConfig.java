@@ -14,33 +14,27 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenAPIConfig {
 
-//  @Value("${bezkoder.openapi.dev-url}")
-  private String devUrl="http://localhost:8080";;
 
-//  @Value("${bezkoder.openapi.prod-url}")
-  private String prodUrl="http://localhost:8080";
+	  private String devUrl="http://localhost:9001";
+
+	  private String prodUrl="http://localhost:9001";
 
   @Bean
   public OpenAPI myOpenAPI() {
     Server devServer = new Server();
     devServer.setUrl(devUrl);
     devServer.setDescription("Server URL in Development environment");
-
     Server prodServer = new Server();
     prodServer.setUrl(prodUrl);
     prodServer.setDescription("Server URL in Production environment");
-
     Contact contact = new Contact();
-    
     License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
-
     Info info = new Info()
         .title("Lead Management API")
         .version("1.0")
         .contact(contact)
         .description("This API exposes endpoints to manage Lead.").termsOfService("https://www.corpseed.com/terms")
         .license(mitLicense);
-
     return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
   }
 
