@@ -77,6 +77,16 @@ public class CreateOpportunity {
 		this.serviceId = serviceId;
 	}
 
+	public Long getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Long statusId) {
+		this.statusId = statusId;
+	}
+
+	
+	
 	
 	
 	
