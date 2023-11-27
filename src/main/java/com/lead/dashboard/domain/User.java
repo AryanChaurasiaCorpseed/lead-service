@@ -31,6 +31,12 @@ public class User {
 
     @NonNull
     private String department;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="user_role_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+    private List<Role>userRole;
 
 	@NonNull
 	private List<String> role;
@@ -101,6 +107,20 @@ public class User {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+
+
+
+	public List<Role> getUserRole() {
+		return userRole;
+	}
+
+
+
+	public void setUserRole(List<Role> userRole) {
+		this.userRole = userRole;
+	}
+	
+	
 	
 	
 

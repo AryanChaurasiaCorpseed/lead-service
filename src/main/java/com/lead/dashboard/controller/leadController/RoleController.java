@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.leadController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,12 +48,13 @@ public class RoleController {
 	public 	Role createRole(@RequestParam String name) {
 		Role role = new Role();
 		role.setName(name);
+		role.setDeleted(false);
 		Role r = roleRepository.save(role);
 		return r;
 	}
 	@GetMapping("/roles/getRole")
 	public List<Role>getAllRole(){
-		List<Role> roles = roleRepository.findAll();
+		List<Role> roles = roleRepository.findAll().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
 		return roles;
 	}
 	

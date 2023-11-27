@@ -1,8 +1,10 @@
 package com.lead.dashboard.serviceImpl;
 
+import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.repository.RoleRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
 
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -37,6 +42,8 @@ public class UserServiceImpl implements UserService {
 		u.setEmail(user.getEmail());
 		u.setDesignation(user.getDesignation());
 		u.setDepartment(user.getDepartment());
+		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
+		u.setUserRole(roleList);
 		u.setRole(user.getRole());
 		return userRepo.save(u);
 	}
@@ -52,6 +59,8 @@ public class UserServiceImpl implements UserService {
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
+		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
+		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
 		return userRepo.save(existingUser);
 	}
@@ -158,9 +167,13 @@ public class UserServiceImpl implements UserService {
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
-			List<String>listRole = new ArrayList();
+			
+			List<String>listRole = new ArrayList();		
 			listRole.add(role);
 			u.setRole(listRole);
+
+			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
+			u.setUserRole(roleList);
 			u.setDesignation(designation);
 			String feedbackStatusURL = "https://corpseed.com" ;
 			
