@@ -2,6 +2,9 @@ package com.lead.dashboard.controller.clientController;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.service.ClientService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +57,12 @@ public class ClientController {
 		{
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	@GetMapping("api/v1/client/getAllClientInfo")
+	public List<Client>  getAllClientInfo() {
+		List<Client>  clientCreated =clientService.getAllClientInfo();
+		return clientCreated;
 	}
 
 

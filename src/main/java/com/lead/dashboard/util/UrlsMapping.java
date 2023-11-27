@@ -45,13 +45,6 @@ public class UrlsMapping {
 	public static final String GET_ESTIMATE=PREFIX+"/leadEstimate/getEstimate";	
 	public static final String EDIT_ESTIMATE_INVOICE=PREFIX+"/leadEstimate/editEstimateInvoice";
 	public static final String EDIT_ESTIMATE_ADDRESS=PREFIX+"/leadEstimate/editEstimateAddress";
-
-	
-	
-	
-	
-
-	
 	
 	
 	// Node
@@ -73,5 +66,14 @@ public class UrlsMapping {
 	public static final String UPDATE_SUPER_SUB_NODE=PREFIX+"/node/updateSuperSubNode";
 	public static final String DELETE_SUPER_SUB_NODE=PREFIX+"/node/deleteSuperSubNode";
 	
+	//Company Services
+	public static final String CREATE_COMPANY=PREFIX+"/company/createCompany";
+	public static final String GET_COMPANY=PREFIX+"/company/getCompany";
+	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
+	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
+	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
+
+
+
 
 }
