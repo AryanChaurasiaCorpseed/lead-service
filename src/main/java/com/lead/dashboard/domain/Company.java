@@ -29,6 +29,7 @@ public class Company {
 	String State;
 	String City;
 	String Address;
+	boolean isDeleted;
 	public Long getId() {
 		return id;
 	}
@@ -83,6 +84,14 @@ public class Company {
 	public void setAddress(String address) {
 		Address = address;
 	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	
 	
 	
 

@@ -55,9 +55,11 @@ public class CompanyServiceImpl implements CompanyService {
 		boolean flag=false;
          if(companyOp.get()!=null) {
         	Company company = companyOp.get();
-//        	company.setIs
+        	company.setDeleted(true);
+        	companyRepository.save(company);
+        	flag = true;
          }
-		return false;
+		return flag;
 	}
 
 }
