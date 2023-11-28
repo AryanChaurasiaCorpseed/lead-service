@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public List<Company> getAllCompany() {
  
-		List<Company> companyList = companyRepository.findAll();
+		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		return companyList;
 	}
 
