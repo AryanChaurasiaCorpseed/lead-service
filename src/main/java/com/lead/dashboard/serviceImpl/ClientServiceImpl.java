@@ -86,6 +86,13 @@ public class ClientServiceImpl implements ClientService{
 
         return lead;    }
 
+	@Override
+	public List<Client> getAllClientInfo() {
+		// TODO Auto-generated method stub
+		List<Client> client = clientRepository.findAll();
+		return client;
+	}
+
 
 //    @Override
 //    public Client updateClientInfo(Long clientID) {

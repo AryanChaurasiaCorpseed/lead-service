@@ -1,5 +1,7 @@
 package com.lead.dashboard.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,8 @@ public class Role {
 
 
 	private String name;
+	
+	List<String>accessedNode;
 
 	boolean isDeleted ; 
 
