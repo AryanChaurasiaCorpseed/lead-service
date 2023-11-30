@@ -32,7 +32,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 	@Autowired
 	NodeService nodeService;
 	
-	@GetMapping(UrlsMapping.GET_NODE)
+	@GetMapping(UrlsMapping.CREATE_USER_ACCESS)
 	public ResponseEntity<List<Nodes>> getNode()
 	{
 		List<Nodes> nList = nodeRepository.findAll();
