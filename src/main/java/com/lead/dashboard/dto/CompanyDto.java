@@ -1,26 +1,7 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-
-
-
-@Table
-@Entity
-@Getter
-@Setter
-@Data
-public class Company {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)	
-	Long id;
+public class CompanyDto {
+	
 	String name;
 	String panNo;
 	String gstNo;
@@ -29,13 +10,6 @@ public class Company {
 	String State;
 	String City;
 	String Address;
-	boolean isDeleted;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -84,14 +58,6 @@ public class Company {
 	public void setAddress(String address) {
 		Address = address;
 	}
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-	
-	
 	
 	
 

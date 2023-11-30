@@ -27,6 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class Lead {
 	
 
@@ -304,4 +305,21 @@ public class Lead {
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
 	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public List<Remark> getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(List<Remark> remarks) {
+		this.remarks = remarks;
+	}
+	
 }

@@ -1,5 +1,7 @@
 package com.lead.dashboard.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Client;
@@ -16,4 +18,6 @@ public interface ClientService {
     Lead createClientInLead(Long leadId, String name, String email, String contactNo);
 
     void removeClientFromLead(Long leadId, Long clientId);
+
+	List<Client> getAllClientInfo();
 }
