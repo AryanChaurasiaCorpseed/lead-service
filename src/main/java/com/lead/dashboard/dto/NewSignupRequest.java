@@ -1,14 +1,16 @@
 package com.lead.dashboard.dto;
 
 
+import java.util.List;
+
 import lombok.Data;
 
-@Data
+//@Data
 public class NewSignupRequest {
 
 	Long id;
 	String email;
-	String role;
+	List<String> role;
 	String designation;
 	String userName;
 	public String getEmail() {
@@ -17,10 +19,11 @@ public class NewSignupRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRole() {
+	
+	public List<String> getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(List<String> role) {
 		this.role = role;
 	}
 	public String getDesignation() {
