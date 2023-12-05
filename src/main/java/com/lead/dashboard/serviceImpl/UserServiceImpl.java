@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String userName, String email, String role, Long userId, String designation) {
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation) {
 
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
 			u.setEmail(email);
 			
 			List<String>listRole = new ArrayList();		
-			listRole.add(role);
+			listRole.addAll(role);
 			u.setRole(listRole);
 
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
 		}else {
 			User u = userRepo.findByemail(email);
 			List<String>listRole = new ArrayList();
-			listRole.add(role);
+			listRole.addAll(role);
 			u.setRole(listRole);
 			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
 //			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
