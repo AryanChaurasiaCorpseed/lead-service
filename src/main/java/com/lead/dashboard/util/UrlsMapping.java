@@ -70,8 +70,10 @@ public class UrlsMapping {
 	//AccessManagment
 	public static final String CREATE_USER_ACCESS=PREFIX+"/access/createUserAccess";
 	public static final String GET_USER_ACCESS=PREFIX+"/access/getUserAccess";
+	public static final String GET_ALL_USER_ACCESS=PREFIX+"/access/getAllUserAccess";
 	public static final String UPDATE_USER_ACCESSE=PREFIX+"/access/updateUserAccess";
 	public static final String REMOVE_USER_ACCESS=PREFIX+"/access/removeUserAccess";
+	
 	//Company Services
 	public static final String CREATE_COMPANY=PREFIX+"/company/createCompany";
 	public static final String GET_COMPANY=PREFIX+"/company/getCompany";
