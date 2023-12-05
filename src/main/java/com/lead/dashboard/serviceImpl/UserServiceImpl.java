@@ -175,8 +175,11 @@ public class UserServiceImpl implements UserService {
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
 			u.setDesignation(designation);
-			String feedbackStatusURL = "https://corpseed.com" ;
-			
+			userRepo.save(u);
+
+//			String feedbackStatusURL = "https://corpseed.com" ;
+			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
+
 					Context context = new Context();
 					context.setVariable("userName", "Aryan Chaurasia");
 					context.setVariable("email", email);
@@ -184,7 +187,7 @@ public class UserServiceImpl implements UserService {
 					context.setVariable("currentYear", LocalDateTime.now().getYear());
 			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 			String text="CLICK ON THIS link and set password";
-			userRepo.save(u);
+//			userRepo.save(u);
 			String[] ccPersons= {email};
 //			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
@@ -195,7 +198,8 @@ public class UserServiceImpl implements UserService {
 			listRole.add(role);
 			u.setRole(listRole);
 			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
-			
+//			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
+
 					Context context = new Context();
 					context.setVariable("userName", "Aryan Chaurasia");
 					context.setVariable("email", email);
