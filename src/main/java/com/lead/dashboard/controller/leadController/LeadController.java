@@ -5,6 +5,7 @@ import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.StatusService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -45,6 +46,9 @@ public class LeadController {
 	
 	@Autowired
 	SecurityFeignClient securityFeignClient;
+	
+	@Autowired
+	UserRepo userRepo;
 
 	
 //	@GetMapping("/v1/lead/test")
@@ -85,13 +89,24 @@ public class LeadController {
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
 	{
 		System.out.println("Hit");
-		Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
-		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		List<String> roleList = userRepo.findRoleNameById(updateLeadDto.getUserId());
+		System.out.println("ROLE  .. . . . . "+roleList);
+		if(roleList.contains("ADMIN")|| roleList.contains("USER")) {
+			System.out.println("In side .. ");
+			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
+			return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		}else {
+//			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
 	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,@RequestParam Long leadId,@RequestParam(required=false) Long userId)
 	{
-		System.out.println("Hit");
+//		System.out.println("Hit");
+//		List<String> roleList = userRepo.findRoleNameById(userId);
+          
 		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId,userId);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}

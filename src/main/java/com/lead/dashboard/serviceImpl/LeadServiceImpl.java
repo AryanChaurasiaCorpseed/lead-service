@@ -147,7 +147,7 @@ public class LeadServiceImpl implements LeadService  {
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
 		System.out.println(lead);
-		if(lead!=null) {
+		if(!lead.isEmpty()&&lead!=null) {
 			leadHistory(lead.get(), updateLeadDto);
 
 			Lead leadData = lead.get();
