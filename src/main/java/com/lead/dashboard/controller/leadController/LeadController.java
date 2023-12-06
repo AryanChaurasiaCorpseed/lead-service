@@ -5,6 +5,7 @@ import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.StatusService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -45,6 +46,9 @@ public class LeadController {
 	
 	@Autowired
 	SecurityFeignClient securityFeignClient;
+	
+	@Autowired
+	UserRepo userRepo;
 
 	
 //	@GetMapping("/v1/lead/test")
@@ -74,10 +78,18 @@ public class LeadController {
 
 //	@GetMapping("/v1/lead/getAllLead")
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(Long userId)
-	{
-		List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
-		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)String type,@RequestParam(required = false)Long statusId)
+	{		
+		//type->active , inActive 
+		//status->new,potential . etc
+		if(statusId==null&&type==null) {
+			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}else {
+			List<Lead> alllead= leadservice.getAllLead(userId,type,statusId);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}
+
 	}
 
 //	@PutMapping("/v1/lead/updateLead")
@@ -85,23 +97,41 @@ public class LeadController {
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
 	{
 		System.out.println("Hit");
-		Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
-		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		List<String> roleList = userRepo.findRoleNameById(updateLeadDto.getUserId());
+		System.out.println("ROLE  .. . . . . "+roleList);
+		if(roleList.contains("ADMIN")|| roleList.contains("USER")) {
+			System.out.println("In side .. ");
+			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
+			return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
+		}else {
+//			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
 	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,@RequestParam Long leadId,@RequestParam(required=false) Long userId)
 	{
-		System.out.println("Hit");
+//		System.out.println("Hit");
+//		List<String> roleList = userRepo.findRoleNameById(userId);
+          
 		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId,userId);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
 
 //	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
-	public  boolean  deleteLead(@RequestParam Long leadId,@RequestParam Long usrId)
+	public  ResponseEntity<Object>  deleteLead(@RequestParam Long leadId,@RequestParam Long userId)
 	{
-		boolean  deletedLead = leadservice.deleteLead(leadId,usrId);
-		return deletedLead;
+		List<String> roleList = userRepo.findRoleNameById(userId);
+		if(roleList.contains("ADMIN")) {
+			boolean  deletedLead = leadservice.deleteLead(leadId,userId);
+			return new ResponseEntity<>(deletedLead==true?"lead has been deleted":"Not Deleted",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Access Denied",HttpStatus.UNAUTHORIZED);
+
+		}
+
 	}
 
 //	@DeleteMapping("/v1/lead/sendMailInLead")
