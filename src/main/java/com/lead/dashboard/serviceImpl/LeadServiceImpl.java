@@ -118,6 +118,10 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setSource(leadDTO.getSource());
 		lead.setPrimaryAddress(leadDTO.getPrimaryAddress());
 		lead.setDeleted(leadDTO.isDeleted());
+		Status status = statusRepository.findAllByName("New");
+		if(status!=null) {
+			lead.setStatus(status);
+		}
 		lead.setCity(leadDTO.getCity());
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
@@ -147,7 +151,7 @@ public class LeadServiceImpl implements LeadService  {
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
 		Optional<Lead> lead = leadRepository.findById(updateLeadDto.getId());
 		System.out.println(lead);
-		if(lead!=null) {
+		if(!lead.isEmpty()&&lead!=null) {
 			leadHistory(lead.get(), updateLeadDto);
 
 			Lead leadData = lead.get();
@@ -612,6 +616,22 @@ public class LeadServiceImpl implements LeadService  {
 		// TODO Auto-generated method stub
 		ServiceDetails service=serviceDetailsRepository.findById(estimateId).get();
 		return service;
+	}
+
+	@Override
+	public List<Lead> getAllLead(Long userId, String type, Long statusId) {
+		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		List<Lead>leadList = new ArrayList<>();
+		Optional<User> user = userRepo.findById(userId);
+		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+			
+			leadList= leadRepository.findAllByStatusAndIsDeleted(statusId,flag);
+		}else {
+			leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeleted(userId,statusId,flag);
+		}
+
+		return leadList;
+
 	}
 
 
