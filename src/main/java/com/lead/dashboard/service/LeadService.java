@@ -26,6 +26,7 @@ public interface LeadService {
 	boolean deleteLead(Long leadId, Long userId);
 	List<ServiceDetails> getAllEstimate();
 	ServiceDetails getEstimate(Long estimateId);
+	List<Lead> getAllLead(Long userId, String type, Long statusId);
 
 
 

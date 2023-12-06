@@ -78,10 +78,18 @@ public class LeadController {
 
 //	@GetMapping("/v1/lead/getAllLead")
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(Long userId)
-	{
-		List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
-		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)String type,@RequestParam(required = false)Long statusId)
+	{		
+		//type->active , inActive 
+		//status->new,potential . etc
+		if(statusId==null&&type==null) {
+			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}else {
+			List<Lead> alllead= leadservice.getAllLead(userId,type,statusId);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}
+
 	}
 
 //	@PutMapping("/v1/lead/updateLead")
@@ -113,10 +121,17 @@ public class LeadController {
 
 //	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
-	public  boolean  deleteLead(@RequestParam Long leadId,@RequestParam Long usrId)
+	public  ResponseEntity<Object>  deleteLead(@RequestParam Long leadId,@RequestParam Long userId)
 	{
-		boolean  deletedLead = leadservice.deleteLead(leadId,usrId);
-		return deletedLead;
+		List<String> roleList = userRepo.findRoleNameById(userId);
+		if(roleList.contains("ADMIN")) {
+			boolean  deletedLead = leadservice.deleteLead(leadId,userId);
+			return new ResponseEntity<>(deletedLead==true?"lead has been deleted":"Not Deleted",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Access Denied",HttpStatus.UNAUTHORIZED);
+
+		}
+
 	}
 
 //	@DeleteMapping("/v1/lead/sendMailInLead")
