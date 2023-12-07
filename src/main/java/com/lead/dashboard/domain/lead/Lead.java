@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Status;
@@ -107,6 +108,7 @@ public class Lead {
 	@JoinTable(name="lead_remark",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<Remark>remarks;
 
 	@ManyToOne
