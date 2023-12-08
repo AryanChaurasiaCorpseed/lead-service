@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Role;
 
 import com.lead.dashboard.service.UserAccessService;
 import com.lead.dashboard.util.UrlsMapping;
 
-@Controller
+@RestController
 public class UserAccessController {
 
 	@Autowired
@@ -24,13 +26,16 @@ public class UserAccessController {
 
 	@PostMapping(UrlsMapping.CREATE_USER_ACCESS)
 	public 	Role createUserAccess(@RequestParam Long roleId) {
-		
+		boolean result=userAccessService.createUserAccess(roleId);
 		
 		return null;
 	}
 	@GetMapping(UrlsMapping.GET_USER_ACCESS)
-	public List<Role>getUserAccess(){
-		return null;
+	public List<Map<String,Object>>getUserAccess(@RequestParam Long roleId){
+		List<Map<String,Object>> result=userAccessService.getUserAccess(roleId);
+		
+
+		return result;
 	}
 	
 	@GetMapping(UrlsMapping.GET_ALL_USER_ACCESS)
