@@ -60,6 +60,18 @@ public class Role {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+
+
+	public List<String> getAccessedNode() {
+		return accessedNode;
+	}
+
+
+
+	public void setAccessedNode(List<String> accessedNode) {
+		this.accessedNode = accessedNode;
+	}
 	
 	
 

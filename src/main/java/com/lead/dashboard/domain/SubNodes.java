@@ -2,6 +2,8 @@ package com.lead.dashboard.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class SubNodes {
 	@JoinTable(name="sub_node_child",joinColumns = {@JoinColumn(name="sub_node_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="sub_node_child_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+    @JsonIgnore
 	List<SuperSubNodes>subNodeChild;
     
     boolean isDeleted;
