@@ -3,6 +3,7 @@ package com.lead.dashboard.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,12 +28,14 @@ public class Client {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="client_communication_id"+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<Communication>communication;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="client_service_details",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="client_service_details_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<ServiceDetails>serviceDetails;
 
 	/**
