@@ -33,7 +33,7 @@ import java.util.Map;
 // @RequestMapping("/leadService/api")
 public class LeadController {
 
-//	private static final String CreateServiceDetails = null;
+	//	private static final String CreateServiceDetails = null;
 
 	@Autowired
 	LeadService leadservice;
@@ -43,19 +43,18 @@ public class LeadController {
 
 	@Autowired
 	StatusService statusService;
-	
+
 	@Autowired
 	SecurityFeignClient securityFeignClient;
-	
+
 	@Autowired
 	UserRepo userRepo;
 
-	
-//	@GetMapping("/v1/lead/test")
+
 	@GetMapping(UrlsMapping.TEST)
 	public String test()
 	{
-//		return securityFeignClient.test();	
+		//		return securityFeignClient.test();	
 		return "Test";		 
 
 	}
@@ -76,7 +75,6 @@ public class LeadController {
 		}
 	}
 
-//	@GetMapping("/v1/lead/getAllLead")
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
 	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)String type,@RequestParam(required = false)Long statusId)
 	{		
@@ -92,7 +90,6 @@ public class LeadController {
 
 	}
 
-//	@PutMapping("/v1/lead/updateLead")
 	@PutMapping(UrlsMapping.UPDATE_LEAD)
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
 	{
@@ -104,22 +101,18 @@ public class LeadController {
 			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
 			return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		}else {
-//			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
+			//			Lead updatedLeadData = leadservice.updateLeadData(updateLeadDto);
 			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
 		}
 
 	}
 	@PutMapping(UrlsMapping.UPDATE_LEAD_NAME)
 	public ResponseEntity<Lead> updateLeadName(@RequestParam String leadName,@RequestParam Long leadId,@RequestParam(required=false) Long userId)
-	{
-//		System.out.println("Hit");
-//		List<String> roleList = userRepo.findRoleNameById(userId);
-          
+	{     
 		Lead updatedLeadData = leadservice.updateLeadName(leadName,leadId,userId);
 		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 	}
 
-//	@DeleteMapping("/v1/lead/deleteLead")
 	@DeleteMapping(UrlsMapping.DELETE_LEAD)
 	public  ResponseEntity<Object>  deleteLead(@RequestParam Long leadId,@RequestParam Long userId)
 	{
@@ -134,13 +127,12 @@ public class LeadController {
 
 	}
 
-//	@DeleteMapping("/v1/lead/sendMailInLead")
 	@PostMapping(UrlsMapping.SEND_MAIL_IN_LEAD)
 	public  boolean  sendMailInLead( String to, String subject, String text){
-//		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
+		//		emailServiceImpl.sendSimpleMessage(to,  subject,  text);
 		return true;
 	}
-//	@GetMapping("/v1/lead/getSingleLeadData")
+
 	@GetMapping(UrlsMapping.GET_SINGLE_LEAD_DATA)
 	public ResponseEntity <Map<String,Object>> getSingleLeadData(@RequestParam Long leadId)
 	{
@@ -150,47 +142,44 @@ public class LeadController {
 
 
 
-//	@PutMapping("/{leadId}/status")
-//	public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId,@RequestBody Status statusUpdateRequest)
-//	{
-//		boolean updated = leadservice.updateLeadsStatus(leadId, statusUpdateRequest);
-//		if (updated) {
-//			return ResponseEntity.ok("Lead status updated successfully.");
-//		} else {
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
-//		}
-//	}
-	
-	
-//	@PutMapping("/v1/lead/createEstimate")
+	//	@PutMapping("/{leadId}/status")
+	//	public ResponseEntity<String> updateLeadStatus(@PathVariable Long leadId,@RequestBody Status statusUpdateRequest)
+	//	{
+	//		boolean updated = leadservice.updateLeadsStatus(leadId, statusUpdateRequest);
+	//		if (updated) {
+	//			return ResponseEntity.ok("Lead status updated successfully.");
+	//		} else {
+	//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lead or status not found.");
+	//		}
+	//	}
+
+
 	@PutMapping(UrlsMapping.CREATE_ESTIMATE)
 	public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
 	{
 		Lead res=leadservice.createEstimate(createServiceDetails);
-//		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
-		 return res;
+		return res;
 	}
-//	@GetMapping("/v1/lead/getAllStatusHistory")
 	@GetMapping(UrlsMapping.GET_ALL_STATUS_HISTORY)
 	public ResponseEntity<List<LeadStatusChangeHistory>> getAllStatusHistory(@RequestParam Long leadId )
 	{
-	 try
-	 {
-		 List<LeadStatusChangeHistory> statusHistory = statusService.getStatusHistoryForLead(leadId);
-		 return new ResponseEntity<>(statusHistory, HttpStatus.OK);
-	 }
-        catch (Exception e)
-	{
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	}
-	 }
-	
+		try
+		{
+			List<LeadStatusChangeHistory> statusHistory = statusService.getStatusHistoryForLead(leadId);
+			return new ResponseEntity<>(statusHistory, HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	}
+	}
+
 	@PutMapping(UrlsMapping.UPDATE_ASSIGNEE)
 	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
 	{
 		Lead res=leadservice.updateAssignee(leadId,userId);
-		 return res;
+		return res;
 	}
-	
+
 	@PutMapping(UrlsMapping.CREATE_PRODUCT_IN_LEAD)
 	public  ResponseEntity<Lead> createProductInLead(@RequestBody AddProductInLead addProductInLead)
 	{
@@ -198,19 +187,18 @@ public class LeadController {
 		try {
 			res = leadservice.createProductInLead(addProductInLead);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.getMessage();
 			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage(), null);
 
 		}
-		 return new ResponseEntity<>(res, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)
 	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId)
 	{
 		boolean res=leadservice.deleteProductInLead(leadId,serviceId);
-		 return res;
+		return res;
 	}
 
 }

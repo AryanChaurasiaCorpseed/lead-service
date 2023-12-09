@@ -261,7 +261,7 @@ public class LeadServiceImpl implements LeadService  {
 			leadHistory.setCreateDate(new Date());
 			
 			lead.setDisplayStatus("2");
-			lead.setDeleted(false);
+			lead.setDeleted(true);
 			flag=true;
 			leadRepository.save(lead);
 			leadHistoryRepository.save(leadHistory);
