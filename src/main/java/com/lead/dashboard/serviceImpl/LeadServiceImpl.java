@@ -141,7 +141,7 @@ public class LeadServiceImpl implements LeadService  {
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 			return leadRepository.findAllByIsDeleted(false);
 		}else {
-			return leadRepository.findAllByAssignee(uId);
+			return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
 		}
 
 	}
