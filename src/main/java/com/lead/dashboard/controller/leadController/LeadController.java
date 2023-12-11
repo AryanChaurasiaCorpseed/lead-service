@@ -195,10 +195,26 @@ public class LeadController {
 	}
 
 	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)
-	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId)
+	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId,@RequestParam(required = false) Long userId)
 	{
-		boolean res=leadservice.deleteProductInLead(leadId,serviceId);
+		boolean res=leadservice.deleteProductInLead(leadId,serviceId,userId);
 		return res;
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_DELETE_LEAD)
+	public ResponseEntity <List<Lead>> getAllDeleteLead(@RequestParam Long userId)
+	{		
+		List<Lead> alllead= leadservice.getAllDeleteLead(userId);
+
+
+		if(alllead!=null &&alllead.size()!=0) {
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+
+		}
+
 	}
 
 }
