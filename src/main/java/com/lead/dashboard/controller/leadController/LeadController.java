@@ -76,15 +76,15 @@ public class LeadController {
 	}
 
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)String type,@RequestParam(required = false)Long statusId)
+	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
-		if(statusId==null&&type==null) {
+		if(statusId==null) {
 			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-			List<Lead> alllead= leadservice.getAllLead(userId,type,statusId);
+			List<Lead> alllead= leadservice.getAllLead(userId,statusId);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
 
