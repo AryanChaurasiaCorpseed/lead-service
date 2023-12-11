@@ -141,7 +141,7 @@ public class LeadServiceImpl implements LeadService  {
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 			return leadRepository.findAllByIsDeleted(false);
 		}else {
-			return leadRepository.findAllByAssignee(uId);
+			return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
 		}
 
 	}
@@ -619,8 +619,9 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllLead(Long userId, String type, Long statusId) {
-		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+	public List<Lead> getAllLead(Long userId, Long statusId) {
+//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
