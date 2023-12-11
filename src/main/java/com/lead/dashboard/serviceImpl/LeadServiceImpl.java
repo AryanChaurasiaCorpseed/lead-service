@@ -533,8 +533,10 @@ public class LeadServiceImpl implements LeadService  {
 		Lead lead = leadRepository.findById(addProductInLead.getLeadId()).get();
 		List<Client> clientList = lead.getClients();
 		Client client = clientList.stream().findFirst().get();
-		List<ServiceDetails> serviceList = client.getServiceDetails();
-		long isPrsent = client.getServiceDetails().stream().filter(i->i.getName().equals(product.getProductName())).count();
+		List<ServiceDetails> serviceList = client.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		
+		long isPrsent = serviceList.stream().filter(i->i.getName().equals(product.getProductName())).count();
+		System.out.println("isPrsent value .. "+isPrsent);
 		if(isPrsent!=0) {
 			//			return lead;
 			throw new Exception("Product already Exist ..!");
@@ -592,7 +594,7 @@ public class LeadServiceImpl implements LeadService  {
 
 
 	@Override
-	public boolean deleteProductInLead(Long leadId,Long serviceId) {
+	public boolean deleteProductInLead(Long leadId,Long serviceId,Long userId) {
 		// TODO Auto-generated method stub
 		boolean flag =false;
 		Optional<ServiceDetails> sList = serviceDetailsRepository.findById(serviceId);
@@ -634,6 +636,19 @@ public class LeadServiceImpl implements LeadService  {
 		return leadList;
 
 	}
+	
+	@Override
+	public List<Lead> getAllDeleteLead(Long uId) {
+
+		Optional<User> user = userRepo.findById(uId);
+		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+			return leadRepository.findAllByIsDeleted(true);
+		}else {
+			return leadRepository.findAllByAssigneeAndIsDeleted(uId, true);
+		}
+
+	}
+
 
 
 
