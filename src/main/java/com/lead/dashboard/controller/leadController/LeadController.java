@@ -197,7 +197,8 @@ public class LeadController {
 	@PutMapping(UrlsMapping.DELETE_PRODUCT_IN_LEAD)
 	public boolean deleteProductInLead(@RequestParam Long leadId,@RequestParam Long serviceId,@RequestParam(required = false) Long userId)
 	{
-		boolean res=leadservice.deleteProductInLead(leadId,serviceId,userId);
+		boolean res=leadservice.deleteProductInLead(leadId,serviceId,userId
+				);
 		return res;
 	}
 	
