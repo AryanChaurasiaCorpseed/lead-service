@@ -87,8 +87,8 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(leadDTO.getEmail());
 		lead.setUrls(leadDTO.getUrls());
-		lead.setCreateDate(leadDTO.getCreateDate());		
-		lead.setLastUpdated(leadDTO.getLastUpdated());
+		lead.setCreateDate(new Date());		
+		lead.setLastUpdated(new Date());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
@@ -562,7 +562,7 @@ public class LeadServiceImpl implements LeadService  {
 		// TODO Auto-generated method stub
 		Lead lead = leadRepository.findById(leadId).get();
 		
-		String name=lead.getName();
+		String name=lead.getLeadName();
 		lead.setLeadName(newLeadName);
 		lead.setLastUpdated(new Date());
 		leadRepository.save(lead);
