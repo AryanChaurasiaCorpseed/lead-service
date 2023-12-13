@@ -38,6 +38,15 @@ public class UserAccessController {
 		return result;
 	}
 	
+	@GetMapping(UrlsMapping.GET_SUBNODE_BY_NODE_AND_ROLE)
+	public List<Map<String,Object>>getSubNodeByNodeAndRole(@RequestParam Long roleId,Long nodeId){
+		List<Map<String,Object>> result=userAccessService.getSubNodeByNodeAndRole(roleId,nodeId);
+		
+
+		return result;
+	}
+
+	
 	@GetMapping(UrlsMapping.GET_ALL_USER_ACCESS)
 	public List<Role>getAllUserAccess(){
 		return null;
