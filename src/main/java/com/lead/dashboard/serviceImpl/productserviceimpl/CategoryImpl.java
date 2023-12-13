@@ -68,6 +68,11 @@ public class CategoryImpl implements CategoryService
 
 
     @Override
+    public Category getCategories(Long id) {
+        Category  category= categoryRepo.findById(id).get();
+        return category;
+    }
+    
     public List<Category> getAllCategories() {
         return categoryRepo.findAll().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
