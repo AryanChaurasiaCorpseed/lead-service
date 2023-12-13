@@ -86,4 +86,13 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/getCategories")
+    public ResponseEntity<Category> getCategories(@RequestParam Long id) {
+        Category categoriesData = categoryService.getCategories(id);
+        if (categoriesData!=null) {
+            return ResponseEntity.ok(categoriesData);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
