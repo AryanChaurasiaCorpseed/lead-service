@@ -14,6 +14,8 @@ public interface UserAccessService {
 
 	List<Map<String,Object>> getUserAccess(Long roleId);
 
-	List<Map<String, Object>> getSubNodeByNodeAndRole(Long roleId, Long nodeId);
+	Map<String, Object> getSubNodeByNodeAndRole(Long roleId, Long nodeId);
+
+	Map<String, Object> getSuperSubNodeBySubNode(Long roleId,Long nodeId,Long subNodeId);
 
 }

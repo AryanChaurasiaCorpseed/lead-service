@@ -63,7 +63,7 @@ public class RoleController {
 	@GetMapping("/roles/updateRoleDummy")
 	public 	Role  updateRoleDummy(@RequestParam Long roleId) {
 		Role role = roleRepository.findById(roleId).get();   //SalesLeadscreate	SalesLeadsedit		SalesLeadsdelete	SalesLeadsupdate
-		List<String>acccessList = Arrays.asList("Dashboard","HR","Sales","SalesLeads","SalesOpp","SalesLeadsget","SalesLeadsdelete","SalesLeadscreate","SalesLeadsupdate");		
+		List<String>acccessList = Arrays.asList("Dashboard","Operations","Manage Clients","Activity Master","Accounts","HR","Sales","SalesLeads","SalesOpp","SalesLeadsget","SalesLeadsdelete","SalesLeadscreate","SalesLeadsupdate");		
 		role.setAccessedNode(acccessList);
 		roleRepository.save(role);
 		return role;

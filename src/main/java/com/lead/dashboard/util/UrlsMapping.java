@@ -74,7 +74,8 @@ public class UrlsMapping {
 	public static final String GET_ALL_USER_ACCESS=PREFIX+"/access/getAllUserAccess";
 	public static final String UPDATE_USER_ACCESSE=PREFIX+"/access/updateUserAccess";
 	public static final String REMOVE_USER_ACCESS=PREFIX+"/access/removeUserAccess";
-	public static final String GET_SUBNODE_BY_NODE_AND_ROLE=PREFIX+"/access/getUserAccess";
+	public static final String GET_SUBNODE_BY_NODE_AND_ROLE=PREFIX+"/access/getSubNodeByNodeAndRole";
+	public static final String GET_SUPER_SUBNODE_BY_SUBNODE=PREFIX+"/access/getSuperSubNodeBySubNode";
 
 	
 	//Company Services
