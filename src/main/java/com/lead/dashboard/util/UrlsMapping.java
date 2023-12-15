@@ -78,12 +78,21 @@ public class UrlsMapping {
 	public static final String GET_SUPER_SUBNODE_BY_SUBNODE=PREFIX+"/access/getSuperSubNodeBySubNode";
 
 	
-	//Company Services
+	//Company Services1234
+	
 	public static final String CREATE_COMPANY=PREFIX+"/company/createCompany";
 	public static final String GET_COMPANY=PREFIX+"/company/getCompany";
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
+	
+	//Plans
+	public static final String CREATE_PLANS=PREFIX+"/plans/createPlans";
+	public static final String UPDATE_PLANS=PREFIX+"/plans/updatePlans";
+	public static final String DELETE_PLANS=PREFIX+"/plans/deletePlans";
+	public static final String GET_PLANS=PREFIX+"/plans/getPlans";
+	public static final String GET_ALL_PLANS=PREFIX+"/plans/getAllPlans";
+
 
 
 
