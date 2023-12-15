@@ -66,6 +66,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 	}
 
 	@Override
+	
 	public List<Map<String,Object>> getUserAccess(Long roleId) {
 		// TODO Auto-generated method stub
 		Role role = roleRepository.findById(roleId).get();
@@ -117,6 +118,109 @@ public class UserAccessServiceImpl implements UserAccessService{
 		}
 
 		return nodeList;
+	}
+
+	@Override
+	public Map<String, Object> getSubNodeByNodeAndRole(Long roleId, Long nodeId) {
+		Role role = roleRepository.findById(roleId).get();
+		List<String> accessList = role.getAccessedNode();
+		Nodes n=nodeRepository.findById(nodeId).get();
+			String parent =n.getName();
+			String parentTemp =parent; 
+			Map<String,Object>mapNode = new HashMap<>();
+			List<Map<String,Object>>subNodeList = new ArrayList<>();
+			
+			if(accessList.contains(parent)) {
+
+				for(SubNodes sn: n.getNodeChild()) {
+
+					String child =parentTemp+sn.getName();
+					String tempChild=child;
+					Map<String,Object>mapSubNode = new HashMap<>();
+					List<Map<String,Object>>superSubNodeList = new ArrayList<>();
+					
+					if(accessList.contains(child)) {
+						
+						for(SuperSubNodes ssn:sn.getSubNodeChild()) {
+							String subChild=child+ssn.getName();
+							Map<String,Object>mapSuperSubNode = new HashMap<>();
+							System.out.println(subChild);
+							if(accessList.contains(subChild)) {
+								System.out.println(mapSuperSubNode+"  is equal to  "+accessList.contains(subChild));
+								mapSuperSubNode.put("id", ssn.getId());
+								mapSuperSubNode.put("name", ssn.getName());
+								superSubNodeList.add(mapSuperSubNode);	
+							}
+
+						}
+						mapSubNode.put("id", sn.getId());
+						mapSubNode.put("name",sn.getName());
+						mapSubNode.put("superSubNode", superSubNodeList);
+						subNodeList.add(mapSubNode);
+					}				
+				}
+				mapNode.put("id", n.getId());
+				mapNode.put("name", n.getName());
+
+				mapNode.put("subNode", subNodeList);
+			}
+		
+
+		return mapNode;
+	}
+
+	@Override
+	public Map<String, Object> getSuperSubNodeBySubNode(Long roleId,Long nodeId ,Long subNodeId) {
+		// TODO Auto-generated method stub
+		Role role = roleRepository.findById(roleId).get();
+		List<String> accessList = role.getAccessedNode();
+		Map<String,Object>mapSubNode = new HashMap<>();
+
+		Nodes n=nodeRepository.findById(nodeId).get();
+			String parent =n.getName();
+			String parentTemp =parent; 
+//			Map<String,Object>mapNode = new HashMap<>();
+//			List<Map<String,Object>>subNodeList = new ArrayList<>();
+			
+			if(accessList.contains(parent)) {
+                SubNodes sn =subNodesRepository.findById(subNodeId).get();
+//				for(SubNodes sn: n.getNodeChild()) {
+
+					String child =parentTemp+sn.getName();
+					String tempChild=child;
+//					Map<String,Object>mapSubNode = new HashMap<>();
+					List<Map<String,Object>>superSubNodeList = new ArrayList<>();
+					
+					if(accessList.contains(child)) {
+						
+						for(SuperSubNodes ssn:sn.getSubNodeChild()) {
+							String subChild=child+ssn.getName();
+							System.out.println(subChild);
+
+							Map<String,Object>mapSuperSubNode = new HashMap<>();
+							System.out.println(subChild);
+							if(accessList.contains(subChild)) {
+								System.out.println(mapSuperSubNode+"  is equal to  "+accessList.contains(subChild));
+								mapSuperSubNode.put("id", ssn.getId());
+								mapSuperSubNode.put("name", ssn.getName());
+								superSubNodeList.add(mapSuperSubNode);	
+							}
+
+						}
+						mapSubNode.put("id", sn.getId());
+						mapSubNode.put("name",sn.getName());
+						mapSubNode.put("superSubNode", superSubNodeList);
+//						subNodeList.add(mapSubNode);
+					}				
+//				}
+//				mapNode.put("id", n.getId());
+//				mapNode.put("name", n.getName());
+//
+//				mapNode.put("subNode", subNodeList);
+			}
+		
+
+		return mapSubNode;
 	}
 
 

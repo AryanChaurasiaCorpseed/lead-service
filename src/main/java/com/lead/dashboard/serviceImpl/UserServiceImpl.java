@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -250,4 +251,20 @@ public class UserServiceImpl implements UserService {
 //		return u;
 //>>>>>>> 7cef39e90ce2b641760d5906429d3d0a0c985e86
 //	}
+
+
+
+	@Override
+	public List<User> getAllUserByHierarchy(Long userId) {
+         List<User>userList = new ArrayList();
+
+		 List<String> userRoles = userRepo.findRoleNameById(userId);
+		if(userRoles.contains("ADMIN")) {
+			userList=userRepo.findAll();
+		}else {
+			userList=userRepo.findAll().stream().filter(i->i.getRole().contains("ADMIN")).collect(Collectors.toList());
+		}
+		
+		return userList;
+	}
 }

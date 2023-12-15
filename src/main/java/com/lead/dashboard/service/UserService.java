@@ -20,4 +20,5 @@ public interface UserService
 	
 	
 	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation);
+	List<User> getAllUserByHierarchy(Long userId);
 }

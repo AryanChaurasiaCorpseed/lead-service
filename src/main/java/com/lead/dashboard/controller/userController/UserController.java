@@ -36,6 +36,21 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("api/v1/users/getAllUserByHierarchy")
+	public ResponseEntity<List<User>> getAllUserByHierarchy(@RequestParam Long userId)
+	{
+
+		List<User> allUser=userService.getAllUserByHierarchy(userId);
+		if(!allUser.isEmpty())
+		{
+			return  new ResponseEntity<>(allUser,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 	@GetMapping("api/v1/users/isUserExistOrNot")
 	public boolean isUserExistOrNot(@RequestParam Long userId) throws Exception
 	{
