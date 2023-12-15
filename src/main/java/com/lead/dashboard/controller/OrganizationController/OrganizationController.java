@@ -1,10 +1,8 @@
 package com.lead.dashboard.controller.OrganizationController;
 
-import com.lead.dashboard.domain.Role;
+import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-
+@RestController
 public class OrganizationController {
 
 
