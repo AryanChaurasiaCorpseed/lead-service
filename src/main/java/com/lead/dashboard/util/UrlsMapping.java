@@ -92,6 +92,13 @@ public class UrlsMapping {
 	public static final String DELETE_PLANS=PREFIX+"/plans/deletePlans";
 	public static final String GET_PLANS=PREFIX+"/plans/getPlans";
 	public static final String GET_ALL_PLANS=PREFIX+"/plans/getAllPlans";
+	
+	//== Create Organization
+	public static final String CREATE_ORGANIZATION=PREFIX+"/plans/createOrganization";
+	public static final String UPDATE_ORGANIZATION=PREFIX+"/plans/updateOrganization";
+	public static final String DELETE_ORGANIZATION=PREFIX+"/plans/deleteOragnization";
+	public static final String GET_ORGANIZATION=PREFIX+"/plans/getOrganization";
+	public static final String GET_ALL_ORGANIZATION=PREFIX+"/plans/getAllOrganization";
 
 
 
