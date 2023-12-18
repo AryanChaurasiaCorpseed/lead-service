@@ -27,8 +27,7 @@ public class PlansController {
 	@Autowired
 	PlansService plansService;
 	
-	@PostMapping(UrlsMapping.CREATE_PLANS)
-	
+	@PostMapping(UrlsMapping.CREATE_PLANS)	
 	public ResponseEntity<Plans> createPlans(@RequestBody CreatePlans createPlans)
 	{				
 		Plans res = plansService.createPlans(createPlans);
