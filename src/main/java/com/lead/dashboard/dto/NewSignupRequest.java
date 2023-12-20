@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.Data;
 
-//@Data
+@Data
 public class NewSignupRequest {
 
 	Long id;
@@ -13,6 +13,7 @@ public class NewSignupRequest {
 	List<String> role;
 	String designation;
 	String userName;
+	Long CompanyId;
 	public String getEmail() {
 		return email;
 	}
@@ -43,6 +44,12 @@ public class NewSignupRequest {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getCompanyId() {
+		return CompanyId;
+	}
+	public void setCompanyId(Long companyId) {
+		CompanyId = companyId;
 	}
 	
 	

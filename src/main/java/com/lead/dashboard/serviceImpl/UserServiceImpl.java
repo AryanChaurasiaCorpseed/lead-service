@@ -2,9 +2,13 @@ package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.Organization.Organization;
+import com.lead.dashboard.domain.Organization.UserManagment;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.repository.OrganizationRepository;
 import com.lead.dashboard.repository.RoleRepository;
+import com.lead.dashboard.repository.UserManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
 
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	OrganizationRepository organizationRepository;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -114,8 +121,11 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation) {
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,Long orgId) {
 
+		Organization organization = organizationRepository.findById(orgId).get();
+		UserManagment um = new UserManagment();
+		
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(email);
@@ -168,7 +178,6 @@ public class UserServiceImpl implements UserService {
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
-			
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
 			u.setRole(listRole);
@@ -177,7 +186,14 @@ public class UserServiceImpl implements UserService {
 			u.setUserRole(roleList);
 			u.setDesignation(designation);
 			userRepo.save(u);
-
+			//== User Managment 
+            um.setUser(u);
+            um.setUserManagmentRole(roleList);
+            List<UserManagment> orgList = organization.getOrganizationUserManagment();
+            orgList.add(um);
+            organization.setOrganizationUserManagment(orgList);
+            organizationRepository.save(organization);
+            
 //			String feedbackStatusURL = "https://corpseed.com" ;
 			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
 
@@ -197,7 +213,9 @@ public class UserServiceImpl implements UserService {
 			User u = userRepo.findByemail(email);
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
-			u.setRole(listRole);
+			u.setRole(listRole); 
+			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
+			u.setUserRole(roleList);
 			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
 //			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
 
@@ -209,6 +227,15 @@ public class UserServiceImpl implements UserService {
 			String subject="Corpseed pvt ltd send a request for adding on team please go and Accept";
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
+			
+			//== User Managment 
+            um.setUser(u);
+            um.setUserManagmentRole(roleList);
+            List<UserManagment> orgList = organization.getOrganizationUserManagment();
+            orgList.add(um);
+            organization.setOrganizationUserManagment(orgList);
+            organizationRepository.save(organization);
+            
 			String[] ccPersons= {email};
 //			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"TeamAdd.html");

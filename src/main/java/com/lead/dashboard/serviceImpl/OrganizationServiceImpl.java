@@ -3,6 +3,7 @@ package com.lead.dashboard.serviceImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -67,7 +68,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		User user=userRepo.findById(createOrganization.getUserId()).get();
 		UserManagment userManagment=new UserManagment();
 		List<UserManagment>um = new ArrayList<>();
-		userManagment.setRole(r);
+		List<Role>listRole = new ArrayList();
+		listRole.add(r);
+		userManagment.setUserManagmentRole(listRole);
 		userManagment.setUser(user);
 		um.add(userManagment);
 		List<Role>roleList = new ArrayList<>();
@@ -98,6 +101,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public Organization getOrganization(Long orgId) {
 		return organizationRepository.findById(orgId).get();
+	}
+
+	@Override
+	public Boolean canAddNewUser(Long orgId) {
+		boolean flag=false;
+		Organization org = organizationRepository.findById(orgId).get();
+		Long avilableSize=org.getTeamSize();
+		Long currentSize=org.getOrganizationUserManagment().stream().filter(i->i.isDeleted()==false).count();
+		if(avilableSize>=currentSize) {
+			flag=true;
+		}
+		return flag;
 	}
 
 
