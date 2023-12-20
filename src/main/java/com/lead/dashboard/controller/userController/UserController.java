@@ -100,7 +100,7 @@ public class UserController {
 	
 	@PostMapping("api/v1/users/createUserByEmail")
 	public User createUserByEmail(@RequestBody NewSignupRequest newSignupRequest) {
-		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation());
+		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation(),newSignupRequest.getCompanyId());
 		return createdUser;
 	}
 }

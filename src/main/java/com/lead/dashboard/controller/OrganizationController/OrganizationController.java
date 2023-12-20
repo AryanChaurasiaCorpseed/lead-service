@@ -72,6 +72,12 @@ public class OrganizationController {
 		Organization res=organizationService.getOrganization(orgId);
 		return res;
 	}
+	
+	@GetMapping(UrlsMapping.CAN_ADD_NEW_USER)	
+	public Boolean canAddNewUser(@RequestParam Long orgId) {
+		Boolean res=organizationService.canAddNewUser(orgId);
+		return res;
+	}
 
 
 }

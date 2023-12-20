@@ -12,4 +12,6 @@ public interface OrganizationService {
 
 	Organization getOrganization(Long orgId);
 
+	Boolean canAddNewUser(Long orgId);
+
 }

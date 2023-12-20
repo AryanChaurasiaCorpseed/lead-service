@@ -100,6 +100,12 @@ public class UrlsMapping {
 	public static final String GET_ORGANIZATION=PREFIX+"/plans/getOrganization";
 	public static final String GET_ALL_ORGANIZATION=PREFIX+"/plans/getAllOrganization";
 
+	public static final String CAN_ADD_NEW_USER=PREFIX+"/plans/canAddNewUser";
+	
+	
+	// ==== PreOrgnization Data
+	
+	public static final String CREATE_PRE_ORGANIZATION_STATUS=PREFIX+"/plans/createPreOrganizationStatus";
 
 
 
