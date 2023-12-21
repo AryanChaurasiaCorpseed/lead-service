@@ -48,6 +48,8 @@ public class LeadDTO {
 	String serviceId;
 
 	String industryId;
+	
+	Long companyId;
 
 	public Long getAssigneeId() {
 		return assigneeId;
@@ -236,6 +238,14 @@ public class LeadDTO {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 	
 	

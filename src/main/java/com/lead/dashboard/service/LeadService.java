@@ -17,7 +17,7 @@ public interface LeadService {
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
 	Lead getSingleLeadData(Long leadId);
 	Lead createEstimate(CreateServiceDetails createServiceDetails);
-	List<Lead> getAllActiveCustomerLead(Long uId);
+	List<Lead> getAllActiveCustomerLead(Long uId,Long orgId);
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
 	Lead updateLeadName(String leadName, Long leadId, Long userId);

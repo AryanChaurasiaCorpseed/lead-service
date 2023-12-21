@@ -22,9 +22,11 @@ import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.Organization.Organization;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.OrganizationRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
@@ -68,10 +70,16 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+    OrganizationRepository organizationRepository;
 
 
 	public Lead createLead(LeadDTO leadDTO) {
-		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(leadDTO.getEmail(),leadDTO.getMobileNo());
+	    Organization organization = organizationRepository.findById(leadDTO.getCompanyId()).get();
+//		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(leadDTO.getEmail(),leadDTO.getMobileNo());
+		List<Lead>leadList=leadRepository.findAllByEmailAndMobileAndOrganizationId(leadDTO.getEmail(),leadDTO.getMobileNo(),leadDTO.getCompanyId());
+
 		Lead lead = new Lead();
 
 		if(leadList!=null && leadList.size()!=0) {
@@ -130,18 +138,25 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
 		lead.setUuid(commonServices.getUuid());
-
-		return leadRepository.save(lead);
+		lead.setOrganization(organization);
+		leadRepository.save(lead);
+//		List<Lead> orgLead = organization.getOrganizationLead();
+//		orgLead.add(lead);
+//		organization.setOrganizationLead(orgLead);
+//		organizationRepository.save(organization);
+		return lead;
 	}
 
 	@Override
-	public List<Lead> getAllActiveCustomerLead(Long uId) {
+	public List<Lead> getAllActiveCustomerLead(Long uId,Long orgId) {
 
 		Optional<User> user = userRepo.findById(uId);
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-			return leadRepository.findAllByIsDeleted(false);
+//			return leadRepository.findAllByIsDeleted(false);
+			return leadRepository.findAllByOrganizationIdAndIsDeleted(orgId ,false);
+
 		}else {
-			return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+			return leadRepository.findAllByOrganizationIdAndAssigneeAndIsDeleted(orgId,uId, false);
 		}
 
 	}
