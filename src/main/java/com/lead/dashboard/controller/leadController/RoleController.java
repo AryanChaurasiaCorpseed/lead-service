@@ -78,5 +78,18 @@ public class RoleController {
 		return r;
 	}
 	
+	@PostMapping("/roles/deleteRole")
+	public 	Boolean  deleteRole(@RequestParam Long id) {
+		Boolean flag=false;
+		Role role = roleRepository.findById(id).get();
+		if(!role.isUnique()) {
+			role.setDeleted(true);
+			roleRepository.save(role);
+			flag=true;
+		}
+		roleRepository.save(role);
+		return flag;
+	}
+	
 
 }

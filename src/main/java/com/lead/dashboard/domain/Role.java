@@ -14,6 +14,8 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	boolean isUnique;//never be deleted
 
 
 	private String name;
@@ -27,7 +29,6 @@ public class Role {
 	}
 	
 	
-
 	public Long getId() {
 		return id;
 	}
@@ -71,6 +72,16 @@ public class Role {
 
 	public void setAccessedNode(List<String> accessedNode) {
 		this.accessedNode = accessedNode;
+	}
+
+
+	public boolean isUnique() {
+		return isUnique;
+	}
+
+
+	public void setUnique(boolean isUnique) {
+		this.isUnique = isUnique;
 	}
 	
 	
