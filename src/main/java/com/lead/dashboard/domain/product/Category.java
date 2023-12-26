@@ -1,8 +1,7 @@
 package com.lead.dashboard.domain.product;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lead.dashboard.domain.Client;
+
 
 import jakarta.persistence.*;
 import lombok.Data;

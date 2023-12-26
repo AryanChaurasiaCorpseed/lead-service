@@ -28,9 +28,7 @@ public class PreOrganizationServiceImpl implements PreOrganizationService {
 	
 	@Autowired
 	ProductRepo productRepo;
-	
-	@Autowired
-	Category category;
+
 	
 	
 	
