@@ -72,6 +72,12 @@ public class UrlsMapping {
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
+	
+	// Sales-Dashboard
+	
+	public static final String GET_NO_OF_LEAD_DATA_GRAPH=PREFIX+"/salesDashboard/getNoOfLeadDataGraph";
+
+	
 
 
 

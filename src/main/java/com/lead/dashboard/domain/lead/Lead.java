@@ -201,7 +201,9 @@ public class Lead {
 		return whatsAppStatus;
 	}
 
-	public Status getStatus() {		return status;	}
+	public Status getStatus() {	
+		return status;	
+	}
 
 	public String getUuid() {
 		return uuid;
