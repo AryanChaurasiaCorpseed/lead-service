@@ -106,6 +106,8 @@ public class UrlsMapping {
 	// ==== PreOrgnization Data
 	
 	public static final String CREATE_PRE_ORGANIZATION_STATUS=PREFIX+"/plans/createPreOrganizationStatus";
+	public static final String CREATE_PRE_TASK_STATUS=PREFIX+"/plans/createPreTaskStatus";
+	public static final String CREATE_PRE_PRODUCT=PREFIX+"/plans/createPreProduct";
 
 
 

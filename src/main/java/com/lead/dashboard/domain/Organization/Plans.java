@@ -17,6 +17,7 @@ public class Plans {
 	String name ;  //Like -startup,professional,Enterprise
 	String Price;
 	String Duration;
+	Long noOfCandidate;
 	boolean isDeleted;
 	public Long getId() {
 		return id;

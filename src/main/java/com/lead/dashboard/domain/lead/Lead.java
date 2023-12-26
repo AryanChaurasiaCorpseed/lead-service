@@ -10,6 +10,7 @@ import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.Organization.Organization;
 import com.lead.dashboard.domain.product.Product;
 
 //import com.lead.dashboard.domain.opportunity.Opportunities;
@@ -110,6 +111,10 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	@JsonIgnore
 	List<Remark>remarks;
+	
+	@ManyToOne
+	@JsonIgnore
+	Organization organization;
 
 	@ManyToOne
 	private User assignee;

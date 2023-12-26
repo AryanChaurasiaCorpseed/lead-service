@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
 
@@ -73,6 +74,24 @@ public class Organization {
 			inverseJoinColumns = {@JoinColumn(name="organization_user_managment_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<UserManagment>organizationUserManagment;
+ 	
+ 	
+// 	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name="organization_lead",joinColumns = {@JoinColumn(name="organization_id",referencedColumnName="id",nullable=true)},
+//			inverseJoinColumns = {@JoinColumn(name="organization_lead_id"
+//					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+//	List<Lead>organizationLead;
+
+// 	
+//	public List<Lead> getOrganizationLead() {
+//		return organizationLead;
+//	}
+//
+//	public void setOrganizationLead(List<Lead> organizationLead) {
+//		this.organizationLead = organizationLead;
+//	}
+ 	
+ 	
 
 	public Long getId() {
 		return id;
@@ -81,6 +100,7 @@ public class Organization {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 
 	public String getName() {
 		return name;

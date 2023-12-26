@@ -23,6 +23,9 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
 	List<Lead> findAllByAssigneeAndIsDeleted(Long userId,boolean b);
 	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.organization_id =:orgId and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	List<Lead> findAllByOrganizationIdAndAssigneeAndIsDeleted(Long orgId,Long userId,boolean b);
+	
 	@Query(value = "SELECT * FROM erp_leads el WHERE  el.status_id=:statusId and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
 	List<Lead> findAllByAssigneeAndStatusAndIsDeleted(Long userId,Long statusId,boolean b);
 	
@@ -30,9 +33,17 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b", nativeQuery = true)
 	List<Lead> findAllByIsDeleted(boolean b);
 	
+	
+	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id=:statusId and el.is_deleted =:b", nativeQuery = true)
 	List<Lead> findAllByStatusAndIsDeleted(Long statusId,boolean b); 
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.email =:email or el.client_mob_no =:mobileNo", nativeQuery = true)
 	List<Lead> findAllByEmailAndMobile(String email, String mobileNo);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.organization_id=:orgId and (el.email =:email or el.client_mob_no =:mobileNo)", nativeQuery = true)
+	List<Lead> findAllByEmailAndMobileAndOrganizationId(String email, String mobileNo,Long orgId);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE organization_id =:orgId and el.is_deleted =:b", nativeQuery = true)
+	List<Lead> findAllByOrganizationIdAndIsDeleted(Long orgId, boolean b);
 
 }

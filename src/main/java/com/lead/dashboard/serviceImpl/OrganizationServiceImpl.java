@@ -63,7 +63,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			organization.setPlansEnd(CorpseedCalender.addDate(new Date(), 21)); // need to change
 		}
 		Role r = new Role();
-		r.setName("ADMIN");
+		r.setName("ADMIN");//replace With Api
+		r.setUnique(true);
 		roleRepository.save(r);
 		User user=userRepo.findById(createOrganization.getUserId()).get();
 		UserManagment userManagment=new UserManagment();
@@ -79,6 +80,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 		organization.setOrganizationUserManagment(um);
 		organizationRepository.save(organization);
 		return organization;
+	}
+	
+	public Role ByDefaultRoleCreation() {
+		Role r = new Role();
+		r.setName("ADMIN");
+		r.setUnique(true);
+		roleRepository.save(r);
+		return null;
 	}
 
 	public void createByDefaultRoles(Long organizationId) {

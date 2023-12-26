@@ -7,4 +7,6 @@ public interface PreOrganizationService {
 
 	boolean createPreOrganizationStatus(Long organizationId);
 
+	 boolean createPreProduct(Long organizationId);
+
 }

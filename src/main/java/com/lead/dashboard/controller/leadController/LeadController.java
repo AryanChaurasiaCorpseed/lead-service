@@ -30,6 +30,7 @@ import java.util.Map;
 
 @RestController
 
+
 // @RequestMapping("/leadService/api")
 public class LeadController {
 
@@ -76,12 +77,12 @@ public class LeadController {
 	}
 
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId)
+	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId,@RequestParam Long orgId)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
 		if(statusId==null) {
-			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId);
+			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId,orgId);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
 			List<Lead> alllead= leadservice.getAllLead(userId,statusId);
