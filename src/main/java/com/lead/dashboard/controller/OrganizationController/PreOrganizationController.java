@@ -16,12 +16,12 @@ import com.lead.dashboard.service.PreOrganizationService;
 @RestController
 public class PreOrganizationController {
 	@Autowired
-	PreOrganizationService PreOrganizationService;
+	PreOrganizationService preOrganizationService;
 	
 	@PostMapping(UrlsMapping.CREATE_PRE_ORGANIZATION_STATUS)	
 	public ResponseEntity<?> createPreOrganizationStatus(@RequestParam Long organizationId)
 	{				
-		boolean res = PreOrganizationService.createPreOrganizationStatus(organizationId);
+		boolean res = preOrganizationService.createPreOrganizationStatus(organizationId);
 
 		if (res) {
 				return new ResponseEntity<>(res, HttpStatus.CREATED);		
@@ -30,6 +30,21 @@ public class PreOrganizationController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
 	}
+	@PostMapping(UrlsMapping.CREATE_PRE_PRODUCT)	
+	public ResponseEntity<?> createPreProduct(@RequestParam Long organizationId)
+	{				
+		boolean res = preOrganizationService.createPreProduct(organizationId);
+
+		if (res) {
+				return new ResponseEntity<>(res, HttpStatus.CREATED);		
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);		
+		}
+	}
+	
+	
+	
     
 
 }
