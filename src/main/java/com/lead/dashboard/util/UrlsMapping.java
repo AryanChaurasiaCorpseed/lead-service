@@ -76,6 +76,7 @@ public class UrlsMapping {
 	// Sales-Dashboard
 	
 	public static final String GET_NO_OF_LEAD_DATA_GRAPH=PREFIX+"/salesDashboard/getNoOfLeadDataGraph";
+	public static final String GET_LATEST_LEAD=PREFIX+"/salesDashboard/getLatestLead";
 
 	
 
