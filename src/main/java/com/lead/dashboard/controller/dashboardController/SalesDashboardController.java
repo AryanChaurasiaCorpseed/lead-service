@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.dashboardController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,16 @@ public class SalesDashboardController {
 	SalesDashboardService salesDashboardService;
 	
 	@GetMapping(UrlsMapping.GET_NO_OF_LEAD_DATA_GRAPH)
-	public ResponseEntity <List<Lead>> getNoOfLeadDataGraph(@RequestParam Long userId,@RequestParam Long d1,@RequestParam Long d2)
+	public ResponseEntity <Map<String,Integer>> getNoOfLeadDataGraph(@RequestParam Long userId,@RequestParam Long d1,@RequestParam Long d2)
 	{
-		List<Lead> alllead= salesDashboardService.getNoOfLeadDataGraph(userId,d1,d2);
+		Map<String,Integer> alllead= salesDashboardService.getNoOfLeadDataGraph(userId,d1,d2);
+		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	}
+	
+	@GetMapping(UrlsMapping.GET_LATEST_LEAD)
+	public ResponseEntity <List<Lead>> getLatestLead(@RequestParam Long userId)
+	{
+		List<Lead> alllead= salesDashboardService.getLatestLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 }
