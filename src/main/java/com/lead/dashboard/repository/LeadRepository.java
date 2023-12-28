@@ -1,5 +1,6 @@
 package com.lead.dashboard.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,11 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	List<Lead> findAllByStatusAndIsDeleted(Long statusId,boolean b); 
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.email =:email or el.client_mob_no =:mobileNo", nativeQuery = true)
 	List<Lead> findAllByEmailAndMobile(String email, String mobileNo);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.assignee_id in(:userId) and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndInBetweenDate(Long userId,String d1,String d2);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.assignee_id =:userId ORDER BY create_date DESC  LIMIT 5", nativeQuery = true)
+	List<Lead> findAllByAssigneeLatest(Long userId);
 
 }
