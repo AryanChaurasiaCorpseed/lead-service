@@ -16,6 +16,7 @@ public class CreateServiceDetails {
 	private String name;
 	@NotBlank
 	Date estimateData;
+	Long productId;
 	//company
     Long companyId;
 	String company;
@@ -26,6 +27,7 @@ public class CreateServiceDetails {
 	String State;
 	String City;
 	String Address;
+	Long quantity;
 //	@ManyToOne
 //	Company companyName;
 	
@@ -72,6 +74,18 @@ public class CreateServiceDetails {
 	}
 	
 
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+	public Long getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
 	public Date getEstimateData() {
 		return estimateData;
 	}

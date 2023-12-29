@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.LeadHistory;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Product;
@@ -85,7 +86,7 @@ public class Lead {
 	@JoinTable(name="lead_product",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
-	List<Product>products;
+	List<Product>leadProducts;
 
 	@Column
 	private String industryId;
@@ -112,7 +113,11 @@ public class Lead {
 	@ManyToOne
 	private User assignee;
 	
-
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="lead_service_details",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="lead_service_details_id"
+			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<ServiceDetails>serviceDetails;
 	
 	
 	@ManyToOne
@@ -308,14 +313,6 @@ public class Lead {
 		this.assignee = assignee;
 	}
 
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
 	public List<Remark> getRemarks() {
 		return remarks;
 	}
@@ -323,5 +320,23 @@ public class Lead {
 	public void setRemarks(List<Remark> remarks) {
 		this.remarks = remarks;
 	}
+
+	public List<Product> getLeadProducts() {
+		return leadProducts;
+	}
+
+	public void setLeadProducts(List<Product> leadProducts) {
+		this.leadProducts = leadProducts;
+	}
+
+	public List<ServiceDetails> getServiceDetails() {
+		return serviceDetails;
+	}
+
+	public void setServiceDetails(List<ServiceDetails> serviceDetails) {
+		this.serviceDetails = serviceDetails;
+	}
+	
+	
 	
 }

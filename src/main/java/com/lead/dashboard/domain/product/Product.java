@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.User;
 
 @Entity
@@ -35,6 +36,7 @@ public class Product {
     String otherCode;
     String otherGst;     
     @ManyToOne
+    @JsonIgnore
     User createdBy;
     boolean isDeleted;
 

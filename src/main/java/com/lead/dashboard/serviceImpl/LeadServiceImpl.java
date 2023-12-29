@@ -319,6 +319,7 @@ public class LeadServiceImpl implements LeadService  {
 				listOfMap.add(clientMap);
 			}
 			map.put("serviceDetails",serviceList);
+			map.put("estimate",lead.getServiceDetails());
 
 			map.put("clients", listOfMap);
 
@@ -484,6 +485,58 @@ public class LeadServiceImpl implements LeadService  {
 
 
 	}
+	
+	
+	
+	@Override
+	public Lead createEstimateV2(CreateServiceDetails createservicedetails) {
+
+		ServiceDetails service= new ServiceDetails();
+		service.setName(createservicedetails.getName());
+		service.setCompany(createservicedetails.getCompany());
+		service.setConsultingSale(null); //========= for verification
+		service.setContact(createservicedetails.getContact());
+		service.setEstimateData(createservicedetails.getEstimateData());
+		service.setInvoiceNote(createservicedetails.getInvoiceNote());
+		//		service.setOpportunities(null);   //========= for verification
+		service.setOrderNumber(createservicedetails.getOrderNumber());
+		service.setProductType(createservicedetails.getProductType());
+		service.setPurchaseDate(createservicedetails.getPurchaseDate());
+		service.setRemarksForOption(createservicedetails.getRemarksForOption());
+
+		service.setGovermentfees(createservicedetails.getGovermentfees());
+		service.setGovermentCode(createservicedetails.getGovermentCode());
+		service.setGovermentGst(createservicedetails.getGovermentGst());
+		service.setProfessionalFees(createservicedetails.getProfessionalFees());
+		service.setProfessionalCode(createservicedetails.getProfessionalCode());
+
+		service.setProfesionalGst(createservicedetails.getProfesionalGst());
+		service.setServiceCharge(createservicedetails.getServiceCharge());
+		service.setServiceCode(createservicedetails.getServiceCode());
+		service.setServiceGst(createservicedetails.getServiceGst());
+		service.setOtherFees(createservicedetails.getOtherFees());
+		service.setOtherCode(createservicedetails.getOtherCode());
+		service.setOtherGst(createservicedetails.getOtherGst());
+		
+		Product product = productRepo.findById(createservicedetails.getProductId()).get();
+		service.setProduct(product);
+		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
+		Company  company=companyRepository.findById(createservicedetails.getCompanyId()).get();		
+		service.setCompanies(company);
+		Client client = clientRepository.findById(createservicedetails.getClientId()).get();
+		service.setClient(client);
+		List<ServiceDetails>estimate=lead.getServiceDetails();
+		serviceDetailsRepository.save(service);
+		estimate.add(service);
+		lead.setServiceDetails(estimate);
+		leadRepository.save(lead);
+		//		 sendEmail(String subject,String text, Context context,String templateName) {
+		sendEstimateMail(createservicedetails,lead, "this mail for estimate");
+		return lead;
+
+
+	}
+
 
 	private void sendEstimateMail(CreateServiceDetails createservicedetails,Lead lead,String subject) {
 		//		List<String> emailList = lead.getClients().stream().map(i->i.getEmails()).collect(Collectors.toList());
@@ -550,6 +603,23 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		return lead;
 	}
+	
+
+	@Override
+	public Lead createProductInLeadV2(AddProductInLead addProductInLead) throws Exception  {
+		// TODO Auto-generated method stub
+		Product product = productRepo.findById(addProductInLead.getProductId()).get();
+		Lead lead = leadRepository.findById(addProductInLead.getLeadId()).get();
+		List<Product> productList = lead.getLeadProducts();
+		List<Long>productIds=productList.stream().map(i->i.getId()).collect(Collectors.toList());
+		if(!productIds.contains(addProductInLead.getProductId())) {
+			productList.add(product);
+			lead.setLeadProducts(productList);
+			leadRepository.save(lead);
+		}
+		return lead;
+	}
+
 
 	@Override
 	public Lead updateLeadName(String newLeadName, Long leadId,Long userId) {

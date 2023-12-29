@@ -26,6 +26,8 @@ public interface LeadService {
 	boolean deleteLead(Long leadId, Long userId);
 	List<ServiceDetails> getAllEstimate();
 	ServiceDetails getEstimate(Long estimateId);
+	Lead createProductInLeadV2(AddProductInLead addProductInLead)  throws Exception ;
+	Lead createEstimateV2(CreateServiceDetails createservicedetails);
 
 
 

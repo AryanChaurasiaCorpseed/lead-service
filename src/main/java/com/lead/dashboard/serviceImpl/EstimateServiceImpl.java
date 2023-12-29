@@ -69,7 +69,8 @@ public class EstimateServiceImpl implements EstimateService
 		service.setGovermentGst(createservicedetails.getGovermentGst());
 		service.setProfessionalFees(createservicedetails.getProfessionalFees());
 		service.setProfessionalCode(createservicedetails.getProfessionalCode());
-
+        service.setQuantity(createservicedetails.getQuantity()
+        		);
 		service.setProfesionalGst(createservicedetails.getProfesionalGst());
 		service.setServiceCharge(createservicedetails.getServiceCharge());
 		service.setServiceCode(createservicedetails.getServiceCode());
@@ -283,7 +284,6 @@ public class EstimateServiceImpl implements EstimateService
 		companyRepository.save(company);
 		service.setCompanies(company);
 		serviceDetailsRepository.save(service);
-
 		return service;
 	}
 

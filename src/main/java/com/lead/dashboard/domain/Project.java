@@ -29,6 +29,8 @@ public class Project {
 	
 	int amount;
 	
+	String status;
+	
 	@ManyToOne
 	ServiceDetails serviceDetails;
 	

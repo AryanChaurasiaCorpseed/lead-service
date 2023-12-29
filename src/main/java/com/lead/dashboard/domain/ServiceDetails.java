@@ -29,6 +29,11 @@ public class ServiceDetails {
     Long id ;
 	private String name;
 	private String ServiceName;
+	
+	
+	
+	@ManyToOne
+	Client client;
 	@NotBlank
 	@ManyToOne
 	Product product;	
@@ -41,6 +46,7 @@ public class ServiceDetails {
 	String productType;
 	String orderNumber;
 	String purchaseDate;
+	Long quantity;
 	List<String>cc;
 	String  invoiceNote;
 	String remarksForOption;
@@ -81,6 +87,20 @@ public class ServiceDetails {
 		this.name = name;
 	}
 	
+	
+	
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	public Long getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
 	public String getCompany() {
 		return company;
 	}
@@ -231,6 +251,7 @@ public class ServiceDetails {
 	public void setServiceName(String serviceName) {
 		ServiceName = serviceName;
 	}
+	
    
 	public boolean isDeleted() {
 		return isDeleted;
@@ -238,6 +259,8 @@ public class ServiceDetails {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	
 	
 	
 	

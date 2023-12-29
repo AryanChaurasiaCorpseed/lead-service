@@ -136,7 +136,7 @@ public class LeadController {
 	@PutMapping(UrlsMapping.CREATE_ESTIMATE)
 	public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
 	{
-		Lead res=leadservice.createEstimate(createServiceDetails);
+		Lead res=leadservice.createEstimateV2(createServiceDetails);
 //		return new ResponseEntity<>(updatedLeadData,HttpStatus.OK);
 		 return res;
 	}
@@ -166,7 +166,7 @@ public class LeadController {
 	{
 		Lead res=null;
 		try {
-			res = leadservice.createProductInLead(addProductInLead);
+			res = leadservice.createProductInLeadV2(addProductInLead);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.getMessage();
