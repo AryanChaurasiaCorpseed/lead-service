@@ -82,6 +82,9 @@ public class UrlsMapping {
 	// Project
 	public static final String CREATE_PROJECT=PREFIX+"/project/createProject";
 	public static final String GET_ALL_PROJECT=PREFIX+"/project/getAllProject";
+	public static final String GET_PROJECT=PREFIX+"/project/getProject";
+	public static final String UPDATE_PROJECT=PREFIX+"/project/UpdateProject";
+	public static final String DELETE_PROJECT=PREFIX+"/project/DeleteProject";
 
 
 	

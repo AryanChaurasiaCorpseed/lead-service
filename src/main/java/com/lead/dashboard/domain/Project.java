@@ -50,5 +50,8 @@ public class Project {
 	
 	Date createDate;
 	
+//	@ManyToOne
+//	Organization organization;
+	
 
 }
