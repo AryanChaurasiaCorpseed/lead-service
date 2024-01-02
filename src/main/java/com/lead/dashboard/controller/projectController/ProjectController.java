@@ -41,7 +41,7 @@ public class ProjectController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    } 
     @GetMapping(UrlsMapping.GET_PROJECT)
     public ResponseEntity<Project> getProject(@RequestParam Long projectId) {
          Project res = projectService.getProject(projectId);

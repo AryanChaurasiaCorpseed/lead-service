@@ -85,6 +85,10 @@ public class UrlsMapping {
 	public static final String GET_PROJECT=PREFIX+"/project/getProject";
 	public static final String UPDATE_PROJECT=PREFIX+"/project/UpdateProject";
 	public static final String DELETE_PROJECT=PREFIX+"/project/DeleteProject";
+	
+	// ===================================    Payment Data Create for Account Side Approval =========
+	public static final String CREATE_PAYMENT_DATA=PREFIX+"/paymentData/createPamentData";
+
 
 
 	
