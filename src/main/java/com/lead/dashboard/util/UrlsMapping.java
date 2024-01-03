@@ -88,6 +88,7 @@ public class UrlsMapping {
 	
 	// ===================================    Payment Data Create for Account Side Approval =========
 	public static final String CREATE_PAYMENT_DATA=PREFIX+"/paymentData/createPamentData";
+	public static final String UPDATE_PAYMENT_DATA=PREFIX+"/paymentData/updatePamentData";
 
 
 

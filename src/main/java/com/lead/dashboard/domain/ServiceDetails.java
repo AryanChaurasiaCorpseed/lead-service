@@ -6,12 +6,15 @@ import java.util.List;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.domain.product.Product;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +26,8 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
+
+// estimate
 public class ServiceDetails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -65,6 +70,13 @@ public class ServiceDetails {
     int otherFees;
     String otherCode;
     String otherGst;
+    
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="estimate_payment_data",joinColumns = {@JoinColumn(name="estimate_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="estimate_payment_data_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<PaymentData>estimatePaymentData;
     
     public Company getCompanies() {
 		return companies;

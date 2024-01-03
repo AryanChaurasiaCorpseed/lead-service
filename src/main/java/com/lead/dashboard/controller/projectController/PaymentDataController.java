@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lead.dashboard.domain.PaymentData;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.dto.PaymentDataDto;
+import com.lead.dashboard.dto.UpdateDataDto;
 import com.lead.dashboard.service.PaymentDataService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -27,5 +28,24 @@ public class PaymentDataController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @PostMapping(UrlsMapping.UPDATE_PAYMENT_DATA)
+    public ResponseEntity<Boolean>updatePaymentData(@RequestParam UpdateDataDto updateDataDto) {
+    	Boolean payment = paymentDataService.updatePaymentData(updateDataDto);
+        if (payment) {
+            return ResponseEntity.ok(payment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+//    @PostMapping(UrlsMapping.UPDATE_PAYMENT_DATA)
+//    public ResponseEntity<PaymentData>updatePaymentData(@RequestParam PaymentDataDto paymentDataDto) {
+//    	PaymentData payment = paymentDataService.updatePaymentData(paymentDataDto);
+//        if (payment!=null) {
+//            return ResponseEntity.ok(payment);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
 }
