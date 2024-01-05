@@ -46,6 +46,12 @@ public class UrlsMapping {
 	public static final String EDIT_ESTIMATE_INVOICE=PREFIX+"/leadEstimate/editEstimateInvoice";
 	public static final String EDIT_ESTIMATE_ADDRESS=PREFIX+"/leadEstimate/editEstimateAddress";
 	
+	// = = = === =  == = = = Account Feign Client = = = = = == == = = == = = = = = = = = = ==
+	
+	public static final String TEST_ACCOUNT_FEIGN=PREFIX+"/account/testAccountFeign";
+	public static final String CREATE_USER_ACCOUNT_MODULE=PREFIX+"/account/createUserAccountModule";
+	public static final String CREATE_ALL_ROLE_ACCOUNT_SIDE=PREFIX+"/account/createAllRoleAtAccountSide";
+
 	
 	// Node
 	public static final String CREATE_NODE=PREFIX+"/node/createNode";
