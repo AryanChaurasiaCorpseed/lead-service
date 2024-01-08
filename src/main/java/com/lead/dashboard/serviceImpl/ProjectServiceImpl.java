@@ -29,19 +29,19 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
 	ProjectRepository projectRepository;
-	
+
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
-	
+
 	@Autowired
 	CompanyRepository companyRepository;
-	
+
 	@Autowired
 	LeadRepository leadRepository;
-	
+
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Override
 	public List<Project> createProject(Long leadId,Long estimateId) {
 
@@ -49,20 +49,26 @@ public class ProjectServiceImpl implements ProjectService{
 		ServiceDetails estimate = serviceDetailsRepository.findById(estimateId).get();
 		Optional<Lead> leadOp = leadRepository.findById(leadId);
 		Lead lead =leadOp.get();
-        Client client = estimate.getClient();
+		Client client = estimate.getClient();
 		long l = estimate.getQuantity();
-		for(long i=0;i<l;i++) {
-			Project project = new Project();
-			project.setAssignee(lead.getAssignee());
-			project.setCompany(estimate.getCompanies());
-			project.setAmount(estimate.getProfessionalFees());
-			project.setClient(client);
-			project.setName(estimate.getName());
-//			project.setProjectNo(null);  //no need to setup 
-			project.setServiceDetails(estimate);
-			project.setCreateDate(new Date());
-			projectRepository.save(project);
-			p.add(project);
+		if(!(estimate.isProjectCreated())) {
+			for(long i=0;i<l;i++) { // estimate quantity
+				Project project = new Project();
+				project.setAssignee(lead.getAssignee());
+				project.setCompany(estimate.getCompanies());
+				project.setAmount(estimate.getProfessionalFees());
+				project.setClient(client);
+				project.setName(estimate.getName());
+				//			project.setProjectNo(null);  //no need to setup 
+				project.setServiceDetails(estimate);
+				project.setCreateDate(new Date());
+				project.setLeadId(leadId);
+				projectRepository.save(project);
+				estimate.setProjectCreated(true);
+				serviceDetailsRepository.save(estimate);
+				p.add(project);
+			}
+			
 		}
 		return p;
 	}
@@ -101,7 +107,7 @@ public class ProjectServiceImpl implements ProjectService{
 				project.setCompany(company);
 			}
 			projectRepository.save(project);
-			
+
 		}
 
 		return project;

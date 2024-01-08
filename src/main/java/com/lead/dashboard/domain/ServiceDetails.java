@@ -71,6 +71,8 @@ public class ServiceDetails {
     String otherCode;
     String otherGst;
     
+    boolean isProjectCreated; //Project is Created or Not
+    
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="estimate_payment_data",joinColumns = {@JoinColumn(name="estimate_id",referencedColumnName="id",nullable=true)},
@@ -101,6 +103,18 @@ public class ServiceDetails {
 	
 	
 	
+	public boolean isProjectCreated() {
+		return isProjectCreated;
+	}
+	public void setProjectCreated(boolean isProjectCreated) {
+		this.isProjectCreated = isProjectCreated;
+	}
+	public List<PaymentData> getEstimatePaymentData() {
+		return estimatePaymentData;
+	}
+	public void setEstimatePaymentData(List<PaymentData> estimatePaymentData) {
+		this.estimatePaymentData = estimatePaymentData;
+	}
 	public Client getClient() {
 		return client;
 	}

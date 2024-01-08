@@ -58,7 +58,7 @@ public class Project {
 	boolean isMileStone;
 	boolean isFully;
 	boolean isPartial;
-	
+	Long leadId;
 	int docPercent;
 	int fillingPercent;
 	int liasPercent;
@@ -183,6 +183,12 @@ public class Project {
 	}
 	public void setTestPercent(int testPercent) {
 		this.testPercent = testPercent;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	
