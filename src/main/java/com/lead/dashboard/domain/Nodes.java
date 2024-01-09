@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Entity
 @Table
-//@Data
+@Data
 public class Nodes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,9 @@ public class Nodes {
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
 //    @JsonIgnore
 	List<SubNodes>nodeChild;
+	
+	String url;
+	String path;
     
     boolean isDeleted;
 
@@ -67,6 +70,14 @@ public class Nodes {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	

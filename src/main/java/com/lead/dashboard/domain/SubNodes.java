@@ -32,7 +32,9 @@ public class SubNodes {
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
 //    @JsonIgnore
 	List<SuperSubNodes>subNodeChild;
-    
+    String url;
+    String path;
+
     boolean isDeleted;
 
 	public Long getId() {

@@ -12,7 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.CreateNode;
+import com.lead.dashboard.dto.CreateSubNode;
+import com.lead.dashboard.dto.CreateSuperSubNode;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.dto.UpdateNode;
+import com.lead.dashboard.dto.UpdateSubNode;
+import com.lead.dashboard.dto.UpdateSuperSubNode;
 import com.lead.dashboard.repository.NodeRepository;
 import com.lead.dashboard.repository.SubNodesRepository;
 import com.lead.dashboard.repository.SuperSubNodesRepository;
@@ -123,15 +129,15 @@ public class NodeController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_NODE)
-	public Nodes createNode(@RequestParam String name) {
-		Nodes n=nodeService.createNode(name);
+	public Nodes createNode(@RequestBody CreateNode createNode) {
+		Nodes n=nodeService.createNode(createNode);
 		return n;
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_NODE)
-	public Nodes updateNode(Long id,String name)
+	public Nodes updateNode(@RequestBody UpdateNode updateNode)
 	{
-		Nodes n=nodeService.updateNode(id,name);
+		Nodes n=nodeService.updateNode(updateNode);
 		return n;
 	}
 	
@@ -152,15 +158,15 @@ public class NodeController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_SUB_NODE)
-	public SubNodes createSubNode(@RequestParam String name,@RequestParam Long nodeId) {
-		SubNodes n=nodeService.createSubNode(name,nodeId);
+	public SubNodes createSubNode(@RequestBody CreateSubNode createSubNode) {
+		SubNodes n=nodeService.createSubNode(createSubNode);
 		return n;
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_SUB_NODE)
-	public SubNodes updateSubNode(Long id,String name)
+	public SubNodes updateSubNode(@RequestBody UpdateSubNode updateSubNode)
 	{
-		SubNodes n=nodeService.updateSubNode(id,name);
+		SubNodes n=nodeService.updateSubNode(updateSubNode);
 		return n;
 	}
 	
@@ -181,15 +187,15 @@ public class NodeController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_SUPER_SUB_NODE)
-	public SuperSubNodes createSuperSubNode(@RequestParam String name,@RequestParam Long subNodeId) {
-		SuperSubNodes n=nodeService.createSuperSubNode(name,subNodeId);
+	public SuperSubNodes createSuperSubNode(CreateSuperSubNode createSuperSubNode) {
+		SuperSubNodes n=nodeService.createSuperSubNode(createSuperSubNode);
 		return n;
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_SUPER_SUB_NODE)
-	public SuperSubNodes updateSuperSubNode(Long id,String name)
+	public SuperSubNodes updateSuperSubNode(@RequestBody UpdateSuperSubNode updateSuperSubNode)
 	{
-		SuperSubNodes n=nodeService.updateSuperSubNode(id,name);
+		SuperSubNodes n=nodeService.updateSuperSubNode(updateSuperSubNode);
 		return n;
 	}
 	

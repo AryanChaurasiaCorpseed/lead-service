@@ -1,17 +1,21 @@
 package com.lead.dashboard.dto;
 
-
-public class CreateNode {
-
-	String nodeName;
+public class UpdateSuperSubNode {
+	Long id;
+	String name;
 	String url;
 	String path;
-	
-	public String getNodeName() {
-		return nodeName;
+	public Long getId() {
+		return id;
 	}
-	public void setNodeName(String nodeName) {
-		this.nodeName = nodeName;
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getUrl() {
 		return url;
@@ -25,6 +29,7 @@ public class CreateNode {
 	public void setPath(String path) {
 		this.path = path;
 	}
+	
 	
 	
 }
