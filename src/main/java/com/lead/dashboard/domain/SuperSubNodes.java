@@ -18,6 +18,8 @@ public class SuperSubNodes {
 	
 	String name;
 	
+	String url;
+	String path;
 	boolean isDeleted;
 
 	public Long getId() {
@@ -42,6 +44,22 @@ public class SuperSubNodes {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 	

@@ -21,12 +21,13 @@ public interface LeadService {
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
 	Lead updateLeadName(String leadName, Long leadId, Long userId);
-	boolean deleteProductInLead(Long leadId,Long productId);
+	boolean deleteProductInLead(Long leadId,Long productId,Long userId);
 	Map<String, Object> getSingleLeadDataV2(Long leadId);
 	boolean deleteLead(Long leadId, Long userId);
 	List<ServiceDetails> getAllEstimate();
 	ServiceDetails getEstimate(Long estimateId);
 	List<Lead> getAllLead(Long userId, Long statusId);
+	List<Lead> getAllDeleteLead(Long uId);
 
 
 

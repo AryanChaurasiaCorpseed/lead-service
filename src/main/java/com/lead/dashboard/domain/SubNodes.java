@@ -30,9 +30,11 @@ public class SubNodes {
 	@JoinTable(name="sub_node_child",joinColumns = {@JoinColumn(name="sub_node_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="sub_node_child_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
-    @JsonIgnore
+//    @JsonIgnore
 	List<SuperSubNodes>subNodeChild;
-    
+    String url;
+    String path;
+
     boolean isDeleted;
 
 	public Long getId() {

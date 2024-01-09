@@ -6,10 +6,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.lead.dashboard.domain.Nodes;
 import com.lead.dashboard.domain.SubNodes;
 import com.lead.dashboard.domain.SuperSubNodes;
+import com.lead.dashboard.dto.CreateNode;
+import com.lead.dashboard.dto.CreateSubNode;
+import com.lead.dashboard.dto.CreateSuperSubNode;
+import com.lead.dashboard.dto.UpdateNode;
+import com.lead.dashboard.dto.UpdateSubNode;
+import com.lead.dashboard.dto.UpdateSuperSubNode;
 import com.lead.dashboard.repository.NodeRepository;
 import com.lead.dashboard.repository.SubNodesRepository;
 import com.lead.dashboard.repository.SuperSubNodesRepository;
@@ -65,21 +72,25 @@ public class NodeServiceImpl implements NodeService
 	}
 
 	@Override
-	public Nodes createNode(String name) {
+	public Nodes createNode(CreateNode createNode) {
         Nodes n = new Nodes();
-        n.setName(name);
+        n.setName(createNode.getNodeName());
+        n.setUrl(createNode.getUrl());
+        n.setPath(createNode.getPath());
         nodeRepository.save(n);
         return n;
 	}
 
 	@Override
-	public Nodes updateNode(Long id, String name) {
+	public Nodes updateNode(UpdateNode updateNode) {
 		// TODO Auto-generated method stub
-		Optional<Nodes> nodeOp = nodeRepository.findById(id);
+		Optional<Nodes> nodeOp = nodeRepository.findById(updateNode.getId());
 		Nodes node = null;
 		if(nodeOp!=null&&nodeOp.get()!=null) {
 			node=nodeOp.get();
-			node.setName(name);
+			node.setName(updateNode.getName());
+			node.setUrl(updateNode.getUrl());
+			node.setPath(updateNode.getPath());
 			nodeRepository.save(node);
 			
 		}
@@ -100,18 +111,19 @@ public class NodeServiceImpl implements NodeService
 	}
 
 	@Override
-	public SubNodes createSubNode(String name, Long nodeId) {
+	public SubNodes createSubNode(CreateSubNode createSubNode) {
 		// TODO Auto-generated method stub\
-		Optional<Nodes> nodeOp = nodeRepository.findById(nodeId);
+		Optional<Nodes> nodeOp = nodeRepository.findById(createSubNode.getNodeId());
 		List<SubNodes>subList = new ArrayList<>();
         Nodes node = nodeOp.get();
 		SubNodes s = new SubNodes();
-		s.setName(name);
+		s.setName(createSubNode.getName());
+		s.setUrl(createSubNode.getUrl());
+		s.setPath(createSubNode.getPath());
 		subNodesRepository.save(s);
 		subList.add(s);
 		if(node!=null && node.getNodeChild()!=null) {
 			subList.addAll(node.getNodeChild());
-
 		}
 		node.setNodeChild(subList);
 		nodeRepository.save(node);
@@ -119,14 +131,16 @@ public class NodeServiceImpl implements NodeService
 	}
 
 	@Override
-	public SubNodes updateSubNode(Long id, String name) {
+	public SubNodes updateSubNode(UpdateSubNode updateSubNode) {
 		// TODO Auto-generated method stub
 		
-		Optional<SubNodes> nodeOp = subNodesRepository.findById(id);
+		Optional<SubNodes> nodeOp = subNodesRepository.findById(updateSubNode.getId());
 		SubNodes subNode = null;
 		if(nodeOp!=null&&nodeOp.get()!=null) {
 			subNode=nodeOp.get();
-			subNode.setName(name);
+			subNode.setName(updateSubNode.getName());
+			subNode.setUrl(updateSubNode.getUrl());
+			subNode.setPath(updateSubNode.getPath());
 			subNodesRepository.save(subNode);
 			
 		}
@@ -149,13 +163,15 @@ public class NodeServiceImpl implements NodeService
 	}
 
 	@Override
-	public SuperSubNodes updateSuperSubNode(Long id, String name) {
+	public SuperSubNodes updateSuperSubNode(UpdateSuperSubNode updateSuperSubNode) {
 		// TODO Auto-generated method stub
-		Optional<SuperSubNodes> ssnOp = superSubNodesRepository.findById(id);
+		Optional<SuperSubNodes> ssnOp = superSubNodesRepository.findById(updateSuperSubNode.getId());
 		SuperSubNodes ssn =null;
 		if(ssnOp!=null&&ssnOp.get()!=null) {
 			ssn = ssnOp.get();
-			ssn.setName(name);
+			ssn.setName(updateSuperSubNode.getName());
+			ssn.setUrl(updateSuperSubNode.getUrl());
+			ssn.setPath(updateSuperSubNode.getPath());
 			superSubNodesRepository.save(ssn);
 			
 		}
@@ -164,9 +180,9 @@ public class NodeServiceImpl implements NodeService
 	}
 
 	@Override
-	public SuperSubNodes createSuperSubNode(String name,Long subNodeId) {
+	public SuperSubNodes createSuperSubNode(CreateSuperSubNode createSuperSubNode) {
 		// TODO Auto-generated method stub
-		Optional<SubNodes> subNodeOp = subNodesRepository.findById(subNodeId);
+		Optional<SubNodes> subNodeOp = subNodesRepository.findById(createSuperSubNode.getSubNodeId());
 		SubNodes subNode = subNodeOp.get();
 		List<SuperSubNodes>ssnList = new ArrayList<>();
 		if(subNode!=null && subNode.getSubNodeChild()!=null) {
@@ -174,7 +190,9 @@ public class NodeServiceImpl implements NodeService
 			ssnList.addAll(subNode.getSubNodeChild());
 		}
 		SuperSubNodes superSubNodes = new SuperSubNodes();
-		superSubNodes.setName(name);
+		superSubNodes.setName(createSuperSubNode.getName());
+		superSubNodes.setUrl(createSuperSubNode.getUrl());
+		superSubNodes.setPath(createSuperSubNode.getPath());
 		superSubNodesRepository.save(superSubNodes);
 		ssnList.add(superSubNodes);
 		subNode.setSubNodeChild(ssnList);

@@ -23,6 +23,7 @@ public class UrlsMapping {
 	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
 	public static final String DELETE_PRODUCT_IN_LEAD = PREFIX+"/lead/deleteProductInLead";
 	public static final String UPDATE_LEAD_NAME = PREFIX+"/lead/updateLeadName";
+	public static final String GET_ALL_DELETE_LEAD =PREFIX+"/lead/getAllDeleteLead";
 
 	//=================== Lead - Oppoertunity Service ===================
 	
@@ -73,6 +74,9 @@ public class UrlsMapping {
 	public static final String GET_ALL_USER_ACCESS=PREFIX+"/access/getAllUserAccess";
 	public static final String UPDATE_USER_ACCESSE=PREFIX+"/access/updateUserAccess";
 	public static final String REMOVE_USER_ACCESS=PREFIX+"/access/removeUserAccess";
+	public static final String GET_SUBNODE_BY_NODE_AND_ROLE=PREFIX+"/access/getSubNodeByNodeAndRole";
+	public static final String GET_SUPER_SUBNODE_BY_SUBNODE=PREFIX+"/access/getSuperSubNodeBySubNode";
+
 	
 	//Company Services
 	public static final String CREATE_COMPANY=PREFIX+"/company/createCompany";
@@ -80,6 +84,8 @@ public class UrlsMapping {
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
+
+
 
 
 

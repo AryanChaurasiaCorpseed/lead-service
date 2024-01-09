@@ -38,6 +38,19 @@ public class UserAccessController {
 		return result;
 	}
 	
+	@GetMapping(UrlsMapping.GET_SUBNODE_BY_NODE_AND_ROLE)
+	public Map<String,Object>getSubNodeByNodeAndRole(@RequestParam Long roleId,@RequestParam Long nodeId){
+	Map<String,Object> result=userAccessService.getSubNodeByNodeAndRole(roleId,nodeId);
+		return result;
+	}
+
+	@GetMapping(UrlsMapping.GET_SUPER_SUBNODE_BY_SUBNODE)
+	public Map<String,Object>getSuperSubNodeBySubNode(@RequestParam Long roleId,@RequestParam Long nodeId,@RequestParam Long subNodeId){
+	Map<String,Object> result=userAccessService.getSuperSubNodeBySubNode(roleId,nodeId,subNodeId);
+		return result;
+	}
+
+	
 	@GetMapping(UrlsMapping.GET_ALL_USER_ACCESS)
 	public List<Role>getAllUserAccess(){
 		return null;
