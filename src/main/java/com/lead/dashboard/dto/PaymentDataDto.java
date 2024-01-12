@@ -1,12 +1,14 @@
 package com.lead.dashboard.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class PaymentDataDto {
 
 	
-	String transactionId;
+	List<String> transactionId;
 	Long profFees;
 	Long govFees;
 	Long ServiceFees;
@@ -18,18 +20,14 @@ public class PaymentDataDto {
 	boolean isMileStone;
 	boolean isFully;
 	boolean isPartial;
+	List<String>doc;
 	
 	int docPercent;
 	int fillingPercent;
 	int liasPercent;
 	int certPercent;
 	int testPercent;
-	public String getTransactionId() {
-		return transactionId;
-	}
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+
 	public Long getProfFees() {
 		return profFees;
 	}
@@ -38,6 +36,19 @@ public class PaymentDataDto {
 	}
 	public Long getGovFees() {
 		return govFees;
+	}
+	
+	public List<String> getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(List<String> transactionId) {
+		this.transactionId = transactionId;
+	}
+	public List<String> getDoc() {
+		return doc;
+	}
+	public void setDoc(List<String> doc) {
+		this.doc = doc;
 	}
 	public void setGovFees(Long govFees) {
 		this.govFees = govFees;
