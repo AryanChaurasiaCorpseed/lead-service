@@ -87,7 +87,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(leadDTO.getEmail());
 		lead.setUrls(leadDTO.getUrls());
-		lead.setCreateDate(leadDTO.getCreateDate());		
+		lead.setCreateDate(new Date());		
 		lead.setLastUpdated(leadDTO.getLastUpdated());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
