@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String userName, String email, String role, Long userId, String designation) {
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation) {
 
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 			u.setFullName(userName);
 			u.setEmail(email);
 			List<String>listRole = new ArrayList();
-			listRole.add(role);
+			listRole.addAll(role);
 			u.setRole(listRole);
 			u.setDesignation(designation);
 			String feedbackStatusURL = "https://corpseed.com" ;
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 		}else {
 			User u = userRepo.findByemail(email);
 			List<String>listRole = new ArrayList();
-			listRole.add(role);
+			listRole.addAll(role);
 			u.setRole(listRole);
 			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
 			
@@ -233,4 +233,7 @@ public class UserServiceImpl implements UserService {
 //		return u;
 //>>>>>>> 7cef39e90ce2b641760d5906429d3d0a0c985e86
 //	}
+
+
+
 }
