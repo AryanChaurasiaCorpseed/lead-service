@@ -89,6 +89,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setUrls(leadDTO.getUrls());
 		lead.setCreateDate(new Date());		
 		lead.setLastUpdated(new Date());
+
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());

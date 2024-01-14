@@ -20,12 +20,14 @@ public class NewSignupRequest {
 		this.email = email;
 	}
 	
+
 	public List<String> getRole() {
 		return role;
 	}
 	public void setRole(List<String> role) {
 		this.role = role;
 	}
+
 	public String getDesignation() {
 		return designation;
 	}

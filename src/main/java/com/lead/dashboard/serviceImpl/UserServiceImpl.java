@@ -168,6 +168,7 @@ public class UserServiceImpl implements UserService {
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
+
 			
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
@@ -267,4 +268,5 @@ public class UserServiceImpl implements UserService {
 		
 		return userList;
 	}
+
 }
