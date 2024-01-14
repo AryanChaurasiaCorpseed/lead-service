@@ -47,6 +47,98 @@ public class Project {
 	String progress;
 	
 	Date createDate;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getProjectNo() {
+		return ProjectNo;
+	}
+
+	public void setProjectNo(String projectNo) {
+		ProjectNo = projectNo;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public ServiceDetails getServiceDetails() {
+		return serviceDetails;
+	}
+
+	public void setServiceDetails(ServiceDetails serviceDetails) {
+		this.serviceDetails = serviceDetails;
+	}
+
+	public User getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public String getProgress() {
+		return progress;
+	}
+
+	public void setProgress(String progress) {
+		this.progress = progress;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	
+	
+	
 	
 
 }
