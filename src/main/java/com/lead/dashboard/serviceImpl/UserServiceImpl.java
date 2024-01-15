@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
 
@@ -120,56 +120,13 @@ public class UserServiceImpl implements UserService {
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(email);
 		System.out.println(isExistOrNot);
-		
-//		
-//			User u = new User();
-//			System.out.println("11111111111111");
-//
-////		boolean isExistOrNot = isUserEmailExistOrNot(email);
-//       if(true) {
-//		u.setId(userId);
-//		u.setEmail(email);
-//		List<String>listRole = new ArrayList();
-//		listRole.add(role);
-//		u.setRole(listRole);
-//		userRepo.save(u);
-//		String feedbackStatusURL = "https://corpseed.com" ;
-//
-//		Context context = new Context();
-//		context.setVariable("userName", "Aryan Chaurasia");
-//		context.setVariable("email", email);
-//		context.setVariable("Rurl", feedbackStatusURL);
-//		context.setVariable("currentYear", LocalDateTime.now().getYear());
-//		
-//		String subject="Trade bee send a request for adding on team please go and Signup";
-//		String text="CLICK ON THIS link and set password";
-//		String[] ccPersons= {email};
-//
-//		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
-//
-//       }else {
-////       	if User exist
-////  		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
-//
-//       }
-//		return u;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		if(!isExistOrNot) {
 			User u = new User();
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
 
-			
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
 			u.setRole(listRole);
@@ -178,23 +135,18 @@ public class UserServiceImpl implements UserService {
 			u.setUserRole(roleList);
 			u.setDesignation(designation);
 			userRepo.save(u);
-
-//			String feedbackStatusURL = "https://corpseed.com" ;
 			String feedbackStatusURL = "http://20.193.129.28:3000/erp/setpassword/"+u.getId();
 
-					Context context = new Context();
-					context.setVariable("userName", "Aryan Chaurasia");
-					System.out.println("users  . . . . .. . . . . "+u.getFullName());
-					context.setVariable("user", u.getFullName());
+			Context context = new Context();
+			context.setVariable("userName", "Aryan Chaurasia");
+			context.setVariable("user", u.getFullName());
 
-					context.setVariable("email", email);
-					context.setVariable("Rurl", feedbackStatusURL);
-					context.setVariable("currentYear", LocalDateTime.now().getYear());
+			context.setVariable("email", email);
+			context.setVariable("Rurl", feedbackStatusURL);
+			context.setVariable("currentYear", LocalDateTime.now().getYear());
 			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 			String text="CLICK ON THIS link and set password";
-//			userRepo.save(u);
 			String[] ccPersons= {email};
-//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 			return u;
 		}else {
@@ -202,75 +154,34 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
 			u.setRole(listRole);
-//			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
 			String feedbackStatusURL = "http://20.193.129.28:3000/erp/setpassword/"+u.getId();
-
-//			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
-
-					Context context = new Context();
-					context.setVariable("userName", "Aryan Chaurasia");
-					context.setVariable("email", email);
-					context.setVariable("Rurl", feedbackStatusURL);
-					context.setVariable("currentYear", LocalDateTime.now().getYear());
+			Context context = new Context();
+			context.setVariable("userName", "Aryan Chaurasia");
+			context.setVariable("email", email);
+			context.setVariable("Rurl", feedbackStatusURL);
+			context.setVariable("currentYear", LocalDateTime.now().getYear());
 			String subject="Corpseed pvt ltd send a request for adding on team please go and Accept";
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
 			String[] ccPersons= {email};
-//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+			//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"TeamAdd.html");
 
 			return u;
 
+		}
 	}
-	}
-//		 String randomPass = getRandomNumber().toString();
-//			User u = new User();
-//			System.out.println("11111111111111");
-//
-////		boolean isExistOrNot = isUserEmailExistOrNot(email);
-//        if(true) {
-//		u.setId(userId);
-//		u.setEmail(email);
-//		List<String>listRole = new ArrayList();
-//		listRole.add(role);
-//		u.setRole(listRole);
-//		userRepo.save(u);
-//		String feedbackStatusURL = "https://corpseed.com" ;
-//
-//		Context context = new Context();
-//		context.setVariable("userName", "Aryan Chaurasia");
-//		context.setVariable("email", email);
-//		context.setVariable("Rurl", feedbackStatusURL);
-//		context.setVariable("currentYear", LocalDateTime.now().getYear());
-//		
-//		String subject="Trade bee send a request for adding on team please go and Signup";
-//		String text="CLICK ON THIS link and set password";
-//		String[] ccPersons= {email};
-//
-//		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
-//
-//        }else {
-////        	if User exist
-////   		 mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
-//
-//        }
-//		return u;
-//>>>>>>> 7cef39e90ce2b641760d5906429d3d0a0c985e86
-//	}
-
-
-
 	@Override
 	public List<User> getAllUserByHierarchy(Long userId) {
-         List<User>userList = new ArrayList();
+		List<User>userList = new ArrayList();
 
-		 List<String> userRoles = userRepo.findRoleNameById(userId);
+		List<String> userRoles = userRepo.findRoleNameById(userId);
 		if(userRoles.contains("ADMIN")) {
 			userList=userRepo.findAll();
 		}else {
 			userList=userRepo.findAll().stream().filter(i->i.getRole().contains("ADMIN")).collect(Collectors.toList());
 		}
-		
+
 		return userList;
 	}
 
