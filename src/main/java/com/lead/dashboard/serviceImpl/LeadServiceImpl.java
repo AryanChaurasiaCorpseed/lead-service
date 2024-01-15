@@ -185,8 +185,8 @@ public class LeadServiceImpl implements LeadService  {
 		User user=null;
 		Long userId=updateLeadDto.getUserId();
 		if(userId!=null) {
- 			user = userRepo.findById(userId).get();
-         }
+			user = userRepo.findById(userId).get();
+		}
 
 		if(!lead.getLeadName().equals(updateLeadDto.getLeadName())) {
 			LeadHistory leadHistory= new LeadHistory();
@@ -249,8 +249,8 @@ public class LeadServiceImpl implements LeadService  {
 		boolean flag=false;
 		User user=null;
 		if(userId!=null) {
- 			user = userRepo.findById(userId).get();
-         }
+			user = userRepo.findById(userId).get();
+		}
 		if(opLead!=null && opLead.get()!=null)
 		{
 			Lead lead = opLead.get();
@@ -260,7 +260,7 @@ public class LeadServiceImpl implements LeadService  {
 			leadHistory.setLeadId(lead.getId());
 			leadHistory.setCreatedBy(user); 
 			leadHistory.setCreateDate(new Date());
-			
+
 			lead.setDisplayStatus("2");
 			lead.setDeleted(true);
 			flag=true;
@@ -360,7 +360,7 @@ public class LeadServiceImpl implements LeadService  {
 		service.setOtherFees(createservicedetails.getOtherFees());
 		service.setOtherCode(createservicedetails.getOtherCode());
 		service.setOtherGst(createservicedetails.getOtherGst());
-		
+
 		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
 		Company  company = null;
 		if(createservicedetails.getCompanyId()!=null) {
@@ -415,7 +415,7 @@ public class LeadServiceImpl implements LeadService  {
 					services.setPurchaseDate(createservicedetails.getPurchaseDate());
 					services.setRemarksForOption(createservicedetails.getRemarksForOption());
 					services.setCompanies(company);
-					
+
 					service.setGovermentfees(createservicedetails.getGovermentfees());
 					service.setGovermentCode(createservicedetails.getGovermentCode());
 					service.setGovermentGst(createservicedetails.getGovermentGst());
@@ -535,7 +535,7 @@ public class LeadServiceImpl implements LeadService  {
 		List<Client> clientList = lead.getClients();
 		Client client = clientList.stream().findFirst().get();
 		List<ServiceDetails> serviceList = client.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
-		
+
 		long isPrsent = serviceList.stream().filter(i->i.getName().equals(product.getProductName())).count();
 		System.out.println("isPrsent value .. "+isPrsent);
 		if(isPrsent!=0) {
@@ -562,7 +562,7 @@ public class LeadServiceImpl implements LeadService  {
 	public Lead updateLeadName(String newLeadName, Long leadId,Long userId) {
 		// TODO Auto-generated method stub
 		Lead lead = leadRepository.findById(leadId).get();
-		
+
 		String name=lead.getLeadName();
 		lead.setLeadName(newLeadName);
 		lead.setLastUpdated(new Date());
@@ -579,10 +579,10 @@ public class LeadServiceImpl implements LeadService  {
 			leadHistory.setCreateDate(new Date());
 			leadHistory.setEventType("The 'Lead Name' field was modified");
 			leadHistory.setDescription("changes in Lead Name from "+name+" -> "+updateName);
-             if(userId!=null) {
-     			Optional<User> user = userRepo.findById(userId);
-    			leadHistory.setCreatedBy(user.get()); 
-             }
+			if(userId!=null) {
+				Optional<User> user = userRepo.findById(userId);
+				leadHistory.setCreatedBy(user.get()); 
+			}
 
 		}
 
@@ -610,7 +610,7 @@ public class LeadServiceImpl implements LeadService  {
 	public List<ServiceDetails> getAllEstimate() {
 		// TODO Auto-generated method stub
 		List<ServiceDetails>estimates=serviceDetailsRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
-				
+
 		return estimates;
 	}
 
@@ -623,12 +623,12 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Override
 	public List<Lead> getAllLead(Long userId, Long statusId) {
-//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-			
+
 			leadList= leadRepository.findAllByStatusAndIsDeleted(statusId,flag);
 		}else {
 			leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeleted(userId,statusId,flag);
@@ -637,7 +637,7 @@ public class LeadServiceImpl implements LeadService  {
 		return leadList;
 
 	}
-	
+
 	@Override
 	public List<Lead> getAllDeleteLead(Long uId) {
 
@@ -650,7 +650,29 @@ public class LeadServiceImpl implements LeadService  {
 
 	}
 
+	@Override
+	public Boolean viewHistory(Long userId, Long leadId) {
+		Boolean flag=false;
+		Lead lead = leadRepository.findById(leadId).get();
+		User user = userRepo.findById(userId).get();
+		LeadHistory leadHisrtory = createViewHistory(lead,user);
+		if(leadHisrtory!=null) {
+			flag=true;
+		}
+		return flag;
+	}
 
+	public LeadHistory createViewHistory(Lead lead,User user) {
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setCreateDate(new Date());
+		leadHistory.setEventType("View");
+		leadHistory.setDescription("View");
+		leadHistory.setCreatedBy(user); 
+		leadHistory.setLeadId(lead.getId());
+		leadHistoryRepository.save(leadHistory);
+
+		return leadHistory;
+	}
 
 
 }
