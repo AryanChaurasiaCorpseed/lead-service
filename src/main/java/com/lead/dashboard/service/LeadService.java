@@ -28,6 +28,7 @@ public interface LeadService {
 	ServiceDetails getEstimate(Long estimateId);
 	List<Lead> getAllLead(Long userId, Long statusId);
 	List<Lead> getAllDeleteLead(Long uId);
+	Boolean viewHistory(Long userId, Long leadId);
 
 
 
