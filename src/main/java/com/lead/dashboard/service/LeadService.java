@@ -6,6 +6,7 @@ import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public interface LeadService {
 	List<Lead> getAllLead(Long userId, Long statusId);
 	List<Lead> getAllDeleteLead(Long uId);
 	Boolean viewHistory(Long userId, Long leadId);
+	Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee);
 
 
 

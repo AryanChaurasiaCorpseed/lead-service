@@ -7,6 +7,7 @@ import com.lead.dashboard.dto.CreateServiceDetails;
 
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadHistoryRepository;
@@ -672,6 +673,35 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistoryRepository.save(leadHistory);
 
 		return leadHistory;
+	}
+
+	@Override
+	public Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee) {
+		Boolean flag=false;
+		Status status=statusRepository.findAllByName("New");
+		if(status==null) {
+			status = new Status();
+			status.setName("New");
+			status.setIsDeleted(0);
+			statusRepository.save(status);
+		}
+		User assigne=null;
+		if(updateMultiLeadAssignee.getAssigneId()!=null) {
+			assigne = userRepo.findById(updateMultiLeadAssignee.getAssigneId()).get();
+		}
+		
+		List<Lead> leadList = leadRepository.findAllById(updateMultiLeadAssignee.getLeadIds());
+		for(Lead l:leadList) {
+			if(assigne!=null) {
+				l.setAssignee(assigne);
+			}
+			if(status!=null) {
+				l.setStatus(status);
+			}
+			leadRepository.save(l);
+			flag=true;
+		}
+		return flag;
 	}
 
 

@@ -5,6 +5,7 @@ import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
+import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.StatusService;
 import com.lead.dashboard.util.UrlsMapping;
@@ -223,6 +224,13 @@ public class LeadController {
 	public Boolean viewHistory(@RequestParam Long userId,@RequestParam Long leadId)
 	{		
 		Boolean result= leadservice.viewHistory(userId,leadId);
+		return result;
+
+	}
+	@PutMapping(UrlsMapping.UPDATE_MULTI_LEAD_ASSIGNE)
+	public Boolean updateMultiLeadAssigne(@RequestBody UpdateMultiLeadAssignee updateMultiLeadAssignee)
+	{		
+		Boolean result= leadservice.updateMultiLeadAssigne(updateMultiLeadAssignee);
 		return result;
 
 	}
