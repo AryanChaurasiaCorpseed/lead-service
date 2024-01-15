@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 			userRepo.save(u);
 
 //			String feedbackStatusURL = "https://corpseed.com" ;
-			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
+			String feedbackStatusURL = "http://20.193.129.28:3000/erp/setpassword/"+u.getId();
 
 					Context context = new Context();
 					context.setVariable("userName", "Aryan Chaurasia");
@@ -199,7 +199,9 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
 			u.setRole(listRole);
-			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
+//			String feedbackStatusURL = "http://localhost:3000/erp/login" ;
+			String feedbackStatusURL = "http://20.193.129.28:3000/erp/setpassword/"+u.getId();
+
 //			String feedbackStatusURL = "http://localhost:3000/erp/setpassword/"+u.getId();
 
 					Context context = new Context();
