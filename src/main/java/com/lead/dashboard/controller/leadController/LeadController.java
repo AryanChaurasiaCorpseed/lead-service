@@ -217,5 +217,14 @@ public class LeadController {
 		}
 
 	}
+	
+	
+	@PutMapping(UrlsMapping.CREATE_VIEW_HISTORY)
+	public Boolean viewHistory(@RequestParam Long userId,@RequestParam Long leadId)
+	{		
+		Boolean result= leadservice.viewHistory(userId,leadId);
+		return result;
+
+	}
 
 }
