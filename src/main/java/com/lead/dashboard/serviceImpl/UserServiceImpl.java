@@ -184,6 +184,9 @@ public class UserServiceImpl implements UserService {
 
 					Context context = new Context();
 					context.setVariable("userName", "Aryan Chaurasia");
+					System.out.println("users  . . . . .. . . . . "+u.getFullName());
+					context.setVariable("user", u.getFullName());
+
 					context.setVariable("email", email);
 					context.setVariable("Rurl", feedbackStatusURL);
 					context.setVariable("currentYear", LocalDateTime.now().getYear());
