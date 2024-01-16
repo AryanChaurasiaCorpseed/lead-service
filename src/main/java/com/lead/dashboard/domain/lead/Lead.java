@@ -61,6 +61,9 @@ public class Lead {
 	private String urls ;
 
     private Date createDate ;
+    
+    @ManyToOne
+    private User createdBy;
 
 	private Date lastUpdated;
 
@@ -170,6 +173,7 @@ public class Lead {
 	public String getPrimaryAddress() {
 		return PrimaryAddress;
 	}
+	
 
 	public boolean isDeleted() {
 		return isDeleted;
@@ -258,6 +262,7 @@ public class Lead {
 		PrimaryAddress = primaryAddress;
 	}
 
+	
 	public void setDeleted(boolean deleted) {
 		isDeleted = deleted;
 	}
@@ -324,6 +329,14 @@ public class Lead {
 
 	public void setRemarks(List<Remark> remarks) {
 		this.remarks = remarks;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 	
 }
