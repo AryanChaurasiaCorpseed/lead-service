@@ -90,6 +90,11 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setUrls(leadDTO.getUrls());
 		lead.setCreateDate(new Date());		
 		lead.setLastUpdated(new Date());
+		User createdBy=null;
+		if(leadDTO.getCreatedById()!=null) {
+			createdBy= userRepo.findById(leadDTO.getCreatedById()).get();
+			lead.setCreatedBy(createdBy);
+		}
 
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
@@ -132,8 +137,24 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
 		lead.setUuid(commonServices.getUuid());
+		leadRepository.save(lead);
+		createLeadHistory(lead,createdBy);
+		return lead;
+	}
+	
+	public LeadHistory createLeadHistory(Lead lead,User user) {
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setCreateDate(new Date());
+		String createdBy =user!=null?user.getFullName():"Corpseed HO";
+		leadHistory.setEventType("Lead has been created");
+		leadHistory.setDescription("lead has been created by "+createdBy);
+		if(user!=null) {
+			leadHistory.setCreatedBy(user); 
+		}
+		leadHistory.setLeadId(lead.getId());
+		leadHistoryRepository.save(leadHistory);
 
-		return leadRepository.save(lead);
+		return leadHistory;
 	}
 
 	@Override
@@ -382,18 +403,15 @@ public class LeadServiceImpl implements LeadService  {
 		Client c = null;
 		List<ServiceDetails> serviceList  = new ArrayList<>();
 		Client client=null;
-		System.out.println("aaaaaaaaaaaaaa");
 		if(createservicedetails.getClientId()!=null) {
 			long cId[] = new long[1];
 			cId[0] = createservicedetails.getClientId();
 
 			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
-			System.out.println("bbbbbbbbbbbbb"+opClient);
 
 			if(opClient!=null) {
 				client=opClient.get();
 				serviceList = client.getServiceDetails();
-				System.out.println("ccccccccccccc");
 
 				String sName[] = new String[1];
 				sName[0]=createservicedetails.getName();
@@ -401,8 +419,6 @@ public class LeadServiceImpl implements LeadService  {
 				List<ServiceDetails> checkService = serviceList.stream().filter(i->i.getName().equals(sName[0])).collect(Collectors.toList());
 				//check its 
 				if(checkService!=null && checkService.size()!=0) {
-					System.out.println("dddddddddddddddd");
-
 					ServiceDetails services = checkService.get(0);
 					services.setName(createservicedetails.getName());
 					services.setCompany(createservicedetails.getCompany());
