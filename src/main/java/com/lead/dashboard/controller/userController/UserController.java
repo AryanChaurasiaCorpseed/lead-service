@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -26,7 +27,7 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUserData()
 	{
 
-		List<User> allUser=userService.getAllUsers();
+		List<User> allUser=userService.getAllUsers().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());;
 		if(!allUser.isEmpty())
 		{
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
@@ -88,11 +89,10 @@ public class UserController {
 	}
 
 	@DeleteMapping("api/v1/users/deleteUser")
-	public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
-		User existingUser = userService.getUserById(id);
-		if (existingUser != null) {
-			userService.deleteUser(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteUser(@RequestParam Long id) {
+		Boolean existingUser= userService.deleteUser(id);
+		if (existingUser) {	
+			return new ResponseEntity<>(existingUser, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

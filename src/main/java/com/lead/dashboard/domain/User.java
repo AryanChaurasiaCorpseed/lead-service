@@ -20,7 +20,6 @@ public class User {
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-       
     private String fullName;
 
     @NonNull
@@ -40,6 +39,8 @@ public class User {
 
 	@NonNull
 	private List<String> role;
+	
+	boolean isDeleted;
 
 //	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
 //	private Opportunities opportunities;
@@ -118,6 +119,18 @@ public class User {
 
 	public void setUserRole(List<Role> userRole) {
 		this.userRole = userRole;
+	}
+
+
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 	

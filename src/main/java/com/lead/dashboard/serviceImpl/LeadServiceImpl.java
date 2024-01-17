@@ -539,11 +539,25 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistory.setCreatedBy(user); 
 		leadHistory.setCreateDate(new Date());
 		lead.setAssignee(user);
+		leadHistoryRepository.save(leadHistory);
+
 		leadRepository.save(lead);
 		leadHistoryRepository.save(leadHistory);
 		return lead;
 	}
+//	public LeadHistory createViewHistory(Lead lead,User user) {
+//		LeadHistory leadHistory= new LeadHistory();
+//		leadHistory.setCreateDate(new Date());
+//		leadHistory.setEventType("View");
+//		leadHistory.setDescription("View");
+//		leadHistory.setCreatedBy(user); 
+//		leadHistory.setLeadId(lead.getId());
+//		leadHistoryRepository.save(leadHistory);
+//
+//		return leadHistory;
+//	}
 
+	
 	@Override
 	public Lead createProductInLead(AddProductInLead addProductInLead) throws Exception  {
 		// TODO Auto-generated method stub
