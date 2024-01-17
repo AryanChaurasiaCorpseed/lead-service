@@ -19,7 +19,7 @@ public interface UserService
 //	User createUserByEmail(String email, String role, Long userId);
 	
 	
-	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation);
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department);
 	List<User> getAllUserByHierarchy(Long userId);
 //	public User createUserByEmail(String userName, String email, String role, Long userId, String designation);
 
