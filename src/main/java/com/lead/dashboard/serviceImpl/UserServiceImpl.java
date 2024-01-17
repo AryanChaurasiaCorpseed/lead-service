@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation) {
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department) {
 
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
-
+            u.setDepartment(department);
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
 			u.setRole(listRole);
@@ -154,6 +154,7 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
 			u.setRole(listRole);
+			u.setDepartment(department);
 			String feedbackStatusURL = "http://20.193.129.28:3000/erp/setpassword/"+u.getId();
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
