@@ -11,7 +11,7 @@ public interface UserService
 {
     User getUserById(Long id);
     User updateUser(User existingUser,UpdateUser user);
-    void deleteUser(Long id);
+    Boolean deleteUser(Long id);
 
     List<User> getAllUsers();
 	User createUser(UserDto user);
