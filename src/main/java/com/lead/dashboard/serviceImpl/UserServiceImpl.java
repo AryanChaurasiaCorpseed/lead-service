@@ -67,8 +67,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) {
-		userRepo.deleteById(id);
+	public Boolean deleteUser(Long id) {
+		Boolean flag=false;
+		User user = userRepo.findById(id).get();
+		user.setDeleted(true);
+		userRepo.save(user);
+		flag=true;
+		return flag;
 	}
 
 	@Override
@@ -178,9 +183,11 @@ public class UserServiceImpl implements UserService {
 
 		List<String> userRoles = userRepo.findRoleNameById(userId);
 		if(userRoles.contains("ADMIN")) {
-			userList=userRepo.findAll();
+			userList=userRepo.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		}else {
 			userList=userRepo.findAll().stream().filter(i->i.getRole().contains("ADMIN")).collect(Collectors.toList());
+			userList=userList.stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+
 		}
 
 		return userList;
