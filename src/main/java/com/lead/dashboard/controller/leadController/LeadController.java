@@ -175,9 +175,9 @@ public class LeadController {
 	}
 
 	@PutMapping(UrlsMapping.UPDATE_ASSIGNEE)
-	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId)
+	public Lead updateAssignee(@RequestParam Long leadId ,@RequestParam Long userId,@RequestParam(required=false) Long updatedById)
 	{
-		Lead res=leadservice.updateAssignee(leadId,userId);
+		Lead res=leadservice.updateAssignee(leadId,userId,updatedById);
 		return res;
 	}
 
