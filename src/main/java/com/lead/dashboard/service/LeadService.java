@@ -17,7 +17,7 @@ public interface LeadService {
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
 	Lead getSingleLeadData(Long leadId);
 	Lead createEstimate(CreateServiceDetails createServiceDetails);
-	List<Lead> getAllActiveCustomerLead(Long uId);
+	List<Lead> getAllActiveCustomerLead(Long uId, Long toDate, Long fromDate);
 	Lead updateAssignee(Long leadId, Long userId);
 	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
 	Lead updateLeadName(String leadName, Long leadId, Long userId);
@@ -26,7 +26,7 @@ public interface LeadService {
 	boolean deleteLead(Long leadId, Long userId);
 	List<ServiceDetails> getAllEstimate();
 	ServiceDetails getEstimate(Long estimateId);
-	List<Lead> getAllLead(Long userId, Long statusId);
+	List<Lead> getAllLead(Long userId, Long statusId,Long toDate,Long fromDate);
 	List<Lead> getAllDeleteLead(Long uId);
 	Boolean viewHistory(Long userId, Long leadId);
 
