@@ -41,5 +41,17 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.assignee_id =:userId ORDER BY create_date DESC  LIMIT 5", nativeQuery = true)
 	List<Lead> findAllByAssigneeLatest(Long userId);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByIsDeletedAndInBetweenDate(boolean b,String d1,String d2);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId)and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndIsDeletedAndInBetweenDate(Long userId,boolean b,String d1,String d2);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id=:statusId and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByStatusAndIsDeletedAndInBetweenDate(Long statusId,boolean b,String d1,String d2); 
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE  el.status_id=:statusId and el.is_deleted =:b and el.assignee_id in(:userId) and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndStatusAndIsDeletedAndInBetweenDate(Long userId,Long statusId,boolean b,String d1,String d2);
 
 }

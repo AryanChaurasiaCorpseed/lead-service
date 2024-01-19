@@ -30,6 +30,7 @@ import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -157,17 +158,38 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllActiveCustomerLead(Long uId) {
-
+	public List<Lead> getAllActiveCustomerLead(Long uId,Long toDate,Long fromDate) {
 		Optional<User> user = userRepo.findById(uId);
-		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-			return leadRepository.findAllByIsDeleted(false);
+
+		if(toDate!=null && fromDate!=null) {
+			String startDate = convertLongToStringDateFormat(toDate);
+			String endDate = convertLongToStringDateFormat(fromDate);
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+			}else {
+				return leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
+			}
 		}else {
-			return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+			
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				return leadRepository.findAllByIsDeleted(false);
+			}else {
+				return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+			}
+			
+			
 		}
 
 	}
-
+	public String convertLongToStringDateFormat(Long date) {
+		Date startDate = new Date(date);
+//		String pattern = "yyyy-MM-dd HH:mm:ss"; //Format of String
+		String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date1 = simpleDateFormat.format(startDate);
+        return date1;
+	}
 	public Lead updateLeadData(UpdateLeadDto updateLeadDto) {
 		System.out.println(updateLeadDto.getId());
 		//		Optional<Status> statusData = statusRepository.findById(statusId);
@@ -652,16 +674,28 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllLead(Long userId, Long statusId) {
+	public List<Lead> getAllLead(Long userId, Long statusId,Long toDate,Long fromDate) {
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
+		if(toDate!=null &&fromDate!=null) {
+			String startDate = convertLongToStringDateFormat(toDate);
+			String endDate = convertLongToStringDateFormat(fromDate);
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+
+				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeletedAndInBetweenDate(userId,statusId,flag,startDate,endDate);
+			}
+		}else {
 		if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 
 			leadList= leadRepository.findAllByStatusAndIsDeleted(statusId,flag);
 		}else {
 			leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeleted(userId,statusId,flag);
+		}
 		}
 
 		return leadList;
