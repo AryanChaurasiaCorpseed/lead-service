@@ -6,6 +6,7 @@ public class UpdateMultiLeadAssignee {
 	List<Long>leadIds;
 	Long statusId;
 	Long assigneId;
+	Long updatedById;
 	
 	public List<Long> getLeadIds() {
 		return leadIds;
@@ -24,6 +25,12 @@ public class UpdateMultiLeadAssignee {
 	}
 	public void setAssigneId(Long assigneId) {
 		this.assigneId = assigneId;
+	}
+	public Long getUpdatedById() {
+		return updatedById;
+	}
+	public void setUpdatedById(Long updatedById) {
+		this.updatedById = updatedById;
 	}
 	
 	
