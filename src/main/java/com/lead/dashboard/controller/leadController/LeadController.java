@@ -76,7 +76,7 @@ public class LeadController {
 	}
 
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId,@RequestParam(required = false) Long toDate,@RequestParam(required = false) Long fromDate)
+	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId,@RequestParam(required = false) String toDate,@RequestParam(required = false) String fromDate)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
