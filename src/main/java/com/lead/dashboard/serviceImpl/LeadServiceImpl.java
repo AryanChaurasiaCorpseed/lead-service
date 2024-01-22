@@ -158,12 +158,14 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllActiveCustomerLead(Long uId,Long toDate,Long fromDate) {
+	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
 		Optional<User> user = userRepo.findById(uId);
 
 		if(toDate!=null && fromDate!=null) {
-			String startDate = convertLongToStringDateFormat(toDate);
-			String endDate = convertLongToStringDateFormat(fromDate);
+//			String startDate = convertLongToStringDateFormat(toDate);
+//			String endDate = convertLongToStringDateFormat(fromDate);
+			String startDate = toDate;
+			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
@@ -670,14 +672,14 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllLead(Long userId, Long statusId,Long toDate,Long fromDate) {
+	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
 		if(toDate!=null &&fromDate!=null) {
-			String startDate = convertLongToStringDateFormat(toDate);
-			String endDate = convertLongToStringDateFormat(fromDate);
+			String startDate = toDate;
+			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 
