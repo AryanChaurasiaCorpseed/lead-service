@@ -161,7 +161,7 @@ public class LeadServiceImpl implements LeadService  {
 	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
 		Optional<User> user = userRepo.findById(uId);
 
-		if(toDate!=null && fromDate!=null) {
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 //			String startDate = convertLongToStringDateFormat(toDate);
 //			String endDate = convertLongToStringDateFormat(fromDate);
 			String startDate = toDate;
@@ -677,7 +677,7 @@ public class LeadServiceImpl implements LeadService  {
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
-		if(toDate!=null &&fromDate!=null) {
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
