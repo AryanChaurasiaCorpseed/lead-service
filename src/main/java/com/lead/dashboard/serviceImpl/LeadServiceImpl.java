@@ -740,31 +740,87 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee) {
 		Boolean flag=false;
-		Status status=statusRepository.findAllByName("New");
-		if(status==null) {
-			status = new Status();
-			status.setName("New");
-			status.setIsDeleted(0);
-			statusRepository.save(status);
+//		Status status=statusRepository.findAllByName("New");
+//		if(status==null) {
+//			status = new Status();
+//			status.setName("New");
+//			status.setIsDeleted(0);
+//			statusRepository.save(status);
+//		}
+		Status status = null;
+		if(updateMultiLeadAssignee.getStatusId()!=null) {
+			status=statusRepository.findById(updateMultiLeadAssignee.getStatusId()).get();
 		}
 		User assigne=null;
 		if(updateMultiLeadAssignee.getAssigneId()!=null) {
 			assigne = userRepo.findById(updateMultiLeadAssignee.getAssigneId()).get();
 		}
-		
+		User updatedBy=null;
+		if(updateMultiLeadAssignee.getUpdatedById()!=null) {
+			updatedBy = userRepo.findById(updateMultiLeadAssignee.getUpdatedById()).get();
+		}
 		List<Lead> leadList = leadRepository.findAllById(updateMultiLeadAssignee.getLeadIds());
 		for(Lead l:leadList) {
+			User prevAssignee = l.getAssignee();
+			Status prevStatus=l.getStatus();
 			if(assigne!=null) {
 				l.setAssignee(assigne);
 			}
-			if(status!=null) {
+			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				l.setStatus(status);
 			}
 			leadRepository.save(l);
+			multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
+			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
+				multiLeadStatusHistory(l.getId(),prevStatus,status,updatedBy);			
+			}
 			flag=true;
 		}
 		return flag;
 	}
+
+	public Boolean multiLeadAssigneeHistory(Long leadId,User prevAssignee,User assigne,User updatedBy) {
+		Boolean flag=false;
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("lead assignee change");
+		String assignee = prevAssignee!=null?prevAssignee.getFullName():"NA";
+		leadHistory.setDescription("'Lead Assignee' has been changed from "+assignee+" to "+assigne.getFullName());
+		leadHistory.setLeadId(leadId);
+
+		if(updatedBy!=null) {
+			leadHistory.setCreatedBy(updatedBy); 
+		}
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+		flag=true;
+		return flag;
+	}
+	
+	public Boolean multiLeadStatusHistory(Long leadId,Status prevStatus,Status status,User updatedBy) {
+		Boolean flag=false;
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Change the field 'Stage'");
+		String pStatus = prevStatus!=null?prevStatus.getName():"NA";
+		String cStatus = status!=null?status.getName():"NA";
+		leadHistory.setDescription(pStatus+" -> "+cStatus);
+		leadHistory.setLeadId(leadId);
+		leadHistory.setCreatedBy(updatedBy);
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+		flag=true;
+		return flag;
+	}
+	
+	
+//	LeadHistory leadHistory= new LeadHistory();
+//	leadHistory.setEventType("Change the field 'Stage'");
+//	Optional<Status> status = statusRepository.findById(updateLeadDto.getId());
+//	leadHistory.setDescription(lead.getStatus().getName()+" -> "+status.get()!=null?status.get().getName():"NA");
+//	leadHistory.setLeadId(updateLeadDto.getId());
+//	leadHistory.setCreatedBy(user);
+//	leadHistory.setCreateDate(new Date());
+//	leadHistoryRepository.save(leadHistory);
+
 
 
 }
