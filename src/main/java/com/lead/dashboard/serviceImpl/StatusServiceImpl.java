@@ -4,9 +4,11 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.CreateLeadStatus;
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.LeadStatusChangeHisoryRepo;
 import com.lead.dashboard.repository.StatusRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.StatusService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class StatusServiceImpl implements StatusService {
 
     @Autowired
     private LeadRepository leadRepository;
+    
+    @Autowired
+    UserRepo userRepo;
+    
+    @Autowired
+    LeadServiceImpl leadServiceImpl;
 
     @Autowired
     private LeadStatusChangeHisoryRepo leadStatusChangeHisoryRepo;
@@ -64,23 +72,31 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public void updateLeadStatus(Long leadId, Long statusId) {
+    public void updateLeadStatus(Long leadId, Long statusId,Long currentUserId) {
         Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
-        System.out.println(lead);
+        User cUser=null; 
+        if(currentUserId!=null) {
+            cUser= userRepo.findById(currentUserId).get();
+
+        }
+        Status prevStatus = lead.getStatus();
         Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
 //        Status newstatusdata = statusRepository.findAllByName(status);
         lead.setStatus(newstatusdata);
+        
         leadRepository.save(lead);
 
-        LeadStatusChangeHistory leadStatusChange= new LeadStatusChangeHistory();
+//        LeadStatusChangeHistory leadStatusChange= new LeadStatusChangeHistory();
 
-        leadStatusChange.setNewStatus(newstatusdata);
-        leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
+//        leadStatusChange.setNewStatus(newstatusdata);
+//        leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
 //        leadStatusChange.setChangedByUser("Aryan");
-        leadStatusChange.setLead(lead);
-        leadStatusChangeHisoryRepo.save(leadStatusChange);
+//        leadStatusChange.setLead(lead);
+        leadServiceImpl.multiLeadStatusHistory(leadId, prevStatus, newstatusdata, cUser);
+//        leadStatusChangeHisoryRepo.save(leadStatusChange);
 
     }
+    
 
     @Override
     public List<LeadStatusChangeHistory> getStatusHistoryForLead(Long leadId)
