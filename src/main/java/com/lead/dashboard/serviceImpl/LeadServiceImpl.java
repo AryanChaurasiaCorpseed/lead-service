@@ -811,16 +811,5 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 	
-	
-//	LeadHistory leadHistory= new LeadHistory();
-//	leadHistory.setEventType("Change the field 'Stage'");
-//	Optional<Status> status = statusRepository.findById(updateLeadDto.getId());
-//	leadHistory.setDescription(lead.getStatus().getName()+" -> "+status.get()!=null?status.get().getName():"NA");
-//	leadHistory.setLeadId(updateLeadDto.getId());
-//	leadHistory.setCreatedBy(user);
-//	leadHistory.setCreateDate(new Date());
-//	leadHistoryRepository.save(leadHistory);
-
-
 
 }
