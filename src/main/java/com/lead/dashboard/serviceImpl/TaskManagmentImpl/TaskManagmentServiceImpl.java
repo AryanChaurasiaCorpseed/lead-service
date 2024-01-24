@@ -36,13 +36,13 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Autowired
 	UserRepo userRepo;
 	@Override	
-	public TaskManagment createTaskInLead(Long leadId,String name, String description, Long assigneeId, Long assignedById,Date expectedDate,Long statusId) {
+	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId) {
 		// TODO Auto-generated method stub
 		
 		TaskManagment taskManagment = new TaskManagment();
 		taskManagment.setName(description);
-		taskManagment.setAssigne(userRepo.findById(assigneeId).get());
-		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
+//		taskManagment.setAssigne(userRepo.findById(assigneeId).get());
+//		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
@@ -62,10 +62,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			result.put("id", t.getId());
 			result.put("name", t.getName());
 			result.put("description", t.getDescription());
-			result.put("assigneeId",t.getAssigne().getId());
-			result.put("assigneeName", t.getAssigne().getFullName());
-			result.put("assignedById",t.getAssignedBy().getId());
-			result.put("assignedByName", t.getAssignedBy().getFullName());
+//			result.put("assigneeId",t.getAssigne().getId());
+//			result.put("assigneeName", t.getAssigne().getFullName());
+//			result.put("assignedById",t.getAssignedBy().getId());
+//			result.put("assignedByName", t.getAssignedBy().getFullName());
 			result.put("expectedDate", t.getExpectedDate());
 			result.put("name", t.getName());
 			res.add(result);
@@ -84,7 +84,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		TaskManagment task=null;
 		if(opTask!=null && opTask.get()!=null) {
 			task = opTask.get();
-			task.setAssigne(user);
+//			task.setAssigne(user);
 			taskManagmentRepository.save(task);
 		}
 		return task;
