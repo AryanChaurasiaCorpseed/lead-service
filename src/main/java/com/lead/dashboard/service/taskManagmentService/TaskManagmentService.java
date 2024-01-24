@@ -15,7 +15,7 @@ import com.lead.dashboard.domain.TaskManagment;
 public interface TaskManagmentService {
 
 
-	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById,Date expectedDate,Long statusId);
+	TaskManagment createTaskInLead(Long leadId, String name, String description,Date expectedDate,Long statusId);
 
 	List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId);
 

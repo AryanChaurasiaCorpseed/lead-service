@@ -12,8 +12,8 @@ public class CreateTask {
 	Long leadId;
 	String name;
 	String description;
-	Long assigneeId;
-	Long assignedById;
+//	Long assigneeId;
+//	Long assignedById;
 	Date expectedDate;
 	Long statusId;
 	public Long getLeadId() {
@@ -34,18 +34,18 @@ public class CreateTask {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getAssigneeId() {
-		return assigneeId;
-	}
-	public void setAssigneeId(Long assigneeId) {
-		this.assigneeId = assigneeId;
-	}
-	public Long getAssignedById() {
-		return assignedById;
-	}
-	public void setAssignedById(Long assignedById) {
-		this.assignedById = assignedById;
-	}
+//	public Long getAssigneeId() {
+//		return assigneeId;
+//	}
+//	public void setAssigneeId(Long assigneeId) {
+//		this.assigneeId = assigneeId;
+//	}
+//	public Long getAssignedById() {
+//		return assignedById;
+//	}
+//	public void setAssignedById(Long assignedById) {
+//		this.assignedById = assignedById;
+//	}
 	public Date getExpectedDate() {
 		return expectedDate;
 	}

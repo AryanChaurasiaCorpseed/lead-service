@@ -33,7 +33,7 @@ public class TaskManagmentController {
 	
 	@PostMapping("api/v1/task/createTask")
 	public TaskManagment createTaskInLead(@RequestBody CreateTask createTask) {
-		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getAssigneeId(),createTask.getAssignedById(),createTask.getExpectedDate(),createTask.getStatusId());
+		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getExpectedDate(),createTask.getStatusId());
 		return task;
 	}
 	
