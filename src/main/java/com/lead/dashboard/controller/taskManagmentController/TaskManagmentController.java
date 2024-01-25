@@ -33,7 +33,7 @@ public class TaskManagmentController {
 	
 	@PostMapping("api/v1/task/createTask")
 	public TaskManagment createTaskInLead(@RequestBody CreateTask createTask) {
-		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getAssigneeId(),createTask.getAssignedById(),createTask.getExpectedDate(),createTask.getStatusId());
+		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getExpectedDate(),createTask.getStatusId());
 		return task;
 	}
 	
@@ -46,6 +46,12 @@ public class TaskManagmentController {
 	@PutMapping("api/v1/task/updateAssigneTask")
 	public TaskManagment updateAssigneTask(@RequestParam Long taskId,@RequestParam Long newAssigneId) {
 		TaskManagment task=taskManagmentService.updateAssigneTask(taskId,newAssigneId);
+		return task;
+	}
+	
+	@PutMapping("api/v1/task/updateTaskStatus")
+	public Boolean updateTaskStatus(@RequestParam Long taskId,@RequestParam Long statusId) {
+		Boolean task=taskManagmentService.updateTaskStatus(taskId,statusId);
 		return task;
 	}
 	
