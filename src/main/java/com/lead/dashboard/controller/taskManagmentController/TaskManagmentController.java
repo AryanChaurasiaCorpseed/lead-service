@@ -49,6 +49,12 @@ public class TaskManagmentController {
 		return task;
 	}
 	
+	@PutMapping("api/v1/task/updateTaskStatus")
+	public Boolean updateTaskStatus(@RequestParam Long taskId,@RequestParam Long statusId) {
+		Boolean task=taskManagmentService.updateTaskStatus(taskId,statusId);
+		return task;
+	}
+	
 	@GetMapping("api/v1/task/getAllTaskByLead")
 	public List<TaskManagment> getAllTaskByLead(@RequestParam Long leadId) {
 		List<TaskManagment> task=taskManagmentService.getAllTaskByLead(leadId);

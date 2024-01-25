@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.lead.dashboard.domain.TaskManagment;
+import com.lead.dashboard.domain.lead.Lead;
 
 /*
 @Author :-Aryan Chaurasia
@@ -23,6 +24,10 @@ public interface TaskManagmentRepository extends JpaRepository<TaskManagment, Lo
 	List<TaskManagment> findAllByLeadId(Long leadId); 
 	
 	@Query(value = "SELECT * FROM dashlead.task_managment tm where tm.expected_date=:d and task_status_id=:statusId", nativeQuery = true)
-	List<TaskManagment> findAllByExpectedDateAndTaskStatusId(String d,Long statusId); 
+	List<TaskManagment> findAllByExpectedDateAndTaskStatusId(String d,Long statusId);
+
+	@Query(value = "SELECT * FROM dashlead.task_managment tm where tm.is_missed =:b and tm.lead_id =:leadId", nativeQuery = true)
+	List<Lead> findByIsMissedAndLeadId(boolean b, Long leadId); 
+	
 
 }

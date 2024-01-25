@@ -54,6 +54,8 @@ public class LeadCroneManagment {
 		   taskManagment.setMissed(true);
 		   Context context = new Context();
 		   Lead l=mapOfLead.get(taskManagment.getLeadId());
+		   l.setMissedTask(true);
+		   leadRepository.save(l);
 		   taskManagmentRepository.save(taskManagment);
 	    	context.setVariable("user",l.getAssignee()!=null?l.getAssignee().getFullName():"NA");
 	    	context.setVariable("leadName",l.getLeadName());
@@ -67,14 +69,3 @@ public class LeadCroneManagment {
 	   
 	}
 }
-//Context context = new Context();
-//context.setVariable("userName", "Aryan Chaurasia");
-//context.setVariable("user", u.getFullName());
-//
-//context.setVariable("email", email);
-//context.setVariable("Rurl", feedbackStatusURL);
-//context.setVariable("currentYear", LocalDateTime.now().getYear());
-//String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
-//String text="CLICK ON THIS link and set password";
-//String[] ccPersons= {email};
-//mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");

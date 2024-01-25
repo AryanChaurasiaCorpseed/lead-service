@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.TaskManagment;
+import com.lead.dashboard.domain.TaskStatus;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
@@ -46,6 +47,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
+		System.out.println(expectedDate);
 		taskManagment.setExpectedDate(expectedDate);  
 		taskManagment.setTaskStatus(taskStatusRepository.findById(statusId).get());		//----------date according to user
 		taskManagmentRepository.save(taskManagment);
@@ -94,6 +96,26 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		// TODO Auto-generated method stub
 		List<TaskManagment> taskList=taskManagmentRepository.findAllByLeadId(leadId);
 		return taskList;
+	}
+	@Override
+	public Boolean updateTaskStatus(Long taskId, Long statusId) {
+			Boolean flag=false;
+		Optional<TaskManagment> opTask = taskManagmentRepository.findById(taskId);
+		if(opTask!=null && opTask.isPresent() && opTask.get()!=null) {
+			TaskManagment task = opTask.get();
+			TaskStatus status = taskStatusRepository.findById(statusId).get();
+			task.setTaskStatus(status);
+			task.setMissed(false);
+			taskManagmentRepository.save(task);
+			List<Lead>checkTask= taskManagmentRepository.findByIsMissedAndLeadId(true,task.getLeadId());
+			if(checkTask!=null && checkTask.size()==0) {
+				Lead lead = leadRepository.findById(statusId).get();
+				lead.setMissedTask(false);
+                leadRepository.save(lead);
+                flag=true;
+			}	
+		}
+		return flag;
 	}
 
 }
