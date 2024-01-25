@@ -31,18 +31,17 @@ public class TaskManagment {
 	Long id;
 	
 	String name ;
-	String description;
-	
-	@ManyToOne
-	User assignedBy;
-	
+	String description;	
+//	@ManyToOne
+//	User assignedBy;
+	boolean isMissed;
 	Long leadId;
 	
 	@ManyToOne
 	TaskStatus TaskStatus;
 	
-	@ManyToOne
-	User assigne;
+//	@ManyToOne
+//	User assigne;
 	
 	Date expectedDate;
 	Date assignedDate;
@@ -64,24 +63,14 @@ public class TaskManagment {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public User getAssignedBy() {
-		return assignedBy;
-	}
-	public void setAssignedBy(User assignedBy) {
-		this.assignedBy = assignedBy;
-	}
+	
 	public TaskStatus getTaskStatus() {
 		return TaskStatus;
 	}
 	public void setTaskStatus(TaskStatus taskStatus) {
 		TaskStatus = taskStatus;
 	}
-	public User getAssigne() {
-		return assigne;
-	}
-	public void setAssigne(User assigne) {
-		this.assigne = assigne;
-	}
+
 	public Date getExpectedDate() {
 		return expectedDate;
 	}
@@ -99,6 +88,12 @@ public class TaskManagment {
 	}
 	public void setLeadId(Long leadId) {
 		this.leadId = leadId;
+	}
+	public boolean isMissed() {
+		return isMissed;
+	}
+	public void setMissed(boolean isMissed) {
+		this.isMissed = isMissed;
 	}
 	
 	

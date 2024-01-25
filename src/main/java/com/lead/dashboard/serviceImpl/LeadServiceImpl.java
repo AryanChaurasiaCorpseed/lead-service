@@ -740,19 +740,13 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee) {
 		Boolean flag=false;
-//		Status status=statusRepository.findAllByName("New");
-//		if(status==null) {
-//			status = new Status();
-//			status.setName("New");
-//			status.setIsDeleted(0);
-//			statusRepository.save(status);
-//		}
+
 		Status status = null;
 		if(updateMultiLeadAssignee.getStatusId()!=null) {
 			status=statusRepository.findById(updateMultiLeadAssignee.getStatusId()).get();
 		}
 		User assigne=null;
-		if(updateMultiLeadAssignee.getAssigneId()!=null) {
+		if(updateMultiLeadAssignee.getAssigneId()!=null && updateMultiLeadAssignee.getAssigneId()!=0) {
 			assigne = userRepo.findById(updateMultiLeadAssignee.getAssigneId()).get();
 		}
 		User updatedBy=null;
@@ -770,7 +764,10 @@ public class LeadServiceImpl implements LeadService  {
 				l.setStatus(status);
 			}
 			leadRepository.save(l);
-			multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
+			if(updateMultiLeadAssignee.getAssigneId()!=null && assigne!=null&&updateMultiLeadAssignee.getAssigneId()!=0) {
+				multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
+              System.out.println("In Lead");
+			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				multiLeadStatusHistory(l.getId(),prevStatus,status,updatedBy);			
 			}
@@ -783,8 +780,10 @@ public class LeadServiceImpl implements LeadService  {
 		Boolean flag=false;
 		LeadHistory leadHistory= new LeadHistory();
 		leadHistory.setEventType("lead assignee change");
-		String assignee = prevAssignee!=null?prevAssignee.getFullName():"NA";
-		leadHistory.setDescription("'Lead Assignee' has been changed from "+assignee+" to "+assigne.getFullName());
+		String pAssignee = prevAssignee!=null?prevAssignee.getFullName():"NA";
+		String currAssignee = assigne!=null?assigne.getFullName():"NA";
+
+		leadHistory.setDescription("'Lead Assignee' has been changed from "+pAssignee+" to "+currAssignee);
 		leadHistory.setLeadId(leadId);
 
 		if(updatedBy!=null) {
