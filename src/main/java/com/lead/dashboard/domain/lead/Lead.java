@@ -117,6 +117,8 @@ public class Lead {
 	@ManyToOne
 	private User assignee;
 	
+	boolean isMissedTask;
+	
 
 	
 	
@@ -338,5 +340,15 @@ public class Lead {
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public boolean isMissedTask() {
+		return isMissedTask;
+	}
+
+	public void setMissedTask(boolean isMissedTask) {
+		this.isMissedTask = isMissedTask;
+	}
+	
+	
 	
 }

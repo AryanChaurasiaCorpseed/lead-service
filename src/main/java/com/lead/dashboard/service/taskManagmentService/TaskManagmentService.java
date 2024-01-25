@@ -23,6 +23,8 @@ public interface TaskManagmentService {
 
 	List<TaskManagment> getAllTaskByLead(Long leadId);
 
+	Boolean updateTaskStatus(Long taskId, Long statusId);
+
 //	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById);
 
 }
