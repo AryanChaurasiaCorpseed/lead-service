@@ -67,12 +67,32 @@
 												</strong></td>
 
 											</tr>
+											<tr>
+
+												<td style="padding: 20px 0 10px 0;">
+													I hope this message finds you well.
+												</td>
+
+											</tr>
+											
 
 											<tr>
 
 												<td>
 
-													Your task is pending .please go and assign another person </td>
+													<!--Your task is pending .please go and assign another person-->
+
+This is a friendly reminder regarding the pending task titled <strong><span th:text="${taskName}"/></strong> of lead id <strong><span th:text="${leadId}"/></strong> assigned to you.<br>
+ The deadline for completion is <strong><span th:text="${ecpectedDate}"/></strong>.
+	  As of now, the task<br> remains incomplete.
+
+We kindly request you to prioritize and complete this task at your earliest convenience. Your prompt attention to<br> this matter is crucial for the overall progress of the project.<br>
+
+If you have already completed the task, please disregard this message.<br> 
+Otherwise, please log in to the system and update the task status accordingly.
+
+													
+													 </td>
 
 											</tr>										
 
