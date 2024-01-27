@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl.TaskManagmentImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +48,19 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
-		System.out.println(expectedDate);
-		taskManagment.setExpectedDate(expectedDate);  
+		taskManagment.setExpectedDate(convertTime(expectedDate));  
+		System.out.println(convertTime(expectedDate));
 		taskManagment.setTaskStatus(taskStatusRepository.findById(statusId).get());		//----------date according to user
 		taskManagmentRepository.save(taskManagment);
 	
 		return taskManagment;
+	}
+	public Date convertTime(Date date) {
+		 Calendar calendar=Calendar.getInstance();
+	     calendar.setTime(date);
+	     calendar.add(Calendar.HOUR,-5);
+	     calendar.add(Calendar.MINUTE,-30);
+		return calendar.getTime();
 	}
 	@Override
 	public List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId) {

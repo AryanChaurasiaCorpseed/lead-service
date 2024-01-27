@@ -59,10 +59,14 @@ public class LeadCroneManagment {
 		   taskManagmentRepository.save(taskManagment);
 	    	context.setVariable("user",l.getAssignee()!=null?l.getAssignee().getFullName():"NA");
 	    	context.setVariable("leadName",l.getLeadName());
+	    	context.setVariable("taskName",taskManagment.getName());
+	    	context.setVariable("ecpectedDate",taskManagment.getExpectedDate());
+
 	    	context.setVariable("leadId",taskManagment.getLeadId());
 	    	String ccMail[]= {"aryan.chaurasia@corpseed.com"};
-	    	String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
-	    	mailSendSerivceImpl.sendEmail(ccMail, ccMail,ccMail, subject,"Testing",context,"missedTask.html");
+	    	String fromMail[]= {l.getAssignee().getEmail()};
+	    	String subject="Urgent: Pending Task Notification";
+	    	mailSendSerivceImpl.sendEmail(ccMail, fromMail,ccMail, subject,"Testing",context,"missedTask.html");
 
 		   
 	   }
