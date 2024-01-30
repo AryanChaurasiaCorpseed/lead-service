@@ -47,7 +47,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping("updateProduct")
+    @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody UpdateProduct updateProduct) {
         Product updatedProduct = productService.updateProduct(updateProduct.getId(), updateProduct.getName());
         if (updatedProduct == null) {
@@ -56,7 +56,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteProduct(@RequestParam Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
