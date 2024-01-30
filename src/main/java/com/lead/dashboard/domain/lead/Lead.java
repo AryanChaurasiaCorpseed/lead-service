@@ -116,14 +116,15 @@ public class Lead {
 
 	@ManyToOne
 	private User assignee;
-	
-	boolean isMissedTask;
-	
 
-	
-	
 	@ManyToOne
 	private Status status;
+	
+	private boolean isMissedTask;
+	private String missedTaskName;
+	private Date missedTaskDate;
+	private String missedTaskStatus;
+	private String missedTaskCretedBy;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -348,6 +349,40 @@ public class Lead {
 	public void setMissedTask(boolean isMissedTask) {
 		this.isMissedTask = isMissedTask;
 	}
+
+	public String getMissedTaskName() {
+		return missedTaskName;
+	}
+
+	public void setMissedTaskName(String missedTaskName) {
+		this.missedTaskName = missedTaskName;
+	}
+
+	public Date getMissedTaskDate() {
+		return missedTaskDate;
+	}
+
+	public void setMissedTaskDate(Date missedTaskDate) {
+		this.missedTaskDate = missedTaskDate;
+	}
+
+	public String getMissedTaskStatus() {
+		return missedTaskStatus;
+	}
+
+	public void setMissedTaskStatus(String missedTaskStatus) {
+		this.missedTaskStatus = missedTaskStatus;
+	}
+
+	public String getMissedTaskCretedBy() {
+		return missedTaskCretedBy;
+	}
+
+	public void setMissedTaskCretedBy(String missedTaskCretedBy) {
+		this.missedTaskCretedBy = missedTaskCretedBy;
+	}
+	
+	
 	
 	
 	
