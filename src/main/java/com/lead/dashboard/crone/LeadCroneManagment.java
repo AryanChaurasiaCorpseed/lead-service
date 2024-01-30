@@ -41,11 +41,12 @@ public class LeadCroneManagment {
 		String pattern = "yyyy-MM-dd HH:mm";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date1 = simpleDateFormat.format(currentDate);
-		
-	   List<TaskManagment>taskList=taskManagmentRepository.findAllByExpectedDateAndTaskStatusId(date1,1l);
+//		System.out.println(date1+"   . . . .. . Date");
+	   List<TaskManagment>taskList=taskManagmentRepository.findAllByExpectedDateAndTaskStatusId(date1);
+//		System.out.println(taskList+"   . . . .. . taskList");
 
 	   List<Long>leadList=taskList.stream().map(i->i.getLeadId()).collect(Collectors.toList());
-
+	   taskList=taskList.stream().filter(i->i.getTaskStatus().getName().equals("To-Do")).collect(Collectors.toList());
 	   List<Lead> lead = leadRepository.findAllByIsDeletedAndIdIn(leadList, false);
 
 	   Map<Long, Lead> mapOfLead = lead.stream().collect(Collectors.toMap(c->c.getId(),c->c));
