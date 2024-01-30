@@ -23,11 +23,12 @@ public interface TaskManagmentRepository extends JpaRepository<TaskManagment, Lo
 	@Query(value = "SELECT * FROM task_managment tm WHERE tm.lead_id=:leadId", nativeQuery = true)
 	List<TaskManagment> findAllByLeadId(Long leadId); 
 	
-	@Query(value = "SELECT * FROM dashlead.task_managment tm where tm.expected_date=:d and task_status_id=:statusId", nativeQuery = true)
+	@Query(value = "SELECT * FROM task_managment tm where tm.expected_date=:d and task_status_id=:statusId", nativeQuery = true)
 	List<TaskManagment> findAllByExpectedDateAndTaskStatusId(String d,Long statusId);
 
-	@Query(value = "SELECT * FROM dashlead.task_managment tm where tm.is_missed =:b and tm.lead_id =:leadId", nativeQuery = true)
+	@Query(value = "SELECT * FROM task_managment tm where tm.is_missed =:b and tm.lead_id =:leadId", nativeQuery = true)
 	List<Lead> findByIsMissedAndLeadId(boolean b, Long leadId); 
-	
+	@Query(value = "SELECT * FROM task_managment tm where tm.expected_date=:d", nativeQuery = true)
+	List<TaskManagment> findAllByExpectedDateAndTaskStatusId(String d);
 
 }
