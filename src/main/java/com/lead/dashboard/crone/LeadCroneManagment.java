@@ -54,9 +54,22 @@ public class LeadCroneManagment {
 	   for(TaskManagment taskManagment:taskList) {
 		   taskManagment.setMissed(true);
 		   Context context = new Context();
+		   
+//			private boolean isMissedTask;
+//			private String missedTaskName;
+//			private Date missedTaskDate;
+//			private String missedTaskStatus;
+		   
 		   Lead l=mapOfLead.get(taskManagment.getLeadId());
 		   l.setMissedTask(true);
+		   l.setMissedTaskName(taskManagment.getName());
+		   l.setMissedTaskDate(taskManagment.getExpectedDate());
+		   l.setMissedTaskStatus(taskManagment.getTaskStatus().getName());
+		   String assignedBy=taskManagment.getAssignedBy()!=null?taskManagment.getAssignedBy().getFullName():"NA";
+		   l.setMissedTaskCretedBy(assignedBy);
 		   leadRepository.save(l);
+		   
+		   
 		   taskManagmentRepository.save(taskManagment);
 	    	context.setVariable("user",l.getAssignee()!=null?l.getAssignee().getFullName():"NA");
 	    	context.setVariable("leadName",l.getLeadName());
