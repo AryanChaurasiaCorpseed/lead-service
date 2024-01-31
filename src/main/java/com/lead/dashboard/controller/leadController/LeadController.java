@@ -78,11 +78,11 @@ public class LeadController {
 	}
 
 	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId,@RequestParam(required = false) String toDate,@RequestParam(required = false) String fromDate)
+	public ResponseEntity <List<Lead>> getAllLead(@RequestBody AllLeadFilter AllLeadFilter)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
-		if(statusId==null) {
+		if(AllLeadFilter.getStatusId()==null && AllLeadFilter.getStatusId().size()!=0) {
 			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId,toDate,fromDate);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
