@@ -4,7 +4,7 @@ package com.lead.dashboard.serviceImpl;
 import com.lead.dashboard.config.CommonServices;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
-
+import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
@@ -808,6 +808,18 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistoryRepository.save(leadHistory);
 		flag=true;
 		return flag;
+	}
+
+	@Override
+	public Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto) {
+        Boolean flag=false;   
+		List<Lead>leadList=leadRepository.findAllByIsDeletedAndIdIn(deleteMultiLeadDto.getLeadId(), false);
+     		for(Lead lead:leadList) {
+     			lead.setDeleted(true);
+     			leadRepository.save(lead);
+     			flag=true;
+     		}
+           return flag;
 	}
 	
 

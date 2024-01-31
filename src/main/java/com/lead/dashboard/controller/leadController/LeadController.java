@@ -3,6 +3,7 @@ package com.lead.dashboard.controller.leadController;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
@@ -232,6 +233,15 @@ public class LeadController {
 	public Boolean updateMultiLeadAssigne(@RequestBody UpdateMultiLeadAssignee updateMultiLeadAssignee)
 	{		
 		Boolean result= leadservice.updateMultiLeadAssigne(updateMultiLeadAssignee);
+		return result;
+
+	}
+	
+	
+	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
+	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
+	{		
+		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
 		return result;
 
 	}
