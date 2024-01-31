@@ -32,8 +32,8 @@ public class TaskManagment {
 	
 	String name ;
 	String description;	
-//	@ManyToOne
-//	User assignedBy;
+	@ManyToOne
+	User assignedBy;
 	boolean isMissed;
 	Long leadId;
 	
@@ -45,6 +45,7 @@ public class TaskManagment {
 	
 	Date expectedDate;
 	Date assignedDate;
+	
 	public Long getId() {
 		return id;
 	}
@@ -70,6 +71,7 @@ public class TaskManagment {
 	public void setTaskStatus(TaskStatus taskStatus) {
 		TaskStatus = taskStatus;
 	}
+	
 
 	public Date getExpectedDate() {
 		return expectedDate;
@@ -94,6 +96,12 @@ public class TaskManagment {
 	}
 	public void setMissed(boolean isMissed) {
 		this.isMissed = isMissed;
+	}
+	public User getAssignedBy() {
+		return assignedBy;
+	}
+	public void setAssignedBy(User assignedBy) {
+		this.assignedBy = assignedBy;
 	}
 	
 	

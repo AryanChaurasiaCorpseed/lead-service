@@ -3,6 +3,7 @@ package com.lead.dashboard.service;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
@@ -31,6 +32,7 @@ public interface LeadService {
 	List<Lead> getAllDeleteLead(Long uId);
 	Boolean viewHistory(Long userId, Long leadId);
 	Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee);
+	Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto);
 
 
 
