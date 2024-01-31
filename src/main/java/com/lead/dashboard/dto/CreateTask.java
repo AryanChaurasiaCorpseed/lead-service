@@ -13,7 +13,7 @@ public class CreateTask {
 	String name;
 	String description;
 //	Long assigneeId;
-//	Long assignedById;
+	Long assignedById;
 	Date expectedDate;
 	Long statusId;
 	public Long getLeadId() {
@@ -40,12 +40,12 @@ public class CreateTask {
 //	public void setAssigneeId(Long assigneeId) {
 //		this.assigneeId = assigneeId;
 //	}
-//	public Long getAssignedById() {
-//		return assignedById;
-//	}
-//	public void setAssignedById(Long assignedById) {
-//		this.assignedById = assignedById;
-//	}
+	public Long getAssignedById() {
+		return assignedById;
+	}
+	public void setAssignedById(Long assignedById) {
+		this.assignedById = assignedById;
+	}
 	public Date getExpectedDate() {
 		return expectedDate;
 	}

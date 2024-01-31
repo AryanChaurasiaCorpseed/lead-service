@@ -38,13 +38,13 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Autowired
 	UserRepo userRepo;
 	@Override	
-	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId) {
+	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId,Long assignedById) {
 		// TODO Auto-generated method stub
 		
 		TaskManagment taskManagment = new TaskManagment();
 		taskManagment.setName(description);
 //		taskManagment.setAssigne(userRepo.findById(assigneeId).get());
-//		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
+		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
@@ -74,7 +74,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			result.put("description", t.getDescription());
 //			result.put("assigneeId",t.getAssigne().getId());
 //			result.put("assigneeName", t.getAssigne().getFullName());
-//			result.put("assignedById",t.getAssignedBy().getId());
+			result.put("assignedById",t.getAssignedBy().getId());
 //			result.put("assignedByName", t.getAssignedBy().getFullName());
 			result.put("expectedDate", t.getExpectedDate());
 			result.put("name", t.getName());
