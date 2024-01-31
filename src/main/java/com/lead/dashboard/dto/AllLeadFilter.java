@@ -4,17 +4,14 @@ import java.util.List;
 
 
 public class AllLeadFilter {
-	List<Long> userId;
+	
+	Long userId;
+	List<Long> userIdFilter;
 	List<Long> statusId;
 	String toDate;
 	String fromDate;
 	
-	public List<Long> getUserId() {
-		return userId;
-	}
-	public void setUserId(List<Long> userId) {
-		this.userId = userId;
-	}
+
 	public List<Long> getStatusId() {
 		return statusId;
 	}
@@ -32,6 +29,18 @@ public class AllLeadFilter {
 	}
 	public void setFromDate(String fromDate) {
 		this.fromDate = fromDate;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public List<Long> getUserIdFilter() {
+		return userIdFilter;
+	}
+	public void setUserIdFilter(List<Long> userIdFilter) {
+		this.userIdFilter = userIdFilter;
 	}
 	
 	

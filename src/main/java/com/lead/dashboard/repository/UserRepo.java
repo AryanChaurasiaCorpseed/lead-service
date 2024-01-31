@@ -22,4 +22,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 	@Query(value = " SELECT r.name FROM  user_role ur left join roles r on r.id=ur.user_role_id WHERE ur.user_id=:id", nativeQuery = true)
 	List<String> findRoleNameById(Long id);
 	
+	
+	
+	
 }
