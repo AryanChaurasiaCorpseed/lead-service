@@ -3,6 +3,7 @@ package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.config.CommonServices;
 import com.lead.dashboard.dto.AddProductInLead;
+import com.lead.dashboard.dto.AllLeadFilter;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
@@ -159,9 +160,13 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
+//	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
+	public List<Lead> getAllActiveCustomerLead(AllLeadFilter allLeadFilter) {
+        String toDate=allLeadFilter.getToDate();
+        String fromDate=allLeadFilter.getFromDate();
+        Long uId=allLeadFilter.getUserId();
+        List<Long>userList=allLeadFilter.getUserIdFilter();
 		Optional<User> user = userRepo.findById(uId);
-
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 //			String startDate = convertLongToStringDateFormat(toDate);
 //			String endDate = convertLongToStringDateFormat(fromDate);
@@ -169,14 +174,25 @@ public class LeadServiceImpl implements LeadService  {
 			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
-				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+				if(userList!=null &&userList.size()!=0) {
+					return leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
+				}else {
+					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+
+				}
+//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
 			}else {
 				return leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
 			}
 		}else {
 
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-				return leadRepository.findAllByIsDeleted(false);
+//				return leadRepository.findAllByIsDeleted(false);
+				if(userList!=null &&userList.size()!=0) {
+					return leadRepository.findAllByIsDeleted(false,userList);
+				}else {
+					return leadRepository.findAllByIsDeleted(false);
+				}
 			}else {
 				return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
 			}
@@ -672,9 +688,17 @@ public class LeadServiceImpl implements LeadService  {
 		return service;
 	}
 
+	
 	@Override
-	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
+//	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
+	public List<Lead> getAllLead(AllLeadFilter allLeadFilter) {
+
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+        String toDate=allLeadFilter.getToDate();
+        String fromDate=allLeadFilter.getFromDate();
+        Long userId=allLeadFilter.getUserId();
+        List<Long>userList=allLeadFilter.getUserIdFilter();
+        List<Long>statusIds=allLeadFilter.getStatusId();
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
@@ -683,8 +707,17 @@ public class LeadServiceImpl implements LeadService  {
 			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+                 
+//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+				if(userList!=null &&userList.size()!=0) {
+//					return leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
 
-				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+				}else {
+//					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate);
+
+				}
 			}else {
 				leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeletedAndInBetweenDate(userId,statusId,flag,startDate,endDate);
 			}
