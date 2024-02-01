@@ -78,17 +78,17 @@ public class LeadController {
 		}
 	}
 
-	@GetMapping(UrlsMapping.GET_ALL_LEAD)
+	@PostMapping(UrlsMapping.GET_ALL_LEAD)
 	public ResponseEntity <List<Lead>> getAllLead(@RequestBody AllLeadFilter allLeadFilter)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
-		if(allLeadFilter.getStatusId()==null && allLeadFilter.getStatusId().size()!=0) {
-			List<Lead> alllead= leadservice.getAllActiveCustomerLead(allLeadFilter);
+		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
+			List<Lead> alllead= leadservice.getAllLead(allLeadFilter);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-			List<Lead> alllead= leadservice.getAllLead(allLeadFilter);
-			
+			List<Lead> alllead= leadservice.getAllActiveCustomerLead(allLeadFilter);
+
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
 
