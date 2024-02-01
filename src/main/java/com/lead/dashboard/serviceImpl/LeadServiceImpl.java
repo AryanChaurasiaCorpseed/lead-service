@@ -710,23 +710,27 @@ public class LeadServiceImpl implements LeadService  {
                  
 //				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
 				if(userList!=null &&userList.size()!=0) {
-//					return leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
 					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
 
 				}else {
-//					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
 					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate);
 
 				}
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeletedAndInBetweenDate(userId,statusId,flag,startDate,endDate);
+				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeletedAndInBetweenDate(userId,statusIds,flag,startDate,endDate);
 			}
 		}else {
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag);
 
-				leadList= leadRepository.findAllByStatusAndIsDeleted(statusId,flag);
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag);
+
+				}
+
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndStatusAndIsDeleted(userId,statusId,flag);
+				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag);
 			}
 		}
 
