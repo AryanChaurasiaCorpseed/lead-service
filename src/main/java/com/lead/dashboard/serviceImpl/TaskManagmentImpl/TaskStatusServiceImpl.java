@@ -54,7 +54,7 @@ class TaskStatusServiceImpl implements TaskStatusService {
 			task.setDescription(description);
 			taskStatusRepository.save(task);
 		}
-		return null;
+		return task;
 	}
 
 	@Override
