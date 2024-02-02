@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.Context;
 
+import com.lead.dashboard.domain.Notification;
 import com.lead.dashboard.domain.TaskManagment;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.NotificationRepository;
 import com.lead.dashboard.repository.TaskManagmentRepository;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 @Service
@@ -29,6 +31,9 @@ public class LeadCroneManagment {
 
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
+	
+	@Autowired
+	NotificationRepository notificationRepository;
 	
 	@Autowired
 	LeadRepository leadRepository;
@@ -53,13 +58,7 @@ public class LeadCroneManagment {
 	   System.out.println(mapOfLead);
 	   for(TaskManagment taskManagment:taskList) {
 		   taskManagment.setMissed(true);
-		   Context context = new Context();
-		   
-//			private boolean isMissedTask;
-//			private String missedTaskName;
-//			private Date missedTaskDate;
-//			private String missedTaskStatus;
-		   
+		   Context context = new Context();		   
 		   Lead l=mapOfLead.get(taskManagment.getLeadId());
 		   l.setMissedTask(true);
 		   l.setMissedTaskName(taskManagment.getName());
@@ -71,18 +70,24 @@ public class LeadCroneManagment {
 		   
 		   
 		   taskManagmentRepository.save(taskManagment);
-	    	context.setVariable("user",l.getAssignee()!=null?l.getAssignee().getFullName():"NA");
-	    	context.setVariable("leadName",l.getLeadName());
-	    	context.setVariable("taskName",taskManagment.getName());
-	    	context.setVariable("ecpectedDate",taskManagment.getExpectedDate());
-
-	    	context.setVariable("leadId",taskManagment.getLeadId());
-	    	String ccMail[]= {"aryan.chaurasia@corpseed.com"};
-	    	String fromMail[]= {l.getAssignee().getEmail()};
-	    	String subject="Urgent: Pending Task Notification";
-	    	mailSendSerivceImpl.sendEmail(ccMail, fromMail,ccMail, subject,"Testing",context,"missedTask.html");
-
 		   
+		   //=====  Mail Service Comment == ===== = == = = = = = === = = = == = = = =
+//	    	context.setVariable("user",l.getAssignee()!=null?l.getAssignee().getFullName():"NA");
+//	    	context.setVariable("leadName",l.getLeadName());
+//	    	context.setVariable("taskName",taskManagment.getName());
+//	    	context.setVariable("ecpectedDate",taskManagment.getExpectedDate());
+//
+//	    	context.setVariable("leadId",taskManagment.getLeadId());
+//	    	String ccMail[]= {"aryan.chaurasia@corpseed.com"};
+//	    	String fromMail[]= {l.getAssignee().getEmail()};
+//	    	String subject="Urgent: Pending Task Notification";
+//	    	mailSendSerivceImpl.sendEmail(ccMail, fromMail,ccMail, subject,"Testing",context,"missedTask.html");
+
+		   Notification notification = new Notification();
+		   notification.setUser(taskManagment.getAssignedBy());
+		   notification.setMessage("This is to remind you about activity "+taskManagment.getName()+" is pending");
+		   notification.setView(false);
+		   notificationRepository.save(notification);
 	   }
 	   
 	}

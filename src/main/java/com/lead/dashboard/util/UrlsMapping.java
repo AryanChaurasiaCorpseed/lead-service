@@ -100,7 +100,12 @@ public class UrlsMapping {
 	public static final String GET_ALL_PROJECT=PREFIX+"/project/getAllProject";
 
 
-	
+	//    Notification
+	public static final String GET_ALL_NOTIFICATION=PREFIX+"/notification/getAllNotification";
+	public static final String VIEW_NOTIFICATION=PREFIX+"/notification/viewNotification";
+	public static final String GET_UNSEEN_COUNT=PREFIX+"/notification/getUnseenCount";
+
+
 
 
 
