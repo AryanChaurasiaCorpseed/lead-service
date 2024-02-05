@@ -151,8 +151,16 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	}
 	
 	public Boolean checkAndUpdateMissed(Long leadId) {
-		
-		return true;
+		Boolean flag=false;
+		Lead lead = leadRepository.findById(leadId).get();
+		lead.setMissedTask(false);
+		lead.setMissedTaskCretedBy(null);
+		lead.setMissedTaskDate(null);
+		lead.setMissedTaskName(null);
+		lead.setMissedTaskStatus(null);
+		leadRepository.save(lead);
+		flag=true;
+		return flag;
 	}
 	@Override
 	public Boolean deleteTaskById(Long taskId, Long currentUserId) {
