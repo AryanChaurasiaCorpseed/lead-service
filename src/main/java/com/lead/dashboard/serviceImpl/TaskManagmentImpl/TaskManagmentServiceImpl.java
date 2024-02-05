@@ -137,6 +137,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			if(!(opTask.getTaskStatus().getId().equals(opTask))) {
 				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
 				opTask.setTaskStatus(tStatus);
+				checkAndUpdateMissed(updateTaskDto.getLeadId());
 			}
 			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
 			if(!(opTask.getExpectedDate().equals(expectedDate))) {
@@ -146,6 +147,11 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			flag=true;
 		}
 		return flag;
+	}
+	
+	public Boolean checkAndUpdateMissed(Long leadId) {
+		
+		return true;
 	}
 
 }
