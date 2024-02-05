@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.TaskManagment;
 import com.lead.dashboard.domain.TaskStatus;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.UpdateTaskDto;
+import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.TaskManagmentRepository;
 import com.lead.dashboard.repository.TaskStatusRepository;
@@ -32,6 +34,9 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	TaskManagmentRepository taskManagmentRepository;
 	
 	@Autowired
+	LeadHistoryRepository leadHistoryRepository;
+	
+	@Autowired
 	TaskStatusRepository taskStatusRepository;
 	
 	@Autowired
@@ -41,7 +46,6 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	UserRepo userRepo;
 	@Override	
 	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId,Long assignedById) {
-		// TODO Auto-generated method stub
 		
 		TaskManagment taskManagment = new TaskManagment();
 		taskManagment.setName(description);
@@ -168,6 +172,20 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		TaskManagment opTask = taskManagmentRepository.findById(taskId).get();
 		opTask.setDeleted(true);
 		taskManagmentRepository.save(opTask);
+		deleteTaskHistory(opTask,currentUserId);
+		flag=true;
+		return flag;
+	}
+	
+	public Boolean deleteTaskHistory(TaskManagment opTask,Long currentUserId) {
+		Boolean flag=false;
+		User user = userRepo.findById(currentUserId).get();
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Task Deletion");
+		leadHistory.setCreatedBy(user);
+		leadHistory.setDescription(opTask.getName()+" has been deleted by "+user!=null?user.getFullName():"NA");
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
 		flag=true;
 		return flag;
 	}
