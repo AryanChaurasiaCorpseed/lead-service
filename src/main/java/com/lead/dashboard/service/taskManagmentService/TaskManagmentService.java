@@ -28,6 +28,8 @@ public interface TaskManagmentService {
 
 	Boolean updateTaskData(UpdateTaskDto updateTaskDto);
 
+	Boolean deleteTaskById(Long taskId, Long currentUserId);
+
 //	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById);
 
 }

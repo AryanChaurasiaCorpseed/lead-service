@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -65,6 +66,12 @@ public class TaskManagmentController {
 	@PostMapping("api/v1/task/updateTaskData")
 	public Boolean updateTaskData(@RequestBody UpdateTaskDto updateTaskDto) {
 		Boolean task=taskManagmentService.updateTaskData(updateTaskDto);
+		return task;
+	}
+	
+	@DeleteMapping("api/v1/task/deleteTaskById")
+	public Boolean deleteTaskById(@RequestParam Long taskId,Long currentUserId) {
+		Boolean task=taskManagmentService.deleteTaskById(taskId,currentUserId);
 		return task;
 	}
 	

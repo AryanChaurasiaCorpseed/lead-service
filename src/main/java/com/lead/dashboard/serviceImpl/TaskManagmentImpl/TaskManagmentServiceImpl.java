@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,7 +104,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Override
 	public List<TaskManagment> getAllTaskByLead(Long leadId) {
 		// TODO Auto-generated method stub
-		List<TaskManagment> taskList=taskManagmentRepository.findAllByLeadId(leadId);
+		List<TaskManagment> taskList=taskManagmentRepository.findAllByLeadId(leadId).stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		return taskList;
 	}
 	@Override
@@ -152,6 +153,15 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	public Boolean checkAndUpdateMissed(Long leadId) {
 		
 		return true;
+	}
+	@Override
+	public Boolean deleteTaskById(Long taskId, Long currentUserId) {
+		Boolean flag=false;
+		TaskManagment opTask = taskManagmentRepository.findById(taskId).get();
+		opTask.setDeleted(true);
+		taskManagmentRepository.save(opTask);
+		flag=true;
+		return flag;
 	}
 
 }

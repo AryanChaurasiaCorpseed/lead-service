@@ -22,29 +22,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+//@Data
 @Table(name = "task_managment")
 public class TaskManagment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
-	
 	String name ;
 	String description;	
 	@ManyToOne
 	User assignedBy;
 	boolean isMissed;
 	Long leadId;
-	
 	@ManyToOne
 	TaskStatus TaskStatus;
-	
-//	@ManyToOne
-//	User assigne;
-	
 	Date expectedDate;
 	Date assignedDate;
+	boolean isDeleted;
 	
 	public Long getId() {
 		return id;
@@ -102,6 +97,12 @@ public class TaskManagment {
 	}
 	public void setAssignedBy(User assignedBy) {
 		this.assignedBy = assignedBy;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 	
