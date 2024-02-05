@@ -15,4 +15,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	@Query(value = "SELECT * FROM notification n WHERE n.is_view =:b and n.user_id = :userId", nativeQuery = true)
 	List<Notification> findAllByUserIdAndIsView(Long userId,boolean b);
 	
+	@Query(value = "SELECT * FROM notification n WHERE n.user_id = :userId", nativeQuery = true)
+	List<Notification> findAllByUserId(Long userId);
+	
 }
