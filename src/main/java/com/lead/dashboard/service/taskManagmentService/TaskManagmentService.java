@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.TaskManagment;
+import com.lead.dashboard.dto.UpdateTaskDto;
 /*
 @Author :-Aryan Chaurasia
 
@@ -24,6 +25,8 @@ public interface TaskManagmentService {
 	List<TaskManagment> getAllTaskByLead(Long leadId);
 
 	Boolean updateTaskStatus(Long taskId, Long statusId);
+
+	Boolean updateTaskData(UpdateTaskDto updateTaskDto);
 
 //	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById);
 

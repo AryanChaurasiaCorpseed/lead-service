@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.TaskManagment;
 import com.lead.dashboard.dto.CreateTask;
+import com.lead.dashboard.dto.UpdateTaskDto;
 import com.lead.dashboard.service.taskManagmentService.TaskManagmentService;
 
 /*
@@ -58,6 +59,12 @@ public class TaskManagmentController {
 	@GetMapping("api/v1/task/getAllTaskByLead")
 	public List<TaskManagment> getAllTaskByLead(@RequestParam Long leadId) {
 		List<TaskManagment> task=taskManagmentService.getAllTaskByLead(leadId);
+		return task;
+	}
+	
+	@PostMapping("api/v1/task/updateTaskData")
+	public Boolean updateTaskData(@RequestBody UpdateTaskDto updateTaskDto) {
+		Boolean task=taskManagmentService.updateTaskData(updateTaskDto);
 		return task;
 	}
 	

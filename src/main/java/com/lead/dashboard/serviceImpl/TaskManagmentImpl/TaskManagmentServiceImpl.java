@@ -15,6 +15,7 @@ import com.lead.dashboard.domain.TaskManagment;
 import com.lead.dashboard.domain.TaskStatus;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.UpdateTaskDto;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.TaskManagmentRepository;
 import com.lead.dashboard.repository.TaskStatusRepository;
@@ -122,6 +123,27 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
                 leadRepository.save(lead);
                 flag=true;
 			}	
+		}
+		return flag;
+	}
+	@Override
+	public Boolean updateTaskData(UpdateTaskDto updateTaskDto) {
+		Boolean flag=false;
+		TaskManagment opTask = taskManagmentRepository.findById(updateTaskDto.getTaskId()).get();
+		if(opTask!=null) {
+			if(!(opTask.getName().equals(updateTaskDto.getName()))) {
+				opTask.setName(updateTaskDto.getName());
+			}
+			if(!(opTask.getTaskStatus().getId().equals(opTask))) {
+				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
+				opTask.setTaskStatus(tStatus);
+			}
+			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
+			if(!(opTask.getExpectedDate().equals(expectedDate))) {
+				opTask.setExpectedDate(expectedDate);
+			}
+			taskManagmentRepository.save(opTask);
+			flag=true;
 		}
 		return flag;
 	}

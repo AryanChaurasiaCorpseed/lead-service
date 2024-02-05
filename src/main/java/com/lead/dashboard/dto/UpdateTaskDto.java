@@ -2,24 +2,20 @@ package com.lead.dashboard.dto;
 
 import java.util.Date;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
-import lombok.Data;
-
-
-@Data
-public class CreateTask {
-	Long leadId;
+public class UpdateTaskDto {
+	
+	Long taskId;
 	String name;
 	String description;
 	Long assignedById;
 	Date expectedDate;
 	Long statusId;
-	public Long getLeadId() {
-		return leadId;
+	
+	public Long getTaskId() {
+		return taskId;
 	}
-	public void setLeadId(Long leadId) {
-		this.leadId = leadId;
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
 	}
 	public String getName() {
 		return name;
@@ -33,12 +29,6 @@ public class CreateTask {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-//	public Long getAssigneeId() {
-//		return assigneeId;
-//	}
-//	public void setAssigneeId(Long assigneeId) {
-//		this.assigneeId = assigneeId;
-//	}
 	public Long getAssignedById() {
 		return assignedById;
 	}
@@ -59,5 +49,7 @@ public class CreateTask {
 	}
 	
 	
-
+	
+	
+	
 }
