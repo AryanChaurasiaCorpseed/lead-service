@@ -172,20 +172,22 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		TaskManagment opTask = taskManagmentRepository.findById(taskId).get();
 		opTask.setDeleted(true);
 		taskManagmentRepository.save(opTask);
-		deleteTaskHistory(opTask,currentUserId);
+		deleteTaskHistory(opTask,currentUserId,opTask.getLeadId());
 		flag=true;
 		return flag;
 	}
 	
-	public Boolean deleteTaskHistory(TaskManagment opTask,Long currentUserId) {
+	public Boolean deleteTaskHistory(TaskManagment opTask,Long currentUserId,Long leadId) {
 		Boolean flag=false;
 		User user = userRepo.findById(currentUserId).get();
 		LeadHistory leadHistory= new LeadHistory();
 		leadHistory.setEventType("Task Deletion");
+		leadHistory.setLeadId(leadId);
 		leadHistory.setCreatedBy(user);
 		leadHistory.setDescription(opTask.getName()+" has been deleted by "+user!=null?user.getFullName():"NA");
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
+		System.out.println();
 		flag=true;
 		return flag;
 	}
