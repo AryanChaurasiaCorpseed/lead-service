@@ -17,7 +17,7 @@ public class NotificationServiceImpl  implements NotificationService {
 	
 	@Override
 	public List<Notification> getAllNotification(Long userId) {
-		List<Notification> notifList = notificationRepository.findAll();
+		List<Notification> notifList = notificationRepository.findAllByUserId(userId);
 		return notifList;
 	}
 
@@ -35,7 +35,7 @@ public class NotificationServiceImpl  implements NotificationService {
 
 	@Override
 	public Long getUnseenCount(Long userId) {
-		return notificationRepository.findAll().stream().filter(i->!(i.isView())).count();
+		return notificationRepository.findAllByUserIdAndIsView(userId, false).stream().count();
 		
 	}
 	
