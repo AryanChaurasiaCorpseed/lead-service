@@ -5,6 +5,7 @@ import java.util.Date;
 public class UpdateTaskDto {
 	
 	Long taskId;
+	Long leadId;
 	String name;
 	String description;
 	Long assignedById;
@@ -46,6 +47,12 @@ public class UpdateTaskDto {
 	}
 	public void setStatusId(Long statusId) {
 		this.statusId = statusId;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	
