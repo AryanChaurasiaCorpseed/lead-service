@@ -135,18 +135,23 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	public Boolean updateTaskData(UpdateTaskDto updateTaskDto) {
 		Boolean flag=false;
 		TaskManagment opTask = taskManagmentRepository.findById(updateTaskDto.getTaskId()).get();
+		Optional<User> currentUser = userRepo.findById(updateTaskDto.getCurrentUserId());
 		if(opTask!=null) {
 			if(!(opTask.getName().equals(updateTaskDto.getName()))) {
+				String taskName = opTask.getName();
 				opTask.setName(updateTaskDto.getName());
+				updateTaskName(taskName,updateTaskDto.getName(),currentUser,updateTaskDto.getLeadId());
 			}
 			if(!(opTask.getTaskStatus().getId().equals(opTask))) {
 				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
+				updateTaskStatus(opTask.getTaskStatus().getName(),tStatus.getName(),currentUser,updateTaskDto.getLeadId());
 				opTask.setTaskStatus(tStatus);
 				checkAndUpdateMissed(updateTaskDto.getLeadId());
 			}
 			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
 			if(!(opTask.getExpectedDate().equals(expectedDate))) {
 				opTask.setExpectedDate(expectedDate);
+				expectedDateHistory(opTask.getExpectedDate(),expectedDate,currentUser,updateTaskDto.getLeadId());
 			}
 			taskManagmentRepository.save(opTask);
 			flag=true;
@@ -154,6 +159,42 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		return flag;
 	}
 	
+	private void expectedDateHistory(Date prevDate, Date currDate, Optional<User> currentUser,Long leadId) {
+        
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Task date updated");
+		leadHistory.setLeadId(leadId);
+		if(currentUser!=null) {
+			leadHistory.setCreatedBy(currentUser.get());
+		}
+		leadHistory.setDescription("Date has been Updated from "+prevDate+" to "+currDate);
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+	}
+	private void updateTaskStatus(String prevStatus, String currStatus, Optional<User> currentUser,Long leadId) {
+        
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Task name update");
+		leadHistory.setLeadId(leadId);
+		if(currentUser!=null) {
+			leadHistory.setCreatedBy(currentUser.get());
+		}
+		leadHistory.setDescription("Status has been Updated from "+prevStatus+" to "+currStatus);
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+	}
+	private void updateTaskName(String taskName, String name, Optional<User> currentUser,Long leadId) {
+        
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Task name update");
+		leadHistory.setLeadId(leadId);
+		if(currentUser!=null) {
+			leadHistory.setCreatedBy(currentUser.get());
+		}
+		leadHistory.setDescription("Task Name has been Updated from "+taskName+" to "+name);
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+	}
 	public Boolean checkAndUpdateMissed(Long leadId) {
 		Boolean flag=false;
 		Lead lead = leadRepository.findById(leadId).get();
@@ -187,7 +228,6 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setDescription(opTask.getName()+" has been deleted by "+user!=null?user.getFullName():"NA");
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
-		System.out.println();
 		flag=true;
 		return flag;
 	}
