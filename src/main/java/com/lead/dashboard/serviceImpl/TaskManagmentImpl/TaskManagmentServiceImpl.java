@@ -48,7 +48,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId,Long assignedById) {
 		
 		TaskManagment taskManagment = new TaskManagment();
-		taskManagment.setName(description);
+		taskManagment.setName(name);
 //		taskManagment.setAssigne(userRepo.findById(assigneeId).get());
 		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
 		taskManagment.setDescription(description);
