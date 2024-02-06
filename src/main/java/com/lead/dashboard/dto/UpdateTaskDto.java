@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class UpdateTaskDto {
 	
+	Long currentUserId;
 	Long taskId;
 	Long leadId;
 	String name;
@@ -53,6 +54,12 @@ public class UpdateTaskDto {
 	}
 	public void setLeadId(Long leadId) {
 		this.leadId = leadId;
+	}
+	public Long getCurrentUserId() {
+		return currentUserId;
+	}
+	public void setCurrentUserId(Long currentUserId) {
+		this.currentUserId = currentUserId;
 	}
 	
 	
