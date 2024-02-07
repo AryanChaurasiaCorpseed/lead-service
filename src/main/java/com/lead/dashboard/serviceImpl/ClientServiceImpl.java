@@ -29,8 +29,7 @@ public class ClientServiceImpl implements ClientService{
         {
             List<Client> clients = lead.getClients();
             clients.removeIf(client ->client.getId().equals(clientId));
-
-
+            lead.setClients(clients);
             leadRepository.save(lead);
         }
     }
