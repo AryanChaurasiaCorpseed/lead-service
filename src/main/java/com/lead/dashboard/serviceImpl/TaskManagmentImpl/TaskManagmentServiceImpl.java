@@ -172,7 +172,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistoryRepository.save(leadHistory);
 	}
 	private void updateTaskStatus(String prevStatus, String currStatus, Optional<User> currentUser,Long leadId) {
-        
+        if(!(prevStatus.equals(currStatus))) {
 		LeadHistory leadHistory= new LeadHistory();
 		leadHistory.setEventType("Task name update");
 		leadHistory.setLeadId(leadId);
@@ -182,6 +182,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setDescription("Status has been Updated from "+prevStatus+" to "+currStatus);
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
+        }
 	}
 	private void updateTaskName(String taskName, String name, Optional<User> currentUser,Long leadId) {
         
