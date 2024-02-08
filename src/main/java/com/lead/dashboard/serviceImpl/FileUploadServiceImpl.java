@@ -22,7 +22,9 @@ import com.lead.dashboard.service.FileUploadService;
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
 	
-	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
+//	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
+	public String UPLOAD_DIR="C:/Users/user/Documents/imageTest/image (1)";
+
 	
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
 		    boolean f=false;
@@ -50,6 +52,25 @@ public class FileUploadServiceImpl implements FileUploadService{
 
 
 	  }
+
+	@Override
+	public String[] getFilesData() {
+		    
+		        String folderPath = System.getProperty("user.dir") +"/Uploads"; 
+		          
+		          // Creating a new File instance 
+		        File directory= new File(UPLOAD_DIR); 
+		          
+		        // list() method returns an array of strings  
+		          // naming the files and directories  
+		          // in the directory denoted by this abstract pathname 
+		        String[] filenames = directory.list(); 
+		          
+		        // returning the list of filenames 
+		        return filenames; 
+		          
+		
+	}
 
 
 

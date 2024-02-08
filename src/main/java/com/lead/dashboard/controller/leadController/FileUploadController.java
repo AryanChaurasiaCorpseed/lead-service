@@ -44,6 +44,15 @@ public class FileUploadController {
 
 
 	  }
+	  
+	  @GetMapping("/getFileData")
+	  public String[] getFileData() {
+	    
+		  
+		  String[] s=storageService.getFilesData();
+            return s;
+
+	  }
 
 //	  @PostMapping("/upload")
 //	  public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files) {

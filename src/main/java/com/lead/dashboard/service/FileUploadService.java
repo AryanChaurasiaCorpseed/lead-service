@@ -13,4 +13,6 @@ public interface FileUploadService {
 
 	boolean uploadFilesData(MultipartFile files);
 
+	String[] getFilesData();
+
 }
