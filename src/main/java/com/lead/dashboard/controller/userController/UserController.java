@@ -114,4 +114,20 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@GetMapping("api/v1/users/getAllDeactivateUser")
+	public ResponseEntity<List<User>> getAllDeactivateUser()
+	{
+
+		List<User> allUser=userService.getAllUsers().stream().filter(i->i.isDeleted()==true).collect(Collectors.toList());;
+		if(!allUser.isEmpty())
+		{
+			return  new ResponseEntity<>(allUser,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 }
