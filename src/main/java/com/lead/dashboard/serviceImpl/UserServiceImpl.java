@@ -193,4 +193,19 @@ public class UserServiceImpl implements UserService {
 		return userList;
 	}
 
+
+
+	@Override
+	public Boolean createUser(Long id) {
+		Boolean flag=false;
+		Optional<User> opUser = userRepo.findById(id);
+	    if(opUser!=null &&opUser.get()!=null) {
+	    	User user = opUser.get();
+	    	user.setDeleted(false);
+	    	userRepo.save(user);
+	    	flag=true;
+	    }
+		return flag;
+	}
+
 }
