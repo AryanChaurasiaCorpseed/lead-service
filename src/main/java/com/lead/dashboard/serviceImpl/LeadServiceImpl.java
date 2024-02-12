@@ -191,10 +191,10 @@ public class LeadServiceImpl implements LeadService  {
 				if(userList!=null &&userList.size()!=0) {
 					return leadRepository.findAllByIsDeleted(false,userList);
 				}else {
-					return leadRepository.findAllByIsDeleted(false);
+					return leadRepository.findAllByStatusIdAndIsDeleted(1l,false);
 				}
 			}else {
-				return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+				return leadRepository.findAllByStatusIdAndAssigneeAndIsDeleted(1l,uId, false);
 			}
 
 
