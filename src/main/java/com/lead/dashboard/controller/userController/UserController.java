@@ -103,4 +103,15 @@ public class UserController {
 		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation(),newSignupRequest.getDepartment());
 		return createdUser;
 	}
+	
+	
+	@PutMapping("api/v1/users/activateUser")
+	public ResponseEntity<Boolean> activateUser(@RequestParam Long id) {
+		Boolean existingUser= userService.createUser(id);
+		if (existingUser) {	
+			return new ResponseEntity<>(existingUser, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
