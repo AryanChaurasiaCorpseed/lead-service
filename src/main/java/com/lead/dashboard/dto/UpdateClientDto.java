@@ -9,6 +9,8 @@ public class UpdateClientDto {
 	String name;
 	String email;
 	String contactNo;
+	Long userId;
+	Long leadId;
 	
 	public Long getId() {
 		return id;
@@ -34,6 +36,18 @@ public class UpdateClientDto {
 	}
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	
