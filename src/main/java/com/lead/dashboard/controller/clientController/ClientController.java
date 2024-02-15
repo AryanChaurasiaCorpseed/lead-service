@@ -34,7 +34,7 @@ public class ClientController {
 
 	@PostMapping("api/v1/client/createClient")
 	public Lead  createClientInLead(@RequestBody CreateClient createClient) {
-		Lead  clientCreated =clientService.createClientInLead(createClient.getLeadId(), createClient.getName() , createClient.getEmail(), createClient.getContactNo());
+		Lead  clientCreated =clientService.createClientInLead(createClient.getLeadId(), createClient.getName() , createClient.getEmail(), createClient.getContactNo(),createClient.getCurrentUserId());
 		return clientCreated;
 	}
 

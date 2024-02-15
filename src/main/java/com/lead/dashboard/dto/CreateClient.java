@@ -2,9 +2,10 @@ package com.lead.dashboard.dto;
 
 import lombok.Data;
 
-@Data
+//@Data
 public class CreateClient {
 
+	Long currentUserId;
 	 Long leadId;
 	 String name;
 	 String contactNo;
@@ -33,6 +34,14 @@ public class CreateClient {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public Long getCurrentUserId() {
+		return currentUserId;
+	}
+	public void setCurrentUserId(Long currentUserId) {
+		this.currentUserId = currentUserId;
+	}
+	
+	
 	 
 	 
 }
