@@ -74,6 +74,10 @@ public class TaskManagmentController {
 		Boolean task=taskManagmentService.deleteTaskById(taskId,currentUserId);
 		return task;
 	}
-	
+	@GetMapping("api/v1/task/getAllTask")
+	public List<TaskManagment> getAllTask() {
+		List<TaskManagment>  task=taskManagmentService.getAllTask();
+		return task;
+	}
 
 }
