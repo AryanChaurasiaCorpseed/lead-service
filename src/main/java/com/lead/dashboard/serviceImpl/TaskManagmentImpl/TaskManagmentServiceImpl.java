@@ -257,5 +257,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		flag=true;
 		return flag;
 	}
+	@Override
+	public List<TaskManagment> getAllTask() {
+		List<TaskManagment>listTask=taskManagmentRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		return listTask;
+	}
 
 }
