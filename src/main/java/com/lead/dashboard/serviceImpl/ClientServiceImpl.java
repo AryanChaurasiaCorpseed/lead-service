@@ -44,13 +44,15 @@ public class ClientServiceImpl implements ClientService{
 			List<Client> clients = lead.getClients();
 			clients.removeIf(client ->client.getId().equals(clientId));
 			lead.setClients(clients);
-		    Optional<Client> opClient = clientRepository.findById(clientId);
-		    if(opClient!=null) {
-		    	c=opClient.get();
-		    }
-			Optional<User> userOp = userRepo.findById(userId);
-			if(userOp.get()!=null) {
-				user=userOp.get();
+			Optional<Client> opClient = clientRepository.findById(clientId);
+			if(opClient!=null) {
+				c=opClient.get();
+			}
+			if(userId!=null) {
+				Optional<User> userOp = userRepo.findById(userId);
+				if(userOp.get()!=null) {
+					user=userOp.get();
+				}
 			}
 			createClientDeleteHistory(c,user ,leadId);
 			leadRepository.save(lead);
@@ -59,10 +61,11 @@ public class ClientServiceImpl implements ClientService{
 	public void createClientDeleteHistory(Client client ,User user,Long leadId) {
 		LeadHistory leadHistory = new LeadHistory();
 		leadHistory.setCreateDate(new Date());
-		leadHistory.setDescription("client "+client!=null?client.getName():"NA"+" has been deleted");
+		leadHistory.setDescription(client!=null?client.getName():"NA"+" has been deleted");
 		leadHistory.setEventType("Client Deleted");
 		leadHistory.setCreatedBy(user);
 		leadHistory.setLeadId(leadId);
+		leadHistoryRepository.save(leadHistory);
 	}
 
 	private Client getClientById(Long id) {
@@ -139,7 +142,7 @@ public class ClientServiceImpl implements ClientService{
 		createClientHistory(leadId,name,currentUserId);
 		Optional<Lead> opLead = leadRepository.findById(leadId);
 		Lead lead = opLead.get();
-		System.out.println(lead);
+		//		System.out.println(lead);
 
 		if(lead.getClients()!=null) {
 
@@ -159,7 +162,7 @@ public class ClientServiceImpl implements ClientService{
 
 		return lead;   
 	}
-	
+
 	public void  createClientHistory(Long leadId,String cName,Long currentUserId) {
 		LeadHistory leadHistory = new LeadHistory();
 
