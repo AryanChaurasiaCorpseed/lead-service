@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.domain.Chats;
@@ -29,6 +31,9 @@ public class ChatServiceImpl implements ChatService {
 
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+	FileUploadServiceImpl fileUploadServiceImpl;
 
 	@Autowired
 	UserRepo userRepo;
@@ -82,7 +87,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Remark createRemarks(Long leadId,Long userId, String message) {
+	public Remark createRemarks(Long leadId,Long userId, String message, MultipartFile multipartFile) throws IOException {
 		// TODO Auto-generated method stub
 		
 		User user = userRepo.findById(userId).get();
@@ -92,6 +97,16 @@ public class ChatServiceImpl implements ChatService {
 		if(opLead!=null && opLead.get()!=null) {
 			Lead lead = opLead.get();
 			List<Remark> remarks = lead.getRemarks();
+			
+			if(multipartFile!=null) {
+				try {
+					String file=fileUploadServiceImpl.uploadImageToFileData(multipartFile);
+					remark.setImages(file);
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 			if(remarks!=null && remarks.size()!=0) {
 				remark.setMessage(message);
