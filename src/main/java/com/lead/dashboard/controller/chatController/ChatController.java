@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.chatController;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,8 @@ public class ChatController {
 	}
 	
 	@PostMapping("api/v1/createRemarks")
-	public Remark createRemarks(@RequestBody CreateRemark createRemark){
-		Remark updatedDeatils =chatService.createRemarks(createRemark.getLeadId(),createRemark.getUserId(),createRemark.getMessage());
+	public Remark createRemarks(@RequestBody CreateRemark createRemark) throws IOException{
+		Remark updatedDeatils =chatService.createRemarks(createRemark.getLeadId(),createRemark.getUserId(),createRemark.getMessage(),createRemark.getFile());
 			return updatedDeatils;
 	}
 	@GetMapping("api/v1/getAllRemarks")

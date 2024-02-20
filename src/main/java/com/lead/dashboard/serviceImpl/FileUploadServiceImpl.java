@@ -58,22 +58,11 @@ public class FileUploadServiceImpl implements FileUploadService{
 	  }
 
 	@Override
-	public String[] getFilesData() {
-		    
+	public String[] getFilesData() { 
 		        String folderPath = System.getProperty("user.dir") +"/Uploads"; 
-		          
-		          // Creating a new File instance 
 		        File directory= new File(UPLOAD_DIR); 
-		          
-		        // list() method returns an array of strings  
-		          // naming the files and directories  
-		          // in the directory denoted by this abstract pathname 
 		        String[] filenames = directory.list(); 
-		          
-		        // returning the list of filenames 
-		        return filenames; 
-		          
-		
+		        return filenames;		
 	}
 
 
