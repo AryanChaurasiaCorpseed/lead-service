@@ -39,9 +39,9 @@ public class ClientController {
 	}
 
 	@DeleteMapping("api/v1/client/deleteClient")
-	public ResponseEntity<String> deleteClientFromLead(@RequestParam Long leadId, @RequestParam Long clientId)
+	public ResponseEntity<String> deleteClientFromLead(@RequestParam Long leadId, @RequestParam Long clientId,@RequestParam(required=false) Long currentUserId)
 	{
-		clientService.removeClientFromLead(leadId,clientId);
+		clientService.removeClientFromLead(leadId,clientId, currentUserId);
 		return ResponseEntity.ok("Client has been removed from the lead enquiry");
 	}
 

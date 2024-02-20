@@ -34,16 +34,35 @@ public class ClientServiceImpl implements ClientService{
 	@Autowired
 	ClientRepository clientRepository;
 	@Override
-	public void removeClientFromLead(Long leadId, Long clientId) {
+	public void removeClientFromLead(Long leadId, Long clientId,Long userId) {
 
 		Lead lead = leadRepository.findById(leadId).orElse(null);
 		if (lead!= null)
 		{
+			Client c=null;
+			User user=null;
 			List<Client> clients = lead.getClients();
 			clients.removeIf(client ->client.getId().equals(clientId));
 			lead.setClients(clients);
+		    Optional<Client> opClient = clientRepository.findById(clientId);
+		    if(opClient!=null) {
+		    	c=opClient.get();
+		    }
+			Optional<User> userOp = userRepo.findById(userId);
+			if(userOp.get()!=null) {
+				user=userOp.get();
+			}
+			createClientDeleteHistory(c,user ,leadId);
 			leadRepository.save(lead);
 		}
+	}
+	public void createClientDeleteHistory(Client client ,User user,Long leadId) {
+		LeadHistory leadHistory = new LeadHistory();
+		leadHistory.setCreateDate(new Date());
+		leadHistory.setDescription("client "+client!=null?client.getName():"NA"+" has been deleted");
+		leadHistory.setEventType("Client Deleted");
+		leadHistory.setCreatedBy(user);
+		leadHistory.setLeadId(leadId);
 	}
 
 	private Client getClientById(Long id) {

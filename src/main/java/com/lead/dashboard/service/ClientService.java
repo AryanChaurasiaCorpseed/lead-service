@@ -17,7 +17,7 @@ public interface ClientService {
 
     Lead createClientInLead(Long leadId, String name, String email, String contactNo,Long currentUserId);
 
-    void removeClientFromLead(Long leadId, Long clientId);
+    void removeClientFromLead(Long leadId, Long clientId,Long currentUserId);
 
 	List<Client> getAllClientInfo();
 }
