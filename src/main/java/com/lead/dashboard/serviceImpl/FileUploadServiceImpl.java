@@ -8,8 +8,10 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,16 +19,23 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.util.NativeImageUtil;
+import com.lead.dashboard.domain.lead.FileData;
+import com.lead.dashboard.repository.FileDataRepository;
 import com.lead.dashboard.service.FileUploadService;
 
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
 	
+	@Autowired
+	FileDataRepository fileDataRepository;
+	
 //	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
 	public String UPLOAD_DIR="C:/Users/user/Documents/imageTest/image (1)";
-
+    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
 	
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
+		 
 		    boolean f=false;
 		    try {
 		    	InputStream ls=multipartFile.getInputStream();
@@ -42,12 +51,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		    }catch(Exception e) {
 		    	
 		    }
-//		  if(files.isEmpty()) {
-//			  
-//		  }
-//		  if(files.getContentType().equals("image/jpeg")) {
-//			  System.out.println("iiiiiiii");
-//		  }
+
 		    return f;
 
 
@@ -73,55 +77,29 @@ public class FileUploadServiceImpl implements FileUploadService{
 	}
 
 
-
-
-//	  private final Path root = Paths.get("uploads");
-//
-//	  @Override
-//	  public void init() {
-//	    try {
-//	      Files.createDirectory(root);
-//	    } catch (IOException e) {
-//	      throw new RuntimeException("Could not initialize folder for upload!");
-//	    }
-//	  }
-//
-//	  @Override
-//	  public void save(MultipartFile file) {
-//	    try {
-//	      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-//	    } catch (Exception e) {
-//	      throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
-//	    }
-//	  }
-//
-//	  @Override
-//	  public Resource load(String filename) {
-//	    try {
-//	      Path file = root.resolve(filename);
-//	      Resource resource = new UrlResource(file.toUri());
-//
-//	      if (resource.exists() || resource.isReadable()) {
-//	        return resource;
-//	      } else {
-//	        throw new RuntimeException("Could not read the file!");
-//	      }
-//	    } catch (MalformedURLException e) {
-//	      throw new RuntimeException("Error: " + e.getMessage());
-//	    }
-//	  }
-//
-//	  @Override
-//	  public void deleteAll() {
-//	    FileSystemUtils.deleteRecursively(root.toFile());
-//	  }
-//
-//	  @Override
-//	  public Stream<Path> loadAll() {
-//	    try {
-//	      return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-//	    } catch (IOException e) {
-//	      throw new RuntimeException("Could not load the files!");
-//	    }
-//	  }
+	
+	public String uploadImageToFileData(MultipartFile file) throws IllegalStateException, IOException {
+		String filePath=FOLDER_PATH+file.getOriginalFilename();
+		
+		FileData fileData = new FileData();
+		fileData.setName(file.getOriginalFilename());
+		fileData.setType(file.getContentType());
+		fileData.setFilePath(filePath);
+		fileDataRepository.save(fileData);
+		file.transferTo(new File(filePath));
+		if(filePath!=null) {
+			return "file uploaded successfully : "+filePath;
+		}
+		return null;
+		
+	}
+	
+	public byte[] downloadImageToFileSystem(String fileName) throws IOException {
+		Optional<FileData> fileData = fileDataRepository.findByName(fileName);
+		String filePath = fileData.get().getFilePath();
+	    byte[] images = Files.readAllBytes(new File(filePath).toPath());
+	    return images;
+	}
+	
+	
 }
