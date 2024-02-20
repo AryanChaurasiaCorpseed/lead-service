@@ -89,6 +89,16 @@ public class FileUploadServiceImpl implements FileUploadService{
 	    byte[] images = Files.readAllBytes(new File(filePath).toPath());
 	    return images;
 	}
+
+	@Override
+	public String getImageToFileSystem(String fileName) {
+		Optional<FileData> fileData = fileDataRepository.findByName(fileName);
+		String image=null;
+		if(fileData!=null && fileData.get()!=null) {
+			image=fileData.get().getFilePath();
+		}
+		return image;
+	}
 	
 	
 }

@@ -62,6 +62,13 @@ public class FileUploadController {
 		  byte[] imageData=storageService.downloadImageToFileSystem(filePath);
            return imageData;
 	  }
+	  
+	  
+	  @GetMapping("/getImageToFileSystem")
+	  public String getImageToFileSystem(@RequestParam String filePath) throws IllegalStateException, IOException {
+		  String imageData=storageService.getImageToFileSystem(filePath);
+           return imageData;
+	  }
 
 	  
 }
