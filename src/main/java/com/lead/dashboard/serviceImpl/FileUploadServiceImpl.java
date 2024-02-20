@@ -77,7 +77,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		fileDataRepository.save(fileData);
 		file.transferTo(new File(filePath));
 		if(filePath!=null) {
-			return "file uploaded successfully : "+filePath;
+			return filePath;
 		}
 		return null;
 		
