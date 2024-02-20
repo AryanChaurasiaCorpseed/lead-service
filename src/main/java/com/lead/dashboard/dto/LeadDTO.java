@@ -2,20 +2,17 @@ package com.lead.dashboard.dto;
 
 import java.util.Date;
 
-import com.lead.dashboard.domain.Status;
-import com.lead.dashboard.domain.User;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 
+@Getter
+@Setter
 public class LeadDTO {
 
 	String uuid;
 
-	String name;
+	String clientName;
 
 	String leadName;
 
@@ -70,9 +67,6 @@ public class LeadDTO {
 
 
 
-	public String getName() {
-		return name;
-	}
 
 	public String getLeadName() {
 		return leadName;
@@ -152,9 +146,6 @@ public class LeadDTO {
 
 	//Setter
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public Long getCreatedById() {
 		return createdById;

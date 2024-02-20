@@ -13,6 +13,8 @@ public interface StatusRepository extends JpaRepository<Status,Long>
 
 	Status findAllByName(String status);
 
+    Status findByName(String stage);
+
 //	Status save(CreateLeadStatus status);
 
 }

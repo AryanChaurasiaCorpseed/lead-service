@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.leadController;
 
+import com.lead.dashboard.domain.BitrixBad;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
@@ -9,6 +10,7 @@ import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
 import com.lead.dashboard.repository.UserRepo;
+import com.lead.dashboard.service.BitrixService;
 import com.lead.dashboard.service.StatusService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -40,6 +42,9 @@ public class LeadController {
 
 	@Autowired
 	LeadService leadservice;
+
+	@Autowired
+	private BitrixService bitrixService;
 
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
@@ -247,6 +252,12 @@ public class LeadController {
 
 	}
 
+	@GetMapping("/bitrixBad")
+	public List<BitrixBad> getAllBitrixBadData() {
+
+
+		return bitrixService.getAllBitrixBad();
+	}
 
 
 }

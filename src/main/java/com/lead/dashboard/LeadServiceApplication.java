@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-@EnableScheduling
+//@EnableScheduling
 public class LeadServiceApplication {
 
 	public static void main(String[] args) {

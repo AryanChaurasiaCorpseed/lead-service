@@ -77,6 +77,7 @@ public class LeadServiceImpl implements LeadService  {
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(leadDTO.getEmail(),leadDTO.getMobileNo());
 		Lead lead = new Lead();
 
+
 		if(leadList!=null && leadList.size()!=0) {
 			int size = leadList.size();
 			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
@@ -84,7 +85,7 @@ public class LeadServiceImpl implements LeadService  {
 			lead.setLeadName(leadDTO.getLeadName());
 		}
 
-		lead.setName(leadDTO.getName());
+		lead.setName(leadDTO.getClientName());
 		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
 		lead.setMobileNo(leadDTO.getMobileNo());
@@ -105,7 +106,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 		Client client = new Client();
-		client.setName(leadDTO.getName());
+		client.setName(leadDTO.getClientName());
 		client.setContactNo(leadDTO.getMobileNo());
 		client.setEmails(leadDTO.getEmail());
 		client.setServiceDetails(null);
