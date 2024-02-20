@@ -103,4 +103,31 @@ public class UserController {
 		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation(),newSignupRequest.getDepartment());
 		return createdUser;
 	}
+	
+	
+	@PutMapping("api/v1/users/activateUser")
+	public ResponseEntity<Boolean> activateUser(@RequestParam Long id) {
+		Boolean existingUser= userService.createUser(id);
+		if (existingUser) {	
+			return new ResponseEntity<>(existingUser, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("api/v1/users/getAllDeactivateUser")
+	public ResponseEntity<List<User>> getAllDeactivateUser()
+	{
+
+		List<User> allUser=userService.getAllUsers().stream().filter(i->i.isDeleted()==true).collect(Collectors.toList());;
+		if(!allUser.isEmpty())
+		{
+			return  new ResponseEntity<>(allUser,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 }

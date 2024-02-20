@@ -1,5 +1,7 @@
 package com.lead.dashboard.domain;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Table
-@Data
+//@Data
 public class Notification {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -19,6 +21,7 @@ public class Notification {
 	@ManyToOne
 	User user;
 	boolean isView;
+	Date notifyDate;
 	
 	public Long getId() {
 		return id;
@@ -44,6 +47,14 @@ public class Notification {
 	public void setView(boolean isView) {
 		this.isView = isView;
 	}
+	public Date getNotifyDate() {
+		return notifyDate;
+	}
+	public void setNotifyDate(Date notifyDate) {
+		this.notifyDate = notifyDate;
+	}
+	
+	
 	
 	
 }

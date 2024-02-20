@@ -87,6 +87,7 @@ public class LeadCroneManagment {
 		   notification.setUser(taskManagment.getAssignedBy());
 		   notification.setMessage("This is to remind you about activity "+taskManagment.getName()+" is pending");
 		   notification.setView(false);
+		   notification.setNotifyDate(new Date());
 		   notificationRepository.save(notification);
 	   }
 	   
