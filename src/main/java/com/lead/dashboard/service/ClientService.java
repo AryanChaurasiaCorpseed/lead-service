@@ -15,7 +15,7 @@ public interface ClientService {
 
     Client updateClientInfo(UpdateClientDto client);
 
-    Lead createClientInLead(Long leadId, String name, String email, String contactNo);
+    Lead createClientInLead(Long leadId, String name, String email, String contactNo,Long currentUserId);
 
     void removeClientFromLead(Long leadId, Long clientId);
 

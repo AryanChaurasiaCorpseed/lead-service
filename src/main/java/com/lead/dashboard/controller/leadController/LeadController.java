@@ -58,6 +58,7 @@ public class LeadController {
 	public String test()
 	{
 		//		return securityFeignClient.test();	
+		
 		return "Test";		 
 
 	}

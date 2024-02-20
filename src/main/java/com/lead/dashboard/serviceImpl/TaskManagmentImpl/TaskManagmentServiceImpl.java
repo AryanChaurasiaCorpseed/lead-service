@@ -142,11 +142,14 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 				opTask.setName(updateTaskDto.getName());
 				updateTaskName(taskName,updateTaskDto.getName(),currentUser,updateTaskDto.getLeadId());
 			}
-			if(!(opTask.getTaskStatus().getId().equals(opTask))) {
+			if(!(opTask.getTaskStatus().getId().equals(updateTaskDto.getStatusId()))) {
 				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
 				updateTaskStatus(opTask.getTaskStatus().getName(),tStatus.getName(),currentUser,updateTaskDto.getLeadId());
 				opTask.setTaskStatus(tStatus);
-				checkAndUpdateMissed(updateTaskDto.getLeadId());
+				if(tStatus.getName().equals("Done")) {
+					opTask.setMissed(false);
+					checkAndUpdateMissed(updateTaskDto.getLeadId());
+				}
 			}
 			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
 			if(!(opTask.getExpectedDate().equals(expectedDate))) {
@@ -172,7 +175,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistoryRepository.save(leadHistory);
 	}
 	private void updateTaskStatus(String prevStatus, String currStatus, Optional<User> currentUser,Long leadId) {
-        
+        if(!(prevStatus.equals(currStatus))) {
 		LeadHistory leadHistory= new LeadHistory();
 		leadHistory.setEventType("Task name update");
 		leadHistory.setLeadId(leadId);
@@ -182,6 +185,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setDescription("Status has been Updated from "+prevStatus+" to "+currStatus);
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
+        }
 	}
 	private void updateTaskName(String taskName, String name, Optional<User> currentUser,Long leadId) {
         
@@ -195,14 +199,36 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
 	}
+//	public Boolean checkAndUpdateMissed(Long leadId) {
+//		Boolean flag=false;
+//		Lead lead = leadRepository.findById(leadId).get();
+//		lead.setMissedTask(false);
+//		lead.setMissedTaskCretedBy(null);
+//		lead.setMissedTaskDate(null);
+//		lead.setMissedTaskName(null);
+//		lead.setMissedTaskStatus(null);
+//		leadRepository.save(lead);
+//		flag=true;
+//		return flag;
+//	}
 	public Boolean checkAndUpdateMissed(Long leadId) {
+		List<TaskManagment> taskList = taskManagmentRepository.findAllByLeadIdAndTaskStatusIdAndIsMissed(leadId, 1l);
 		Boolean flag=false;
 		Lead lead = leadRepository.findById(leadId).get();
-		lead.setMissedTask(false);
-		lead.setMissedTaskCretedBy(null);
-		lead.setMissedTaskDate(null);
-		lead.setMissedTaskName(null);
-		lead.setMissedTaskStatus(null);
+		if(taskList!=null &&taskList.size()!=0&&taskList.size()!=1) {
+			TaskManagment taskManagment = taskList.get(taskList.size()-2);
+			lead.setMissedTask(true);
+			lead.setMissedTaskCretedBy(taskManagment.getAssignedBy().getFullName());
+			lead.setMissedTaskDate(taskManagment.getExpectedDate());
+			lead.setMissedTaskName(taskManagment.getName());
+			lead.setMissedTaskStatus(taskManagment.getTaskStatus().getName());
+		}else {
+			lead.setMissedTask(false);
+			lead.setMissedTaskCretedBy(null);
+			lead.setMissedTaskDate(null);
+			lead.setMissedTaskName(null);
+			lead.setMissedTaskStatus(null);
+		}
 		leadRepository.save(lead);
 		flag=true;
 		return flag;
@@ -230,6 +256,11 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistoryRepository.save(leadHistory);
 		flag=true;
 		return flag;
+	}
+	@Override
+	public List<TaskManagment> getAllTask() {
+		List<TaskManagment>listTask=taskManagmentRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		return listTask;
 	}
 
 }

@@ -30,6 +30,8 @@ public interface TaskManagmentService {
 
 	Boolean deleteTaskById(Long taskId, Long currentUserId);
 
+	List<TaskManagment> getAllTask();
+
 //	TaskManagment createTaskInLead(Long leadId, String name, String description, Long assigneeId, Long assignedById);
 
 }
