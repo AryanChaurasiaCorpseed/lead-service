@@ -19,4 +19,6 @@ public interface FileUploadService {
 
 	byte[] downloadImageToFileSystem(String filePath) throws IOException;
 
+	String getImageToFileSystem(String filePath);
+
 }

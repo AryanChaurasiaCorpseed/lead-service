@@ -4,13 +4,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
-//@Data
+@Data
 public class CreateRemark {
 	
 	Long leadId;
 	Long userId;
 	String message;
-	MultipartFile file;
+	String file;
 	
 	
 	public Long getLeadId() {
@@ -31,12 +31,13 @@ public class CreateRemark {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public MultipartFile getFile() {
+	public String getFile() {
 		return file;
 	}
-	public void setFile(MultipartFile file) {
+	public void setFile(String file) {
 		this.file = file;
 	}
+	
 	
 	
 

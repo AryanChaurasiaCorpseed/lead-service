@@ -46,7 +46,7 @@ public class ChatController {
 	}
 	
 	@PostMapping("api/v1/createRemarks")
-	public Remark createRemarks(@RequestBody CreateRemark createRemark) throws IOException{
+	public Remark createRemarks(@RequestBody CreateRemark createRemark){
 		Remark updatedDeatils =chatService.createRemarks(createRemark.getLeadId(),createRemark.getUserId(),createRemark.getMessage(),createRemark.getFile());
 			return updatedDeatils;
 	}

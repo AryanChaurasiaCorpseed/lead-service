@@ -87,7 +87,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Remark createRemarks(Long leadId,Long userId, String message, MultipartFile multipartFile) throws IOException {
+	public Remark createRemarks(Long leadId,Long userId, String message, String images) {
 		// TODO Auto-generated method stub
 		
 		User user = userRepo.findById(userId).get();
@@ -98,14 +98,8 @@ public class ChatServiceImpl implements ChatService {
 			Lead lead = opLead.get();
 			List<Remark> remarks = lead.getRemarks();
 			
-			if(multipartFile!=null) {
-				try {
-					String file=fileUploadServiceImpl.uploadImageToFileData(multipartFile);
-					remark.setImages(file);
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if(images!=null) {
+				remark.setImages(images);
 			}
 
 			if(remarks!=null && remarks.size()!=0) {
