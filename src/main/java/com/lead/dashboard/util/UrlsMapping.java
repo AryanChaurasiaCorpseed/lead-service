@@ -104,6 +104,11 @@ public class UrlsMapping {
 	public static final String GET_ALL_NOTIFICATION=PREFIX+"/notification/getAllNotification";
 	public static final String VIEW_NOTIFICATION=PREFIX+"/notification/viewNotification";
 	public static final String GET_UNSEEN_COUNT=PREFIX+"/notification/getUnseenCount";
+	
+	//    Urls
+	public static final String UPLOAD_IMAGE_TO_FILE=PREFIX+"/upload/uploadimageToFileSystem";
+	public static final String GET_IMAGE_TO_FILE=PREFIX+"/upload/getImageToFileSystem";
+
 
 
 
