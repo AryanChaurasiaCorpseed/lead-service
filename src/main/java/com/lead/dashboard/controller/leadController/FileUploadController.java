@@ -51,8 +51,8 @@ public class FileUploadController {
 	  //=========================================Upload Image = = == = = = = = = = == = = = = = = = = = == =  = 
 	
 	  
-	  @PostMapping("/uploadimageToFileSystem")
-	  public String uploadimageToFileSystem(@RequestParam MultipartFile files) throws IllegalStateException, IOException {
+	  @PostMapping(value = "/uploadimageToFileSystem", consumes = {"multipart/form-data"})
+	  public String uploadimageToFileSystem(@RequestParam(name = "file", required = false) MultipartFile files) throws IllegalStateException, IOException {
 		  String imageData=storageService.uploadImageToFileData(files);
            return imageData;
 	  }
