@@ -22,7 +22,10 @@ public class BitrixBad {
     @Column(name = "Responsible")
     private String responsible;
 
-    @Column(name = "Deal_Name")
+//    @Column(name = "Deal_Name")
+//    private String dealName;
+
+    @Column(name = "Deal Name")
     private String dealName;
 
     @Column(name = "Contact")
@@ -31,8 +34,15 @@ public class BitrixBad {
     @Column(name = "Comment")
     private String comment;
 
-    @Column(name = "Clinet_Mobile")
+//    @Column(name = "Clinet_Mobile")
+//    private String clientMobile;
+
+    @Column(name = "Clinet Mobile")
     private String clientMobile;
+
+    @Column(name = "client_email")
+    private String clientEmail;
+
 
 
 

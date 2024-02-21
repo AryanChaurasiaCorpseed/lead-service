@@ -121,6 +121,7 @@ public class LeadServiceImpl implements LeadService  {
 			sList.add(service);
 			client.setServiceDetails(sList);
 		}
+
 		clientRepository.save(client);
 		List<Client>cList = new ArrayList<>();
 		cList.add(client);
