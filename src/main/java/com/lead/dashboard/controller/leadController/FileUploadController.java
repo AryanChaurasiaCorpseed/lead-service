@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import com.lead.dashboard.service.FileUploadService;
 import com.lead.dashboard.util.ResponseMessage;
+import com.lead.dashboard.util.UrlsMapping;
 
 
 @RestController
@@ -51,7 +52,7 @@ public class FileUploadController {
 	  //=========================================Upload Image = = == = = = = = = = == = = = = = = = = = == =  = 
 	
 	  
-	  @PostMapping(value = "/uploadimageToFileSystem", consumes = {"multipart/form-data"})
+	  @PostMapping(value = UrlsMapping.UPLOAD_IMAGE_TO_FILE, consumes = {"multipart/form-data"})
 	  public String uploadimageToFileSystem(@RequestParam(name = "file", required = false) MultipartFile files) throws IllegalStateException, IOException {
 		  String imageData=storageService.uploadImageToFileData(files);
            return imageData;
@@ -64,7 +65,7 @@ public class FileUploadController {
 	  }
 	  
 	  
-	  @GetMapping("/getImageToFileSystem")
+	  @GetMapping(UrlsMapping.GET_IMAGE_TO_FILE)
 	  public String getImageToFileSystem(@RequestParam String filePath) throws IllegalStateException, IOException {
 		  String imageData=storageService.getImageToFileSystem(filePath);
            return imageData;
