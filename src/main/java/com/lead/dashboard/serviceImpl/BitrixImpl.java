@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -47,13 +48,13 @@ public class BitrixImpl implements BitrixService {
                 break;
             }
 
-            List<BitrixBad> bitrixBadList = bitrixBadPage.getContent();
+            List<String> statusList = Arrays.asList("Bad Fit", "Potential", "Not Interested");
 
-            for (BitrixBad bitrixBad : bitrixBadList) {
-                if ("Bad Fit".equals(bitrixBad.getStage())) {
+            for (BitrixBad bitrixBad : bitrixBadPage.getContent()) { // Fix here
+                if (statusList.contains(bitrixBad.getStage())) {
                     Lead lead = createLeadFromBitrixBad(bitrixBad);
                     leadRepository.save(lead);
-//                    System.out.println("Found Bad Fit record: " + bitrixBad);
+                    // System.out.println("Found record with status: " + bitrixBad.getStage());
                 }
                 convertedBitrixBadList.add(bitrixBad);
             }
@@ -65,8 +66,6 @@ public class BitrixImpl implements BitrixService {
     }
 
 
-
-
     private Lead createLeadFromBitrixBad(BitrixBad bitrixBad) {
         Lead lead = new Lead();
         Status status = statusRepository.findByName(bitrixBad.getStage());
@@ -75,16 +74,38 @@ public class BitrixImpl implements BitrixService {
         lead.setStatus(status);
         lead.setName(bitrixBad.getContact());
         lead.setLeadDescription(bitrixBad.getComment());
-//
-        Client client = new Client();
-        client.setName(bitrixBad.getContact());
-        client.setEmails(bitrixBad.getClientEmail());
-        clientRepository.save(client);
 
-        createLeadHistory(lead);
+        List<Client> existingClients = clientRepository.findByEmailsOrContactNo(bitrixBad.getClientEmail(), bitrixBad.getClientMobile());
+
+        if (existingClients.isEmpty()) {
+
+            Client client = new Client();
+            client.setName(bitrixBad.getContact());
+            client.setEmails(bitrixBad.getClientEmail());
+            client.setContactNo(bitrixBad.getClientMobile());
+
+            clientRepository.save(client);
+
+            List<Client> cList = new ArrayList<>();
+            cList.add(client);
+            lead.setClients(cList);
+
+            Lead existingLead = leadRepository.findByEmailAndMobileNo(bitrixBad.getClientEmail(), bitrixBad.getClientMobile());
+            if (existingLead == null) {
+                lead.setCreateDate(new Date());
+                lead.setLastUpdated(new Date());
+                lead.setMobileNo(bitrixBad.getClientMobile());
+                lead.setEmail(bitrixBad.getClientEmail());
+                createLeadHistory(lead);
+                leadRepository.save(lead);
+            }
+        } else {
+            lead.setClients(existingClients);
+        }
 
         return lead;
     }
+
 
     public LeadHistory createLeadHistory(Lead lead) {
         LeadHistory leadHistory= new LeadHistory();

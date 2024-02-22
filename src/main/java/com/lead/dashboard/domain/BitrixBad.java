@@ -37,7 +37,7 @@ public class BitrixBad {
 //    @Column(name = "Clinet_Mobile")
 //    private String clientMobile;
 
-    @Column(name = "Clinet Mobile")
+    @Column(name = "Client Mobile")
     private String clientMobile;
 
     @Column(name = "client_email")
