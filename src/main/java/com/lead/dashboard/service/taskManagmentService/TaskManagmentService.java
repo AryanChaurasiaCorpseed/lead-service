@@ -16,7 +16,7 @@ import com.lead.dashboard.dto.UpdateTaskDto;
 public interface TaskManagmentService {
 
 
-	TaskManagment createTaskInLead(Long leadId, String name, String description,Date expectedDate,Long statusId,Long assignById);
+	TaskManagment createTaskInLead(Long leadId, String name, String description,Date expectedDate,Long statusId,Long assignById) throws Exception;
 
 	List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId);
 

@@ -33,5 +33,13 @@ public interface TaskManagmentRepository extends JpaRepository<TaskManagment, Lo
 	List<Lead> findByIsMissedAndLeadId(boolean b, Long leadId); 
 	@Query(value = "SELECT * FROM task_managment tm where tm.expected_date=:d", nativeQuery = true)
 	List<TaskManagment> findAllByExpectedDateAndTaskStatusId(String d);
+	
+	@Query(value = "SELECT * FROM task_managment tm where tm.assigned_by_id=:assigneId and expected_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<TaskManagment> findAllByAssigneAndInExpectedDate(Long assigneId,String d1,String d2);
+	
+	
+	
+	
+	
 
 }

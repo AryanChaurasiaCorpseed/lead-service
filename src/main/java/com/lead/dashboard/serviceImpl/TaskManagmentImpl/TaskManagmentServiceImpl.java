@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl.TaskManagmentImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,9 +46,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Autowired
 	UserRepo userRepo;
 	@Override	
-	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId,Long assignedById) {
+	public TaskManagment createTaskInLead(Long leadId,String name, String description,Date expectedDate,Long statusId,Long assignedById) throws Exception {
 		
 		TaskManagment taskManagment = new TaskManagment();
+		boolean flag=false;
 		taskManagment.setName(name);
 //		taskManagment.setAssigne(userRepo.findById(assigneeId).get());
 		taskManagment.setAssignedBy(userRepo.findById(assignedById).get());
@@ -57,10 +59,38 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setExpectedDate(convertTime(expectedDate));  
 		System.out.println(convertTime(expectedDate));
 		taskManagment.setTaskStatus(taskStatusRepository.findById(statusId).get());		//----------date according to user
-		taskManagmentRepository.save(taskManagment);
+		flag=checkAnyTaskExistOrNot(expectedDate,assignedById);
+		if(flag) {
+			taskManagmentRepository.save(taskManagment);
+
+		}else {
+			throw new Exception("Already a task exist");
+		}
 	
 		return taskManagment;
 	}
+	public boolean checkAnyTaskExistOrNot(Date expectedDate,Long assignedById) {
+			String pattern = "yyyy-MM-dd HH:mm";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String date2 = simpleDateFormat.format(convertTime(expectedDate));
+			String date1 = simpleDateFormat.format(convertTimeV1(expectedDate));
+		List<TaskManagment> ts = taskManagmentRepository.findAllByAssigneAndInExpectedDate(assignedById,date1,date2);
+		if(ts.size()!=0) {
+			return true;
+
+		}else {
+			return false;
+	
+		}
+	}
+	public Date convertTimeV1(Date date) {
+		 Calendar calendar=Calendar.getInstance();
+	     calendar.setTime(date);
+	     calendar.add(Calendar.HOUR,-5);
+	     calendar.add(Calendar.MINUTE,-40);
+		return calendar.getTime();
+	}
+	
 	public Date convertTime(Date date) {
 		 Calendar calendar=Calendar.getInstance();
 	     calendar.setTime(date);
