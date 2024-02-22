@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lead.dashboard.domain.TaskManagment;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateTask;
 import com.lead.dashboard.dto.UpdateTaskDto;
 import com.lead.dashboard.service.taskManagmentService.TaskManagmentService;
@@ -34,9 +38,22 @@ public class TaskManagmentController {
 	TaskManagmentService taskManagmentService;
 	
 	@PostMapping("api/v1/task/createTask")
-	public TaskManagment createTaskInLead(@RequestBody CreateTask createTask) {
-		TaskManagment task=taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getExpectedDate(),createTask.getStatusId(),createTask.getAssignedById());
-		return task;
+	public ResponseEntity<TaskManagment> createTaskInLead(@RequestBody CreateTask createTask) {
+		TaskManagment task=null;
+		if(createTask!=null) {
+			try {
+				task = taskManagmentService.createTaskInLead(createTask.getLeadId() ,createTask.getName(),createTask.getDescription(),createTask.getExpectedDate(),createTask.getStatusId(),createTask.getAssignedById());
+				return new ResponseEntity<>(task, HttpStatus.CREATED);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Already Exist", e);
+
+			}
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+		}
 	}
 	
 	@GetMapping("api/v1/task/getAllTaskByAssignee")
