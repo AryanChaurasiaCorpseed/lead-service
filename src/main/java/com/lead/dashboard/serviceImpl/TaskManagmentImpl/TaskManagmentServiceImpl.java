@@ -56,12 +56,14 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
-		taskManagment.setExpectedDate(convertTime(expectedDate));  
-		System.out.println(convertTime(expectedDate));
+		taskManagment.setExpectedDate(convertTime(expectedDate)); 
+		Lead lead = leadRepository.findById(leadId).get();
+		lead.setLastUpdated(expectedDate);
 		taskManagment.setTaskStatus(taskStatusRepository.findById(statusId).get());		//----------date according to user
 		flag=checkAnyTaskExistOrNot(expectedDate,assignedById);
 		System.out.println("Flag  .."+flag);
 		if(!flag) {
+			leadRepository.save(lead);
 			taskManagmentRepository.save(taskManagment);
 
 		}else {
