@@ -39,6 +39,7 @@ public class TaskManagment {
 	TaskStatus TaskStatus;
 	Date expectedDate;
 	Date assignedDate;
+	Date lastUpdateDate;
 	boolean isDeleted;
 	
 	public Long getId() {
@@ -103,6 +104,12 @@ public class TaskManagment {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 	
 	
