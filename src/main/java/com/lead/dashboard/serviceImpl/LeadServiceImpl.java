@@ -194,7 +194,7 @@ public class LeadServiceImpl implements LeadService  {
 					return leadRepository.findAllByStatusIdAndIsDeleted(1l,false);
 				}
 			}else {
-				return leadRepository.findAllByStatusIdAndAssigneeAndIsDeleted(1l,uId, false);
+				return leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
 			}
 
 
@@ -717,7 +717,7 @@ public class LeadServiceImpl implements LeadService  {
 
 				}
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeletedAndInBetweenDate(userId,statusIds,flag,startDate,endDate);
+				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId,flag,startDate,endDate);
 			}
 		}else {
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
@@ -730,7 +730,7 @@ public class LeadServiceImpl implements LeadService  {
 				}
 
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag);
+				leadList= leadRepository.findAllByAssigneeAndIsDeleted(userId,flag);
 			}
 		}
 
