@@ -56,6 +56,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
+		taskManagment.setLastUpdateDate(new Date());
 		taskManagment.setExpectedDate(convertTime(expectedDate)); 
 		Lead lead = leadRepository.findById(leadId).get();
 		lead.setLastUpdated(expectedDate);
@@ -130,6 +131,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		// TODO Auto-generated method stub
 		User user = userRepo.findById(newAssigneId).get();
 		Optional<TaskManagment> opTask = taskManagmentRepository.findById(taskId);
+		
 		TaskManagment task=null;
 		if(opTask!=null && opTask.get()!=null) {
 			task = opTask.get();
@@ -179,6 +181,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
 				updateTaskStatus(opTask.getTaskStatus().getName(),tStatus.getName(),currentUser,updateTaskDto.getLeadId());
 				opTask.setTaskStatus(tStatus);
+				opTask.setLastUpdateDate(new Date());
 				if(tStatus.getName().equals("Done")) {
 					opTask.setMissed(false);
 					checkAndUpdateMissed(updateTaskDto.getLeadId());
@@ -186,6 +189,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			}
 			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
 			if(!(opTask.getExpectedDate().equals(expectedDate))) {
+				
 				opTask.setExpectedDate(expectedDate);
 				expectedDateHistory(opTask.getExpectedDate(),expectedDate,currentUser,updateTaskDto.getLeadId());
 			}
