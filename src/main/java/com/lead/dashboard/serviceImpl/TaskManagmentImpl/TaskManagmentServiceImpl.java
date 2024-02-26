@@ -288,7 +288,9 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setEventType("Task Deletion");
 		leadHistory.setLeadId(leadId);
 		leadHistory.setCreatedBy(user);
-		leadHistory.setDescription(opTask.getName()+" has been deleted by "+user!=null?user.getFullName():"NA");
+		String uName = user!=null?user.getFullName():"NA";
+		String desc=opTask.getName()+" has been deleted by "+uName;
+		leadHistory.setDescription(desc);
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
 		flag=true;
