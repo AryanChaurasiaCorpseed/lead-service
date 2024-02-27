@@ -56,6 +56,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		taskManagment.setDescription(description);
 		taskManagment.setAssignedDate(new Date());
 		taskManagment.setLeadId(leadId);
+		taskManagment.setLastUpdateDate(new Date());
 		taskManagment.setExpectedDate(convertTime(expectedDate)); 
 		Lead lead = leadRepository.findById(leadId).get();
 		lead.setLastUpdated(expectedDate);
@@ -77,7 +78,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			String date2 = simpleDateFormat.format(convertTime(expectedDate));
 			String date1 = simpleDateFormat.format(convertTimeV1(expectedDate));
-		List<TaskManagment> ts = taskManagmentRepository.findAllByAssigneAndInExpectedDate(assignedById,date1,date2);
+		List<TaskManagment> ts = taskManagmentRepository.findAllByAssigneAndInExpectedDate(assignedById,date1,date2).stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		if(ts.size()!=0) {
 			return true;
 
@@ -104,10 +105,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Override
 	public List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId) {
 		// TODO Auto-generated method stub
-		Map<String, Object>result = new HashMap<>();
 		List<Map<String, Object>>res = new ArrayList<>();
 		List<TaskManagment> tasks = taskManagmentRepository.findByAssigneeId(assigneeId);
 		for(TaskManagment t:tasks) {
+			Map<String, Object>result = new HashMap<>();
 			result.put("id", t.getId());
 			result.put("name", t.getName());
 			result.put("description", t.getDescription());
@@ -130,6 +131,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		// TODO Auto-generated method stub
 		User user = userRepo.findById(newAssigneId).get();
 		Optional<TaskManagment> opTask = taskManagmentRepository.findById(taskId);
+		
 		TaskManagment task=null;
 		if(opTask!=null && opTask.get()!=null) {
 			task = opTask.get();
@@ -179,6 +181,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 				TaskStatus tStatus = taskStatusRepository.findById(updateTaskDto.getStatusId()).get();
 				updateTaskStatus(opTask.getTaskStatus().getName(),tStatus.getName(),currentUser,updateTaskDto.getLeadId());
 				opTask.setTaskStatus(tStatus);
+				opTask.setLastUpdateDate(new Date());
 				if(tStatus.getName().equals("Done")) {
 					opTask.setMissed(false);
 					checkAndUpdateMissed(updateTaskDto.getLeadId());
@@ -186,6 +189,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			}
 			Date expectedDate = convertTime(updateTaskDto.getExpectedDate());
 			if(!(opTask.getExpectedDate().equals(expectedDate))) {
+				
 				opTask.setExpectedDate(expectedDate);
 				expectedDateHistory(opTask.getExpectedDate(),expectedDate,currentUser,updateTaskDto.getLeadId());
 			}
@@ -284,7 +288,9 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 		leadHistory.setEventType("Task Deletion");
 		leadHistory.setLeadId(leadId);
 		leadHistory.setCreatedBy(user);
-		leadHistory.setDescription(opTask.getName()+" has been deleted by "+user!=null?user.getFullName():"NA");
+		String uName = user!=null?user.getFullName():"NA";
+		String desc=opTask.getName()+" has been deleted by "+uName;
+		leadHistory.setDescription(desc);
 		leadHistory.setCreateDate(new Date());
 		leadHistoryRepository.save(leadHistory);
 		flag=true;
