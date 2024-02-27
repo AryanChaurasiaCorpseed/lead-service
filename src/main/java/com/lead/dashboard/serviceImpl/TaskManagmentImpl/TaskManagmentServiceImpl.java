@@ -78,7 +78,7 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			String date2 = simpleDateFormat.format(convertTime(expectedDate));
 			String date1 = simpleDateFormat.format(convertTimeV1(expectedDate));
-		List<TaskManagment> ts = taskManagmentRepository.findAllByAssigneAndInExpectedDate(assignedById,date1,date2);
+		List<TaskManagment> ts = taskManagmentRepository.findAllByAssigneAndInExpectedDate(assignedById,date1,date2).stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		if(ts.size()!=0) {
 			return true;
 
@@ -105,10 +105,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	@Override
 	public List<Map<String, Object>> getAllTaskByAssignee(Long assigneeId) {
 		// TODO Auto-generated method stub
-		Map<String, Object>result = new HashMap<>();
 		List<Map<String, Object>>res = new ArrayList<>();
 		List<TaskManagment> tasks = taskManagmentRepository.findByAssigneeId(assigneeId);
 		for(TaskManagment t:tasks) {
+			Map<String, Object>result = new HashMap<>();
 			result.put("id", t.getId());
 			result.put("name", t.getName());
 			result.put("description", t.getDescription());
