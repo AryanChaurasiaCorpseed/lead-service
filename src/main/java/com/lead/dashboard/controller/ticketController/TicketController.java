@@ -1,8 +1,11 @@
 package com.lead.dashboard.controller.ticketController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,5 +27,9 @@ public class TicketController {
 			Ticket ticket =ticketService.createTicket(createTicket);
 			return ticket;
 	}
-	
+	@GetMapping("leadService/api/v1/createTicket")
+	public List<Ticket> getAllTicket(@RequestParam  Long userId){
+			List<Ticket> ticket =ticketService.getAllTicket(userId);
+			return ticket;
+	}
 }
