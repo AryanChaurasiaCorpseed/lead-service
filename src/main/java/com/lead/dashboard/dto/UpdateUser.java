@@ -24,7 +24,6 @@ public class UpdateUser {
     @NonNull
     private String department;
 
-    private String password;
 
 	@NonNull
 	private List<String> role;
@@ -83,14 +82,6 @@ public class UpdateUser {
 
 	public void setDepartment(String department) {
 		this.department = department;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public List<String> getRole() {
