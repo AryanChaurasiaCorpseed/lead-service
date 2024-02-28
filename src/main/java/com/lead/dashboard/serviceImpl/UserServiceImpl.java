@@ -208,4 +208,17 @@ public class UserServiceImpl implements UserService {
 		return flag;
 	}
 
+
+
+	@Override
+	public User updateUserData(User existingUser, UpdateUser user) {
+		existingUser.setEmail(user.getEmail());
+		existingUser.setDesignation(user.getDesignation());
+		existingUser.setDepartment(user.getDepartment());
+		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
+		existingUser.setUserRole(roleList);
+		existingUser.setRole(user.getRole());
+		return userRepo.save(existingUser);
+	}
+
 }
