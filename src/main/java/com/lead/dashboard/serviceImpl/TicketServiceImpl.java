@@ -50,7 +50,7 @@ public class TicketServiceImpl implements TicketService {
 	public List<Ticket> getAllTicket(Long userId) {
 		List<Ticket>ticketList = new ArrayList();
 		List<String> roleList = userRepo.findRoleNameById(userId);
-		if(roleList.contains("Admin")) {
+		if(roleList.contains("ADMIN")) {
 			ticketList=ticketRepository.findAll();
 		}
 		return ticketList;
