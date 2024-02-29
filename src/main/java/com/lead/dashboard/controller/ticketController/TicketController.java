@@ -27,7 +27,7 @@ public class TicketController {
 			Ticket ticket =ticketService.createTicket(createTicket);
 			return ticket;
 	}
-	@GetMapping("leadService/api/v1/createTicket")
+	@GetMapping("leadService/api/v1/getAllTicket")
 	public List<Ticket> getAllTicket(@RequestParam  Long userId){
 			List<Ticket> ticket =ticketService.getAllTicket(userId);
 			return ticket;
