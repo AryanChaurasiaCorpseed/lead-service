@@ -116,6 +116,8 @@ public class Lead {
 
 	@ManyToOne
 	private User assignee;
+	
+	boolean isView;
 
 	@ManyToOne
 	private Status status;
@@ -380,6 +382,14 @@ public class Lead {
 
 	public void setMissedTaskCretedBy(String missedTaskCretedBy) {
 		this.missedTaskCretedBy = missedTaskCretedBy;
+	}
+
+	public boolean isView() {
+		return isView;
+	}
+
+	public void setView(boolean isView) {
+		this.isView = isView;
 	}
 	
 	

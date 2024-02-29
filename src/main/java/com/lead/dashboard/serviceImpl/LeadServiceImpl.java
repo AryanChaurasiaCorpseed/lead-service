@@ -91,6 +91,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setEmail(leadDTO.getEmail());
 		lead.setUrls(leadDTO.getUrls());
 		lead.setCreateDate(new Date());		
+		lead.setView(false);
 		lead.setLastUpdated(new Date());
 		User createdBy=null;
 		if(leadDTO.getCreatedById()!=null) {
@@ -585,6 +586,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		leadHistory.setCreateDate(new Date());
 		lead.setAssignee(user);
+		lead.setView(false);
 		leadHistoryRepository.save(leadHistory);
 		leadRepository.save(lead);
 		leadHistoryRepository.save(leadHistory);
@@ -756,6 +758,8 @@ public class LeadServiceImpl implements LeadService  {
 		Lead lead = leadRepository.findById(leadId).get();
 		User user = userRepo.findById(userId).get();
 		LeadHistory leadHisrtory = createViewHistory(lead,user);
+		lead.setView(true);
+		leadRepository.save(lead);
 		if(leadHisrtory!=null) {
 			flag=true;
 		}
@@ -800,6 +804,7 @@ public class LeadServiceImpl implements LeadService  {
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				l.setStatus(status);
 			}
+			l.setView(false);
 			leadRepository.save(l);
 			if(updateMultiLeadAssignee.getAssigneId()!=null && assigne!=null&&updateMultiLeadAssignee.getAssigneId()!=0) {
 				multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
