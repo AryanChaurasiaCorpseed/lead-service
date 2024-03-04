@@ -77,8 +77,8 @@ public class UserController {
 		}
 	}
 
-	@PutMapping("api/v1/users/updateUser")
-	public ResponseEntity<User> updateUser(@RequestBody UpdateUser user) {
+	@PutMapping("api/v1/users/updateUserByPostman")
+	public ResponseEntity<User> updateUserByPostman(@RequestBody UpdateUser user) {
 		User existingUser = userService.getUserById(user.getId());
 		if (existingUser != null) {
 			User updatedUser = userService.updateUser(existingUser,user);
@@ -125,6 +125,18 @@ public class UserController {
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	@PutMapping("api/v1/users/updateUserData")
+	public ResponseEntity<User> updateUserData(@RequestBody UpdateUser user) {
+		User existingUser = userService.getUserById(user.getId());
+		if (existingUser != null) {
+			User updatedUser = userService.updateUserData(existingUser,user);
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

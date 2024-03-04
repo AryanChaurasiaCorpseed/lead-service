@@ -42,6 +42,8 @@ public class LeadOpportunity {
 	public ResponseEntity<List<Opportunities>> getAllOpportunities() {
 		List<Opportunities> opportunitiesList = opportunitesService.getAllOpportunities();
 		return ResponseEntity.ok(opportunitiesList);
+		
+		
 	}
 
 	@DeleteMapping(UrlsMapping.DELETE_OPPORTUNITY)
