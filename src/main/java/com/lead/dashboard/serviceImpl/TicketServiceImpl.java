@@ -1,5 +1,8 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -8,11 +11,14 @@ import org.thymeleaf.context.Context;
 import com.lead.dashboard.domain.Ticket;
 import com.lead.dashboard.dto.CreateTicket;
 import com.lead.dashboard.repository.TicketRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.TicketService;
 
 @Service
 public class TicketServiceImpl implements TicketService {
 
+	@Autowired 
+	UserRepo  userRepo;
 	
 	@Autowired
 	TicketRepository ticketRepository;
@@ -38,6 +44,16 @@ public class TicketServiceImpl implements TicketService {
 
 		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, ccPersons, subject, text, context, "Ticket.html");
 		return ticket;
+	}
+
+	@Override
+	public List<Ticket> getAllTicket(Long userId) {
+		List<Ticket>ticketList = new ArrayList();
+		List<String> roleList = userRepo.findRoleNameById(userId);
+		if(roleList.contains("ADMIN")) {
+			ticketList=ticketRepository.findAll();
+		}
+		return ticketList;
 	}
 
 }

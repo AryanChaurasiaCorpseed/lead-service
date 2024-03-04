@@ -23,5 +23,6 @@ public interface UserService
 	List<User> getAllUserByHierarchy(Long userId);
 //	public User createUserByEmail(String userName, String email, String role, Long userId, String designation);
 	Boolean createUser(Long id);
+	User updateUserData(User existingUser, UpdateUser user);
 
 }
