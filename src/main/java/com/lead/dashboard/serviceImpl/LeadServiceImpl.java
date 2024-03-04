@@ -74,9 +74,12 @@ public class LeadServiceImpl implements LeadService  {
 
 
 	public Lead createLead(LeadDTO leadDTO) {
-		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(leadDTO.getEmail(),leadDTO.getMobileNo());
+		String email=leadDTO.getEmail();
+		if(email!=null && email.equals("NA")) {
+			email=null;
+		}		
+		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
-
 		if(leadList!=null && leadList.size()!=0) {
 			int size = leadList.size();
 			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
