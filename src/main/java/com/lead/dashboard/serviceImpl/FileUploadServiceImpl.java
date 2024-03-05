@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.util.NativeImageUtil;
+import com.lead.dashboard.config.AzureBlobAdapter;
 import com.lead.dashboard.domain.lead.FileData;
 import com.lead.dashboard.repository.FileDataRepository;
 import com.lead.dashboard.service.FileUploadService;
@@ -28,12 +29,16 @@ import com.lead.dashboard.service.FileUploadService;
 public class FileUploadServiceImpl implements FileUploadService{
 	
 	@Autowired
+    private AzureBlobAdapter azureAdapter;
+	
+	@Autowired
 	FileDataRepository fileDataRepository;
 	
 //	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
 	public String UPLOAD_DIR="C:/Users/user/Documents/imageTest/image (1)";
     public final String FOLDER_PATH="C:/Users/user/Documents/images/";
-	
+    public final String PROD_PATH="https://erpcorpseedstorage.blob.core.windows.net/erptest";
+
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
 		 
 		    boolean f=false;
@@ -70,11 +75,15 @@ public class FileUploadServiceImpl implements FileUploadService{
 	public String uploadImageToFileData(MultipartFile file) throws IllegalStateException, IOException {
 		String filePath=FOLDER_PATH+file.getOriginalFilename();
 		
+//		String filePath=PROD_PATH+file.getOriginalFilename();
+
 		FileData fileData = new FileData();
 		fileData.setName(file.getOriginalFilename());
 		fileData.setType(file.getContentType());
 		fileData.setFilePath(filePath);
 		fileDataRepository.save(fileData);
+		String s=azureAdapter.upload(file, 0);
+		System.out.println("UPLOAD IMAGE .."+s);
 		file.transferTo(new File(filePath));
 		if(filePath!=null) {
 			return filePath;
