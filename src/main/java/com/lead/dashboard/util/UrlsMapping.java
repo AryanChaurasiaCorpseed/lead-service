@@ -110,6 +110,7 @@ public class UrlsMapping {
 	public static final String GET_IMAGE_TO_FILE=PREFIX+"/upload/getImageToFileSystem";
 
 
+	public static final String IMPORT_CSV_FILE=PREFIX+"/upload/importCsvFile";
 
 
 
