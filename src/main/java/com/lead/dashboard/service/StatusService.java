@@ -16,4 +16,5 @@ public interface StatusService {
     void updateLeadStatus(Long leadId, Long statusId,Long userId);
 
     List<LeadStatusChangeHistory> getStatusHistoryForLead(Long leadId);
+	List<Status> getAllPreviusStatus(Long statusId);
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,6 +107,20 @@ public class StatusServiceImpl implements StatusService {
         System.out.println(leadStatusChangeHistory);
      return null;
     }
+    public List<Status> getAllPreviusStatus(Long statusId)
+    {
+    	List<Status>statusList=statusRepository.findAll(); 
+    	List<Status>sList = new ArrayList<>();
+    	for(Status s:statusList) {
+    		sList.add(s);
+    		if(s.getId().equals(statusId)) {
+    			break;
+    		}
+    	}
+     return sList;
+    }
+    
+    
 
 
 }
