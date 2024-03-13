@@ -36,8 +36,8 @@ public class FileUploadServiceImpl implements FileUploadService{
 	
 //	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
 	public String UPLOAD_DIR="C:/Users/user/Documents/imageTest/image (1)";
-    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
-    public final String PROD_PATH="https://erpcorpseedstorage.blob.core.windows.net/erptest";
+//    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
+    public final String PROD_PATH="https://demo003.blob.core.windows.net/test3/";
 
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
 		 
@@ -73,7 +73,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 
 	
 	public String uploadImageToFileData(MultipartFile file) throws IllegalStateException, IOException {
-		String filePath=FOLDER_PATH+file.getOriginalFilename();
+		String filePath=PROD_PATH+file.getOriginalFilename();
 		
 //		String filePath=PROD_PATH+file.getOriginalFilename();
 
@@ -84,7 +84,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		fileDataRepository.save(fileData);
 		String s=azureAdapter.upload(file, 0);
 		System.out.println("UPLOAD IMAGE .."+s);
-		file.transferTo(new File(filePath));
+//		file.transferTo(new File(filePath));
 		if(filePath!=null) {
 			return filePath;
 		}
