@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.LeadHistory;
+import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Product;
@@ -113,6 +114,14 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	@JsonIgnore
 	List<Remark>remarks;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="lead_service_details",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+	inverseJoinColumns = {@JoinColumn(name="lead_service_details_id"
+			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
+	List<ServiceDetails>serviceDetails;
+
 
 	@ManyToOne
 	private User assignee;

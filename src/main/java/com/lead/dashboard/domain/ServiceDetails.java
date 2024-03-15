@@ -48,28 +48,21 @@ public class ServiceDetails {
 	@ManyToOne
 	Opportunities opportunities;
 	
-    int  govermentfees;
+    double  govermentfees;
     String govermentCode;
-    String govermentGst;
-    int professionalFees;
+    double govermentGst;
+    double professionalFees;
     String professionalCode;
-    String profesionalGst;
-    int serviceCharge;
+    double profesionalGst;
+    double serviceCharge;
     String serviceCode;
-    String serviceGst;
-    int otherFees;
+    double serviceGst;
+    double otherFees;
     String otherCode;
-    String otherGst;	
-    boolean isDeleted; 
-
+    double otherGst;	
+    boolean isDeleted;
     
-    public Company getCompanies() {
-		return companies;
-	}
-	public void setCompanies(Company companies) {
-		this.companies = companies;
-	}
-
+    
 	public Long getId() {
 		return id;
 	}
@@ -82,9 +75,17 @@ public class ServiceDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getCompany() {
-		return company;
+	public String getServiceName() {
+		return ServiceName;
+	}
+	public void setServiceName(String serviceName) {
+		ServiceName = serviceName;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	public Date getEstimateData() {
 		return estimateData;
@@ -92,8 +93,17 @@ public class ServiceDetails {
 	public void setEstimateData(Date estimateData) {
 		this.estimateData = estimateData;
 	}
+	public String getCompany() {
+		return company;
+	}
 	public void setCompany(String company) {
 		this.company = company;
+	}
+	public Company getCompanies() {
+		return companies;
+	}
+	public void setCompanies(Company companies) {
+		this.companies = companies;
 	}
 	public String getContact() {
 		return contact;
@@ -143,22 +153,16 @@ public class ServiceDetails {
 	public void setRemarksForOption(String remarksForOption) {
 		this.remarksForOption = remarksForOption;
 	}
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 	public Opportunities getOpportunities() {
 		return opportunities;
 	}
 	public void setOpportunities(Opportunities opportunities) {
 		this.opportunities = opportunities;
 	}
-	public int getGovermentfees() {
+	public double getGovermentfees() {
 		return govermentfees;
 	}
-	public void setGovermentfees(int govermentfees) {
+	public void setGovermentfees(double govermentfees) {
 		this.govermentfees = govermentfees;
 	}
 	public String getGovermentCode() {
@@ -167,16 +171,16 @@ public class ServiceDetails {
 	public void setGovermentCode(String govermentCode) {
 		this.govermentCode = govermentCode;
 	}
-	public String getGovermentGst() {
+	public double getGovermentGst() {
 		return govermentGst;
 	}
-	public void setGovermentGst(String govermentGst) {
+	public void setGovermentGst(double govermentGst) {
 		this.govermentGst = govermentGst;
 	}
-	public int getProfessionalFees() {
+	public double getProfessionalFees() {
 		return professionalFees;
 	}
-	public void setProfessionalFees(int professionalFees) {
+	public void setProfessionalFees(double professionalFees) {
 		this.professionalFees = professionalFees;
 	}
 	public String getProfessionalCode() {
@@ -185,16 +189,16 @@ public class ServiceDetails {
 	public void setProfessionalCode(String professionalCode) {
 		this.professionalCode = professionalCode;
 	}
-	public String getProfesionalGst() {
+	public double getProfesionalGst() {
 		return profesionalGst;
 	}
-	public void setProfesionalGst(String profesionalGst) {
+	public void setProfesionalGst(double profesionalGst) {
 		this.profesionalGst = profesionalGst;
 	}
-	public int getServiceCharge() {
+	public double getServiceCharge() {
 		return serviceCharge;
 	}
-	public void setServiceCharge(int serviceCharge) {
+	public void setServiceCharge(double serviceCharge) {
 		this.serviceCharge = serviceCharge;
 	}
 	public String getServiceCode() {
@@ -203,16 +207,16 @@ public class ServiceDetails {
 	public void setServiceCode(String serviceCode) {
 		this.serviceCode = serviceCode;
 	}
-	public String getServiceGst() {
+	public double getServiceGst() {
 		return serviceGst;
 	}
-	public void setServiceGst(String serviceGst) {
+	public void setServiceGst(double serviceGst) {
 		this.serviceGst = serviceGst;
 	}
-	public int getOtherFees() {
+	public double getOtherFees() {
 		return otherFees;
 	}
-	public void setOtherFees(int otherFees) {
+	public void setOtherFees(double otherFees) {
 		this.otherFees = otherFees;
 	}
 	public String getOtherCode() {
@@ -221,30 +225,20 @@ public class ServiceDetails {
 	public void setOtherCode(String otherCode) {
 		this.otherCode = otherCode;
 	}
-	public String getOtherGst() {
+	public double getOtherGst() {
 		return otherGst;
 	}
-	public void setOtherGst(String otherGst) {
+	public void setOtherGst(double otherGst) {
 		this.otherGst = otherGst;
 	}
-	public String getServiceName() {
-		return ServiceName;
-	}
-	public void setServiceName(String serviceName) {
-		ServiceName = serviceName;
-	}
-   
 	public boolean isDeleted() {
 		return isDeleted;
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	}
-	
-	
-	
-	
+	} 
 
-	
+    
+   
 	
 }

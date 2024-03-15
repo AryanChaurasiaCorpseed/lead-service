@@ -27,7 +27,7 @@ public class Project {
 	
 	String ProjectNo;
 	
-	int amount;
+	double amount;
 	
 	@ManyToOne
 	ServiceDetails serviceDetails;
@@ -72,11 +72,12 @@ public class Project {
 		ProjectNo = projectNo;
 	}
 
-	public int getAmount() {
+	
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

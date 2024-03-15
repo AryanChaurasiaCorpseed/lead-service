@@ -29,20 +29,20 @@ public class CreateServiceDetails {
 //	@ManyToOne
 //	Company companyName;
 	
-	int  govermentfees;
+	double  govermentfees;
     String govermentCode;
-    String govermentGst;
-    int professionalFees;
+    double govermentGst;
+    double professionalFees;
     String professionalCode;
-    String profesionalGst;
-    int serviceCharge;
+    double profesionalGst;
+    double serviceCharge;
     String serviceCode;
-    String serviceGst;
-    int otherFees;
+    double serviceGst;
+    double otherFees;
     String otherCode;
-    String otherGst;
+    double otherGst;
     
-	
+	int quantity;
 	String contact;
 	Boolean consultingSale;
 	String productType;
@@ -56,33 +56,153 @@ public class CreateServiceDetails {
 	String contactNo ;
     String email ;
 	Long clientId;
-	
-	
-	public Long getLeadId() {
-		return leadId;
-	}
-	public void setLeadId(Long leadId) {
-		this.leadId = leadId;
-	}
+	Long productId;
+	Long totalAmount;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-
 	public Date getEstimateData() {
 		return estimateData;
 	}
 	public void setEstimateData(Date estimateData) {
 		this.estimateData = estimateData;
 	}
+	public Long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
 	public String getCompany() {
 		return company;
 	}
 	public void setCompany(String company) {
 		this.company = company;
+	}
+	public String getPanNo() {
+		return panNo;
+	}
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
+	}
+	public String getGstNo() {
+		return gstNo;
+	}
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
+	public String getCompanyAge() {
+		return companyAge;
+	}
+	public void setCompanyAge(String companyAge) {
+		this.companyAge = companyAge;
+	}
+	public String getCountry() {
+		return Country;
+	}
+	public void setCountry(String country) {
+		Country = country;
+	}
+	public String getState() {
+		return State;
+	}
+	public void setState(String state) {
+		State = state;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	public double getGovermentfees() {
+		return govermentfees;
+	}
+	public void setGovermentfees(double govermentfees) {
+		this.govermentfees = govermentfees;
+	}
+	public String getGovermentCode() {
+		return govermentCode;
+	}
+	public void setGovermentCode(String govermentCode) {
+		this.govermentCode = govermentCode;
+	}
+	public double getGovermentGst() {
+		return govermentGst;
+	}
+	public void setGovermentGst(double govermentGst) {
+		this.govermentGst = govermentGst;
+	}
+	public double getProfessionalFees() {
+		return professionalFees;
+	}
+	public void setProfessionalFees(double professionalFees) {
+		this.professionalFees = professionalFees;
+	}
+	public String getProfessionalCode() {
+		return professionalCode;
+	}
+	public void setProfessionalCode(String professionalCode) {
+		this.professionalCode = professionalCode;
+	}
+	public double getProfesionalGst() {
+		return profesionalGst;
+	}
+	public void setProfesionalGst(double profesionalGst) {
+		this.profesionalGst = profesionalGst;
+	}
+	public double getServiceCharge() {
+		return serviceCharge;
+	}
+	public void setServiceCharge(double serviceCharge) {
+		this.serviceCharge = serviceCharge;
+	}
+	public String getServiceCode() {
+		return serviceCode;
+	}
+	public void setServiceCode(String serviceCode) {
+		this.serviceCode = serviceCode;
+	}
+	public double getServiceGst() {
+		return serviceGst;
+	}
+	public void setServiceGst(double serviceGst) {
+		this.serviceGst = serviceGst;
+	}
+	public double getOtherFees() {
+		return otherFees;
+	}
+	public void setOtherFees(double otherFees) {
+		this.otherFees = otherFees;
+	}
+	public String getOtherCode() {
+		return otherCode;
+	}
+	public void setOtherCode(String otherCode) {
+		this.otherCode = otherCode;
+	}
+
+	
+	public double getOtherGst() {
+		return otherGst;
+	}
+	public void setOtherGst(double otherGst) {
+		this.otherGst = otherGst;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	public String getContact() {
 		return contact;
@@ -132,6 +252,12 @@ public class CreateServiceDetails {
 	public void setRemarksForOption(String remarksForOption) {
 		this.remarksForOption = remarksForOption;
 	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
 	public String getClientName() {
 		return clientName;
 	}
@@ -156,128 +282,18 @@ public class CreateServiceDetails {
 	public void setClientId(Long clientId) {
 		this.clientId = clientId;
 	}
-	public Long getCompanyId() {
-		return companyId;
+	public Long getProductId() {
+		return productId;
 	}
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
-	public String getPanNo() {
-		return panNo;
+	public Long getTotalAmount() {
+		return totalAmount;
 	}
-	public void setPanNo(String panNo) {
-		this.panNo = panNo;
+	public void setTotalAmount(Long totalAmount) {
+		this.totalAmount = totalAmount;
 	}
-	public String getGstNo() {
-		return gstNo;
-	}
-	public void setGstNo(String gstNo) {
-		this.gstNo = gstNo;
-	}
-	public String getCompanyAge() {
-		return companyAge;
-	}
-	public void setCompanyAge(String companyAge) {
-		this.companyAge = companyAge;
-	}
-	public String getCountry() {
-		return Country;
-	}
-	public void setCountry(String country) {
-		Country = country;
-	}
-	public String getState() {
-		return State;
-	}
-	public void setState(String state) {
-		State = state;
-	}
-	public String getCity() {
-		return City;
-	}
-	public void setCity(String city) {
-		City = city;
-	}
-	public String getAddress() {
-		return Address;
-	}
-	public void setAddress(String address) {
-		Address = address;
-	}
-	public int getGovermentfees() {
-		return govermentfees;
-	}
-	public void setGovermentfees(int govermentfees) {
-		this.govermentfees = govermentfees;
-	}
-	public String getGovermentCode() {
-		return govermentCode;
-	}
-	public void setGovermentCode(String govermentCode) {
-		this.govermentCode = govermentCode;
-	}
-	public String getGovermentGst() {
-		return govermentGst;
-	}
-	public void setGovermentGst(String govermentGst) {
-		this.govermentGst = govermentGst;
-	}
-	public int getProfessionalFees() {
-		return professionalFees;
-	}
-	public void setProfessionalFees(int professionalFees) {
-		this.professionalFees = professionalFees;
-	}
-	public String getProfessionalCode() {
-		return professionalCode;
-	}
-	public void setProfessionalCode(String professionalCode) {
-		this.professionalCode = professionalCode;
-	}
-	public String getProfesionalGst() {
-		return profesionalGst;
-	}
-	public void setProfesionalGst(String profesionalGst) {
-		this.profesionalGst = profesionalGst;
-	}
-	public int getServiceCharge() {
-		return serviceCharge;
-	}
-	public void setServiceCharge(int serviceCharge) {
-		this.serviceCharge = serviceCharge;
-	}
-	public String getServiceCode() {
-		return serviceCode;
-	}
-	public void setServiceCode(String serviceCode) {
-		this.serviceCode = serviceCode;
-	}
-	public String getServiceGst() {
-		return serviceGst;
-	}
-	public void setServiceGst(String serviceGst) {
-		this.serviceGst = serviceGst;
-	}
-	public int getOtherFees() {
-		return otherFees;
-	}
-	public void setOtherFees(int otherFees) {
-		this.otherFees = otherFees;
-	}
-	public String getOtherCode() {
-		return otherCode;
-	}
-	public void setOtherCode(String otherCode) {
-		this.otherCode = otherCode;
-	}
-	public String getOtherGst() {
-		return otherGst;
-	}
-	public void setOtherGst(String otherGst) {
-		this.otherGst = otherGst;
-	}
-	
-	
 	
 	
 	

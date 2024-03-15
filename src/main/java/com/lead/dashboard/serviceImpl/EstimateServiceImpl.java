@@ -14,6 +14,7 @@ import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.EditEstimate;
 import com.lead.dashboard.dto.EditEstimateAddress;
@@ -43,6 +44,9 @@ public class EstimateServiceImpl implements EstimateService
 
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
+	
+	@Autowired
+	ProductRepo productRepo;
 
 
 
@@ -285,6 +289,187 @@ public class EstimateServiceImpl implements EstimateService
 		serviceDetailsRepository.save(service);
 
 		return service;
+	}
+
+	@Override
+	public Lead createEstimateV2(CreateServiceDetails createservicedetails) {
+		
+		if(isValid(createservicedetails)) {
+			ServiceDetails service =  new ServiceDetails();
+			service.setName(createservicedetails.getName());
+		}else{
+			
+		}
+//		ServiceDetails service= new ServiceDetails();
+//		service.setName(createservicedetails.getName());
+//		service.setCompany(createservicedetails.getCompany());
+//		service.setConsultingSale(null); //========= for verification
+//		service.setContact(createservicedetails.getContact());
+//		service.setEstimateData(createservicedetails.getEstimateData());
+//		service.setInvoiceNote(createservicedetails.getInvoiceNote());
+//		//		service.setOpportunities(null);   //========= for verification
+//		service.setOrderNumber(createservicedetails.getOrderNumber());
+//		service.setProductType(createservicedetails.getProductType());
+//		service.setPurchaseDate(createservicedetails.getPurchaseDate());
+//		service.setRemarksForOption(createservicedetails.getRemarksForOption());
+//
+//		service.setGovermentfees(createservicedetails.getGovermentfees());
+//		service.setGovermentCode(createservicedetails.getGovermentCode());
+//		service.setGovermentGst(createservicedetails.getGovermentGst());
+//		service.setProfessionalFees(createservicedetails.getProfessionalFees());
+//		service.setProfessionalCode(createservicedetails.getProfessionalCode());
+//
+//		service.setProfesionalGst(createservicedetails.getProfesionalGst());
+//		service.setServiceCharge(createservicedetails.getServiceCharge());
+//		service.setServiceCode(createservicedetails.getServiceCode());
+//		service.setServiceGst(createservicedetails.getServiceGst());
+//		service.setOtherFees(createservicedetails.getOtherFees());
+//		service.setOtherCode(createservicedetails.getOtherCode());
+//		service.setOtherGst(createservicedetails.getOtherGst());
+//		
+//		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
+//		Company  company = null;
+//		if(createservicedetails.getCompanyId()!=null) {
+//			company=companyRepository.findById(createservicedetails.getCompanyId()).get();
+//		}else {
+//			company = new Company();
+//			company.setAddress(createservicedetails.getAddress());
+//			company.setCity(createservicedetails.getCity());
+//			company.setCountry(createservicedetails.getCountry());
+//			company.setGstNo(createservicedetails.getGstNo());
+//			company.setName(createservicedetails.getCompany());
+//			company.setPanNo(createservicedetails.getPanNo());
+//			company.setState(createservicedetails.getState());
+//			company.setCompanyAge(createservicedetails.getCompanyAge());
+//			companyRepository.save(company);
+//		}
+//		service.setCompanies(company);
+//		Client c = null;
+//		List<ServiceDetails> serviceList  = new ArrayList<>();
+//		Client client=null;
+//		System.out.println("aaaaaaaaaaaaaa");
+//		if(createservicedetails.getClientId()!=null) {
+//			long cId[] = new long[1];
+//			cId[0] = createservicedetails.getClientId();
+//
+//			Optional<Client> opClient = lead.getClients().stream().filter(i->i.getId().equals(cId[0])).findFirst();
+//			System.out.println("bbbbbbbbbbbbb"+opClient);
+//
+//			if(opClient!=null) {
+//				client=opClient.get();
+//				serviceList = client.getServiceDetails();
+//				System.out.println("ccccccccccccc");
+//
+//				String sName[] = new String[1];
+//				sName[0]=createservicedetails.getName();
+//
+//				List<ServiceDetails> checkService = serviceList.stream().filter(i->i.getName().equals(sName[0])).collect(Collectors.toList());
+//				//check its 
+//				if(checkService!=null && checkService.size()!=0) {
+//					System.out.println("dddddddddddddddd");
+//
+//					ServiceDetails services = checkService.get(0);
+//					services.setName(createservicedetails.getName());
+//					services.setCompany(createservicedetails.getCompany());
+//					services.setConsultingSale(null); //========= for verification
+//					services.setContact(createservicedetails.getContact());
+//					services.setEstimateData(createservicedetails.getEstimateData());
+//					services.setInvoiceNote(createservicedetails.getInvoiceNote());
+//					//					service.setOpportunities(null);   //========= for verification
+//					services.setOrderNumber(createservicedetails.getOrderNumber());
+//					services.setProductType(createservicedetails.getProductType());
+//					services.setPurchaseDate(createservicedetails.getPurchaseDate());
+//					services.setRemarksForOption(createservicedetails.getRemarksForOption());
+//					services.setCompanies(company);
+//					
+//					service.setGovermentfees(createservicedetails.getGovermentfees());
+//					service.setGovermentCode(createservicedetails.getGovermentCode());
+//					service.setGovermentGst(createservicedetails.getGovermentGst());
+//					service.setProfessionalFees(createservicedetails.getProfessionalFees());
+//					service.setProfessionalCode(createservicedetails.getProfessionalCode());
+//
+//					service.setProfesionalGst(createservicedetails.getProfesionalGst());
+//					service.setServiceCharge(createservicedetails.getServiceCharge());
+//					service.setServiceCode(createservicedetails.getServiceCode());
+//					service.setServiceGst(createservicedetails.getServiceGst());
+//					service.setOtherFees(createservicedetails.getOtherFees());
+//					service.setOtherCode(createservicedetails.getOtherCode());
+//					service.setOtherGst(createservicedetails.getOtherGst());
+//
+//					ServiceDetails serviceDetails = serviceDetailsRepository.save(services);
+//					//					serviceList.add(serviceDetails);
+//					//					client.setServiceDetails(serviceList);
+//					//					 c=clientRepository.save(client);
+//
+//				}else {
+//					System.out.println("eeeeeeeeeeeeeeee");
+//
+//					ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+//					serviceList.add(serviceDetails);
+//					client.setServiceDetails(serviceList);
+//					//					 c=clientRepository.save(client);
+//
+//				}
+//				//				client.setServiceDetails(serviceList);
+//				//				 c=clientRepository.save(client);
+//
+//			}else {
+//				System.out.println("ffffffffffffffffff");
+//
+//				client = new Client();
+//				client.setName(createservicedetails.getClientName());
+//				client.setEmails(createservicedetails.getEmail());
+//				client.setContactNo(createservicedetails.getContactNo());
+//				client.setDeleteStatus(false);
+//				List<ServiceDetails> sList  = new ArrayList<>();
+//				ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+//
+//				sList.add(serviceDetails);
+//				serviceList=sList;
+//				client.setServiceDetails(serviceList);  
+//				//				 c=clientRepository.save(client);
+//			}
+//		}else {
+//			System.out.println("hhhhhhhhhhhhhhhh");
+//
+//			client = new Client();
+//			client.setName(createservicedetails.getClientName());
+//			client.setEmails(createservicedetails.getEmail());
+//			client.setContactNo(createservicedetails.getContactNo());
+//			client.setDeleteStatus(false);
+//			List<ServiceDetails> sList  = new ArrayList<>();
+//			ServiceDetails serviceDetails = serviceDetailsRepository.save(service);
+//
+//			sList.add(serviceDetails);
+//			serviceList=sList;
+//			client.setServiceDetails(serviceList); 
+//			c=clientRepository.save(client);
+//		}
+//		if(lead.getClients()!=null && lead.getClients().size()!=0) {
+//			lead.getClients().add(c);
+//			leadRepository.save(lead);
+//		}
+//		//		 sendEmail(String subject,String text, Context context,String templateName) {
+//		sendEstimateMail(createservicedetails,lead, "this mail for estimate");
+//		return lead;
+
+        return null;
+	
+	}
+	
+	public Boolean isValid(CreateServiceDetails createservicedetails) {
+		boolean flag=false;
+		Long productId = createservicedetails.getProductId();
+		  Product product = productRepo.findById(productId).get();
+		  double prev = product.getProfessionalFees()*product.getProfesionalGst();
+		  double  prevTAmount = (prev)/100;
+		 double curr = createservicedetails.getProfessionalFees()*createservicedetails.getProfesionalGst();
+		 double currTAmount=(curr)/100;
+         if(prevTAmount<=currTAmount) {
+        	 flag=true;
+         }	  
+         System.out.println(flag+"...... .. . . . . . .flag");
+		return flag;
 	}
 
 }

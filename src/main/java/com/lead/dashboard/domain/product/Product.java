@@ -22,170 +22,132 @@ public class Product {
     private Long id;
     private String productName;
     private Date createdDate; 
-    int  govermentfees;
+    double  govermentfees;
     String govermentCode;
-    String govermentGst;
-    int professionalFees;
+    double govermentGst;
+    double professionalFees;
     String professionalCode;
-    String profesionalGst;
-    int serviceCharge;
+    double profesionalGst;
+    double  serviceCharge;
     String serviceCode;
-    String serviceGst;
-    int otherFees;
+    double serviceGst;
+    double otherFees;
     String otherCode;
-    String otherGst;     
+    double otherGst;     
     @ManyToOne
     User createdBy;
     boolean isDeleted;
-
+    double totalAmount;
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getProductName() {
 		return productName;
 	}
-
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-
 	public Date getCreatedDate() {
 		return createdDate;
 	}
-
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	public int getGovermentfees() {
+	public double getGovermentfees() {
 		return govermentfees;
 	}
-
-	public void setGovermentfees(int govermentfees) {
+	public void setGovermentfees(double govermentfees) {
 		this.govermentfees = govermentfees;
 	}
-
 	public String getGovermentCode() {
 		return govermentCode;
 	}
-
 	public void setGovermentCode(String govermentCode) {
 		this.govermentCode = govermentCode;
 	}
-
-	public String getGovermentGst() {
+	public double getGovermentGst() {
 		return govermentGst;
 	}
-
-	public void setGovermentGst(String govermentGst) {
+	public void setGovermentGst(double govermentGst) {
 		this.govermentGst = govermentGst;
 	}
-
-	public int getProfessionalFees() {
+	public double getProfessionalFees() {
 		return professionalFees;
 	}
-
-	public void setProfessionalFees(int professionalFees) {
+	public void setProfessionalFees(double professionalFees) {
 		this.professionalFees = professionalFees;
 	}
-
 	public String getProfessionalCode() {
 		return professionalCode;
 	}
-
 	public void setProfessionalCode(String professionalCode) {
 		this.professionalCode = professionalCode;
 	}
-
-	public String getProfesionalGst() {
+	public double getProfesionalGst() {
 		return profesionalGst;
 	}
-
-	public void setProfesionalGst(String profesionalGst) {
+	public void setProfesionalGst(double profesionalGst) {
 		this.profesionalGst = profesionalGst;
 	}
-
-	public int getServiceCharge() {
+	public double getServiceCharge() {
 		return serviceCharge;
 	}
-
-	public void setServiceCharge(int serviceCharge) {
+	public void setServiceCharge(double serviceCharge) {
 		this.serviceCharge = serviceCharge;
 	}
-
 	public String getServiceCode() {
 		return serviceCode;
 	}
-
 	public void setServiceCode(String serviceCode) {
 		this.serviceCode = serviceCode;
 	}
-
-	public String getServiceGst() {
+	public double getServiceGst() {
 		return serviceGst;
 	}
-
-	public void setServiceGst(String serviceGst) {
+	public void setServiceGst(double serviceGst) {
 		this.serviceGst = serviceGst;
 	}
-
-	public int getOtherFees() {
+	public double getOtherFees() {
 		return otherFees;
 	}
-
-	public void setOtherFees(int otherFees) {
+	public void setOtherFees(double otherFees) {
 		this.otherFees = otherFees;
 	}
-
 	public String getOtherCode() {
 		return otherCode;
 	}
-
 	public void setOtherCode(String otherCode) {
 		this.otherCode = otherCode;
 	}
-
-	public String getOtherGst() {
+	public double getOtherGst() {
 		return otherGst;
 	}
-
-	public void setOtherGst(String otherGst) {
+	public void setOtherGst(double otherGst) {
 		this.otherGst = otherGst;
 	}
-	
-	
-	
-	
-	
-	
+	public User getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
-
 	
-
-
-
-
     
 
 }

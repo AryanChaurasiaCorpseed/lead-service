@@ -34,6 +34,14 @@ public class LeadEstimateController {
     	Lead res=estimateService.createEstimate(createServiceDetails);
         return res;
     }
+	
+	@PostMapping(UrlsMapping.CREATE_ESTIMATE_V2)
+    public Lead createEstimateV2(@RequestBody CreateServiceDetails createServiceDetails)
+    {
+    	Lead res=estimateService.createEstimateV2(createServiceDetails);
+        return res;
+    }
+
     @GetMapping(UrlsMapping.GET_ALL_ESTIMATE)
     public List<ServiceDetails> getAllEstimate()
     {
