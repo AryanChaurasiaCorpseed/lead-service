@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,5 +48,15 @@ public class PaymentDataController {
 //            return ResponseEntity.notFound().build();
 //        }
 //    }
+    
+    @GetMapping(UrlsMapping.GET_ALL_PAYMENT_DATA)
+    public ResponseEntity<List<PaymentData>>getAllPaymentData(@RequestParam Long userId) {
+    	List<PaymentData> payment = paymentDataService.getAllPaymentData(userId);
+        if (payment!=null &&payment.size()!=0) {
+            return ResponseEntity.ok(payment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

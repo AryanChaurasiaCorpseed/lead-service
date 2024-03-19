@@ -16,5 +16,7 @@ public interface PaymentDataService {
 
 	Boolean updatePaymentData(UpdateDataDto updateDataDto);
 
+	List<PaymentData> getAllPaymentData(Long userId);
+
 
 }

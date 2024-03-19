@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -108,6 +109,15 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		
 
 		return flag;
+	}
+	@Override
+	public List<PaymentData> getAllPaymentData(Long userId) {
+		List<String> userRole = userRepo.findRoleById(userId);
+		List<PaymentData>allPaymentData = new ArrayList<>();
+		if(userRole.contains("ACCOUNT")) {
+			allPaymentData=paymentDataRepo.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		}
+		return allPaymentData;
 	}
 
 }
