@@ -114,16 +114,17 @@ public class Lead {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	@JsonIgnore
 	List<Remark>remarks;
-
-	@ManyToOne
-	private User assignee;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="lead_service_details",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="lead_service_details_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<ServiceDetails>serviceDetails;
-	
+
+
+	@ManyToOne
+	private User assignee;
 	
 	boolean isView;
 

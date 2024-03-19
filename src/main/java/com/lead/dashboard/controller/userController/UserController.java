@@ -125,7 +125,7 @@ public class UserController {
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null,HttpStatus.OK);
 		}
 	}
 	

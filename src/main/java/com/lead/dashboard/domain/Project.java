@@ -27,7 +27,7 @@ public class Project {
 	
 	String ProjectNo;
 	
-	int amount;
+	double amount;
 	
 	String status;
 	
@@ -84,10 +84,13 @@ public class Project {
 	public void setProjectNo(String projectNo) {
 		ProjectNo = projectNo;
 	}
-	public int getAmount() {
+
+	
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 	public String getStatus() {

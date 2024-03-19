@@ -69,6 +69,12 @@ public class StatusController {
         }
 
     }
+    
+    @GetMapping("api/v1/status/getAllPreviusStatus")
+    public ResponseEntity<List<Status>> getAllPreviusStatus(@RequestParam Long statusId) {
+        List<Status> statuses = statusService.getAllPreviusStatus(statusId);
+        return new ResponseEntity<>(statuses, HttpStatus.OK);
+    }
 
 
 }

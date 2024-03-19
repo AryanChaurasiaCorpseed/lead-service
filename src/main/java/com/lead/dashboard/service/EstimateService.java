@@ -23,4 +23,6 @@ public interface EstimateService {
 
 	ServiceDetails editEstimateAddress(EditEstimateAddress editEstimateAddress);
 
+	Lead createEstimateV2(CreateServiceDetails createServiceDetails) throws Exception;
+
 }
