@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.PaymentData;
 import com.lead.dashboard.domain.Project;
@@ -14,7 +15,7 @@ import com.lead.dashboard.dto.PaymentDataDto;
 import com.lead.dashboard.dto.UpdateDataDto;
 import com.lead.dashboard.service.PaymentDataService;
 import com.lead.dashboard.util.UrlsMapping;
-
+@RestController
 public class PaymentDataController {
 	
 	@Autowired
