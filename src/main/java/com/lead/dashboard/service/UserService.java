@@ -11,7 +11,7 @@ public interface UserService
 {
     User getUserById(Long id);
     User updateUser(User existingUser,UpdateUser user);
-    void deleteUser(Long id);
+    Boolean deleteUser(Long id);
 
     List<User> getAllUsers();
 	User createUser(UserDto user);
@@ -19,5 +19,10 @@ public interface UserService
 //	User createUserByEmail(String email, String role, Long userId);
 	
 	
-	public User createUserByEmail(String userName, String email, String role, Long userId, String designation);
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department);
+	List<User> getAllUserByHierarchy(Long userId);
+//	public User createUserByEmail(String userName, String email, String role, Long userId, String designation);
+	Boolean createUser(Long id);
+	User updateUserData(User existingUser, UpdateUser user);
+
 }

@@ -26,6 +26,8 @@ public class Remark {
     Long id ;
 
 	private String message;
+	
+	String images;
 
 	@ManyToOne
 	User updatedBy;

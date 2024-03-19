@@ -13,7 +13,7 @@ public interface StatusService {
     Status updateStatus(Status status);
     void deleteStatus(Long id);
 
-    void updateLeadStatus(Long leadId, Long statusId);
+    void updateLeadStatus(Long leadId, Long statusId,Long userId);
 
     List<LeadStatusChangeHistory> getStatusHistoryForLead(Long leadId);
 }

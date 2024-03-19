@@ -49,6 +49,8 @@ public class Project {
 	String progress;
 	
 	Date createDate;
+
+	
 	
 //	@ManyToOne
 //	Organization organization;

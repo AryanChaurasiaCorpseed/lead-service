@@ -41,6 +41,8 @@ public class LeadDTO {
 
 	String city;
 	
+	Long createdById;
+	
 	Long productId;
 
 	String categoryId;
@@ -152,6 +154,14 @@ public class LeadDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getCreatedById() {
+		return createdById;
+	}
+
+	public void setCreatedById(Long createdById) {
+		this.createdById = createdById;
 	}
 
 	public void setLeadName(String leadName) {

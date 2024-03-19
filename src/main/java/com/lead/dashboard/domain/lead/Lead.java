@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.ServiceDetails;
@@ -61,6 +62,9 @@ public class Lead {
 	private String urls ;
 
     private Date createDate ;
+    
+    @ManyToOne
+    private User createdBy;
 
 	private Date lastUpdated;
 
@@ -108,6 +112,7 @@ public class Lead {
 	@JoinTable(name="lead_remark",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<Remark>remarks;
 
 	@ManyToOne
@@ -120,8 +125,16 @@ public class Lead {
 	List<ServiceDetails>serviceDetails;
 	
 	
+	boolean isView;
+
 	@ManyToOne
 	private Status status;
+	
+	private boolean isMissedTask;
+	private String missedTaskName;
+	private Date missedTaskDate;
+	private String missedTaskStatus;
+	private String missedTaskCretedBy;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -173,6 +186,7 @@ public class Lead {
 	public String getPrimaryAddress() {
 		return PrimaryAddress;
 	}
+	
 
 	public boolean isDeleted() {
 		return isDeleted;
@@ -261,6 +275,7 @@ public class Lead {
 		PrimaryAddress = primaryAddress;
 	}
 
+	
 	public void setDeleted(boolean deleted) {
 		isDeleted = deleted;
 	}
@@ -321,6 +336,7 @@ public class Lead {
 		this.remarks = remarks;
 	}
 
+
 	public List<Product> getLeadProducts() {
 		return leadProducts;
 	}
@@ -336,6 +352,65 @@ public class Lead {
 	public void setServiceDetails(List<ServiceDetails> serviceDetails) {
 		this.serviceDetails = serviceDetails;
 	}
+	
+	
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public boolean isMissedTask() {
+		return isMissedTask;
+	}
+
+	public void setMissedTask(boolean isMissedTask) {
+		this.isMissedTask = isMissedTask;
+	}
+
+	public String getMissedTaskName() {
+		return missedTaskName;
+	}
+
+	public void setMissedTaskName(String missedTaskName) {
+		this.missedTaskName = missedTaskName;
+	}
+
+	public Date getMissedTaskDate() {
+		return missedTaskDate;
+	}
+
+	public void setMissedTaskDate(Date missedTaskDate) {
+		this.missedTaskDate = missedTaskDate;
+	}
+
+	public String getMissedTaskStatus() {
+		return missedTaskStatus;
+	}
+
+	public void setMissedTaskStatus(String missedTaskStatus) {
+		this.missedTaskStatus = missedTaskStatus;
+	}
+
+	public String getMissedTaskCretedBy() {
+		return missedTaskCretedBy;
+	}
+
+	public void setMissedTaskCretedBy(String missedTaskCretedBy) {
+		this.missedTaskCretedBy = missedTaskCretedBy;
+	}
+
+	public boolean isView() {
+		return isView;
+	}
+
+	public void setView(boolean isView) {
+		this.isView = isView;
+	}
+	
+	
 	
 	
 	

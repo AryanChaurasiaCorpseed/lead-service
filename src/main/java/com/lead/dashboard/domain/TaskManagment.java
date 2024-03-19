@@ -22,30 +22,26 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+//@Data
 @Table(name = "task_managment")
 public class TaskManagment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
-	
 	String name ;
-	String description;
-	
+	String description;	
 	@ManyToOne
 	User assignedBy;
-	
+	boolean isMissed;
 	Long leadId;
-	
 	@ManyToOne
 	TaskStatus TaskStatus;
-	
-	@ManyToOne
-	User assigne;
-	
 	Date expectedDate;
 	Date assignedDate;
+	Date lastUpdateDate;
+	boolean isDeleted;
+	
 	public Long getId() {
 		return id;
 	}
@@ -64,24 +60,15 @@ public class TaskManagment {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public User getAssignedBy() {
-		return assignedBy;
-	}
-	public void setAssignedBy(User assignedBy) {
-		this.assignedBy = assignedBy;
-	}
+	
 	public TaskStatus getTaskStatus() {
 		return TaskStatus;
 	}
 	public void setTaskStatus(TaskStatus taskStatus) {
 		TaskStatus = taskStatus;
 	}
-	public User getAssigne() {
-		return assigne;
-	}
-	public void setAssigne(User assigne) {
-		this.assigne = assigne;
-	}
+	
+
 	public Date getExpectedDate() {
 		return expectedDate;
 	}
@@ -99,6 +86,30 @@ public class TaskManagment {
 	}
 	public void setLeadId(Long leadId) {
 		this.leadId = leadId;
+	}
+	public boolean isMissed() {
+		return isMissed;
+	}
+	public void setMissed(boolean isMissed) {
+		this.isMissed = isMissed;
+	}
+	public User getAssignedBy() {
+		return assignedBy;
+	}
+	public void setAssignedBy(User assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 	
 	

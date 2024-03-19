@@ -23,6 +23,11 @@ public class UrlsMapping {
 	public static final String CREATE_PRODUCT_IN_LEAD = PREFIX+"/lead/createProductInLead";
 	public static final String DELETE_PRODUCT_IN_LEAD = PREFIX+"/lead/deleteProductInLead";
 	public static final String UPDATE_LEAD_NAME = PREFIX+"/lead/updateLeadName";
+	public static final String GET_ALL_DELETE_LEAD =PREFIX+"/lead/getAllDeleteLead";
+	public static final String CREATE_VIEW_HISTORY =PREFIX+"/lead/viewHistoryCreate";
+	public static final String UPDATE_MULTI_LEAD_ASSIGNE =PREFIX+"/lead/updateMultiLeadAssigne";
+	public static final String DELETE_MULTI_LEAD =PREFIX+"/lead/deleteMultiLead";
+
 
 	//=================== Lead - Oppoertunity Service ===================
 	
@@ -72,6 +77,17 @@ public class UrlsMapping {
 	public static final String UPDATE_SUPER_SUB_NODE=PREFIX+"/node/updateSuperSubNode";
 	public static final String DELETE_SUPER_SUB_NODE=PREFIX+"/node/deleteSuperSubNode";
 	
+	
+	//AccessManagment
+	public static final String CREATE_USER_ACCESS=PREFIX+"/access/createUserAccess";
+	public static final String GET_USER_ACCESS=PREFIX+"/access/getUserAccess";
+	public static final String GET_ALL_USER_ACCESS=PREFIX+"/access/getAllUserAccess";
+	public static final String UPDATE_USER_ACCESSE=PREFIX+"/access/updateUserAccess";
+	public static final String REMOVE_USER_ACCESS=PREFIX+"/access/removeUserAccess";
+	public static final String GET_SUBNODE_BY_NODE_AND_ROLE=PREFIX+"/access/getSubNodeByNodeAndRole";
+	public static final String GET_SUPER_SUBNODE_BY_SUBNODE=PREFIX+"/access/getSuperSubNodeBySubNode";
+
+	
 	//Company Services
 	public static final String CREATE_COMPANY=PREFIX+"/company/createCompany";
 	public static final String GET_COMPANY=PREFIX+"/company/getCompany";
@@ -98,7 +114,19 @@ public class UrlsMapping {
 
 
 
+	//    Notification
+	public static final String GET_ALL_NOTIFICATION=PREFIX+"/notification/getAllNotification";
+	public static final String VIEW_NOTIFICATION=PREFIX+"/notification/viewNotification";
+	public static final String GET_UNSEEN_COUNT=PREFIX+"/notification/getUnseenCount";
 	
+	//    Urls
+	public static final String UPLOAD_IMAGE_TO_FILE=PREFIX+"/upload/uploadimageToFileSystem";
+	public static final String GET_IMAGE_TO_FILE=PREFIX+"/upload/getImageToFileSystem";
+
+
+
+
+
 
 
 

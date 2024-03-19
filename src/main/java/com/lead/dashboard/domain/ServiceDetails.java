@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-// estimate
+// Send Estimate
 public class ServiceDetails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -69,7 +69,9 @@ public class ServiceDetails {
     String serviceGst;
     int otherFees;
     String otherCode;
-    String otherGst;
+    String otherGst;	
+    boolean isDeleted; 
+
     
     boolean isProjectCreated; //Project is Created or Not
     
@@ -86,7 +88,6 @@ public class ServiceDetails {
 	public void setCompanies(Company companies) {
 		this.companies = companies;
 	}
-	boolean isDeleted; 
 
 	public Long getId() {
 		return id;

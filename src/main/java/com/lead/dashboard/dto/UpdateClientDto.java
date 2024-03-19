@@ -7,8 +7,10 @@ public class UpdateClientDto {
 	
 	Long id;
 	String name;
-	String emails;
+	String email;
 	String contactNo;
+	Long userId;
+	Long leadId;
 	
 	public Long getId() {
 		return id;
@@ -22,17 +24,30 @@ public class UpdateClientDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmails() {
-		return emails;
+	
+	public String getEmail() {
+		return email;
 	}
-	public void setEmails(String emails) {
-		this.emails = emails;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getContactNo() {
 		return contactNo;
 	}
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	

@@ -53,21 +53,19 @@ public class CategoryImpl implements CategoryService
     @Override
     public boolean deleteCategory(Long categoryId) {
 
-
-//        if (categoryRepo.existsById(categoryId))
-//
-//        {
-//            categoryRepo.deleteById(categoryId);
-//            return true;
-//        }
       Category category = categoryRepo.findById(categoryId).get();
       category.setDeleted(true);
-    	
-        return true;
+      categoryRepo.save(category);
+      return true;
     }
 
 
     @Override
+    public Category getCategories(Long id) {
+        Category  category= categoryRepo.findById(id).get();
+        return category;
+    }
+    
     public List<Category> getAllCategories() {
         return categoryRepo.findAll().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
