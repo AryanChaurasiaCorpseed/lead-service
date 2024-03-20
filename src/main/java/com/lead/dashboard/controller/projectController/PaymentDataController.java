@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class PaymentDataController {
 	PaymentDataService paymentDataService;
 	
     @PostMapping(UrlsMapping.CREATE_PAYMENT_DATA)
-    public ResponseEntity<PaymentData> createPaymentData(@RequestParam PaymentDataDto paymentDataDto) {
+    public ResponseEntity<PaymentData> createPaymentData(@RequestBody PaymentDataDto paymentDataDto) {
     	PaymentData payment = paymentDataService.createPaymentData(paymentDataDto);
         if (payment!=null) {
             return ResponseEntity.ok(payment);
@@ -32,7 +33,7 @@ public class PaymentDataController {
     }
     
     @PostMapping(UrlsMapping.UPDATE_PAYMENT_DATA)
-    public ResponseEntity<Boolean>updatePaymentData(@RequestParam UpdateDataDto updateDataDto) {
+    public ResponseEntity<Boolean>updatePaymentData(@RequestBody UpdateDataDto updateDataDto) {
     	Boolean payment = paymentDataService.updatePaymentData(updateDataDto);
         if (payment) {
             return ResponseEntity.ok(payment);

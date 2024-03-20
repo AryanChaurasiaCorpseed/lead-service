@@ -112,7 +112,9 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 	}
 	@Override
 	public List<PaymentData> getAllPaymentData(Long userId) {
-		List<String> userRole = userRepo.findRoleById(userId);
+		List<String> userRole = userRepo.findById(userId).get().getRole();
+
+
 		List<PaymentData>allPaymentData = new ArrayList<>();
 		if(userRole.contains("ACCOUNT")) {
 			allPaymentData=paymentDataRepo.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
