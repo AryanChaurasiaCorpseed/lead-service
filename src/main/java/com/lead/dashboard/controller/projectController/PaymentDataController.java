@@ -67,5 +67,12 @@ public class PaymentDataController {
     	return true;
     }
     
+    
+    @PutMapping(UrlsMapping.PAYMENT_CANCEL)
+    public Boolean paymentCancel(Long userId,Long paymentId ) {
+    	Boolean res = paymentDataService.paymentApproved(userId,paymentId);
+    	return true;
+    }
+    
 
 }

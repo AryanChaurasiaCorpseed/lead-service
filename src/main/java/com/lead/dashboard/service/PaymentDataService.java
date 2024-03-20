@@ -20,5 +20,7 @@ public interface PaymentDataService {
 
 	Boolean paymentApproved(Long userId, Long paymentId);
 
+	Boolean paymentCancel(Long userId, Long paymentId);
+
 
 }

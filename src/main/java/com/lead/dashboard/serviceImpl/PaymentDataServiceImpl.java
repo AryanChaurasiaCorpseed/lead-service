@@ -133,5 +133,10 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		}
 		return flag;
 	}
+	@Override
+	public Boolean paymentCancel(Long userId, Long paymentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
