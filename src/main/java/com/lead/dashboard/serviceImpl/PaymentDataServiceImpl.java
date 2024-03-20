@@ -121,5 +121,17 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		}
 		return allPaymentData;
 	}
+	@Override
+	public Boolean paymentApproved(Long userId, Long paymentId) {
+		Boolean flag=false;
+		Optional<PaymentData> paymentData = paymentDataRepo.findById(paymentId);
+		if(paymentData!=null && paymentData.get()!=null) {
+			PaymentData payment = paymentData.get();
+			payment.setType("verified");
+			paymentDataRepo.save(payment);
+			flag=true;
+		}
+		return flag;
+	}
 
 }

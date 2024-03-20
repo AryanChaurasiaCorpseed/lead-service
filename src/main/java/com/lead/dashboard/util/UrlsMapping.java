@@ -113,6 +113,7 @@ public class UrlsMapping {
 	public static final String CREATE_PAYMENT_DATA=PREFIX+"/paymentData/createPamentData";
 	public static final String UPDATE_PAYMENT_DATA=PREFIX+"/paymentData/updatePamentData";
 	public static final String GET_ALL_PAYMENT_DATA=PREFIX+"/paymentData/getAllPaymentData";
+	public static final String PAYMENT_APPROVED=PREFIX+"/paymentData/paymentApproved";
 
 
 

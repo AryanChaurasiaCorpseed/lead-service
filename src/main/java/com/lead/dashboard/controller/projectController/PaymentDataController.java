@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +61,11 @@ public class PaymentDataController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping(UrlsMapping.PAYMENT_APPROVED)
+    public Boolean paymentApproved(Long userId,Long paymentId ) {
+    	Boolean res = paymentDataService.paymentApproved(userId,paymentId);
+    	return true;
+    }
+    
 
 }

@@ -18,5 +18,7 @@ public interface PaymentDataService {
 
 	List<PaymentData> getAllPaymentData(Long userId);
 
+	Boolean paymentApproved(Long userId, Long paymentId);
+
 
 }

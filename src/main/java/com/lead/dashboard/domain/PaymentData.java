@@ -23,7 +23,7 @@ public class PaymentData {
 	Long ServiceFees;
 	Long otherFees;
 	Long totalPayment;
-	String type; //  1.initiated , 2.verified
+	String type; //  1.initiated , 2.verified,cancel 
 	List<String>doc;
 	
 	boolean isMileStone;
