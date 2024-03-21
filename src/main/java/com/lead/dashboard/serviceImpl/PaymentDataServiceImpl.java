@@ -113,8 +113,6 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 	@Override
 	public List<PaymentData> getAllPaymentData(Long userId) {
 		List<String> userRole = userRepo.findById(userId).get().getRole();
-
-
 		List<PaymentData>allPaymentData = new ArrayList<>();
 		if(userRole.contains("ACCOUNT")) {
 			allPaymentData=paymentDataRepo.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
@@ -135,8 +133,26 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 	}
 	@Override
 	public Boolean paymentCancel(Long userId, Long paymentId) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean flag=false;
+        User user = userRepo.findById(userId).get();
+
+		Optional<PaymentData> paymentData = paymentDataRepo.findById(paymentId);
+		if(paymentData!=null && paymentData.get()!=null) {
+			PaymentData payment = paymentData.get();
+			if(user.getRole().contains("ADMIN")) {
+				payment.setType("cancel");
+				paymentDataRepo.save(payment);
+				flag=true;
+
+			}else{
+				if(payment.getType().contains("initiated")) {
+					payment.setType("cancel");
+					paymentDataRepo.save(payment);
+					flag=true;
+				}
+			}
+		}
+		return flag;
 	}
 
 }
