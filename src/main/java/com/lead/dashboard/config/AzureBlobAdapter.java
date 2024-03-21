@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,30 @@ public class AzureBlobAdapter {
             	fileName = prefixName+file.getOriginalFilename().replace(" ", "_");
             	
             	else fileName=file.getOriginalFilename().replace(" ", "_");
+            	boolean fileExist = isFileExist(fileName);
+            	if(!fileExist)
+                client.blobName(fileName).buildClient().upload(file.getInputStream(),file.getSize());               
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    	    	
+        return fileName;
+    }
+    public String uploadv2(MultipartFile file, long prefixName) {
+    	String fileName=null;
+    	if(file != null && file.getSize() > 0) {
+            try {
+                //implement your own file name logic.
+            	if(prefixName!=0)
+            	fileName = prefixName+file.getOriginalFilename().replace(" ", "_");
+            	
+            	else fileName=file.getOriginalFilename().replace(" ", "_");
+            	
+            	
+           	    long date = new Date().getTime();
+               	String path=""+date;
+            	fileName=path+fileName;
             	boolean fileExist = isFileExist(fileName);
             	if(!fileExist)
                 client.blobName(fileName).buildClient().upload(file.getInputStream(),file.getSize());               

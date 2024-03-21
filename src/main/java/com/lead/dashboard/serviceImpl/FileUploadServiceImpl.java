@@ -73,6 +73,27 @@ public class FileUploadServiceImpl implements FileUploadService{
 
 	
 	public String uploadImageToFileData(MultipartFile file) throws IllegalStateException, IOException {
+		
+//		String filePath=PROD_PATH+file.getOriginalFilename();
+
+		String s=azureAdapter.uploadv2(file, 0);
+		String filePath=PROD_PATH+s;
+		FileData fileData = new FileData();
+		fileData.setName(file.getOriginalFilename());
+		fileData.setType(file.getContentType());
+		fileData.setFilePath(filePath);
+		fileDataRepository.save(fileData);
+		System.out.println("UPLOAD IMAGE .."+file.getContentType());
+//		file.transferTo(new File(filePath));
+		if(filePath!=null) {
+			return filePath;
+		}
+		return null;
+		
+	}
+
+	
+	public String uploadImageToFileDataV2(MultipartFile file) throws IllegalStateException, IOException {
 		String filePath=PROD_PATH+file.getOriginalFilename();
 		
 //		String filePath=PROD_PATH+file.getOriginalFilename();
