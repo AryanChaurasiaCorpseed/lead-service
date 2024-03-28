@@ -24,7 +24,7 @@ public class PaymentDataController {
 	PaymentDataService paymentDataService;
 	
     @PostMapping(UrlsMapping.CREATE_PAYMENT_DATA)
-    public ResponseEntity<PaymentData> createPaymentData(@RequestBody PaymentDataDto paymentDataDto) {
+    public ResponseEntity<PaymentData> createPaymentData(@RequestBody PaymentDataDto paymentDataDto) throws Exception {
     	PaymentData payment = paymentDataService.createPaymentData(paymentDataDto);
         if (payment!=null) {
             return ResponseEntity.ok(payment);

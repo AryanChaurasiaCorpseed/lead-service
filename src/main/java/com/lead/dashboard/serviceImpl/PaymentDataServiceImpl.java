@@ -31,7 +31,7 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
 	@Override
-	public PaymentData createPaymentData(PaymentDataDto paymentDataDto) {
+	public PaymentData createPaymentData(PaymentDataDto paymentDataDto) throws Exception {
 	    // milestone percentage are started by
 		Optional<ServiceDetails> sList = serviceDetailsRepository.findById(paymentDataDto.getServiceId());
 
@@ -43,9 +43,31 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		paymentData.setOtherFees(paymentDataDto.getOtherFees());
 		paymentData.setTotalPayment(paymentDataDto.getTotalPayment());
 		paymentData.setType(paymentDataDto.getType());
-		paymentData.setMileStone(paymentDataDto.isMileStone());
-		paymentData.setFully(paymentDataDto.isFully());
-		paymentData.setPartial(paymentDataDto.isPartial());
+		paymentData.setGstApply(paymentDataDto.isGstApply());
+
+		ServiceDetails serviceData = sList.get();
+		if(paymentDataDto.isFully()) {
+			double totalAmount = serviceData.getTotalamount();
+			if(paymentDataDto.getTotalPayment()>=totalAmount) {
+				paymentData.setFully(paymentDataDto.isFully());
+				paymentData.setProfFees(paymentDataDto.getProfFees());
+				paymentData.setProfGst(paymentDataDto.getgov);
+			}else {
+				throw new Exception("either amount is greater or less");
+			}
+		}else if(paymentDataDto.isPartial()) {
+			double totalAmount = serviceData.getTotalamount();
+			if(paymentDataDto.getTotalPayment()>=totalAmount) {
+				paymentData.setPartial(paymentDataDto.isPartial());
+
+				
+			}else {
+				throw new Exception("either amount is greater or less");
+			}
+		}else if(paymentDataDto.isMileStone()) {
+			double totalAmount = serviceData.getTotalamount();
+//             cData = (totalAmount*)
+		}
 		paymentData.setDocPercent(paymentDataDto.getDocPercent());
 		paymentData.setFillingPercent(paymentDataDto.getFillingPercent());
 		paymentData.setLiasPercent(paymentDataDto.getLiasPercent());

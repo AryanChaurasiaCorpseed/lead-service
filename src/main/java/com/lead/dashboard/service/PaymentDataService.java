@@ -12,7 +12,7 @@ import com.lead.dashboard.dto.UpdateDataDto;
 @Service
 public interface PaymentDataService {
 
-	PaymentData createPaymentData(PaymentDataDto paymentDataDto);
+	PaymentData createPaymentData(PaymentDataDto paymentDataDto) throws Exception;
 
 	Boolean updatePaymentData(UpdateDataDto updateDataDto);
 

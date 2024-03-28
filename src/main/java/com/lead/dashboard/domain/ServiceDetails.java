@@ -23,9 +23,9 @@ import lombok.Getter;
 import lombok.Setter;
 @Entity
 @Table(name = "service_details")
-//@Data
-//@Getter
-//@Setter
+@Data
+@Getter
+@Setter
 
 // Send Estimate
 public class ServiceDetails {
@@ -71,7 +71,7 @@ public class ServiceDetails {
     String otherCode;
     double otherGst;	
     boolean isDeleted;
-    
+    double totalamount;
     
     boolean isProjectCreated; //Project is Created or Not
     
@@ -411,8 +411,19 @@ public class ServiceDetails {
 	public void setEstimatePaymentData(List<PaymentData> estimatePaymentData) {
 		this.estimatePaymentData = estimatePaymentData;
 	}
-    
 
+
+	public double getTotalamount() {
+		return totalamount;
+	}
+
+
+	public void setTotalamount(double totalamount) {
+		this.totalamount = totalamount;
+	}
+    
+    
+	
 	
        
 
