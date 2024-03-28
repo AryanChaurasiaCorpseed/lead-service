@@ -33,6 +33,7 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 	@Override
 	public PaymentData createPaymentData(PaymentDataDto paymentDataDto) throws Exception {
 	    // milestone percentage are started by
+		boolean flag=false;
 		Optional<ServiceDetails> sList = serviceDetailsRepository.findById(paymentDataDto.getServiceId());
 
 		PaymentData paymentData = new PaymentData();
@@ -49,25 +50,40 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		if(paymentDataDto.isFully()) {
 			double totalAmount = serviceData.getTotalamount();
 			if(paymentDataDto.getTotalPayment()>=totalAmount) {
+				
 				paymentData.setFully(paymentDataDto.isFully());
+				
 				paymentData.setProfFees(paymentDataDto.getProfFees());
-				paymentData.setProfGst(paymentDataDto.getgov);
+				paymentData.setProfGst(paymentDataDto.getProfGst());
+				
+				paymentData.setGovFees(paymentDataDto.getGovFees());
+				paymentData.setGovGst(paymentDataDto.getGovGst());
+				
+				paymentData.setOtherFees(paymentDataDto.getOtherFees());
+				paymentData.setOtherGst(paymentDataDto.getOtherGst());
 			}else {
 				throw new Exception("either amount is greater or less");
 			}
 		}else if(paymentDataDto.isPartial()) {
 			double totalAmount = serviceData.getTotalamount();
 			if(paymentDataDto.getTotalPayment()>=totalAmount) {
-				paymentData.setPartial(paymentDataDto.isPartial());
-
-				
+				paymentData.setPartial(paymentDataDto.isPartial());			
 			}else {
 				throw new Exception("either amount is greater or less");
 			}
 		}else if(paymentDataDto.isMileStone()) {
 			double totalAmount = serviceData.getTotalamount();
-//             cData = (totalAmount*)
 		}
+		
+		paymentData.setProfFees(paymentDataDto.getProfFees());
+		paymentData.setProfGst(paymentDataDto.getProfGst());
+		
+		paymentData.setGovFees(paymentDataDto.getGovFees());
+		paymentData.setGovGst(paymentDataDto.getGovGst());
+		
+		paymentData.setOtherFees(paymentDataDto.getOtherFees());
+		paymentData.setOtherGst(paymentDataDto.getOtherGst());
+		
 		paymentData.setDocPercent(paymentDataDto.getDocPercent());
 		paymentData.setFillingPercent(paymentDataDto.getFillingPercent());
 		paymentData.setLiasPercent(paymentDataDto.getLiasPercent());
