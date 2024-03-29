@@ -22,5 +22,7 @@ public interface PaymentDataService {
 
 	Boolean paymentCancel(Long userId, Long paymentId);
 
+	double gstCheck(double totalAmount, double percent);
+
 
 }

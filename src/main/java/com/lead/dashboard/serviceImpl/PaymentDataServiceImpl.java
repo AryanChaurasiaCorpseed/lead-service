@@ -52,15 +52,7 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 			if(paymentDataDto.getTotalPayment()>=totalAmount) {
 				
 				paymentData.setFully(paymentDataDto.isFully());
-				
-				paymentData.setProfFees(paymentDataDto.getProfFees());
-				paymentData.setProfGst(paymentDataDto.getProfGst());
-				
-				paymentData.setGovFees(paymentDataDto.getGovFees());
-				paymentData.setGovGst(paymentDataDto.getGovGst());
-				
-				paymentData.setOtherFees(paymentDataDto.getOtherFees());
-				paymentData.setOtherGst(paymentDataDto.getOtherGst());
+				;
 			}else {
 				throw new Exception("either amount is greater or less");
 			}
@@ -80,6 +72,9 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 		
 		paymentData.setGovFees(paymentDataDto.getGovFees());
 		paymentData.setGovGst(paymentDataDto.getGovGst());
+		
+		paymentData.setServiceFees(paymentDataDto.getServiceFees());
+		paymentData.setServiceGst(paymentDataDto.getServiceGst());
 		
 		paymentData.setOtherFees(paymentDataDto.getOtherFees());
 		paymentData.setOtherGst(paymentDataDto.getOtherGst());
@@ -191,6 +186,11 @@ public class PaymentDataServiceImpl implements PaymentDataService{
 			}
 		}
 		return flag;
+	}
+	@Override
+	public double gstCheck(double totalAmount, double percent) {
+		 
+		return 0;
 	}
 
 }

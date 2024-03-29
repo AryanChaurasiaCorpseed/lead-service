@@ -115,6 +115,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_PAYMENT_DATA=PREFIX+"/paymentData/getAllPaymentData";
 	public static final String PAYMENT_APPROVED=PREFIX+"/paymentData/paymentApproved";
 	public static final String PAYMENT_CANCEL=PREFIX+"/paymentData/paymentCancel";
+	public static final String GST_CHECK=PREFIX+"/paymentData/gstCheck";
 
 
 

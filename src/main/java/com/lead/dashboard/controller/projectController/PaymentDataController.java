@@ -74,5 +74,12 @@ public class PaymentDataController {
     	return true;
     }
     
+    @GetMapping(UrlsMapping.GST_CHECK)
+    public double gstCheck(double totalAmount,double percent) {
+    	double res = paymentDataService.gstCheck(totalAmount,percent);
+    	return res;
+    }
+    
+    
 
 }

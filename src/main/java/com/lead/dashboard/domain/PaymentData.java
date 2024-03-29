@@ -20,10 +20,16 @@ public class PaymentData {
 	List<String> transactionId;
 	double profFees;
 	double profGst;
+	double profGstFees;
+
 	double govFees;
 	double govGst;
+	double govGstfees;
+
 	double serviceFees;
 	double serviceGst;
+	double serviceGstFees;
+
 	double otherFees;
 	double otherGst;
 	double totalPayment;
