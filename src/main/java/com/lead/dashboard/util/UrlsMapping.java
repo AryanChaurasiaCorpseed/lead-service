@@ -12,6 +12,8 @@ public class UrlsMapping {
 	//======================= Lead Service =============
 	
 	public static final String TEST=PREFIX+ "/lead/test";
+	public static final String TEST2=PREFIX+ "/lead/test2";
+
 	public static final String CREATE_LEAD=PREFIX+"/lead/createLead";
 	public static final String GET_ALL_LEAD=PREFIX+"/lead/getAllLead";
 	public static final String UPDATE_LEAD=PREFIX+"/lead/updateLead";

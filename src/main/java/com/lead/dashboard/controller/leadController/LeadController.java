@@ -59,6 +59,13 @@ public class LeadController {
 		return "Test";		 
 
 	}
+	@GetMapping(UrlsMapping.TEST2)
+	public String test2()
+	{
+		//		return securityFeignClient.test();	
+		return "Test2";		 
+
+	}
 
 	@PostMapping(UrlsMapping.CREATE_LEAD)
 	public ResponseEntity<Lead> createLead(@RequestBody LeadDTO leadDTO)
