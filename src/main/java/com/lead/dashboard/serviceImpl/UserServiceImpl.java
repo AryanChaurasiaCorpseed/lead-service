@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.Role;
+import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
@@ -8,12 +9,15 @@ import com.lead.dashboard.repository.RoleRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
 
+import jakarta.persistence.ManyToOne;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -219,6 +223,43 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
+		return userRepo.save(existingUser);
+	}
+
+//	   boolean isManager;
+//		String epfNo;
+//		String aadharCard;
+//		String employeeId;	
+//		@ManyToOne
+//		User managerName;
+//		int expInMonth;
+//		int expInYear;
+//	    Date dateOfJoining;
+//	    String type;// internal ,external
+	@Override
+	public User editUserByHr(User existingUser, UpdateUserByHr user) {
+		
+		existingUser.setFullName(user.getFullName());
+		existingUser.setEmail(user.getEmail());
+		existingUser.setDesignation(user.getDesignation());
+		existingUser.setDepartment(user.getDepartment());
+		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
+		existingUser.setUserRole(roleList);
+		existingUser.setRole(user.getRole());
+		
+		existingUser.setManager(user.isManager());
+		existingUser.setEpfNo(user.getEpfNo());
+		existingUser.setAadharCard(user.getAadharCard());
+		existingUser.setEmployeeId(user.getEmployeeId());
+	    existingUser.setExpInMonth(user.getExpInMonth());
+	    existingUser.setExpInYear(user.getExpInYear());
+	    existingUser.setDateOfJoining(user.getDateOfJoining());
+	    existingUser.setType(user.getType());
+	    if(user.getManagerId()!=null) {
+			Optional<User> manager = userRepo.findById(user.getManagerId());
+			existingUser.setManagerName(manager.get());
+	    }
+		Optional<User> manager = userRepo.findById(user.getManagerId());
 		return userRepo.save(existingUser);
 	}
 

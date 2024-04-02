@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.userController;
 
+import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
@@ -140,6 +141,16 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+	@PutMapping("api/v1/users/editUserByHr")
+	public ResponseEntity<User> editUserByHr(@RequestBody UpdateUserByHr user) {
+		User existingUser = userService.getUserById(user.getId());
+		if (existingUser != null) {
+			User updatedUser = userService.editUserByHr(existingUser,user);
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	
 }
