@@ -2,7 +2,9 @@ package com.lead.dashboard.service;
 
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.dto.AddProductInLead;
+import com.lead.dashboard.dto.AllLeadFilter;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
@@ -18,7 +20,7 @@ public interface LeadService {
     Lead updateLeadData(UpdateLeadDto updateLeadDto);
 	Lead getSingleLeadData(Long leadId);
 	Lead createEstimate(CreateServiceDetails createServiceDetails);
-	List<Lead> getAllActiveCustomerLead(Long uId, String toDate, String fromDate);
+	List<Lead> getAllActiveCustomerLead(AllLeadFilter allLeadFilter);
 	Lead updateAssignee(Long leadId, Long userId, Long updatedById);
 	Lead createProductInLead(AddProductInLead addProductInLead) throws Exception;
 	Lead updateLeadName(String leadName, Long leadId, Long userId);
@@ -27,10 +29,11 @@ public interface LeadService {
 	boolean deleteLead(Long leadId, Long userId);
 	List<ServiceDetails> getAllEstimate();
 	ServiceDetails getEstimate(Long estimateId);
-	List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate);
+	List<Lead> getAllLead(AllLeadFilter allLeadFilter);
 	List<Lead> getAllDeleteLead(Long uId);
 	Boolean viewHistory(Long userId, Long leadId);
 	Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee);
+	Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto);
 
 
 

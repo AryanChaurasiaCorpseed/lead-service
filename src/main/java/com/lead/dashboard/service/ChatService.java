@@ -1,7 +1,9 @@
 package com.lead.dashboard.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.lead.Remark;
@@ -13,7 +15,7 @@ public interface ChatService {
 
 	Boolean deleteChat(Long chatId);
 
-	Remark createRemarks(Long leadId,Long userId, String message);
+	Remark createRemarks(Long leadId,Long userId, String message, String multipartFile) ;
 
 	List<Remark> getAllRemarks(Long leadId);
                      

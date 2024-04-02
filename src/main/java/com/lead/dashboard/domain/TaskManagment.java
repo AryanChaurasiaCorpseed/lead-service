@@ -8,6 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -22,29 +23,28 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+//@Data
 @Table(name = "task_managment")
 public class TaskManagment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
-	
 	String name ;
+	
+	@Lob
 	String description;	
-//	@ManyToOne
-//	User assignedBy;
+	@ManyToOne
+	User assignedBy;
 	boolean isMissed;
 	Long leadId;
-	
 	@ManyToOne
 	TaskStatus TaskStatus;
-	
-//	@ManyToOne
-//	User assigne;
-	
 	Date expectedDate;
 	Date assignedDate;
+	Date lastUpdateDate;
+	boolean isDeleted;
+	
 	public Long getId() {
 		return id;
 	}
@@ -70,6 +70,7 @@ public class TaskManagment {
 	public void setTaskStatus(TaskStatus taskStatus) {
 		TaskStatus = taskStatus;
 	}
+	
 
 	public Date getExpectedDate() {
 		return expectedDate;
@@ -94,6 +95,24 @@ public class TaskManagment {
 	}
 	public void setMissed(boolean isMissed) {
 		this.isMissed = isMissed;
+	}
+	public User getAssignedBy() {
+		return assignedBy;
+	}
+	public void setAssignedBy(User assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 	
 	

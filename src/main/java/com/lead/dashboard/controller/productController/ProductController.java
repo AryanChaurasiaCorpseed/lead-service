@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -23,7 +24,7 @@ public class ProductController {
 
     @GetMapping("/getAllProducts")
     public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+        return productService.getAllProducts().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
 
     @GetMapping("/getProduct")
@@ -47,7 +48,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping("updateProduct")
+    @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody UpdateProduct updateProduct) {
         Product updatedProduct = productService.updateProduct(updateProduct.getId(), updateProduct.getName());
         if (updatedProduct == null) {
@@ -56,9 +57,9 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteProduct(@RequestParam Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete")
+    public Boolean deleteProduct(@RequestParam Long id) {
+        Boolean f=productService.deleteProduct(id);
+        return f;
     }
 }

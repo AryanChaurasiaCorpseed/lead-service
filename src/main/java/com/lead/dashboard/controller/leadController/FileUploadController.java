@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.leadController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import com.lead.dashboard.service.FileUploadService;
 import com.lead.dashboard.util.ResponseMessage;
+import com.lead.dashboard.util.UrlsMapping;
 
 
 @RestController
@@ -33,54 +35,41 @@ public class FileUploadController {
 	  
 	  @PostMapping("/uploadFileData")
 	  public void uploadFilesData(@RequestParam MultipartFile files) {
-	    
-		  if(files.isEmpty()) {
-			  
+		  if(files.isEmpty()) {	  
 		  }
 		  if(files.getContentType().equals("image/jpeg")) {
 			  System.out.println("iiiiiiii");
 		  }
 		  storageService.uploadFilesData(files);
-
-
+	  }
+	  
+	  @GetMapping("/getFileData")
+	  public String[] getFileData() {	  
+		  String[] s=storageService.getFilesData();
+            return s;
+	  }
+	  
+	  //=========================================Upload Image = = == = = = = = = = == = = = = = = = = = == =  = 
+	
+	  
+	  @PostMapping(value = UrlsMapping.UPLOAD_IMAGE_TO_FILE, consumes = {"multipart/form-data"})
+	  public String uploadimageToFileSystem(@RequestParam(name = "file", required = false) MultipartFile files) throws IllegalStateException, IOException {
+		  String imageData=storageService.uploadImageToFileData(files);
+           return imageData;
+	  }
+	  
+	  @GetMapping("/downloadImageToFileSystem")
+	  public byte[] downloadImageToFileSystem(@RequestParam String filePath) throws IllegalStateException, IOException {
+		  byte[] imageData=storageService.downloadImageToFileSystem(filePath);
+           return imageData;
+	  }
+	  
+	  
+	  @GetMapping(UrlsMapping.GET_IMAGE_TO_FILE)
+	  public String getImageToFileSystem(@RequestParam String filePath) throws IllegalStateException, IOException {
+		  String imageData=storageService.getImageToFileSystem(filePath);
+           return imageData;
 	  }
 
-//	  @PostMapping("/upload")
-//	  public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files) {
-//	    String message = "";
-//	    try {
-//	      List<String> fileNames = new ArrayList<>();
-//
-//	      Arrays.asList(files).stream().forEach(file -> {
-//	        storageService.save(file);
-//	        fileNames.add(file.getOriginalFilename());
-//	      });
-//
-//	      message = "Uploaded the files successfully: " + fileNames;
-//	      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-//	    } catch (Exception e) {
-//	      message = "Fail to upload files!";
-//	      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-//	    }
-//	  }
-//
-////	  @GetMapping("/files")
-////	  public ResponseEntity<List<FileInfo>> getListFiles() {
-////	    List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
-////	      String filename = path.getFileName().toString();
-////	      String url = MvcUriComponentsBuilder
-////	          .fromMethodName(FileUploadController.class, "getFile", path.getFileName().toString()).build().toString();
-////
-////	      return new FileInfo(filename, url);
-////	    }).collect(Collectors.toList());
-////
-////	    return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-////	  }
-//
-//	  @GetMapping("/files/{filename:.+}")
-//	  public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-//	    Resource file = storageService.load(filename);
-//	    return ResponseEntity.ok()
-//	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//	  }
+	  
 }

@@ -2,7 +2,9 @@ package com.lead.dashboard.controller.leadController;
 
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.AddProductInLead;
+import com.lead.dashboard.dto.AllLeadFilter;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.dto.UpdateLeadDto;
 import com.lead.dashboard.dto.UpdateMultiLeadAssignee;
@@ -56,6 +58,7 @@ public class LeadController {
 	public String test()
 	{
 		//		return securityFeignClient.test();	
+		
 		return "Test";		 
 
 	}
@@ -83,17 +86,17 @@ public class LeadController {
 		}
 	}
 
-	@GetMapping(UrlsMapping.GET_ALL_LEAD)
-	public ResponseEntity <List<Lead>> getAllLead(@RequestParam Long userId,@RequestParam(required = false)Long statusId,@RequestParam(required = false) String toDate,@RequestParam(required = false) String fromDate)
+	@PostMapping(UrlsMapping.GET_ALL_LEAD)
+	public ResponseEntity <List<Lead>> getAllLead(@RequestBody AllLeadFilter allLeadFilter)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
-		if(statusId==null) {
-			List<Lead> alllead= leadservice.getAllActiveCustomerLead(userId,toDate,fromDate);
+		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
+			List<Lead> alllead= leadservice.getAllLead(allLeadFilter);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-			List<Lead> alllead= leadservice.getAllLead(userId,statusId,toDate,fromDate);
-			
+			List<Lead> alllead= leadservice.getAllActiveCustomerLead(allLeadFilter);
+
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
 
@@ -239,6 +242,15 @@ public class LeadController {
 	public Boolean updateMultiLeadAssigne(@RequestBody UpdateMultiLeadAssignee updateMultiLeadAssignee)
 	{		
 		Boolean result= leadservice.updateMultiLeadAssigne(updateMultiLeadAssignee);
+		return result;
+
+	}
+	
+	
+	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
+	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
+	{		
+		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
 		return result;
 
 	}

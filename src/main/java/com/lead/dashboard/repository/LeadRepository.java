@@ -56,6 +56,40 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.id in(:id)", nativeQuery = true)
 	List<Lead> findAllByIsDeletedAndIdIn(List<Long> id,boolean b);
+	//=== changes in Lead 
 	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and  el.assignee_id in(:userIds)", nativeQuery = true)
+	List<Lead> findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(boolean b,String d1,String d2,List<Long>userIds);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userIds)", nativeQuery = true)
+	List<Lead> findAllByIsDeleted(boolean b,List<Long>userIds);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndIsDeletedAndInBetweenDate(List<Long> statusIds,boolean b,String d1,String d2); 
 
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and el.assignee_id in(:userIds)", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(List<Long> statusIds,boolean b,String d1,String d2,List<Long>userIds); 
+
+	@Query(value = "SELECT * FROM erp_leads el WHERE  el.status_id in(:statusId) and el.is_deleted =:b and el.assignee_id in(:userId) and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndStatusIdInAndIsDeletedAndInBetweenDate(Long userId,List<Long> statusId,boolean b,String d1,String d2);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE  el.status_id in(:statusId) and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndStatusIdInAndIsDeleted(Long userId,List<Long> statusId,boolean b);
+	
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndIsDeleted(List<Long> statusIds,boolean b); 
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndAssigneeIdInAndIsDeleted(List<Long> statusIds,List<Long>userId,boolean b); 
+    
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id =:statusId and el.is_deleted =:b", nativeQuery = true)
+	List<Lead> findAllByStatusIdAndIsDeleted(Long statusId,boolean b);
+
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id =:statusId and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	List<Lead> findAllByStatusIdAndAssigneeAndIsDeleted(Long statusId,Long userId,boolean b);
+	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId) and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Lead> findAllByAssigneeAndStatusIdInAndIsDeletedAndInBetweenDate(Long userId,boolean b,String d1,String d2);
 }

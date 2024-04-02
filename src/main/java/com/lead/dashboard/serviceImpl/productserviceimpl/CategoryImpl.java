@@ -53,17 +53,10 @@ public class CategoryImpl implements CategoryService
     @Override
     public boolean deleteCategory(Long categoryId) {
 
-
-//        if (categoryRepo.existsById(categoryId))
-//
-//        {
-//            categoryRepo.deleteById(categoryId);
-//            return true;
-//        }
       Category category = categoryRepo.findById(categoryId).get();
       category.setDeleted(true);
-    	
-        return true;
+      categoryRepo.save(category);
+      return true;
     }
 
 
