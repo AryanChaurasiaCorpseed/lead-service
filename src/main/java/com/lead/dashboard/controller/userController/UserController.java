@@ -142,7 +142,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	@PutMapping("api/v1/users/createUserByHr")
+	@PostMapping("api/v1/users/createUserByHr")
 	public User createUserByHr(@RequestBody CreateUserDto createUserDto) {
 		User createdUser = userService.createUserByHr(createUserDto);
 		return createdUser;
