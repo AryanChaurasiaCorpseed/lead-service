@@ -1,8 +1,10 @@
 package com.lead.dashboard.service;
 
 
+import com.lead.dashboard.domain.CreateUserDto;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 
@@ -26,5 +28,6 @@ public interface UserService
 	Boolean createUser(Long id);
 	User updateUserData(User existingUser, UpdateUser user);
 	User editUserByHr(User existingUser, UpdateUserByHr user);
+	User createUserByHr(CreateUserDto createUserDto);
 
 }

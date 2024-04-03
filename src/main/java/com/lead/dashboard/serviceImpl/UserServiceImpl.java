@@ -1,8 +1,10 @@
 package com.lead.dashboard.serviceImpl;
 
+import com.lead.dashboard.domain.CreateUserDto;
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.repository.RoleRepository;
@@ -255,12 +257,148 @@ public class UserServiceImpl implements UserService {
 	    existingUser.setExpInYear(user.getExpInYear());
 	    existingUser.setDateOfJoining(user.getDateOfJoining());
 	    existingUser.setType(user.getType());
+	    
 	    if(user.getManagerId()!=null) {
 			Optional<User> manager = userRepo.findById(user.getManagerId());
 			existingUser.setManagerName(manager.get());
 	    }
-		Optional<User> manager = userRepo.findById(user.getManagerId());
+	    existingUser.setFatherName(user.getFatherName());
+	    existingUser.setFatherOccupation(user.getFatherOccupation());
+	    existingUser.setFatherContactNo(user.getFatherContactNo());
+	    existingUser.setMotherName(user.getMotherName());
+	    existingUser.setMotherContactNo(user.getMotherContactNo());
+	    existingUser.setMotherOccupation(user.getMotherOccupation());
+	    existingUser.setSpouseName(user.getSpouseName());
+	    existingUser.setSpouseContactNo(user.getSpouseContactNo());
+	    existingUser.setNationality(user.getNationality());
+	    existingUser.setLanguage(user.getLanguage());
+	    existingUser.setEmergencyNumber(user.getEmergencyNumber());
+	    existingUser.setPanNumber(user.getPanNumber());
+	    existingUser.setPermanentAddress(user.getPermanentAddress());
+	    existingUser.setResidentialAddress(user.getResidentialAddress());
 		return userRepo.save(existingUser);
+	}
+
+
+
+	@Override
+	public User createUserByHr(CreateUserDto createUserDto) {
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		String randomPass = getRandomNumber().toString();
+		boolean isExistOrNot = isUserEmailExistOrNot(createUserDto.getEmail());
+		System.out.println(isExistOrNot);
+
+		if(!isExistOrNot) {
+			User u = new User();
+			u.setId(createUserDto.getId());
+			u.setFullName(createUserDto.getUserName());
+			u.setEmail(createUserDto.getEmail());
+            u.setDepartment(createUserDto.getDepartment());
+			List<String>listRole = new ArrayList();		
+			listRole.addAll(createUserDto.getRole());
+			u.setRole(listRole);
+
+			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
+			u.setUserRole(roleList);
+			u.setDesignation(createUserDto.getDesignation());
+			
+			u.setManager(createUserDto.isManager());
+			u.setEpfNo(createUserDto.getEpfNo());
+			u.setAadharCard(createUserDto.getAadharCard());
+			u.setEmployeeId(createUserDto.getEmployeeId());
+		    u.setExpInMonth(createUserDto.getExpInMonth());
+		    u.setExpInYear(createUserDto.getExpInYear());
+		    u.setDateOfJoining(createUserDto.getDateOfJoining());
+		    u.setType(createUserDto.getType());
+		    
+		    if(createUserDto.getManagerId()!=null) {
+				Optional<User> manager = userRepo.findById(createUserDto.getManagerId());
+				u.setManagerName(manager.get());
+		    }
+		    u.setFatherName(createUserDto.getFatherName());
+		    u.setFatherOccupation(createUserDto.getFatherOccupation());
+		    u.setFatherContactNo(createUserDto.getFatherContactNo());
+		    u.setMotherName(createUserDto.getMotherName());
+		    u.setMotherContactNo(createUserDto.getMotherContactNo());
+		    u.setMotherOccupation(createUserDto.getMotherOccupation());
+		    u.setSpouseName(createUserDto.getSpouseName());
+		    u.setSpouseContactNo(createUserDto.getSpouseContactNo());
+		    u.setNationality(createUserDto.getNationality());
+		    u.setLanguage(createUserDto.getLanguage());
+		    u.setEmergencyNumber(createUserDto.getEmergencyNumber());
+		    u.setPanNumber(createUserDto.getPanNumber());
+		    u.setPermanentAddress(createUserDto.getPermanentAddress());
+		    u.setResidentialAddress(createUserDto.getResidentialAddress());
+
+			
+			userRepo.save(u);
+			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+
+			Context context = new Context();
+			context.setVariable("userName", "Aryan Chaurasia");
+			context.setVariable("user", u.getFullName());
+
+			context.setVariable("email", createUserDto.getEmail());
+			context.setVariable("Rurl", feedbackStatusURL);
+			context.setVariable("currentYear", LocalDateTime.now().getYear());
+			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+			String text="CLICK ON THIS link and set password";
+			String[] ccPersons= {createUserDto.getEmail()};
+			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
+			return u;
+		}else {
+			User u = userRepo.findByemail(createUserDto.getEmail());
+			List<String>listRole = new ArrayList();
+			listRole.addAll(createUserDto.getRole());
+			u.setRole(listRole);
+			u.setDepartment(createUserDto.getDepartment());
+			
+			
+			u.setManager(createUserDto.isManager());
+			u.setEpfNo(createUserDto.getEpfNo());
+			u.setAadharCard(createUserDto.getAadharCard());
+			u.setEmployeeId(createUserDto.getEmployeeId());
+		    u.setExpInMonth(createUserDto.getExpInMonth());
+		    u.setExpInYear(createUserDto.getExpInYear());
+		    u.setDateOfJoining(createUserDto.getDateOfJoining());
+		    u.setType(createUserDto.getType());
+		    
+		    if(createUserDto.getManagerId()!=null) {
+				Optional<User> manager = userRepo.findById(createUserDto.getManagerId());
+				u.setManagerName(manager.get());
+		    }
+		    u.setFatherName(createUserDto.getFatherName());
+		    u.setFatherOccupation(createUserDto.getFatherOccupation());
+		    u.setFatherContactNo(createUserDto.getFatherContactNo());
+		    u.setMotherName(createUserDto.getMotherName());
+		    u.setMotherContactNo(createUserDto.getMotherContactNo());
+		    u.setMotherOccupation(createUserDto.getMotherOccupation());
+		    u.setSpouseName(createUserDto.getSpouseName());
+		    u.setSpouseContactNo(createUserDto.getSpouseContactNo());
+		    u.setNationality(createUserDto.getNationality());
+		    u.setLanguage(createUserDto.getLanguage());
+		    u.setEmergencyNumber(createUserDto.getEmergencyNumber());
+		    u.setPanNumber(createUserDto.getPanNumber());
+		    u.setPermanentAddress(createUserDto.getPermanentAddress());
+		    u.setResidentialAddress(createUserDto.getResidentialAddress());
+			
+			
+			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			Context context = new Context();
+			context.setVariable("userName", "Aryan Chaurasia");
+			context.setVariable("email", createUserDto.getEmail());
+			context.setVariable("Rurl", feedbackStatusURL);
+			context.setVariable("currentYear", LocalDateTime.now().getYear());
+			String subject="Corpseed pvt ltd send a request for adding on team please go and Accept";
+			String text="CLICK ON THIS link and set password";
+			userRepo.save(u);
+			String[] ccPersons= {createUserDto.getEmail()};
+			//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
+			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"TeamAdd.html");
+
+			return u;
+
+		}
 	}
 
 }

@@ -26,7 +26,18 @@ public class User {
     @NonNull
     private String designation; 
     @NonNull
-    private String department;   
+    private String department; 
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="user_role_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+    private List<Role>userRole;
+	@NonNull
+	private List<String> role;	
+	boolean isDeleted;
+	
+    // NEW  fIELD
     boolean isManager;
 	String epfNo;
 	String aadharCard;
@@ -37,15 +48,20 @@ public class User {
 	int expInYear;
     Date dateOfJoining;
     String type;// internal ,external
-    
-    @ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="user_role_id"
-					+ "",referencedColumnName = "id",nullable=true,unique=false)})
-    private List<Role>userRole;
-	@NonNull
-	private List<String> role;	
-	boolean isDeleted;
+    String fatherName;
+    String fatherOccupation;
+    String fatherContactNo;
+    String motherName;
+    String motherOccupation;
+    String motherContactNo;
+    String spouseName;
+    String spouseContactNo;
+    String nationality;
+    String language;
+    String emergencyNumber;
+    String panNumber;
+    String permanentAddress;
+    String residentialAddress;
 
 	public Long getId() {
 		return id;
@@ -182,6 +198,119 @@ public class User {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public String getFatherName() {
+		return fatherName;
+	}
+
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
+	}
+
+	public String getFatherOccupation() {
+		return fatherOccupation;
+	}
+
+	public void setFatherOccupation(String fatherOccupation) {
+		this.fatherOccupation = fatherOccupation;
+	}
+
+	public String getFatherContactNo() {
+		return fatherContactNo;
+	}
+
+	public void setFatherContactNo(String fatherContactNo) {
+		this.fatherContactNo = fatherContactNo;
+	}
+	
+	public String getMotherName() {
+		return motherName;
+	}
+
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
+	}
+
+	public String getMotherOccupation() {
+		return motherOccupation;
+	}
+
+	public void setMotherOccupation(String motherOccupation) {
+		this.motherOccupation = motherOccupation;
+	}
+
+	public String getMotherContactNo() {
+		return motherContactNo;
+	}
+
+	public void setMotherContactNo(String motherContactNo) {
+		this.motherContactNo = motherContactNo;
+	}
+
+	public String getSpouseName() {
+		return spouseName;
+	}
+
+	public void setSpouseName(String spouseName) {
+		this.spouseName = spouseName;
+	}
+
+	public String getSpouseContactNo() {
+		return spouseContactNo;
+	}
+
+	public void setSpouseContactNo(String spouseContactNo) {
+		this.spouseContactNo = spouseContactNo;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getEmergencyNumber() {
+		return emergencyNumber;
+	}
+
+	public void setEmergencyNumber(String emergencyNumber) {
+		this.emergencyNumber = emergencyNumber;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
+
+	public String getResidentialAddress() {
+		return residentialAddress;
+	}
+
+	public void setResidentialAddress(String residentialAddress) {
+		this.residentialAddress = residentialAddress;
+	}
+	
 
 	
 	
