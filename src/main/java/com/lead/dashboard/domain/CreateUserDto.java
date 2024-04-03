@@ -2,20 +2,14 @@ package com.lead.dashboard.domain;
 
 import java.util.Date;
 import java.util.List;
-import lombok.NonNull;
 
-public class UpdateUserByHr {
-
+public class CreateUserDto {
 	private Long id;
-	private String fullName;
-	@NonNull
 	private String email;
-	@NonNull
-	private String designation;
-	@NonNull
-	private String department;
-	@NonNull
 	private List<String> role;
+	private String designation;
+	private String department;
+	private String userName;
 	private boolean isManager;
 	private String epfNo;
 	private String aadharCard;
@@ -39,24 +33,23 @@ public class UpdateUserByHr {
 	private String panNumber;
 	private String permanentAddress;
 	private String residentialAddress;
-
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getFullName() {
-		return fullName;
-	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public List<String> getRole() {
+		return role;
+	}
+	public void setRole(List<String> role) {
+		this.role = role;
 	}
 	public String getDesignation() {
 		return designation;
@@ -70,11 +63,11 @@ public class UpdateUserByHr {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public List<String> getRole() {
-		return role;
+	public String getUserName() {
+		return userName;
 	}
-	public void setRole(List<String> role) {
-		this.role = role;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public boolean isManager() {
 		return isManager;
@@ -148,6 +141,18 @@ public class UpdateUserByHr {
 	public void setFatherContactNo(String fatherContactNo) {
 		this.fatherContactNo = fatherContactNo;
 	}
+	public String getMotherName() {
+		return motherName;
+	}
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
+	}
+	public String getMotherOccupation() {
+		return motherOccupation;
+	}
+	public void setMotherOccupation(String motherOccupation) {
+		this.motherOccupation = motherOccupation;
+	}
 	public String getMotherContactNo() {
 		return motherContactNo;
 	}
@@ -202,22 +207,7 @@ public class UpdateUserByHr {
 	public void setResidentialAddress(String residentialAddress) {
 		this.residentialAddress = residentialAddress;
 	}
-	public String getMotherName() {
-		return motherName;
-	}
-	public void setMotherName(String motherName) {
-		this.motherName = motherName;
-	}
-	public String getMotherOccupation() {
-		return motherOccupation;
-	}
-	public void setMotherOccupation(String motherOccupation) {
-		this.motherOccupation = motherOccupation;
-	}
 	
-    
 	
-
-
 
 }
