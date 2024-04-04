@@ -142,6 +142,7 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
 			u.setRole(listRole);
+            u.setManagerApproval("pending");
 
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
@@ -166,6 +167,8 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
 			u.setRole(listRole);
+            u.setManagerApproval("pending");
+
 			u.setDepartment(department);
 			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
 			Context context = new Context();
@@ -332,7 +335,7 @@ public class UserServiceImpl implements UserService {
 		    u.setPanNumber(createUserDto.getPanNumber());
 		    u.setPermanentAddress(createUserDto.getPermanentAddress());
 		    u.setResidentialAddress(createUserDto.getResidentialAddress());
-
+            u.setManagerApproval("pending");
 			
 			userRepo.save(u);
 			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
@@ -401,7 +404,8 @@ public class UserServiceImpl implements UserService {
 		    u.setPanNumber(createUserDto.getPanNumber());
 		    u.setPermanentAddress(createUserDto.getPermanentAddress());
 		    u.setResidentialAddress(createUserDto.getResidentialAddress());
-			
+            u.setManagerApproval("pending");
+
 			
 			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
 			Context context = new Context();
@@ -425,9 +429,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserForManager(Long id) {
-		   List<User> userList = userRepo.findAllByManagerApprovedAndIsDeleted(id,"pending",false);
-
-		return null;
+		   List<User> userList = userRepo.findAllByManagerApprovedAndIsDeleted(id,"pending",false);           
+		return userList;
 	}
 
 }
