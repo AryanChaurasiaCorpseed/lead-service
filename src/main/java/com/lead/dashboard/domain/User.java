@@ -60,9 +60,16 @@ public class User {
     String language;
     String emergencyNumber;
     String panNumber;
+    //Document photo
     String permanentAddress;
     String residentialAddress;
-
+    String birthCertificate;
+    String matric;
+    String intermediate;
+    String voterId;
+    String heCertificate;//highest education certificate
+    boolean isHrHeadApproval;
+    String ManagerApproval="pending";// approved,disapproved,pending
 	public Long getId() {
 		return id;
 	}
@@ -310,8 +317,66 @@ public class User {
 	public void setResidentialAddress(String residentialAddress) {
 		this.residentialAddress = residentialAddress;
 	}
-	
 
+	public String getBirthCertificate() {
+		return birthCertificate;
+	}
+
+	public void setBirthCertificate(String birthCertificate) {
+		this.birthCertificate = birthCertificate;
+	}
+
+	public String getMatric() {
+		return matric;
+	}
+
+	public void setMatric(String matric) {
+		this.matric = matric;
+	}
+
+	public String getIntermediate() {
+		return intermediate;
+	}
+
+	public void setIntermediate(String intermediate) {
+		this.intermediate = intermediate;
+	}
+
+	public String getVoterId() {
+		return voterId;
+	}
+
+	public void setVoterId(String voterId) {
+		this.voterId = voterId;
+	}
+
+	public String getHeCertificate() {
+		return heCertificate;
+	}
+
+	public void setHeCertificate(String heCertificate) {
+		this.heCertificate = heCertificate;
+	}
+
+	public boolean isHrHeadApproval() {
+		return isHrHeadApproval;
+	}
+
+	public void setHrHeadApproval(boolean isHrHeadApproval) {
+		this.isHrHeadApproval = isHrHeadApproval;
+	}
+
+	public String getManagerApproval() {
+		return ManagerApproval;
+	}
+
+	public void setManagerApproval(String managerApproval) {
+		ManagerApproval = managerApproval;
+	}
+
+	
+	
+     
 	
 	
 

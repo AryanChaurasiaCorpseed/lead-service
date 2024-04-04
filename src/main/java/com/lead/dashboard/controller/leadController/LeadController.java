@@ -239,7 +239,7 @@ public class LeadController {
 
 	}
 	
-	
+	 
 	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
 	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
 	{		

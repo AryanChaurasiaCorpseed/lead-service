@@ -29,5 +29,6 @@ public interface UserService
 	User updateUserData(User existingUser, UpdateUser user);
 	User editUserByHr(User existingUser, UpdateUserByHr user);
 	User createUserByHr(CreateUserDto createUserDto);
+	List<User> getUserForManager(Long id);
 
 }

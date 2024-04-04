@@ -158,6 +158,16 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("api/v1/users/getUserForManager")
+	public ResponseEntity<List<User>> getUserForManager(@RequestParam Long id) {
+		List<User> user = userService.getUserForManager(id);
+		if (user != null &&user.size()!=0) {
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	
 }

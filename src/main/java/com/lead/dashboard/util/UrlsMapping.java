@@ -112,6 +112,9 @@ public class UrlsMapping {
 
 	public static final String IMPORT_CSV_FILE=PREFIX+"/upload/importCsvFile";
 
+//     hr microservices
+	public static final String GET_USER_APPROVAL_HR=PREFIX+"/hrManagment/getUserApprovalHr";
+	public static final String APPROVED_USER_BY_HR=PREFIX+"/hrManagment/approvedUserByHr";
 
 
 
