@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		u.setDepartment(user.getDepartment());
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		u.setUserRole(roleList);
+		u.setManagerApproval("approved");
 		u.setRole(user.getRole());
 		return userRepo.save(u);
 	}
@@ -418,6 +419,15 @@ public class UserServiceImpl implements UserService {
 			return u;
 
 		}
+	}
+
+
+
+	@Override
+	public List<User> getUserForManager(Long id) {
+		   List<User> userList = userRepo.findAllByManagerApprovedAndIsDeleted(id,"pending",false);
+
+		return null;
 	}
 
 }
