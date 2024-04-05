@@ -56,7 +56,7 @@ public class HrManagmentServiceImpl implements HrManagmentService {
 					String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 					String[] ccPerson= {u.getEmail()};
 					String[] toMail= {manager.getEmail()};
-					mailSendSerivceImpl.sendEmail(toMail, null,null, subject,"test",context1,"createUserManager.html");
+					mailSendSerivceImpl.sendEmail(toMail, subject,"test",context1,"createUserManager.html");
 				
 			    }
 		
