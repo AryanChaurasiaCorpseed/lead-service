@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor(force = true)
 @Table(name = "user")
-public class User {
+public class User implements Serializable{
 	
 
 	@Id
@@ -43,7 +44,7 @@ public class User {
 	String aadharCard;
 	String employeeId;	
 	@ManyToOne
-	User managerName;
+	User managers;
 	int expInMonth;
 	int expInYear;
     Date dateOfJoining;
@@ -96,6 +97,14 @@ public class User {
 
 	public String getDesignation() {
 		return designation;
+	}
+
+	public User getManagers() {
+		return managers;
+	}
+
+	public void setManagers(User managers) {
+		this.managers = managers;
 	}
 
 	public void setDesignation(String designation) {
@@ -181,14 +190,7 @@ public class User {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
-	public User getManagerName() {
-		return managerName;
-	}
-
-	public void setManagerName(User managerName) {
-		this.managerName = managerName;
-	}
+	
 
 	public Date getDateOfJoining() {
 		return dateOfJoining;

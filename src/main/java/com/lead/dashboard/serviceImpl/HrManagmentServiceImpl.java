@@ -1,11 +1,13 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.repository.UserRepo;
@@ -16,7 +18,8 @@ public class HrManagmentServiceImpl implements HrManagmentService {
 
 	@Autowired
 	UserRepo userRepo;
-	
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 	
 	 
 	
@@ -39,7 +42,24 @@ public class HrManagmentServiceImpl implements HrManagmentService {
 		   if(userRoles.contains("HR_HEAD")||userRoles.contains("ADMIN")) {
 			    User user = userRepo.findById(userId).get();
 			    user.setHrHeadApproval(flag);
-			    userRepo.save(user);
+			    User u=userRepo.save(user);
+			    if(u.getManagers()!=null) {
+			    	User manager = u.getManagers();
+					String  feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();   
+					Context context1 = new Context();
+					context1.setVariable("userName", "Aryan Chaurasia");
+					context1.setVariable("user", u.getFullName());
+					String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+					context1.setVariable("email", u.getEmail());
+					context1.setVariable("Rurl", feedbackStatusURLs);
+					context1.setVariable("currentYear", LocalDateTime.now().getYear());
+					String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+					String[] ccPerson= {u.getEmail()};
+					String[] toMail= {manager.getEmail()};
+					mailSendSerivceImpl.sendEmail(toMail, null,null, subject,"test",context1,"createUserManager.html");
+				
+			    }
+		
 		   }
 
 		return flag;

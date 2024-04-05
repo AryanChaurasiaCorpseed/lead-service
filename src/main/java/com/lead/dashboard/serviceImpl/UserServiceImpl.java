@@ -264,7 +264,7 @@ public class UserServiceImpl implements UserService {
 	    
 	    if(user.getManagerId()!=null) {
 			Optional<User> manager = userRepo.findById(user.getManagerId());
-			existingUser.setManagerName(manager.get());
+			existingUser.setManagers(manager.get());
 	    }
 	    existingUser.setFatherName(user.getFatherName());
 	    existingUser.setFatherOccupation(user.getFatherOccupation());
@@ -318,7 +318,7 @@ public class UserServiceImpl implements UserService {
 		    if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
-				u.setManagerName(manager);
+				u.setManagers(manager);
 				managerEmail[0]=manager.getEmail();
 		    }
 		    u.setFatherName(createUserDto.getFatherName());
@@ -352,18 +352,18 @@ public class UserServiceImpl implements UserService {
 			String[] ccPersons= {createUserDto.getEmail()};
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 	//==================use mail manager =============================
-			String feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
-
-			Context context1 = new Context();
-			context1.setVariable("userName", "Aryan Chaurasia");
-			context1.setVariable("user", u.getFullName());
-
-			context1.setVariable("email", createUserDto.getEmail());
-			context1.setVariable("Rurl", feedbackStatusURL);
-			context1.setVariable("currentYear", LocalDateTime.now().getYear());
-			String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
-			String[] ccPerson= {createUserDto.getEmail()};
-			mailSendSerivceImpl.sendEmail(managerEmail, ccPerson,ccPersons, subject,text,context,"createUserManager.html");
+//			String feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+//
+//			Context context1 = new Context();
+//			context1.setVariable("userName", "Aryan Chaurasia");
+//			context1.setVariable("user", u.getFullName());
+//
+//			context1.setVariable("email", createUserDto.getEmail());
+//			context1.setVariable("Rurl", feedbackStatusURL);
+//			context1.setVariable("currentYear", LocalDateTime.now().getYear());
+//			String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+//			String[] ccPerson= {createUserDto.getEmail()};
+//			mailSendSerivceImpl.sendEmail(managerEmail, ccPerson,ccPersons, subject,text,context,"createUserManager.html");
 			
 			
 			return u;
@@ -387,7 +387,7 @@ public class UserServiceImpl implements UserService {
 		    if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
-				u.setManagerName(manager);
+				u.setManagers(manager);
 				managerEmail[0]=manager.getEmail();
 		    }
 		    u.setFatherName(createUserDto.getFatherName());
