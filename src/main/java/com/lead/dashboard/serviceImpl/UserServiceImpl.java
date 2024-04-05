@@ -433,4 +433,22 @@ public class UserServiceImpl implements UserService {
 		return userList;
 	}
 
+
+
+	@Override
+	public Boolean approvedUserByManager(Long currentUserId, Long userId, String status) {
+		 List<String> userRoles = userRepo.findRoleNameById(currentUserId);
+		if(userRoles.contains("HR_HEAD")||userRoles.contains("ADMIN")) {
+			 User user = userRepo.findById(userId).get();
+			 user.setManagerApproval(status);
+			 userRepo.save(user); 
+			
+			  
+		}
+		return null;
+	}
+
+
+
+	
 }

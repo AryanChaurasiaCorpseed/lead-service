@@ -30,5 +30,6 @@ public interface UserService
 	User editUserByHr(User existingUser, UpdateUserByHr user);
 	User createUserByHr(CreateUserDto createUserDto);
 	List<User> getUserForManager(Long id);
+	Boolean approvedUserByManager(Long currentUserId, Long userId, String status);
 
 }

@@ -169,5 +169,14 @@ public class UserController {
 		}
 	}
 
+	@PutMapping("api/v1/users/approvedUserByManager")
+	public ResponseEntity<Boolean> approvedUserByManager(@RequestParam Long currentUserId,@RequestParam Long userId,@RequestParam String status) {
+		Boolean res = userService.approvedUserByManager(currentUserId,userId,status);
+		if (res) {
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 }
