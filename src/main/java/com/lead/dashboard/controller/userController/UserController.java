@@ -165,7 +165,7 @@ public class UserController {
 		if (user != null &&user.size()!=0) {
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 	}
 
@@ -175,7 +175,7 @@ public class UserController {
 		if (res) {
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 	}
 	
