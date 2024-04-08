@@ -2,6 +2,8 @@ package com.lead.dashboard.domain;
 
 //import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.domain.opportunity.Opportunities;
+import com.lead.dashboard.domain.product.Product;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -71,6 +73,13 @@ public class User implements Serializable{
     String heCertificate;//highest education certificate
     boolean isHrHeadApproval;
     String ManagerApproval="pending";// approved,disapproved,pending
+    
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="user_product",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="user_product_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Product>userProduct;
+	
 	public Long getId() {
 		return id;
 	}
@@ -376,11 +385,7 @@ public class User implements Serializable{
 		ManagerApproval = managerApproval;
 	}
 
-	
-	
-     
-	
-	
+    
 
 }
 

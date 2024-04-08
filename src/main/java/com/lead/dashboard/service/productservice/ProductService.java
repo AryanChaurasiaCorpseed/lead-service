@@ -19,4 +19,6 @@ public interface ProductService {
     Boolean deleteProduct(Long id);
 
 	Product createProduct(CreateProduct createProduct);
+
+	List<Product> getProductByUser(Long id);
 }
