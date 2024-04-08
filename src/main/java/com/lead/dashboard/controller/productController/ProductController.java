@@ -39,6 +39,17 @@ public class ProductController {
         return null;
     }
 
+    @GetMapping("/getProductByUser")
+    public ResponseEntity<List<Product>> getProductByUser(@RequestParam Long id) {
+
+        List<Product> product = productService.getProductByUser(id);
+
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        }
+
+        return null;
+    }
     @PostMapping("/createProduct")
     public ResponseEntity<Product> createProduct(@RequestBody CreateProduct createProduct) {
 

@@ -102,6 +102,12 @@ public class ProductServiceImpl implements ProductService {
     	
     }
 
+	@Override
+	public List<Product> getProductByUser(Long id) {
+		
+		return null;
+	}
+
 }
 
 
