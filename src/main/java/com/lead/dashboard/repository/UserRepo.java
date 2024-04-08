@@ -25,8 +25,8 @@ public interface UserRepo extends JpaRepository<User,Long>
 	@Query(value = "SELECT * FROM user u WHERE u.is_hr_head_approval=:isHrHeadApproval and is_deleted=:flag", nativeQuery = true)
 	List<User> findAllByHrHeadApproivalAndIsDeleted(boolean isHrHeadApproval ,boolean flag);
 	
-	@Query(value = "SELECT * FROM user u WHERE u.manager_name_id=:id and u.manager_approved=:managerApproved and is_deleted=:flag", nativeQuery = true)
-	List<User> findAllByManagerApprovedAndIsDeleted(Long id,String  managerApproved ,boolean flag);
+	@Query(value = "SELECT * FROM user u WHERE u.managers_id=:id and u.manager_approval=:managerApproved and is_hr_head_approval=:isHrHeadApproval and is_deleted=:flag", nativeQuery = true)
+	List<User> findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(Long id,String  managerApproved ,boolean isHrHeadApproval,boolean flag);
 	
 	
 	

@@ -429,7 +429,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserForManager(Long id) {
-		   List<User> userList = userRepo.findAllByManagerApprovedAndIsDeleted(id,"pending",false);           
+		   List<User> userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
 		return userList;
 	}
 
