@@ -31,7 +31,7 @@ public class HrManagmentController {
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class HrManagmentController {
 			return  new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(allUser,HttpStatus.OK);
 		}
 	}
 	
