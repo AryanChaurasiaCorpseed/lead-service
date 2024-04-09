@@ -42,7 +42,7 @@ public class Lead {
 	@Column(name = "client_name")
 	private String name;
 
-	//	Name of lead like GST service,private company registration
+	//	Name of lead like GST service,private company registration̥
 	@NotBlank
 	private String leadName;
 
@@ -127,6 +127,8 @@ public class Lead {
 	private Date missedTaskDate;
 	private String missedTaskStatus;
 	private String missedTaskCretedBy;
+	private Boolean auto;
+
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -390,6 +392,14 @@ public class Lead {
 
 	public void setView(boolean isView) {
 		this.isView = isView;
+	}
+
+	public Boolean getAuto() {
+		return auto;
+	}
+
+	public void setAuto(Boolean auto) {
+		this.auto = auto;
 	}
 	
 	

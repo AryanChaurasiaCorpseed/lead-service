@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.lead.dashboard.config.EmailServiceImpl;
 import com.lead.dashboard.config.SecurityFeignClient;
+import com.lead.dashboard.controller.inboxController.LeadCrone;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.service.LeadService;
@@ -40,6 +41,9 @@ public class LeadController {
 
 	@Autowired
 	LeadService leadservice;
+	
+	@Autowired
+	LeadCrone leadCrone;
 
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
@@ -240,11 +244,18 @@ public class LeadController {
 	}
 	
 	 
+//	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
+//	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
+//	{		
+//		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
+//		return result;
+//
+//	}
+	
 	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
-	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
+	public void assignLeadByCrone()
 	{		
-		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
-		return result;
+		 leadCrone.assignLeadByCrone();
 
 	}
 

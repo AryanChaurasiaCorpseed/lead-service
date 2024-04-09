@@ -79,6 +79,7 @@ public class User implements Serializable{
 			inverseJoinColumns = {@JoinColumn(name="user_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Product>userProduct;
+	String feedback;//feedback,means how many star (1,2,3,4,5)
 	
 	public Long getId() {
 		return id;
@@ -384,6 +385,24 @@ public class User implements Serializable{
 	public void setManagerApproval(String managerApproval) {
 		ManagerApproval = managerApproval;
 	}
+
+	public List<Product> getUserProduct() {
+		return userProduct;
+	}
+
+	public void setUserProduct(List<Product> userProduct) {
+		this.userProduct = userProduct;
+	}
+
+	public String getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
+	
+	
 
     
 
