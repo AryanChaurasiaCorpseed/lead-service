@@ -30,6 +30,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 	
 	@Query(value = "SELECT * FROM user u WHERE u.id =:userId and is_deleted=:false", nativeQuery = true)
 	User findUAllByUserId(Long userId);
-	
+	@Query(value = "SELECT * FROM user u WHERE is_deleted=false", nativeQuery = true)
+	List<User> findAllActiveUser();
 	
 }
