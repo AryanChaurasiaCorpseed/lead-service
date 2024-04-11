@@ -33,6 +33,7 @@ public class LeadCrone {
 			System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
+				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				lead.setAssignee(assignee);
 				   System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA ");
 
