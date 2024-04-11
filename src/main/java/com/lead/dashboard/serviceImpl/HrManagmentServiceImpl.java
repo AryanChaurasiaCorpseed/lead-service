@@ -38,11 +38,13 @@ public class HrManagmentServiceImpl implements HrManagmentService {
 
 	@Override
 	public Boolean approvedUserByHr(Long currentUserId, Long userId,boolean flag) {
-		   List<String> userRoles = userRepo.findRoleNameById(userId);
+		   List<String> userRoles = userRepo.findRoleNameById(currentUserId);
+		   boolean f=false;
 		   if(userRoles.contains("HR_HEAD")||userRoles.contains("ADMIN")) {
 			    User user = userRepo.findById(userId).get();
 			    user.setHrHeadApproval(flag);
 			    User u=userRepo.save(user);
+                 f=true;
 			    if(u.getManagers()!=null) {
 			    	User manager = u.getManagers();
 					String  feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();   
@@ -62,7 +64,7 @@ public class HrManagmentServiceImpl implements HrManagmentService {
 		
 		   }
 
-		return flag;
+		return f;
 	}
 
 }
