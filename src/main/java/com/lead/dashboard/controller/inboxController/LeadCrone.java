@@ -106,6 +106,84 @@ public class LeadCrone {
 
 
 	}
+	
+	public void assignLeadByCroneV2() {
+		List<Lead>leadList =leadRepository.findAllByStatusIdAndAuto(1l,true);
+
+		//New means --> auto
+		List<User>userList = userRepo.findAllActiveUser();
+		List<User>qualityUser = userList.stream().filter(i->i.getDesignation().equalsIgnoreCase("Quality-Manager")).collect(Collectors.toList());
+		//-============== Quality Manager =========================
+		User qualityManager =null;
+
+		//==================
+		List<User>topUser = userList.stream().filter(i->i.getFeedback().equals("5") || i.getFeedback().equals("4")).collect(Collectors.toList());
+		System.out.println("top user list"+topUser.size());
+		Map<String, Boolean> urlsMap = getAllUrls();
+		for(Lead lead:leadList) {
+			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			System.out.println(existingLead.size());
+			if(existingLead!=null && existingLead.size()>1) {
+				User assignee=getAssignee(existingLead);
+				System.out.println("assignee .."+assignee);
+				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+				if(assignee!=null &&assignee.isDeleted()) {
+					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
+					lead.setAssignee(user);
+					System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+
+				}else {
+					lead.setAssignee(assignee);
+					System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
+				}
+
+			}else {
+				if(lead.getEmail()!=null) {
+					Boolean isProf = checkEmailDomain(lead.getEmail());
+
+					System.out.println("ssssssssss"+isProf);
+					// we check service and check  service in required true or false
+					if(isProf) {
+						//					   then we can assign Only 4* and 5*
+						lead.setAssignee(topUser.get(0));
+						System.out.println("bbbbbbbbbbbbb");
+
+					}else { 
+						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
+						lead.setAssignee(userList.get(0));
+
+					}
+				}else {
+					System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					//========
+					    if(lead.getIsUrlsChecked()) {
+					    	if(urlsMap.get(lead.getLeadName())) {// hume ek key lekr chalna hoga
+								lead.setAssignee(qualityManager);				
+
+					    	}else {
+								lead.setAssignee(topUser.get(0));				
+					    	}
+					    }else {
+							// those are working on this slug sales person
+							lead.setAssignee(topUser.get(0));				
+
+						}
+					///============
+					
+					if(qualityUser.size()>0) {
+						qualityManager=qualityUser.get(0);
+					}
+					lead.setAssignee(qualityManager);				
+				}
+			}
+			leadRepository.save(lead);
+
+
+		}
+		//		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
+
+
+	}
 	public  ArrayList<User>mergeStarUser(ArrayList<User>user4,ArrayList<User>user5,Map<Long,Integer>countMap){
 		int i=0;
 		int j=0;
@@ -142,6 +220,11 @@ public class LeadCrone {
 		       }
 		  }
 		return result;
+	}
+	
+	public  Map<Long,List<User>>allUserServiceRating(){
+		
+		return null;
 	}
 	
 	public Map<String,User> getUserAccordingToService(List<Lead>leads){
