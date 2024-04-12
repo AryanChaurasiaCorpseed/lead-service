@@ -128,7 +128,8 @@ public class Lead {
 	private String missedTaskStatus;
 	private String missedTaskCretedBy;
 	private Boolean auto;
-
+    private Boolean isUrlsChecked;  //when we assign a urls (Quality or Sales)
+	
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -400,6 +401,14 @@ public class Lead {
 
 	public void setAuto(Boolean auto) {
 		this.auto = auto;
+	}
+
+	public Boolean getIsUrlsChecked() {
+		return isUrlsChecked;
+	}
+
+	public void setIsUrlsChecked(Boolean isUrlsChecked) {
+		this.isUrlsChecked = isUrlsChecked;
 	}
 	
 	

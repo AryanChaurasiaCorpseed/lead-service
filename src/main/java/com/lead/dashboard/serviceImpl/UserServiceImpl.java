@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 			u.setUserRole(roleList);
 			u.setDesignation(designation);
 			userRepo.save(u);
-			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
             u.setManagerApproval("pending");
 
 			u.setDepartment(department);
-			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
 			context.setVariable("email", email);
@@ -338,7 +338,7 @@ public class UserServiceImpl implements UserService {
             u.setManagerApproval("pending");
 			
 			userRepo.save(u);
-			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
@@ -407,7 +407,7 @@ public class UserServiceImpl implements UserService {
             u.setManagerApproval("pending");
 
 			
-			String feedbackStatusURL = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
 			context.setVariable("email", createUserDto.getEmail());
