@@ -195,7 +195,20 @@ public class LeadCrone {
 		List<Long> assigneeIdList = cronelead.stream().map(i->i.getAssignee().getId()).collect(Collectors.toList());
 		
 		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
-        
+		 Map<String,List<Lead>>map = new HashMap<>();
+		 // ServiceName , LeadList
+		for(Lead lead:allLeadList) {
+			if(map.containsKey(lead.getOriginalName())) {
+				List<Lead> d = map.get(lead.getOriginalName());
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}else {
+				List<Lead> d = new ArrayList<>();
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}
+		}
+		
 		
 		
 	}
