@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -184,6 +185,21 @@ public class LeadCrone {
 
 
 	}
+	
+	
+	public void assignLeadByCroneV3() {
+		List<Long>croneStatus= new ArrayList<>();
+		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeleted(croneStatus, false);
+		
+		List<String>originalName=cronelead.stream().map(i->i.getOriginalName()).collect(Collectors.toList());
+		List<Long> assigneeIdList = cronelead.stream().map(i->i.getAssignee().getId()).collect(Collectors.toList());
+		
+		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
+        
+		
+		
+	}
+	
 	public  ArrayList<User>mergeStarUser(ArrayList<User>user4,ArrayList<User>user5,Map<Long,Integer>countMap){
 		int i=0;
 		int j=0;
