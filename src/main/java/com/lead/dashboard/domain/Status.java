@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Table(name = "status_details")
+
 public class Status {
 
 	@Id
@@ -28,18 +29,13 @@ public class Status {
     @Column(name = "delete_status" )
     @NotBlank(message = "Status 1 is mapped with Active and 2 is mapped with inactive")
     private int isDeleted;
-
-
     private LocalDateTime createdTime;
-
-
     private LocalDateTime updatedTime;
-
-
     private String createdByName;
-
-
     private String updatedByName;
+    private boolean isFeedback; // YE KEY AUTO ASSIGN MAI JIS JIS STATUS KO NAHI KUCH SHOW HO RHA HAI USKE LIYE H 
+    private boolean enableAutoAssign;
+
 
 	public Status(Long id, String name) {
 		this.id = id;
@@ -161,5 +157,25 @@ public class Status {
 	public void setUpdatedByName(String updatedByName) {
 		this.updatedByName = updatedByName;
 	}
+
+	public boolean isEnableAutoAssign() {
+		return enableAutoAssign;
+	}
+
+	public void setEnableAutoAssign(boolean enableAutoAssign) {
+		this.enableAutoAssign = enableAutoAssign;
+	}
+
+	public boolean isFeedback() {
+		return isFeedback;
+	}
+
+	public void setFeedback(boolean isFeedback) {
+		this.isFeedback = isFeedback;
+	}
+	
+	
+	
+	
 
 }
