@@ -84,11 +84,11 @@ public class User implements Serializable{
 	String feedback;//feedback,means how many star (1,2,3,4,5)
 	boolean isMaster;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="user_ratings_id"
-					+ "",referencedColumnName = "id",nullable=true,unique=false)})
-	List<Ratings>userRatings;
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
+//			inverseJoinColumns = {@JoinColumn(name="user_ratings_id"
+//					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+//	List<Ratings>userRatings;
 	public Long getId() {
 		return id;
 	}
@@ -418,13 +418,13 @@ public class User implements Serializable{
 		this.isMaster = isMaster;
 	}
 
-	public List<Ratings> getUserRatings() {
-		return userRatings;
-	}
-
-	public void setUserRatings(List<Ratings> userRatings) {
-		this.userRatings = userRatings;
-	}
+//	public List<Ratings> getUserRatings() {
+//		return userRatings;
+//	}
+//
+//	public void setUserRatings(List<Ratings> userRatings) {
+//		this.userRatings = userRatings;
+//	}
 	
 	
 	
