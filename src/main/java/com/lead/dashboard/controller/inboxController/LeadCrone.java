@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class LeadCrone {
 	UserRepo userRepo;
 	@Autowired
 	private LeadRepository leadRepository;
-	
+
 	@Autowired
 	RatingRepository ratingRepository;
 
@@ -234,7 +235,7 @@ public class LeadCrone {
 
 		}
 		//
-		
+
 
 
 		//=======================================================================================start = 
@@ -412,11 +413,11 @@ public class LeadCrone {
 		}
 		return flag;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+	/////=====final Data = = = == = == = = = = == = = = = = = == == = = = = == = = = = = = == = = = = 
 
 	public void assignLeadByCroneV4() {
 		List<Long>croneStatus= new ArrayList<>();
@@ -458,7 +459,7 @@ public class LeadCrone {
 
 		}
 		//
-		
+
 
 
 		//=======================================================================================start = 
@@ -477,6 +478,7 @@ public class LeadCrone {
 		for(Lead lead:cronelead) {
 
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 			System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
@@ -500,23 +502,27 @@ public class LeadCrone {
 					// we check service and check  service in required true or false
 					if(isProf) {
 						//	then we can assign Only 4* and 5*						
-						
-//						 List<String>ratingList= new ArrayList<>();
-//						 ratingList.add("4");
-//						 ratingList.add("5");
-						Long productId=1l;
-						 String rating4="4";
-						 List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
 
-						 String rating5="5";
-						 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
-						 Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-						 ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
-						 lead.setAssignee(userMerged.get(0));
+						//						 List<String>ratingList= new ArrayList<>();
+						//						 ratingList.add("4");
+						//						 ratingList.add("5");
+						Long productId=urlsManagment.getId();
+						String rating4="4";
+						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+
+						String rating5="5";
+						List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+						ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
+						lead.setAssignee(userMerged.get(0));
 
 					}else { 
 						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
-						lead.setAssignee(userList.get(0));
+						Long productId=urlsManagment.getId();
+						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+						List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
+						List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
+						lead.setAssignee(getAllStarUser.get(0));
 
 					}
 				}else {
@@ -548,11 +554,6 @@ public class LeadCrone {
 
 
 		}
-
-
-
-
-
 	}
 	public void mergeAllUser1to5Star(List<User>user1,List<User>user2,List<User>user3,List<User>user4,List<User>user5,Map<User,Integer>countMap) {
 		Map<User,Integer>countManage=countMap;
@@ -562,7 +563,7 @@ public class LeadCrone {
 			countManage.put(u, c2);
 			resUser.add(u);
 		}
-		
+
 		for(User u:user3) {
 			Integer c2=countManage.get(u)+20;
 			countManage.put(u, c2);
@@ -581,36 +582,183 @@ public class LeadCrone {
 			resUser.add(u);
 
 		}
-		
-		
-		
-		
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=countManage.get(a);
+			Integer c2=countManage.get(b);
+			return c1.compareTo(c2);
+		});
+
+
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+	public List<User> mergeAllUser1to5Star(List<Ratings>ratings,Map<User,Integer>countMap) {
+		Map<User,Integer>countManage=countMap;
+		List<User>resUser = new ArrayList<>();
+		for(Ratings r:ratings) {
+			//			Integer c2=countManage.get(u)+10;
+			List<User> userList = r.getRatingsUser();
+			String rating=r.getRating();
+			for(User u:userList) {
+				if("2".equals(rating)) {
+					Integer c2=countManage.get(u)+10;
+					countManage.put(u, c2);
+				}else if("3".equals(rating)) {
+					Integer c2=countManage.get(u)+20;
+					countManage.put(u, c2);
+					resUser.add(u);  
+				}else if("4".equals(rating)) {
+					Integer c2=countManage.get(u)+30;
+					countManage.put(u, c2);
+					resUser.add(u);
+				}else if("5".equals(rating)) {
+					Integer c2=countManage.get(u)+40;
+					countManage.put(u, c2);
+					resUser.add(u);
+				}else {
+					Integer c2=countManage.get(u);
+					countManage.put(u, c2);
+					resUser.add(u);
+				}
+
+			}
+		}
+
+
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=countManage.get(a);
+			Integer c2=countManage.get(b);
+			return c1.compareTo(c2);
+		});
+
+		return resUser;	
+	}
+
+	public void assignLeadByCroneV5() {
+		List<Long>croneStatus= new ArrayList<>();
+		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeleted(croneStatus, false);
+		List<String>originalName=cronelead.stream().map(i->i.getOriginalName()).collect(Collectors.toList());
+		List<Long> assigneeIdList = cronelead.stream().map(i->i.getAssignee().getId()).collect(Collectors.toList());
+
+		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
+		Map<String,List<Lead>>map = new HashMap<>();
+		// ServiceName , LeadList
+		for(Lead lead:allLeadList ) {
+			if(map.containsKey(lead.getOriginalName())) {
+				List<Lead> d = map.get(lead.getOriginalName());
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}else {
+				List<Lead> d = new ArrayList<>();
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}
+		}
+
+		//they return the count value on the basis of service
+		Map<String,Map<User,Integer>>mapCount=new HashMap<>();
+		for(Map.Entry<String,List<Lead>> entry:map.entrySet()) {
+			Map<User,Integer>temp = new HashMap<>();
+			List<Lead> singleList = entry.getValue();
+			for(Lead lead : singleList) {
+				User assignee = lead.getAssignee();
+				if(temp.containsKey(assignee)) {
+					Integer count=temp.get(assignee);
+					count=count+1;
+					temp.put(assignee, count);
+				}else {
+					temp.put(assignee, 1);			
+				}
+			}
+
+		}
+		//=======================================================================================start = 
+		List<User>userList = userRepo.findAllActiveUser();
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+        int qi=0;//initial statge og quality user
+        int ql=qualityUser.size();
+		for(Lead lead:cronelead) {
+
+			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
+			if(existingLead!=null && existingLead.size()>1) {
+				User assignee=getAssignee(existingLead);
+				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+				if(assignee!=null &&assignee.isDeleted()) {
+					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
+					lead.setAssignee(user);
+
+				}else {
+					lead.setAssignee(assignee);
+				}
+			}else {
+				if(lead.getIsUrlsChecked()) {
+					if(!urlsManagment.isQuality()) {
+
+							Boolean isProf =false;
+							if(lead.getEmail()!=null) {
+								isProf= checkEmailDomain(lead.getEmail());
+							}
+							// we check service and check  service in required true or false
+							if(isProf) {
+								Long productId=urlsManagment.getId();
+								String rating4="4";
+								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+								String rating5="5";
+								List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+								ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
+								lead.setAssignee(userMerged.get(0));
+
+							}else { 
+								Long productId=urlsManagment.getId();
+								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+								List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
+								List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
+								lead.setAssignee(getAllStarUser.get(0));
+							}
+					}else {
+						if(ql>0) {
+							lead.setAssignee(qualityUser.get(qi));
+							qi++;
+							if(qi==ql) {
+								qi=0;
+							}	
+						}
+					}
+				}else{
+					Boolean isProf =false;
+					if(lead.getEmail()!=null) {
+						isProf= checkEmailDomain(lead.getEmail());
+					}
+					// we check service and check  service in required true or false
+					if(isProf) {
+						Long productId=urlsManagment.getId();
+						String rating4="4";
+						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+						String rating5="5";
+						List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+						ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
+						lead.setAssignee(userMerged.get(0));
+					}else { 
+						Long productId=urlsManagment.getId();
+						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+						List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
+						List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
+						lead.setAssignee(getAllStarUser.get(0));
+					}
+				}
+			}
+			leadRepository.save(lead);
+
+
+
+		}
+	}
+
+
+
+
 }
