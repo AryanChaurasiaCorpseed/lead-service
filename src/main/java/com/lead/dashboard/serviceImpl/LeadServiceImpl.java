@@ -86,7 +86,7 @@ public class LeadServiceImpl implements LeadService  {
 		}else {
 			lead.setLeadName(leadDTO.getLeadName());
 		}
-
+        lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
 		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());

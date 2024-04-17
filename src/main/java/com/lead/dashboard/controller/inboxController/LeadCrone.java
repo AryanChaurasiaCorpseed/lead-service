@@ -637,12 +637,14 @@ public class LeadCrone {
 
 	public void assignLeadByCroneV5() {
 		List<Long>croneStatus= new ArrayList<>();
+		croneStatus.add(1l);
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeleted(croneStatus, false);
 		List<String>originalName=cronelead.stream().map(i->i.getOriginalName()).collect(Collectors.toList());
-		List<Long> assigneeIdList = cronelead.stream().map(i->i.getAssignee().getId()).collect(Collectors.toList());
+		List<Long> assigneeIdList = cronelead.stream().filter(i->i.getAssignee()!=null).map(i->i.getAssignee().getId()).collect(Collectors.toList());
 
 		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
 		Map<String,List<Lead>>map = new HashMap<>();
+		System.out.println("testing . . .");
 		// ServiceName , LeadList
 		for(Lead lead:allLeadList ) {
 			if(map.containsKey(lead.getOriginalName())) {
@@ -673,14 +675,16 @@ public class LeadCrone {
 			}
 
 		}
-		//=======================================================================================start = 
+		//========================================start = 
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
         int qi=0;//initial statge og quality user
         int ql=qualityUser.size();
+        System.out.println(ql+"................");
 		for(Lead lead:cronelead) {
 
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			System.out.println("ORIGINAL NAME :::"+lead.getOriginalName());
 			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
@@ -693,7 +697,8 @@ public class LeadCrone {
 					lead.setAssignee(assignee);
 				}
 			}else {
-				if(lead.getIsUrlsChecked()) {
+				System.out.println(lead.getIsUrlsChecked()+".....testing .. .. ."+lead.getId());
+				if(lead!=null & lead.getIsUrlsChecked()) {
 					if(!urlsManagment.isQuality()) {
 
 							Boolean isProf =false;
