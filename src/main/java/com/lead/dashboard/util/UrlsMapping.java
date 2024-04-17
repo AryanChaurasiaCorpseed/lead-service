@@ -116,6 +116,9 @@ public class UrlsMapping {
 	public static final String GET_USER_APPROVAL_HR=PREFIX+"/hrManagment/getUserApprovalHr";
 	public static final String APPROVED_USER_BY_HR=PREFIX+"/hrManagment/approvedUserByHr";
 
+//  Rating Controller
+	public static final String ADD_USER_RATING=PREFIX+"/rating/addUserRating";
+
 
 
 
