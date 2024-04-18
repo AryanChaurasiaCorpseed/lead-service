@@ -48,43 +48,43 @@ public class LeadCrone {
 
 		//==================
 		List<User>topUser = userList.stream().filter(i->i.getFeedback().equals("5") || i.getFeedback().equals("4")).collect(Collectors.toList());
-		System.out.println("top user list"+topUser.size());
+		// System.out.println("top user list"+topUser.size());
 		Map<String, Boolean> urlsMap = getAllUrls();
 		for(Lead lead:leadList) {
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-			System.out.println(existingLead.size());
+			// System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
-				System.out.println("assignee .."+assignee);
+				// System.out.println("assignee .."+assignee);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
-					System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+					// System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
 
 				}else {
 					lead.setAssignee(assignee);
-					System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
+					// System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
 				}
 
 			}else {
 				if(lead.getEmail()!=null) {
 					Boolean isProf = checkEmailDomain(lead.getEmail());
 
-					System.out.println("ssssssssss"+isProf);
+					// System.out.println("ssssssssss"+isProf);
 					// we check service and check  service in required true or false
 					if(isProf) {
 						//					   then we can assign Only 4* and 5*
 						lead.setAssignee(topUser.get(0));
-						System.out.println("bbbbbbbbbbbbb");
+						// System.out.println("bbbbbbbbbbbbb");
 
 					}else { 
-						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
+						// System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
 						lead.setAssignee(userList.get(0));
 
 					}
 				}else {
-					System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					// System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					//========
 					if(lead.getIsUrlsChecked()) {
 						if(urlsMap.get(lead.getLeadName())) {// hume ek key lekr chalna hoga
@@ -126,43 +126,43 @@ public class LeadCrone {
 
 		//==================
 		List<User>topUser = userList.stream().filter(i->i.getFeedback().equals("5") || i.getFeedback().equals("4")).collect(Collectors.toList());
-		System.out.println("top user list"+topUser.size());
+		// System.out.println("top user list"+topUser.size());
 		Map<String, Boolean> urlsMap = getAllUrls();
 		for(Lead lead:leadList) {
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-			System.out.println(existingLead.size());
+			// System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
-				System.out.println("assignee .."+assignee);
+				// System.out.println("assignee .."+assignee);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
-					System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+					// System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
 
 				}else {
 					lead.setAssignee(assignee);
-					System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
+					// System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
 				}
 
 			}else {
 				if(lead.getEmail()!=null) {
 					Boolean isProf = checkEmailDomain(lead.getEmail());
 
-					System.out.println("ssssssssss"+isProf);
+					// System.out.println("ssssssssss"+isProf);
 					// we check service and check  service in required true or false
 					if(isProf) {
 						//					   then we can assign Only 4* and 5*
 						lead.setAssignee(topUser.get(0));
-						System.out.println("bbbbbbbbbbbbb");
+						// System.out.println("bbbbbbbbbbbbb");
 
 					}else { 
-						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
+						// System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
 						lead.setAssignee(userList.get(0));
 
 					}
 				}else {
-					System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					// System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					//========
 					if(lead.getIsUrlsChecked()) {
 						if(urlsMap.get(lead.getLeadName())) {// hume ek key lekr chalna hoga
@@ -248,45 +248,45 @@ public class LeadCrone {
 
 		//==================
 		List<User>topUser = userList.stream().filter(i->i.getFeedback().equals("5") || i.getFeedback().equals("4")).collect(Collectors.toList());
-		System.out.println("top user list"+topUser.size());
+		// System.out.println("top user list"+topUser.size());
 		Map<String, Boolean> urlsMap = getAllUrls();
 
 		for(Lead lead:cronelead) {
 
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-			System.out.println(existingLead.size());
+			// System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
-				System.out.println("assignee .."+assignee);
+				// System.out.println("assignee .."+assignee);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
-					System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+					// System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
 
 				}else {
 					lead.setAssignee(assignee);
-					System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
+					// System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
 				}
 
 			}else {
 				if(lead.getEmail()!=null) {
 					Boolean isProf = checkEmailDomain(lead.getEmail());
 
-					System.out.println("ssssssssss"+isProf);
+					// System.out.println("ssssssssss"+isProf);
 					// we check service and check  service in required true or false
 					if(isProf) {
 						//					   then we can assign Only 4* and 5*
 						lead.setAssignee(topUser.get(0));
-						System.out.println("bbbbbbbbbbbbb");
+						// System.out.println("bbbbbbbbbbbbb");
 
 					}else { 
-						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
+						// System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
 						lead.setAssignee(userList.get(0));
 
 					}
 				}else {
-					System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					// System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					//========
 					if(lead.getIsUrlsChecked()) {
 						if(urlsMap.get(lead.getLeadName())) {// hume ek key lekr chalna hoga
@@ -324,15 +324,18 @@ public class LeadCrone {
 	public  ArrayList<User>mergeStarUser(List<User>user4,List<User>user5,Map<User,Integer>countMap){
 		int i=0;
 		int j=0;
+	     	System.out.println("user 4 master "+user4);
+	     	System.out.println("user 5 master "+user5);
+
 		ArrayList<User>result =new ArrayList<>();
-		int l1=user4.size()-1;
-		int l2=user5.size()-1;
-		while(i<=l1 &&j<=l2) {
+		int l1=user4!=null?user4.size():0;
+		int l2=user5!=null?user5.size():0;
+		while(i<l1 &&j<l2) {
 			User u4=user4.get(i);
 			User u5=user5.get(j);
 
-			int c4=countMap.get(u4);
-			int c5=countMap.get(u5)+10;
+			int c4=countMap!=null?countMap.get(u4)!=null?countMap.get(u4)+10:10:10;
+			int c5=countMap!=null?countMap.get(u5)!=null?countMap.get(u5):0:0;
 
 			if(c4>c5) {
 				result.add(u5);
@@ -356,6 +359,13 @@ public class LeadCrone {
 				i++;
 			}
 		}
+		System.out.println("=========start=============");
+
+		for(User u:result) {
+			System.out.println(u.getId());
+		}
+		System.out.println("==========end============");
+
 		return result;
 	}
 
@@ -472,33 +482,33 @@ public class LeadCrone {
 
 		//==================
 		List<User>topUser = userList.stream().filter(i->i.getFeedback().equals("5") || i.getFeedback().equals("4")).collect(Collectors.toList());
-		System.out.println("top user list"+topUser.size());
+		// System.out.println("top user list"+topUser.size());
 		Map<String, Boolean> urlsMap = getAllUrls();
 
 		for(Lead lead:cronelead) {
 
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
 			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
-			System.out.println(existingLead.size());
+			// System.out.println(existingLead.size());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
-				System.out.println("assignee .."+assignee);
+				// System.out.println("assignee .."+assignee);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
-					System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+					// System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
 
 				}else {
 					lead.setAssignee(assignee);
-					System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
+					// System.out.println("BBBBBBBBBBBBBBBBBBBBBBB ");
 				}
 
 			}else {
 				if(lead.getEmail()!=null) {
 					Boolean isProf = checkEmailDomain(lead.getEmail());
 
-					System.out.println("ssssssssss"+isProf);
+					// System.out.println("ssssssssss"+isProf);
 					// we check service and check  service in required true or false
 					if(isProf) {
 						//	then we can assign Only 4* and 5*						
@@ -517,16 +527,16 @@ public class LeadCrone {
 						lead.setAssignee(userMerged.get(0));
 
 					}else { 
-						System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
+						// System.out.println("cccccccccccccccccccccccccccccccccccccccccccccc");
 						Long productId=urlsManagment.getId();
 						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-						List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
+						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
 						List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
 						lead.setAssignee(getAllStarUser.get(0));
 
 					}
 				}else {
-					System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					// System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					//========
 					if(lead.getIsUrlsChecked()) {
 						if(urlsMap.get(lead.getLeadName())) {// hume ek key lekr chalna hoga
@@ -602,18 +612,24 @@ public class LeadCrone {
 			String rating=r.getRating();
 			for(User u:userList) {
 				if("2".equals(rating)) {
-					Integer c2=countManage.get(u)+10;
+					Integer count = countManage.get(u)!=null?countManage.get(u):0;
+					Integer c2=count+10;
 					countManage.put(u, c2);
 				}else if("3".equals(rating)) {
-					Integer c2=countManage.get(u)+20;
+					Integer count = countManage.get(u)!=null?countManage.get(u):0;
+					Integer c2=count+20;
 					countManage.put(u, c2);
 					resUser.add(u);  
 				}else if("4".equals(rating)) {
-					Integer c2=countManage.get(u)+30;
+					Integer count = countManage.get(u)!=null?countManage.get(u):0;
+					Integer c2=count+30;
 					countManage.put(u, c2);
 					resUser.add(u);
 				}else if("5".equals(rating)) {
-					Integer c2=countManage.get(u)+40;
+					// System.out.println(countManage+"........... count manage");
+					// System.out.println(u+"........... count manage by u");
+					Integer count = countManage.get(u)!=null?countManage.get(u):0;
+					Integer c2=count+40;
 					countManage.put(u, c2);
 					resUser.add(u);
 				}else {
@@ -644,7 +660,7 @@ public class LeadCrone {
 
 		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
 		Map<String,List<Lead>>map = new HashMap<>();
-		System.out.println("testing . . .");
+		 System.out.println("AAAAAAAAA");
 		// ServiceName , LeadList
 		for(Lead lead:allLeadList ) {
 			if(map.containsKey(lead.getOriginalName())) {
@@ -673,22 +689,29 @@ public class LeadCrone {
 					temp.put(assignee, 1);			
 				}
 			}
+			mapCount.put(entry.getKey(), temp);
 
 		}
+		// System.out.println("service and user map :::"+mapCount);
 		//========================================start = 
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
         int qi=0;//initial statge og quality user
         int ql=qualityUser.size();
-        System.out.println(ql+"................");
+        // System.out.println(ql+"................");
 		for(Lead lead:cronelead) {
+			 System.out.println("==================================================================");
+
+			 System.out.println("BBBBBBBB1 lead id.."+lead.getId());
 
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-			System.out.println("ORIGINAL NAME :::"+lead.getOriginalName());
+			// System.out.println("ORIGINAL NAME :::"+lead.getOriginalName());
 			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+				 System.out.println("Extra Large");
+
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
@@ -697,8 +720,11 @@ public class LeadCrone {
 					lead.setAssignee(assignee);
 				}
 			}else {
-				System.out.println(lead.getIsUrlsChecked()+".....testing .. .. ."+lead.getId());
+				// System.out.println(lead.getIsUrlsChecked()+".....testing .. .. ."+lead.getId());
+				 System.out.println("CCCCCCC lead id.."+lead.getId()+"  ... IS CHECKED... "+lead.getIsUrlsChecked());				 
 				if(lead!=null & lead.getIsUrlsChecked()) {
+					 System.out.println("ddddddddd lead id.."+lead.getId()+"  ... IS url... "+urlsManagment.isQuality()+"Url name "+urlsManagment.getUrlsName());
+
 					if(!urlsManagment.isQuality()) {
 
 							Boolean isProf =false;
@@ -710,8 +736,11 @@ public class LeadCrone {
 								Long productId=urlsManagment.getId();
 								String rating4="4";
 								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 4 *"+user4Rating);				 
+
 								String rating5="5";
 								List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 5 *"+user5Rating);				 
 								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
 								ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
 								lead.setAssignee(userMerged.get(0));
@@ -719,11 +748,18 @@ public class LeadCrone {
 							}else { 
 								Long productId=urlsManagment.getId();
 								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-								List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
-								List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
-								lead.setAssignee(getAllStarUser.get(0));
+								List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE  22"+ratingList);				 
+
+								if(ratingList!=null&&ratingList.size()>0) {
+									List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
+									lead.setAssignee(getAllStarUser.get(0));
+								}
+								
 							}
 					}else {
+						 System.out.println("dddddddddddddddddddd  l01");				 
+
 						if(ql>0) {
 							lead.setAssignee(qualityUser.get(qi));
 							qi++;
@@ -742,15 +778,19 @@ public class LeadCrone {
 						Long productId=urlsManagment.getId();
 						String rating4="4";
 						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+						 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 4 *"+urlsManagment.getUrlsName());				 
+
 						String rating5="5";
+						
 						List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+						 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 5 *"+user5Rating);				 
 						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
 						ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
 						lead.setAssignee(userMerged.get(0));
 					}else { 
 						Long productId=urlsManagment.getId();
 						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-						List<Ratings> ratingList = ratingRepository.findAllByProdctId(productId);
+						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
 						List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
 						lead.setAssignee(getAllStarUser.get(0));
 					}
