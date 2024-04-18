@@ -2,6 +2,8 @@ package com.lead.dashboard.dto;
 
 import java.util.List;
 
+import lombok.Data;
+@Data
 public class RatingDto {
 	
 	String rating;

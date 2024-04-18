@@ -41,4 +41,22 @@ public class RatingServiceImpl implements RatingService{
 		return r;
 	}
 
+	
+
+
+	@Override
+	public List<Ratings> getAllUserRating() {
+		List<Ratings>ratingList=ratingRepository.findAll();
+		return ratingList;
+	}
+
+
+
+
+	@Override
+	public List<Ratings> getAllRatingByServiceId(Long serviceId) {
+		List<Ratings>ratingList=ratingRepository.findAllByUrlsManagmentId(serviceId);
+		return ratingList;
+	}
+
 }

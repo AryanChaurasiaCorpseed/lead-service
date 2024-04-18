@@ -118,6 +118,8 @@ public class UrlsMapping {
 
 //  Rating Controller
 	public static final String ADD_USER_RATING=PREFIX+"/rating/addUserRating";
+	public static final String GET_ALL_USER_RATING=PREFIX+"/rating/getAllUserRating";
+	public static final String GET_ALL_RATING_BY_SERVICE_ID=PREFIX+"/rating/getAllRatingByServiceId";
 
 
 
