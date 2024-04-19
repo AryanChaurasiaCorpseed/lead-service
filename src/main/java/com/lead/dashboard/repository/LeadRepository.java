@@ -96,6 +96,6 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id =:statusId and el.auto =:auto", nativeQuery = true)
 	List<Lead> findAllByStatusIdAndAuto(long statusId, boolean auto);
 	
-	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId) and el.original_name in(:originalName)", nativeQuery = true)
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId) and el.original_name in(:originalName) and el.auto=true", nativeQuery = true)
 	List<Lead> findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(List<Long> statusIds,List<Long>userId,List<String>originalName,boolean b); 
 }
