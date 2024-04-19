@@ -1,5 +1,6 @@
 package com.lead.dashboard.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.domain.product.Product;
@@ -35,6 +36,7 @@ public class User implements Serializable{
 	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="user_role_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+    @JsonIgnore
     private List<Role>userRole;
 	@NonNull
 	private List<String> role;	
@@ -46,6 +48,7 @@ public class User implements Serializable{
 	String aadharCard;
 	String employeeId;	
 	@ManyToOne
+	@JsonIgnore
 	User managers;
 	int expInMonth;
 	int expInYear;
@@ -78,6 +81,7 @@ public class User implements Serializable{
 	@JoinTable(name="user_product",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="user_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
 	List<Product>userProduct;
 	
 	//===== auto matic ===

@@ -324,8 +324,6 @@ public class LeadCrone {
 	public  ArrayList<User>mergeStarUser(List<User>user4,List<User>user5,Map<User,Integer>countMap){
 		int i=0;
 		int j=0;
-	     	System.out.println("user 4 master "+user4);
-	     	System.out.println("user 5 master "+user5);
 
 		ArrayList<User>result =new ArrayList<>();
 		int l1=user4!=null?user4.size():0;
@@ -334,27 +332,36 @@ public class LeadCrone {
 			User u4=user4.get(i);
 			User u5=user5.get(j);
 
-			int c4=countMap!=null?countMap.get(u4)!=null?countMap.get(u4)+10:10:10;
-			int c5=countMap!=null?countMap.get(u5)!=null?countMap.get(u5):0:0;
+			int c4=countMap!=null?countMap.get(u4)!=null?countMap.get(u4):0:0;
+			int c5=countMap!=null?countMap.get(u5)!=null?countMap.get(u5)+10:10:10;
 
 			if(c4>c5) {
 				result.add(u5);
+				int cInt = countMap!=null?countMap.get(u5)!=null?countMap.get(u5):0:0;
+				//				countMap.put(u5, cInt+1);
 				j++;
 			}else {
 				result.add(u4);
+				int cInt=countMap!=null?countMap.get(u4)!=null?countMap.get(u4):0:0;
+				//				countMap.put(u4, cInt+1);
 				i++;
 			}
 		}
+
 		if(i==l1 &&j<l2) {
-			while(j<l2-1) {
+			while(j<l2) {
 				User u5=user5.get(j);
+				int c5=countMap!=null?countMap.get(u5)!=null?countMap.get(u5):0:0;
+				//				countMap.put(u5, c5+1);
 				result.add(u5);
 				j++;
 			}
 		}
-		if(j==l2-1 &&i<l1-1) {
-			while(i<l1-1) {
+		if(j==l2 &&i<l1) {
+			while(i<l1) {
 				User u4=user4.get(i);
+				int c4=countMap!=null?countMap.get(u4)!=null?countMap.get(u4):0:0;
+				//				countMap.put(u4, c4+1);
 				result.add(u4);
 				i++;
 			}
@@ -362,7 +369,9 @@ public class LeadCrone {
 		System.out.println("=========start=============");
 
 		for(User u:result) {
-			System.out.println(u.getId());
+			int c=countMap!=null?countMap.get(u)!=null?countMap.get(u)+10:10:10;
+
+			System.out.println(u.getId()+"...count..."+c);
 		}
 		System.out.println("==========end============");
 
@@ -513,9 +522,6 @@ public class LeadCrone {
 					if(isProf) {
 						//	then we can assign Only 4* and 5*						
 
-						//						 List<String>ratingList= new ArrayList<>();
-						//						 ratingList.add("4");
-						//						 ratingList.add("5");
 						Long productId=urlsManagment.getId();
 						String rating4="4";
 						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
@@ -660,7 +666,6 @@ public class LeadCrone {
 
 		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
 		Map<String,List<Lead>>map = new HashMap<>();
-		 System.out.println("AAAAAAAAA");
 		// ServiceName , LeadList
 		for(Lead lead:allLeadList ) {
 			if(map.containsKey(lead.getOriginalName())) {
@@ -675,6 +680,8 @@ public class LeadCrone {
 		}
 
 		//they return the count value on the basis of service
+		System.out.println(map.size());
+		int cout=0;
 		Map<String,Map<User,Integer>>mapCount=new HashMap<>();
 		for(Map.Entry<String,List<Lead>> entry:map.entrySet()) {
 			Map<User,Integer>temp = new HashMap<>();
@@ -684,33 +691,32 @@ public class LeadCrone {
 				if(temp.containsKey(assignee)) {
 					Integer count=temp.get(assignee);
 					count=count+1;
+					System.out.println(count);
 					temp.put(assignee, count);
 				}else {
+					System.out.println(1);
+
 					temp.put(assignee, 1);			
 				}
 			}
 			mapCount.put(entry.getKey(), temp);
 
 		}
-		// System.out.println("service and user map :::"+mapCount);
+		System.out.println("service and user map :::"+mapCount);
 		//========================================start = 
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
-        int qi=0;//initial statge og quality user
-        int ql=qualityUser.size();
-        // System.out.println(ql+"................");
+		int qi=0;//initial statge og quality user
+		int ql=qualityUser.size();
+		// System.out.println(ql+"................");
 		for(Lead lead:cronelead) {
-			 System.out.println("==================================================================");
-
-			 System.out.println("BBBBBBBB1 lead id.."+lead.getId());
-
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
 			// System.out.println("ORIGINAL NAME :::"+lead.getOriginalName());
 			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 			if(existingLead!=null && existingLead.size()>1) {
 				User assignee=getAssignee(existingLead);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
-				 System.out.println("Extra Large");
+				System.out.println("Extra Large");
 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
@@ -721,44 +727,46 @@ public class LeadCrone {
 				}
 			}else {
 				// System.out.println(lead.getIsUrlsChecked()+".....testing .. .. ."+lead.getId());
-				 System.out.println("CCCCCCC lead id.."+lead.getId()+"  ... IS CHECKED... "+lead.getIsUrlsChecked());				 
 				if(lead!=null & lead.getIsUrlsChecked()) {
-					 System.out.println("ddddddddd lead id.."+lead.getId()+"  ... IS url... "+urlsManagment.isQuality()+"Url name "+urlsManagment.getUrlsName());
 
 					if(!urlsManagment.isQuality()) {
 
-							Boolean isProf =false;
-							if(lead.getEmail()!=null) {
-								isProf= checkEmailDomain(lead.getEmail());
+						Boolean isProf =false;
+						if(lead.getEmail()!=null) {
+							isProf= checkEmailDomain(lead.getEmail());
+						}
+						// we check service and check  service in required true or false
+						if(isProf) {
+							Long productId=urlsManagment.getId();
+							String rating4="4";
+							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+
+							String rating5="5";
+							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+							Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+							ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
+							lead.setAssignee(userMerged.get(0));
+							int cInt = userCounts!=null?userCounts.get(userMerged.get(0))!=null?userCounts.get(userMerged.get(0)):0:0;
+							userCounts.put(userMerged.get(0), cInt+1);
+
+						}else { 
+							Long productId=urlsManagment.getId();
+							Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
+							for(Map.Entry<User, Integer> entry:userCounts.entrySet()) {
+								System.out.println(entry.getKey().getEmail()+" . . . . dATA . . ."+entry.getValue());
 							}
-							// we check service and check  service in required true or false
-							if(isProf) {
-								Long productId=urlsManagment.getId();
-								String rating4="4";
-								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
-								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 4 *"+user4Rating);				 
 
-								String rating5="5";
-								List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
-								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 5 *"+user5Rating);				 
-								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-								ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
-								lead.setAssignee(userMerged.get(0));
+							List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
 
-							}else { 
-								Long productId=urlsManagment.getId();
-								Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
-								List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
-								 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE  22"+ratingList);				 
-
-								if(ratingList!=null&&ratingList.size()>0) {
-									List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
-									lead.setAssignee(getAllStarUser.get(0));
-								}
-								
+							if(ratingList!=null&&ratingList.size()>0) {
+								List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
+								lead.setAssignee(getAllStarUser.get(0));
+								int cInt = userCounts!=null?userCounts.get(getAllStarUser.get(0))!=null?userCounts.get(getAllStarUser.get(0)):0:0;
+								userCounts.put(getAllStarUser.get(0), cInt+1);
 							}
+
+						}
 					}else {
-						 System.out.println("dddddddddddddddddddd  l01");				 
 
 						if(ql>0) {
 							lead.setAssignee(qualityUser.get(qi));
@@ -778,21 +786,23 @@ public class LeadCrone {
 						Long productId=urlsManagment.getId();
 						String rating4="4";
 						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
-						 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 4 *"+urlsManagment.getUrlsName());				 
 
 						String rating5="5";
-						
+
 						List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
-						 System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE Rating 5 *"+user5Rating);				 
 						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
 						ArrayList<User> userMerged = mergeStarUser(user4Rating,user5Rating,userCounts);
 						lead.setAssignee(userMerged.get(0));
+						int cInt = userCounts!=null?userCounts.get(userMerged.get(0))!=null?userCounts.get(userMerged.get(0)):0:0;
+						userCounts.put(userMerged.get(0), cInt+1);
 					}else { 
 						Long productId=urlsManagment.getId();
 						Map<User, Integer> userCounts = mapCount.get(lead.getOriginalName());
 						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
 						List<User> getAllStarUser = mergeAllUser1to5Star(ratingList, userCounts);
 						lead.setAssignee(getAllStarUser.get(0));
+						int cInt = userCounts!=null?userCounts.get(getAllStarUser.get(0))!=null?userCounts.get(getAllStarUser.get(0)):0:0;
+						userCounts.put(getAllStarUser.get(0), cInt+1);
 					}
 				}
 			}
@@ -801,6 +811,314 @@ public class LeadCrone {
 
 
 		}
+	}
+
+	public void assignLeadByCroneV6() {
+		List<Long>croneStatus= new ArrayList<>();
+		croneStatus.add(1l);
+		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeleted(croneStatus, false);
+		List<String>originalName=cronelead.stream().map(i->i.getOriginalName()).collect(Collectors.toList());
+		List<Long> assigneeIdList = cronelead.stream().filter(i->i.getAssignee()!=null).map(i->i.getAssignee().getId()).collect(Collectors.toList());
+
+		List<Lead> allLeadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(croneStatus, assigneeIdList,originalName, false);
+		Map<String,List<Lead>>map = new HashMap<>();
+		// ServiceName , LeadList
+		for(Lead lead:allLeadList ) {
+			if(map.containsKey(lead.getOriginalName())) {
+				List<Lead> d = map.get(lead.getOriginalName());
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}else {
+				List<Lead> d = new ArrayList<>();
+				d.add(lead);
+				map.put(lead.getOriginalName(), d);
+			}
+		}
+
+		//they return the count value on the basis of service
+		int cout=0;
+		Map<String,Map<Long,Integer>>mapCount=new HashMap<>();
+		for(Map.Entry<String,List<Lead>> entry:map.entrySet()) {
+			Map<Long,Integer>temp = new HashMap<>();
+			List<Lead> singleList = entry.getValue();
+			for(Lead lead : singleList) {
+				User assignee = lead.getAssignee();
+				if(temp.containsKey(assignee.getId())) {
+					Integer count=temp.get(assignee.getId());
+					count=count+1;
+					temp.put(assignee.getId(), count);
+				}else {
+					System.out.println(1);
+
+					temp.put(assignee.getId(), 1);			
+				}
+			}
+			mapCount.put(entry.getKey(), temp);
+
+		}
+		System.out.println("service and user map :::"+mapCount);
+		//========================================start = 
+		List<User>userList = userRepo.findAllActiveUser();
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		int qi=0;//initial statge og quality user
+		int ql=qualityUser.size();
+		// System.out.println(ql+"................");
+		for(Lead lead:cronelead) {
+			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			// System.out.println("ORIGINAL NAME :::"+lead.getOriginalName());
+			UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
+			if(existingLead!=null && existingLead.size()>1) {
+				User assignee=getAssignee(existingLead);
+				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+				System.out.println("Extra Large");
+
+				if(assignee!=null &&assignee.isDeleted()) {
+					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
+					lead.setAssignee(user);
+
+				}else {
+					lead.setAssignee(assignee);
+				}
+			}else {
+				// System.out.println(lead.getIsUrlsChecked()+".....testing .. .. ."+lead.getId());
+				if(lead!=null & lead.getIsUrlsChecked()) {
+
+					if(urlsManagment!=null &&(!urlsManagment.isQuality())) {
+
+						Boolean isProf =false;
+						if(lead.getEmail()!=null) {
+							isProf= checkEmailDomain(lead.getEmail());
+						}
+						// we check service and check  service in required true or false
+						if(isProf) {
+							Long productId=urlsManagment.getId();
+							String rating4="4";
+							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+
+							String rating5="5";
+							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+							Map<Long, Integer> userCounts = mapCount.get(lead.getOriginalName());
+							ArrayList<User> userMerged = mergeStarUserV2(user4Rating,user5Rating,userCounts);
+							lead.setAssignee(userMerged.get(0));
+							int cInt = userCounts!=null?userCounts.get(userMerged.get(0).getId())!=null?userCounts.get(userMerged.get(0).getId()):0:0;
+							System.out.println(cInt);
+							if(userCounts!=null) {
+								userCounts.put(userMerged.get(0).getId(), cInt+1);
+							}
+							mapCount.put(lead.getOriginalName(), userCounts);
+
+
+						}else { 
+							Long productId=urlsManagment.getId();
+							Map<Long, Integer> userCounts = mapCount.get(lead.getOriginalName());
+
+
+							List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+                             
+							if(ratingList!=null&&ratingList.size()>0) {
+								System.out.println("User Counts"+userCounts);
+								List<User> getAllStarUser = mergeAllUser1to5StarV2(ratingList, userCounts);
+								lead.setAssignee(getAllStarUser.get(0));
+								if(userCounts!=null) {
+									Integer cInt = userCounts!=null?userCounts.get(getAllStarUser.get(0).getId())!=null?userCounts.get(getAllStarUser.get(0).getId()):0:0;
+									userCounts.put(getAllStarUser.get(0).getId(), cInt);
+								}
+							}
+
+						}
+					}else {
+
+						if(ql>0) {
+							lead.setAssignee(qualityUser.get(qi));
+							qi++;
+							if(qi==ql) {
+								qi=0;
+							}	
+						}
+					}
+				}else{
+					Boolean isProf =false;
+					if(lead.getEmail()!=null) {
+						isProf= checkEmailDomain(lead.getEmail());
+					}
+					// we check service and check  service in required true or false
+					if(isProf) {
+						Long productId=urlsManagment.getId();
+						String rating4="4";
+						List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+
+						String rating5="5";
+						List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+						Map<Long, Integer> userCounts = mapCount.get(lead.getOriginalName());
+						ArrayList<User> userMerged = mergeStarUserV2(user4Rating,user5Rating,userCounts);
+						lead.setAssignee(userMerged.get(0));
+						int cInt = userCounts!=null?userCounts.get(userMerged.get(0).getId())!=null?userCounts.get(userMerged.get(0).getId()):0:0;
+						System.out.println(cInt);
+						if(userCounts!=null) {
+							userCounts.put(userMerged.get(0).getId(), cInt+1);
+						}
+						mapCount.put(lead.getOriginalName(), userCounts);
+					}else { 
+//						Long productId=urlsManagment.getId();
+//						Map<Long, Integer>   = mapCount.get(lead.getOriginalName());
+//						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+//						List<User> getAllStarUser = mergeAllUser1to5StarV2(ratingList, userCounts);
+//						lead.setAssignee(getAllStarUser.get(0));
+//						if(userCounts!=null) {
+//							int cInt = userCounts!=null?userCounts.get(getAllStarUser.get(0).getId())!=null?userCounts.get(getAllStarUser.get(0).getId()):0:0;
+//							userCounts.put(getAllStarUser.get(0).getId(), cInt+1);
+//						}
+						
+						Long productId=urlsManagment.getId();
+						Map<Long, Integer> userCounts = mapCount.get(lead.getOriginalName());
+
+
+						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+                         
+						if(ratingList!=null&&ratingList.size()>0) {
+							System.out.println("User Counts====="+userCounts);
+							List<User> getAllStarUser = mergeAllUser1to5StarV2(ratingList, userCounts);
+							lead.setAssignee(getAllStarUser.get(0));
+							if(userCounts!=null) {
+								Integer cInt = userCounts!=null?userCounts.get(getAllStarUser.get(0).getId())!=null?userCounts.get(getAllStarUser.get(0).getId()):0:0;
+								userCounts.put(getAllStarUser.get(0).getId(), cInt);
+							}
+						}
+
+					}
+				}
+			}
+//			lead.setAuto(false);
+			leadRepository.save(lead);
+
+
+
+		}
+	}
+
+	public  ArrayList<User>mergeStarUserV2(List<User>user4,List<User>user5,Map<Long,Integer>countMap){
+		int i=0;
+		int j=0;
+
+		ArrayList<User>result =new ArrayList<>();
+		int l1=user4!=null?user4.size():0;
+		int l2=user5!=null?user5.size():0;
+		while(i<l1 &&j<l2) {
+			User u4=user4.get(i);
+			User u5=user5.get(j);
+
+			int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId()):10:10;
+			int c5=countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
+
+			if(c4>c5) {
+				result.add(u5);
+				int cInt = countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
+				//				countMap.put(u5, cInt+1);
+				j++;
+			}else {
+				result.add(u4);
+				int cInt=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId()):0:0;
+				//				countMap.put(u4, cInt+1);
+				i++;
+			}
+		}
+
+		if(i==l1 &&j<l2) {
+			while(j<l2) {
+				User u5=user5.get(j);
+				int c5=countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
+				//				countMap.put(u5, c5+1);
+				result.add(u5);
+				j++;
+			}
+		}
+		if(j==l2 &&i<l1) {
+			while(i<l1) {
+				User u4=user4.get(i);
+				int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId()):0:0;
+				//				countMap.put(u4, c4+1);
+				result.add(u4);
+				i++;
+			}
+		}
+		System.out.println("=========start=============");
+
+		for(User u:result) {
+			int c=countMap!=null?countMap.get(u.getId())!=null?countMap.get(u.getId()):0:0;
+
+			System.out.println(u.getId()+"...count..."+c);
+		}
+		System.out.println("==========end============");
+
+		return result;
+	}
+
+
+	public List<User> mergeAllUser1to5StarV2(List<Ratings>ratings,Map<Long,Integer>countMap) {
+		Map<Long,Integer>countManage=countMap;
+		List<User>resUser = new ArrayList<>();
+		for(Ratings r:ratings) {
+			//			Integer c2=countManage.get(u)+10;
+			List<User> userList = r.getRatingsUser();
+			String rating=r.getRating();
+			for(User u:userList) {
+				if("2".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+10;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+				}else if("3".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+20;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+				}else if("4".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+30;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else if("5".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+40;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					if(countManage!=null) {
+						countManage.put(u.getId(), count);
+					}
+					resUser.add(u);
+				}
+
+			}
+		}
+
+
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=0;
+			if(countManage!=null && a.getId()!=null) {
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+			}
+			Integer c2=0;
+			if(countManage!=null && a.getId()!=null) {
+				c2=countManage.get(b.getId())!=null?countManage.get(a.getId()):0;
+			}
+			return c1.compareTo(c2);
+		});
+		for(User ru:resUser) {
+			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
+
+			System.out.println(ru+"....count "+count);
+		}
+
+		return resUser;	
 	}
 
 
