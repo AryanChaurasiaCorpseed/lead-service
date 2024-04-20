@@ -1172,7 +1172,7 @@ public class LeadCrone {
 							List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);                            
 							if(ratingList!=null&&ratingList.size()>0) {
 								System.out.println("User Counts..."+userCounts);
-								List<User> getAllStarUser = mergeAllUser1to5StarV2(ratingList, userCounts);
+								List<User> getAllStarUser = mergeAllUser1to5StarV3(ratingList, userCounts);
 								lead.setAssignee(getAllStarUser.get(0));
 								
 							}
@@ -1213,7 +1213,7 @@ public class LeadCrone {
 						List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
                          
 						if(ratingList!=null&&ratingList.size()>0) {
-							List<User> getAllStarUser = mergeAllUser1to5StarV2(ratingList, userCounts);
+							List<User> getAllStarUser = mergeAllUser1to5StarV3(ratingList, userCounts);
 							lead.setAssignee(getAllStarUser.get(0));
 						}
 
@@ -1291,6 +1291,86 @@ public class LeadCrone {
 
 		return result;
 	}
+	
+	public List<User> mergeAllUser1to5StarV3(List<Ratings>ratings,Map<Long,Integer>countMap) {
+		Map<Long,Integer>countManage=countMap;
+		List<User>resUser = new ArrayList<>();
+		for(Ratings r:ratings) {
+			//			Integer c2=countManage.get(u)+10;
+			List<User> userList = r.getRatingsUser();
+			String rating=r.getRating();
+			for(User u:userList) {
+				if("2".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+30;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+				}else if("3".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+20;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+				}else if("4".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+10;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else if("5".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					if(countManage!=null) {
+						countManage.put(u.getId(), count);
+					}
+					resUser.add(u);
+				}
+
+			}
+		}
+        System.out.println(resUser.size()+". .. size");
+
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=0;
+			if(countManage!=null && a.getId()!=null) {
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+			}
+			Integer c2=0;
+			if(countManage!=null && a.getId()!=null) {
+				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
+			}
+			System.out.println(c1>c2);
+			System.out.println(c1<c2);
+			System.out.println(c1);
+			System.out.println(c2);
+
+			if(c1>c2) {
+				return 1;
+			}else if(c2>c1) {
+				return -1;
+			}else {
+				return 0;
+			}
+		});
+		System.out.println("=======================A=============================="+countManage);
+		for(User ru:resUser) {
+			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
+		   System.out.println(ru.getFullName()+"... testing ...."+count);
+		}
+		System.out.println("=======================B===============================");
+
+		return resUser;	
+	}
+	
 
 
 
