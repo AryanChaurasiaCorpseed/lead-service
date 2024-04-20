@@ -80,6 +80,10 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b", nativeQuery = true)
 	List<Lead> findAllByStatusIdInAndIsDeleted(List<Long> statusIds,boolean b); 
 	
+	//====Auto
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.auto=:auto", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndIsDeletedAndAuto(List<Long> statusIds,boolean b,boolean auto); 
+	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
 	List<Lead> findAllByStatusIdInAndAssigneeIdInAndIsDeleted(List<Long> statusIds,List<Long>userId,boolean b); 
     
@@ -97,5 +101,7 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	List<Lead> findAllByStatusIdAndAuto(long statusId, boolean auto);
 	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId) and el.original_name in(:originalName) and el.auto=true", nativeQuery = true)
-	List<Lead> findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(List<Long> statusIds,List<Long>userId,List<String>originalName,boolean b); 
+	List<Lead> findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(List<Long> statusIds,List<Long>userId,List<String>originalName,boolean b);
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and el.original_name in(:originalName)", nativeQuery = true)
+	List<Lead> findAllByStatusIdInAndOriginalName(List<Long>statusIds,String originalName); 
 }
