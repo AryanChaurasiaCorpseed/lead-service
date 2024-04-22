@@ -88,6 +88,10 @@ public class User implements Serializable{
 	String feedback;//feedback,means how many star (1,2,3,4,5)
 	boolean isMaster;
 	
+    int lockerSize;
+    boolean isBackupTeam;
+    
+	
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 //			inverseJoinColumns = {@JoinColumn(name="user_ratings_id"
@@ -420,6 +424,22 @@ public class User implements Serializable{
 
 	public void setMaster(boolean isMaster) {
 		this.isMaster = isMaster;
+	}
+
+	public int getLockerSize() {
+		return lockerSize;
+	}
+
+	public void setLockerSize(int lockerSize) {
+		this.lockerSize = lockerSize;
+	}
+
+	public boolean isBackupTeam() {
+		return isBackupTeam;
+	}
+
+	public void setBackupTeam(boolean isBackupTeam) {
+		this.isBackupTeam = isBackupTeam;
 	}
 
 //	public List<Ratings> getUserRatings() {
