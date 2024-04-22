@@ -19,7 +19,10 @@ public interface RatingRepository extends JpaRepository<Ratings, Long>{
 	
 	@Query(value = "SELECT * FROM ratings r WHERE urls_managment_id =:productId", nativeQuery = true)
 	List<Ratings> findAllByProductId(Long productId);
-	@Query(value = "SELECT * FROM ratings r WHERE urls_managment_id =:serviceId", nativeQuery = true)
+	@Query(value = "SELECT * FROM ratings r WHERE r.urls_managment_id =:serviceId", nativeQuery = true)
 	List<Ratings> findAllByUrlsManagmentId(Long serviceId);
+	
+	@Query(value = "SELECT * FROM ratings r WHERE r.id =:ratingId and r.urls_managment_id =:serviceId", nativeQuery = true)
+	Ratings findAllByIdUrlsManagmentId(Long ratingId, Long serviceId);
        
 }

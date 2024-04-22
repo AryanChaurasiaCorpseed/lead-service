@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.lead.dashboard.domain.Ratings;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.RatingDto;
+import com.lead.dashboard.dto.UpdateRatingDto;
 import com.lead.dashboard.repository.RatingRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
@@ -57,6 +59,39 @@ public class RatingServiceImpl implements RatingService{
 	public List<Ratings> getAllRatingByServiceId(Long serviceId) {
 		List<Ratings>ratingList=ratingRepository.findAllByUrlsManagmentId(serviceId);
 		return ratingList;
+	}
+
+
+
+
+	@Override
+	public Ratings addUserInRatingService(Long ratingId, Long serviceId, Long userId) {
+		Ratings rating=ratingRepository.findAllByIdUrlsManagmentId(ratingId,serviceId);
+		User user = userRepo.findById(userId).get();
+		 List<User> ratingList = rating.getRatingsUser();
+		 ratingList.add(user);
+		 rating.setRatingsUser(ratingList);
+		 ratingRepository.save(rating);
+		return rating;
+	}
+
+
+
+
+	@Override
+	public Ratings updateUserRatingService(UpdateRatingDto updateRatingDto) {
+		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
+		if(opRating!=null && opRating.get()!=null) {
+			Ratings rating = opRating.get();
+			rating.setRating(updateRatingDto.getName());
+			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
+			rating.setUrlsManagment(urls.get());
+			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getUserId());
+			rating.setRatingsUser(userList);
+			ratingRepository.save(rating);
+			return rating;
+		}
+		return null;
 	}
 
 }

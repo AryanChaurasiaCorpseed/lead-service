@@ -1337,8 +1337,6 @@ public class LeadCrone {
 
 			}
 		}
-        System.out.println(resUser.size()+". .. size");
-
 		Collections.sort(resUser, (a, b) -> {
 			Integer c1=0;
 			if(countManage!=null && a.getId()!=null) {
@@ -1348,11 +1346,6 @@ public class LeadCrone {
 			if(countManage!=null && a.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 			}
-			System.out.println(c1>c2);
-			System.out.println(c1<c2);
-			System.out.println(c1);
-			System.out.println(c2);
-
 			if(c1>c2) {
 				return 1;
 			}else if(c2>c1) {
@@ -1361,12 +1354,12 @@ public class LeadCrone {
 				return 0;
 			}
 		});
-		System.out.println("=======================A=============================="+countManage);
-		for(User ru:resUser) {
-			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
-		   System.out.println(ru.getFullName()+"... testing ...."+count);
-		}
-		System.out.println("=======================B===============================");
+//		System.out.println("=======================A=============================="+countManage);
+//		for(User ru:resUser) {
+//			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
+//		   System.out.println(ru.getFullName()+"... testing ...."+count);
+//		}
+//		System.out.println("=======================B===============================");
 
 		return resUser;	
 	}

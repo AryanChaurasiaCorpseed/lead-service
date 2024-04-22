@@ -34,4 +34,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 	List<User> findAllActiveUser();
 	@Query(value = "SELECT * FROM user u WHERE u.is_deleted =:isDeleted and u.is_master=:isMaster LIMIT 1", nativeQuery = true)
 	User findAllByIsDeletedAndIsMaster(boolean isDeleted,boolean isMaster);
+	
+	@Query(value = "SELECT * FROM user u WHERE u.id in(:userIds) and is_deleted=:false", nativeQuery = true)
+	List<User> findUAllByUserIdIn(List<Long> userIds);
 }

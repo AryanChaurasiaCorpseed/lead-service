@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Ratings;
 import com.lead.dashboard.dto.RatingDto;
+import com.lead.dashboard.dto.UpdateRatingDto;
 import com.lead.dashboard.service.RatingService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -20,8 +22,8 @@ public class RatingController {
 	@Autowired
 	RatingService ratingService;
 	
-	@PostMapping(UrlsMapping.ADD_USER_RATING)
-	public Ratings addUserRating(@RequestBody RatingDto ratingDto)
+	@PostMapping(UrlsMapping.ADD_USER_AND_RATING)
+	public Ratings addUserAndRating(@RequestBody RatingDto ratingDto)
 	{
 		Ratings rating=ratingService.addUserRating(ratingDto);
 		
@@ -44,4 +46,21 @@ public class RatingController {
 		return rating;		 
 
 	}
+	@PutMapping(UrlsMapping.ADD_USER_IN_RATING_SERVICE)
+	public Ratings addUserInRatingService(@RequestParam Long ratingId,@RequestParam Long serviceId,@RequestParam Long  userId)
+	{
+		Ratings rating=ratingService.addUserInRatingService(ratingId,serviceId,userId);		
+		return rating;		 
+
+	}
+	
+	
+	@PutMapping(UrlsMapping.UPDATE_USER_RATING_SERVICE)
+	public Ratings updateUserRatingService(@RequestBody UpdateRatingDto updateRatingDto)
+	{
+		Ratings rating=ratingService.updateUserRatingService(updateRatingDto);		
+		return rating;		 
+
+	}
+	
 }

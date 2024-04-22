@@ -117,9 +117,11 @@ public class UrlsMapping {
 	public static final String APPROVED_USER_BY_HR=PREFIX+"/hrManagment/approvedUserByHr";
 
 //  Rating Controller
-	public static final String ADD_USER_RATING=PREFIX+"/rating/addUserRating";
+	public static final String ADD_USER_AND_RATING=PREFIX+"/rating/addUserAndRating";
 	public static final String GET_ALL_USER_RATING=PREFIX+"/rating/getAllUserRating";
 	public static final String GET_ALL_RATING_BY_SERVICE_ID=PREFIX+"/rating/getAllRatingByServiceId";
+	public static final String ADD_USER_IN_RATING_SERVICE=PREFIX+"/rating/addUserInRatingsService";
+	public static final String UPDATE_USER_RATING_SERVICE=PREFIX+"/rating/updateUserRatingService";
 
 
 
