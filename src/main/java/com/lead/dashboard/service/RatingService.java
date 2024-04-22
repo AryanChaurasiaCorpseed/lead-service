@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Ratings;
 import com.lead.dashboard.dto.RatingDto;
+import com.lead.dashboard.dto.UpdateRatingDto;
 
 @Service
 public interface RatingService {
@@ -15,5 +16,9 @@ public interface RatingService {
 	List<Ratings> getAllUserRating();
 
 	List<Ratings> getAllRatingByServiceId(Long serviceId);
+
+	Ratings addUserInRatingService(Long ratingId, Long serviceId, Long userId);
+
+	Ratings updateUserRatingService(UpdateRatingDto updateRatingDto);
 
 }
