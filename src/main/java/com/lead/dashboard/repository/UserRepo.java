@@ -38,6 +38,6 @@ public interface UserRepo extends JpaRepository<User,Long>
 	@Query(value = "SELECT * FROM user u WHERE u.id in(:userIds) and is_deleted=:false", nativeQuery = true)
 	List<User> findUAllByUserIdIn(List<Long> userIds);
 
-	@Query(value = "SELECT * FROM user u WHERE u.is_backup_team=:b and is_deleted=:false", nativeQuery = true)
+	@Query(value = "SELECT * FROM user u WHERE u.is_backup_team=:b and u.is_deleted=false limit 1", nativeQuery = true)
 	User findByIsBackupTeam(boolean b);
 }

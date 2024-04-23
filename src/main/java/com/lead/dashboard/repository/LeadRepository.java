@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -103,5 +105,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId) and el.original_name in(:originalName) and el.auto=true", nativeQuery = true)
 	List<Lead> findAllByStatusIdInAndAssigneeIdInAndOriginalNameInAndIsDeleted(List<Long> statusIds,List<Long>userId,List<String>originalName,boolean b);
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and el.original_name in(:originalName)", nativeQuery = true)
-	List<Lead> findAllByStatusIdInAndOriginalName(List<Long>statusIds,String originalName); 
+	List<Lead> findAllByStatusIdInAndOriginalName(List<Long>statusIds,String originalName);
+	
+	@Query(value = "SELECT count(id) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and assignee_id =:assigneeId", nativeQuery = true)
+	int findCountByAssigneeId(Long assigneeId, List<Long> statusIds); 
 }
