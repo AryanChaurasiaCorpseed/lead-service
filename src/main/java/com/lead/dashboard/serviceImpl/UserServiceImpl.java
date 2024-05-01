@@ -253,6 +253,10 @@ public class UserServiceImpl implements UserService {
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
 		
+		existingUser.setLockerSize(user.getLockerSize());
+		existingUser.setBackupTeam(user.isBackupTeam());
+		existingUser.setMaster(user.isBackupTeam());
+		
 		existingUser.setManager(user.isManager());
 		existingUser.setEpfNo(user.getEpfNo());
 		existingUser.setAadharCard(user.getAadharCard());
@@ -385,9 +389,7 @@ public class UserServiceImpl implements UserService {
 		    u.setExpInYear(createUserDto.getExpInYear());
 		    u.setDateOfJoining(createUserDto.getDateOfJoining());
 		    u.setType(createUserDto.getType());
-            u.setLockerSize(createUserDto.getLockerSize());
-            u.setBackupTeam(createUserDto.isBackupTeam());
-            u.setMaster(createUserDto.isMaster());
+		    
 		    if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();

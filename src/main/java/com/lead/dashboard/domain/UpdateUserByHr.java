@@ -39,6 +39,10 @@ public class UpdateUserByHr {
 	private String panNumber;
 	private String permanentAddress;
 	private String residentialAddress;
+	
+	private int lockerSize;
+	private boolean isBackupTeam;
+	private boolean isMaster;
 
 	public Long getId() {
 		return id;
@@ -213,6 +217,24 @@ public class UpdateUserByHr {
 	}
 	public void setMotherOccupation(String motherOccupation) {
 		this.motherOccupation = motherOccupation;
+	}
+	public int getLockerSize() {
+		return lockerSize;
+	}
+	public void setLockerSize(int lockerSize) {
+		this.lockerSize = lockerSize;
+	}
+	public boolean isBackupTeam() {
+		return isBackupTeam;
+	}
+	public void setBackupTeam(boolean isBackupTeam) {
+		this.isBackupTeam = isBackupTeam;
+	}
+	public boolean isMaster() {
+		return isMaster;
+	}
+	public void setMaster(boolean isMaster) {
+		this.isMaster = isMaster;
 	}
 	
     
