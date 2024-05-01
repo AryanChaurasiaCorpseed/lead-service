@@ -1441,13 +1441,15 @@ public class LeadCrone {
 			if(countManage!=null && a.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 			}
+			System.out.println("Testing . . .. ");
 			if(c1>c2) {
 				return 1;
 			}else if(c2>=c1) {
 				return -1;
 			}else {
-				double avg1=c1!=null?a.getLockerSize()/c1:a.getLockerSize();
-				double avg2=c2!=null?b.getLockerSize()/c2:a.getLockerSize();
+				double avg1=c1!=null?a.getLockerSize()%c1:a.getLockerSize();
+				double avg2=c2!=null?b.getLockerSize()%c2:a.getLockerSize();
+                System.out.println("Average of data "+avg1+" :::  test t1 ::"+avg2);
 
 			    if(avg1>avg2) {
 			    	return 1;
@@ -2061,7 +2063,7 @@ public class LeadCrone {
 			}else {
 				double avg1=c1!=null?a.getLockerSize()/c1:a.getLockerSize();
 				double avg2=c2!=null?b.getLockerSize()/c2:a.getLockerSize();
-
+                System.out.println(avg1+" :::  test t1 ::"+avg2);
 			    if(avg1>avg2) {
 			    	return 1;
 			    }else if(avg1<avg2){

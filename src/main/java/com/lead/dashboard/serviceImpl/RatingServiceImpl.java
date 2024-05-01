@@ -1,7 +1,11 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,9 +51,19 @@ public class RatingServiceImpl implements RatingService{
 
 
 	@Override
-	public List<Ratings> getAllUserRating() {
+	public List<Map<String,Object>> getAllUserRating() {
 		List<Ratings>ratingList=ratingRepository.findAll();
-		return ratingList;
+		List<Map<String,Object>>arr = new ArrayList<>();
+		for(Ratings r:ratingList) {
+			Map<String,Object>map=new HashMap<>();
+			map.put("id", r.getId());
+			map.put("rating", r.getRating());
+			map.put("serviceName", r.getUrlsManagment());
+			List<String>userList=r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList());
+			map.put("assignee", userList);
+			arr.add(map);
+		}
+		return arr;
 	}
 
 
