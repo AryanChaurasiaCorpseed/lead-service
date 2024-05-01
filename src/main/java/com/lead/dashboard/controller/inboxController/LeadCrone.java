@@ -1386,7 +1386,8 @@ public class LeadCrone {
 	}
 
 	public List<User> mergeAllUser1to5StarV3(List<Ratings>ratings,Map<Long,Integer>countMap) {
-		Map<Long,Integer>countManage=countMap;
+//		Map<Long,Integer>countManage=countMap;
+		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
 		List<User>resUser = new ArrayList<>();
 		for(Ratings r:ratings) {
 			//			Integer c2=countManage.get(u)+10;
@@ -1403,7 +1404,7 @@ public class LeadCrone {
 
 				}else if("3".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
-					Integer c2=count+20;
+					Integer c2=count+2000;
 					if(count!=null) {
 						countManage.put(u.getId(), c2);
 					}
@@ -1444,12 +1445,19 @@ public class LeadCrone {
 			System.out.println("Testing . . .. ");
 			if(c1>c2) {
 				return 1;
-			}else if(c2>=c1) {
+			}else if(c2>c1) {
 				return -1;
 			}else {
-				double avg1=c1!=null?a.getLockerSize()%c1:a.getLockerSize();
-				double avg2=c2!=null?b.getLockerSize()%c2:a.getLockerSize();
-                System.out.println("Average of data "+avg1+" :::  test t1 ::"+avg2);
+				Integer c11=0;
+				if(countMap!=null && a.getId()!=null) {
+					c11=countMap.get(a.getId())!=null?countMap.get(a.getId()):0;
+				}
+				Integer c22=0;
+				if(countMap!=null && a.getId()!=null) {
+					c22=countMap.get(b.getId())!=null?countMap.get(b.getId()):0;
+				}
+				double avg1=c11!=null?((double)a.getLockerSize())/((double)c11):a.getLockerSize();
+				double avg2=c22!=null?((double)b.getLockerSize())/((double)c22):b.getLockerSize();
 
 			    if(avg1>avg2) {
 			    	return 1;
@@ -1999,8 +2007,17 @@ public class LeadCrone {
 			}else if(c2>c1) {
 				return -1;
 			}else {
-				double avg1=c1!=null?a.getLockerSize()/c1:a.getLockerSize();
-				double avg2=c2!=null?b.getLockerSize()/c2:a.getLockerSize();
+
+				Integer c11=0;
+				if(countMap!=null && a.getId()!=null) {
+					c11=countMap.get(a.getId())!=null?countMap.get(a.getId()):0;
+				}
+				Integer c22=0;
+				if(countMap!=null && a.getId()!=null) {
+					c22=countMap.get(b.getId())!=null?countMap.get(b.getId()):0;
+				}
+				double avg1=c11!=null?((double)a.getLockerSize())/((double)c11):a.getLockerSize();
+				double avg2=c22!=null?((double)b.getLockerSize())/((double)c22):b.getLockerSize();
 
 			    if(avg1>avg2) {
 			    	return 1;
@@ -2061,9 +2078,18 @@ public class LeadCrone {
 			}else if(c2>c1) {
 				return -1;
 			}else {
-				double avg1=c1!=null?a.getLockerSize()/c1:a.getLockerSize();
-				double avg2=c2!=null?b.getLockerSize()/c2:a.getLockerSize();
-                System.out.println(avg1+" :::  test t1 ::"+avg2);
+
+				Integer c11=0;
+				if(countMap!=null && a.getId()!=null) {
+					c11=countMap.get(a.getId())!=null?countMap.get(a.getId()):0;
+				}
+				Integer c22=0;
+				if(countMap!=null && a.getId()!=null) {
+					c22=countMap.get(b.getId())!=null?countMap.get(b.getId()):0;
+				}
+				double avg1=c11!=null?((double)a.getLockerSize())/((double)c11):a.getLockerSize();
+				double avg2=c22!=null?((double)b.getLockerSize())/((double)c22):b.getLockerSize();
+
 			    if(avg1>avg2) {
 			    	return 1;
 			    }else if(avg1<avg2){
