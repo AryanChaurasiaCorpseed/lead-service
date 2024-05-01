@@ -1,6 +1,7 @@
 package com.lead.dashboard.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public interface RatingService {
 
 	Ratings addUserRating(RatingDto ratingDto);
 
-	List<Ratings> getAllUserRating();
+	List<Map<String,Object>> getAllUserRating();
 
 	List<Ratings> getAllRatingByServiceId(Long serviceId);
 

@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.ratingController;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +32,9 @@ public class RatingController {
 
 	}
 	@GetMapping(UrlsMapping.GET_ALL_USER_RATING)
-	public List<Ratings> getAllUserRating()
+	public List<Map<String,Object>> getAllUserRating()
 	{
-		List<Ratings> rating=ratingService.getAllUserRating();
+		List<Map<String,Object>> rating=ratingService.getAllUserRating();
 		
 		return rating;		 
 
