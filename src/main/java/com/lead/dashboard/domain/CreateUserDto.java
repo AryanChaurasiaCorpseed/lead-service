@@ -33,6 +33,11 @@ public class CreateUserDto {
 	private String panNumber;
 	private String permanentAddress;
 	private String residentialAddress;
+	private int lockerSize;
+	private boolean isBackupTeam;
+	private boolean isMaster;
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -206,6 +211,24 @@ public class CreateUserDto {
 	}
 	public void setResidentialAddress(String residentialAddress) {
 		this.residentialAddress = residentialAddress;
+	}
+	public int getLockerSize() {
+		return lockerSize;
+	}
+	public void setLockerSize(int lockerSize) {
+		this.lockerSize = lockerSize;
+	}
+	public boolean isBackupTeam() {
+		return isBackupTeam;
+	}
+	public void setBackupTeam(boolean isBackupTeam) {
+		this.isBackupTeam = isBackupTeam;
+	}
+	public boolean isMaster() {
+		return isMaster;
+	}
+	public void setMaster(boolean isMaster) {
+		this.isMaster = isMaster;
 	}
 	
 	

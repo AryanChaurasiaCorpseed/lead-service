@@ -301,7 +301,9 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(createUserDto.getRole());
 			u.setRole(listRole);
-
+            u.setLockerSize(createUserDto.getLockerSize());
+            u.setBackupTeam(createUserDto.isBackupTeam());
+            u.setMaster(createUserDto.isMaster());
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
 			u.setDesignation(createUserDto.getDesignation());
@@ -383,7 +385,9 @@ public class UserServiceImpl implements UserService {
 		    u.setExpInYear(createUserDto.getExpInYear());
 		    u.setDateOfJoining(createUserDto.getDateOfJoining());
 		    u.setType(createUserDto.getType());
-		    
+            u.setLockerSize(createUserDto.getLockerSize());
+            u.setBackupTeam(createUserDto.isBackupTeam());
+            u.setMaster(createUserDto.isMaster());
 		    if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
