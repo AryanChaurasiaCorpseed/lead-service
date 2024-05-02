@@ -11,6 +11,8 @@ public class CreateLeadStatus {
 	    String name;
 
 	     String description;
+	     
+	     boolean isAuto;
 
 		public String getName() {
 			return name;
@@ -27,4 +29,6 @@ public class CreateLeadStatus {
 		public void setDescription(String description) {
 			this.description = description;
 		}
+		
+		
 }
