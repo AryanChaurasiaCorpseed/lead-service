@@ -266,9 +266,9 @@ public class UserServiceImpl implements UserService {
 	    existingUser.setDateOfJoining(user.getDateOfJoining());
 	    existingUser.setType(user.getType());
 	    
-	    if(user.getManagerId()!=null) {
+	    if(user.getManagerId()!=null &&user.getManagerId()!=0) {
 			Optional<User> manager = userRepo.findById(user.getManagerId());
-			existingUser.setManagers(manager.get());
+			existingUser.setManagers(manager!=null?manager.get():null);
 	    }
 	    existingUser.setFatherName(user.getFatherName());
 	    existingUser.setFatherOccupation(user.getFatherOccupation());
