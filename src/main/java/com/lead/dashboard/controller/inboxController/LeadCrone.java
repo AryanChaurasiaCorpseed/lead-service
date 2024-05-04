@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Ratings;
@@ -21,6 +22,7 @@ import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.RatingRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
+import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 
 @Service
 public class LeadCrone {
@@ -30,6 +32,8 @@ public class LeadCrone {
 	UserRepo userRepo;
 	@Autowired
 	private LeadRepository leadRepository;
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 
 	@Autowired
 	RatingRepository ratingRepository;
@@ -1930,7 +1934,14 @@ public class LeadCrone {
 						}else {
                               System.out.println("User is in backup team"+lead.getId());
 							User user=userRepo.findByIsBackupTeam(true);
-//							lead.setAssignee(user);
+							if(user!=null) {
+								lead.setAssignee(user);
+
+								sendMail();
+							}else {
+								sendMail();
+
+							}
 						}
 
 					}else { 
@@ -1948,6 +1959,7 @@ public class LeadCrone {
 					}
 				}
 			}
+
 //			lead.setAuto(false);
 //			System.out.println(count1+"... this is count 1");
 //			System.out.println(count2+"... this is count  2"+lead.getId());
@@ -2109,6 +2121,18 @@ public class LeadCrone {
 		//		System.out.println("=======================B===============================");
 
 		return resUser;	
+	}
+	public boolean sendMail(){
+		String[] emailTo= {"erp@corpseed.com"};
+		String[] ccPersons= {"aryan.chaurasia@corpseed.com"};
+		String subject="Alert ! for creation Backup Team";
+		
+		Context context = new Context();
+		context.setVariable("Rurl", "https://www.corpseed.com/");		
+
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, ccPersons, subject, context, "auto_backup.html");
+  
+		return true;
 	}
 
 

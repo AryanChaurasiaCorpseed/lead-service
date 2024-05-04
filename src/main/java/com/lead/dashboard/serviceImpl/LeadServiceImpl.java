@@ -149,6 +149,11 @@ public class LeadServiceImpl implements LeadService  {
 		createLeadHistory(lead,createdBy);
 		return lead;
 	}
+	
+	public boolean isLeadValidation(LeadDTO leadDTO,List<Lead>leadList) {
+	      
+		return true;
+	}
 
 	public LeadHistory createLeadHistory(Lead lead,User user) {
 		LeadHistory leadHistory= new LeadHistory();
