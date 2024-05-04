@@ -1,9 +1,17 @@
 package com.lead.dashboard.domain;
 
+import java.util.List;
+
+import com.lead.dashboard.domain.lead.Lead;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
@@ -25,10 +33,18 @@ public class Company {
 	String panNo;
 	String gstNo;
 	String companyAge;
+	boolean isParent;
 	String Country;
+	String industry;
 	String State;
 	String City;
 	String Address;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="company_lead",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="company_lead_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Lead>companyLead;
+	
 	boolean isDeleted;
 	public Long getId() {
 		return id;
@@ -89,6 +105,24 @@ public class Company {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public boolean isParent() {
+		return isParent;
+	}
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
+	}
+	public String getIndustry() {
+		return industry;
+	}
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+	public List<Lead> getCompanyLead() {
+		return companyLead;
+	}
+	public void setCompanyLead(List<Lead> companyLead) {
+		this.companyLead = companyLead;
 	}
 	
 	
