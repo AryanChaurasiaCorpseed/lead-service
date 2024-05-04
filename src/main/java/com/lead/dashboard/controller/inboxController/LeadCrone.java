@@ -1697,6 +1697,7 @@ public class LeadCrone {
 
 		System.out.println(cronelead.size());
 		for(Lead lead:cronelead) {
+			System.out.println("lead "+lead.getId());
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
 			System.out.println("bbbbbbbbb");
 			if(existingLead!=null && existingLead.size()>1) {
@@ -1804,7 +1805,7 @@ public class LeadCrone {
 								}  
 							}
 							if(u1!=null) {
-								System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+								System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq  .."+u1.getFullName());
 
 								lead.setAssignee(u1);
 
@@ -1812,6 +1813,7 @@ public class LeadCrone {
 								System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 
 								User user=userRepo.findByIsBackupTeam(true);
+								System.out.println("user is.... "+user);
 								lead.setAssignee(user);
 							}
 
