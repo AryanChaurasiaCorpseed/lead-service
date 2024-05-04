@@ -37,14 +37,25 @@ public class RatingServiceImpl implements RatingService{
 	@Override
 	public Ratings addUserRating(RatingDto ratingDto) {
 		// TODO Auto-generated method stub
-		Ratings ratings = new Ratings();
-		ratings.setRating(ratingDto.getRating());
-		List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
-		ratings.setRatingsUser(userList);
-		UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
-		ratings.setUrlsManagment(urlsManagment);
-		Ratings r=ratingRepository.save(ratings);
-		return r;
+		Ratings ratings=ratingRepository.findAllByRatingAndUrlsManagmentId(ratingDto.getRating(),ratingDto.getUrlsManagmentId());
+		if(ratings ==null) {
+			 ratings = new Ratings();
+			ratings.setRating(ratingDto.getRating());
+			List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
+			ratings.setRatingsUser(userList);
+			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
+			ratings.setUrlsManagment(urlsManagment);
+			Ratings r=ratingRepository.save(ratings);
+		}else {
+			List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
+			List<User> ratingUser = ratings.getRatingsUser();
+			ratingUser.addAll(userList);
+			ratings.setRatingsUser(ratingUser);
+			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
+			ratings.setUrlsManagment(urlsManagment);
+			Ratings r=ratingRepository.save(ratings);
+		}
+		return ratings;
 	}
 
 	
