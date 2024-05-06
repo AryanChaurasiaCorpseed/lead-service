@@ -86,7 +86,7 @@ public class LeadServiceImpl implements LeadService  {
 		}else {
 			lead.setLeadName(leadDTO.getLeadName());
 		}
-        lead.setOriginalName(leadDTO.getLeadName());
+		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
 		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
@@ -149,9 +149,60 @@ public class LeadServiceImpl implements LeadService  {
 		createLeadHistory(lead,createdBy);
 		return lead;
 	}
-	
+	public Lead createLeadV2(LeadDTO leadDTO) {
+		String email=leadDTO.getEmail();
+		if(email!=null && email.equals("NA")) {
+			email=null;
+		}		
+		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
+		Lead lead = new Lead();
+		//check lead is existing or not
+		if(leadList!=null && leadList.size()!=0) {
+			//check company
+//			companyRepository.findByLead
+			if(true) {
+				// check company status if open
+				if(true) {
+					//check open lead status 
+					if(true) {
+						
+					}else {
+						
+					}
+				}else {
+					
+				}
+			}else {
+				
+			}
+			
+		}else {   
+			//create new lead
+		}
+		return lead;
+	}
+
 	public boolean isLeadValidation(LeadDTO leadDTO,List<Lead>leadList) {
-	      
+		Long companyId=null;
+		Lead leadData =null;
+		if(companyId!=null) {
+			Optional<Company> company = companyRepository.findById(companyId);
+			User assignee = company.get().getAssignee();
+		}else {
+			boolean isBadFit=false;
+			for(Lead lead:leadList) {
+				if(lead.getStatus().getName().equals("Bad Fit")) {
+					leadData=lead;
+					isBadFit=true;
+					break;
+				}
+			}
+			if(isBadFit) {
+				// assign to quality team  
+			}else {
+
+			}
+		}
 		return true;
 	}
 
@@ -171,16 +222,16 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-//	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
+	//	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
 	public List<Lead> getAllActiveCustomerLead(AllLeadFilter allLeadFilter) {
-        String toDate=allLeadFilter.getToDate();
-        String fromDate=allLeadFilter.getFromDate();
-        Long uId=allLeadFilter.getUserId();
-        List<Long>userList=allLeadFilter.getUserIdFilter();
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long uId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
 		Optional<User> user = userRepo.findById(uId);
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
-//			String startDate = convertLongToStringDateFormat(toDate);
-//			String endDate = convertLongToStringDateFormat(fromDate);
+			//			String startDate = convertLongToStringDateFormat(toDate);
+			//			String endDate = convertLongToStringDateFormat(fromDate);
 			String startDate = toDate;
 			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
@@ -191,14 +242,14 @@ public class LeadServiceImpl implements LeadService  {
 					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
 
 				}
-//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+				//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
 			}else {
 				return leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
 			}
 		}else {
 
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-//				return leadRepository.findAllByIsDeleted(false);
+				//				return leadRepository.findAllByIsDeleted(false);
 				if(userList!=null &&userList.size()!=0) {
 					return leadRepository.findAllByIsDeleted(false,userList);
 				}else {
@@ -700,17 +751,17 @@ public class LeadServiceImpl implements LeadService  {
 		return service;
 	}
 
-	
+
 	@Override
-//	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
+	//	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
 	public List<Lead> getAllLead(AllLeadFilter allLeadFilter) {
 
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
-        String toDate=allLeadFilter.getToDate();
-        String fromDate=allLeadFilter.getFromDate();
-        Long userId=allLeadFilter.getUserId();
-        List<Long>userList=allLeadFilter.getUserIdFilter();
-        List<Long>statusIds=allLeadFilter.getStatusId();
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long userId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		List<Long>statusIds=allLeadFilter.getStatusId();
 		boolean flag =false;
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
@@ -719,8 +770,8 @@ public class LeadServiceImpl implements LeadService  {
 			String endDate = fromDate;
 			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
-                 
-//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+
+				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
 				if(userList!=null &&userList.size()!=0) {
 					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
 
@@ -818,7 +869,7 @@ public class LeadServiceImpl implements LeadService  {
 			leadRepository.save(l);
 			if(updateMultiLeadAssignee.getAssigneId()!=null && assigne!=null&&updateMultiLeadAssignee.getAssigneId()!=0) {
 				multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
-              System.out.println("In Lead");
+				System.out.println("In Lead");
 			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				multiLeadStatusHistory(l.getId(),prevStatus,status,updatedBy);			
@@ -846,7 +897,7 @@ public class LeadServiceImpl implements LeadService  {
 		flag=true;
 		return flag;
 	}
-	
+
 	public Boolean multiLeadStatusHistory(Long leadId,Status prevStatus,Status status,User updatedBy) {
 		Boolean flag=false;
 		LeadHistory leadHistory= new LeadHistory();
@@ -864,15 +915,15 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Override
 	public Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto) {
-        Boolean flag=false;   
+		Boolean flag=false;   
 		List<Lead>leadList=leadRepository.findAllByIsDeletedAndIdIn(deleteMultiLeadDto.getLeadId(), false);
-     		for(Lead lead:leadList) {
-     			lead.setDeleted(true);
-     			leadRepository.save(lead);
-     			flag=true;
-     		}
-           return flag;
+		for(Lead lead:leadList) {
+			lead.setDeleted(true);
+			leadRepository.save(lead);
+			flag=true;
+		}
+		return flag;
 	}
-	
+
 
 }
