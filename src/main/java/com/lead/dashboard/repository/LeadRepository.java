@@ -108,5 +108,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	List<Lead> findAllByStatusIdInAndOriginalName(List<Long>statusIds,String originalName);
 	
 	@Query(value = "SELECT count(id) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and assignee_id =:assigneeId", nativeQuery = true)
-	int findCountByAssigneeId(Long assigneeId, List<Long> statusIds); 
+	int findCountByAssigneeId(Long assigneeId, List<Long> statusIds);
+
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.id in(:leadIds) and el.is_deleted =false", nativeQuery = true)
+	List<Lead> findAllByIdIn(List<Long> leadIds); 
 }

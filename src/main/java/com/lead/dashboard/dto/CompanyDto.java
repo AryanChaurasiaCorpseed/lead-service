@@ -1,5 +1,7 @@
 package com.lead.dashboard.dto;
 
+import java.util.List;
+
 public class CompanyDto {
 	
 	String name;
@@ -10,6 +12,7 @@ public class CompanyDto {
 	String State;
 	String City;
 	String Address;
+	List<Long>leadId;
 	public String getName() {
 		return name;
 	}
@@ -57,6 +60,12 @@ public class CompanyDto {
 	}
 	public void setAddress(String address) {
 		Address = address;
+	}
+	public List<Long> getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(List<Long> leadId) {
+		this.leadId = leadId;
 	}
 	
 	
