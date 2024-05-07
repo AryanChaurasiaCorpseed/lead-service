@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.LeadHistory;
+import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
@@ -159,29 +160,122 @@ public class LeadServiceImpl implements LeadService  {
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
-//			companyRepository.findByLead
-			if(true) {
+			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+			System.out.println(companyId);
+			if(companyId!=null) {
 				// check company status if open
-				if(true) {
+				Company company = companyRepository.findById(companyId).get();
+				String companyStatus = company.getStatus();
+				
+				if("Open".equals(companyStatus)) {                                                                                      
 					//check open lead status 
-					if(true) {
-						
-					}else {
-						
-					}
+					//iterate   
+//					if(true) {						
+//					}else {		
+//					}
+				//	create lead
+					
+					//create a lead 
 				}else {
+					// 
+//					we open the company and create a lead
+					
+					
 					
 				}
 			}else {
+				// means is lead is in bad fit
+				lead=leadList.get(0);
+				lead.setBacklogTask(true);
+				Status status = statusRepository.findAllByName("New");
+				lead.setStatus(status);
+				leadRepository.save(lead);//also create history
 				
 			}
 			
 		}else {   
-			//create new lead
+			lead=leadCreation(lead,leadDTO);
 		}
 		return lead;
 	}
+	
+	public boolean isLeadOpen(Company company,String serviceName) {
+		List<Project> projectList = company.getCompanyProject();
+		return true;
+	}
 
+	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
+//		if(leadList!=null && leadList.size()!=0) {
+//			int size = leadList.size();
+//			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
+//		}else {
+//			lead.setLeadName(leadDTO.getLeadName());
+//		}
+		lead.setLeadName(leadDTO.getLeadName());
+
+		lead.setOriginalName(leadDTO.getLeadName());
+		lead.setName(leadDTO.getName());
+		//		lead.setLeadName(leadDTO.getLeadName());
+		lead.setLeadDescription(leadDTO.getLeadDescription());
+		lead.setMobileNo(leadDTO.getMobileNo());
+		lead.setEmail(leadDTO.getEmail());
+		lead.setUrls(leadDTO.getUrls());
+		lead.setAuto(true);
+		lead.setIsUrlsChecked(true);
+		lead.setCreateDate(new Date());		
+		lead.setView(false);
+		lead.setLastUpdated(new Date());
+		User createdBy=null;
+		if(leadDTO.getCreatedById()!=null) {
+			createdBy= userRepo.findById(leadDTO.getCreatedById()).get();
+			lead.setCreatedBy(createdBy);
+		}
+
+		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
+		if(leadDTO.getAssigneeId()!=null) {
+			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
+			lead.setAssignee(user.get());
+		}
+
+		Client client = new Client();
+		client.setName(leadDTO.getName());
+		client.setContactNo(leadDTO.getMobileNo());
+		client.setEmails(leadDTO.getEmail());
+		client.setServiceDetails(null);
+		if(leadDTO.getProductId()!=null) {
+			ServiceDetails service = new ServiceDetails();
+
+			Product product = productRepo.findById(leadDTO.getProductId()).get();
+			service.setName(product.getProductName());
+			service.setProduct(product);
+			serviceDetailsRepository.save(service);
+			List<ServiceDetails>sList = new ArrayList<>();
+			sList.add(service);
+			client.setServiceDetails(sList);
+		}
+		clientRepository.save(client);
+		List<Client>cList = new ArrayList<>();
+		cList.add(client);
+		lead.setClients(cList);
+		lead.setSource(leadDTO.getSource());
+		lead.setPrimaryAddress(leadDTO.getPrimaryAddress());
+		lead.setDeleted(leadDTO.isDeleted());
+		Status status = statusRepository.findAllByName("New");
+		if(status!=null) {
+			lead.setStatus(status);
+		}
+		lead.setCity(leadDTO.getCity());
+		lead.setCategoryId(leadDTO.getCategoryId());
+		lead.setServiceId(leadDTO.getServiceId());
+		lead.setIndustryId(leadDTO.getIndustryId());
+		lead.setIpAddress(leadDTO.getIpAddress());
+		lead.setDisplayStatus(leadDTO.getDisplayStatus());
+		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
+		lead.setUuid(commonServices.getUuid());
+		leadRepository.save(lead);
+		createLeadHistory(lead,createdBy);
+		return lead;
+	}
 	public boolean isLeadValidation(LeadDTO leadDTO,List<Lead>leadList) {
 		Long companyId=null;
 		Lead leadData =null;

@@ -46,8 +46,15 @@ public class Company {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Lead>companyLead;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="company_project",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="company_project_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Project>companyProject;
+	
 	@ManyToOne                                                                                                               
 	User assignee;
+	String status;
 	
 	boolean isDeleted;
 	public Long getId() {
@@ -133,6 +140,18 @@ public class Company {
 	}
 	public void setAssignee(User assignee) {
 		this.assignee = assignee;
+	}
+	public List<Project> getCompanyProject() {
+		return companyProject;
+	}
+	public void setCompanyProject(List<Project> companyProject) {
+		this.companyProject = companyProject;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

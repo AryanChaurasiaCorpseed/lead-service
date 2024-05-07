@@ -130,6 +130,7 @@ public class Lead {
 	private Boolean auto;
     private Boolean isUrlsChecked;  //when we assign a urls (Quality or Sales)
 	private String originalName;
+	private boolean isBacklogTask;
     
 
 //	@OneToMany
@@ -418,6 +419,14 @@ public class Lead {
 
 	public void setOriginalName(String originalName) {
 		this.originalName = originalName;
+	}
+
+	public boolean isBacklogTask() {
+		return isBacklogTask;
+	}
+
+	public void setBacklogTask(boolean isBacklogTask) {
+		this.isBacklogTask = isBacklogTask;
 	}
 	
 	

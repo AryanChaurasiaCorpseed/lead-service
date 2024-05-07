@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.service.CompanyService;
 
 @Service
@@ -17,6 +19,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	CompanyRepository companyRepository;
+	@Autowired
+	LeadRepository leadRepository;
 	
 	@Override
 	public Company createCompany(CompanyDto companyDto) {
@@ -31,6 +35,8 @@ public class CompanyServiceImpl implements CompanyService {
 		company.setCity(companyDto.getCity());
 		company.setCountry(companyDto.getCountry());
 		company.setState(companyDto.getState());
+		List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
+		company.setCompanyLead(leadList);
 		companyRepository.save(company);
 		return company;
 	}

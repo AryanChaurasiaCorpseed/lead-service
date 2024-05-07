@@ -34,6 +34,7 @@ public interface LeadService {
 	Boolean viewHistory(Long userId, Long leadId);
 	Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee);
 	Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto);
+	Lead createLeadV2(LeadDTO leadDTO);
 
 
 
