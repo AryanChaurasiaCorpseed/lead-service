@@ -40,7 +40,7 @@ public class SlugController {
 	}
 	
 	
-	@GetMapping("/urls/getUrls")
+	@GetMapping("/urls/getSlug")
 	public 	List<Slug> getSlug() {	
 		List<Slug> urls = slugRepository.findAll();
 		return urls;
