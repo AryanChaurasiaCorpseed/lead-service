@@ -201,6 +201,7 @@ public class LeadServiceImpl implements LeadService  {
 	
 	public boolean isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
+		 
 		return true;
 	}
 
