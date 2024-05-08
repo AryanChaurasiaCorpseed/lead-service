@@ -199,10 +199,10 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 	
-	public boolean isLeadOpen(Company company,String serviceName) {
+	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
-		 
-		return true;
+//		projectList.stream().filter(i->i.).collect(Collectors.toList());
+		return projectList;
 	}
 
 	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
