@@ -1,11 +1,22 @@
 package com.lead.dashboard.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lead.dashboard.domain.lead.Lead;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+
 @Table
 @Entity
 @Data
@@ -15,6 +26,13 @@ public class UrlsManagment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String urlsName;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	@JoinTable(name="url_slug",joinColumns = {@JoinColumn(name="urls_managment_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="url_slug_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Slug>urlSlug;
 	boolean isQuality;
 	public Long getId() {
 		return id;
@@ -34,6 +52,13 @@ public class UrlsManagment {
 	public void setQuality(boolean isQuality) {
 		this.isQuality = isQuality;
 	}
+	public List<Slug> getUrlSlug() {
+		return urlSlug;
+	}
+	public void setUrlSlug(List<Slug> urlSlug) {
+		this.urlSlug = urlSlug;
+	}
+	
 	
 	
 	
