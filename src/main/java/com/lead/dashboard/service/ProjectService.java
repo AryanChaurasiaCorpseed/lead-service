@@ -11,4 +11,6 @@ public interface ProjectService {
 
 	Project getAllProject();
 
+	Project createProjectV2(Long leadId);
+
 }

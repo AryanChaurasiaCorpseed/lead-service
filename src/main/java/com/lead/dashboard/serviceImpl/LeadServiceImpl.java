@@ -179,6 +179,8 @@ public class LeadServiceImpl implements LeadService  {
 
 				lead=leadList.get(0);
 				lead.setBacklogTask(true);
+				lead.setName(leadDTO.getLeadName());
+				lead.setOriginalName(leadDTO.getLeadName());
 				Status status = statusRepository.findAllByName("New");
 				lead.setStatus(status);
 				leadRepository.save(lead);//also create history

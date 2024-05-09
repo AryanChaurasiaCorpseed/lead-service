@@ -31,6 +31,17 @@ public class ProjectController {
         }
     }
     
+    @PostMapping(UrlsMapping.CREATE_PROJECT_V2)
+    public ResponseEntity<Project> createProjectbyEstimateV2(@RequestParam Long leadId,@RequestParam Long estimateId) {
+    	Project categoriesData = projectService.createProjectV2(leadId);
+        if (categoriesData!=null) {
+            return ResponseEntity.ok(categoriesData);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    
     @PostMapping(UrlsMapping.GET_ALL_PROJECT)
     public ResponseEntity<Project> getAllProject() {
     	Project categoriesData = projectService.getAllProject();
