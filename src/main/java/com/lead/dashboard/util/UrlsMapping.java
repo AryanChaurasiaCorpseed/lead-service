@@ -97,6 +97,8 @@ public class UrlsMapping {
 	
 	// Project
 	public static final String CREATE_PROJECT=PREFIX+"/project/createProject";
+	public static final String CREATE_PROJECT_V2=PREFIX+"/project/createProjectV2";
+
 	public static final String GET_ALL_PROJECT=PREFIX+"/project/getAllProject";
 
 
