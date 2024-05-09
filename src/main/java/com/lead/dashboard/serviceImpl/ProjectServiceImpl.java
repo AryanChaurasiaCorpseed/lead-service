@@ -88,9 +88,18 @@ public class ProjectServiceImpl implements ProjectService{
     		p.setName(l.getLeadName());
     		p.setAmount(0);
     		p.setLead(l);
+   		    p=projectRepository.save(p);
+
     		Company company=null;
     		if(companyId!=null) {
     			company = companyRepository.findById(companyId).get();
+    			
+    			List<Project> proList=new ArrayList<>();
+    			proList.add(p);		
+    			proList.addAll(company.getCompanyProject());
+    			company.setCompanyProject(proList);
+    			
+    			
     		}else {
     		    company =new Company();
     			company.setName(l.getLeadName());
@@ -99,7 +108,6 @@ public class ProjectServiceImpl implements ProjectService{
     			leadList.add(l);
     			company.setCompanyLead(leadList);
     		}
-    		 p=projectRepository.save(p);
 //    		 company.set
 			companyRepository.save(company);
 
