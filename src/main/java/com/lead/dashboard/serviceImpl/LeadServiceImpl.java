@@ -166,22 +166,9 @@ public class LeadServiceImpl implements LeadService  {
 				// check company status if open
 				Company company = companyRepository.findById(companyId).get();
 				String companyStatus = company.getStatus();
-				
-				if("Open".equals(companyStatus)) {                                                                                      
-					//check open lead status 
-					//iterate   
-//					if(true) {						
-//					}else {		
-//					}
-				//	create lead
-					
-					//create a lead 
-				}else {
-					// 
-//					we open the company and create a lead
-					
-					
-					
+				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
+				if(l!=null && l.size()!=0) {
+					lead=leadCreation(lead,leadDTO);
 				}
 			}else {
 				// means is lead is in bad fit
@@ -201,8 +188,23 @@ public class LeadServiceImpl implements LeadService  {
 	
 	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
-//		projectList.stream().filter(i->i.).collect(Collectors.toList());
-		return projectList;
+		List<Lead> leadList = company.getCompanyLead();
+		leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
+
+		List<Project> result = new ArrayList<>();
+	    Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
+		for(Project p:projectList) {
+		   if("Open".equalsIgnoreCase(p.getStatus()) && p.getName().equals(serviceName)) {
+			   result.add(p);
+			   Lead l=leadMap.get(p.getLead().getId());
+			   if(l!=null) {
+				   int count = l.getCount();
+				   count=count==0?count+2:count++;
+				  l.setCount(count);
+			   }
+		   }
+		}
+		return result;
 	}
 
 	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
