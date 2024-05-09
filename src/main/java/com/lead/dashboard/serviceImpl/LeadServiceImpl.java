@@ -167,11 +167,16 @@ public class LeadServiceImpl implements LeadService  {
 				Company company = companyRepository.findById(companyId).get();
 				String companyStatus = company.getStatus();
 				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
-				if(l!=null && l.size()!=0) {
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
+				if(l.size()==0) {
+					System.out.println("bbbbbbbbbbbbbbbbbbbbbb");
+
 					lead=leadCreation(lead,leadDTO);
 				}
 			}else {
 				// means is lead is in bad fit
+				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+
 				lead=leadList.get(0);
 				lead.setBacklogTask(true);
 				Status status = statusRepository.findAllByName("New");
@@ -181,6 +186,8 @@ public class LeadServiceImpl implements LeadService  {
 			}
 			
 		}else {   
+			System.out.println("ddddddddddddddddddddddddddddddddddddd");
+
 			lead=leadCreation(lead,leadDTO);
 		}
 		return lead;
