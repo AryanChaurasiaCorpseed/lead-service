@@ -2,6 +2,7 @@ package com.lead.dashboard.domain;
 
 import java.util.Date;
 
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 
 import jakarta.persistence.Entity;
@@ -9,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
@@ -38,8 +41,14 @@ public class Project {
 	@ManyToOne
 	Product product;
 	
+	String status;
+	
+	
 	@ManyToOne
 	Client client;
+	
+	@OneToOne
+	Lead lead;
 	
 	@ManyToOne
 	Company company;

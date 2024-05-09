@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,13 +18,14 @@ import com.lead.dashboard.dto.UrlsDto;
 import com.lead.dashboard.repository.SlugRepository;
 
 @RestController
+@RequestMapping("/leadService/api/v1")
 public class SlugController {
 	
   
 	@Autowired
 	SlugRepository slugRepository;
 	
-	@PostMapping("/urls/createSlug")
+	@PostMapping("/slug/createSlug")
 	public 	Slug createSlug(@RequestParam String name) {
 		Slug slug = new Slug();
 		slug.setName(name);
@@ -31,7 +33,7 @@ public class SlugController {
 		return slug;
 	}
 	
-	@PutMapping("/urls/updateSlug")
+	@PutMapping("/slug/updateSlug")
 	public 	Slug updateSlug(@RequestParam String name,@RequestParam Long id) {
 		 Slug slug = slugRepository.findById(id).get();
         slug.setName(name);
@@ -40,7 +42,7 @@ public class SlugController {
 	}
 	
 	
-	@GetMapping("/urls/getSlug")
+	@GetMapping("/slug/getSlug")
 	public 	List<Slug> getSlug() {	
 		List<Slug> urls = slugRepository.findAll();
 		return urls;
