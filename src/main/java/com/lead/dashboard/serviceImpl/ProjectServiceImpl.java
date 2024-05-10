@@ -2,7 +2,9 @@ package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,9 +74,16 @@ public class ProjectServiceImpl implements ProjectService{
         return p;      
 	}
 	@Override
-	public Project getAllProject() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String,Object> getAllProject() {
+		List<Project> pList = projectRepository.findAll();
+		Map<String,Object>res = new HashMap<>();
+		for(Project p:pList)  {
+			res.put("id",p.getId());
+			res.put("name", p.getName());
+			res.put("leadId",p.getLead().getId());
+			
+		}
+		return res;
 	}
 
 
@@ -98,12 +107,16 @@ public class ProjectServiceImpl implements ProjectService{
     			proList.add(p);		
     			proList.addAll(company.getCompanyProject());
     			company.setCompanyProject(proList);
-    			
+    		    List<Lead> leadList = company.getCompanyLead();
+    		    leadList.add(l);
     			
     		}else {
     		    company =new Company();
     			company.setName(l.getLeadName());
-    			
+    			List<Project> proList=new ArrayList<>();
+    			proList.add(p);		
+    			company.setCompanyProject(proList);
+
     			List<Lead>leadList = new ArrayList<>();
     			leadList.add(l);
     			company.setCompanyLead(leadList);

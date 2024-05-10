@@ -1,6 +1,9 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.repository.CompanyRepository;
@@ -49,10 +53,39 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<Company> getAllCompany() {
+	public List<Map<String,Object>> getAllCompany() {
  
 		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
-		return companyList;
+		List<Map<String,Object>>res = new ArrayList<>();
+		for(Company c:companyList) {
+			Map<String,Object>result = new HashMap<>();
+
+			result.put("companyId", c.getId());
+			result.put("companyName", c.getName());
+			List<Lead> lList = c.getCompanyLead();
+			List<Map<String,Object>>leadList = new ArrayList<>();
+			for(Lead l:lList) {
+				Map<String,Object>lMap = new HashMap<>();
+				lMap.put("leadId", l.getId());
+				lMap.put("leadNameame", l.getLeadName());
+				leadList.add(lMap);
+				
+			}
+			result.put("lead", leadList);
+			
+			List<Project> pList = c.getCompanyProject();
+			List<Map<String,Object>>projectList = new ArrayList<>();
+			for(Project p:pList) {
+				Map<String,Object>pMap = new HashMap<>();
+				pMap.put("projectId", p.getId());
+				pMap.put("projectName", p.getName());
+				projectList.add(pMap);				
+			}
+			result.put("project", projectList);
+			res.add(result);
+
+		}
+		return res;
 	}
 
 	@Override
