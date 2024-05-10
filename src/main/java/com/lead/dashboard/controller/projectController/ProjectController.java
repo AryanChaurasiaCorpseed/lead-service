@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.projectController;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProjectController {
     }
     
     @PostMapping(UrlsMapping.CREATE_PROJECT_V2)
-    public ResponseEntity<Project> createProjectbyEstimateV2(@RequestParam Long leadId,@RequestParam Long estimateId) {
+    public ResponseEntity<Project> createProjectbyEstimateV2(@RequestParam Long leadId) {
     	Project categoriesData = projectService.createProjectV2(leadId);
         if (categoriesData!=null) {
             return ResponseEntity.ok(categoriesData);
@@ -43,10 +44,10 @@ public class ProjectController {
     
     
     @PostMapping(UrlsMapping.GET_ALL_PROJECT)
-    public ResponseEntity<Project> getAllProject() {
-    	Project categoriesData = projectService.getAllProject();
-        if (categoriesData!=null) {
-            return ResponseEntity.ok(categoriesData);
+    public ResponseEntity<Map<String,Object>> getAllProject() {
+    	Map<String,Object> pMap = projectService.getAllProject();
+        if (pMap!=null) {
+            return ResponseEntity.ok(pMap);
         } else {
             return ResponseEntity.notFound().build();
         }

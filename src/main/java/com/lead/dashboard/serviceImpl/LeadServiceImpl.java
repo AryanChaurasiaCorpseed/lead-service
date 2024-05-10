@@ -198,8 +198,6 @@ public class LeadServiceImpl implements LeadService  {
 	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
 		List<Lead> leadList = company.getCompanyLead();
-		leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
-
 		List<Project> result = new ArrayList<>();
 	    Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
 		for(Project p:projectList) {
@@ -211,6 +209,7 @@ public class LeadServiceImpl implements LeadService  {
 				   count=count==0?count+2:count++;
 				  l.setCount(count);
 			   }
+			   leadRepository.save(l);
 		   }
 		}
 		return result;

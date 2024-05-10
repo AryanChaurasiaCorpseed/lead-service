@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.companyController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +55,9 @@ public class CompanyController {
 
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY)
-	public List<Company> getAllCompany()
+	public List<Map<String,Object>> getAllCompany()
 	{
-		List<Company> allCompany = companyService.getAllCompany();
+		List<Map<String,Object>> allCompany = companyService.getAllCompany();
 		return allCompany;
 
 	}

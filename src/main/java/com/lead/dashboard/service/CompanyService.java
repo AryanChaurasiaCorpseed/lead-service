@@ -1,6 +1,7 @@
 package com.lead.dashboard.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public interface CompanyService {
 
 	Company getCompany(Long companyId);
 
-	List<Company> getAllCompany();
+	List<Map<String,Object>> getAllCompany();
 
 	boolean deleteCompany(Long companyId);
 
