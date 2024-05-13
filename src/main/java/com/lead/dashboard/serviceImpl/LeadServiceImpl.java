@@ -536,6 +536,7 @@ public class LeadServiceImpl implements LeadService  {
 			map.put("ipAddress", lead.getIpAddress());
 			map.put("remarks", lead.getRemarks());
 			map.put("status", lead.getStatus());
+			map.put("isBacklog", lead.isBacklogTask());
 
 			//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 			List<Client> clientList = lead.getClients();
