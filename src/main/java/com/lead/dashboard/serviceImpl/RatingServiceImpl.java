@@ -2,9 +2,11 @@ package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,8 @@ public class RatingServiceImpl implements RatingService{
 			List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
 			List<User> ratingUser = ratings.getRatingsUser();
 			ratingUser.addAll(userList);
-			ratings.setRatingsUser(ratingUser);
+	        Set<User>userRating = new HashSet<>(ratingUser);
+			ratings.setRatingsUser(new ArrayList<>(userRating));
 			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
 			ratings.setUrlsManagment(urlsManagment);
 			Ratings r=ratingRepository.save(ratings);
