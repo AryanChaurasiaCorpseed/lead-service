@@ -1,6 +1,8 @@
 package com.lead.dashboard.controller.leadController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +61,19 @@ public class UrlsManagmentController {
 		return urls;
 	}
 	
+	
+	@GetMapping("/urls/getSlugByUrlId")
+	public 	List<Slug> getSlugByUrlId(@RequestParam Long id) {	
+		Optional<UrlsManagment> urlsOp = urlsManagmentRepo.findById(id);
+		List<Slug> urlsList = new ArrayList<>();
+		if(urlsOp!=null && urlsOp.get()!=null) {
+			UrlsManagment url = urlsOp.get();
+			urlsList= url.getUrlSlug();
+			
+		}
+		return urlsList;
+	}
+	
+
 	
 }
