@@ -457,5 +457,18 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public Boolean autoActive(Long userId) {
+		Optional<User> opUser = userRepo.findById(userId);
+		if(opUser!=null) {
+			User user=opUser.get();
+		    user.setAutoActive(user.isAutoActive());
+		    userRepo.save(user);
+		}
+		return false;
+	}
+
+
+
 	
 }

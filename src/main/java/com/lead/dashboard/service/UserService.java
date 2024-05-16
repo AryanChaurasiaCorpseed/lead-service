@@ -31,5 +31,6 @@ public interface UserService
 	User createUserByHr(CreateUserDto createUserDto);
 	List<User> getUserForManager(Long id);
 	Boolean approvedUserByManager(Long currentUserId, Long userId, String status);
+	Boolean autoActive(Long userId);
 
 }
