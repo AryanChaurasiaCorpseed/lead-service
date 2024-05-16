@@ -126,6 +126,9 @@ public class UrlsMapping {
 	public static final String UPDATE_USER_RATING_SERVICE=PREFIX+"/rating/updateUserRatingService";
 
 
+	
+	// User History
+	public static final String GET_ALL_USER_HISTORY=PREFIX+"/rating/getAllUserHistory";
 
 
 
