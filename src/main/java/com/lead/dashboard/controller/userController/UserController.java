@@ -179,7 +179,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("api/v1/users/autoActive")
+	@PutMapping("api/v1/users/autoActive")
 	public ResponseEntity<Boolean> autoActive(@RequestParam Long userId) {
 		Boolean res = userService.autoActive(userId);
 		if (res) {
