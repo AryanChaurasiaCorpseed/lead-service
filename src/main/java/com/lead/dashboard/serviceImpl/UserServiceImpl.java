@@ -7,6 +7,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.repository.LeadHistoryRepo;
 import com.lead.dashboard.repository.RoleRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
@@ -455,18 +456,23 @@ public class UserServiceImpl implements UserService {
 		return flag;
 	}
 
-
+    @Autowired
+    LeadHistoryRepo leadHistoryRepo;
 
 	@Override
-	public Boolean autoActive(Long userId) {
+	public Boolean autoActive(Long userId,Long currentUser) {
 		Optional<User> opUser = userRepo.findById(userId);
+		Optional<User> opCurUser = userRepo.findById(currentUser);
+
 		if(opUser!=null) {
 			User user=opUser.get();
 		    user.setAutoActive(!user.isAutoActive());
 		    userRepo.save(user);
+		    
 		}
 		return false;
 	}
+	
 
 
 
