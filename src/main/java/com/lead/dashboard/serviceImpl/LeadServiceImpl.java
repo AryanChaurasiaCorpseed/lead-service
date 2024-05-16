@@ -157,6 +157,8 @@ public class LeadServiceImpl implements LeadService  {
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
+		System.out.println("ttttt");
+
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
@@ -223,7 +225,7 @@ public class LeadServiceImpl implements LeadService  {
 //			lead.setLeadName(leadDTO.getLeadName());
 //		}
 		lead.setLeadName(leadDTO.getLeadName());
-
+         System.out.println("Aryan12........");
 		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
 		//		lead.setLeadName(leadDTO.getLeadName());
@@ -237,6 +239,8 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setView(false);
 		lead.setLastUpdated(new Date());
 		User createdBy=null;
+        System.out.println("Aryan13........");
+
 		if(leadDTO.getCreatedById()!=null) {
 			createdBy= userRepo.findById(leadDTO.getCreatedById()).get();
 			lead.setCreatedBy(createdBy);
@@ -247,6 +251,7 @@ public class LeadServiceImpl implements LeadService  {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
 			lead.setAssignee(user.get());
 		}
+        System.out.println("Aryan14........");
 
 		Client client = new Client();
 		client.setName(leadDTO.getName());
@@ -263,7 +268,9 @@ public class LeadServiceImpl implements LeadService  {
 			List<ServiceDetails>sList = new ArrayList<>();
 			sList.add(service);
 			client.setServiceDetails(sList);
-		}
+		}         System.out.println("Aryan15........");
+
+		
 		clientRepository.save(client);
 		List<Client>cList = new ArrayList<>();
 		cList.add(client);
@@ -275,6 +282,8 @@ public class LeadServiceImpl implements LeadService  {
 		if(status!=null) {
 			lead.setStatus(status);
 		}
+        System.out.println("Aryan16........");
+
 		lead.setCity(leadDTO.getCity());
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
@@ -282,8 +291,12 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setIpAddress(leadDTO.getIpAddress());
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
-		lead.setUuid(commonServices.getUuid());
+		lead.setUuid(commonServices.getUuid());      
+		System.out.println("Aryan17........");
+
 		leadRepository.save(lead);
+		System.out.println("Aryan18........");
+
 		createLeadHistory(lead,createdBy);
 		return lead;
 	}

@@ -91,6 +91,7 @@ public class User implements Serializable{
     int lockerSize;
     boolean isBackupTeam;
     
+    boolean autoActive;
 	
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
@@ -440,6 +441,14 @@ public class User implements Serializable{
 
 	public void setBackupTeam(boolean isBackupTeam) {
 		this.isBackupTeam = isBackupTeam;
+	}
+
+	public boolean isAutoActive() {
+		return autoActive;
+	}
+
+	public void setAutoActive(boolean autoActive) {
+		this.autoActive = autoActive;
 	}
 
 //	public List<Ratings> getUserRatings() {

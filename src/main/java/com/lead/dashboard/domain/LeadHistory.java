@@ -2,6 +2,7 @@ package com.lead.dashboard.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.lead.Lead;
 
 import jakarta.persistence.Entity;
@@ -30,7 +31,11 @@ public class LeadHistory {
 	Date createDate;
 	
 	@ManyToOne
+	@JsonIgnore
 	User createdBy;
+	
+	@ManyToOne
+	User prevUser=null;
 	
 	String description;
 	
@@ -84,6 +89,14 @@ public class LeadHistory {
 
 	public void setLeadId(Long leadId) {
 		this.leadId = leadId;
+	}
+
+	public User getPrevUser() {
+		return prevUser;
+	}
+
+	public void setPrevUser(User prevUser) {
+		this.prevUser = prevUser;
 	}
 	
 	

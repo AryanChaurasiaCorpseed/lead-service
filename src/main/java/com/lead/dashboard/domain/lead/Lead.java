@@ -131,6 +131,7 @@ public class Lead {
     private Boolean isUrlsChecked;  //when we assign a urls (Quality or Sales)
 	private String originalName;
 	private boolean isBacklogTask;
+	private boolean  isNotAssignSame;
 	private int count;
 
 //	@OneToMany
@@ -436,10 +437,6 @@ public class Lead {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
-	
-	
 	
 	
 }
