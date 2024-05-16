@@ -462,7 +462,7 @@ public class UserServiceImpl implements UserService {
 		Optional<User> opUser = userRepo.findById(userId);
 		if(opUser!=null) {
 			User user=opUser.get();
-		    user.setAutoActive(user.isAutoActive());
+		    user.setAutoActive(!user.isAutoActive());
 		    userRepo.save(user);
 		}
 		return false;
