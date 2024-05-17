@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,7 @@ public class UserHistoryController {
     @Autowired
     UserHistoryRepo userHistoryRepo;
      
-	@PostMapping(UrlsMapping.GET_ALL_USER_HISTORY)
+	@GetMapping(UrlsMapping.GET_ALL_USER_HISTORY)
 	public List<Map<String,Object>> getAllUserHistory(@RequestParam Long userId)
 	{		
 		    List<UserRecord> userHistory = userHistoryRepo.findAllByCurrentUserId(userId);
