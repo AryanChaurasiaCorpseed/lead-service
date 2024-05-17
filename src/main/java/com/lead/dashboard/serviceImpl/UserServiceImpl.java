@@ -4,11 +4,12 @@ import com.lead.dashboard.domain.CreateUserDto;
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
-import com.lead.dashboard.repository.LeadHistoryRepo;
 import com.lead.dashboard.repository.RoleRepository;
+import com.lead.dashboard.repository.UserHistoryRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.UserService;
 
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+    @Autowired
+    UserHistoryRepo userHistoryRepo;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -455,12 +459,19 @@ public class UserServiceImpl implements UserService {
 		}
 		return flag;
 	}
-
-    @Autowired
-    LeadHistoryRepo leadHistoryRepo;
+   
+	public void createHistory(User user,User currentUser) {
+		UserRecord userRecord = new UserRecord();
+		userRecord.setCurrentUser(user);
+		userRecord.setUpdatedBy(currentUser);
+		userRecord.setEvent("user in-active");
+		userHistoryRepo.save(userRecord);
+		
+	}
 
 	@Override
 	public Boolean autoActive(Long userId,Long currentUser) {
+		Boolean flag=false;
 		Optional<User> opUser = userRepo.findById(userId);
 		Optional<User> opCurUser = userRepo.findById(currentUser);
 
@@ -468,9 +479,10 @@ public class UserServiceImpl implements UserService {
 			User user=opUser.get();
 		    user.setAutoActive(!user.isAutoActive());
 		    userRepo.save(user);
-		    
+		    flag=true;
+		    createHistory(user,opCurUser!=null?opCurUser.get():null);
 		}
-		return false;
+		return flag;
 	}
 	
 
