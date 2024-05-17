@@ -460,13 +460,18 @@ public class UserServiceImpl implements UserService {
 		return flag;
 	}
    
-	public void createHistory(User user,User currentUser) {
+	public void createHistory(User user,User currentUser,Boolean active) {
 		UserRecord userRecord = new UserRecord();
 		userRecord.setCurrentUser(user);
 		userRecord.setUpdatedBy(currentUser);
-		userRecord.setEvent("user in-active");
-		userHistoryRepo.save(userRecord);
-		
+		if(active) {
+			userRecord.setEvent("user move active -> Inactive ");
+
+		}else {
+			userRecord.setEvent("user move In-active -> active ");
+
+		}
+		userHistoryRepo.save(userRecord);	
 	}
 
 	@Override
@@ -477,10 +482,11 @@ public class UserServiceImpl implements UserService {
 
 		if(opUser!=null) {
 			User user=opUser.get();
+			boolean active=user.isAutoActive();
 		    user.setAutoActive(!user.isAutoActive());
 		    userRepo.save(user);
 		    flag=true;
-		    createHistory(user,opCurUser!=null?opCurUser.get():null);
+		    createHistory(user,opCurUser!=null?opCurUser.get():null,active);
 		}
 		return flag;
 	}
