@@ -254,7 +254,7 @@ public class LeadController {
 	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
 	public void assignLeadByCrone()
 	{		
-		 leadCrone.assignLeadByCroneV10();
+		 leadCrone.assignLeadByCroneV11();
 
 	}
 
