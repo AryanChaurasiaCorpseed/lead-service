@@ -185,6 +185,7 @@ public class LeadServiceImpl implements LeadService  {
 				lead.setOriginalName(leadDTO.getLeadName());
 				Status status = statusRepository.findAllByName("New");
 				lead.setStatus(status);
+				lead.setAuto(false);
 				leadRepository.save(lead);//also create history
 				
 			}
@@ -757,6 +758,7 @@ public class LeadServiceImpl implements LeadService  {
 		LeadHistory leadHistory= new LeadHistory();
 		leadHistory.setEventType("lead assignee change");
 		String assignee = lead.getAssignee()!=null?lead.getAssignee().getFullName():"NA";
+		leadHistory.setPrevUser(lead.getAssignee());
 		leadHistory.setDescription("'Lead Assignee' has been changed from "+assignee+" to "+user.getFullName());
 		leadHistory.setLeadId(lead.getId());
 
@@ -1004,7 +1006,7 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistory.setEventType("lead assignee change");
 		String pAssignee = prevAssignee!=null?prevAssignee.getFullName():"NA";
 		String currAssignee = assigne!=null?assigne.getFullName():"NA";
-
+		leadHistory.setPrevUser(prevAssignee);
 		leadHistory.setDescription("'Lead Assignee' has been changed from "+pAssignee+" to "+currAssignee);
 		leadHistory.setLeadId(leadId);
 
