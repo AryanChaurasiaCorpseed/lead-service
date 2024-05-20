@@ -1,5 +1,6 @@
 package com.lead.dashboard.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ public interface ProjectService {
 
 	Project createProject(Long leadId,Long estimateId);
 
-	Map<String,Object> getAllProject();
+	List<Map<String,Object>> getAllProject();
 
 	Project createProjectV2(Long leadId);
 
