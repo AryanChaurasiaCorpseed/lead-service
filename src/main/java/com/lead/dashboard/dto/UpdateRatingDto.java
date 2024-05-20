@@ -4,9 +4,10 @@ import java.util.List;
 
 public class UpdateRatingDto {
 	Long ratingId;
-	Long serviceId;
-	List<Long> userId;
-	String name;
+	Long urlsManagmentId;
+	List<Long> ratingsUser;
+	String rating;
+	
 	
 	public Long getRatingId() {
 		return ratingId;
@@ -14,24 +15,24 @@ public class UpdateRatingDto {
 	public void setRatingId(Long ratingId) {
 		this.ratingId = ratingId;
 	}
-	public Long getServiceId() {
-		return serviceId;
+	public Long getUrlsManagmentId() {
+		return urlsManagmentId;
 	}
-	public void setServiceId(Long serviceId) {
-		this.serviceId = serviceId;
+	public void setUrlsManagmentId(Long urlsManagmentId) {
+		this.urlsManagmentId = urlsManagmentId;
 	}
-	public String getName() {
-		return name;
+	public List<Long> getRatingsUser() {
+		return ratingsUser;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setRatingsUser(List<Long> ratingsUser) {
+		this.ratingsUser = ratingsUser;
 	}
-	public List<Long> getUserId() {
-		return userId;
+	public String getRating() {
+		return rating;
 	}
-	public void setUserId(List<Long> userId) {
-		this.userId = userId;
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
-	
-	
+
+	 
 }

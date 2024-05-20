@@ -111,10 +111,10 @@ public class RatingServiceImpl implements RatingService{
 		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
 		if(opRating!=null && opRating.get()!=null) {
 			Ratings rating = opRating.get();
-			rating.setRating(updateRatingDto.getName());
+			rating.setRating(updateRatingDto.getRating());
 			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
 			rating.setUrlsManagment(urls.get());
-			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getUserId());
+			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
 			rating.setRatingsUser(userList);
 			ratingRepository.save(rating);
 			return rating;
