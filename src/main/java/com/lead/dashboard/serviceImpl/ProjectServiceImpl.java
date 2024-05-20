@@ -74,16 +74,18 @@ public class ProjectServiceImpl implements ProjectService{
         return p;      
 	}
 	@Override
-	public Map<String,Object> getAllProject() {
+	public List<Map<String,Object>> getAllProject() {
 		List<Project> pList = projectRepository.findAll();
-		Map<String,Object>res = new HashMap<>();
+		List<Map<String,Object>>result  = new ArrayList<>();
+		
 		for(Project p:pList)  {
+			Map<String,Object>res = new HashMap<>();
 			res.put("id",p.getId());
 			res.put("name", p.getName());
 			res.put("leadId",p.getLead().getId());
-			
+			result.add(res);
 		}
-		return res;
+		return result;
 	}
 
 
