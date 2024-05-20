@@ -62,6 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
 
 			result.put("companyId", c.getId());
 			result.put("companyName", c.getName());
+			result.put("country", c.getCountry());
+			result.put("gstNo", c.getGstNo());
+			result.put("assignee", c.getAssignee());
+			result.put("state", c.getState());
+			result.put("city", c.getCity());
+			result.put("address", c.getAddress());
+
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String,Object>>leadList = new ArrayList<>();
 			for(Lead l:lList) {

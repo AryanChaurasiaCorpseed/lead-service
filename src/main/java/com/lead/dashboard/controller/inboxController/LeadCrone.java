@@ -2480,7 +2480,7 @@ public class LeadCrone {
 			System.out.println("bbbbbbbbb");
 			User lastUser = lastActiveUser(lead.getId());
 
-			if(lead.isBacklogTask()&& lastUser!=null) {
+			if(lead.isBacklogTask()&& (!lead.isNotAssignSame()) && lastUser!=null) {
 				//				User user = lastActiveUser(lead.getId());
 				lead.setAssignee(lastUser);
 			}else {

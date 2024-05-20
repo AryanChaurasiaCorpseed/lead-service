@@ -75,6 +75,7 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public void updateLeadStatus(Long leadId, Long statusId,Long currentUserId) {
         Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
+        
         User cUser=null; 
         if(currentUserId!=null) {
             cUser= userRepo.findById(currentUserId).get();
