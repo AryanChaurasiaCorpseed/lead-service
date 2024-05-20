@@ -88,6 +88,9 @@ public class UrlsMapping {
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
+	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
+	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
+
 	
 	// Sales-Dashboard
 	
@@ -129,6 +132,8 @@ public class UrlsMapping {
 	
 	// User History
 	public static final String GET_ALL_USER_HISTORY=PREFIX+"/rating/getAllUserHistory";
+
+
 
 
 

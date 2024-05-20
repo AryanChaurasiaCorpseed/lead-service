@@ -12,6 +12,8 @@ public class CompanyDto {
 	String State;
 	String City;
 	String Address;
+	List<Long> projectId;
+
 	List<Long>leadId;
 	public String getName() {
 		return name;
@@ -67,6 +69,13 @@ public class CompanyDto {
 	public void setLeadId(List<Long> leadId) {
 		this.leadId = leadId;
 	}
+	public List<Long> getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(List<Long> projectId) {
+		this.projectId = projectId;
+	}
+	
 	
 	
 

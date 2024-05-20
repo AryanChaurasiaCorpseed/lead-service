@@ -19,4 +19,8 @@ public interface CompanyService {
 
 	boolean deleteCompany(Long companyId);
 
+	List<Map<String, Object>> getAllProjectByCompany(Long companyId);
+
+	List<Map<String, Object>> getAllLeadByCompany(Long companyId);
+
 }

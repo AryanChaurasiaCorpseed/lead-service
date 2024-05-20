@@ -61,6 +61,22 @@ public class CompanyController {
 		return allCompany;
 
 	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROJECT_BY_COMPANY)
+	public List<Map<String,Object>> getAllProjectByCompany(@RequestParam Long companyId)
+	{
+		List<Map<String,Object>> allProject = companyService.getAllProjectByCompany(companyId);
+		return allProject;
+
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_LEAD_BY_COMPANY)
+	public List<Map<String,Object>> getAllLeadByCompany(@RequestParam Long companyId)
+	{
+		List<Map<String,Object>> allLead = companyService.getAllLeadByCompany(companyId);
+		return allLead;
+
+	}
 
 	@DeleteMapping(UrlsMapping.DELETE_COMPANY)
 	public boolean deleteCompany(@RequestParam Long companyId)
