@@ -81,10 +81,9 @@ public class ProjectServiceImpl implements ProjectService{
 		for(Project p:pList)  {
 			Map<String,Object>res = new HashMap<>();
 			res.put("id",p.getId());
-			res.put("name", p.getName());
-			res.put("assignee", p.getAssignee());
-			res.put("name", p.getName());
-
+			res.put("projectName", p.getName());
+			res.put("assigneeId", p.getAssignee()!=null?p.getAssignee().getId():"NA");
+			res.put("assigneeName", p.getAssignee()!=null?p.getAssignee().getFullName():"NA");
 			res.put("leadId",p.getLead().getId());
 			result.add(res);
 		}
