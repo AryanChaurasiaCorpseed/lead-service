@@ -32,5 +32,6 @@ public interface UserService
 	List<User> getUserForManager(Long id);
 	Boolean approvedUserByManager(Long currentUserId, Long userId, String status);
 	Boolean autoActive(Long userId, Long currentUser);
+	List<User> getUserManager(Long id);
 
 }
