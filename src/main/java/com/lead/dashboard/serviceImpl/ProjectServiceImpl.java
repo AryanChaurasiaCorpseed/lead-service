@@ -82,6 +82,9 @@ public class ProjectServiceImpl implements ProjectService{
 			Map<String,Object>res = new HashMap<>();
 			res.put("id",p.getId());
 			res.put("name", p.getName());
+			res.put("assignee", p.getAssignee());
+			res.put("name", p.getName());
+
 			res.put("leadId",p.getLead().getId());
 			result.add(res);
 		}
