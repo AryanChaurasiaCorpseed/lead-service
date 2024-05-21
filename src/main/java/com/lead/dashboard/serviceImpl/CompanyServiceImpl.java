@@ -79,6 +79,7 @@ public class CompanyServiceImpl implements CompanyService {
          }else {
         	 if(user.isManager()) {
         		 List<Long>userList = new ArrayList<>();
+        		 userList.add(userId);
             	 companyList =companyRepository.findAllByAssigneeIdIn(userList);
 
         	 }else {
