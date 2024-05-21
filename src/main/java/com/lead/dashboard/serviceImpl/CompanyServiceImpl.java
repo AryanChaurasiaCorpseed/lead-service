@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.CompanyService;
 
 @Service
@@ -30,6 +32,9 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	@Autowired
 	LeadRepository leadRepository;
+	
+	@Autowired
+	UserRepo userRepo;
 	
 	@Override
 	public Company createCompany(CompanyDto companyDto) {
@@ -47,7 +52,10 @@ public class CompanyServiceImpl implements CompanyService {
 		List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
 		company.setCompanyProject(projectList);
 		List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
+		User user = userRepo.findById(companyDto.getAssigneeId()).get();
+		company.setAssignee(user);
 		company.setCompanyLead(leadList);
+		companyDto.getAssigneeId();
 		companyRepository.save(company);
 		return company;
 	}
@@ -60,9 +68,26 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<Map<String,Object>> getAllCompany() {
- 
-		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+	public List<Map<String,Object>> getAllCompany(Long userId) {
+         Optional<User> userOp = userRepo.findById(userId);
+         List<Company> companyList = new ArrayList<>();
+         User user = userOp.get();
+         List<String> roleList = user.getRole();
+         if(roleList.contains("ADMIN")) {
+     		 companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+
+         }else {
+        	 if(user.isManager()) {
+        		 List<Long>userList = new ArrayList<>();
+            	 companyList =companyRepository.findAllByAssigneeIdIn(userList);
+
+        	 }else {
+            	 
+        		 companyList =companyRepository.findByAssigneeId(userId);
+
+        	 }
+         }
+//		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		List<Map<String,Object>>res = new ArrayList<>();
 		for(Company c:companyList) {
 			Map<String,Object>result = new HashMap<>();

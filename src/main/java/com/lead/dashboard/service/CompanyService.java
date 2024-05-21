@@ -15,7 +15,7 @@ public interface CompanyService {
 
 	Company getCompany(Long companyId);
 
-	List<Map<String,Object>> getAllCompany();
+	List<Map<String,Object>> getAllCompany(Long userId);
 
 	boolean deleteCompany(Long companyId);
 
