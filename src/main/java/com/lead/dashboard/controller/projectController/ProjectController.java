@@ -44,8 +44,8 @@ public class ProjectController {
     
     
     @PostMapping(UrlsMapping.GET_ALL_PROJECT)
-    public ResponseEntity<List<Map<String,Object>>> getAllProject() {
-    	List<Map<String,Object>> pMap = projectService.getAllProject();
+    public ResponseEntity<List<Map<String,Object>>> getAllProject(@RequestParam Long userId) {
+    	List<Map<String,Object>> pMap = projectService.getAllProject(userId);
         if (pMap!=null) {
             return ResponseEntity.ok(pMap);
         } else {

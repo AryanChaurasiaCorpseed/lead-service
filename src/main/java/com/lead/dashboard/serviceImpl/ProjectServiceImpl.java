@@ -74,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService{
         return p;      
 	}
 	@Override
-	public List<Map<String,Object>> getAllProject() {
+	public List<Map<String,Object>> getAllProject(Long userId) {
 		List<Project> pList = projectRepository.findAll();
 		List<Map<String,Object>>result  = new ArrayList<>();
 		
