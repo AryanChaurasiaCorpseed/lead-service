@@ -55,9 +55,9 @@ public class CompanyController {
 
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY)
-	public List<Map<String,Object>> getAllCompany()
+	public List<Map<String,Object>> getAllCompany(@RequestParam Long userId)
 	{
-		List<Map<String,Object>> allCompany = companyService.getAllCompany();
+		List<Map<String,Object>> allCompany = companyService.getAllCompany(userId);
 		return allCompany;
 
 	}

@@ -13,6 +13,7 @@ public class CompanyDto {
 	String City;
 	String Address;
 	List<Long> projectId;
+    Long  assigneeId;
 
 	List<Long>leadId;
 	public String getName() {
@@ -74,6 +75,12 @@ public class CompanyDto {
 	}
 	public void setProjectId(List<Long> projectId) {
 		this.projectId = projectId;
+	}
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
 	}
 	
 	
