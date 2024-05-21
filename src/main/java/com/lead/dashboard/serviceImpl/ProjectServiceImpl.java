@@ -84,6 +84,8 @@ public class ProjectServiceImpl implements ProjectService{
 			res.put("projectName", p.getName());
 			res.put("assigneeId", p.getAssignee()!=null?p.getAssignee().getId():"NA");
 			res.put("assigneeName", p.getAssignee()!=null?p.getAssignee().getFullName():"NA");
+			res.put("projectName", p.getCompany());
+
 			res.put("leadId",p.getLead().getId());
 			result.add(res);
 		}
