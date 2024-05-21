@@ -22,7 +22,9 @@ import org.thymeleaf.context.Context;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -489,6 +491,20 @@ public class UserServiceImpl implements UserService {
 		    createHistory(user,opCurUser!=null?opCurUser.get():null,active);
 		}
 		return flag;
+	}
+
+
+
+	@Override
+	public List<User> getUserManager(Long id) {
+		List<User>userList=userRepo.findAllByIsDeleted(false);
+		Map<Long,List<User>>mapData = new HashMap<>();
+		for(User u:userList) {
+			 if(mapData.get(u.getManagers().getId())!=null) {
+				 
+			 }
+		}
+		return null;
 	}
 	
 
