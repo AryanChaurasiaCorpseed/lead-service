@@ -23,10 +23,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,9 +40,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
-    @Autowired
-    UserHistoryRepo userHistoryRepo;
+
+	@Autowired
+	UserHistoryRepo userHistoryRepo;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -145,11 +147,11 @@ public class UserServiceImpl implements UserService {
 			u.setId(userId);
 			u.setFullName(userName);
 			u.setEmail(email);
-            u.setDepartment(department);
+			u.setDepartment(department);
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(role);
 			u.setRole(listRole);
-            u.setManagerApproval("pending");
+			u.setManagerApproval("pending");
 
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
@@ -174,7 +176,7 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();
 			listRole.addAll(role);
 			u.setRole(listRole);
-            u.setManagerApproval("pending");
+			u.setManagerApproval("pending");
 
 			u.setDepartment(department);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
@@ -216,12 +218,12 @@ public class UserServiceImpl implements UserService {
 	public Boolean createUser(Long id) {
 		Boolean flag=false;
 		Optional<User> opUser = userRepo.findById(id);
-	    if(opUser!=null &&opUser.get()!=null) {
-	    	User user = opUser.get();
-	    	user.setDeleted(false);
-	    	userRepo.save(user);
-	    	flag=true;
-	    }
+		if(opUser!=null &&opUser.get()!=null) {
+			User user = opUser.get();
+			user.setDeleted(false);
+			userRepo.save(user);
+			flag=true;
+		}
 		return flag;
 	}
 
@@ -239,19 +241,19 @@ public class UserServiceImpl implements UserService {
 		return userRepo.save(existingUser);
 	}
 
-//	   boolean isManager;
-//		String epfNo;
-//		String aadharCard;
-//		String employeeId;	
-//		@ManyToOne
-//		User managerName;
-//		int expInMonth;
-//		int expInYear;
-//	    Date dateOfJoining;
-//	    String type;// internal ,external
+	//	   boolean isManager;
+	//		String epfNo;
+	//		String aadharCard;
+	//		String employeeId;	
+	//		@ManyToOne
+	//		User managerName;
+	//		int expInMonth;
+	//		int expInYear;
+	//	    Date dateOfJoining;
+	//	    String type;// internal ,external
 	@Override
 	public User editUserByHr(User existingUser, UpdateUserByHr user) {
-		
+
 		existingUser.setFullName(user.getFullName());
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
@@ -259,38 +261,38 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
-		
+
 		existingUser.setLockerSize(user.getLockerSize());
 		existingUser.setBackupTeam(user.isBackupTeam());
 		existingUser.setMaster(user.isBackupTeam());
-		
+
 		existingUser.setManager(user.isManager());
 		existingUser.setEpfNo(user.getEpfNo());
 		existingUser.setAadharCard(user.getAadharCard());
 		existingUser.setEmployeeId(user.getEmployeeId());
-	    existingUser.setExpInMonth(user.getExpInMonth());
-	    existingUser.setExpInYear(user.getExpInYear());
-	    existingUser.setDateOfJoining(user.getDateOfJoining());
-	    existingUser.setType(user.getType());
-	    
-	    if(user.getManagerId()!=null &&user.getManagerId()!=0) {
+		existingUser.setExpInMonth(user.getExpInMonth());
+		existingUser.setExpInYear(user.getExpInYear());
+		existingUser.setDateOfJoining(user.getDateOfJoining());
+		existingUser.setType(user.getType());
+
+		if(user.getManagerId()!=null &&user.getManagerId()!=0) {
 			Optional<User> manager = userRepo.findById(user.getManagerId());
 			existingUser.setManagers(manager!=null?manager.get():null);
-	    }
-	    existingUser.setFatherName(user.getFatherName());
-	    existingUser.setFatherOccupation(user.getFatherOccupation());
-	    existingUser.setFatherContactNo(user.getFatherContactNo());
-	    existingUser.setMotherName(user.getMotherName());
-	    existingUser.setMotherContactNo(user.getMotherContactNo());
-	    existingUser.setMotherOccupation(user.getMotherOccupation());
-	    existingUser.setSpouseName(user.getSpouseName());
-	    existingUser.setSpouseContactNo(user.getSpouseContactNo());
-	    existingUser.setNationality(user.getNationality());
-	    existingUser.setLanguage(user.getLanguage());
-	    existingUser.setEmergencyNumber(user.getEmergencyNumber());
-	    existingUser.setPanNumber(user.getPanNumber());
-	    existingUser.setPermanentAddress(user.getPermanentAddress());
-	    existingUser.setResidentialAddress(user.getResidentialAddress());
+		}
+		existingUser.setFatherName(user.getFatherName());
+		existingUser.setFatherOccupation(user.getFatherOccupation());
+		existingUser.setFatherContactNo(user.getFatherContactNo());
+		existingUser.setMotherName(user.getMotherName());
+		existingUser.setMotherContactNo(user.getMotherContactNo());
+		existingUser.setMotherOccupation(user.getMotherOccupation());
+		existingUser.setSpouseName(user.getSpouseName());
+		existingUser.setSpouseContactNo(user.getSpouseContactNo());
+		existingUser.setNationality(user.getNationality());
+		existingUser.setLanguage(user.getLanguage());
+		existingUser.setEmergencyNumber(user.getEmergencyNumber());
+		existingUser.setPanNumber(user.getPanNumber());
+		existingUser.setPermanentAddress(user.getPermanentAddress());
+		existingUser.setResidentialAddress(user.getResidentialAddress());
 		return userRepo.save(existingUser);
 	}
 
@@ -302,54 +304,54 @@ public class UserServiceImpl implements UserService {
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(createUserDto.getEmail());
 		System.out.println(isExistOrNot);
-        String managerEmail[]=new String[1];
+		String managerEmail[]=new String[1];
 		if(!isExistOrNot) {
 			User u = new User();
 			u.setId(createUserDto.getId());
 			u.setFullName(createUserDto.getUserName());
 			u.setEmail(createUserDto.getEmail());
-            u.setDepartment(createUserDto.getDepartment());
+			u.setDepartment(createUserDto.getDepartment());
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(createUserDto.getRole());
 			u.setRole(listRole);
-            u.setLockerSize(createUserDto.getLockerSize());
-            u.setBackupTeam(createUserDto.isBackupTeam());
-            u.setMaster(createUserDto.isMaster());
+			u.setLockerSize(createUserDto.getLockerSize());
+			u.setBackupTeam(createUserDto.isBackupTeam());
+			u.setMaster(createUserDto.isMaster());
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
 			u.setDesignation(createUserDto.getDesignation());
-			
+
 			u.setManager(createUserDto.isManager());
 			u.setEpfNo(createUserDto.getEpfNo());
 			u.setAadharCard(createUserDto.getAadharCard());
 			u.setEmployeeId(createUserDto.getEmployeeId());
-		    u.setExpInMonth(createUserDto.getExpInMonth());
-		    u.setExpInYear(createUserDto.getExpInYear());
-		    u.setDateOfJoining(createUserDto.getDateOfJoining());
-		    u.setType(createUserDto.getType());
-		    
-		    if(createUserDto.getManagerId()!=null) {
+			u.setExpInMonth(createUserDto.getExpInMonth());
+			u.setExpInYear(createUserDto.getExpInYear());
+			u.setDateOfJoining(createUserDto.getDateOfJoining());
+			u.setType(createUserDto.getType());
+
+			if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
 				u.setManagers(manager);
 				managerEmail[0]=manager.getEmail();
-		    }
-		    u.setFatherName(createUserDto.getFatherName());
-		    u.setFatherOccupation(createUserDto.getFatherOccupation());
-		    u.setFatherContactNo(createUserDto.getFatherContactNo());
-		    u.setMotherName(createUserDto.getMotherName());
-		    u.setMotherContactNo(createUserDto.getMotherContactNo());
-		    u.setMotherOccupation(createUserDto.getMotherOccupation());
-		    u.setSpouseName(createUserDto.getSpouseName());
-		    u.setSpouseContactNo(createUserDto.getSpouseContactNo());
-		    u.setNationality(createUserDto.getNationality());
-		    u.setLanguage(createUserDto.getLanguage());
-		    u.setEmergencyNumber(createUserDto.getEmergencyNumber());
-		    u.setPanNumber(createUserDto.getPanNumber());
-		    u.setPermanentAddress(createUserDto.getPermanentAddress());
-		    u.setResidentialAddress(createUserDto.getResidentialAddress());
-            u.setManagerApproval("pending");
-			
+			}
+			u.setFatherName(createUserDto.getFatherName());
+			u.setFatherOccupation(createUserDto.getFatherOccupation());
+			u.setFatherContactNo(createUserDto.getFatherContactNo());
+			u.setMotherName(createUserDto.getMotherName());
+			u.setMotherContactNo(createUserDto.getMotherContactNo());
+			u.setMotherOccupation(createUserDto.getMotherOccupation());
+			u.setSpouseName(createUserDto.getSpouseName());
+			u.setSpouseContactNo(createUserDto.getSpouseContactNo());
+			u.setNationality(createUserDto.getNationality());
+			u.setLanguage(createUserDto.getLanguage());
+			u.setEmergencyNumber(createUserDto.getEmergencyNumber());
+			u.setPanNumber(createUserDto.getPanNumber());
+			u.setPermanentAddress(createUserDto.getPermanentAddress());
+			u.setResidentialAddress(createUserDto.getResidentialAddress());
+			u.setManagerApproval("pending");
+
 			userRepo.save(u);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
@@ -364,21 +366,21 @@ public class UserServiceImpl implements UserService {
 			String text="CLICK ON THIS link and set password";
 			String[] ccPersons= {createUserDto.getEmail()};
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
-	//==================use mail manager =============================
-//			String feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
-//
-//			Context context1 = new Context();
-//			context1.setVariable("userName", "Aryan Chaurasia");
-//			context1.setVariable("user", u.getFullName());
-//
-//			context1.setVariable("email", createUserDto.getEmail());
-//			context1.setVariable("Rurl", feedbackStatusURL);
-//			context1.setVariable("currentYear", LocalDateTime.now().getYear());
-//			String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
-//			String[] ccPerson= {createUserDto.getEmail()};
-//			mailSendSerivceImpl.sendEmail(managerEmail, ccPerson,ccPersons, subject,text,context,"createUserManager.html");
-			
-			
+			//==================use mail manager =============================
+			//			String feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();
+			//
+			//			Context context1 = new Context();
+			//			context1.setVariable("userName", "Aryan Chaurasia");
+			//			context1.setVariable("user", u.getFullName());
+			//
+			//			context1.setVariable("email", createUserDto.getEmail());
+			//			context1.setVariable("Rurl", feedbackStatusURL);
+			//			context1.setVariable("currentYear", LocalDateTime.now().getYear());
+			//			String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+			//			String[] ccPerson= {createUserDto.getEmail()};
+			//			mailSendSerivceImpl.sendEmail(managerEmail, ccPerson,ccPersons, subject,text,context,"createUserManager.html");
+
+
 			return u;
 		}else {
 			User u = userRepo.findByemail(createUserDto.getEmail());
@@ -386,40 +388,40 @@ public class UserServiceImpl implements UserService {
 			listRole.addAll(createUserDto.getRole());
 			u.setRole(listRole);
 			u.setDepartment(createUserDto.getDepartment());
-			
-			
+
+
 			u.setManager(createUserDto.isManager());
 			u.setEpfNo(createUserDto.getEpfNo());
 			u.setAadharCard(createUserDto.getAadharCard());
 			u.setEmployeeId(createUserDto.getEmployeeId());
-		    u.setExpInMonth(createUserDto.getExpInMonth());
-		    u.setExpInYear(createUserDto.getExpInYear());
-		    u.setDateOfJoining(createUserDto.getDateOfJoining());
-		    u.setType(createUserDto.getType());
-		    
-		    if(createUserDto.getManagerId()!=null) {
+			u.setExpInMonth(createUserDto.getExpInMonth());
+			u.setExpInYear(createUserDto.getExpInYear());
+			u.setDateOfJoining(createUserDto.getDateOfJoining());
+			u.setType(createUserDto.getType());
+
+			if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
 				u.setManagers(manager);
 				managerEmail[0]=manager.getEmail();
-		    }
-		    u.setFatherName(createUserDto.getFatherName());
-		    u.setFatherOccupation(createUserDto.getFatherOccupation());
-		    u.setFatherContactNo(createUserDto.getFatherContactNo());
-		    u.setMotherName(createUserDto.getMotherName());
-		    u.setMotherContactNo(createUserDto.getMotherContactNo());
-		    u.setMotherOccupation(createUserDto.getMotherOccupation());
-		    u.setSpouseName(createUserDto.getSpouseName());
-		    u.setSpouseContactNo(createUserDto.getSpouseContactNo());
-		    u.setNationality(createUserDto.getNationality());
-		    u.setLanguage(createUserDto.getLanguage());
-		    u.setEmergencyNumber(createUserDto.getEmergencyNumber());
-		    u.setPanNumber(createUserDto.getPanNumber());
-		    u.setPermanentAddress(createUserDto.getPermanentAddress());
-		    u.setResidentialAddress(createUserDto.getResidentialAddress());
-            u.setManagerApproval("pending");
+			}
+			u.setFatherName(createUserDto.getFatherName());
+			u.setFatherOccupation(createUserDto.getFatherOccupation());
+			u.setFatherContactNo(createUserDto.getFatherContactNo());
+			u.setMotherName(createUserDto.getMotherName());
+			u.setMotherContactNo(createUserDto.getMotherContactNo());
+			u.setMotherOccupation(createUserDto.getMotherOccupation());
+			u.setSpouseName(createUserDto.getSpouseName());
+			u.setSpouseContactNo(createUserDto.getSpouseContactNo());
+			u.setNationality(createUserDto.getNationality());
+			u.setLanguage(createUserDto.getLanguage());
+			u.setEmergencyNumber(createUserDto.getEmergencyNumber());
+			u.setPanNumber(createUserDto.getPanNumber());
+			u.setPermanentAddress(createUserDto.getPermanentAddress());
+			u.setResidentialAddress(createUserDto.getResidentialAddress());
+			u.setManagerApproval("pending");
 
-			
+
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
@@ -442,7 +444,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserForManager(Long id) {
-		   List<User> userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
+		List<User> userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
 		return userList;
 	}
 
@@ -451,17 +453,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean approvedUserByManager(Long currentUserId, Long userId, String status) {
 		Boolean flag = false;
-		 List<String> userRoles = userRepo.findRoleNameById(currentUserId);
+		List<String> userRoles = userRepo.findRoleNameById(currentUserId);
 		if(userRoles.contains("HR_HEAD")||userRoles.contains("ADMIN")) {
-			 User user = userRepo.findById(userId).get();
-			 user.setManagerApproval(status);
-			 userRepo.save(user); 
-			 flag=true;
-			  
+			User user = userRepo.findById(userId).get();
+			user.setManagerApproval(status);
+			userRepo.save(user); 
+			flag=true;
+
 		}
 		return flag;
 	}
-   
+
 	public void createHistory(User user,User currentUser,Boolean active) {
 		UserRecord userRecord = new UserRecord();
 		userRecord.setCurrentUser(user);
@@ -485,10 +487,10 @@ public class UserServiceImpl implements UserService {
 		if(opUser!=null) {
 			User user=opUser.get();
 			boolean active=user.isAutoActive();
-		    user.setAutoActive(!user.isAutoActive());
-		    userRepo.save(user);
-		    flag=true;
-		    createHistory(user,opCurUser!=null?opCurUser.get():null,active);
+			user.setAutoActive(!user.isAutoActive());
+			userRepo.save(user);
+			flag=true;
+			createHistory(user,opCurUser!=null?opCurUser.get():null,active);
 		}
 		return flag;
 	}
@@ -496,19 +498,51 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public List<User> getUserManager(Long id) {
+	public List<Long> getUserManager(Long id) {
 		List<User>userList=userRepo.findAllByIsDeleted(false);
 		Map<Long,List<User>>mapData = new HashMap<>();
 		for(User u:userList) {
-			 if(mapData.get(u.getManagers().getId())!=null) {
-				 
-			 }
+			if(u.getManagers()!=null) {
+				if(mapData.get(u.getManagers().getId())!=null) {
+					List<User>uList=mapData.get(u.getManagers().getId());
+					uList.add(u);
+					mapData.put(u.getManagers().getId(), uList);
+
+
+				}else{
+					List<User>uList=new ArrayList<>();
+					uList.add(u);
+					mapData.put(u.getManagers().getId(), uList);
+
+				}
+			}
 		}
-		return null;
+		Set<User>uSet =getUserData(mapData,id,new HashSet<>());
+		List<Long> hierarchyList = uSet.stream().map(i->i.getId()).collect(Collectors.toList());
+		return hierarchyList;
 	}
-	
+
+	public Set<User> getUserData(Map<Long,List<User>>mapData,Long id,Set<User>users) {
+		List<User>userList=mapData.get(id);
+		if(userList==null) {
+			return users;
+		}
+		if(userList!=null &&userList.size()==0) {
+			return users;
+		}else {
+			users.addAll(userList);
+			for(User u:userList) {
+				getUserData(mapData,u.getId(),users);
+			}
+			return users;
+
+		}
+
+
+	}
 
 
 
-	
+
+
 }
