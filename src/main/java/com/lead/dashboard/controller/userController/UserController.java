@@ -190,8 +190,8 @@ public class UserController {
 	}
 	
 	@GetMapping("api/v1/users/getUserManager")
-	public ResponseEntity<List<User>> getUserManager(@RequestParam Long id) {
-		List<User> user = userService.getUserManager(id);
+	public ResponseEntity<List<Long>> getUserManager(@RequestParam Long id) {
+		List<Long> user = userService.getUserManager(id);
 		if (user != null) {
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else {

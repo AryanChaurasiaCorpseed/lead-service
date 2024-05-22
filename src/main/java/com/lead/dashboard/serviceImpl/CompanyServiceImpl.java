@@ -34,6 +34,9 @@ public class CompanyServiceImpl implements CompanyService {
 	LeadRepository leadRepository;
 	
 	@Autowired
+	UserServiceImpl userServiceImpl;
+	
+	@Autowired
 	UserRepo userRepo;
 	
 	@Override
@@ -80,6 +83,8 @@ public class CompanyServiceImpl implements CompanyService {
         	 if(user.isManager()) {
         		 List<Long>userList = new ArrayList<>();
         		 userList.add(userId);
+        		List<Long> uList = userServiceImpl.getUserManager(userId);
+        		 userList.addAll(uList);
             	 companyList =companyRepository.findAllByAssigneeIdIn(userList);
 
         	 }else {
