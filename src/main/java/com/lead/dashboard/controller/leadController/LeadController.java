@@ -259,5 +259,12 @@ public class LeadController {
 	}
 
 
+	@PutMapping(UrlsMapping.UPDATE_STATUS_AND_AUTO_SAME)
+	public Boolean updateStatusAndAutoSame(@RequestParam Long leadId ,@RequestParam Long updatedById,@RequestParam boolean isAutoSame,@RequestParam Long statusId)
+	{
+		Boolean res=leadservice.updateStatusAndAutoSame(leadId,updatedById,isAutoSame,statusId);
+		return res;
+	}
+
 
 }
