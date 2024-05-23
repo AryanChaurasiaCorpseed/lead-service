@@ -29,6 +29,14 @@ public class CreateLeadStatus {
 		public void setDescription(String description) {
 			this.description = description;
 		}
+
+		public boolean isAuto() {
+			return isAuto;
+		}
+
+		public void setAuto(boolean isAuto) {
+			this.isAuto = isAuto;
+		}
 		
 		
 }
