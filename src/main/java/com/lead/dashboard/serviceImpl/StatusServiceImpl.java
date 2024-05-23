@@ -43,6 +43,7 @@ public class StatusServiceImpl implements StatusService {
     	s.setDescription(status.getDescription());
         s.setCreatedTime(LocalDateTime.now());
         s.setUpdatedTime(LocalDateTime.now());
+        s.setEnableAutoAssign(status.isAuto());
         return statusRepository.save(s);
     }
 
