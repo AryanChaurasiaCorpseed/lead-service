@@ -73,31 +73,47 @@ public class StatusServiceImpl implements StatusService {
         statusRepository.delete(status);
     }
 
+//    @Override
+//    public void updateLeadStatus(Long leadId, Long statusId,Long currentUserId) {
+//        Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
+//        List<Status>filterStatus=statusRepository.findAllByEnableAutoAssign(true);
+//        User cUser=null; 
+//        if(currentUserId!=null) {
+//            cUser= userRepo.findById(currentUserId).get();
+//        }
+//        Status prevStatus = lead.getStatus();
+//        Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
+////        Status newstatusdata = statusRepository.findAllByName(status);
+//        lead.setStatus(newstatusdata);    
+//        leadRepository.save(lead);
+//
+////        LeadStatusChangeHistory leadStatusChange= new LeadStatusChangeHistory();
+//
+////        leadStatusChange.setNewStatus(newstatusdata);
+////        leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
+////        leadStatusChange.setChangedByUser("Aryan");
+////        leadStatusChange.setLead(lead);
+//        leadServiceImpl.multiLeadStatusHistory(leadId, prevStatus, newstatusdata, cUser);
+////        leadStatusChangeHisoryRepo.save(leadStatusChange);
+//
+//    }
+    
     @Override
     public void updateLeadStatus(Long leadId, Long statusId,Long currentUserId) {
         Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new EntityNotFoundException("no lead"));
-        
+        List<Status>filterStatus=statusRepository.findAllByEnableAutoAssign(true);
         User cUser=null; 
         if(currentUserId!=null) {
             cUser= userRepo.findById(currentUserId).get();
-
         }
         Status prevStatus = lead.getStatus();
         Status newstatusdata = statusRepository.findById(statusId).orElseThrow(() -> new EntityNotFoundException("status not there"));
-//        Status newstatusdata = statusRepository.findAllByName(status);
-        lead.setStatus(newstatusdata);
-        
+        if(filterStatus!=null && filterStatus.contains(newstatusdata)) {
+        	lead.setAuto(true);
+        }
+        lead.setStatus(newstatusdata);    
         leadRepository.save(lead);
-
-//        LeadStatusChangeHistory leadStatusChange= new LeadStatusChangeHistory();
-
-//        leadStatusChange.setNewStatus(newstatusdata);
-//        leadStatusChange.setChangeTime(newstatusdata.getUpdatedTime());
-//        leadStatusChange.setChangedByUser("Aryan");
-//        leadStatusChange.setLead(lead);
         leadServiceImpl.multiLeadStatusHistory(leadId, prevStatus, newstatusdata, cUser);
-//        leadStatusChangeHisoryRepo.save(leadStatusChange);
-
     }
     
 
