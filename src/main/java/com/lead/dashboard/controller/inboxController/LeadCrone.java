@@ -23,6 +23,7 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.RatingRepository;
+import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
@@ -40,6 +41,9 @@ public class LeadCrone {
 
 	@Autowired
 	LeadHistoryRepository leadHistoryRepository;
+	
+	@Autowired
+	StatusRepository statusRepository;
 
 	@Autowired
 	RatingRepository ratingRepository;
@@ -2162,6 +2166,7 @@ public class LeadCrone {
 	}
 
 	public void assignLeadByCroneV10() {
+		
 		List<Long>croneStatus= new ArrayList<>();
 
 
@@ -2459,9 +2464,10 @@ public class LeadCrone {
 	
 	public void assignLeadByCroneV11() {
 		List<Long>croneStatus= new ArrayList<>();
-
-
-		croneStatus.add(1l);
+         
+         List<Status>sList=statusRepository.findByEnableAutoAssign(true);
+         sList.addAll(sList);
+//		croneStatus.add(1l);
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
