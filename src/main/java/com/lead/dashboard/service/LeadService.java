@@ -35,7 +35,7 @@ public interface LeadService {
 	Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee);
 	Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto);
 	Lead createLeadV2(LeadDTO leadDTO);
-	Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isAutoSame, Long statusId);
+	Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isAutoSame, String status);
 
 
 

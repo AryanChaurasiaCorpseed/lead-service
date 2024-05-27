@@ -21,6 +21,8 @@ public interface StatusRepository extends JpaRepository<Status,Long>
 	List<Status> findByEnableAutoAssign(boolean isAutoAssign);
 	@Query(value = "SELECT * FROM status_details sd WHERE sd.enable_auto_assign=:isAutoAssign", nativeQuery = true)
 	List<Status> findAllByEnableAutoAssign(boolean isAutoAssign);
+	@Query(value = "SELECT * FROM status_details sd WHERE sd.status_name=:status", nativeQuery = true)
+	Status findByName(String status);
 
 //	Status save(CreateLeadStatus status);
 

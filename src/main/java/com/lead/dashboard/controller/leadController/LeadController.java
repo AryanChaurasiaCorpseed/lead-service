@@ -3,6 +3,7 @@ package com.lead.dashboard.controller.leadController;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
+import com.lead.dashboard.dto.AutoAssignDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
@@ -260,9 +261,13 @@ public class LeadController {
 
 
 	@PutMapping(UrlsMapping.UPDATE_STATUS_AND_AUTO_SAME)
-	public Boolean updateStatusAndAutoSame(@RequestParam Long leadId ,@RequestParam Long updatedById,@RequestParam boolean isAutoSame,@RequestParam Long statusId)
-	{
-		Boolean res=leadservice.updateStatusAndAutoSame(leadId,updatedById,isAutoSame,statusId);
+	public Boolean updateStatusAndAutoSame(@RequestBody AutoAssignDto autoAssignDto)
+	{ 
+		Long leadId=autoAssignDto.getLeadId();
+		Long updatedById=autoAssignDto.getUpdatedById();
+		boolean isAutoSame=autoAssignDto.isAutoSame();
+		
+		Boolean res=leadservice.updateStatusAndAutoSame(leadId,updatedById,isAutoSame,autoAssignDto.getStatus());
 		return res;
 	}
 

@@ -1047,10 +1047,12 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	@Override
-	public Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isNotAutoSame, Long statusId) {
+	public Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isNotAutoSame, String statusName) {
 		Boolean flag=false;
 		Optional<Lead> leadOp = leadRepository.findById(leadId);
-		Status status = statusRepository.findById(statusId).get();
+		Status status = statusRepository.findByName(statusName);
+
+//		Status status = statusRepository.findById(statusId).get();
 		if(leadOp!=null && leadOp.get()!=null) {
 			Lead lead = leadOp.get();
 			lead.setStatus(status);
