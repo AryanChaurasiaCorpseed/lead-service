@@ -2467,7 +2467,7 @@ public class LeadCrone {
          
          List<Status>sList=statusRepository.findByEnableAutoAssign(true);
          sList.addAll(sList);
-//		croneStatus.add(1l);
+		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
@@ -2528,7 +2528,10 @@ public class LeadCrone {
 
 								Long productId=urlsManagment.getId();
 								String rating4="4";
-								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+								Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
+								List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
+
+//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
 								System.out.println("hhhhhhhhhhhhh");
 
 								String rating5="5";

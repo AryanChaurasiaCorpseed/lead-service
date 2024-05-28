@@ -1051,20 +1051,41 @@ public class LeadServiceImpl implements LeadService  {
 		Boolean flag=false;
 		Optional<Lead> leadOp = leadRepository.findById(leadId);
 		Status status = statusRepository.findByName(statusName);
-
+        User u = userRepo.findById(updatedById).get();
 //		Status status = statusRepository.findById(statusId).get();
 		if(leadOp!=null && leadOp.get()!=null) {
 			Lead lead = leadOp.get();
+			Status prevStatus = lead.getStatus();
 			lead.setStatus(status);
 			lead.setNotAssignSame(isNotAutoSame);
 			lead.setAuto(true);
 			leadRepository.save(lead );
+			Status currStatus = lead.getStatus();
+			multiLeadStatusHistoryAuto(leadId, prevStatus,currStatus, u,isNotAutoSame);
+
 			flag=true;
 			
 		}
 
 		return flag;
 	}
+	
+
+	public Boolean multiLeadStatusHistoryAuto(Long leadId,Status prevStatus,Status status,User updatedBy,Boolean isNotAutoSame) {
+		Boolean flag=false;
+		LeadHistory leadHistory= new LeadHistory();
+		leadHistory.setEventType("Change the field 'Stage' and auto is "+isNotAutoSame);
+		String pStatus = prevStatus!=null?prevStatus.getName():"NA";
+		String cStatus = status!=null?status.getName():"NA";
+		leadHistory.setDescription(pStatus+" -> "+cStatus);
+		leadHistory.setLeadId(leadId);
+		leadHistory.setCreatedBy(updatedBy);
+		leadHistory.setCreateDate(new Date());
+		leadHistoryRepository.save(leadHistory);
+		flag=true;
+		return flag;
+	}
+
 
 
 }
