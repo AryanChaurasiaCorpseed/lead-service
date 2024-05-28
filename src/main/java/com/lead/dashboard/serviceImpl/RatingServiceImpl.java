@@ -133,7 +133,7 @@ public class RatingServiceImpl implements RatingService{
         	Map<String,Object>map= new HashMap<>();
         	map.put("id", r.getId());
         	map.put("rating", r.getRating());
-        	map.put("user", r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList()));
+        	map.put("user", r.getRatingsUser()!=null?r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList()):null);
         	map.put("urlsName", r.getUrlsManagment().getUrlsName());
             result.add(map);
         }
