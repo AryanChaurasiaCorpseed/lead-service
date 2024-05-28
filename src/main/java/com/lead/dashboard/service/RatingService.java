@@ -22,4 +22,6 @@ public interface RatingService {
 
 	Ratings updateUserRatingService(UpdateRatingDto updateRatingDto);
 
+	List<Map<String, Object>> getRetingByUrls(Long urlsId);
+
 }

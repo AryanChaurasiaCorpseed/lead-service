@@ -64,4 +64,13 @@ public class RatingController {
 
 	}
 	
+	@GetMapping(UrlsMapping.GET_RATING_BY_URLS)
+	public List<Map<String,Object>> getRetingByUrls(@RequestParam Long urlsId)
+	{
+		List<Map<String,Object>> rating=ratingService.getRetingByUrls(urlsId);
+		
+		return rating;		 
+
+	}
+	
 }

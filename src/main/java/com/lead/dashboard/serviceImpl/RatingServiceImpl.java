@@ -122,4 +122,22 @@ public class RatingServiceImpl implements RatingService{
 		return null;
 	}
 
+
+
+
+	@Override
+	public List<Map<String, Object>> getRetingByUrls(Long urlsId) {
+		List<Ratings> ratingList = ratingRepository.findByUrlsManagmentId(urlsId);
+        List<Map<String,Object>>result = new ArrayList<>();
+        for(Ratings r:ratingList) {
+        	Map<String,Object>map= new HashMap<>();
+        	map.put("id", r.getId());
+        	map.put("rating", r.getRating());
+        	map.put("user", r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList()));
+        	map.put("urlsName", r.getUrlsManagment().getUrlsName());
+            result.add(map);
+        }
+		return result;
+	}
+
 }

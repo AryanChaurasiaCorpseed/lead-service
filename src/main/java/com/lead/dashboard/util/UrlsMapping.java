@@ -128,7 +128,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_RATING_BY_SERVICE_ID=PREFIX+"/rating/getAllRatingByServiceId";
 	public static final String ADD_USER_IN_RATING_SERVICE=PREFIX+"/rating/addUserInRatingsService";
 	public static final String UPDATE_USER_RATING_SERVICE=PREFIX+"/rating/updateUserRatingService";
-
+	public static final String GET_RATING_BY_URLS=PREFIX+"/rating/getRetingByUrls";
 
 	
 	// User History
