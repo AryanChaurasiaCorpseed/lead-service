@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
@@ -41,7 +42,7 @@ public class LeadCrone {
 
 	@Autowired
 	LeadHistoryRepository leadHistoryRepository;
-	
+
 	@Autowired
 	StatusRepository statusRepository;
 
@@ -2155,9 +2156,9 @@ public class LeadCrone {
 		if(leadHistoryList!=null && (leadHistoryList.size()!=0)) {
 			leadHistoryList=leadHistoryList.stream().sorted(Comparator.comparing(LeadHistory::getId).reversed()).filter(i->(i!=null?i.getPrevUser()!=null?i.getPrevUser().getDepartment():"NA":"NA").equals("Sales")).collect(Collectors.toList());
 			Optional<LeadHistory> lHistory = leadHistoryList!=null?leadHistoryList.stream().findFirst():null;
-            if(lHistory!=null&&lHistory.isPresent() &&lHistory.get()!=null) {
-            	leadHistory=lHistory.get();
-            }
+			if(lHistory!=null&&lHistory.isPresent() &&lHistory.get()!=null) {
+				leadHistory=lHistory.get();
+			}
 		}
 		System.out.println(leadHistory!=null?leadHistory.getPrevUser():null);
 		return leadHistory!=null?leadHistory.getPrevUser():null;
@@ -2166,7 +2167,7 @@ public class LeadCrone {
 	}
 
 	public void assignLeadByCroneV10() {
-		
+
 		List<Long>croneStatus= new ArrayList<>();
 
 
@@ -2332,7 +2333,7 @@ public class LeadCrone {
 
 										List<User> get4to5StarUser = mergeAllUser4to5StarV3(ratingList, userCounts);
 										getAllStarUser.addAll(get4to5StarUser);
-										
+
 										for(int i=0;i<getAllStarUser.size();i++) {
 											int lSize =getAllStarUser!=null?getAllStarUser.get(i)!=null?getAllStarUser.get(i).getLockerSize():0:0;
 											int aCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(i).getId(),croneStatus);
@@ -2461,12 +2462,13 @@ public class LeadCrone {
 
 		}
 	}
-	
+
+	//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCroneV11() {
 		List<Long>croneStatus= new ArrayList<>();
-         
-         List<Status>sList=statusRepository.findByEnableAutoAssign(true);
-         sList.addAll(sList);
+
+		List<Status>sList=statusRepository.findByEnableAutoAssign(true);
+		sList.addAll(sList);
 		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
@@ -2531,11 +2533,14 @@ public class LeadCrone {
 								Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
 								List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
 
-//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
+								//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
 								System.out.println("hhhhhhhhhhhhh");
 
 								String rating5="5";
-								List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+								Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
+								List<User> user5Rating = ratings5.getRatingsUser();
+
+								//								 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
 								System.out.println("iiiiiiiiiiiiiiiiiiiiii");
 
 								Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
@@ -2679,11 +2684,23 @@ public class LeadCrone {
 							System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzz");
 
 							Long productId=urlsManagment.getId();
+//							String rating4="4";
+//							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+//
+//							String rating5="5";
+//							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+							
 							String rating4="4";
-							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+							Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
+							List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
+
+							//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
+							System.out.println("hhhhhhhhhhhhh");
 
 							String rating5="5";
-							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+							Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
+							List<User> user5Rating = ratings5.getRatingsUser();
+							
 							Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
 
 							List<User> userMerged = mergeStarUserV3(user4Rating,user5Rating,userCounts);
@@ -2765,7 +2782,7 @@ public class LeadCrone {
 				}
 			}
 
-			//	lead.setAuto(false);
+				lead.setAuto(false);
 			//	System.out.println(count1+"... this is count 1");
 			//	System.out.println(count2+"... this is count  2"+lead.getId());
 
