@@ -963,7 +963,7 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee) {
 		Boolean flag=false;
-
+        List<Status>filterStatus=statusRepository.findAllByEnableAutoAssign(true);
 		Status status = null;
 		if(updateMultiLeadAssignee.getStatusId()!=null) {
 			status=statusRepository.findById(updateMultiLeadAssignee.getStatusId()).get();
@@ -984,6 +984,9 @@ public class LeadServiceImpl implements LeadService  {
 				l.setAssignee(assigne);
 			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
+				if(filterStatus!=null && filterStatus.contains(status)) {
+		        	l.setAuto(true);
+		        }
 				l.setStatus(status);
 			}
 			l.setView(false);
