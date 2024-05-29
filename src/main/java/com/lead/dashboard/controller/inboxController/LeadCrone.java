@@ -2671,6 +2671,7 @@ public class LeadCrone {
 								}	
 							}
 						}
+						lead.setIsUrlsChecked(false);
 					}else{
 						System.out.println("xxxxxxxxxxxxxxxxxx");
 
@@ -2781,7 +2782,7 @@ public class LeadCrone {
 					}
 				}
 			}
-
+			    lead.setIsUrlsChecked(false);
 				lead.setAuto(false);
 			//	System.out.println(count1+"... this is count 1");
 			//	System.out.println(count2+"... this is count  2"+lead.getId());
