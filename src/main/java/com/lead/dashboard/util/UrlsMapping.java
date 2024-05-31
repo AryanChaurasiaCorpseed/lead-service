@@ -35,6 +35,8 @@ public class UrlsMapping {
 	public static final String CREATE_OPPORTUNITY = PREFIX+"/leadOpportunity/createOpportunity";
 	public static final String UPDATE_OPPORTUNITY = PREFIX+"/leadOpportunity/UpdateOpportunity";
 	public static final String GET_OPPORTUNITY_BY_ID = PREFIX+"/leadOpportunity/getOpportunityById";
+	public static final String CRONE_HIT = PREFIX+"/leadOpportunity/croneHit";
+
 	public static final String GET_ALL_OPPORTUNITY = PREFIX+"/leadOpportunity/getAllOpportunity";
 	public static final String DELETE_OPPORTUNITY = PREFIX+"/leadOpportunity/deleteOpportunity";
 
