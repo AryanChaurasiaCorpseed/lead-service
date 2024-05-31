@@ -243,16 +243,16 @@ public class LeadController {
 
 	}
 	
-//	 
-//	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
-//	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
-//	{		
-//		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
-//		return result;
-//
-//	}
-	
+	 
 	@DeleteMapping(UrlsMapping.DELETE_MULTI_LEAD)
+	public Boolean deleteMultiLead(@RequestBody DeleteMultiLeadDto DeleteMultiLeadDto)
+	{		
+		Boolean result= leadservice.deleteMultiLead(DeleteMultiLeadDto);
+		return result;
+
+	}
+	
+	@GetMapping(UrlsMapping.CRONE_HIT)
 	public void assignLeadByCrone()
 	{		
 		 leadCrone.assignLeadByCroneV11();
