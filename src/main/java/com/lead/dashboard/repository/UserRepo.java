@@ -43,4 +43,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 
 	@Query(value = "SELECT * FROM user u WHERE u.is_deleted =:b", nativeQuery = true)
 	List<User> findAllByIsDeleted(boolean b);
+	
+	@Query(value = "SELECT * FROM user u WHERE u.is_quality=:b and u.is_deleted =false", nativeQuery = true)
+	List<User> findAllByIsDeletedAndIsQuality(boolean b);
 }

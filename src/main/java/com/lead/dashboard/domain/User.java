@@ -90,6 +90,7 @@ public class User implements Serializable{
 	
     int lockerSize;
     boolean isBackupTeam;
+    boolean isQuality;//bad fit
     
     boolean autoActive;
 	
@@ -451,6 +452,15 @@ public class User implements Serializable{
 		this.autoActive = autoActive;
 	}
 
+	public boolean isQuality() {
+		return isQuality;
+	}
+
+	public void setQuality(boolean isQuality) {
+		this.isQuality = isQuality;
+	}
+	
+
 //	public List<Ratings> getUserRatings() {
 //		return userRatings;
 //	}
@@ -458,6 +468,7 @@ public class User implements Serializable{
 //	public void setUserRatings(List<Ratings> userRatings) {
 //		this.userRatings = userRatings;
 //	}
+	
 	
 	
 	

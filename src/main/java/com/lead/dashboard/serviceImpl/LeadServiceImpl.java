@@ -35,6 +35,7 @@ import org.thymeleaf.context.Context;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1089,6 +1090,20 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
+	
+	public Lead assignBadFitToQuality(Lead lead) {
+		List<User> qualityList = userRepo.findAllByIsDeletedAndIsQuality(true);
+		qualityList.stream().sorted(Comparator.comparing(User::getLockerSize).reversed()).collect(Collectors.toList());
+	    Optional<User> u = qualityList.stream().findFirst();
+	    if(u!=null && u.isPresent()){
+	    	User user=u.get();
+	    	lead.setAssignee(user);
+	    	leadRepository.save(lead);
+	    }
+		return lead;
+	}
+ 
+		
 
 
 }
