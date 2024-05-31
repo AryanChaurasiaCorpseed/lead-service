@@ -114,6 +114,9 @@ public class StatusServiceImpl implements StatusService {
         lead.setStatus(newstatusdata);    
         leadRepository.save(lead);
         leadServiceImpl.multiLeadStatusHistory(leadId, prevStatus, newstatusdata, cUser);
+        if(newstatusdata.getName().equals("Badfit")) {
+        	leadServiceImpl.assignBadFitToQuality(lead);
+        }
     }
     
 

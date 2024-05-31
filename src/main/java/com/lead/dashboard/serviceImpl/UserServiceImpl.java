@@ -314,6 +314,7 @@ public class UserServiceImpl implements UserService {
 			List<String>listRole = new ArrayList();		
 			listRole.addAll(createUserDto.getRole());
 			u.setRole(listRole);
+			System.out.println(createUserDto.getLockerSize()+" ...lOCKER SIZE");
 			u.setLockerSize(createUserDto.getLockerSize());
 			u.setBackupTeam(createUserDto.isBackupTeam());
 			u.setMaster(createUserDto.isMaster());
@@ -329,7 +330,7 @@ public class UserServiceImpl implements UserService {
 			u.setExpInYear(createUserDto.getExpInYear());
 			u.setDateOfJoining(createUserDto.getDateOfJoining());
 			u.setType(createUserDto.getType());
-
+			
 			if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
 				User manager = managerOp.get();
