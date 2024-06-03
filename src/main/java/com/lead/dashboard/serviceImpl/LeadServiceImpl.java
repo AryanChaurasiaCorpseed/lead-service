@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
+import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
 import com.lead.dashboard.dto.CreateServiceDetails;
@@ -1101,6 +1102,26 @@ public class LeadServiceImpl implements LeadService  {
 	    	leadRepository.save(lead);
 	    }
 		return lead;
+	}
+	@Override
+	public Boolean updateLeadOriginalName(UpdateLeadOriginal updateLeadOriginal) {
+		Boolean b=false;
+		User user = userRepo.findById(updateLeadOriginal.getCurrentUserId()).get();
+		Lead lead = leadRepository.findById(updateLeadOriginal.getLeadId()).get();
+		if(user.getRole().contains("ADMIN")) {
+			lead.setOriginalName(updateLeadOriginal.getOriginalName());	
+			b=true;
+		}else{
+			if(lead.getSource().equals("IVR")) {
+				if(lead.getOriginalName()==null) {
+					lead.setOriginalName(updateLeadOriginal.getOriginalName());
+					lead.setLeadName(updateLeadOriginal.getOriginalName());
+                    b=true;
+				}
+			}
+		}
+		leadRepository.save(lead);
+		return b;
 	}
  
 		
