@@ -1,5 +1,6 @@
 package com.lead.dashboard.service;
 
+import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
@@ -36,6 +37,7 @@ public interface LeadService {
 	Boolean deleteMultiLead(DeleteMultiLeadDto deleteMultiLeadDto);
 	Lead createLeadV2(LeadDTO leadDTO);
 	Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isAutoSame, String status);
+	Boolean updateLeadOriginalName(UpdateLeadOriginal updateLeadOriginal);
 
 
 

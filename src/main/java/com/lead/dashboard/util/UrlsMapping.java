@@ -28,6 +28,7 @@ public class UrlsMapping {
 	public static final String UPDATE_MULTI_LEAD_ASSIGNE =PREFIX+"/lead/updateMultiLeadAssigne";
 	public static final String DELETE_MULTI_LEAD =PREFIX+"/lead/deleteMultiLead";
     public static final String UPDATE_STATUS_AND_AUTO_SAME =PREFIX+"/lead/updateStatusAndAutoSame";
+	public static final String UPDATE_LEAD_ORIGINAL_NAME=PREFIX+"/lead/updateLeadOriginalName";
 
 
 	//=================== Lead - Oppoertunity Service ===================
