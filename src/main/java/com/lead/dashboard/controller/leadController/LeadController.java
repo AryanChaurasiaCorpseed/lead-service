@@ -271,7 +271,7 @@ public class LeadController {
 		return res;
 	}
 
-	@PutMapping(UrlsMapping.UPDATE_STATUS_AND_AUTO_SAME)
+	@PutMapping(UrlsMapping.UPDATE_LEAD_ORIGINAL_NAME)
 	public Boolean updateLeadOriginalName(@RequestBody UpdateLeadOriginal updateLeadOriginal)
 	{ 
 		

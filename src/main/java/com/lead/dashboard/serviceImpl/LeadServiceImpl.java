@@ -229,7 +229,10 @@ public class LeadServiceImpl implements LeadService  {
 //		}
 		lead.setLeadName(leadDTO.getLeadName());
          System.out.println("Aryan12........");
-		lead.setOriginalName(leadDTO.getLeadName());
+ 		if("Corpseed Website".equals(leadDTO.getSource())) {
+			lead.setOriginalName(leadDTO.getLeadName());
+		}
+//		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
 		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
