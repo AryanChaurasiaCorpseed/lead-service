@@ -546,6 +546,7 @@ public class LeadServiceImpl implements LeadService  {
 			lead=opLead.get();
 			map.put("leadId", lead.getId());
 			map.put("leadName", lead.getLeadName());
+			map.put("originalName", lead.getOriginalName());
 			map.put("categoryId", lead.getCategoryId());
 			map.put("city", lead.getCity());
 			map.put("assigne", lead.getAssignee());
