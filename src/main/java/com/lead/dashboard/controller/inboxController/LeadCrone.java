@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Client;
@@ -30,6 +31,7 @@ import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 
 @Service
+@Transactional
 public class LeadCrone {
 	// boolean fl=false;
 
@@ -2160,7 +2162,7 @@ public class LeadCrone {
 				leadHistory=lHistory.get();
 			}
 		}
-		System.out.println(leadHistory!=null?leadHistory.getPrevUser():null);
+//		System.out.println(leadHistory!=null?leadHistory.getPrevUser():null);
 		return leadHistory!=null?leadHistory.getPrevUser():null;
 
 
@@ -2463,7 +2465,7 @@ public class LeadCrone {
 		}
 	}
 
-	//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCroneV11() {
 		List<Long>croneStatus= new ArrayList<>();
 
@@ -2794,7 +2796,7 @@ public class LeadCrone {
 		}
 	}
 
-	//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCroneV12() {
 		List<Long>croneStatus= new ArrayList<>();
 

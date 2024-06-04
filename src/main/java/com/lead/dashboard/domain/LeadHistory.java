@@ -35,7 +35,8 @@ public class LeadHistory {
 	User createdBy;
 	
 	@ManyToOne
-	User prevUser=null;
+	@JsonIgnore
+	User prevUser;
 	
 	String description;
 	
