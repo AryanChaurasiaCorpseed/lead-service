@@ -2465,7 +2465,7 @@ public class LeadCrone {
 		}
 	}
 
-	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCroneV11() {
 		List<Long>croneStatus= new ArrayList<>();
 
@@ -2475,6 +2475,7 @@ public class LeadCrone {
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		System.out.println("Quality User . . . "+qualityUser.size());
 		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 
 		int qi=0;//initial statge og quality user
@@ -2796,10 +2797,44 @@ public class LeadCrone {
 		}
 	}
 
+	public User sortArrayAndSingleUser(List<User>userList,List<Long>statusIds){
+		System.out.println("Testing env  . . . . .");
+		List<Long> userIds = userList.stream().map(i->i.getId()).collect(Collectors.toList());
+		List<Lead> leadList = leadRepository.findAllByAssigneeIdInAndStatusIdIn(userIds, statusIds);
+		Map<Long ,Long>res = new HashMap<>();
+		for(Long uId:userIds) {
+			res.put(uId, 0l);
+		}
+		for(Lead l:leadList) {
+			Long assigneeId = l.getAssignee().getId();
+			
+			Long count = res.get(assigneeId);
+			res.put(assigneeId, count+1);
+		}
+		
+		User pUser=null;
+		Long max =0l;
+		for (User u:userList) {
+			
+			if(pUser==null) {
+				pUser=u;
+				max=res.get(u.getId());
+			}else {
+				if(res.get(u.getId())<max) {
+					max=res.get(u.getId());
+					pUser=u;
+				}
+			}
+		}
+		System.out.println("user data  . . "+pUser);
+		return pUser;
+		
+	}
 //	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+
 	public void assignLeadByCroneV12() {
 		List<Long>croneStatus= new ArrayList<>();
-
+        System.out.println("First tsting  .....");
 		List<Status>sList=statusRepository.findByEnableAutoAssign(true);
 		sList.addAll(sList);
 		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
@@ -2997,7 +3032,18 @@ public class LeadCrone {
 
 							if(ql>0) {
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww");
-								lead.setAssignee(qualityUser.get(qi));
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+
+								List<Long> statusList = sList.stream().map(i->i.getId()).collect(Collectors.toList());
+								User u=sortArrayAndSingleUser(qualityUser,statusList);
+//								lead.setAssignee(qualityUser.get(qi));
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
+
+								lead.setAssignee(u);
+								System.out.println("User..... count with ...."+u.getId());
+
 								qi++;
 								if(qi==ql) {
 									qi=0;
@@ -3116,7 +3162,7 @@ public class LeadCrone {
 				}
 			}
 			    lead.setIsUrlsChecked(false);
-				lead.setAuto(false);
+//				lead.setAuto(false);
 			//	System.out.println(count1+"... this is count 1");
 			//	System.out.println(count2+"... this is count  2"+lead.getId());
 
