@@ -67,6 +67,14 @@ public class Remark {
 	public void setLatestUpdated(Date latestUpdated) {
 		this.latestUpdated = latestUpdated;
 	}
+
+	public String getImages() {
+		return images;
+	}
+
+	public void setImages(String images) {
+		this.images = images;
+	}
 	
 	
 	
