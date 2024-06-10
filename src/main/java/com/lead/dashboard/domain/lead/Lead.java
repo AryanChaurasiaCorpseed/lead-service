@@ -437,6 +437,16 @@ public class Lead {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	public boolean isNotAssignSame() {
+		return isNotAssignSame;
+	}
+
+	public void setNotAssignSame(boolean isNotAssignSame) {
+		this.isNotAssignSame = isNotAssignSame;
+	}
+	
+	
 	
 	
 }

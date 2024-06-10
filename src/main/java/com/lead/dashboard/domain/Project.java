@@ -144,6 +144,22 @@ public class Project {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Lead getLead() {
+		return lead;
+	}
+
+	public void setLead(Lead lead) {
+		this.lead = lead;
+	}
 	
 	
 	
