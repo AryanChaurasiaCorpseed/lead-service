@@ -3190,11 +3190,15 @@ public class LeadCrone {
 		List<User>userList = userRepo.findAllActiveUser();
 		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
 		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+		System.out.println("aaaaaaaaaaaaaaaaa");
 
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		int count1=0;
 		int count2=0;
+		System.out.println("testing .......");
+		System.out.println("lead size ......."+cronelead);
+
 		for(Lead lead:cronelead) {
 			System.out.println("lead "+lead.getId());
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
@@ -3218,6 +3222,8 @@ public class LeadCrone {
 				}else {
 					System.out.println("dddddddddddd");
 					System.out.println(lead.getOriginalName()+""+lead.getId());
+					System.out.println(lead.getOriginalName());
+
 					UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 					System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 					count2++;
@@ -3239,8 +3245,9 @@ public class LeadCrone {
 								//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
 								System.out.println("hhhhhhhhhhhhh");
 								String rating5="5";
+								System.out.println(productId);
 								Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
-								List<User> user5Rating = ratings5.getRatingsUser();
+								List<User> user5Rating = ratings5!=null?ratings5.getRatingsUser():null;
 								//								 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
 								System.out.println("iiiiiiiiiiiiiiiiiiiiii");
 								Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
@@ -3249,8 +3256,14 @@ public class LeadCrone {
 								System.out.println("jjjjjjjjjjjjjjjjj");
 								User u1=null;
 								//					System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
-								int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+								int cInt=0;
+								int count=0;
+								if(userMerged!=null && userMerged.size()>0) {
+									 cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+										 count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+
+								}
+//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 								//					System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 								if(count>cInt) {
 									System.out.println("kkkkkkkkkkkkkk");
