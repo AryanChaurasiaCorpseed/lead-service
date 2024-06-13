@@ -47,6 +47,8 @@ public class ServiceDetails {
 	String remarksForOption;
 	@ManyToOne
 	Opportunities opportunities;
+	String documents;
+	
 	
     int  govermentfees;
     String govermentCode;
@@ -239,6 +241,12 @@ public class ServiceDetails {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public String getDocuments() {
+		return documents;
+	}
+	public void setDocuments(String documents) {
+		this.documents = documents;
 	}
 	
 	

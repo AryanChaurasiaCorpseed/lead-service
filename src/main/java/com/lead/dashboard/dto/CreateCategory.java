@@ -1,10 +1,15 @@
 package com.lead.dashboard.dto;
 
+import jakarta.persistence.Lob;
+
 public class CreateCategory {
 	
 	String name;
 	
 	Long userId;
+	
+	@Lob
+	String documents;
 
 	public String getName() {
 		return name;

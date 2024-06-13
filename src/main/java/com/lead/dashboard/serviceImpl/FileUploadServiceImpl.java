@@ -37,7 +37,9 @@ public class FileUploadServiceImpl implements FileUploadService{
 //	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
 	public String UPLOAD_DIR="C:/Users/user/Documents/imageTest/image (1)";
 //    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
-    public final String PROD_PATH="https://demo003.blob.core.windows.net/test3/";
+//    public final String PROD_PATH="https://demo003.blob.core.windows.net/test3/";
+    public final String PROD_PATH="https://recordplus.blob.core.windows.net/eeptest/";
+    	
 
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
 		 
