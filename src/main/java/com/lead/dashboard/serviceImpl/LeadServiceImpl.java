@@ -14,6 +14,7 @@ import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.StatusRepository;
+import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 
@@ -30,6 +31,7 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
+import com.lead.dashboard.repository.SlugRepository;
 import com.lead.dashboard.service.LeadService;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -54,6 +56,9 @@ public class LeadServiceImpl implements LeadService  {
 	MailSendSerivceImpl mailSendSerivceImpl;
 	@Autowired
 	CommonServices commonServices;
+	
+	@Autowired
+	SlugRepository slugRepository;
 	@Autowired
 	UserRepo userRepo;
 
@@ -74,6 +79,9 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+	UrlsManagmentRepo urlsManagmentRepo;
 
 
 	public Lead createLead(LeadDTO leadDTO) {
@@ -159,6 +167,53 @@ public class LeadServiceImpl implements LeadService  {
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
+//		System.out.println("ttttt");
+
+		//check lead is existing or not
+		if(leadList!=null && leadList.size()!=0) {
+			//check company
+			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+//			System.out.println(companyId);
+			if(companyId!=null) {
+				// check company status if open
+				Company company = companyRepository.findById(companyId).get();
+				String companyStatus = company.getStatus();
+				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
+				if(l.size()==0) {
+					System.out.println("bbbbbbbbbbbbbbbbbbbbbb");
+
+					lead=leadCreation(lead,leadDTO);
+				}
+			}else {
+				// means is lead is in bad fit
+//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+
+				lead=leadList.get(0);
+				lead.setBacklogTask(true);
+				lead.setName(leadDTO.getLeadName());
+				lead.setOriginalName(leadDTO.getLeadName());
+				Status status = statusRepository.findAllByName("New");
+				lead.setStatus(status);
+				lead.setAuto(false);
+				leadRepository.save(lead);//also create history
+				
+			}
+			
+		}else {   
+			System.out.println("ddddddddddddddddddddddddddddddddddddd");
+
+			lead=leadCreation(lead,leadDTO);
+		}
+		return lead;
+	}
+	public Lead createLeadV3(LeadDTO leadDTO) {
+		String email=leadDTO.getEmail();
+		if(email!=null && email.equals("NA")) {
+			email=null;
+		}		
+		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
+		Lead lead = new Lead();
 		System.out.println("ttttt");
 
 		//check lead is existing or not
@@ -219,6 +274,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		return result;
 	}
+	
 
 	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
 //		if(leadList!=null && leadList.size()!=0) {
@@ -229,8 +285,15 @@ public class LeadServiceImpl implements LeadService  {
 //		}
 		lead.setLeadName(leadDTO.getLeadName());
          System.out.println("Aryan12........");
+         System.out.println(leadDTO.getSource());
  		if("Corpseed Website".equals(leadDTO.getSource())) {
-			lead.setOriginalName(leadDTO.getLeadName());
+ 			 Long sId=slugRepository.findIdByName(leadDTO.getLeadName());
+ 			System.out.println("sId....."+sId);
+ 			String urlsName=urlsManagmentRepo.findNameBySlugName(sId);
+ 			System.out.println(urlsName+".........................Aryan chaurasia");
+			lead.setOriginalName(urlsName);
+ 			System.out.println(urlsName+".........................Aryan ");
+
 		}
 //		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
