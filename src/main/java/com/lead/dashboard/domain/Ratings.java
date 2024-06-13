@@ -37,6 +37,40 @@ public class Ratings {
 			inverseJoinColumns = {@JoinColumn(name="ratings_user_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<User>ratingsUser;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+
+	public UrlsManagment getUrlsManagment() {
+		return urlsManagment;
+	}
+
+	public void setUrlsManagment(UrlsManagment urlsManagment) {
+		this.urlsManagment = urlsManagment;
+	}
+
+	public List<User> getRatingsUser() {
+		return ratingsUser;
+	}
+
+	public void setRatingsUser(List<User> ratingsUser) {
+		this.ratingsUser = ratingsUser;
+	}
+	
+	
 	
 	
 }
