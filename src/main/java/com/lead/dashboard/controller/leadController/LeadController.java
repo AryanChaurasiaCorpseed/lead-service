@@ -73,7 +73,7 @@ public class LeadController {
 	{
 		if (leadDTO!=null) {
 			try {
-				Lead createdLead = leadservice.createLead(leadDTO);
+				Lead createdLead = leadservice.createLeadV2(leadDTO);
 				return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
 			} catch (Exception e) {
 				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create lead", e);
@@ -256,7 +256,7 @@ public class LeadController {
 	public void assignLeadByCrone()
 	{		
 		System.out.println("Lead crone 12 ");
-		 leadCrone.assignLeadByCroneV12();
+		 leadCrone.assignLeadByCrone();
 
 	}
 

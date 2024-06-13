@@ -27,7 +27,7 @@ public class LeadCroneManagment {
 	
 	@Autowired
 	TaskManagmentRepository taskManagmentRepository;
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	̥uled(cron = "0 * * ? * *", zone = "IST")
 
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
