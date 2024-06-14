@@ -289,7 +289,7 @@ public class LeadServiceImpl implements LeadService  {
  		if("Corpseed Website".equals(leadDTO.getSource())) {
  			 Long sId=slugRepository.findIdByName(leadDTO.getLeadName());
  			System.out.println("sId....."+sId);
- 			String urlsName=urlsManagmentRepo.findNameBySlugName(sId);
+ 			String urlsName=urlsManagmentRepo.findNameBySlugId(sId);
  			System.out.println(urlsName+".........................Aryan chaurasia");
 			lead.setOriginalName(urlsName);
  			System.out.println(urlsName+".........................Aryan ");
