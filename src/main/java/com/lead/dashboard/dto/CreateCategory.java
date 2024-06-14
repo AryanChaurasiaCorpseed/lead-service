@@ -26,6 +26,15 @@ public class CreateCategory {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
+	public String getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(String documents) {
+		this.documents = documents;
+	}
+	
 	
 
 }

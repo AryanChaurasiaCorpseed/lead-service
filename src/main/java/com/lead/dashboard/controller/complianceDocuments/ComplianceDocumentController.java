@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
+import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.util.UrlsMapping;
 
 @RestController
@@ -19,17 +21,17 @@ public class ComplianceDocumentController {
  
 
 	@Autowired
-	ServiceDetailsRepository serviceDetailsRepository; 
+	CategoryRepo categoryRepo; 
 	
 	@GetMapping(UrlsMapping.GET_ALL_COMPLIANCE_DOCUMENTS)
 	public List<Map<String,Object>>getAllComplianceDocuments(){
-		List<ServiceDetails> serviceDetail = serviceDetailsRepository.findAll();
+		List<Category> categoryList = categoryRepo.findAll();
 		List<Map<String,Object>> res = new ArrayList<>();
-		for(ServiceDetails service:serviceDetail) {
+		for(Category category:categoryList) {
 			Map<String,Object>map = new HashMap<>();
-			map.put("id", service.getId());
-			map.put("name", service.getName());
-			map.put("documents", service.getName());
+			map.put("id", category.getId());
+			map.put("name", category.getCategoryName());
+			map.put("documents", category.getDocuments());
 			res.add(map);
 		}
 		return res;
