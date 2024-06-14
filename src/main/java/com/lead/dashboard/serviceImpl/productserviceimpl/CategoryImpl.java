@@ -27,6 +27,7 @@ public class CategoryImpl implements CategoryService
     	Category category = new Category();
     	category.setCategoryName(createCategory.getName());
     	category.setCreatedDate(new Date());
+    	category.setDocuments(createCategory.getDocuments());
         return categoryRepo.save(category);
     }
 
