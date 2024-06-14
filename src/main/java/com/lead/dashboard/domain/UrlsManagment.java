@@ -28,7 +28,7 @@ public class UrlsManagment {
 	private String urlsName;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JsonIgnore
+	
 	@JoinTable(name="url_slug",joinColumns = {@JoinColumn(name="urls_managment_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="url_slug_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
