@@ -6,7 +6,7 @@ import java.util.List;
 public class UrlsDto {
 	 String name;
 	 boolean isQuality;
-	 List<Long> slugId;
+	 List<Long> urlSlug;
 	 
 	 
 	public String getName() {
@@ -21,13 +21,12 @@ public class UrlsDto {
 	public void setQuality(boolean isQuality) {
 		this.isQuality = isQuality;
 	}
-	public List<Long> getSlugId() {
-		return slugId;
+	public List<Long> getUrlSlug() {
+		return urlSlug;
 	}
-	public void setSlugId(List<Long> slugId) {
-		this.slugId = slugId;
+	public void setUrlSlug(List<Long> urlSlug) {
+		this.urlSlug = urlSlug;
 	}
-	 
-	 
+	
 	 
 }

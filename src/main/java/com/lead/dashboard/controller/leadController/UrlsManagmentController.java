@@ -37,7 +37,9 @@ public class UrlsManagmentController {
 		UrlsManagment urlsManagment = new UrlsManagment();
 		urlsManagment.setUrlsName(urlsDto.getName());
 		urlsManagment.setQuality(urlsDto.isQuality());
-		List<Slug>slugList=slugRepository.findAllByIdIn(urlsDto.getSlugId());
+		System.out.println(urlsDto.getUrlSlug());
+		List<Slug>slugList=slugRepository.findAllByIdIn(urlsDto.getUrlSlug());
+		System.out.println(slugList);
 		urlsManagment.setUrlSlug(slugList);
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
