@@ -141,6 +141,11 @@ public class UrlsMapping {
 
 	public static final String GET_ALL_COMPLIANCE_DOCUMENTS=PREFIX+"/complianceDocumnets/getAllComplianceDocuments";
 
+	
+	//IVR Module
+	public static final String GET_ALL_IVR_DATA=PREFIX+"/rating/getAllIvrData";
+	public static final String CREATE_IVR_DATA=PREFIX+"/rating/createIvrData";
+
 
 
 
