@@ -3006,9 +3006,15 @@ public class LeadCrone {
 
 									List<User> getAllStarUser = mergeAllUser1to3StarV3(ratingList, userCounts);
 									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-
-									int lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-									int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+									int lockerSize=0;
+									int actualCount=0;
+									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
+										 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+										
+									}
+//									int lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+//									int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
 									//                         System.out.println(getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 
 									if(lockerSize>=actualCount) {
@@ -3337,12 +3343,18 @@ public class LeadCrone {
 									System.out.println("tttttttttttttttttt");
 									List<User> getAllStarUser = mergeAllUser1to3StarV3(ratingList, userCounts);
 									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-
-									int lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-									int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+									int lockerSize=0;
+									int actualCount=0;
+									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
+										 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+										
+									}
+//									 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+//									 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
 									//                         System.out.println(getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 
-									if(lockerSize>=actualCount) {
+									if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
 										lead.setAssignee(getAllStarUser.get(0));
 									}else {
 										System.out.println("uuuuuuuuuuuuuuu");
@@ -3416,15 +3428,21 @@ public class LeadCrone {
 
 							String rating5="5";
 							Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
-							List<User> user5Rating = ratings5.getRatingsUser();
+							List<User> user5Rating = ratings5!=null?ratings5.getRatingsUser():null;
 
 							Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
 							List<User> userMerged = mergeStarUserV3(user4Rating,user5Rating,userCounts);
 							userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 							User u1=null;
 							//				System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
-							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+							int cInt=0;
+							int count =0;
+							if(userMerged!=null&&userMerged.size()!=0) {
+								cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+								count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;							
+							}
+//							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+//							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 							//				System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 							if(count>cInt) {
 
