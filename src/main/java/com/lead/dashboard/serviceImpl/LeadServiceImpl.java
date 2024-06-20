@@ -990,7 +990,70 @@ public class LeadServiceImpl implements LeadService  {
 		return leadList;
 
 	}
+	public List<Lead> getAllLeadV2(AllLeadFilter allLeadFilter) {
 
+		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long userId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		List<Long>statusIds=allLeadFilter.getStatusId();
+		boolean flag =false;
+		List<Lead>leadList = new ArrayList<>();
+		Optional<User> user = userRepo.findById(userId);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+
+				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
+
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate);
+
+				}
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId,flag,startDate,endDate);
+			}
+		}else {
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag);
+
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag);
+
+				}
+
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeleted(userId,flag);
+			}
+		}
+		List<Map<String,Object>>result = new ArrayList<>();
+		
+        for(Lead l:leadList) {
+            Map<String,Object>map = new HashMap<>();
+            map.put("id", l.getId());
+            map.put("leadName", l.getLeadName());
+            map.put("clientName", l.getName());
+            map.put("clientEmail", l.getEmail());
+            map.put("mobileNo", l.getMobileNo());
+            map.put("originalName", l.getOriginalName());
+            map.put("status", l.getStatus());
+            map.put("createdBy", l.getCreatedBy());
+            map.put("missedTaskName", l.getMissedTaskName());
+            map.put("missedTaskStatus", l.getMissedTaskStatus());
+            map.put("missedTaskCreatedBy", l.getMissedTaskCretedBy());
+            map.put("missedTaskDate", l.getMissedTaskDate());
+
+
+        }
+		return leadList;
+
+	}
 	@Override
 	public List<Lead> getAllDeleteLead(Long uId) {
 
