@@ -198,6 +198,14 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	@PutMapping("api/v1/users/updateLockerCount")
+	public ResponseEntity<Boolean> updateLockerCount(@RequestParam Long id,@RequestParam int count,@RequestParam Long currentUserId) {
+		Boolean existingUser= userService.updateLockerCount(id,count,currentUserId);
+		if (existingUser) {	
+			return new ResponseEntity<>(existingUser, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 }
