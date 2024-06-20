@@ -33,5 +33,6 @@ public interface UserService
 	Boolean approvedUserByManager(Long currentUserId, Long userId, String status);
 	Boolean autoActive(Long userId, Long currentUser);
 	List<Long> getUserManager(Long id);
+	Boolean updateLockerCount(Long id, int count, Long currentUserId);
 
 }
