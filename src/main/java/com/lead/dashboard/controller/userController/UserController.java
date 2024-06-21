@@ -208,4 +208,16 @@ public class UserController {
 		}
 	}
 	
+	@PutMapping("api/v1/users/updateProfile")
+	public Boolean updateProfile(@RequestParam Long userId,@RequestParam String profilePic) {
+		Boolean createdUser = userService.updateProfile(userId,profilePic);
+		return createdUser;
+	}
+
+	@GetMapping("api/v1/users/getProfile")
+	public String getProfile(@RequestParam Long userId) {
+		String createdUser = userService.getProfile(userId);
+		return createdUser;
+	}
+	
 }

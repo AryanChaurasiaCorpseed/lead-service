@@ -560,6 +560,27 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public Boolean updateProfile(Long userId, String profilePic) {
+		Boolean flag=false;
+	     User user=userRepo.findById(userId).get();
+	     user.setProfilePhoto(profilePic);
+	     userRepo.save(user);
+	     flag=true;
+		return flag;
+	}
+
+
+
+	@Override
+	public String getProfile(Long userId) {
+	     User user=userRepo.findById(userId).get();
+          String profilePic=user.getProfilePhoto();
+		return profilePic;
+	}
+
+
+
 
 
 }

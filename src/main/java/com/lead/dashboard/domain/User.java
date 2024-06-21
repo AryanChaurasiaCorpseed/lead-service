@@ -27,6 +27,8 @@ public class User implements Serializable{
     private String fullName;
     @NonNull
     private String email;
+    @Lob
+    String profilePhoto;
     @NonNull
     private String designation; 
     @NonNull
