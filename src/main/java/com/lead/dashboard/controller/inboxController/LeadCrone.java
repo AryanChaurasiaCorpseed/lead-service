@@ -1840,7 +1840,7 @@ public class LeadCrone {
 							}
 
 						}else { 
-							System.out.println("sssssssssssssssssssssssssssssssssssssss");
+							System.out.println("");
 
 							//							System.out.println("Test1 . . .. . . . . .. . .");
 							User u=null;
@@ -3356,6 +3356,7 @@ public class LeadCrone {
 
 									if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
 										lead.setAssignee(getAllStarUser.get(0));
+										lead.setAuto(false);
 									}else {
 										System.out.println("uuuuuuuuuuuuuuu");
 
@@ -3393,6 +3394,7 @@ public class LeadCrone {
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
 								lead.setAssignee(u);
+								lead.setAuto(false);
 								System.out.println("User..... count with ...."+u.getId());
 								qi++;
 								if(qi==ql) {
