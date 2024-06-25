@@ -547,7 +547,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean updateLockerCount(Long id, int count, Long currentUserId) {
 		Boolean flag=false;
-	     List<String> roleList = userRepo.findRoleNameById(currentUserId);
+	     List<String> roleList = userRepo.findRoleNameById(id );
 	     if(roleList.contains("ADMIN")|| roleList.contains("HR_HEAD")) {
 		     User user = userRepo.findById(currentUserId).get();
 		     user.setLockerSize(count);
