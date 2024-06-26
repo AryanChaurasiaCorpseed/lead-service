@@ -38,6 +38,9 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.email =:email or el.client_mob_no =:mobileNo", nativeQuery = true)
 	List<Lead> findAllByEmailAndMobile(String email, String mobileNo);
 	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.client_mob_no =:mobileNo", nativeQuery = true)
+	List<Lead> findAllByMobile(String mobileNo);
+	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.assignee_id in(:userId) and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
 	List<Lead> findAllByAssigneeAndInBetweenDate(Long userId,String d1,String d2);
 	

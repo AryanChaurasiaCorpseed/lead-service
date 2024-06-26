@@ -3,6 +3,7 @@ package com.lead.dashboard.controller.statusController;
 
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.dto.CreateLeadStatus;
+import com.lead.dashboard.dto.UpdateLeadStatusDto;
 import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,9 @@ public class StatusController {
     }
 
 
-    @PutMapping("api/v1/status/updateStatus")
-    public ResponseEntity<Status> updateStatus(@RequestBody Status status) {
-        Status updatedStatus = statusService.updateStatus(status);
+    @PutMapping("api/v1/status/updateInLeadStatus")
+    public ResponseEntity<Status> updateInLeadStatus(@RequestBody UpdateLeadStatusDto UpdateLeadStatusDto) {
+        Status updatedStatus = statusService.updateStatus(UpdateLeadStatusDto);
         return new ResponseEntity<>(updatedStatus, HttpStatus.OK);
     }
 
