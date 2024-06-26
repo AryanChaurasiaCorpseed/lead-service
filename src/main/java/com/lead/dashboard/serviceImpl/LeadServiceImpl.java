@@ -214,7 +214,7 @@ public class LeadServiceImpl implements LeadService  {
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
-		System.out.println("ttttt");
+		System.out.println("ttttt.."+leadList.size()+"....."+leadList.get(0).getLeadName());
 
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
@@ -234,7 +234,7 @@ public class LeadServiceImpl implements LeadService  {
 				}
 			}else {
 				// means is lead is in bad fit
-				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
 
 				lead=leadList.get(0);
 				lead.setBacklogTask(true);
@@ -293,6 +293,7 @@ public class LeadServiceImpl implements LeadService  {
  			System.out.println(urlsName+".........................Aryan chaurasia");
 			lead.setOriginalName(urlsName);
  			System.out.println(urlsName+".........................Aryan ");
+ 			
 
 		}
 //		lead.setOriginalName(leadDTO.getLeadName());
@@ -318,6 +319,11 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		if(leadDTO.getAssigneeId()!=null) {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
+			lead.setAssignee(user.get());
+		}else {
+			Optional<User> user = userRepo.findById(1l);
+	        System.out.println("Aryan14  null user........"+user.get());
+
 			lead.setAssignee(user.get());
 		}
         System.out.println("Aryan14........");
@@ -352,7 +358,7 @@ public class LeadServiceImpl implements LeadService  {
 			lead.setStatus(status);
 		}
         System.out.println("Aryan16........");
-
+        lead.setAuto(true);
 		lead.setCity(leadDTO.getCity());
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
