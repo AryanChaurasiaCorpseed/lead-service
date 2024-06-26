@@ -44,7 +44,15 @@ public class RatingServiceImpl implements RatingService{
 			 ratings = new Ratings();
 			ratings.setRating(ratingDto.getRating());
 			List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
-			ratings.setRatingsUser(userList);
+			List<User> uList = allUserRating(ratingDto.getUrlsManagmentId());
+			List<User> users=new ArrayList<>();
+			for(User u:userList) {
+				if(!uList.contains(u)) {
+					users.add(u);
+				}
+			}
+			System.out.println(users+" . .  users");
+			ratings.setRatingsUser(users);
 			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
 			ratings.setUrlsManagment(urlsManagment);
 			Ratings r=ratingRepository.save(ratings);
@@ -60,7 +68,14 @@ public class RatingServiceImpl implements RatingService{
 		}
 		return ratings;
 	}
-
+     public List<User> allUserRating(Long id){
+ 		List<Ratings> ratings=ratingRepository.findAllByUrlsManagmentId(id);
+ 		List<User>userList=new ArrayList<>();
+ 		for(Ratings r:ratings) {
+ 			userList.addAll(r.getRatingsUser());			
+ 		}
+        return userList;
+     }
 	
 
 
