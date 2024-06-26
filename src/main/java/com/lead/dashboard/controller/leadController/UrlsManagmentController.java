@@ -50,8 +50,8 @@ public class UrlsManagmentController {
 		UrlsManagment urlsManagment = urlsManagmentRepo.findById(editUrlsDto.getUrlsId()).get();
 		urlsManagment.setUrlsName(editUrlsDto.getName());
 		urlsManagment.setQuality(editUrlsDto.isQuality());
-		System.out.println(editUrlsDto.getSlugId()+" SLUG LIST ID");
-		List<Slug>slugList=slugRepository.findAllByIdIn(editUrlsDto.getSlugId());
+		System.out.println(editUrlsDto.getUrlSlug()+" SLUG LIST ID");
+		List<Slug>slugList=slugRepository.findAllByIdIn(editUrlsDto.getUrlSlug());
 		System.out.println(slugList+"SLUG LIST");
 
 		urlsManagment.setUrlSlug(slugList);

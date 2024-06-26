@@ -3186,6 +3186,7 @@ public class LeadCrone {
 		}
 	}
 
+		@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCrone() {
 		List<Long>croneStatus= new ArrayList<>();
 		System.out.println("First tsting  .....");
@@ -3208,6 +3209,12 @@ public class LeadCrone {
 		for(Lead lead:cronelead) {
 			System.out.println("lead "+lead.getId());
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
+				existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			}else {
+				existingLead=leadRepository.findAllByMobile(lead.getMobileNo());
+
+			}
 			System.out.println("bbbbbbbbb");
 			User lastUser = lastActiveUser(lead.getId());
 			if(lead.isBacklogTask()&& (!lead.isNotAssignSame()) && lastUser!=null) {
@@ -3239,7 +3246,7 @@ public class LeadCrone {
 							System.out.println("ffffffffffff");
 							count1++;
 							Boolean isProf =false;
-							if(lead.getEmail()!=null) {
+							if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
 								isProf= checkEmailDomain(lead.getEmail());
 							}
 							if(isProf) {
@@ -3407,7 +3414,8 @@ public class LeadCrone {
 						System.out.println("xxxxxxxxxxxxxxxxxx");
 
 						Boolean isProf =false;
-						if(lead.getEmail()!=null) {
+						if(lead.getEmail()!=null&& (!lead.getEmail().equals("NA"))) {
+							System.out.println(lead.getEmail());
 							isProf= checkEmailDomain(lead.getEmail());
 							System.out.println("yyyyyyyyyyyyyyyyyyyy");
 						}
