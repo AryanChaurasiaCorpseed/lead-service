@@ -3,6 +3,7 @@ package com.lead.dashboard.serviceImpl;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.CreateLeadStatus;
+import com.lead.dashboard.dto.UpdateLeadStatusDto;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.repository.LeadRepository;
@@ -58,13 +59,12 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Status updateStatus(Status status) {
-        Status existingStatus = getStatusById(status.getId());
-        existingStatus.setName(status.getName());
-        existingStatus.setDescription(status.getDescription());
-        existingStatus.setIsDeleted(status.getIsDeleted());
-        existingStatus.setUpdatedTime(LocalDateTime.now());
-        return statusRepository.save(existingStatus);
+    public Status updateStatus(UpdateLeadStatusDto updateLeadStatusDto) {
+    	 Status status = statusRepository.findById(updateLeadStatusDto.getId()).get();
+    	 status.setName(updateLeadStatusDto.getName());
+    	 status.setDescription(updateLeadStatusDto.getDescription());
+    	 statusRepository.save(status);
+    	 return status;
     }
 
     @Override
