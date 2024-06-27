@@ -21,6 +21,8 @@ public class IvrData {
 	String agentNumber;
 	String srNumber;
 	String callStatus;
+	Date startTime;
+	Date endTime;
 	String duration;
 	String recording;
 	public Long getId() {
@@ -76,6 +78,18 @@ public class IvrData {
 	}
 	public void setRecording(String recording) {
 		this.recording = recording;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 	
 	

@@ -25,9 +25,13 @@ public class IvrServiceImpl implements IvrService {
 		for(IvrData ivr:ivrList) {
 			Map<String,Object>map = new HashMap<>();
 			map.put("id", ivr.getId());
-			map.put("caller", ivr.getCallerNumber());
+			map.put("callerNumber", ivr.getCallerNumber());
+			map.put("callerName", ivr.getCallerNumber());
+			map.put("agentName", ivr.getCallerNumber());
 			map.put("callerStatus", ivr.getCallStatus());
 			map.put("duration", ivr.getDuration());
+			map.put("startTime", ivr.getStartTime());
+			map.put("endTime", ivr.getEndTime());
 			map.put("date", ivr.getDate());
 			res.add(map);
 			
@@ -37,12 +41,11 @@ public class IvrServiceImpl implements IvrService {
 
 
 	@Override
-	public IvrData createIvrData(String agentNumber, String startTime, String duration,
-			String callerId, String endTime, String callRecordingUrl) {
+	public IvrData createIvrData(String callerNumber, String agentName,String agentNumber, String startTime, String duration, String endTime, String callRecordingUrl) {
 		IvrData ivrData = new IvrData();
-		ivrData.setCallerNumber(callerId);
-		ivrData.setAgentName(callRecordingUrl);
+		ivrData.setAgentName(agentName);
 		ivrData.setAgentNumber(agentNumber);
+		ivrData.setCallerNumber(callerNumber);
 		ivrData.setDuration(duration);
 //		ivrData.setCallStatus(callRecordingUrl);
 		ivrDataRepository.save(ivrData);

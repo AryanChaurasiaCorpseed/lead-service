@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.service.ComplianceDocService;
 
+@Service
 public class ComplianceDocServiceImpl implements ComplianceDocService{
 
 	
@@ -30,7 +32,6 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 			if(category.getDocuments()!=null) {
 				doc.addAll (category.getDocuments());
 			}
-		
 			map.put("documents", doc);
 			res.add(map);
 		}

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.IvrData;
@@ -27,9 +28,9 @@ public class IvrController {
 
 	}
 	@GetMapping(UrlsMapping.CREATE_IVR_DATA)
-	public IvrData createIvrData(String aggentNumber,String startTime,String destination,String callerId,String endTime,String callRecordingUrl)
+	public IvrData createIvrData(@RequestParam String callerNumber,@RequestParam String agentName,@RequestParam String aggentNumber,@RequestParam String startTime,@RequestParam String destination,@RequestParam String endTime,@RequestParam String callRecordingUrl)
 	{
-		IvrData ivrData=ivrService.createIvrData(aggentNumber,startTime,destination,callerId,endTime,callRecordingUrl);
+		IvrData ivrData=ivrService.createIvrData(callerNumber,agentName,aggentNumber,startTime,destination,endTime,callRecordingUrl);
 		
 		return ivrData ;		 
 
