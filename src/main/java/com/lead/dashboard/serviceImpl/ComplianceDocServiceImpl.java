@@ -1,4 +1,4 @@
-package com.lead.dashboard.controller.complianceDocuments;
+package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,24 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.product.Category;
-import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.repository.product.CategoryRepo;
-import com.lead.dashboard.util.UrlsMapping;
+import com.lead.dashboard.service.ComplianceDocService;
 
-@RestController
-public class ComplianceDocumentController {
- 
+public class ComplianceDocServiceImpl implements ComplianceDocService{
 
-	@Autowired
-	CategoryRepo categoryRepo; 
 	
-	@GetMapping(UrlsMapping.GET_ALL_COMPLIANCE_DOCUMENTS)
+    @Autowired
+    private CategoryRepo categoryRepo;
+	
 	public List<Map<String,Object>>getAllComplianceDocuments(){
 		List<Category> categoryList = categoryRepo.findAll();
 		List<Map<String,Object>> res = new ArrayList<>();
@@ -39,4 +32,4 @@ public class ComplianceDocumentController {
 		}
 		return res;
 	}
-} 
+}
