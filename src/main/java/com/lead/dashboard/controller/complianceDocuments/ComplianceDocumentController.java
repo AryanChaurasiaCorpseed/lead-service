@@ -33,7 +33,10 @@ public class ComplianceDocumentController {
 			map.put("id", category.getId());
 			map.put("name", category.getCategoryName());
 			List<String>doc = new ArrayList<>();
-			doc.addAll (category.getDocuments());
+			if(category.getDocuments()!=null) {
+				doc.addAll (category.getDocuments());
+			}
+			
 			map.put("documents", doc);
 			res.add(map);
 		}
