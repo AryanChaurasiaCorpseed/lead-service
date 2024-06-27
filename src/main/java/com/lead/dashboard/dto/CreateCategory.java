@@ -1,5 +1,7 @@
 package com.lead.dashboard.dto;
 
+import java.util.List;
+
 import jakarta.persistence.Lob;
 
 public class CreateCategory {
@@ -9,7 +11,7 @@ public class CreateCategory {
 	Long userId;
 	
 	@Lob
-	String documents;
+	List<String> documents;
 
 	public String getName() {
 		return name;
@@ -27,13 +29,15 @@ public class CreateCategory {
 		this.userId = userId;
 	}
 
-	public String getDocuments() {
+	public List<String> getDocuments() {
 		return documents;
 	}
 
-	public void setDocuments(String documents) {
+	public void setDocuments(List<String> documents) {
 		this.documents = documents;
 	}
+
+	
 	
 	
 

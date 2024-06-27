@@ -37,7 +37,7 @@ public class Category {
 	
 	boolean isDeleted;
 	
-	String documents;
+	List<String> documents;
 
 
 	public Long getId() {
@@ -81,14 +81,15 @@ public class Category {
 		this.products = products;
 	}
 
-	public String getDocuments() {
+	public List<String> getDocuments() {
 		return documents;
 	}
 
-	public void setDocuments(String documents) {
+	public void setDocuments(List<String> documents) {
 		this.documents = documents;
 	}
 
+     
 	
 	
 
