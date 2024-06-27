@@ -461,6 +461,14 @@ public class User implements Serializable{
 	public void setQuality(boolean isQuality) {
 		this.isQuality = isQuality;
 	}
+
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
 	
 
 //	public List<Ratings> getUserRatings() {
