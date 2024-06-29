@@ -175,7 +175,7 @@ public class RatingServiceImpl implements RatingService{
 
 
 	@Override
-	public List<Map<String, Object>> getRetingByUrls(Long urlsId) {
+	public List<Map<String, Object>> getRatingByUrls(Long urlsId) {
 		List<Ratings> ratingList = ratingRepository.findByUrlsManagmentId(urlsId);
         List<Map<String,Object>>result = new ArrayList<>();
         for(Ratings r:ratingList) {
