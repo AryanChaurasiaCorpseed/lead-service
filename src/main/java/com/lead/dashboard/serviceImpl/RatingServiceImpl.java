@@ -76,7 +76,18 @@ public class RatingServiceImpl implements RatingService{
  		}
         return userList;
      }
-	
+     public List<User> allUserRatingV2(Long id,String rating){
+  		List<Ratings> ratings=ratingRepository.findAllByUrlsManagmentId(id);
+  		List<User>userList=new ArrayList<>();
+  		for(Ratings r:ratings) {
+  			if(!rating.equals(r.getRating())) {
+  	  			userList.addAll(r.getRatingsUser());			
+
+  			}
+//  			userList.addAll(r.getRatingsUser());			
+  		}
+         return userList;
+      }
  	@Override
  	public Ratings updateUserRatingService(UpdateRatingDto updateRatingDto) {
  		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
@@ -86,6 +97,7 @@ public class RatingServiceImpl implements RatingService{
  			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
  			rating.setUrlsManagment(urls.get());
  			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
+ 			
  			List<User> uList = allUserRating(updateRatingDto.getUrlsManagmentId());
 			List<User> users=new ArrayList<>();
 			for(User u:userList) {
@@ -94,7 +106,6 @@ public class RatingServiceImpl implements RatingService{
 				}
 			}
  			rating.setRatingsUser(users);
-// 			rating.setRatingsUser(userList);
  			ratingRepository.save(rating);
  			return rating;
  		}
