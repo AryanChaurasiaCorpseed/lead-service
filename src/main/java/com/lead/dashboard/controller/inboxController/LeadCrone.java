@@ -3250,7 +3250,7 @@ public class LeadCrone {
 								isProf= checkEmailDomain(lead.getEmail());
 							}
 							if(isProf) {
-	̥							System.out.println("gggggggg");
+						System.out.println("gggggggg");
 								Long productId=urlsManagment.getId();
 								String rating4="4";
 								Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
