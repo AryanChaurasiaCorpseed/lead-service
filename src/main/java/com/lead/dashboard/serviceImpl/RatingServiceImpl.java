@@ -77,7 +77,29 @@ public class RatingServiceImpl implements RatingService{
         return userList;
      }
 	
-
+ 	@Override
+ 	public Ratings updateUserRatingService(UpdateRatingDto updateRatingDto) {
+ 		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
+ 		if(opRating!=null && opRating.get()!=null) {
+ 			Ratings rating = opRating.get();
+ 			rating.setRating(updateRatingDto.getRating());
+ 			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
+ 			rating.setUrlsManagment(urls.get());
+ 			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
+ 			List<User> uList = allUserRating(updateRatingDto.getUrlsManagmentId());
+			List<User> users=new ArrayList<>();
+			for(User u:userList) {
+				if(!uList.contains(u)) {
+					users.add(u);
+				}
+			}
+ 			rating.setRatingsUser(users);
+// 			rating.setRatingsUser(userList);
+ 			ratingRepository.save(rating);
+ 			return rating;
+ 		}
+ 		return null;
+ 	}
 
 	@Override
 	public List<Map<String,Object>> getAllUserRating() {
@@ -121,21 +143,21 @@ public class RatingServiceImpl implements RatingService{
 
 
 
-	@Override
-	public Ratings updateUserRatingService(UpdateRatingDto updateRatingDto) {
-		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
-		if(opRating!=null && opRating.get()!=null) {
-			Ratings rating = opRating.get();
-			rating.setRating(updateRatingDto.getRating());
-			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
-			rating.setUrlsManagment(urls.get());
-			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
-			rating.setRatingsUser(userList);
-			ratingRepository.save(rating);
-			return rating;
-		}
-		return null;
-	}
+//	@Override
+//	public Ratings updateUserRatingService(UpdateRatingDto updateRatingDto) {
+//		Optional<Ratings> opRating = ratingRepository.findById(updateRatingDto.getRatingId());
+//		if(opRating!=null && opRating.get()!=null) {
+//			Ratings rating = opRating.get();
+//			rating.setRating(updateRatingDto.getRating());
+//			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
+//			rating.setUrlsManagment(urls.get());
+//			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
+//			rating.setRatingsUser(userList);
+//			ratingRepository.save(rating);
+//			return rating;
+//		}
+//		return null;
+//	}
 
 
 
