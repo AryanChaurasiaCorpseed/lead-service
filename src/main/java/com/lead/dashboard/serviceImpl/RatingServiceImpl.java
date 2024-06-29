@@ -121,7 +121,9 @@ public class RatingServiceImpl implements RatingService{
 			map.put("id", r.getId());
 			map.put("rating", r.getRating());
 			map.put("serviceName", r.getUrlsManagment().getUrlsName());
-			List<String>userList=r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList());
+			Map<Long, Object> userList = r.getRatingsUser().stream().collect(Collectors.toMap(i->i.getId(), i->i.getFullName()));
+
+//			List<String>userList=r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList());
 			map.put("assignee", userList);
 			arr.add(map);
 		}
