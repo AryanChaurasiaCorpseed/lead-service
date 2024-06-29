@@ -121,14 +121,8 @@ public class RatingServiceImpl implements RatingService{
 			map.put("id", r.getId());
 			map.put("rating", r.getRating());
 			map.put("serviceName", r.getUrlsManagment().getUrlsName());
-
-			List<Map<String,Object>>userList = new ArrayList<>();
-			for(User u: r.getRatingsUser()) {
-				Map<String,Object>m = new HashMap<>();
-				m.put("id", u.getId());
-				m.put("name", u.getFullName());
-				userList.add(m);
-			}
+//			Map<Long, Object> userList = r.getRatingsUser().stream().collect(Collectors.toMap(i->i.getId(), i->i.getFullName()));
+			List<String>userList=r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList());		
 			map.put("assignee", userList);
 			arr.add(map);
 		}
@@ -188,7 +182,17 @@ public class RatingServiceImpl implements RatingService{
         	Map<String,Object>map= new HashMap<>();
         	map.put("id", r.getId());
         	map.put("rating", r.getRating());
-        	map.put("user", r.getRatingsUser()!=null?r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList()):null);
+//        	map.put("user", r.getRatingsUser()!=null?r.getRatingsUser().stream().map(i->i.getFullName()).collect(Collectors.toList()):null);
+
+			List<Map<String,Object>>userList = new ArrayList<>();
+			for(User u: r.getRatingsUser()) {
+				Map<String,Object>m = new HashMap<>();
+				m.put("id", u.getId());
+				m.put("name", u.getFullName());
+				userList.add(m);
+			}
+        	map.put("user",userList);
+	
         	map.put("urlsName", r.getUrlsManagment().getUrlsName());
             result.add(map);
         }
