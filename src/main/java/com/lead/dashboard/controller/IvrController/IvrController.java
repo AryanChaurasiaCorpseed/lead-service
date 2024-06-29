@@ -28,7 +28,7 @@ public class IvrController {
 		return ivrList;		 
 
 	}
-	@PostMapping(UrlsMapping.CREATE_IVR_DATA)
+	@GetMapping(UrlsMapping.CREATE_IVR_DATA)
 	public IvrData createIvrData(@RequestParam String callerNumber,@RequestParam String agentName,@RequestParam String aggentNumber,@RequestParam String startTime,@RequestParam String duration,@RequestParam String endTime,@RequestParam String callRecordingUrl)
 	{
 		IvrData ivrData=ivrService.createIvrData(callerNumber,agentName,aggentNumber,startTime,duration,endTime,callRecordingUrl);
