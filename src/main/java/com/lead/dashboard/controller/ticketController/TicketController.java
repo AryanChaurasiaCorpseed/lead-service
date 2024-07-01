@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class TicketController {
 			List<Ticket> ticket =ticketService.getAllTicket(userId);
 			return ticket;
 	}
-	@GetMapping("leadService/api/v1/editTicketStatus")
+	@PutMapping("leadService/api/v1/editTicketStatus")
 	public Boolean editTicketStatus(@RequestParam  Long userId,@RequestParam String status,@RequestParam Long ticketId){
 			Boolean ticket =ticketService.editTicketStatus(userId,status,ticketId);
 			return ticket;
