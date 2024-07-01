@@ -1,6 +1,9 @@
 package com.lead.dashboard.controller.leadController;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +48,7 @@ public class SlugController {
 	@GetMapping("/slug/getSlug")
 	public 	List<Slug> getSlug() {	
 		List<Slug> urls = slugRepository.findAll();
+		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
 		return urls;
 	}
 	
