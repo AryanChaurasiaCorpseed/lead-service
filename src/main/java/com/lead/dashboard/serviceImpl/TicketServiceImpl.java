@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Ticket;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.CreateTicket;
 import com.lead.dashboard.repository.TicketRepository;
 import com.lead.dashboard.repository.UserRepo;
@@ -32,10 +33,12 @@ public class TicketServiceImpl implements TicketService {
 		Ticket t = new Ticket();
 		t.setSubject(createTicket.getSubject());
 		t.setDescription(createTicket.getDescription());
+		User createdBy = userRepo.findById(createTicket.getUserId()).get();
+		t.setCreatedBy(createdBy);
 		Ticket ticket = ticketRepository.save(t);
 //	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
-		String[] ccPersons= {"rahul.jain@corpseed.com"};
+		String[] ccPersons= {createdBy.getEmail()};
 		String subject=createTicket.getSubject();
 		String text=createTicket.getDescription();
 		Context context = new Context();

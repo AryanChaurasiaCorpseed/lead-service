@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -22,6 +23,8 @@ public class Ticket {
 	String description ; 
 	String status;
 	String subject;
+	@ManyToOne
+	User createdBy;
 	
 	
 	public Long getId() {
@@ -65,6 +68,12 @@ public class Ticket {
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	public User getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 	
 	
