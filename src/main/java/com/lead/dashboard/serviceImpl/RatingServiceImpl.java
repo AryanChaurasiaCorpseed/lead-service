@@ -98,7 +98,7 @@ public class RatingServiceImpl implements RatingService{
  			rating.setUrlsManagment(urls.get());
  			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
  			
- 			List<User> uList = allUserRating(updateRatingDto.getUrlsManagmentId());
+ 			List<User> uList = allUserRatingV2(updateRatingDto.getUrlsManagmentId(),updateRatingDto.getRating());
 			List<User> users=new ArrayList<>();
 			for(User u:userList) {
 				if(!uList.contains(u)) {
