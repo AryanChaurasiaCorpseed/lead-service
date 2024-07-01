@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,7 @@ public class TicketServiceImpl implements TicketService {
 		t.setDescription(createTicket.getDescription());
 		User createdBy = userRepo.findById(createTicket.getUserId()).get();
 		t.setCreatedBy(createdBy);
+		t.setStatus("To-Do");
 		Ticket ticket = ticketRepository.save(t);
 //	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
@@ -58,5 +60,18 @@ public class TicketServiceImpl implements TicketService {
 		}
 		return ticketList;
 	}
+
+	@Override
+	public Boolean editTicketStatus(Long userId, String status, Long ticketId) {
+		  Boolean flag=false;
+		 Ticket ticket = ticketRepository.findById(ticketId).get();
+		 ticket.setStatus(status);
+		 ticketRepository.save(ticket);
+		 flag=true;
+		 
+		return flag;
+	}
+
+	
 
 }

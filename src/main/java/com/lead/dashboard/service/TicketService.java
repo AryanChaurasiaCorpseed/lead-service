@@ -14,4 +14,7 @@ public interface TicketService {
 
 	List<Ticket> getAllTicket(Long userId);
 
+
+	Boolean editTicketStatus(Long userId, String status, Long ticketId);
+
 }
