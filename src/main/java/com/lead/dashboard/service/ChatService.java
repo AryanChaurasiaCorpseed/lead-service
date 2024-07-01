@@ -15,7 +15,7 @@ public interface ChatService {
 
 	Boolean deleteChat(Long chatId);
 
-	Remark createRemarks(Long leadId,Long userId, String message, String multipartFile) ;
+	Remark createRemarks(Long leadId,Long userId, String message, List<String> multipartFile) ;
 
 	List<Remark> getAllRemarks(Long leadId);
                      
