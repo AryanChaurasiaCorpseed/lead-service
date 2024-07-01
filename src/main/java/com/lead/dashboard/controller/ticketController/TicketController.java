@@ -32,4 +32,9 @@ public class TicketController {
 			List<Ticket> ticket =ticketService.getAllTicket(userId);
 			return ticket;
 	}
+	@GetMapping("leadService/api/v1/editTicketStatus")
+	public Boolean editTicketStatus(@RequestParam  Long userId,@RequestParam String status,@RequestParam Long ticketId){
+			Boolean ticket =ticketService.editTicketStatus(userId,status,ticketId);
+			return ticket;
+	}
 }
