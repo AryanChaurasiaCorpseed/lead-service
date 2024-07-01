@@ -1,6 +1,7 @@
 package com.lead.dashboard.domain.lead;
 
 import java.util.Date;
+import java.util.List;
 
 import com.lead.dashboard.domain.User;
 
@@ -28,6 +29,7 @@ public class Remark {
 	private String message;
 	
 	String images;
+	List<String>imageList;
 
 	@ManyToOne
 	User updatedBy;
@@ -74,6 +76,14 @@ public class Remark {
 
 	public void setImages(String images) {
 		this.images = images;
+	}
+
+	public List<String> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(List<String> imageList) {
+		this.imageList = imageList;
 	}
 	
 	

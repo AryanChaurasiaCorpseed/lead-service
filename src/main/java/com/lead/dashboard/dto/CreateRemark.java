@@ -1,5 +1,7 @@
 package com.lead.dashboard.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -10,7 +12,7 @@ public class CreateRemark {
 	Long leadId;
 	Long userId;
 	String message;
-	String file;
+	List<String> file;
 	
 	
 	public Long getLeadId() {
@@ -31,10 +33,10 @@ public class CreateRemark {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getFile() {
+	public List<String> getFile() {
 		return file;
 	}
-	public void setFile(String file) {
+	public void setFile(List<String> file) {
 		this.file = file;
 	}
 	

@@ -82,7 +82,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		String s=azureAdapter.uploadv2(file, 0);
 		String filePath=PROD_PATH+s;
 		FileData fileData = new FileData();
-		fileData.setName(file.getOriginalFilename());
+		fileData.setName(s);
 		fileData.setType(file.getContentType());
 		fileData.setFilePath(filePath);
 		fileDataRepository.save(fileData);

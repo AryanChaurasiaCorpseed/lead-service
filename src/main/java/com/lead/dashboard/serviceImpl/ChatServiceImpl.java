@@ -87,7 +87,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Remark createRemarks(Long leadId,Long userId, String message, String images) {
+	public Remark createRemarks(Long leadId,Long userId, String message, List<String> images) {
 		// TODO Auto-generated method stub
 		
 		User user = userRepo.findById(userId).get();
@@ -98,8 +98,8 @@ public class ChatServiceImpl implements ChatService {
 			Lead lead = opLead.get();
 			List<Remark> remarks = lead.getRemarks();
 			
-			if(images!=null) {
-				remark.setImages(images);
+			if(images!=null && images.size()!=0) {
+				remark.setImageList(images);
 			}
 
 			if(remarks!=null && remarks.size()!=0) {
