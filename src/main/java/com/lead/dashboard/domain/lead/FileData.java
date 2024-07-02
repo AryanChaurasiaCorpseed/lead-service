@@ -3,6 +3,7 @@ package com.lead.dashboard.domain.lead;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +22,10 @@ public class FileData {
 	@GeneratedValue
 	private Long id;
 	
-	
+	@Lob
 	String name;
 	String type;
+	@Lob
 	String filePath;
 	public Long getId() {
 		return id;

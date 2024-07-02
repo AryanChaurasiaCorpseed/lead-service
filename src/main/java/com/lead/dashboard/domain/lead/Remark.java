@@ -4,12 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.product.Product;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +35,14 @@ public class Remark {
 	private String message;
 	
 	String images;
-	List<String>imageList;
+	
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="remark_file_data",joinColumns = {@JoinColumn(name="remark_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="remark_file_data_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<FileData>imageList;
+
 
 	@ManyToOne
 	User updatedBy;
@@ -78,13 +91,14 @@ public class Remark {
 		this.images = images;
 	}
 
-	public List<String> getImageList() {
+	public List<FileData> getImageList() {
 		return imageList;
 	}
 
-	public void setImageList(List<String> imageList) {
+	public void setImageList(List<FileData> imageList) {
 		this.imageList = imageList;
 	}
+
 	
 	
 	

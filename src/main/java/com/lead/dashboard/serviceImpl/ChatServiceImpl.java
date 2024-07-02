@@ -15,10 +15,12 @@ import com.lead.dashboard.domain.Chats;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Communication;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.lead.FileData;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.Remark;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CommunicationRepository;
+import com.lead.dashboard.repository.FileDataRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.RemarkRepository;
 import com.lead.dashboard.service.ChatService;
@@ -40,6 +42,9 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Autowired
 	RemarkRepository remarkRepository;
+	
+	@Autowired
+	FileDataRepository fileDataRepository;
 
 	@Autowired
 	CommunicationRepository communicationRepository;
@@ -99,7 +104,8 @@ public class ChatServiceImpl implements ChatService {
 			List<Remark> remarks = lead.getRemarks();
 			
 			if(images!=null && images.size()!=0) {
-				remark.setImageList(images);
+				List<FileData> fileList = fileDataRepository.findByfilePathIn(images);
+				remark.setImageList(fileList);
 			}
 
 			if(remarks!=null && remarks.size()!=0) {
