@@ -103,7 +103,7 @@ public class ProjectServiceImpl implements ProjectService{
     		p.setName(l.getLeadName());
     		p.setAmount(0);
     		p.setLead(l);
-   		    p=projectRepository.save(p);
+//   		    p=projectRepository.save(p);
 
     		Company company=null;
     		if(companyId!=null) {

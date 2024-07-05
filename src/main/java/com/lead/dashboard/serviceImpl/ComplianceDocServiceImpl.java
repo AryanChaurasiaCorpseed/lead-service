@@ -18,7 +18,6 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 	
     @Autowired
     private CategoryRepo categoryRepo;
-	
     @Override
 	public List<Map<String,Object>>getAllComplianceDocuments(){
 		List<Category> categoryList = categoryRepo.findAll();

@@ -177,10 +177,21 @@ public class CompanyServiceImpl implements CompanyService {
         	 for(Lead l:leadList) {
         		 Map<String, Object> map = new HashMap<>();
         		 map.put("leadId", l.getId());
-        		 map.put("leadName", l.getName());
+        		 map.put("leadName", l.getLeadName());
         		 map.put("assignee", l.getAssignee());
         		 map.put("client", l.getName());
         		 map.put("ipAddress", l.getIpAddress());
+     			map.put("originalName", l.getOriginalName());
+     			map.put("categoryId", l.getCategoryId());
+     			map.put("city", l.getCity());
+     			map.put("assigne", l.getAssignee());
+     			map.put("displayStatus", l.getDisplayStatus());
+     			map.put("description", l.getLeadDescription());
+     			map.put("email", l.getEmail());
+     			map.put("ipAddress", l.getIpAddress());
+     			map.put("remarks", l.getRemarks());
+     			map.put("status", l.getStatus());
+     			map.put("isBacklog", l.isBacklogTask());
 
         		 result.add(map);
         	 }
