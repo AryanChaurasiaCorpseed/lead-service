@@ -1,6 +1,9 @@
 package com.lead.dashboard.serviceImpl.IvrServiceimpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +40,7 @@ public class IvrServiceImpl implements IvrService {
 			
 		}
 		return res;
-	}
+		}
 
 
 	@Override
@@ -47,6 +50,23 @@ public class IvrServiceImpl implements IvrService {
 		ivrData.setAgentNumber(agentNumber);
 		ivrData.setCallerNumber(callerNumber);
 		ivrData.setDuration(duration);
+	    SimpleDateFormat formatter=new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");  
+	    Date startDate=null;
+	    try {
+	    	startDate=formatter.parse(startTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+	    Date endDate=null;
+	    try {
+	    	endDate=formatter.parse(endTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+		ivrData.setStartTime(startDate);
+		ivrData.setEndTime(endDate);
+
+//		ivrData.setStartTime(startTime);
 //		ivrData.setCallStatus(callRecordingUrl);
 		ivrDataRepository.save(ivrData);
 		return ivrData;
