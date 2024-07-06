@@ -36,8 +36,8 @@ public class MailSendSerivceImpl implements MailSendService {
             helper.setTo(emailTo);
             helper.setCc(ccPersons);
             helper.setBcc(bccPersons);
-            helper.setSubject("Kaushal Singh wants you to join Corpeed ERP");
-            helper.setText("Kaushal Here");
+            helper.setSubject("Aryan wants you to join Corpeed ERP");
+            helper.setText("Aryan Here");
 
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
