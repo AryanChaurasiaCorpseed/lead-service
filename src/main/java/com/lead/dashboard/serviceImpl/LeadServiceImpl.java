@@ -1259,6 +1259,19 @@ public class LeadServiceImpl implements LeadService  {
 		leadRepository.save(lead);
 		return b;
 	}
+	@Override
+	public List<Map<String, Object>> getAllLeadNameAndId() {
+		List<Lead>lead=leadRepository.findAllByIsDeleted(false);
+		List<Map<String,Object>>result = new ArrayList<>();
+		for(Lead l:lead) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("value",l.getId());
+			map.put("label",l.getLeadName());
+			result.add(map);
+			
+		}
+		return result;
+	}
  
 		
 
