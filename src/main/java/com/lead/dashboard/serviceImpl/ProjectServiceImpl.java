@@ -135,4 +135,19 @@ public class ProjectServiceImpl implements ProjectService{
         return p;  
 	}
 
+
+	@Override
+	public List<Map<String, Object>> getAllProjectNameAndId() {
+		List<Project> projectList = projectRepository.findAll();
+		List<Map<String,Object>>result = new ArrayList<>();
+		
+		for(Project project:projectList) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("value", project.getId());
+			map.put("label", project.getName());
+            result.add(map);
+		}
+		return result;
+	}
+
 }

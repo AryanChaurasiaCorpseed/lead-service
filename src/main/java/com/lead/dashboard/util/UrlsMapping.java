@@ -108,6 +108,8 @@ public class UrlsMapping {
 	public static final String CREATE_PROJECT_V2=PREFIX+"/project/createProjectV2";
 
 	public static final String GET_ALL_PROJECT=PREFIX+"/project/getAllProject";
+	public static final String GET_ALL_PROJECT_NAME_AND_ID=PREFIX+"/project/getAllProjectNameAndId";
+
 
 
 	//    Notification

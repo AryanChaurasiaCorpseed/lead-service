@@ -16,4 +16,6 @@ public interface ProjectService {
 
 	Project createProjectV2(Long leadId);
 
+	List<Map<String, Object>> getAllProjectNameAndId();
+
 }
