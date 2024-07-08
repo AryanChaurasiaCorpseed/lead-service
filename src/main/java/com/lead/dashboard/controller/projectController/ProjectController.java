@@ -52,4 +52,15 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping(UrlsMapping.GET_ALL_PROJECT_NAME_AND_ID)
+    public ResponseEntity<List<Map<String,Object>>> getAllProjectNameAndId() {
+    	List<Map<String,Object>> pMap = projectService.getAllProjectNameAndId();
+        if (pMap!=null) {
+            return ResponseEntity.ok(pMap);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
