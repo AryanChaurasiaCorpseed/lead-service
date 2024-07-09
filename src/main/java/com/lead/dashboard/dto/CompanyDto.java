@@ -14,6 +14,8 @@ public class CompanyDto {
 	String Address;
 	List<Long> projectId;
     Long  assigneeId;
+    boolean isParent;
+    Long parentId; 
 
 	List<Long>leadId;
 	public String getName() {
@@ -81,6 +83,18 @@ public class CompanyDto {
 	}
 	public void setAssigneeId(Long assigneeId) {
 		this.assigneeId = assigneeId;
+	}
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+	public boolean isParent() {
+		return isParent;
+	}
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
 	}
 	
 	
