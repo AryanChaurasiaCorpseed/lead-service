@@ -34,7 +34,6 @@ public class Company {
 	String panNo;
 	String gstNo;
 	String companyAge;
-	boolean isParent;
 	String Country;
 	String industry;
 	String State;
@@ -55,6 +54,9 @@ public class Company {
 	@ManyToOne                                                                                                               
 	User assignee;
 	String status;
+	boolean isParent;
+	@ManyToOne
+	User parent;
 	
 	boolean isDeleted;
 	public Long getId() {
@@ -120,7 +122,7 @@ public class Company {
 	public boolean isParent() {
 		return isParent;
 	}
-	public void setParent(boolean isParent) {
+	public void setIsParent(boolean isParent) {
 		this.isParent = isParent;
 	}
 	public String getIndustry() {
@@ -152,6 +154,12 @@ public class Company {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public User getParent() {
+		return parent;
+	}
+	public void setParent(User parent) {
+		this.parent = parent;
 	}
 	
 	

@@ -55,11 +55,24 @@ public class CompanyServiceImpl implements CompanyService {
 		List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
 		company.setCompanyProject(projectList);
 		List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
-		User user = userRepo.findById(companyDto.getAssigneeId()).get();
-		company.setAssignee(user);
+//		User user = userRepo.findById(companyDto.getAssigneeId()).get();
+//		company.setAssignee(user);
 		company.setCompanyLead(leadList);
 		companyDto.getAssigneeId();
-		companyRepository.save(company);
+		if(companyDto.isParent()) {
+			 User parent = userRepo.findById(companyDto.getParentId()).get();
+			 company.setParent(parent);
+			 company.setIsParent(companyDto.isParent());
+				User user = userRepo.findById(companyDto.getAssigneeId()).get();
+				company.setAssignee(user);
+				companyRepository.save(company);
+
+		}else {
+			 company.setIsParent(companyDto.isParent());
+				companyRepository.save(company);
+
+		}
+//		companyRepository.save(company);
 		return company;
 	}
 
