@@ -23,4 +23,6 @@ public interface CompanyService {
 
 	List<Map<String, Object>> getAllLeadByCompany(Long companyId);
 
+	List<Map<String, Object>> getAllParentCompany();
+
 }
