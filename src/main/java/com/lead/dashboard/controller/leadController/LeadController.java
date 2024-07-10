@@ -286,5 +286,21 @@ public class LeadController {
 		List<Map<String,Object>> res=leadservice.getAllLeadNameAndId();
 		return res;
 	}
+	
+	@PutMapping(UrlsMapping.UPDATE_HELPER)
+	public ResponseEntity <Boolean> updateHelper(@RequestParam Long userId,@RequestParam Long leadId)
+	{		
+		Boolean res= leadservice.updateHelper(userId,leadId);
+
+
+		if(res) {
+			return new ResponseEntity<>(res,HttpStatus.OK);
+		
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+
+		}
+
+	}
 
 }

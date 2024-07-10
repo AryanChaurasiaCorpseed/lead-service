@@ -1272,6 +1272,22 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		return result;
 	}
+	@Override
+	public Boolean updateHelper(Long userId, Long leadId) {
+		Lead lead = leadRepository.findById(leadId).get();
+		Boolean flag=false;
+		if(userId!=null) {
+			User user = userRepo.findById(userId).get();
+			lead.setHelpUser(user);
+			lead.setHelper(true);
+			flag=true;
+		}else {
+			lead.setHelpUser(null);
+			lead.setHelper(false);
+			flag=true;
+		}
+		return flag;
+	}
  
 		
 
