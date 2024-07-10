@@ -279,7 +279,7 @@ public class LeadController {
 		Boolean res=leadservice.updateLeadOriginalName(updateLeadOriginal);
 		return res;
 	}
-	@PutMapping(UrlsMapping.GET_ALL_LEAD_NAME_AND_ID)
+	@GetMapping(UrlsMapping.GET_ALL_LEAD_NAME_AND_ID)
 	public List<Map<String,Object>> getAllLeadNameAndId()
 	{ 
 		
