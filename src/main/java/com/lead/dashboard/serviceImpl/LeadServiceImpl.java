@@ -1286,6 +1286,7 @@ public class LeadServiceImpl implements LeadService  {
 			lead.setHelper(false);
 			flag=true;
 		}
+		leadRepository.save(lead);
 		return flag;
 	}
  
