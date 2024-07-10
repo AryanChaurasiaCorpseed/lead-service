@@ -62,6 +62,14 @@ public class CompanyController {
 
 	}
 	
+	@GetMapping(UrlsMapping.GET_ALL_PARENT_COMPANY)
+	public List<Map<String,Object>> getAllParentCompany()
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllParentCompany();
+		return allCompany;
+
+	}
+	
 	@GetMapping(UrlsMapping.GET_ALL_PROJECT_BY_COMPANY)
 	public List<Map<String,Object>> getAllProjectByCompany(@RequestParam Long companyId)
 	{

@@ -212,4 +212,18 @@ public class CompanyServiceImpl implements CompanyService {
 		return result;
 	}
 
+	@Override
+	public List<Map<String, Object>> getAllParentCompany() {
+		List<Company>companies=companyRepository.findAllByIsParent();
+		List<Map<String, Object>> result = new ArrayList<>();
+		for(Company c:companies) {
+			Map<String, Object>map = new HashMap<>();
+			map.put("value", c.getId());
+			map.put("label", c.getName());
+			map.put("isParent", c.isParent());
+			result.add(map);
+		}
+		return result;
+	}
+
 }

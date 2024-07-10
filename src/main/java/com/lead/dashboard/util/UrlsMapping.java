@@ -95,6 +95,7 @@ public class UrlsMapping {
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
 	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
+	public static final String GET_ALL_PARENT_COMPANY=PREFIX+"/company/getAllParentCompany";
 
 	
 	// Sales-Dashboard
