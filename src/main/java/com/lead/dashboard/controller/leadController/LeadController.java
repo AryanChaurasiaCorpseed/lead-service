@@ -288,7 +288,7 @@ public class LeadController {
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_HELPER)
-	public ResponseEntity <Boolean> updateHelper(@RequestParam Long userId,@RequestParam Long leadId)
+	public ResponseEntity <Boolean> updateHelper(@RequestParam(required=false) Long userId,@RequestParam Long leadId)
 	{		
 		Boolean res= leadservice.updateHelper(userId,leadId);
 
