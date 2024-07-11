@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.product.Category;
+import com.lead.dashboard.dto.CreateCategoryDocDto;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.service.ComplianceDocService;
 
@@ -35,5 +36,14 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 			res.add(map);
 		}
 		return res;
+	}
+	@Override
+	public Boolean createDocumentInCategory(CreateCategoryDocDto createCategoryDocDto) {
+		Boolean flag = false;
+		Category category = categoryRepo.findById(createCategoryDocDto.getCategoryId()).get();
+		category.setDocuments(createCategoryDocDto.getDocList());
+		categoryRepo.save(category);
+		flag=true;
+		return flag;
 	}
 }
