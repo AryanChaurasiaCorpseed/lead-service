@@ -36,5 +36,6 @@ public interface UserService
 	Boolean updateLockerCount(Long id, int count, Long currentUserId);
 	Boolean updateProfile(Long userId, String profilePic);
 	String getProfile(Long userId);
+	Boolean isManagerApproved(Long userId);
 
 }

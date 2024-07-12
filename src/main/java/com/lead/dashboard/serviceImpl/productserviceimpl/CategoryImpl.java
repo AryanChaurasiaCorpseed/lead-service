@@ -30,7 +30,6 @@ public class CategoryImpl implements CategoryService
     	category.setDocuments(createCategory.getDocuments());
         return categoryRepo.save(category);
     }
-
     @Override
     public Optional<Category> getCategory(Long categoryId) {
         return categoryRepo.findById(categoryId);

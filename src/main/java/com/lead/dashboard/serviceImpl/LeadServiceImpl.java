@@ -410,7 +410,6 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		leadHistory.setLeadId(lead.getId());
 		leadHistoryRepository.save(leadHistory);
-
 		return leadHistory;
 	}
 

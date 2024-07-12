@@ -581,6 +581,20 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public Boolean isManagerApproved(Long userId) {
+	     Boolean flag=false;
+	     User user=userRepo.findById(userId).get();
+	     System.out.println();
+	     String managerStatus=user.getManagerApproval();
+	     if(managerStatus.equals("approved")) {
+	    	 flag=true;
+	     }
+		return flag;
+	}
+
+
+
 
 
 }

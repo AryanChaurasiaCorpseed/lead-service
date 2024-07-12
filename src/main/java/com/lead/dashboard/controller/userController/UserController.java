@@ -220,4 +220,16 @@ public class UserController {
 		return createdUser;
 	}
 	
+	@GetMapping("api/v1/users/isManagerApproved")
+	public ResponseEntity isManagerApproved(@RequestParam Long userId) {
+		Boolean isManagerApproved = userService.isManagerApproved(userId);
+		if(isManagerApproved)
+		{
+			return  new ResponseEntity<>(isManagerApproved,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(isManagerApproved,HttpStatus.OK);
+		}
+	}
+	
 }

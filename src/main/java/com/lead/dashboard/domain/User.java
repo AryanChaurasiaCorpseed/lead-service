@@ -50,7 +50,7 @@ public class User implements Serializable{
 	String aadharCard;
 	String employeeId;	
 	@ManyToOne
-	@JsonIgnore
+//	@JsonIgnore
 	User managers;
 	int expInMonth;
 	int expInYear;
