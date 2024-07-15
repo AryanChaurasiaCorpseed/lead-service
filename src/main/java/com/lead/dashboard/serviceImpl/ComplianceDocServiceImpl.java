@@ -32,7 +32,7 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 			if(category.getDocuments()!=null) {
 				doc.addAll (category.getDocuments());
 			}
-			map.put("documents", doc);̥
+			map.put("documents", doc);
 			res.add(map);
 		}
 		return res;
