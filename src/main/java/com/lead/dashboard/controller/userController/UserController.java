@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -230,6 +231,15 @@ public class UserController {
 		else {
 			return new ResponseEntity<>(isManagerApproved,HttpStatus.OK);
 		}
+	}
+	
+	
+	@GetMapping("api/v1/users/getSingleUserById")
+	public Map<String,Object> getSingleUserById(@RequestParam Long userId)
+	{
+
+		Map<String,Object> userExistOrNot=userService.getSingleUserById(userId);
+		return userExistOrNot;
 	}
 	
 }

@@ -595,6 +595,20 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public Map<String, Object> getSingleUserById(Long userId) {
+		Map<String, Object>map = new HashMap<>();
+	     User user=userRepo.findById(userId).get();
+	     map.put("id", user.getId());
+	     map.put("name", user.getFullName());
+	     map.put("email", user.getEmail());
+	     map.put("department", user.getDepartment());
+
+		return map;
+	}
+
+
+
 
 
 }
