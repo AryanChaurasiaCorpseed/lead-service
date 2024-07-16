@@ -587,7 +587,7 @@ public class UserServiceImpl implements UserService {
 	     User user=userRepo.findById(userId).get();
 	     System.out.println();
 	     String managerStatus=user.getManagerApproval();
-	     if(managerStatus.equals("approved")) {
+	     if("approved".equalsIgnoreCase(managerStatus)) {
 	    	 flag=true;
 	     }
 		return flag;
