@@ -156,6 +156,7 @@ public class UrlsMapping {
 	//Standard comment
 	public static final String CREATE_COMMENT=PREFIX+"/lead/createComment";
 	public static final String GET_ALL_COMMENTS=PREFIX+"/lead/getAllComments";
+	public static final String DELETE_COMMENT=PREFIX+"/lead/deleteComments";
 
 
 	

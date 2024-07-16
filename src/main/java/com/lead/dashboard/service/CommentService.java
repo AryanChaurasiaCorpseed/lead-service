@@ -13,4 +13,6 @@ public interface CommentService {
 
 	List<Comment> getAllComment();
 
+	Boolean deleteMapping(Long id);
+
 }
