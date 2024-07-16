@@ -445,7 +445,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserForManager(Long id) {
-		List<User> userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
+		List<String> userRoles = userRepo.findRoleNameById(id);
+		List<User> userList = new ArrayList<>();
+		if(userRoles.contains("ADMIN")) {
+			userList = userRepo.findAllByIsHrHeadApprovalAndIsDeleted("pending",true,false);           
+
+		}else {
+			userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
+		}
 		return userList;
 	}
 
