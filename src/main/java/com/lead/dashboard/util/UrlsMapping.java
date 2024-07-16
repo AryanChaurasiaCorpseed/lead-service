@@ -153,6 +153,12 @@ public class UrlsMapping {
 	public static final String CREATE_IVR_DATA=PREFIX+"/rating/createIvrData";
 
 
+	//Standard comment
+	public static final String CREATE_COMMENT=PREFIX+"/lead/createComment";
+	public static final String GET_ALL_COMMENTS=PREFIX+"/lead/getAllComments";
+
+
+	
 
 
 }
