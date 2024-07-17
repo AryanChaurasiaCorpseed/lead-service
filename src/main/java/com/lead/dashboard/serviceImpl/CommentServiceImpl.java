@@ -35,13 +35,21 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public Boolean deleteMapping(Long id) {
+	public Boolean deleteComment(Long id) {
 		Boolean flag=false;
 		Comment comment = commentRepo.findById(id).get();
 		comment.setDeleted(true);
 		commentRepo.save(comment);
 		flag=true;
 		return flag;
+	}
+
+	@Override
+	public Comment updateComment(Long id,String commentName) {
+		Comment comment = commentRepo.findById(id).get();
+		comment.setName(commentName);
+		commentRepo.save(comment);
+		return comment;
 	}
 
 }
