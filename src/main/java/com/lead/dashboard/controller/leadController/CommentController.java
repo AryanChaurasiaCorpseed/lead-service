@@ -41,9 +41,15 @@ public class CommentController {
 	}
 	
 	@DeleteMapping(UrlsMapping.DELETE_COMMENT)
-	public 	Boolean deleteMapping(@RequestParam Long id)
+	public 	Boolean deleteComment(@RequestParam Long id)
 	{
-		Boolean res=CommentService.deleteMapping(id);
+		Boolean res=CommentService.deleteComment(id);
+		return res;
+	}
+	@DeleteMapping(UrlsMapping.UPDATE_COMMENT)
+	public 	Comment updateComment(@RequestParam Long id, @RequestParam String comment)
+	{
+		Comment res=CommentService.updateComment(id,comment);
 		return res;
 	}
 

@@ -13,6 +13,9 @@ public interface CommentService {
 
 	List<Comment> getAllComment();
 
-	Boolean deleteMapping(Long id);
+	Boolean deleteComment(Long id);
+
+
+	Comment updateComment(Long id, String comment);
 
 }
