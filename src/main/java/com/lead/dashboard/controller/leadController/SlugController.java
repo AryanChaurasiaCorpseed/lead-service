@@ -59,7 +59,7 @@ public class SlugController {
 		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
 		return urls;
 	}
-	@GetMapping("/slug/getSlug")
+	@GetMapping("/slug/getAllSlug")
 	public 	List<Slug> getAllSlug() {	
 		List<Slug> urls = slugRepository.findAll();
 //		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
