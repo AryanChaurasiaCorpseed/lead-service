@@ -33,6 +33,9 @@ public class UrlsManagment {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Slug>urlSlug;
 	boolean isQuality;
+	
+	boolean isProduct;
+	
 	public Long getId() {
 		return id;
 	}
@@ -56,6 +59,12 @@ public class UrlsManagment {
 	}
 	public void setUrlSlug(List<Slug> urlSlug) {
 		this.urlSlug = urlSlug;
+	}
+	public boolean isProduct() {
+		return isProduct;
+	}
+	public void setProduct(boolean isProduct) {
+		this.isProduct = isProduct;
 	}
 	
 	

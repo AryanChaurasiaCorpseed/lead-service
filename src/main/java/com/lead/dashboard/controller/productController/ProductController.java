@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.productController;
 
 
+import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.UpdateProduct;
@@ -72,5 +73,14 @@ public class ProductController {
     public Boolean deleteProduct(@RequestParam Long id) {
         Boolean f=productService.deleteProduct(id);
         return f;
+    }
+    
+    @PostMapping("/importProductByUrls")
+    public ResponseEntity<Boolean> importProductByUrls(@RequestBody ProductImportDto productImportDto) {
+
+
+    	Boolean result = productService.importProductByUrls(productImportDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }
