@@ -1,10 +1,13 @@
 package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
+import com.lead.dashboard.controller.leadController.ProductImportDto;
+import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
@@ -18,11 +21,15 @@ import java.util.List;
 import java.util.Optional;
 
 
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepo productRepo;
+    
+    @Autowired
+    UrlsManagmentRepo urlsManagmentRepo;
     
     @Autowired
     CategoryRepo categoryRepo;
@@ -106,6 +113,24 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductByUser(Long id) {
 		
 		return null;
+	}
+
+	@Override
+	public Boolean importProductByUrls(ProductImportDto productImportDto) {
+		Boolean flag=true;
+		List<UrlsManagment>urlsList=urlsManagmentRepo.findAllByIdIn(productImportDto.getUrlsId());
+		for(UrlsManagment urls:urlsList) {
+			if(!urls.isProduct()) {
+				Product p=new Product();
+				p.setProductName(urls.getUrlsName());
+				p.setDeleted(false);
+			    productRepo.save(p);
+			    flag=false;
+			}
+			urls.setProduct(true);
+			urlsManagmentRepo.save(urls);
+		}
+ 		return flag;
 	}
 
 }
