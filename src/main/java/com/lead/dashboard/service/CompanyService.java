@@ -11,7 +11,7 @@ import com.lead.dashboard.dto.CompanyDto;
 @Service
 public interface CompanyService {
 
-	Company createCompany(CompanyDto companyDto);
+	Company createCompany(CompanyDto companyDto) throws Exception;
 
 	Company getCompany(Long companyId);
 
