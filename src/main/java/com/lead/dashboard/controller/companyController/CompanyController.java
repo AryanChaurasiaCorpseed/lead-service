@@ -35,15 +35,18 @@ public class CompanyController {
 //	}
 
 	@PostMapping(UrlsMapping.CREATE_COMPANY)
-	public ResponseEntity<Company> createCompany(@RequestBody CompanyDto companyDto)
+	public ResponseEntity<Object> createCompany(@RequestBody CompanyDto companyDto)
 	{				
-		Company createdCompany = companyService.createCompany(companyDto);
+		Company createdCompany;
+		try {
+			createdCompany = companyService.createCompany(companyDto);
+			return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
 
-		if (createdCompany!=null) {
-				return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
-		}
-		else {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);		
+		} catch (Exception e) {
+
+			String msg = e.getMessage();
+			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);		
+
 		}
 	}
 	
