@@ -616,6 +616,14 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public List<String> getAllEmails() {
+		List<String>usersEmail=userRepo.findAllEmail();
+		return usersEmail;
+	}
+
+
+
 
 
 }

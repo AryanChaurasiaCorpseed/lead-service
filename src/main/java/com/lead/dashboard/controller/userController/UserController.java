@@ -241,5 +241,11 @@ public class UserController {
 		Map<String,Object> userExistOrNot=userService.getSingleUserById(userId);
 		return userExistOrNot;
 	}
-	
+	@GetMapping("api/v1/users/getAllEmails")
+	public List<String> getAllEmails()
+	{
+
+		List<String> allUserEmails=userService.getAllEmails();
+		return allUserEmails;
+	}
 }
