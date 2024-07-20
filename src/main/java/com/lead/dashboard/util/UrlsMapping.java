@@ -164,7 +164,9 @@ public class UrlsMapping {
 	public static final String GET_ALL_DESIGNATION=PREFIX+"/designation/getAllDesignation";
 	public static final String CREATE_DESIGNATION=PREFIX+"/designation/createDesignation";
 
-	
+	// Department
+	public static final String GET_ALL_DEPARTMENT=PREFIX+"/designation/getAllDepartment";
+	public static final String CREATE_DEPARTMENT=PREFIX+"/designation/createDepartment";
 
 
 	
