@@ -86,6 +86,8 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
+		Designation designation = designationRepo.findById(user.getDesignationId()).get();
+		existingUser.setUserDesignation(designation);
 		return userRepo.save(existingUser);
 	}
 
