@@ -133,6 +133,11 @@ public class Lead {
 	private boolean isBacklogTask;
 	private boolean  isNotAssignSame;
 	private int count;
+	
+	private boolean isHelper;
+	
+	@ManyToOne
+	private User helpUser;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -444,6 +449,22 @@ public class Lead {
 
 	public void setNotAssignSame(boolean isNotAssignSame) {
 		this.isNotAssignSame = isNotAssignSame;
+	}
+
+	public boolean isHelper() {
+		return isHelper;
+	}
+
+	public void setHelper(boolean isHelper) {
+		this.isHelper = isHelper;
+	}
+
+	public User getHelpUser() {
+		return helpUser;
+	}
+
+	public void setHelpUser(User helpUser) {
+		this.helpUser = helpUser;
 	}
 	
 	

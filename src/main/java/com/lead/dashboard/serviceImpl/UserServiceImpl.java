@@ -445,7 +445,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserForManager(Long id) {
-		List<User> userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
+		List<String> userRoles = userRepo.findRoleNameById(id);
+		List<User> userList = new ArrayList<>();
+		if(userRoles.contains("ADMIN")) {
+			userList = userRepo.findAllByIsHrHeadApprovalAndIsDeleted("pending",true,false);           
+
+		}else {
+			userList = userRepo.findAllByManagerApprovedAndIsHrHeadApprovalAndIsDeleted(id,"pending",true,false);           
+		}
 		return userList;
 	}
 
@@ -577,6 +584,34 @@ public class UserServiceImpl implements UserService {
 	     User user=userRepo.findById(userId).get();
           String profilePic=user.getProfilePhoto();
 		return profilePic;
+	}
+
+
+
+	@Override
+	public Boolean isManagerApproved(Long userId) {
+	     Boolean flag=false;
+	     User user=userRepo.findById(userId).get();
+	     System.out.println();
+	     String managerStatus=user.getManagerApproval();
+	     if("approved".equalsIgnoreCase(managerStatus)) {
+	    	 flag=true;
+	     }
+		return flag;
+	}
+
+
+
+	@Override
+	public Map<String, Object> getSingleUserById(Long userId) {
+		Map<String, Object>map = new HashMap<>();
+	     User user=userRepo.findById(userId).get();
+	     map.put("id", user.getId());
+	     map.put("name", user.getFullName());
+	     map.put("email", user.getEmail());
+	     map.put("department", user.getDepartment());
+
+		return map;
 	}
 
 

@@ -1,6 +1,7 @@
 package com.lead.dashboard.service.productservice;
 
 
+import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
 
@@ -21,4 +22,6 @@ public interface ProductService {
 	Product createProduct(CreateProduct createProduct);
 
 	List<Product> getProductByUser(Long id);
+
+	Boolean importProductByUrls(ProductImportDto productImportDto);
 }

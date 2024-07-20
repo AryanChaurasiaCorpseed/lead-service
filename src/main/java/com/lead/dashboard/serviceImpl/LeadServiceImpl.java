@@ -410,7 +410,6 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		leadHistory.setLeadId(lead.getId());
 		leadHistoryRepository.save(leadHistory);
-
 		return leadHistory;
 	}
 
@@ -1258,6 +1257,36 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		leadRepository.save(lead);
 		return b;
+	}
+	@Override
+	public List<Map<String, Object>> getAllLeadNameAndId() {
+		List<Lead>lead=leadRepository.findAllByIsDeleted(false);
+		List<Map<String,Object>>result = new ArrayList<>();
+		for(Lead l:lead) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("value",l.getId());
+			map.put("label",l.getLeadName());
+			result.add(map);
+			
+		}
+		return result;
+	}
+	@Override
+	public Boolean updateHelper(Long userId, Long leadId) {
+		Lead lead = leadRepository.findById(leadId).get();
+		Boolean flag=false;
+		if(userId!=null) {
+			User user = userRepo.findById(userId).get();
+			lead.setHelpUser(user);
+			lead.setHelper(true);
+			flag=true;
+		}else {
+			lead.setHelpUser(null);
+			lead.setHelper(false);
+			flag=true;
+		}
+		leadRepository.save(lead);
+		return flag;
 	}
  
 		

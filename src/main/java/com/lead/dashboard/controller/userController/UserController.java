@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -218,6 +219,27 @@ public class UserController {
 	public String getProfile(@RequestParam Long userId) {
 		String createdUser = userService.getProfile(userId);
 		return createdUser;
+	}
+	
+	@GetMapping("api/v1/users/isManagerApproved")
+	public ResponseEntity isManagerApproved(@RequestParam Long userId) {
+		Boolean isManagerApproved = userService.isManagerApproved(userId);
+		if(isManagerApproved)
+		{
+			return  new ResponseEntity<>(isManagerApproved,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(isManagerApproved,HttpStatus.OK);
+		}
+	}
+	
+	
+	@GetMapping("api/v1/users/getSingleUserById")
+	public Map<String,Object> getSingleUserById(@RequestParam Long userId)
+	{
+
+		Map<String,Object> userExistOrNot=userService.getSingleUserById(userId);
+		return userExistOrNot;
 	}
 	
 }

@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,9 +63,12 @@ public class UrlsManagmentController {
 	
 	
 	@GetMapping("/urls/getUrls")
-	public 	List<UrlsManagment> getUrls() {	
-		List<UrlsManagment> urls = urlsManagmentRepo.findAll();
-		return urls;
+	public 	List<UrlsManagment> getUrls(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
+		
+		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+     	Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
+     	List<UrlsManagment>urlsList=urls.getContent();
+		return urlsList;
 	}
 	
 	

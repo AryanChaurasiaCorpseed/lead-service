@@ -38,6 +38,8 @@ public interface LeadService {
 	Lead createLeadV2(LeadDTO leadDTO);
 	Boolean updateStatusAndAutoSame(Long leadId, Long updatedById, boolean isAutoSame, String status);
 	Boolean updateLeadOriginalName(UpdateLeadOriginal updateLeadOriginal);
+	List<Map<String, Object>> getAllLeadNameAndId();
+	Boolean updateHelper(Long userId, Long leadId);
 
 
 

@@ -29,6 +29,8 @@ public class UrlsMapping {
 	public static final String DELETE_MULTI_LEAD =PREFIX+"/lead/deleteMultiLead";
     public static final String UPDATE_STATUS_AND_AUTO_SAME =PREFIX+"/lead/updateStatusAndAutoSame";
 	public static final String UPDATE_LEAD_ORIGINAL_NAME=PREFIX+"/lead/updateLeadOriginalName";
+	public static final String GET_ALL_LEAD_NAME_AND_ID=PREFIX+"/lead/getAllLeadNameAndId";
+	public static final String UPDATE_HELPER=PREFIX+"/lead/updateHelper";
 
 
 	//=================== Lead - Oppoertunity Service ===================
@@ -94,6 +96,7 @@ public class UrlsMapping {
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
 	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
+	public static final String GET_ALL_PARENT_COMPANY=PREFIX+"/company/getAllParentCompany";
 
 	
 	// Sales-Dashboard
@@ -107,6 +110,8 @@ public class UrlsMapping {
 	public static final String CREATE_PROJECT_V2=PREFIX+"/project/createProjectV2";
 
 	public static final String GET_ALL_PROJECT=PREFIX+"/project/getAllProject";
+	public static final String GET_ALL_PROJECT_NAME_AND_ID=PREFIX+"/project/getAllProjectNameAndId";
+
 
 
 	//    Notification
@@ -140,6 +145,7 @@ public class UrlsMapping {
 
 
 	public static final String GET_ALL_COMPLIANCE_DOCUMENTS=PREFIX+"/complianceDocumnets/getAllComplianceDocuments";
+	public static final String CREATE_DOCUMENTS=PREFIX+"/complianceDocumnets/createDocuments";
 
 	
 	//IVR Module
@@ -147,6 +153,14 @@ public class UrlsMapping {
 	public static final String CREATE_IVR_DATA=PREFIX+"/rating/createIvrData";
 
 
+	//Standard comment
+	public static final String CREATE_COMMENT=PREFIX+"/lead/createComment";
+	public static final String GET_ALL_COMMENTS=PREFIX+"/lead/getAllComments";
+	public static final String DELETE_COMMENT=PREFIX+"/lead/deleteComments";
+	public static final String UPDATE_COMMENT=PREFIX+"/lead/updateComments";
+
+
+	
 
 
 }

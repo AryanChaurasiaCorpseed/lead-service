@@ -8,10 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.product.Category;
+import com.lead.dashboard.dto.CreateCategoryDocDto;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.service.ComplianceDocService;
@@ -32,4 +34,12 @@ public class ComplianceDocumentController {
 		List<Map<String,Object>>res=complianceDocService.getAllComplianceDocuments();	
 		return res;
 	}
+	
+	@PostMapping(UrlsMapping.CREATE_DOCUMENTS)
+	public Boolean createDocumentInCategory(CreateCategoryDocDto createCategoryDocDto){
+		Boolean res=complianceDocService.createDocumentInCategory(createCategoryDocDto);	
+		return res;
+	}
+	
+	
 } 

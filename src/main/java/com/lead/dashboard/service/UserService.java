@@ -9,6 +9,7 @@ import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService
 {
@@ -36,5 +37,7 @@ public interface UserService
 	Boolean updateLockerCount(Long id, int count, Long currentUserId);
 	Boolean updateProfile(Long userId, String profilePic);
 	String getProfile(Long userId);
+	Boolean isManagerApproved(Long userId);
+	Map<String, Object> getSingleUserById(Long userId);
 
 }

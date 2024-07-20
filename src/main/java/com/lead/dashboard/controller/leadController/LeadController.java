@@ -279,5 +279,28 @@ public class LeadController {
 		Boolean res=leadservice.updateLeadOriginalName(updateLeadOriginal);
 		return res;
 	}
+	@GetMapping(UrlsMapping.GET_ALL_LEAD_NAME_AND_ID)
+	public List<Map<String,Object>> getAllLeadNameAndId()
+	{ 
+		
+		List<Map<String,Object>> res=leadservice.getAllLeadNameAndId();
+		return res;
+	}
+	
+	@PutMapping(UrlsMapping.UPDATE_HELPER)
+	public ResponseEntity <Boolean> updateHelper(@RequestParam(required=false) Long userId,@RequestParam Long leadId)
+	{		
+		Boolean res= leadservice.updateHelper(userId,leadId);
+
+
+		if(res) {
+			return new ResponseEntity<>(res,HttpStatus.OK);
+		
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+
+		}
+
+	}
 
 }

@@ -35,15 +35,18 @@ public class CompanyController {
 //	}
 
 	@PostMapping(UrlsMapping.CREATE_COMPANY)
-	public ResponseEntity<Company> createCompany(@RequestBody CompanyDto companyDto)
+	public ResponseEntity<Object> createCompany(@RequestBody CompanyDto companyDto)
 	{				
-		Company createdCompany = companyService.createCompany(companyDto);
+		Company createdCompany;
+		try {
+			createdCompany = companyService.createCompany(companyDto);
+			return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
 
-		if (createdCompany!=null) {
-				return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
-		}
-		else {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);		
+		} catch (Exception e) {
+
+			String msg = e.getMessage();
+			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);		
+
 		}
 	}
 	
@@ -58,6 +61,14 @@ public class CompanyController {
 	public List<Map<String,Object>> getAllCompany(@RequestParam Long userId)
 	{
 		List<Map<String,Object>> allCompany = companyService.getAllCompany(userId);
+		return allCompany;
+
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_PARENT_COMPANY)
+	public List<Map<String,Object>> getAllParentCompany()
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllParentCompany();
 		return allCompany;
 
 	}

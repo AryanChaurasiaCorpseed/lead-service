@@ -26,41 +26,61 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	CompanyRepository companyRepository;
-	
+
 	@Autowired
 	ProjectRepository projectRepository;
-	
+
 	@Autowired
 	LeadRepository leadRepository;
-	
+
 	@Autowired
 	UserServiceImpl userServiceImpl;
-	
+
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Override
-	public Company createCompany(CompanyDto companyDto) {
-		// TODO Auto-generated method stub
-	
-		Company company = new Company();
-		company.setName(companyDto.getName());
-		company.setCompanyAge(companyDto.getCompanyAge());
-		company.setGstNo(companyDto.getGstNo());
-		company.setPanNo(companyDto.getPanNo());
-		company.setAddress(companyDto.getAddress());
-		company.setCity(companyDto.getCity());
-		company.setCountry(companyDto.getCountry());
-		company.setState(companyDto.getState());
-		List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
-		company.setCompanyProject(projectList);
-		List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
-		User user = userRepo.findById(companyDto.getAssigneeId()).get();
-		company.setAssignee(user);
-		company.setCompanyLead(leadList);
-		companyDto.getAssigneeId();
-		companyRepository.save(company);
-		return company;
+	public Company createCompany(CompanyDto companyDto) throws Exception {
+		Company companyExist = companyRepository.findByName(companyDto.getName());
+		if(companyExist==null) {
+
+
+
+			Company company = new Company();
+			company.setName(companyDto.getName());
+			company.setCompanyAge(companyDto.getCompanyAge());
+			company.setGstNo(companyDto.getGstNo());
+			company.setPanNo(companyDto.getPanNo());
+			company.setAddress(companyDto.getAddress());
+			company.setCity(companyDto.getCity());
+			company.setCountry(companyDto.getCountry());
+			company.setState(companyDto.getState());
+			List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
+			company.setCompanyProject(projectList);
+			List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
+
+			company.setCompanyLead(leadList);
+			companyDto.getAssigneeId();
+			if(companyDto.isParent()) {
+				User parent = userRepo.findById(companyDto.getParentId()).get();
+				company.setParent(parent);
+				company.setIsParent(companyDto.isParent());
+				User user = userRepo.findById(companyDto.getAssigneeId()).get();
+				company.setAssignee(user);
+				companyRepository.save(company);
+
+			}else {
+				company.setIsParent(companyDto.isParent());
+				companyRepository.save(company);
+
+			}
+			//		companyRepository.save(company);
+
+			return company;
+		}else {
+			String name=companyExist.getAssignee()!=null?companyExist.getAssignee().getFullName():"NA";
+			throw new Exception("Already Exist . "+name+" are working on it");
+		}
 	}
 
 	@Override
@@ -72,28 +92,28 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<Map<String,Object>> getAllCompany(Long userId) {
-         Optional<User> userOp = userRepo.findById(userId);
-         List<Company> companyList = new ArrayList<>();
-         User user = userOp.get();
-         List<String> roleList = user.getRole();
-         if(roleList.contains("ADMIN")) {
-     		 companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		Optional<User> userOp = userRepo.findById(userId);
+		List<Company> companyList = new ArrayList<>();
+		User user = userOp.get();
+		List<String> roleList = user.getRole();
+		if(roleList.contains("ADMIN")) {
+			companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 
-         }else {
-        	 if(user.isManager()) {
-        		 List<Long>userList = new ArrayList<>();
-        		 userList.add(userId);
-        		List<Long> uList = userServiceImpl.getUserManager(userId);
-        		 userList.addAll(uList);
-            	 companyList =companyRepository.findAllByAssigneeIdIn(userList);
+		}else {
+			if(user.isManager()) {
+				List<Long>userList = new ArrayList<>();
+				userList.add(userId);
+				List<Long> uList = userServiceImpl.getUserManager(userId);
+				userList.addAll(uList);
+				companyList =companyRepository.findAllByAssigneeIdIn(userList);
 
-        	 }else {
-            	 
-        		 companyList =companyRepository.findByAssigneeId(userId);
+			}else {
 
-        	 }
-         }
-//		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+				companyList =companyRepository.findByAssigneeId(userId);
+
+			}
+		}
+		//		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		List<Map<String,Object>>res = new ArrayList<>();
 		for(Company c:companyList) {
 			Map<String,Object>result = new HashMap<>();
@@ -114,10 +134,10 @@ public class CompanyServiceImpl implements CompanyService {
 				lMap.put("leadId", l.getId());
 				lMap.put("leadNameame", l.getLeadName());
 				leadList.add(lMap);
-				
+
 			}
 			result.put("lead", leadList);
-			
+
 			List<Project> pList = c.getCompanyProject();
 			List<Map<String,Object>>projectList = new ArrayList<>();
 			for(Project p:pList) {
@@ -138,12 +158,12 @@ public class CompanyServiceImpl implements CompanyService {
 		// TODO Auto-generated method stub
 		Optional<Company> companyOp = companyRepository.findById(companyId);
 		boolean flag=false;
-         if(companyOp.get()!=null) {
-        	Company company = companyOp.get();
-        	company.setDeleted(true);
-        	companyRepository.save(company);
-        	flag = true;
-         }
+		if(companyOp.get()!=null) {
+			Company company = companyOp.get();
+			company.setDeleted(true);
+			companyRepository.save(company);
+			flag = true;
+		}
 		return flag;
 	}
 
@@ -151,51 +171,65 @@ public class CompanyServiceImpl implements CompanyService {
 	public List<Map<String, Object>> getAllProjectByCompany(Long companyId) {
 		Optional<Company> companyOp = companyRepository.findById(companyId);
 		List<Map<String, Object>> result = new ArrayList<>();
-         if(companyOp.get()!=null) {
-        	 Company company = companyOp.get();
-        	 List<Project>projectList= company.getCompanyProject();
-        	 for(Project p:projectList) {
-        		 Map<String, Object> map = new HashMap<>();
-        		 map.put("projectId", p.getId());
-        		 map.put("projectName", p.getName());
-        		 map.put("assignee", p.getAssignee());
-        		 map.put("product", p.getProduct());
-        		 result.add(map);
-        	 }
-         }
+		if(companyOp.get()!=null) {
+			Company company = companyOp.get();
+			List<Project>projectList= company.getCompanyProject();
+			for(Project p:projectList) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("projectId", p.getId());
+				map.put("projectName", p.getName());
+				map.put("assignee", p.getAssignee());
+				map.put("product", p.getProduct());
+				result.add(map);
+			}
+		}
 		return result;
 	}
 
 	@Override
 	public List<Map<String, Object>> getAllLeadByCompany(Long companyId) {
-		
+
 		Optional<Company> companyOp = companyRepository.findById(companyId);
 		List<Map<String, Object>> result = new ArrayList<>();
-         if(companyOp.get()!=null) {
-        	 Company company = companyOp.get();
-        	 List<Lead>leadList= company.getCompanyLead();
-        	 for(Lead l:leadList) {
-        		 Map<String, Object> map = new HashMap<>();
-        		 map.put("leadId", l.getId());
-        		 map.put("leadName", l.getLeadName());
-        		 map.put("assignee", l.getAssignee());
-        		 map.put("client", l.getName());
-        		 map.put("ipAddress", l.getIpAddress());
-     			map.put("originalName", l.getOriginalName());
-     			map.put("categoryId", l.getCategoryId());
-     			map.put("city", l.getCity());
-     			map.put("assigne", l.getAssignee());
-     			map.put("displayStatus", l.getDisplayStatus());
-     			map.put("description", l.getLeadDescription());
-     			map.put("email", l.getEmail());
-     			map.put("ipAddress", l.getIpAddress());
-     			map.put("remarks", l.getRemarks());
-     			map.put("status", l.getStatus());
-     			map.put("isBacklog", l.isBacklogTask());
+		if(companyOp.get()!=null) {
+			Company company = companyOp.get();
+			List<Lead>leadList= company.getCompanyLead();
+			for(Lead l:leadList) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("leadId", l.getId());
+				map.put("leadName", l.getLeadName());
+				map.put("assignee", l.getAssignee());
+				map.put("client", l.getName());
+				map.put("ipAddress", l.getIpAddress());
+				map.put("originalName", l.getOriginalName());
+				map.put("categoryId", l.getCategoryId());
+				map.put("city", l.getCity());
+				map.put("assigne", l.getAssignee());
+				map.put("displayStatus", l.getDisplayStatus());
+				map.put("description", l.getLeadDescription());
+				map.put("email", l.getEmail());
+				map.put("ipAddress", l.getIpAddress());
+				map.put("remarks", l.getRemarks());
+				map.put("status", l.getStatus());
+				map.put("isBacklog", l.isBacklogTask());
 
-        		 result.add(map);
-        	 }
-         }
+				result.add(map);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllParentCompany() {
+		List<Company>companies=companyRepository.findAllByIsParent();
+		List<Map<String, Object>> result = new ArrayList<>();
+		for(Company c:companies) {
+			Map<String, Object>map = new HashMap<>();
+			map.put("value", c.getId());
+			map.put("label", c.getName());
+			map.put("isParent", c.isParent());
+			result.add(map);
+		}
 		return result;
 	}
 

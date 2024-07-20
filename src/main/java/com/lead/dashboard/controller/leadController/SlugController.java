@@ -50,14 +50,19 @@ public class SlugController {
 	
 	@GetMapping("/slug/getSlug")
 	public 	List<Slug> getSlug(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
-//		 int  pageSize=5;
-//		int pageNo=0;
+
 		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
 	        //pass it to repos
 	        //pagingUser.hasContent(); -- to check pages are there or not
 		Page<Slug> urlsPage = slugRepository.findAll(pageRequest);
 		List<Slug> urls = urlsPage.getContent();
 		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
+		return urls;
+	}
+	@GetMapping("/slug/getAllSlug")
+	public 	List<Slug> getAllSlug() {	
+		List<Slug> urls = slugRepository.findAll();
+//		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
 		return urls;
 	}
 	
