@@ -158,6 +158,13 @@ public class UrlsMapping {
 	public static final String GET_ALL_COMMENTS=PREFIX+"/lead/getAllComments";
 	public static final String DELETE_COMMENT=PREFIX+"/lead/deleteComments";
 	public static final String UPDATE_COMMENT=PREFIX+"/lead/updateComments";
+	
+	
+	// Designation
+	public static final String GET_ALL_DESIGNATION=PREFIX+"/designation/getAllDesignation";
+	public static final String CREATE_DESIGNATION=PREFIX+"/designation/createDesignation";
+
+	
 
 
 	

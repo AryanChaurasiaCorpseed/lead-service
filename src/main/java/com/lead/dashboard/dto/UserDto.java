@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-@Data
-@Getter
-@Setter
+//@Data
+//@Getter
+//@Setter
 public class UserDto {
 	
 	private Long id;
@@ -21,6 +21,8 @@ public class UserDto {
 
     @NonNull
     private String designation;
+    
+    Long designationId;
 
     @NonNull
     private String department;
@@ -80,7 +82,15 @@ public class UserDto {
 		this.username = username;
 	}
 
+	public Long getDesignationId() {
+		return designationId;
+	}
 
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+
+    
 	
 	
 	

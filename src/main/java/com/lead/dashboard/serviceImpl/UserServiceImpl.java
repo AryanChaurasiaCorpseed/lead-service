@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.CreateUserDto;
+import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
@@ -8,6 +9,7 @@ import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.repository.DesignationRepo;
 import com.lead.dashboard.repository.RoleRepository;
 import com.lead.dashboard.repository.UserHistoryRepo;
 import com.lead.dashboard.repository.UserRepo;
@@ -43,6 +45,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserHistoryRepo userHistoryRepo;
+	
+	@Autowired
+	DesignationRepo designationRepo;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -61,6 +66,8 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		u.setUserRole(roleList);
 		u.setManagerApproval("approved");
+		Designation designation = designationRepo.findById(user.getDesignationId()).get();
+		u.setUserDesignation(designation);
 		u.setRole(user.getRole());
 		return userRepo.save(u);
 	}
