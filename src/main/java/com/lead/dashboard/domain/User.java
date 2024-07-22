@@ -39,6 +39,10 @@ public class User implements Serializable{
     @NonNull
     private String department; 
     
+    @ManyToOne
+    Department userDepartment;
+    
+    
     @ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="user_role_id"
@@ -482,6 +486,14 @@ public class User implements Serializable{
 	public void setUserDesignation(Designation userDesignation) {
 		this.userDesignation = userDesignation;
 	}
+
+	public Department getUserDepartment() {
+		return userDepartment;
+	}
+
+	public void setUserDepartment(Department userDepartment) {
+		this.userDepartment = userDepartment;
+	}
 	
 
 //	public List<Ratings> getUserRatings() {
@@ -491,6 +503,7 @@ public class User implements Serializable{
 //	public void setUserRatings(List<Ratings> userRatings) {
 //		this.userRatings = userRatings;
 //	}
+	
 	
 	
 	

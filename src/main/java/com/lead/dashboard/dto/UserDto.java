@@ -27,6 +27,7 @@ public class UserDto {
     @NonNull
     private String department;
 
+    Long departmentId;
 
 	@NonNull
 	private List<String> role;
@@ -88,6 +89,14 @@ public class UserDto {
 
 	public void setDesignationId(Long designationId) {
 		this.designationId = designationId;
+	}
+
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 
     
