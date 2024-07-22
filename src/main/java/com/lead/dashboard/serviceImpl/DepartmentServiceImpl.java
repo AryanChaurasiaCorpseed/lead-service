@@ -3,11 +3,12 @@ package com.lead.dashboard.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Department;
 import com.lead.dashboard.repository.DepartmentRepo;
 import com.lead.dashboard.service.DepartmentService;
-
+@Service
 public class DepartmentServiceImpl implements DepartmentService{
 	
 	@Autowired
