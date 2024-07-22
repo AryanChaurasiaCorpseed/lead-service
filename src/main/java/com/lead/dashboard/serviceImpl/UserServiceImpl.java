@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department) {
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department,Long designationId, Long departmentId) {
 
 		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
@@ -176,6 +176,11 @@ public class UserServiceImpl implements UserService {
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
 			u.setDesignation(designation);
+			Designation des = designationRepo.findById(designationId).get();
+			u.setUserDesignation(des);
+			
+			Department dep = departmentRepo.findById(departmentId).get();
+			u.setUserDepartment(dep);
 			userRepo.save(u);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
@@ -199,6 +204,11 @@ public class UserServiceImpl implements UserService {
 			u.setManagerApproval("pending");
 
 			u.setDepartment(department);
+			Designation des = designationRepo.findById(designationId).get();
+			u.setUserDesignation(des);
+			
+			Department dep = departmentRepo.findById(departmentId).get();
+			u.setUserDepartment(dep);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 			Context context = new Context();
 			context.setVariable("userName", "Aryan Chaurasia");
@@ -278,6 +288,11 @@ public class UserServiceImpl implements UserService {
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
+		Designation designation = designationRepo.findById(user.getDesignationId()).get();
+		existingUser.setUserDesignation(designation);
+		
+		Department department = departmentRepo.findById(user.getDepartmentId()).get();
+		existingUser.setUserDepartment(department);
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
@@ -341,7 +356,11 @@ public class UserServiceImpl implements UserService {
 			List<Role> roleList = roleRepository.findAllByNameIn(listRole);
 			u.setUserRole(roleList);
 			u.setDesignation(createUserDto.getDesignation());
-
+			Designation designation = designationRepo.findById(createUserDto.getDesignationId()).get();
+			u.setUserDesignation(designation);
+			
+			Department department = departmentRepo.findById(createUserDto.getDepartmentId()).get();
+			u.setUserDepartment(department);
 			u.setManager(createUserDto.isManager());
 			u.setEpfNo(createUserDto.getEpfNo());
 			u.setAadharCard(createUserDto.getAadharCard());
