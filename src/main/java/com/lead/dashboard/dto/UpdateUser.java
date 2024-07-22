@@ -22,6 +22,8 @@ public class UpdateUser {
 
     @NonNull
     private String department;
+    
+    Long departmentId;
 
 
 	@NonNull
@@ -80,6 +82,14 @@ public class UpdateUser {
 
 	public void setDesignationId(Long designationId) {
 		this.designationId = designationId;
+	}
+
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 	
 	

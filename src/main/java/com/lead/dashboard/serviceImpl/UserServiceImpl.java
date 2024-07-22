@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import com.lead.dashboard.domain.CreateUserDto;
+import com.lead.dashboard.domain.Department;
 import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.UpdateUserByHr;
@@ -9,6 +10,7 @@ import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.repository.DepartmentRepo;
 import com.lead.dashboard.repository.DesignationRepo;
 import com.lead.dashboard.repository.RoleRepository;
 import com.lead.dashboard.repository.UserHistoryRepo;
@@ -48,6 +50,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	DesignationRepo designationRepo;
+	
+	@Autowired
+	DepartmentRepo departmentRepo;
 
 	public UserServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
@@ -68,6 +73,9 @@ public class UserServiceImpl implements UserService {
 		u.setManagerApproval("approved");
 		Designation designation = designationRepo.findById(user.getDesignationId()).get();
 		u.setUserDesignation(designation);
+		
+		Department department = departmentRepo.findById(user.getDepartmentId()).get();
+		u.setUserDepartment(department);
 		u.setRole(user.getRole());
 		return userRepo.save(u);
 	}
@@ -88,6 +96,9 @@ public class UserServiceImpl implements UserService {
 		existingUser.setRole(user.getRole());
 		Designation designation = designationRepo.findById(user.getDesignationId()).get();
 		existingUser.setUserDesignation(designation);
+		
+		Department department = departmentRepo.findById(user.getDepartmentId()).get();
+		existingUser.setUserDepartment(department);
 		return userRepo.save(existingUser);
 	}
 
