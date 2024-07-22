@@ -14,6 +14,10 @@ public class UpdateUserByHr {
 	private String designation;
 	@NonNull
 	private String department;
+	
+    Long designationId;
+    Long departmentId;
+	
 	@NonNull
 	private List<String> role;
 	private boolean isManager;
@@ -235,6 +239,18 @@ public class UpdateUserByHr {
 	}
 	public void setMaster(boolean isMaster) {
 		this.isMaster = isMaster;
+	}
+	public Long getDesignationId() {
+		return designationId;
+	}
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 	
     
