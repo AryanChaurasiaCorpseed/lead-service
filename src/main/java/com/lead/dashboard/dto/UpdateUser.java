@@ -10,7 +10,7 @@ public class UpdateUser {
 	
 
     
-    private String fullName;
+    private String userName;
 
     @NonNull
     private String email;
@@ -36,12 +36,15 @@ public class UpdateUser {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getFullName() {
-		return fullName;
+
+	
+
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getEmail() {

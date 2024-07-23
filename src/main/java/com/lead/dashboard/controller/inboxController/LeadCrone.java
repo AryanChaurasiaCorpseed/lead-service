@@ -3525,7 +3525,7 @@ public class LeadCrone {
 			leadRepository.save(lead);
 		}
 	}
-	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 		public void assignLeadByCroneV() {
 			List<Long>croneStatus= new ArrayList<>();
 			System.out.println("First tsting  .....");

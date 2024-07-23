@@ -40,5 +40,6 @@ public interface UserService
 	Boolean isManagerApproved(Long userId);
 	Map<String, Object> getSingleUserById(Long userId);
 	List<String> getAllEmails();
+	List<User> checkEmailExist(String email);
 
 }

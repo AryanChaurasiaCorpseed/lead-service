@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Table
 @Entity
-@Data
+//@Data
 public class Designation {
 
 
@@ -21,6 +21,8 @@ public class Designation {
 	
 	
     private String name;
+    
+    Long weightValue;
     
     boolean isDeleted;
 
@@ -47,6 +49,16 @@ public class Designation {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public Long getWeightValue() {
+		return weightValue;
+	}
+
+	public void setWeightValue(Long weightValue) {
+		this.weightValue = weightValue;
+	}
     
+	
+	
     
 }
