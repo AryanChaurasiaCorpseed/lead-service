@@ -24,10 +24,11 @@ public class DesignationServiceImpl implements DesignationService {
 	}
 
 	@Override
-	public Designation createDesignation(String name) {
+	public Designation createDesignation(String name,Long weight) {
 		Designation designation = new Designation();
 		designation.setName(name);
 		designation.setDeleted(false);
+		designation.setWeightValue(weight);
 		designationRepo.save(designation);
 		return designation;
 	}

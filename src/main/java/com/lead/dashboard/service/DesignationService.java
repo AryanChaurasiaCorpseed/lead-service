@@ -11,6 +11,6 @@ public interface DesignationService {
 
 	List<Designation> getAllDesignation();
 
-	Designation createDesignation(String name);
+	Designation createDesignation(String name,Long weight);
 
 }

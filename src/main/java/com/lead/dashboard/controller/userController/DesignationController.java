@@ -36,10 +36,10 @@ public class DesignationController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_DESIGNATION)
-	public ResponseEntity<Designation> createDesignation(@RequestParam String name)
+	public ResponseEntity<Designation> createDesignation(@RequestParam String name,@RequestParam Long weight)
 	{
 
-		Designation allDesignation=DesignationService.createDesignation(name);
+		Designation allDesignation=DesignationService.createDesignation(name,weight);
 		if(allDesignation!=null)
 		{
 			return  new ResponseEntity<>(allDesignation,HttpStatus.OK);
