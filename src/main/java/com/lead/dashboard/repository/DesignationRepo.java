@@ -17,5 +17,8 @@ public interface DesignationRepo extends JpaRepository<Designation, Long> {
 	@Query(value = "SELECT d.id FROM designation d WHERE d.is_deleted =:b and weight_value>5", nativeQuery = true)
 	List<Long> findIdByIsDeletedAndWeightValue(boolean b);
 
+	@Query(value = "SELECT * FROM designation d WHERE d.id in(:designationId)", nativeQuery = true)
+	List<Designation> findAllByIdIn(List<Long> designationId);
+
 	
 }

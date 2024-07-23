@@ -167,6 +167,8 @@ public class UrlsMapping {
 	// Department
 	public static final String GET_ALL_DEPARTMENT=PREFIX+"/designation/getAllDepartment";
 	public static final String CREATE_DEPARTMENT=PREFIX+"/designation/createDepartment";
+	public static final String CREATE_DEPARTMENT_IN_DESIGNATION=PREFIX+"/designation/createDepartmentInDesignation";
+	public static final String GET_ALL_DESIGNATION_BY_DEPARTMENT=PREFIX+"/designation/getAllDesignationByDepartment";
 
 
 	

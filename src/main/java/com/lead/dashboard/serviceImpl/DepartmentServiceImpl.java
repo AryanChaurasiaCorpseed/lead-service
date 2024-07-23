@@ -6,13 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Department;
+import com.lead.dashboard.domain.Designation;
+import com.lead.dashboard.dto.DepartmentDto;
 import com.lead.dashboard.repository.DepartmentRepo;
+import com.lead.dashboard.repository.DesignationRepo;
 import com.lead.dashboard.service.DepartmentService;
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
 	
 	@Autowired
 	DepartmentRepo departmentRepo;
+	
+	@Autowired
+	DesignationRepo designationRepo;
 
 	@Override
 	public List<Department> getAllDepartment() {
@@ -27,6 +33,22 @@ public class DepartmentServiceImpl implements DepartmentService{
 		d.setDeleted(false);
 		departmentRepo.save(d);
 		return d;
+	}
+
+	@Override
+	public Department createDepartmentInDesignation(DepartmentDto departmentDto) {
+		Department department = departmentRepo.findById(departmentDto.getId()).get();
+		List<Designation>designationList= designationRepo.findAllByIdIn(departmentDto.getDesignation());
+		department.setDesignations(designationList);
+		departmentRepo.save(department);
+		return department;
+	}
+
+	@Override
+	public List<Designation> getAllDesignationByDepartment(Long departmentId) {
+		Department department = departmentRepo.findById(departmentId).get();
+		List<Designation> designationList = department.getDesignations();
+		return designationList;
 	}
 
 }
