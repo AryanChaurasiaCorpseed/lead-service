@@ -680,7 +680,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserManagerByDepartment(Long departmentId) {
-		List<Long> designationList = designationRepo.findIdByIsDeletedAndWeightValue(false);
+		 Department department = departmentRepo.findById(departmentId).get();
+		 List<Long> designationList =department.getDesignations().stream().filter(i->i.getWeightValue()>5).map(i->i.getId()).collect(Collectors.toList());
+//		List<Long> designationList = designationRepo.findIdByIsDeletedAndWeightValue(false);
+		 System.out.println(designationList);
 		List<User> uList=userRepo.findByUserDepartmentIdAndUserDesignationIdIn(departmentId,designationList);
 		
 		return uList;
