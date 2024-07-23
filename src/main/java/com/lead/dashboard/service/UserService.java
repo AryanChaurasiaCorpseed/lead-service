@@ -41,5 +41,6 @@ public interface UserService
 	Map<String, Object> getSingleUserById(Long userId);
 	List<String> getAllEmails();
 	List<User> checkEmailExist(String email);
+	List<User> getUserManagerByDepartment(Long departmentId);
 
 }

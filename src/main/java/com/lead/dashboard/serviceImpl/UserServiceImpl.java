@@ -678,6 +678,16 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public List<User> getUserManagerByDepartment(Long departmentId) {
+		List<Long> designationList = designationRepo.findIdByIsDeletedAndWeightValue(false);
+		List<User> uList=userRepo.findByUserDepartmentIdAndUserDesignationIdIn(departmentId,designationList);
+		
+		return uList;
+	}
+
+
+
 
 
 }
