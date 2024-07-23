@@ -248,4 +248,18 @@ public class UserController {
 		List<String> allUserEmails=userService.getAllEmails();
 		return allUserEmails;
 	}
+	
+	@GetMapping("api/v1/users/checkEmailExist")
+	public Boolean checkEmailExist(@RequestParam String email)
+	{
+
+		List<User> allUserEmails=userService.checkEmailExist(email);
+		if(allUserEmails!=null && allUserEmails.size()!=0)
+		{
+			return  true;
+		}
+		else {
+			return false;
+		}
+	}
 }

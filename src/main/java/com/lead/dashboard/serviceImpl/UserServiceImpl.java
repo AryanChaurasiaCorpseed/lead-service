@@ -261,10 +261,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUserData(User existingUser, UpdateUser user) {
-		existingUser.setFullName(user.getFullName());
+		existingUser.setFullName(user.getUserName());
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
+		
+		Designation des = designationRepo.findById(user.getDesignationId()).get();
+		existingUser.setUserDesignation(des);
+		
+		Department dep = departmentRepo.findById(user.getDepartmentId()).get();
+		existingUser.setUserDepartment(dep);
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
@@ -659,6 +665,15 @@ public class UserServiceImpl implements UserService {
 	public List<String> getAllEmails() {
 		List<String>usersEmail=userRepo.findAllEmail();
 		return usersEmail;
+	}
+
+
+
+	@Override
+	public List<User> checkEmailExist(String email) {
+		List<User> emails=userRepo.findByEmailContainingIgnoreCase(email);
+		System.out.println(emails.stream().map(i->i.getEmail()).collect(Collectors.toList()));
+		return emails;
 	}
 
 
