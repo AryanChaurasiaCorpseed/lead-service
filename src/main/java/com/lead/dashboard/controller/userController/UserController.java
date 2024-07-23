@@ -249,7 +249,7 @@ public class UserController {
 		return allUserEmails;
 	}
 	
-	@GetMapping("api/v1/users/checkEmailExist")
+	@GetMapping("api/v1/users/checkEmailExist") 
 	public Boolean checkEmailExist(@RequestParam String email)
 	{
 
