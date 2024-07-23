@@ -262,4 +262,12 @@ public class UserController {
 			return false;
 		}
 	}
+	
+	@GetMapping("api/v1/users/getUserManagerByDepartment") 
+	public List<User> getUserManagerByDepartment(@RequestParam Long departmentId)
+	{
+
+		List<User> allUser=userService.getUserManagerByDepartment(departmentId);
+		return allUser;
+	}
 }
