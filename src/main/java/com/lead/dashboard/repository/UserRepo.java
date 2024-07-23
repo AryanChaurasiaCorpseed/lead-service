@@ -55,8 +55,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 	
 	
 	List<User> findByEmailContainingIgnoreCase(String email);
-
-	@Query(value = "SELECT * FROM user u WHERE u.user_designation_id=:departmentId and u.user_department_id in(:designationList)", nativeQuery = true)
+	@Query(value = "SELECT * FROM user u WHERE u.user_department_id=:departmentId and u.user_designation_id in(:designationList)", nativeQuery = true)
 	List<User> findByUserDepartmentIdAndUserDesignationIdIn(Long departmentId, List<Long> designationList);
 
 }
