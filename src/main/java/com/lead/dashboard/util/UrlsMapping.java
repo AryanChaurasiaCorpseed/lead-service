@@ -171,7 +171,10 @@ public class UrlsMapping {
 	public static final String GET_ALL_DESIGNATION_BY_DEPARTMENT=PREFIX+"/designation/getAllDesignationByDepartment";
 
 
-	
+	// Company Form
+	public static final String CREATE_COMPANY_FORM=PREFIX+"/company/createCompanyForm";
+	public static final String GET_ALL_COMPANY_FORM=PREFIX+"/company/getAllCompanyForm";
+
 
 
 }
