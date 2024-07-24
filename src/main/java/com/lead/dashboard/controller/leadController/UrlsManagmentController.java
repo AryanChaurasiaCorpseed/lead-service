@@ -72,6 +72,14 @@ public class UrlsManagmentController {
 	}
 	
 	
+	@GetMapping("/urls/getAllUrls")
+	public 	List<UrlsManagment> getAllUrls() {	
+		
+     	List<UrlsManagment> urlsList = urlsManagmentRepo.findAll();
+		return urlsList;
+	}
+	
+	
 	@GetMapping("/urls/getSlugByUrlId")
 	public 	List<Slug> getSlugByUrlId(@RequestParam Long id) {	
 		Optional<UrlsManagment> urlsOp = urlsManagmentRepo.findById(id);
