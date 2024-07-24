@@ -31,7 +31,7 @@ public class CompanyForm {
 	String City;
 	String Address;
 	Long  assigneeId;
-	
+	String status;
 	@ManyToOne
 	Lead lead;
 
