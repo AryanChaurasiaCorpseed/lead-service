@@ -290,7 +290,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User editUserByHr(User existingUser, UpdateUserByHr user) {
 
-		existingUser.setFullName(user.getFullName());
+		existingUser.setFullName(user.getUserName());
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
