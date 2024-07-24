@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.lead.dashboard.domain.Company;
-import com.lead.dashboard.domain.CompanyForm;
 import com.lead.dashboard.domain.lead.Lead;
 
 @Repository
@@ -27,7 +26,5 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
 	@Query(value = "SELECT * FROM company c where c.name=:name", nativeQuery = true)
 	Company findByName(String name);
-
-	CompanyForm findByLeadId(Long leadId);
 
 }
