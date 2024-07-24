@@ -12,7 +12,7 @@ import com.lead.dashboard.domain.lead.Lead;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
-	@Query(value = "SELECT c.id FROM company c left join company_lead cl on c.id=cl.company_id where cl.company_lead_id=:leadId", nativeQuery = true)
+	@Query(value = "SELECT c.id FROM company c left join company_lead cl on c.id=cl.company_id where cl.company_lead_id=:leadId LIMIT 1", nativeQuery = true)
 	Long findCompanyIdByLeadId(Long leadId);
 
 	@Query(value = "SELECT * FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
