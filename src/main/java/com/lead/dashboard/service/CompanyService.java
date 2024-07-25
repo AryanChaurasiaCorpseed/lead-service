@@ -11,7 +11,7 @@ import com.lead.dashboard.dto.CompanyDto;
 @Service
 public interface CompanyService {
 
-	Company createCompany(CompanyDto companyDto) throws Exception;
+	Company createCompany(CompanyDto companyDto) ;
 
 	Company getCompany(Long companyId);
 
@@ -24,5 +24,7 @@ public interface CompanyService {
 	List<Map<String, Object>> getAllLeadByCompany(Long companyId);
 
 	List<Map<String, Object>> getAllParentCompany();
+
+	List<Map<String, Object>> getAllCompanyUnit(Long id);
 
 }

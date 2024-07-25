@@ -106,6 +106,15 @@ public class CompanyController {
 	}     
 	
 	
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_UNIT)
+	public List<Map<String,Object>> getAllCompanyUnit(@RequestParam Long id)
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllCompanyUnit(id);
+		return allCompany;
+
+	}
+	
+	
 	
 
 }
