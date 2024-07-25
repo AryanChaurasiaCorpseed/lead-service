@@ -35,10 +35,20 @@ public class CompanyForm {
 	String gstDocuments;
 	
 	String companyAge;
-	String Country;
-	String State;
-	String City;
+	
+	//primary
 	String Address;
+	String City;
+	String State;
+	String Country;
+	
+	
+	//secondary address
+	String sAddress;
+	String sCity;
+	String sState;
+	String sCountry;
+	
 	Long  assigneeId;
 	String status;
 	@ManyToOne
@@ -194,6 +204,38 @@ public class CompanyForm {
 
 	public void setUnitId(Long unitId) {
 		this.unitId = unitId;
+	}
+
+	public String getsAddress() {
+		return sAddress;
+	}
+
+	public void setsAddress(String sAddress) {
+		this.sAddress = sAddress;
+	}
+
+	public String getsCity() {
+		return sCity;
+	}
+
+	public void setsCity(String sCity) {
+		this.sCity = sCity;
+	}
+
+	public String getsState() {
+		return sState;
+	}
+
+	public void setsState(String sState) {
+		this.sState = sState;
+	}
+
+	public String getsCountry() {
+		return sCountry;
+	}
+
+	public void setsCountry(String sCountry) {
+		this.sCountry = sCountry;
 	}  
 	
 	

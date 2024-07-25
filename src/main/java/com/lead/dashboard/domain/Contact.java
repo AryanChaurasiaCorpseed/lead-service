@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-@Data
+//@Data
 @Table
 @Entity
 public class Contact {
@@ -17,6 +17,7 @@ public class Contact {
 	String name;
 	String emails;
 	String contactNo;
+	String whatsappNo;
 	boolean deleteStatus =false;
 	
 	public Long getId() {
@@ -48,6 +49,12 @@ public class Contact {
 	}
 	public void setDeleteStatus(boolean deleteStatus) {
 		this.deleteStatus = deleteStatus;
+	}
+	public String getWhatsappNo() {
+		return whatsappNo;
+	}
+	public void setWhatsappNo(String whatsappNo) {
+		this.whatsappNo = whatsappNo;
 	}
 	
 	
