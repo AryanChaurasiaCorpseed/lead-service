@@ -1,6 +1,9 @@
 package com.lead.dashboard.controller.companyController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,15 @@ public class CompanyFormController {
 	public CompanyForm createCompanyForm(@RequestBody CreateFormDto createFormDto)
 	{				
 		CompanyForm companyForm =  new CompanyForm();
+		
+		companyForm.setIsPresent(createFormDto.getIsPresent());
+		companyForm.setCompanyName(createFormDto.getCompanyName());
+		companyForm.setCompanyId(createFormDto.getCompanyId());
+		
+		companyForm.setIsUnit(createFormDto.getIsUnit());
+		companyForm.setUnitName(createFormDto.getUnitName());
+		companyForm.setUnitId(createFormDto.getUnitId());
+		
 		companyForm.setAddress(createFormDto.getAddress());
 		companyForm.setAssigneeId(createFormDto.getAssigneeId());
 		companyForm.setCity(createFormDto.getCity());
@@ -46,7 +58,10 @@ public class CompanyFormController {
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setCompanyId(createFormDto.getCompanyId());
 		companyForm.setCountry(createFormDto.getCountry());
+		companyForm.setGstType(createFormDto.getGstType());
+		companyForm.setGstDocuments(createFormDto.getGstDocuments());
 		companyForm.setGstNo(createFormDto.getGstNo());
+		
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
@@ -57,10 +72,24 @@ public class CompanyFormController {
 	   return companyForm;
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
-	public List<CompanyForm> getAllCompanyForm()
+	public List<Map<String,Object>> getAllCompanyForm()
 	{
+		List<Map<String,Object>>result = new ArrayList<>();
 		List<CompanyForm> compList = companyFormRepo.findAll();
-		return compList;
+		for(CompanyForm c:compList) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("id", c.getId());
+			map.put("unitName", c.getUnitName());
+//			map.put("primaryAddress", c.get);
+			map.put("companyName", c.getCompanyName());
+			map.put("lead", c.getLead());
+			map.put("gstNo", c.getGstNo());
+			map.put("gstType", c.getGstType());
+			map.put("gstDocuments", c.getGstDocuments());
+			result.add(map);
+
+		}
+		return result;
 	}
 	
 	@GetMapping(UrlsMapping.CHECK_COMPANY_EXIST)

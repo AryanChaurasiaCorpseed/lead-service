@@ -42,9 +42,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Company createCompany(CompanyDto companyDto)  {
 		Company companyExist = companyRepository.findByName(companyDto.getName());
-		if(true) {
-
-
+		if(companyExist ==null) {
 
 			Company company = new Company();
 			company.setName(companyDto.getName());
@@ -55,8 +53,7 @@ public class CompanyServiceImpl implements CompanyService {
 			company.setCity(companyDto.getCity());
 			company.setCountry(companyDto.getCountry());
 			company.setState(companyDto.getState());
-//			List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
-//			company.setCompanyProject(projectList);
+
 			List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
 
 			company.setCompanyLead(leadList);
@@ -64,15 +61,15 @@ public class CompanyServiceImpl implements CompanyService {
 			if(companyDto.isParent()) {
 				Company parent = companyRepository.findById(companyDto.getParentId()).get();
 				company.setParent(parent);
-				company.setIsParent(companyDto.isParent());
+				company.setParent(companyDto.isParent());
 				User user = userRepo.findById(companyDto.getAssigneeId()).get();
 				company.setAssignee(user);
 				companyRepository.save(company);
 
 			}else {
-				company.setIsParent(companyDto.isParent());
-				 Company parent = companyRepository.findById(companyDto.getParentId()).get();
-				company.setParent(parent);
+				company.setParent(companyDto.isParent());
+//				 Company parent = companyRepository.findById(companyDto.getParentId()).get();
+//				company.setParent(parent);
 				companyRepository.save(company);
 
 			}
