@@ -40,11 +40,21 @@ public class Company {
 	// Address
 	
 	String companyAge;
-	String Country;
 	String industry;
-	String State;
-	String City;
+
+	//primary
 	String Address;
+	String City;
+	String State;
+	String Country;
+	
+	
+	//secondary address
+	String sAddress;
+	String sCity;
+	String sState;
+	String sCountry;
+
 	
 	@ManyToOne
 	Contact primaryContact;
