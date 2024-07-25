@@ -9,9 +9,17 @@ public class CreateFormDto {
 	Boolean isPresent;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
+	
 	Boolean isUnit;
+	String unitName; // isUnitFalse
+	Long unitId; //ISUNIT TRUE
+	
 	String panNo;
+	
 	String gstNo;
+	String gstType;
+	String gstDocuments;
+	
 	String companyAge;
 	String Country;
 	String State;
@@ -96,6 +104,30 @@ public class CreateFormDto {
 	}
 	public void setLeadId(Long leadId) {
 		this.leadId = leadId;
+	}
+	public String getGstType() {
+		return gstType;
+	}
+	public void setGstType(String gstType) {
+		this.gstType = gstType;
+	}
+	public String getGstDocuments() {
+		return gstDocuments;
+	}
+	public void setGstDocuments(String gstDocuments) {
+		this.gstDocuments = gstDocuments;
+	}
+	public String getUnitName() {
+		return unitName;
+	}
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	public Long getUnitId() {
+		return unitId;
+	}
+	public void setUnitId(Long unitId) {
+		this.unitId = unitId;
 	} 
 	
 	
