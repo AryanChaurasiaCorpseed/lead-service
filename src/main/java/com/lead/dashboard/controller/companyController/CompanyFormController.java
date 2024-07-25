@@ -73,7 +73,6 @@ public class CompanyFormController {
 			 if(comp!=null && comp.get()!=null) {
 				 company=comp.get();
 			 }
-
 		 }
 		
 		return company;

@@ -40,9 +40,9 @@ public class CompanyServiceImpl implements CompanyService {
 	UserRepo userRepo;
 
 	@Override
-	public Company createCompany(CompanyDto companyDto) throws Exception {
+	public Company createCompany(CompanyDto companyDto)  {
 		Company companyExist = companyRepository.findByName(companyDto.getName());
-		if(companyExist==null) {
+		if(true) {
 
 
 
@@ -55,14 +55,14 @@ public class CompanyServiceImpl implements CompanyService {
 			company.setCity(companyDto.getCity());
 			company.setCountry(companyDto.getCountry());
 			company.setState(companyDto.getState());
-			List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
-			company.setCompanyProject(projectList);
+//			List<Project> projectList = projectRepository.findAllByIdIn(companyDto.getProjectId());
+//			company.setCompanyProject(projectList);
 			List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
 
 			company.setCompanyLead(leadList);
 			companyDto.getAssigneeId();
 			if(companyDto.isParent()) {
-				User parent = userRepo.findById(companyDto.getParentId()).get();
+				Company parent = companyRepository.findById(companyDto.getParentId()).get();
 				company.setParent(parent);
 				company.setIsParent(companyDto.isParent());
 				User user = userRepo.findById(companyDto.getAssigneeId()).get();
@@ -71,6 +71,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 			}else {
 				company.setIsParent(companyDto.isParent());
+				 Company parent = companyRepository.findById(companyDto.getParentId()).get();
+				company.setParent(parent);
 				companyRepository.save(company);
 
 			}
@@ -79,7 +81,8 @@ public class CompanyServiceImpl implements CompanyService {
 			return company;
 		}else {
 			String name=companyExist.getAssignee()!=null?companyExist.getAssignee().getFullName():"NA";
-			throw new Exception("Already Exist . "+name+" are working on it");
+//			throw new Exception("Already Exist . "+name+" are working on it");
+			return null;
 		}
 	}
 
@@ -231,6 +234,19 @@ public class CompanyServiceImpl implements CompanyService {
 			result.add(map);
 		}
 		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllCompanyUnit(Long id) {
+		List<Company>comp=companyRepository.findAllCompanyUnitByCompanyId(id);
+		List<Map<String,Object>>res = new ArrayList<>();
+		for(Company c:comp) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("id", c.getId());
+			map.put("companyName", c.getName());
+            res.add(map);
+		}
+		return res;
 	}
 
 }

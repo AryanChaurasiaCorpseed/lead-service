@@ -23,9 +23,9 @@ import lombok.Setter;
 
 @Table
 @Entity
-@Getter
-@Setter
-@Data
+//@Getter
+//@Setter
+//@Data
 public class Company {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -56,7 +56,7 @@ public class Company {
 	String status;
 	boolean isParent;
 	@ManyToOne
-	User parent;
+	Company parent;
 	
 	boolean isDeleted;
 	public Long getId() {
@@ -155,10 +155,13 @@ public class Company {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public User getParent() {
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
+	}
+	public Company getParent() {
 		return parent;
 	}
-	public void setParent(User parent) {
+	public void setParent(Company parent) {
 		this.parent = parent;
 	}
 	
