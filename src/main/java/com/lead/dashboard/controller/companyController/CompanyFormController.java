@@ -74,6 +74,20 @@ public class CompanyFormController {
 		companyForm.setStatus(createFormDto.getStatus() );
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
+		
+		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+		companyForm.setContactName(createFormDto.getContactName());
+		companyForm.setContactEmails(createFormDto.getContactEmails());
+		companyForm.setContactNo(createFormDto.getContactNo());
+		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
+		
+		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+		companyForm.setsContactName(createFormDto.getsContactName());
+		companyForm.setsContactEmails(createFormDto.getsContactEmails());
+		companyForm.setsContactNo(createFormDto.getsContactNo());
+		companyForm.setsContactWhatsappNo(createFormDto.getsContactWhatsappNo());
+
+		
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
 		companyForm.setLead(lead);
 		companyForm.setPanNo(createFormDto.getPanNo());

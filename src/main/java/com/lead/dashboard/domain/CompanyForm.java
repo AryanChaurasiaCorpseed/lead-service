@@ -53,6 +53,22 @@ public class CompanyForm {
 	String status;
 	@ManyToOne
 	Lead lead;
+	
+	// contact 
+	boolean isPrimaryContact;
+	Long contactId ;
+	String contactName;
+	String contactEmails;
+	String contactNo;
+	String contactWhatsappNo;
+	
+	boolean isSecondaryContact;
+	Long sContactId ;
+	String sContactName;
+	String sContactEmails;
+	String sContactNo;
+	String sContactWhatsappNo;
+	
 
 	public Long getId() {
 		return id;
@@ -236,6 +252,102 @@ public class CompanyForm {
 
 	public void setsCountry(String sCountry) {
 		this.sCountry = sCountry;
+	}
+
+	public boolean isPrimaryContact() {
+		return isPrimaryContact;
+	}
+
+	public void setPrimaryContact(boolean isPrimaryContact) {
+		this.isPrimaryContact = isPrimaryContact;
+	}
+
+	public Long getContactId() {
+		return contactId;
+	}
+
+	public void setContactId(Long contactId) {
+		this.contactId = contactId;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getContactEmails() {
+		return contactEmails;
+	}
+
+	public void setContactEmails(String contactEmails) {
+		this.contactEmails = contactEmails;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getContactWhatsappNo() {
+		return contactWhatsappNo;
+	}
+
+	public void setContactWhatsappNo(String contactWhatsappNo) {
+		this.contactWhatsappNo = contactWhatsappNo;
+	}
+
+	public boolean isSecondaryContact() {
+		return isSecondaryContact;
+	}
+
+	public void setSecondaryContact(boolean isSecondaryContact) {
+		this.isSecondaryContact = isSecondaryContact;
+	}
+
+	public Long getsContactId() {
+		return sContactId;
+	}
+
+	public void setsContactId(Long sContactId) {
+		this.sContactId = sContactId;
+	}
+
+	public String getsContactName() {
+		return sContactName;
+	}
+
+	public void setsContactName(String sContactName) {
+		this.sContactName = sContactName;
+	}
+
+	public String getsContactEmails() {
+		return sContactEmails;
+	}
+
+	public void setsContactEmails(String sContactEmails) {
+		this.sContactEmails = sContactEmails;
+	}
+
+	public String getsContactNo() {
+		return sContactNo;
+	}
+
+	public void setsContactNo(String sContactNo) {
+		this.sContactNo = sContactNo;
+	}
+
+	public String getsContactWhatsappNo() {
+		return sContactWhatsappNo;
+	}
+
+	public void setsContactWhatsappNo(String sContactWhatsappNo) {
+		this.sContactWhatsappNo = sContactWhatsappNo;
 	}  
 	
 	
