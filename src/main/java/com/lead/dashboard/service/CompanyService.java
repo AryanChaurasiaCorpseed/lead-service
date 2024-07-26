@@ -27,4 +27,6 @@ public interface CompanyService {
 
 	List<Map<String, Object>> getAllCompanyUnit(Long id);
 
+	List<Company> getCompanyByGst(String gst);
+
 }

@@ -246,4 +246,11 @@ public class CompanyServiceImpl implements CompanyService {
 		return res;
 	}
 
+	@Override
+	public List<Company> getCompanyByGst(String gst) {
+		List<Company>companyList=companyRepository.findByGst(gst);
+		return companyList;
+	}
+
+
 }
