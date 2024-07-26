@@ -98,6 +98,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
 	public static final String GET_ALL_PARENT_COMPANY=PREFIX+"/company/getAllParentCompany";
 	public static final String GET_ALL_COMPANY_UNIT=PREFIX+"/company/getAllCompanyUnit";
+	public static final String GET_COMPANY_BY_GST=PREFIX+"/company/getCompanyByGst";
 
 
 	

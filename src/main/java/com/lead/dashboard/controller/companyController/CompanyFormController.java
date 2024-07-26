@@ -62,6 +62,11 @@ public class CompanyFormController {
 		companyForm.setGstDocuments(createFormDto.getGstDocuments());
 		companyForm.setGstNo(createFormDto.getGstNo());
 		
+		companyForm.setsAddress(createFormDto.getsAddress());
+		companyForm.setsCity(createFormDto.getsCity());
+		companyForm.setsState(createFormDto.getsState());
+		companyForm.setsCountry(createFormDto.getsCountry());
+		companyForm.setStatus(createFormDto.getStatus() );
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
@@ -86,6 +91,7 @@ public class CompanyFormController {
 			map.put("gstNo", c.getGstNo());
 			map.put("gstType", c.getGstType());
 			map.put("gstDocuments", c.getGstDocuments());
+			map.put("status", c.getStatus());
 			result.add(map);
 
 		}

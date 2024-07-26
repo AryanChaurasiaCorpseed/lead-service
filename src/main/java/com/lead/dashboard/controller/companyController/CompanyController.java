@@ -116,5 +116,17 @@ public class CompanyController {
 	
 	
 	
+	
+	@GetMapping(UrlsMapping.GET_COMPANY_BY_GST)
+	public List<Company> getCompanyByGst(@RequestParam String gst)
+	{
+		List<Company> allCompany = companyService.getCompanyByGst(gst);
+		return allCompany;
+
+	}
+	
+	
+	
+	
 
 }

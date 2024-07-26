@@ -37,6 +37,7 @@ public class CreateFormDto {
 	
 	Long  assigneeId;
 	Long leadId;
+	String status;
 	public Boolean getIsPresent() {
 		return isPresent;
 	}
@@ -162,6 +163,12 @@ public class CreateFormDto {
 	}
 	public void setsCountry(String sCountry) {
 		this.sCountry = sCountry;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	} 
 	
 	
