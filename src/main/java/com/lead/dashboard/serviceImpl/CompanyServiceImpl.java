@@ -252,5 +252,36 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyList;
 	}
 
+	@Override
+	public Map<String, Object> getCompanyById(Long id) {
+		Company comp = companyRepository.findById(id).get();
+		 Map<String, Object> res = new HashMap<>();
+		 res.put("id", comp.getId());
+		 res.put("name", comp.getName());
+		 res.put("status", comp.getStatus());
+		 res.put("name", comp.getAddress());
+		 res.put("name", comp.getCity());
+		 
+		 res.put("gstType", comp.getGstType());
+		 res.put("gstNo", comp.getGstNo());
+		 res.put("gstDoc", comp.getGstDocuments());
+		 
+		 res.put("address", comp.getAddress());
+		 res.put("city", comp.getCity());
+		 res.put("state", comp.getState());
+		 res.put("country", comp.getCountry());
+
+		 
+		 res.put("status", comp.getStatus());
+
+		 res.put("assigneeId", comp.getAssignee()!=null?comp.getAssignee().getId():"NA");
+		 res.put("assigneeName",  comp.getAssignee()!=null?comp.getAssignee().getFullName():"NA");
+		 res.put("assigneeRole",  comp.getAssignee()!=null?comp.getAssignee().getRole():"NA");
+		 res.put("assigneeEmail",  comp.getAssignee()!=null?comp.getAssignee().getEmail():"NA");
+
+
+		return res;
+	}
+
 
 }
