@@ -115,6 +115,16 @@ public class CompanyController {
 	}
 	
 	
+	@GetMapping(UrlsMapping.GET_COMPANY_BY_ID)
+	public Map<String,Object> getCompanyById(@RequestParam Long id)
+	{
+		Map<String,Object> allCompany = companyService.getCompanyById(id);
+		return allCompany;
+
+	}
+	
+	
+	
 	
 	
 	@GetMapping(UrlsMapping.GET_COMPANY_BY_GST)

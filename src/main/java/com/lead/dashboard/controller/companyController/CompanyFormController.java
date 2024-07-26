@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.CompanyForm;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.repository.CompanyFormRepo;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.util.UrlsMapping;
 
 @RestController
@@ -36,6 +38,9 @@ public class CompanyFormController {
 	
 	@Autowired
 	CompanyRepository companyRepository;
+	
+	@Autowired
+	UserRepo userRepo;
 	
 	
 	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
@@ -112,6 +117,31 @@ public class CompanyFormController {
 		
 		return company;
 	}
+	
+	public Map<String,Object> AccountApprovalOnInvoice(String status,Long id){
+		CompanyForm companyForm = companyFormRepo.findById(id).get();
+		
+		if("approved".equals(status)) {
+			if(companyForm.getIsPresent()) {
+				
+			}else {
+				Company company = new Company();
+				company.setName(companyForm.getCompanyName());
+				
+				company.setGstNo(status);
+				company.setGstType(companyForm.getGstType());
+				company.setGstDocuments(companyForm.getGstDocuments());
+				
+				company.setCompanyAge(companyForm.getCompanyAge());
+				Lead lead = companyForm.getLead();
+				List<Lead>leadList = company.getCompanyLead();
+			}
+			
+		}
+		return null;
+	}
+	
+
 	
 
 }
