@@ -18,6 +18,7 @@ public class Contact {
 	String emails;
 	String contactNo;
 	String whatsappNo;
+	Long companyId;
 	boolean deleteStatus =false;
 	
 	public Long getId() {

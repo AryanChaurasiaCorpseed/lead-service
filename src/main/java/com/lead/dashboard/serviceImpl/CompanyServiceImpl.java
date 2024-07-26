@@ -259,8 +259,7 @@ public class CompanyServiceImpl implements CompanyService {
 		 res.put("id", comp.getId());
 		 res.put("name", comp.getName());
 		 res.put("status", comp.getStatus());
-		 res.put("name", comp.getAddress());
-		 res.put("name", comp.getCity());
+
 		 
 		 res.put("gstType", comp.getGstType());
 		 res.put("gstNo", comp.getGstNo());
@@ -273,7 +272,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 		 
 		 res.put("status", comp.getStatus());
-
+         res.put("email", comp.getPrimaryContact());
 		 res.put("assigneeId", comp.getAssignee()!=null?comp.getAssignee().getId():"NA");
 		 res.put("assigneeName",  comp.getAssignee()!=null?comp.getAssignee().getFullName():"NA");
 		 res.put("assigneeRole",  comp.getAssignee()!=null?comp.getAssignee().getRole():"NA");
