@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.leadController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,8 +67,11 @@ public class UrlsManagmentController {
 	public 	List<UrlsManagment> getUrls(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
 		
 		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
-     	Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
-     	List<UrlsManagment>urlsList=urls.getContent();
+//     	Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
+//     	List<UrlsManagment>urlsList=urls.getContent();
+     	List<UrlsManagment> urlsList = urlsManagmentRepo.findAll();
+     	urlsList=urlsList.stream().sorted(Comparator.comparing(UrlsManagment::getId).reversed()).collect(Collectors.toList());
+
 		return urlsList;
 	}
 	
@@ -83,6 +87,7 @@ public class UrlsManagmentController {
 	@GetMapping("/urls/getSlugByUrlId")
 	public 	List<Slug> getSlugByUrlId(@RequestParam Long id) {	
 		Optional<UrlsManagment> urlsOp = urlsManagmentRepo.findById(id);
+		
 		List<Slug> urlsList = new ArrayList<>();
 		if(urlsOp!=null && urlsOp.get()!=null) {
 			UrlsManagment url = urlsOp.get();
