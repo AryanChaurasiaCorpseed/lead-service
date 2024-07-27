@@ -97,6 +97,11 @@ public class UrlsMapping {
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
 	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
 	public static final String GET_ALL_PARENT_COMPANY=PREFIX+"/company/getAllParentCompany";
+	public static final String GET_ALL_COMPANY_UNIT=PREFIX+"/company/getAllCompanyUnit";
+	public static final String GET_COMPANY_BY_GST=PREFIX+"/company/getCompanyByGst";
+	public static final String GET_COMPANY_BY_ID=PREFIX+"/company/getCompanyById";
+
+
 
 	
 	// Sales-Dashboard
@@ -158,9 +163,24 @@ public class UrlsMapping {
 	public static final String GET_ALL_COMMENTS=PREFIX+"/lead/getAllComments";
 	public static final String DELETE_COMMENT=PREFIX+"/lead/deleteComments";
 	public static final String UPDATE_COMMENT=PREFIX+"/lead/updateComments";
-
-
 	
+	
+	// Designation
+	public static final String GET_ALL_DESIGNATION=PREFIX+"/designation/getAllDesignation";
+	public static final String CREATE_DESIGNATION=PREFIX+"/designation/createDesignation";
+
+	// Department
+	public static final String GET_ALL_DEPARTMENT=PREFIX+"/designation/getAllDepartment";
+	public static final String CREATE_DEPARTMENT=PREFIX+"/designation/createDepartment";
+	public static final String CREATE_DEPARTMENT_IN_DESIGNATION=PREFIX+"/designation/createDepartmentInDesignation";
+	public static final String GET_ALL_DESIGNATION_BY_DEPARTMENT=PREFIX+"/designation/getAllDesignationByDepartment";
+
+
+	// Company Form
+	public static final String CREATE_COMPANY_FORM=PREFIX+"/company/createCompanyForm";
+	public static final String GET_ALL_COMPANY_FORM=PREFIX+"/company/getAllCompanyForm";
+	public static final String CHECK_COMPANY_EXIST=PREFIX+"/company/checkCompanyExist";
+
 
 
 }

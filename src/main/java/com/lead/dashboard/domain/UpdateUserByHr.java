@@ -7,13 +7,17 @@ import lombok.NonNull;
 public class UpdateUserByHr {
 
 	private Long id;
-	private String fullName;
+	private String userName;
 	@NonNull
 	private String email;
 	@NonNull
 	private String designation;
 	@NonNull
 	private String department;
+	
+    Long designationId;
+    Long departmentId;
+	
 	@NonNull
 	private List<String> role;
 	private boolean isManager;
@@ -50,12 +54,7 @@ public class UpdateUserByHr {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getFullName() {
-		return fullName;
-	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -235,6 +234,24 @@ public class UpdateUserByHr {
 	}
 	public void setMaster(boolean isMaster) {
 		this.isMaster = isMaster;
+	}
+	public Long getDesignationId() {
+		return designationId;
+	}
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
     

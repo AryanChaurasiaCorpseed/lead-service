@@ -3,12 +3,18 @@ package com.lead.dashboard.domain;
 import java.util.Date;
 import java.util.List;
 
+import lombok.NonNull;
+
 public class CreateUserDto {
 	private Long id;
 	private String email;
 	private List<String> role;
 	private String designation;
 	private String department;
+	
+    Long designationId;
+    Long departmentId;
+    
 	private String userName;
 	private boolean isManager;
 	private String epfNo;
@@ -230,6 +236,19 @@ public class CreateUserDto {
 	public void setMaster(boolean isMaster) {
 		this.isMaster = isMaster;
 	}
+	public Long getDesignationId() {
+		return designationId;
+	}
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
+	}
+	
 	
 	
 

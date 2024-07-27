@@ -103,7 +103,7 @@ public class UserController {
 	
 	@PostMapping("api/v1/users/createUserByEmail")
 	public User createUserByEmail(@RequestBody NewSignupRequest newSignupRequest) {
-		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation(),newSignupRequest.getDepartment());
+		User createdUser = userService.createUserByEmail(newSignupRequest.getUserName(),newSignupRequest.getEmail(),newSignupRequest.getRole(),newSignupRequest.getId(),newSignupRequest.getDesignation(),newSignupRequest.getDepartment() ,newSignupRequest.getDepartmentId(),newSignupRequest.getDesignationId());
 		return createdUser;
 	}
 	
@@ -241,5 +241,33 @@ public class UserController {
 		Map<String,Object> userExistOrNot=userService.getSingleUserById(userId);
 		return userExistOrNot;
 	}
+	@GetMapping("api/v1/users/getAllEmails")
+	public List<String> getAllEmails()
+	{
+
+		List<String> allUserEmails=userService.getAllEmails();
+		return allUserEmails;
+	}
 	
+	@GetMapping("api/v1/users/checkEmailExist") 
+	public Boolean checkEmailExist(@RequestParam String email)
+	{
+
+		List<User> allUserEmails=userService.checkEmailExist(email);
+		if(allUserEmails!=null && allUserEmails.size()!=0)
+		{
+			return  true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@GetMapping("api/v1/users/getUserManagerByDepartment") 
+	public List<User> getUserManagerByDepartment(@RequestParam Long departmentId)
+	{
+
+		List<User> allUser=userService.getUserManagerByDepartment(departmentId);
+		return allUser;
+	}
 }

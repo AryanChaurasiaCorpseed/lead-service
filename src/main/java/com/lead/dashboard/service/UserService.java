@@ -23,7 +23,7 @@ public interface UserService
 //	User createUserByEmail(String email, String role, Long userId);
 	
 	
-	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department);
+	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department, Long designationId, Long departmentId);
 	List<User> getAllUserByHierarchy(Long userId);
 //	public User createUserByEmail(String userName, String email, String role, Long userId, String designation);
 	Boolean createUser(Long id);
@@ -39,5 +39,8 @@ public interface UserService
 	String getProfile(Long userId);
 	Boolean isManagerApproved(Long userId);
 	Map<String, Object> getSingleUserById(Long userId);
+	List<String> getAllEmails();
+	List<User> checkEmailExist(String email);
+	List<User> getUserManagerByDepartment(Long departmentId);
 
 }

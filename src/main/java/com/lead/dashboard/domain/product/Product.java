@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 import com.lead.dashboard.domain.User;
 
@@ -37,6 +38,7 @@ public class Product {
     @ManyToOne
     User createdBy;
     boolean isDeleted;
+	List<String> documents;
 
 	public Long getId() {
 		return id;
@@ -172,6 +174,14 @@ public class Product {
 
 	public void setOtherGst(String otherGst) {
 		this.otherGst = otherGst;
+	}
+
+	public List<String> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<String> documents) {
+		this.documents = documents;
 	}
 	
 	

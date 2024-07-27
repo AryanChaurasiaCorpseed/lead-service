@@ -35,15 +35,18 @@ public class CompanyController {
 //	}
 
 	@PostMapping(UrlsMapping.CREATE_COMPANY)
-	public ResponseEntity<Company> createCompany(@RequestBody CompanyDto companyDto)
+	public ResponseEntity<Object> createCompany(@RequestBody CompanyDto companyDto)
 	{				
-		Company createdCompany = companyService.createCompany(companyDto);
+		Company createdCompany;
+		try {
+			createdCompany = companyService.createCompany(companyDto);
+			return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
 
-		if (createdCompany!=null) {
-				return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);		
-		}
-		else {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);		
+		} catch (Exception e) {
+
+			String msg = e.getMessage();
+			return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);		
+
 		}
 	}
 	
@@ -101,6 +104,37 @@ public class CompanyController {
 
 		return true;
 	}     
+	
+	
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_UNIT)
+	public List<Map<String,Object>> getAllCompanyUnit(@RequestParam Long id)
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllCompanyUnit(id);
+		return allCompany;
+
+	}
+	
+	
+	@GetMapping(UrlsMapping.GET_COMPANY_BY_ID)
+	public Map<String,Object> getCompanyById(@RequestParam Long id)
+	{
+		Map<String,Object> allCompany = companyService.getCompanyById(id);
+		return allCompany;
+
+	}
+	
+	
+	
+	
+	
+	@GetMapping(UrlsMapping.GET_COMPANY_BY_GST)
+	public List<Company> getCompanyByGst(@RequestParam String gst)
+	{
+		List<Company> allCompany = companyService.getCompanyByGst(gst);
+		return allCompany;
+
+	}
+	
 	
 	
 	

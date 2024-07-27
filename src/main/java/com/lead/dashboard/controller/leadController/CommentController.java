@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,7 @@ public class CommentController {
 		Boolean res=CommentService.deleteComment(id);
 		return res;
 	}
-	@DeleteMapping(UrlsMapping.UPDATE_COMMENT)
+	@PutMapping(UrlsMapping.UPDATE_COMMENT)
 	public 	Comment updateComment(@RequestParam Long id, @RequestParam String comment)
 	{
 		Comment res=CommentService.updateComment(id,comment);

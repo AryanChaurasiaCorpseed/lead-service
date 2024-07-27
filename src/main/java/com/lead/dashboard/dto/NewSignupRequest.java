@@ -4,6 +4,7 @@ package com.lead.dashboard.dto;
 import java.util.List;
 
 import lombok.Data;
+import lombok.NonNull;
 
 //@Data
 public class NewSignupRequest {
@@ -14,6 +15,10 @@ public class NewSignupRequest {
 	String designation;
 	String department;
 	String userName;
+	
+    Long designationId;
+    Long departmentId;
+    
 	public String getEmail() {
 		return email;
 	}
@@ -52,6 +57,18 @@ public class NewSignupRequest {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getDesignationId() {
+		return designationId;
+	}
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 	
 	

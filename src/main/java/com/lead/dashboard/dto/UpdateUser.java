@@ -10,16 +10,20 @@ public class UpdateUser {
 	
 
     
-    private String fullName;
+    private String userName;
 
     @NonNull
     private String email;
 
     @NonNull
     private String designation;
+    
+    Long designationId;
 
     @NonNull
     private String department;
+    
+    Long departmentId;
 
 
 	@NonNull
@@ -32,12 +36,15 @@ public class UpdateUser {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getFullName() {
-		return fullName;
+
+	
+
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getEmail() {
@@ -70,6 +77,22 @@ public class UpdateUser {
 
 	public void setRole(List<String> role) {
 		this.role = role;
+	}
+
+	public Long getDesignationId() {
+		return designationId;
+	}
+
+	public void setDesignationId(Long designationId) {
+		this.designationId = designationId;
+	}
+
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 	
 	

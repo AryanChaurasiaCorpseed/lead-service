@@ -30,9 +30,18 @@ public class User implements Serializable{
     @Lob
     String profilePhoto;
     @NonNull
+    
     private String designation; 
+    
+    @ManyToOne
+    Designation userDesignation;
+    
     @NonNull
     private String department; 
+    
+    @ManyToOne
+    Department userDepartment;
+    
     
     @ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
@@ -469,6 +478,22 @@ public class User implements Serializable{
 	public void setProfilePhoto(String profilePhoto) {
 		this.profilePhoto = profilePhoto;
 	}
+
+	public Designation getUserDesignation() {
+		return userDesignation;
+	}
+
+	public void setUserDesignation(Designation userDesignation) {
+		this.userDesignation = userDesignation;
+	}
+
+	public Department getUserDepartment() {
+		return userDepartment;
+	}
+
+	public void setUserDepartment(Department userDepartment) {
+		this.userDepartment = userDepartment;
+	}
 	
 
 //	public List<Ratings> getUserRatings() {
@@ -478,6 +503,7 @@ public class User implements Serializable{
 //	public void setUserRatings(List<Ratings> userRatings) {
 //		this.userRatings = userRatings;
 //	}
+	
 	
 	
 	
