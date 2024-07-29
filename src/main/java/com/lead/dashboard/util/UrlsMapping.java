@@ -181,6 +181,9 @@ public class UrlsMapping {
 	public static final String GET_ALL_COMPANY_FORM=PREFIX+"/company/getAllCompanyForm";
 	public static final String CHECK_COMPANY_EXIST=PREFIX+"/company/checkCompanyExist";
 
+	
+	//Contact
+	public static final String GET_ALL_CONTACT=PREFIX+"/contact/getAllContact";
 
 
 }
