@@ -149,6 +149,12 @@ public class CompanyFormController {
 				company.setCompanyAge(companyForm.getCompanyAge());
 				Lead lead = companyForm.getLead();
 				List<Lead>leadList = company.getCompanyLead();
+				leadList.add(lead);
+				
+				company.setCompanyLead(leadList);
+				
+				
+				
 			}
 			
 		}
