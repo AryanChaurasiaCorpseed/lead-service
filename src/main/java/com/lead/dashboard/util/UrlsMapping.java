@@ -180,6 +180,7 @@ public class UrlsMapping {
 	public static final String CREATE_COMPANY_FORM=PREFIX+"/company/createCompanyForm";
 	public static final String GET_ALL_COMPANY_FORM=PREFIX+"/company/getAllCompanyForm";
 	public static final String CHECK_COMPANY_EXIST=PREFIX+"/company/checkCompanyExist";
+	public static final String UPDATE_COMPANY_FORM_STATUS=PREFIX+"/company/updateCompanyStatus";
 
 	
 	//Contact

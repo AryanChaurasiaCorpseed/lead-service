@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.companyController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.CompanyForm;
+import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
@@ -24,6 +27,7 @@ import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.repository.CompanyFormRepo;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -41,6 +45,9 @@ public class CompanyFormController {
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	ProjectRepository projectRepository;
 	
 	
 	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
@@ -131,32 +138,109 @@ public class CompanyFormController {
 		
 		return company;
 	}
-	
-	public Map<String,Object> AccountApprovalOnInvoice(String status,Long id){
+	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
+	public Boolean AccountApprovalOnInvoice(String status,Long id){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		
 		if("approved".equals(status)) {
 			if(companyForm.getIsPresent()) {
+				Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
+				if(companyForm.getIsUnit()) {
+					Company unit = companyRepository.findById(id).get();
+					List<Lead> leadList = unit.getCompanyLead();
+					leadList.add(companyForm.getLead());
+					unit.setCompanyLead(leadList);
+					
+					Project p = new Project();
+					p.setName(companyForm.getLead().getName());
+					p.setLead(companyForm.getLead());
+					User assignee = unit.getAssignee();
+					
+					p.setAssignee(assignee);
+					p.setStatus("initiated");
+					p.setCreateDate(new Date());
+					List<Project> projectList = unit.getCompanyProject();
+					projectList.add(p);
+					unit.setCompanyProject(projectList);
+//					p.setCompany(unit);
+					companyRepository.save(unit);
+					companyForm.setStatus(status);
+		            companyFormRepo.save(companyForm);
+					
+					
+				}else {
+					Company unit = new Company();
+					unit.setName(companyForm.getCompanyName());
+//					company.setAssignee(assignee);
+					unit.setGstNo(status);
+					unit.setGstType(companyForm.getGstType());
+					unit.setGstDocuments(companyForm.getGstDocuments());
+					unit.setCompanyAge(companyForm.getCompanyAge());
+					Lead lead = companyForm.getLead();
+					List<Lead>leadList =new ArrayList<>();
+					leadList.add(lead);
+					unit.setCompanyLead(leadList);
+					unit.setParent(false);
+					unit.setParent(parentCompany);
+					
+					Project p = new Project();
+					p.setName(companyForm.getLead().getName());
+					p.setLead(companyForm.getLead());
+					User assignee = unit.getAssignee();
+					
+					p.setAssignee(assignee);
+					p.setStatus("initiated");
+					p.setCreateDate(new Date());
+					List<Project> projectList = unit.getCompanyProject();
+					projectList.add(p);
+					unit.setCompanyProject(projectList);
+//					p.setCompany(unit);
+					companyRepository.save(unit);
+					companyForm.setStatus(status);
+		            companyFormRepo.save(companyForm);
+				}
+
 				
 			}else {
+				User assignee = userRepo.findById(id).get();
+				
 				Company company = new Company();
 				company.setName(companyForm.getCompanyName());
-				
+				company.setAssignee(assignee);
 				company.setGstNo(status);
 				company.setGstType(companyForm.getGstType());
-				company.setGstDocuments(companyForm.getGstDocuments());
-				
+				company.setGstDocuments(companyForm.getGstDocuments());		
 				company.setCompanyAge(companyForm.getCompanyAge());
+				company.setAssignee(assignee);
+				company.setStatus("open");
 				Lead lead = companyForm.getLead();
 				List<Lead>leadList = company.getCompanyLead();
 				leadList.add(lead);
-				
 				company.setCompanyLead(leadList);
+				company.setParent(true);
 				
+				//Assignee
 				
+				Project p = new Project();
+				p.setName(companyForm.getLead().getName());
+				p.setLead(companyForm.getLead());
+				
+				p.setAssignee(assignee);
+				p.setStatus("initiated");
+				p.setCreateDate(new Date());
+				List<Project> projectList =new ArrayList<>();
+				projectList.add(p);
+				company.setCompanyProject(projectList);
+//				p.setCompany(unit);
+				companyRepository.save(company);
+				companyForm.setStatus(status);
+	            companyFormRepo.save(companyForm);
 				
 			}
 			
+		}else {
+			companyForm.setStatus(status);
+            companyFormRepo.save(companyForm);
 		}
 		return null;
 	}
