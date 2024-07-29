@@ -26,7 +26,7 @@ public class CreateUserDto {
 	private Date dateOfJoining;
 	private String type;
 	private String fatherName;
-	private String fatherOccupation;̥
+	private String fatherOccupation;
 	private String fatherContactNo;
 	private String motherName;
 	private String motherOccupation;
