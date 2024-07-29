@@ -184,6 +184,8 @@ public class UrlsMapping {
 	
 	//Contact
 	public static final String GET_ALL_CONTACT=PREFIX+"/contact/getAllContact";
+	public static final String GET_CONTACT_BY_ID=PREFIX+"/contact/getContactById";
+	public static final String CREATE_CONTACT=PREFIX+"/contact/createContact";
 
 
 }
