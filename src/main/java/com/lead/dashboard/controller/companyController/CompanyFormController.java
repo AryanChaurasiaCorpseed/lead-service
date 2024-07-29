@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Company;
@@ -107,6 +108,7 @@ public class CompanyFormController {
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
 		List<CompanyForm> compList = companyFormRepo.findAll();
+//		List<CompanyForm> companyList = companyFormRepo.findAllByStatus(status);
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
 			map.put("id", c.getId());
@@ -141,7 +143,7 @@ public class CompanyFormController {
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
 	public Boolean AccountApprovalOnInvoice(String status,Long id){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
-		
+		Boolean flag=false;
 		if("approved".equals(status)) {
 			if(companyForm.getIsPresent()) {
 				Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
@@ -166,7 +168,7 @@ public class CompanyFormController {
 					companyRepository.save(unit);
 					companyForm.setStatus(status);
 		            companyFormRepo.save(companyForm);
-					
+		            flag=true;
 					
 				}else {
 					Company unit = new Company();
@@ -198,6 +200,8 @@ public class CompanyFormController {
 					companyRepository.save(unit);
 					companyForm.setStatus(status);
 		            companyFormRepo.save(companyForm);
+		            flag=true;
+
 				}
 
 				
@@ -214,7 +218,11 @@ public class CompanyFormController {
 				company.setAssignee(assignee);
 				company.setStatus("open");
 				Lead lead = companyForm.getLead();
-				List<Lead>leadList = company.getCompanyLead();
+				List<Lead>leadList = new ArrayList<>();
+				if(lead!=null) {
+					leadList.add(lead);
+
+				}
 				leadList.add(lead);
 				company.setCompanyLead(leadList);
 				company.setParent(true);
@@ -235,14 +243,17 @@ public class CompanyFormController {
 				companyRepository.save(company);
 				companyForm.setStatus(status);
 	            companyFormRepo.save(companyForm);
-				
+	            flag=true;
+
 			}
 			
 		}else {
 			companyForm.setStatus(status);
             companyFormRepo.save(companyForm);
+            flag=true;
+
 		}
-		return null;
+		return flag;
 	}
 	
 
