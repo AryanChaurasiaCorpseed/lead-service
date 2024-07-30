@@ -83,9 +83,11 @@ public class CompanyFormController {
 		companyForm.setsState(createFormDto.getSState());
 		companyForm.setsCountry(createFormDto.getSCountry());
 		
-		companyForm.setStatus(createFormDto.getStatus() );
+		companyForm.setStatus(createFormDto.getStatus());
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
+		
+		companyForm.setPanNo(createFormDto.getPanNo());
 		
 		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
 		companyForm.setContactName(createFormDto.getContactName());
@@ -126,6 +128,8 @@ public class CompanyFormController {
 			map.put("gstNo", c.getGstNo());
 			map.put("gstType", c.getGstType());
 			map.put("gstDocuments", c.getGstDocuments());
+			map.put("companyAge", c.getCompanyAge());
+
 			map.put("status", c.getStatus());
 			result.add(map);
 
