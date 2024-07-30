@@ -222,35 +222,35 @@ public class CompanyForm {
 		this.unitId = unitId;
 	}
 
-	public String getsAddress() {
+	public String getSAddress() {
 		return sAddress;
 	}
 
-	public void setsAddress(String sAddress) {
+	public void setSAddress(String sAddress) {
 		this.sAddress = sAddress;
 	}
 
-	public String getsCity() {
+	public String getSCity() {
 		return sCity;
 	}
 
-	public void setsCity(String sCity) {
+	public void setSCity(String sCity) {
 		this.sCity = sCity;
 	}
 
-	public String getsState() {
+	public String getSState() {
 		return sState;
 	}
 
-	public void setsState(String sState) {
+	public void setSState(String sState) {
 		this.sState = sState;
 	}
 
-	public String getsCountry() {
+	public String getSCountry() {
 		return sCountry;
 	}
 
-	public void setsCountry(String sCountry) {
+	public void setSCountry(String sCountry) {
 		this.sCountry = sCountry;
 	}
 
@@ -310,43 +310,43 @@ public class CompanyForm {
 		this.isSecondaryContact = isSecondaryContact;
 	}
 
-	public Long getsContactId() {
+	public Long getSContactId() {
 		return sContactId;
 	}
 
-	public void setsContactId(Long sContactId) {
+	public void setSContactId(Long sContactId) {
 		this.sContactId = sContactId;
 	}
 
-	public String getsContactName() {
+	public String getSContactName() {
 		return sContactName;
 	}
 
-	public void setsContactName(String sContactName) {
+	public void setSContactName(String sContactName) {
 		this.sContactName = sContactName;
 	}
 
-	public String getsContactEmails() {
+	public String getSContactEmails() {
 		return sContactEmails;
 	}
 
-	public void setsContactEmails(String sContactEmails) {
+	public void setSContactEmails(String sContactEmails) {
 		this.sContactEmails = sContactEmails;
 	}
 
-	public String getsContactNo() {
+	public String getSContactNo() {
 		return sContactNo;
 	}
 
-	public void setsContactNo(String sContactNo) {
+	public void setSContactNo(String sContactNo) {
 		this.sContactNo = sContactNo;
 	}
 
-	public String getsContactWhatsappNo() {
+	public String getSContactWhatsappNo() {
 		return sContactWhatsappNo;
 	}
 
-	public void setsContactWhatsappNo(String sContactWhatsappNo) {
+	public void setSContactWhatsappNo(String sContactWhatsappNo) {
 		this.sContactWhatsappNo = sContactWhatsappNo;
 	}  
 	
