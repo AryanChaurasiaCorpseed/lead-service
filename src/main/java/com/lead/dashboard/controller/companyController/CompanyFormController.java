@@ -78,10 +78,10 @@ public class CompanyFormController {
 		companyForm.setGstNo(createFormDto.getGstNo());
 		companyForm.setCompanyAge(createFormDto.getGstNo());
 		
-		companyForm.setsAddress(createFormDto.getSAddress());
-		companyForm.setsCity(createFormDto.getSCity());
-		companyForm.setsState(createFormDto.getSState());
-		companyForm.setsCountry(createFormDto.getSCountry());
+		companyForm.setSAddress(createFormDto.getSAddress());
+		companyForm.setSCity(createFormDto.getSCity());
+		companyForm.setSState(createFormDto.getSState());
+		companyForm.setSCountry(createFormDto.getSCountry());
 		
 		companyForm.setStatus(createFormDto.getStatus());
 		companyForm.setIsPresent(createFormDto.getIsPresent());
@@ -97,12 +97,12 @@ public class CompanyFormController {
 		
 		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 		System.out.println(createFormDto.getSContactName());
-		companyForm.setsContactName(createFormDto.getSContactName());
+		companyForm.setSContactName(createFormDto.getSContactName());
 		System.out.println(createFormDto.getSContactEmails());
 
-		companyForm.setsContactEmails(createFormDto.getSContactEmails());
-		companyForm.setsContactNo(createFormDto.getSContactNo());
-		companyForm.setsContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+		companyForm.setSContactEmails(createFormDto.getSContactEmails());
+		companyForm.setSContactNo(createFormDto.getSContactNo());
+		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
 
 		
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
@@ -129,8 +129,19 @@ public class CompanyFormController {
 			map.put("gstType", c.getGstType());
 			map.put("gstDocuments", c.getGstDocuments());
 			map.put("companyAge", c.getCompanyAge());
-
 			map.put("status", c.getStatus());
+			
+			map.put("city", c.getCity());
+			map.put("address", c.getAddress());
+			map.put("state", c.getState());
+			map.put("country", c.getCountry());
+			
+			map.put("sCity", c.getSCity());
+			map.put("sAddress", c.getSAddress());
+			map.put("sState", c.getSState());
+			map.put("sCountry", c.getSCountry());
+
+
 			result.add(map);
 
 		}
