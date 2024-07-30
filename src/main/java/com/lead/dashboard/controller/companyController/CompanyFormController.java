@@ -66,19 +66,23 @@ public class CompanyFormController {
 		
 		companyForm.setAddress(createFormDto.getAddress());
 		companyForm.setAssigneeId(createFormDto.getAssigneeId());
+		
 		companyForm.setCity(createFormDto.getCity());
 		companyForm.setCompanyAge(createFormDto.getCompanyAge());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setCompanyId(createFormDto.getCompanyId());
 		companyForm.setCountry(createFormDto.getCountry());
+		
 		companyForm.setGstType(createFormDto.getGstType());
 		companyForm.setGstDocuments(createFormDto.getGstDocuments());
 		companyForm.setGstNo(createFormDto.getGstNo());
+		companyForm.setCompanyAge(createFormDto.getGstNo());
 		
-		companyForm.setsAddress(createFormDto.getsAddress());
-		companyForm.setsCity(createFormDto.getsCity());
-		companyForm.setsState(createFormDto.getsState());
-		companyForm.setsCountry(createFormDto.getsCountry());
+		companyForm.setsAddress(createFormDto.getSAddress());
+		companyForm.setsCity(createFormDto.getSCity());
+		companyForm.setsState(createFormDto.getSState());
+		companyForm.setsCountry(createFormDto.getSCountry());
+		
 		companyForm.setStatus(createFormDto.getStatus() );
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
@@ -90,17 +94,20 @@ public class CompanyFormController {
 		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
 		
 		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
-		companyForm.setsContactName(createFormDto.getsContactName());
-		companyForm.setsContactEmails(createFormDto.getsContactEmails());
-		companyForm.setsContactNo(createFormDto.getsContactNo());
-		companyForm.setsContactWhatsappNo(createFormDto.getsContactWhatsappNo());
+		System.out.println(createFormDto.getSContactName());
+		companyForm.setsContactName(createFormDto.getSContactName());
+		System.out.println(createFormDto.getSContactEmails());
+
+		companyForm.setsContactEmails(createFormDto.getSContactEmails());
+		companyForm.setsContactNo(createFormDto.getSContactNo());
+		companyForm.setsContactWhatsappNo(createFormDto.getSContactWhatsappNo());
 
 		
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
 		companyForm.setLead(lead);
 		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setState(createFormDto.getState());
-	    companyFormRepo.save(companyForm);
+//	    companyFormRepo.save(companyForm);
 	   return companyForm;
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
