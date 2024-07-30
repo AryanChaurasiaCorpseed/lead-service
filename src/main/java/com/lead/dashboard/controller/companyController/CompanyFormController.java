@@ -107,7 +107,7 @@ public class CompanyFormController {
 		companyForm.setLead(lead);
 		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setState(createFormDto.getState());
-//	    companyFormRepo.save(companyForm);
+	    companyFormRepo.save(companyForm);
 	   return companyForm;
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
