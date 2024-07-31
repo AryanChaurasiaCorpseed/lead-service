@@ -56,6 +56,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 			List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
 
+			
 			company.setCompanyLead(leadList);
 			companyDto.getAssigneeId();
 			if(companyDto.isParent()) {
@@ -122,10 +123,22 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("companyName", c.getName());
 			result.put("country", c.getCountry());
 			result.put("gstNo", c.getGstNo());
+			result.put("gstType", c.getGstType());
+			result.put("gstDoc", c.getGstDocuments());
+
+
 			result.put("assignee", c.getAssignee());
-			result.put("state", c.getState());
-			result.put("city", c.getCity());
+			
 			result.put("address", c.getAddress());
+			result.put("city", c.getCity());
+			result.put("state", c.getState());
+			result.put("country", c.getCountry());
+
+			result.put("secAddress", c.getSAddress());
+			result.put("secCity", c.getSCity());
+			result.put("secState", c.getSState());
+			result.put("seCountry", c.getSCountry());
+
 
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String,Object>>leadList = new ArrayList<>();
