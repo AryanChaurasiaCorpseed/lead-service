@@ -56,7 +56,6 @@ public class CompanyServiceImpl implements CompanyService {
 
 			List<Lead> leadList=leadRepository.findAllByIdIn(companyDto.getLeadId());
 
-			
 			company.setCompanyLead(leadList);
 			companyDto.getAssigneeId();
 			if(companyDto.isParent()) {
