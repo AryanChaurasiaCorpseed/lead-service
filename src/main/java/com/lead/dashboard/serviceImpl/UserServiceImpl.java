@@ -271,12 +271,15 @@ public class UserServiceImpl implements UserService {
 		existingUser.setEmail(user.getEmail());
 		existingUser.setDesignation(user.getDesignation());
 		existingUser.setDepartment(user.getDepartment());
-		
-		Designation des = designationRepo.findById(user.getDesignationId()).get();
-		existingUser.setUserDesignation(des);
-		
-		Department dep = departmentRepo.findById(user.getDepartmentId()).get();
-		existingUser.setUserDepartment(dep);
+		if(user.getDesignationId()!=null) {
+			Designation des = designationRepo.findById(user.getDesignationId()).get();
+			existingUser.setUserDesignation(des);
+		}̥
+		if(user.getDepartmentId()!=null) {
+			Department dep = departmentRepo.findById(user.getDepartmentId()).get();
+			existingUser.setUserDepartment(dep);
+		}
+	
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
