@@ -174,7 +174,7 @@ public class CompanyFormController {
 					List<Lead> leadList = unit.getCompanyLead();
 					leadList.add(companyForm.getLead());
 					unit.setCompanyLead(leadList);
-					
+					unit.setStatus("open");
 					Project p = new Project();
 					p.setName(companyForm.getLead().getName());
 					p.setLead(companyForm.getLead());
@@ -186,7 +186,7 @@ public class CompanyFormController {
 					List<Project> projectList = unit.getCompanyProject();
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
-//					p.setCompany(unit);
+					p.setCompany(unit);
 					companyRepository.save(unit);
 					companyForm.setStatus(status);
 		            companyFormRepo.save(companyForm);
@@ -196,10 +196,25 @@ public class CompanyFormController {
 					Company unit = new Company();
 					unit.setName(companyForm.getCompanyName());
 //					company.setAssignee(assignee);
-					unit.setGstNo(status);
+			        unit.setCompanyAge(companyForm.getCompanyAge());
+			        unit.setStatus("open");
+			        
+			        
+					unit.setGstNo(companyForm.getGstNo());
 					unit.setGstType(companyForm.getGstType());
 					unit.setGstDocuments(companyForm.getGstDocuments());
 					unit.setCompanyAge(companyForm.getCompanyAge());
+					
+					unit.setAddress(companyForm.getAddress());
+					unit.setCity(companyForm.getCity());
+					unit.setState(companyForm.getState());
+					unit.setCountry(companyForm.getCountry());
+					
+					unit.setSAddress(companyForm.getSAddress());
+					unit.setSCity(companyForm.getSCity());
+					unit.setSState(companyForm.getSState());
+					unit.setSCountry(companyForm.getSCountry());
+					
 					Lead lead = companyForm.getLead();
 					List<Lead>leadList =new ArrayList<>();
 					leadList.add(lead);
@@ -228,12 +243,13 @@ public class CompanyFormController {
 
 				
 			}else {
-				User assignee = userRepo.findById(id).get();
+				User assignee = userRepo.findById(companyForm.getAssigneeId()).get();
 				
 				Company company = new Company();
 				company.setName(companyForm.getCompanyName());
 				company.setAssignee(assignee);
-				company.setGstNo(status);
+				
+				company.setGstNo(companyForm.getGstNo());
 				company.setGstType(companyForm.getGstType());
 				company.setGstDocuments(companyForm.getGstDocuments());		
 				company.setCompanyAge(companyForm.getCompanyAge());
