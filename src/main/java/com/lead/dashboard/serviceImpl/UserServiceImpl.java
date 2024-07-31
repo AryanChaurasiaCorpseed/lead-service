@@ -274,7 +274,7 @@ public class UserServiceImpl implements UserService {
 		if(user.getDesignationId()!=null) {
 			Designation des = designationRepo.findById(user.getDesignationId()).get();
 			existingUser.setUserDesignation(des);
-		}̥
+		}
 		if(user.getDepartmentId()!=null) {
 			Department dep = departmentRepo.findById(user.getDepartmentId()).get();
 			existingUser.setUserDepartment(dep);
