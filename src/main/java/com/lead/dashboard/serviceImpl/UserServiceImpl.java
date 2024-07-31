@@ -71,11 +71,17 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		u.setUserRole(roleList);
 		u.setManagerApproval("approved");
-		Designation designation = designationRepo.findById(user.getDesignationId()).get();
-		u.setUserDesignation(designation);
-		
-		Department department = departmentRepo.findById(user.getDepartmentId()).get();
-		u.setUserDepartment(department);
+		Designation designation =new Designation();
+		if(user.getDesignationId()!=null){
+			designation = designationRepo.findById(user.getDesignationId()).get();
+		     u.setUserDesignation(designation);
+		}
+		Department department =new Department();
+		if(user.getDepartmentId()!=null) {
+			department = departmentRepo.findById(user.getDepartmentId()).get();
+			u.setUserDepartment(department);
+		}
+
 		u.setRole(user.getRole());
 		return userRepo.save(u);
 	}
