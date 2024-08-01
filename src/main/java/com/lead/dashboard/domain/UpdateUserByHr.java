@@ -47,6 +47,8 @@ public class UpdateUserByHr {
 	private int lockerSize;
 	private boolean isBackupTeam;
 	private boolean isMaster;
+    private String maritalStatus;
+
 
 	public Long getId() {
 		return id;
@@ -252,6 +254,12 @@ public class UpdateUserByHr {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 	
     

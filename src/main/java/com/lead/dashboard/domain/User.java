@@ -104,7 +104,8 @@ public class User implements Serializable{
     boolean isQuality;//bad fit
     
     boolean autoActive;
-	
+    private String maritalStatus;
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 //			inverseJoinColumns = {@JoinColumn(name="user_ratings_id"
@@ -493,6 +494,14 @@ public class User implements Serializable{
 
 	public void setUserDepartment(Department userDepartment) {
 		this.userDepartment = userDepartment;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 	
 

@@ -324,6 +324,7 @@ public class UserServiceImpl implements UserService {
 		existingUser.setExpInYear(user.getExpInYear());
 		existingUser.setDateOfJoining(user.getDateOfJoining());
 		existingUser.setType(user.getType());
+		existingUser.setMaritalStatus(user.getMaritalStatus());
 
 		if(user.getManagerId()!=null &&user.getManagerId()!=0) {
 			Optional<User> manager = userRepo.findById(user.getManagerId());
@@ -406,6 +407,7 @@ public class UserServiceImpl implements UserService {
 			u.setPermanentAddress(createUserDto.getPermanentAddress());
 			u.setResidentialAddress(createUserDto.getResidentialAddress());
 			u.setManagerApproval("pending");
+			u.setMaritalStatus(createUserDto.getMaritalStatus());
 
 			userRepo.save(u);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
@@ -453,6 +455,7 @@ public class UserServiceImpl implements UserService {
 			u.setExpInYear(createUserDto.getExpInYear());
 			u.setDateOfJoining(createUserDto.getDateOfJoining());
 			u.setType(createUserDto.getType());
+			u.setMaritalStatus(createUserDto.getMaritalStatus());
 
 			if(createUserDto.getManagerId()!=null) {
 				Optional<User> managerOp = userRepo.findById(createUserDto.getManagerId());
