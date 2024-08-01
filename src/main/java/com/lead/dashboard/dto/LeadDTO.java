@@ -51,14 +51,6 @@ public class LeadDTO {
 
 	String industryId;
 
-	public Long getAssigneeId() {
-		return assigneeId;
-	}
-
-	public void setAssigneeId(Long assigneeId) {
-		this.assigneeId = assigneeId;
-	}
-
 	String ipAddress;
 
 	String displayStatus;
@@ -68,7 +60,7 @@ public class LeadDTO {
 
 	int whatsAppStatus;
 
-
+    Long companyId;
 
 	public String getName() {
 		return name;
@@ -246,6 +238,22 @@ public class LeadDTO {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+	
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 	
 	
