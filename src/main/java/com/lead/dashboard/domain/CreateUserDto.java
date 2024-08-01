@@ -42,7 +42,7 @@ public class CreateUserDto {
 	private int lockerSize;
 	private boolean isBackupTeam;
 	private boolean isMaster;
-
+    private String maritalStatus;
 	
 	public Long getId() {
 		return id;
@@ -247,6 +247,12 @@ public class CreateUserDto {
 	}
 	public void setDepartmentId(Long departmentId) {
 		this.departmentId = departmentId;
+	}
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 	
 	
