@@ -336,12 +336,14 @@ public class CompanyFormController {
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
 //		List<CompanyForm> compList = companyFormRepo.findAll();
-//		User user = userRepo.findById(userId).get()
-//		if() {
-//			
-//		}
+		 Optional<User> user = userRepo.findById(userId);
+		 List<CompanyForm> compList  = new ArrayList<>();
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+			compList = companyFormRepo.findAll();
+		}else {
+			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
+		}
 //		
-		List<CompanyForm> compList = companyFormRepo.findAllByStatus(status);
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
 			map.put("id", c.getId());
