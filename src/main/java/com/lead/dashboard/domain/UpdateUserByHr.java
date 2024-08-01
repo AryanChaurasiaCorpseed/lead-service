@@ -48,7 +48,8 @@ public class UpdateUserByHr {
 	private boolean isBackupTeam;
 	private boolean isMaster;
     private String maritalStatus;
-
+    private String personalEmail;
+    private String companyMobile;
 
 	public Long getId() {
 		return id;
@@ -260,6 +261,18 @@ public class UpdateUserByHr {
 	}
 	public void setMaritalStatus(String maritalStatus) {
 		this.maritalStatus = maritalStatus;
+	}
+	public String getPersonalEmail() {
+		return personalEmail;
+	}
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
+	}
+	public String getCompanyMobile() {
+		return companyMobile;
+	}
+	public void setCompanyMobile(String companyMobile) {
+		this.companyMobile = companyMobile;
 	}
 	
     

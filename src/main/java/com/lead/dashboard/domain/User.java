@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+//@Data
 @NoArgsConstructor(force = true)
 @Table(name = "user")
 public class User implements Serializable{
@@ -29,8 +29,7 @@ public class User implements Serializable{
     private String email;
     @Lob
     String profilePhoto;
-    @NonNull
-    
+    @NonNull  
     private String designation; 
     
     @ManyToOne
@@ -105,6 +104,8 @@ public class User implements Serializable{
     
     boolean autoActive;
     private String maritalStatus;
+    private String personalEmail;
+    private String companyMobile;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
@@ -502,6 +503,22 @@ public class User implements Serializable{
 
 	public void setMaritalStatus(String maritalStatus) {
 		this.maritalStatus = maritalStatus;
+	}
+
+	public String getPersonalEmail() {
+		return personalEmail;
+	}
+
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
+	}
+
+	public String getCompanyMobile() {
+		return companyMobile;
+	}
+
+	public void setCompanyMobile(String companyMobile) {
+		this.companyMobile = companyMobile;
 	}
 	
 
