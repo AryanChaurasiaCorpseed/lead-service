@@ -15,5 +15,8 @@ public interface CompanyFormRepo  extends JpaRepository<CompanyForm, Long> {
 
 	@Query(value = "SELECT * FROM company_form WHERE status=:status", nativeQuery = true)
 	List<CompanyForm> findAllByStatus(String status );
+	
+	@Query(value = "SELECT * FROM company_form WHERE status=:status and assignee_id=:assigneeId", nativeQuery = true)
+	List<CompanyForm> findAllByStatusAndassigneeId(String status,Long assigneeId);
 
 }
