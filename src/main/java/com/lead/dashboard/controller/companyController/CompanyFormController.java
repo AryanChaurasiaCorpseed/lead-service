@@ -113,7 +113,7 @@ public class CompanyFormController {
 	   return companyForm;
 	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
-	public List<Map<String,Object>> getAllCompanyForm()
+	public List<Map<String,Object>> getAllCompanyForm(@RequestParam String status)
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
 		List<CompanyForm> compList = companyFormRepo.findAll();
@@ -339,7 +339,7 @@ public class CompanyFormController {
 		 Optional<User> user = userRepo.findById(userId);
 		 List<CompanyForm> compList  = new ArrayList<>();
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
-			compList = companyFormRepo.findAll();
+			compList = companyFormRepo.findAllByStatus(status);
 		}else {
 			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
 		}
