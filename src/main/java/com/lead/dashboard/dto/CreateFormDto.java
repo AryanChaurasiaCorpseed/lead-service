@@ -53,6 +53,8 @@ public class CreateFormDto {
 	String sContactEmails;
 	String sContactNo;
 	String sContactWhatsappNo;
+	
+	Long updatedBy;
 	public Boolean getIsPresent() {
 		return isPresent;
 	}
@@ -256,6 +258,12 @@ public class CreateFormDto {
 	}
 	public void setSContactWhatsappNo(String sContactWhatsappNo) {
 		this.sContactWhatsappNo = sContactWhatsappNo;
+	}
+	public Long getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(Long updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 	
 	

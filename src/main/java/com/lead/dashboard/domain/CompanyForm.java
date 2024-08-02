@@ -69,7 +69,9 @@ public class CompanyForm {
 	String sContactNo;
 	String sContactWhatsappNo;
 	
-
+    @ManyToOne
+    User updatedBy;
+    
 	public Long getId() {
 		return id;
 	}
@@ -348,6 +350,14 @@ public class CompanyForm {
 
 	public void setSContactWhatsappNo(String sContactWhatsappNo) {
 		this.sContactWhatsappNo = sContactWhatsappNo;
+	}
+
+	public User getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(User updatedBy) {
+		this.updatedBy = updatedBy;
 	}  
 	
 	

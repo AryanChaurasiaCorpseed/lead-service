@@ -251,6 +251,39 @@ public class Company {
 		this.isDeleted = isDeleted;
 	}
 
+	public String getSAddress() {
+		return sAddress;
+	}
+
+	public void setSAddress(String sAddress) {
+		this.sAddress = sAddress;
+	}
+
+	public String getSCity() {
+		return sCity;
+	}
+
+	public void setSCity(String sCity) {
+		this.sCity = sCity;
+	}
+
+	public String getSState() {
+		return sState;
+	}
+
+	public void setSState(String sState) {
+		this.sState = sState;
+	}
+
+	public String getSCountry() {
+		return sCountry;
+	}
+
+	public void setSCountry(String sCountry) {
+		this.sCountry = sCountry;
+	}
+    
+	
 	
 	
 	
