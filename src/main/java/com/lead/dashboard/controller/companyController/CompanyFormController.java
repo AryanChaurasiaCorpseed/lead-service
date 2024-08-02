@@ -133,7 +133,8 @@ public class CompanyFormController {
 			map.put("gstDocuments", c.getGstDocuments());
 			map.put("companyAge", c.getCompanyAge());
 			map.put("status", c.getStatus());
-			
+			map.put("updatedBy", c.getUpdatedBy());
+
 			map.put("city", c.getCity());
 			map.put("address", c.getAddress());
 			map.put("state", c.getState());
@@ -307,42 +308,6 @@ public class CompanyFormController {
 		return flag;
 	}
 	
-//	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
-//	public List<Map<String,Object>> getAllCompanyForm(@RequestParam String status)
-//	{
-//		List<Map<String,Object>>result = new ArrayList<>();
-//		List<CompanyForm> compList = companyFormRepo.findAll();
-////		List<CompanyForm> companyList = companyFormRepo.findAllByStatus(status);
-//		for(CompanyForm c:compList) {
-//			Map<String,Object>map = new HashMap<>();
-//			map.put("id", c.getId());
-//			map.put("unitName", c.getUnitName());
-////			map.put("primaryAddress", c.get);
-//			map.put("companyName", c.getCompanyName());
-//			map.put("lead", c.getLead());
-//			map.put("gstNo", c.getGstNo());
-//			map.put("gstType", c.getGstType());
-//			map.put("gstDocuments", c.getGstDocuments());
-//			map.put("companyAge", c.getCompanyAge());
-//			map.put("status", c.getStatus());
-//			
-//			map.put("city", c.getCity());
-//			map.put("address", c.getAddress());
-//			map.put("state", c.getState());
-//			map.put("country", c.getCountry());
-//			
-//			map.put("sCity", c.getSCity());
-//			map.put("sAddress", c.getSAddress());
-//			map.put("sState", c.getSState());
-//			map.put("sCountry", c.getSCountry());
-//
-//
-//			result.add(map);
-//
-//		}
-//		return result;
-//	}
-//	
 	
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS)
 	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId)
@@ -369,7 +334,7 @@ public class CompanyFormController {
 			map.put("gstDocuments", c.getGstDocuments());
 			map.put("companyAge", c.getCompanyAge());
 			map.put("status", c.getStatus());
-			
+			map.put("updatedBy", c.getUpdatedBy());
 			map.put("city", c.getCity());
 			map.put("address", c.getAddress());
 			map.put("state", c.getState());
