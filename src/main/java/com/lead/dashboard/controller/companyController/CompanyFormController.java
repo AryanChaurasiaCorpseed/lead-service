@@ -435,11 +435,16 @@ public class CompanyFormController {
 	{
 		boolean flag=false;
 		String s1=breakString(email);
+		System.out.println(s1+"...si");
 		List<String>s=companyRepository.findAllEmail();
 		List<String>domain = new ArrayList<>();
 		for(String data:s) {
-			 String d=breakString(email);
+			if(data!=null) {
+			 String d=breakString(data);
+				System.out.println(d+"...d");
+
 			 domain.add(d);
+			}
 		}
 		if(domain.contains(s1)) {
 			flag=true;
