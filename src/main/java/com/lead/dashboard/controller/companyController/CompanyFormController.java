@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.CompanyForm;
+import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -27,6 +28,7 @@ import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.repository.CompanyFormRepo;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.ContactRepo;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.repository.UserRepo;
@@ -43,6 +45,9 @@ public class CompanyFormController {
 	
 	@Autowired
 	CompanyRepository companyRepository;
+	
+	@Autowired
+	ContactRepo contactRepo;
 	
 	@Autowired
 	UserRepo userRepo;
@@ -86,7 +91,7 @@ public class CompanyFormController {
 		companyForm.setStatus(createFormDto.getStatus());
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setIsUnit(createFormDto.getIsUnit());
-		
+		companyForm.setStatus("Initiated");
 		companyForm.setPanNo(createFormDto.getPanNo());
 		
 		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
@@ -185,11 +190,31 @@ public class CompanyFormController {
 					User assignee = unit.getAssignee();
 					
 					p.setAssignee(assignee);
+					//Contact
+					Contact c = new Contact();
+					c.setName(companyForm.getContactName());
+					c.setContactNo(companyForm.getContactNo());
+					c.setEmails(companyForm.getContactEmails());
+					c.setWhatsappNo(companyForm.getContactWhatsappNo());
+					c.setDeleteStatus(false);
+					
+					// SecondaryContact
+					Contact sc = new Contact();
+					sc.setName(companyForm.getSContactName());
+					sc.setContactNo(companyForm.getSContactNo());
+					sc.setEmails(companyForm.getSContactEmails());
+					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+					sc.setDeleteStatus(false);
+
+					
+					
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
 					List<Project> projectList = unit.getCompanyProject();
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
+					
+					
 					if(currentUserId!=null) {
 			        	User user = userRepo.findById(currentUserId).get();
 			        	companyForm.setUpdatedBy(user);
@@ -226,6 +251,24 @@ public class CompanyFormController {
 			        	User user = userRepo.findById(currentUserId).get();
 			        	companyForm.setUpdatedBy(user);
 			        }
+					
+					Contact c = new Contact();
+					c.setName(companyForm.getContactName());
+					c.setContactNo(companyForm.getContactNo());
+					c.setEmails(companyForm.getContactEmails());
+					c.setWhatsappNo(companyForm.getContactWhatsappNo());
+					c.setDeleteStatus(false);
+					
+					// SecondaryContact
+					Contact sc = new Contact();
+					sc.setName(companyForm.getSContactName());
+					sc.setContactNo(companyForm.getSContactNo());
+					sc.setEmails(companyForm.getSContactEmails());
+					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+					sc.setDeleteStatus(false);
+					unit.setPrimaryContact(c);
+					unit.setSecondaryContact(sc);
+					
 					Lead lead = companyForm.getLead();
 					List<Lead>leadList =new ArrayList<>();
 					leadList.add(lead);
@@ -279,6 +322,40 @@ public class CompanyFormController {
 		        	User user = userRepo.findById(currentUserId).get();
 		        	companyForm.setUpdatedBy(user);
 		        }
+				
+				//company
+				Contact c=null;
+				if(!companyForm.isPrimaryContact()){
+					c=contactRepo.findById(companyForm.getContactId()).get();
+				}else {
+					c = new Contact();
+					c.setName(companyForm.getContactName());
+					c.setContactNo(companyForm.getContactNo());
+					c.setEmails(companyForm.getContactEmails());
+					c.setWhatsappNo(companyForm.getContactWhatsappNo());
+					c.setDeleteStatus(false);
+					contactRepo.save(c);
+					
+				}
+				
+				Contact sc=null;
+				if(!companyForm.isSecondaryContact()){
+					sc=contactRepo.findById(companyForm.getSContactId()).get();
+				}else {
+					sc = new Contact();
+					sc.setName(companyForm.getSContactName());
+					sc.setContactNo(companyForm.getSContactNo());
+					sc.setEmails(companyForm.getSContactEmails());
+					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+					sc.setDeleteStatus(false);
+					contactRepo.save(sc);
+
+				}
+				company.setPrimaryContact(c);
+				company.setSecondaryContact(sc);
+				
+				
+				
 				//Assignee
 				
 				Project p = new Project();
@@ -352,7 +429,30 @@ public class CompanyFormController {
 		return result;
 	}
 	
-	
+	@GetMapping(UrlsMapping.CHECK_EMAIL_IN_COMPANY)
+	public boolean checkEmailInCompany(@RequestParam String email)
+	{
+		boolean flag=false;
+		String s1=breakString(email);
+		List<String>s=companyRepository.findAllEmail();
+		List<String>domain = new ArrayList<>();
+		for(String data:s) {
+			 String d=breakString(email);
+			 domain.add(d);
+		}
+		if(domain.contains(s1)) {
+			flag=true;
+		}
+		return flag;
+
+	}
+	public String breakString( String email) {
+		String[] result = email.split("@");
+	    String s=result[1];
+	     String[] res=s.split("\\.");
+	     return res[0];
+
+	}
 	
 	
 	
