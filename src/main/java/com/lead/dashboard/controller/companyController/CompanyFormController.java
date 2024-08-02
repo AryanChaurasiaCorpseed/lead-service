@@ -103,7 +103,10 @@ public class CompanyFormController {
 		companyForm.setSContactEmails(createFormDto.getSContactEmails());
 		companyForm.setSContactNo(createFormDto.getSContactNo());
 		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
-
+        if(createFormDto.getUpdatedBy()!=null) {
+        	User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
+        	companyForm.setUpdatedBy(user);
+        }
 		
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
 		companyForm.setLead(lead);
@@ -163,7 +166,7 @@ public class CompanyFormController {
 		return company;
 	}
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
-	public Boolean AccountApprovalOnInvoice(String status,Long id){
+	public Boolean AccountApprovalOnInvoice(String status,Long id,Long currentUserId){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
 		if("approved".equals(status)) {
@@ -186,6 +189,10 @@ public class CompanyFormController {
 					List<Project> projectList = unit.getCompanyProject();
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
+					if(currentUserId!=null) {
+			        	User user = userRepo.findById(currentUserId).get();
+			        	companyForm.setUpdatedBy(user);
+			        }
 					p.setCompany(unit);
 					companyRepository.save(unit);
 					companyForm.setStatus(status);
@@ -214,7 +221,10 @@ public class CompanyFormController {
 					unit.setSCity(companyForm.getSCity());
 					unit.setSState(companyForm.getSState());
 					unit.setSCountry(companyForm.getSCountry());
-					
+					if(currentUserId!=null) {
+			        	User user = userRepo.findById(currentUserId).get();
+			        	companyForm.setUpdatedBy(user);
+			        }
 					Lead lead = companyForm.getLead();
 					List<Lead>leadList =new ArrayList<>();
 					leadList.add(lead);
@@ -264,7 +274,10 @@ public class CompanyFormController {
 				leadList.add(lead);
 				company.setCompanyLead(leadList);
 				company.setParent(true);
-				
+				if(currentUserId!=null) {
+		        	User user = userRepo.findById(currentUserId).get();
+		        	companyForm.setUpdatedBy(user);
+		        }
 				//Assignee
 				
 				Project p = new Project();
