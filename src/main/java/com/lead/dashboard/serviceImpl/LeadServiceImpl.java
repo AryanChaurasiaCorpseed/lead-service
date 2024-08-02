@@ -366,11 +366,19 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setIpAddress(leadDTO.getIpAddress());
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
-		lead.setUuid(commonServices.getUuid());      
+		lead.setUuid(commonServices.getUuid());
+		
 		System.out.println("Aryan17........");
 
 		leadRepository.save(lead);
 		System.out.println("Aryan18........");
+		if(leadDTO.getCompanyId()!=null) {
+			Company comp = companyRepository.findById(leadDTO.getCompanyId()).get();
+			List<Lead> compLead = comp.getCompanyLead();
+			compLead.add(lead);
+			companyRepository.save(comp);
+						
+		}
 
 		createLeadHistory(lead,createdBy);
 		return lead;
