@@ -184,9 +184,10 @@ public class UserServiceImpl implements UserService {
 			u.setDesignation(designation);
 			Designation des = designationRepo.findById(designationId).get();
 			u.setUserDesignation(des);
-			
+			u.setDesignation(des!=null?des.getName():null);
 			Department dep = departmentRepo.findById(departmentId).get();
 			u.setUserDepartment(dep);
+			u.setDepartment(dep!=null?dep.getName():null);
 			userRepo.save(u);
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
@@ -274,10 +275,12 @@ public class UserServiceImpl implements UserService {
 		if(user.getDesignationId()!=null) {
 			Designation des = designationRepo.findById(user.getDesignationId()).get();
 			existingUser.setUserDesignation(des);
+			existingUser.setDesignation(des!=null?des.getName():null);
 		}
 		if(user.getDepartmentId()!=null) {
 			Department dep = departmentRepo.findById(user.getDepartmentId()).get();
 			existingUser.setUserDepartment(dep);
+			existingUser.setDepartment(dep!=null?dep.getName():null);
 		}
 	
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
@@ -305,9 +308,12 @@ public class UserServiceImpl implements UserService {
 		existingUser.setDepartment(user.getDepartment());
 		Designation designation = designationRepo.findById(user.getDesignationId()).get();
 		existingUser.setUserDesignation(designation);
+		existingUser.setDesignation(designation!=null?designation.getName():null);
 		
 		Department department = departmentRepo.findById(user.getDepartmentId()).get();
 		existingUser.setUserDepartment(department);
+		existingUser.setDepartment(department!=null?department.getName():null);
+	
 		List<Role> roleList = roleRepository.findAllByNameIn(user.getRole());
 		existingUser.setUserRole(roleList);
 		existingUser.setRole(user.getRole());
@@ -374,9 +380,11 @@ public class UserServiceImpl implements UserService {
 			u.setDesignation(createUserDto.getDesignation());
 			Designation designation = designationRepo.findById(createUserDto.getDesignationId()).get();
 			u.setUserDesignation(designation);
+			u.setDesignation(designation!=null?designation.getName():null);
 			
 			Department department = departmentRepo.findById(createUserDto.getDepartmentId()).get();
 			u.setUserDepartment(department);
+			u.setDepartment(designation!=null?designation.getName():null);
 			u.setManager(createUserDto.isManager());
 			u.setEpfNo(createUserDto.getEpfNo());
 			u.setAadharCard(createUserDto.getAadharCard());

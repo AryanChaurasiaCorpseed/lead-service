@@ -343,6 +343,7 @@ public class CompanyFormController {
 					sc=contactRepo.findById(companyForm.getSContactId()).get();
 				}else {
 					sc = new Contact();
+					
 					sc.setName(companyForm.getSContactName());
 					sc.setContactNo(companyForm.getSContactNo());
 					sc.setEmails(companyForm.getSContactEmails());
