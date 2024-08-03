@@ -171,7 +171,7 @@ public class CompanyFormController {
 		return result;
 	}
 	
-	@GetMapping(UrlsMapping.CHECK_COMPANY_EXIST)
+//	@GetMapping(UrlsMapping.CHECK_COMPANY_EXIST)
 	public Company checkCompanyExist(Long leadId)
 	{
 		Company company=null;
@@ -185,7 +185,7 @@ public class CompanyFormController {
 		
 		return company;
 	}
-	
+	@GetMapping(UrlsMapping.CHECK_COMPANY_EXIST)
 	public Company checkCompanyExistv2(Long leadId)
 	{
 		Company company=null;
@@ -205,6 +205,19 @@ public class CompanyFormController {
 					 Long cId=companyRepository.findByPrimaryEmails(lead.getEmail()); 
 					 System.out.println(cId);
 					 company=companyRepository.findById(cId).get();
+				 }else {
+					List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
+					
+					if(leadList!=null && leadList.size()>0){
+						Long comp = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+						if(comp!=null) {
+							 Optional<Company> cop = companyRepository.findById(comp);
+							 if(cop!=null && cop.get()!=null) {
+								 company=cop.get();
+							 }
+						 }
+					}
+
 				 }
 			 }
 			
