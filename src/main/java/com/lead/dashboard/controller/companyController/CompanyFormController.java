@@ -76,6 +76,7 @@ public class CompanyFormController {
 		companyForm.setCompanyAge(createFormDto.getCompanyAge());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setCompanyId(createFormDto.getCompanyId());
+		companyForm.setPrimaryPinCode(createFormDto.getPrimaryPinCode());
 		companyForm.setCountry(createFormDto.getCountry());
 		
 		companyForm.setGstType(createFormDto.getGstType());
@@ -86,6 +87,7 @@ public class CompanyFormController {
 		companyForm.setSAddress(createFormDto.getSAddress());
 		companyForm.setSCity(createFormDto.getSCity());
 		companyForm.setSState(createFormDto.getSState());
+		companyForm.setSecondaryPinCode(createFormDto.getSecondaryPinCode());
 		companyForm.setSCountry(createFormDto.getSCountry());
 		
 		companyForm.setStatus(createFormDto.getStatus());
@@ -139,15 +141,27 @@ public class CompanyFormController {
 			map.put("companyAge", c.getCompanyAge());
 			map.put("status", c.getStatus());
 			map.put("updatedBy", c.getUpdatedBy());
+			
+			map.put("contactName", c.getContactName());
+			map.put("contactNo", c.getContactNo());
+			map.put("contactEmails", c.getContactEmails());
+			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
+			
+			map.put("secondaryContactName", c.getSContactName());
+			map.put("secondaryContactNo", c.getSContactNo());
+			map.put("secondaryContactEmails", c.getSContactEmails());
+			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
 
 			map.put("city", c.getCity());
 			map.put("address", c.getAddress());
 			map.put("state", c.getState());
+			map.put("primaryPinCode", c.getPrimaryPinCode());
 			map.put("country", c.getCountry());
 			
 			map.put("sCity", c.getSCity());
 			map.put("sAddress", c.getSAddress());
 			map.put("sState", c.getSState());
+			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
 
 
@@ -167,6 +181,33 @@ public class CompanyFormController {
 			 if(comp!=null && comp.get()!=null) {
 				 company=comp.get();
 			 }
+		 }
+		
+		return company;
+	}
+	
+	public Company checkCompanyExistv2(Long leadId)
+	{
+		Company company=null;
+		 
+		 Long compId = companyRepository.findCompanyIdByLeadId(leadId);
+		 if(compId!=null) {
+			 Optional<Company> comp = companyRepository.findById(compId);
+			 if(comp!=null && comp.get()!=null) {
+				 company=comp.get();
+			 }
+		 }else {
+			 Lead lead = leadRepository.findById(leadId).get();
+			 if(lead.getEmail()!=null&& (!lead.getEmail().equals("NA"))) {
+				 boolean flag=checkEmailInCompany(lead.getEmail());
+				 System.out.println("testing java    cddc  cd"+flag+lead.getEmail());
+				 if(flag) {
+					 Long cId=companyRepository.findByPrimaryEmails(lead.getEmail()); 
+					 System.out.println(cId);
+					 company=companyRepository.findById(cId).get();
+				 }
+			 }
+			
 		 }
 		
 		return company;

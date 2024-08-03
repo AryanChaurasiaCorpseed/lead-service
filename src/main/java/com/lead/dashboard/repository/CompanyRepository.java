@@ -34,7 +34,10 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	@Query(value = "SELECT * FROM company c where c.gst_no=:gst", nativeQuery = true)
 	List<Company> findByGst(String gst);
 
-	@Query(value = "SELECT ct.emails FROM company c left join contact ct on ct.id=c.id ", nativeQuery = true)
+	@Query(value = "SELECT ct.emails FROM company c left join contact ct on ct.id=c.id", nativeQuery = true)
 	List<String> findAllEmail();
+	
+	@Query(value = "SELECT c.id FROM company c left join contact ct on ct.id=c.id where ct.emails=:email", nativeQuery = true)
+	Long findByPrimaryEmails(String email);
 
 }

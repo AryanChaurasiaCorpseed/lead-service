@@ -26,6 +26,7 @@ public class CreateFormDto {
 	String Address;
 	String City;
 	String State;
+	String primaryPinCode;
 	String Country;
 	
 	
@@ -33,6 +34,7 @@ public class CreateFormDto {
 	String sAddress;
 	String sCity;
 	String sState;
+	String secondaryPinCode;
 	String sCountry;
 	
 	Long  assigneeId;
@@ -264,6 +266,18 @@ public class CreateFormDto {
 	}
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
 	}
 	
 	
