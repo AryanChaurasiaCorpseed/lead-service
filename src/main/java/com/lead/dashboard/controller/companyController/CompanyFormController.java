@@ -454,14 +454,27 @@ public class CompanyFormController {
 			map.put("companyAge", c.getCompanyAge());
 			map.put("status", c.getStatus());
 			map.put("updatedBy", c.getUpdatedBy());
+			
+			map.put("contactName", c.getContactName());
+			map.put("contactNo", c.getContactNo());
+			map.put("contactEmails", c.getContactEmails());
+			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
+			
+			map.put("secondaryContactName", c.getSContactName());
+			map.put("secondaryContactNo", c.getSContactNo());
+			map.put("secondaryContactEmails", c.getSContactEmails());
+			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
+
 			map.put("city", c.getCity());
 			map.put("address", c.getAddress());
 			map.put("state", c.getState());
+			map.put("primaryPinCode", c.getPrimaryPinCode());
 			map.put("country", c.getCountry());
 			
 			map.put("sCity", c.getSCity());
 			map.put("sAddress", c.getSAddress());
 			map.put("sState", c.getSState());
+			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
 
 
