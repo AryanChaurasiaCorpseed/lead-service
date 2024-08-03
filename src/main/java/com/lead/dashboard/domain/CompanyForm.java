@@ -40,6 +40,7 @@ public class CompanyForm {
 	String Address;
 	String City;
 	String State;
+	String primaryPinCode;
 	String Country;
 	
 	
@@ -47,6 +48,7 @@ public class CompanyForm {
 	String sAddress;
 	String sCity;
 	String sState;
+	String secondaryPinCode;
 	String sCountry;
 	
 	Long  assigneeId;
@@ -358,8 +360,24 @@ public class CompanyForm {
 
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
 	}  
-	
+	 
 	
 	
 	
