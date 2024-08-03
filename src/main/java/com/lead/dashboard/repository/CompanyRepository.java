@@ -39,5 +39,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
 	@Query(value = "SELECT c.id FROM company c left join contact ct on ct.id=c.id where ct.emails=:email", nativeQuery = true)
 	Long findByPrimaryEmails(String email);
+	
+	
 
 }
