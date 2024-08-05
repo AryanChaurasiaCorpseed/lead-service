@@ -1,7 +1,9 @@
 package com.lead.dashboard.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 
@@ -20,7 +22,7 @@ import lombok.Setter;
 @Entity
 @Table
 @Data
-public class Project {
+public class Project implements Serializable{
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -33,24 +35,31 @@ public class Project {
 	int amount;
 	
 	@ManyToOne
+	@JsonBackReference
 	ServiceDetails serviceDetails;
 	
 	@ManyToOne
+	@JsonBackReference
 	User assignee;
 	
-	@ManyToOne
+	@ManyToOne	
+	@JsonBackReference
+
 	Product product;
 	
 	String status;
 	
 	
 	@ManyToOne
+	@JsonBackReference
+
 	Client client;
 	
 	@OneToOne
 	Lead lead;
 	
 	@ManyToOne
+	@JsonBackReference
 	Company company;
 	
 	String progress;
