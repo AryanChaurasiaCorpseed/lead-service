@@ -74,19 +74,21 @@ public class ProjectServiceImpl implements ProjectService{
         return p;      
 	}
 	@Override
-	public List<Map<String,Object>> getAllProject(Long userId) {
+	public List<Map<String,Object>> getAllProject(Long userIds) {
 		List<Project> pList = projectRepository.findAll();
 		List<Map<String,Object>>result  = new ArrayList<>();
-		
+		System.out.println(pList.size());
 		for(Project p:pList)  {
 			Map<String,Object>res = new HashMap<>();
 			res.put("id",p.getId());
 			res.put("projectName", p.getName());
 			res.put("assigneeId", p.getAssignee()!=null?p.getAssignee().getId():"NA");
 			res.put("assigneeName", p.getAssignee()!=null?p.getAssignee().getFullName():"NA");
-			res.put("projectName", p.getCompany());
-
+//			res.put("projectName", p.getCompany());
+			res.put("client", p.getClient());
+			res.put("status", p.getStatus());
 			res.put("leadId",p.getLead().getId());
+			res.put("leadNane",p.getLead().getLeadName());
 			result.add(res);
 		}
 		return result;
