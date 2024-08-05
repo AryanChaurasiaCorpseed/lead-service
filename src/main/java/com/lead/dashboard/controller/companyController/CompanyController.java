@@ -135,6 +135,13 @@ public class CompanyController {
 
 	}
 	
+	@PutMapping(UrlsMapping.UPDATE_COMPANY_ASSIGNEE)
+	public boolean updateCompanyAssignee(@RequestParam Long companyId,@RequestParam Long assigneeId)
+	{
+//		boolean isDeleted = companyService.updateCompany(companyId);
+		boolean res=companyService.updateCompanyAssignee(companyId,assigneeId);   
+		return true;
+	}     
 	
 	
 	

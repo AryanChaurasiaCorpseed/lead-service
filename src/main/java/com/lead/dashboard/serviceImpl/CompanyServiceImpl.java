@@ -322,5 +322,15 @@ public class CompanyServiceImpl implements CompanyService {
 		return res;
 	}
 
+	@Override
+	public boolean updateCompanyAssignee(Long companyId, Long assigneeId) {
+		Company comp = companyRepository.findById(companyId).get();
+		
+		User assignee = userRepo.findById(assigneeId).get();
+		comp.setAssignee(assignee);
+		companyRepository.save(comp);
+		return true;
+	}
+
 
 }

@@ -251,7 +251,9 @@ public class CompanyFormController {
 					c.setEmails(companyForm.getContactEmails());
 					c.setWhatsappNo(companyForm.getContactWhatsappNo());
 					c.setDeleteStatus(false);
-					
+					contactRepo.save(c);
+
+					unit.setPrimaryContact(c);
 					// SecondaryContact
 					Contact sc = new Contact();
 					sc.setName(companyForm.getSContactName());
@@ -259,6 +261,7 @@ public class CompanyFormController {
 					sc.setEmails(companyForm.getSContactEmails());
 					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
 					sc.setDeleteStatus(false);
+					contactRepo.save(sc);
 
 					
 					
@@ -268,6 +271,7 @@ public class CompanyFormController {
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
 					
+					unit.setSecondaryContact(sc);
 					
 					if(currentUserId!=null) {
 			        	User user = userRepo.findById(currentUserId).get();
