@@ -137,8 +137,11 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("secCity", c.getSCity());
 			result.put("secState", c.getSState());
 			result.put("seCountry", c.getSCountry());
+			
+			result.put("primaryContact", c.getPrimaryContact());
+			result.put("secondaryContact", c.getSecondaryContact());
 
-
+			
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String,Object>>leadList = new ArrayList<>();
 			for(Lead l:lList) {
@@ -257,6 +260,27 @@ public class CompanyServiceImpl implements CompanyService {
 			Map<String,Object> map = new HashMap<>();
 			map.put("id", c.getId());
 			map.put("companyName", c.getName());
+//			map.put("companyId", c.getId());
+			map.put("country", c.getCountry());
+			map.put("gstNo", c.getGstNo());
+			map.put("gstType", c.getGstType());
+			map.put("gstDoc", c.getGstDocuments());
+
+
+			map.put("assignee", c.getAssignee());
+			
+			map.put("address", c.getAddress());
+			map.put("city", c.getCity());
+			map.put("state", c.getState());
+			map.put("country", c.getCountry());
+
+			map.put("secAddress", c.getSAddress());
+			map.put("secCity", c.getSCity());
+			map.put("secState", c.getSState());
+			map.put("seCountry", c.getSCountry());
+			
+			map.put("primaryContact", c.getPrimaryContact());
+			map.put("secondaryContact", c.getSecondaryContact());
             res.add(map);
 		}
 		return res;
