@@ -14,6 +14,7 @@ import com.lead.dashboard.domain.product.Product;
 
 //import com.lead.dashboard.domain.opportunity.Opportunities;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
+@Transactional
 public class Lead {
 	
 
@@ -85,7 +86,8 @@ public class Lead {
 	@Column
 	private String serviceId;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JsonIgnore
 	@JoinTable(name="lead_product",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
@@ -101,13 +103,13 @@ public class Lead {
 
 	private int whatsAppStatus;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name="lead_clients",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_client_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Client>clients;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name="lead_remark",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="lead_remark_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
