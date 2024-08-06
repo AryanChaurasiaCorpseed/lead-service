@@ -57,6 +57,10 @@ public class CreateFormDto {
 	String sContactWhatsappNo;
 	
 	Long updatedBy;
+	
+	String addedByInOldCrm;
+	
+	
 	public Boolean getIsPresent() {
 		return isPresent;
 	}
@@ -278,6 +282,12 @@ public class CreateFormDto {
 	}
 	public void setSecondaryPinCode(String secondaryPinCode) {
 		this.secondaryPinCode = secondaryPinCode;
+	}
+	public String getAddedByInOldCrm() {
+		return addedByInOldCrm;
+	}
+	public void setAddedByInOldCrm(String addedByInOldCrm) {
+		this.addedByInOldCrm = addedByInOldCrm;
 	}
 	
 	

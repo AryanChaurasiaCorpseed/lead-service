@@ -9,6 +9,7 @@ import com.lead.dashboard.domain.product.Product;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +38,7 @@ public class Remark {
 	String images;
 	
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name="remark_file_data",joinColumns = {@JoinColumn(name="remark_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="remark_file_data_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})

@@ -4,15 +4,20 @@ import java.util.List;
 
 import com.lead.dashboard.domain.lead.Lead;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Table
 @Entity
+@Data
 public class CompanyForm {
 
 	@Id
@@ -37,6 +42,7 @@ public class CompanyForm {
 	String companyAge;
 	
 	//primary
+	@Lob
 	String Address;
 	String City;
 	String State;
@@ -45,6 +51,7 @@ public class CompanyForm {
 	
 	
 	//secondary address
+	@Lob
 	String sAddress;
 	String sCity;
 	String sState;
@@ -73,6 +80,8 @@ public class CompanyForm {
 	
     @ManyToOne
     User updatedBy;
+    
+	String addedByInOldCrm;
     
 	public Long getId() {
 		return id;
