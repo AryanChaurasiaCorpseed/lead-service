@@ -34,7 +34,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 		@Override
 		public void run(String... args) throws Exception {
 			String filePath = "D:/crm_client.csv";
-			helper.processCsvFile(filePath);
+//			helper.processCsvFile(filePath);
 		}
 		
 
