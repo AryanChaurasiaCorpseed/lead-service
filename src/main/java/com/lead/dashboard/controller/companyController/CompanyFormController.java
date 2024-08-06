@@ -87,7 +87,7 @@ public class CompanyFormController {
 		companyForm.setGstType(createFormDto.getGstType());
 		companyForm.setGstDocuments(createFormDto.getGstDocuments());
 		companyForm.setGstNo(createFormDto.getGstNo());
-		companyForm.setCompanyAge(createFormDto.getGstNo());
+		companyForm.setCompanyAge(createFormDto.getCompanyAge());
 
 		companyForm.setSAddress(createFormDto.getSAddress());
 		companyForm.setSCity(createFormDto.getSCity());
