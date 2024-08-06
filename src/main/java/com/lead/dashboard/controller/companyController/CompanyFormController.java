@@ -1,5 +1,8 @@
 package com.lead.dashboard.controller.companyController;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -610,5 +614,70 @@ public class CompanyFormController {
 		return comp;
 	}
 
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_V2)
+	public List<Map<String,Object>> getAllCompanyFormByStatusV2(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size)
+	{
+		List<Map<String,Object>>result = new ArrayList<>();
+		//		List<CompanyForm> compList = companyFormRepo.findAll();
+		Optional<User> user = userRepo.findById(userId);
+		List<CompanyForm> compList  = new ArrayList<>();
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+//			compList = companyFormRepo.findAllByStatus(status);
+			
+			Pageable pageable = PageRequest.of(page, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+
+	         		  
+		}else {
+			Pageable pageable = PageRequest.of(page, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
+			compList=comp.getContent();
+//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
+		}
+		//		
+		for(CompanyForm c:compList) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("id", c.getId());
+			map.put("unitName", c.getUnitName());
+			//			map.put("primaryAddress", c.get);
+			map.put("companyName", c.getCompanyName());
+			map.put("lead", c.getLead());
+			map.put("gstNo", c.getGstNo());
+			map.put("gstType", c.getGstType());
+			map.put("gstDocuments", c.getGstDocuments());
+			map.put("companyAge", c.getCompanyAge());
+			map.put("status", c.getStatus());
+			map.put("updatedBy", c.getUpdatedBy());
+
+			map.put("contactName", c.getContactName());
+			map.put("contactNo", c.getContactNo());
+			map.put("contactEmails", c.getContactEmails());
+			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
+
+			map.put("secondaryContactName", c.getSContactName());
+			map.put("secondaryContactNo", c.getSContactNo());
+			map.put("secondaryContactEmails", c.getSContactEmails());
+			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
+
+			map.put("city", c.getCity());
+			map.put("address", c.getAddress());
+			map.put("state", c.getState());
+			map.put("primaryPinCode", c.getPrimaryPinCode());
+			map.put("country", c.getCountry());
+
+			map.put("sCity", c.getSCity());
+			map.put("sAddress", c.getSAddress());
+			map.put("sState", c.getSState());
+			map.put("secondaryPinCode", c.getSecondaryPinCode());
+			map.put("sCountry", c.getSCountry());
+
+
+			result.add(map);
+
+		}
+		return result;
+	}
 
 }
