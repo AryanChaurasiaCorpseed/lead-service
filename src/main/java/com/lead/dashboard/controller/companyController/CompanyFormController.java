@@ -450,8 +450,8 @@ public class CompanyFormController {
 	}
 
 
-	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS)
-	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId)
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_V2)
+	public List<Map<String,Object>> getAllCompanyFormByStatusV2(@RequestParam String status,@RequestParam Long userId)
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
@@ -614,8 +614,8 @@ public class CompanyFormController {
 		return comp;
 	}
 
-	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_V2)
-	public List<Map<String,Object>> getAllCompanyFormByStatusV2(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS)
+	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size)
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
