@@ -43,7 +43,7 @@ public class User implements Serializable{
     Department userDepartment;
     
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name="user_role",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="user_role_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
@@ -88,7 +88,7 @@ public class User implements Serializable{
     boolean isHrHeadApproval;
     String ManagerApproval="pending";// approved,disapproved,pending
     
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name="user_product",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="user_product_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
