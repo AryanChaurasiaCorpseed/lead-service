@@ -239,9 +239,11 @@ public class CompanyFormController {
 				Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
 				if(companyForm.getIsUnit()) {
 					Company unit = companyRepository.findById(id).get();
+					
 					List<Lead> leadList = unit.getCompanyLead();
 					leadList.add(companyForm.getLead());
 					unit.setCompanyLead(leadList);
+					
 					unit.setStatus("open");
 					Project p = new Project();
 					p.setName(companyForm.getLead().getName());
@@ -385,7 +387,6 @@ public class CompanyFormController {
 					leadList.add(lead);
 
 				}
-				leadList.add(lead);
 				company.setCompanyLead(leadList);
 				company.setParent(true);
 				if(currentUserId!=null) {
