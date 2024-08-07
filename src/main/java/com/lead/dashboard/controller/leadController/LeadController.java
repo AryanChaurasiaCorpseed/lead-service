@@ -302,5 +302,13 @@ public class LeadController {
 		}
 
 	}
+	
+	@PutMapping(UrlsMapping.LEAD_ASSIGN_SAME_PERSON)
+	public Boolean leadAssignSamePerson(@RequestParam Long leadId)
+	{ 
+		
+		Boolean res=leadservice.leadAssignSamePerson(leadId);
+		return res;
+	}
 
 }
