@@ -321,15 +321,18 @@ public class CompanyFormController {
 					c.setEmails(companyForm.getContactEmails());
 					c.setWhatsappNo(companyForm.getContactWhatsappNo());
 					c.setDeleteStatus(false);
+					contactRepo.save(c);
+					unit.setPrimaryContact(c);
 
-					// SecondaryContact
+					// SecondaryContact̥
 					Contact sc = new Contact();
 					sc.setName(companyForm.getSContactName());
 					sc.setContactNo(companyForm.getSContactNo());
 					sc.setEmails(companyForm.getSContactEmails());
 					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
 					sc.setDeleteStatus(false);
-					unit.setPrimaryContact(c);
+					contactRepo.save(sc);
+
 					unit.setSecondaryContact(sc);
 
 					Lead lead = companyForm.getLead();
@@ -347,7 +350,11 @@ public class CompanyFormController {
 					p.setAssignee(assignee);
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
-					List<Project> projectList = unit.getCompanyProject();
+					List<Project> projectList = new ArrayList<>();
+//					List<Project> projectList = unit.getCompanyProject();
+					if(unit.getCompanyProject()!=null) {
+						projectList.addAll(unit.getCompanyProject());
+					}
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
 					//					p.setCompany(unit);

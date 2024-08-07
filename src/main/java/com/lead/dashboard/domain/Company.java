@@ -62,13 +62,13 @@ public class Company {
 	@ManyToOne
 	Contact secondaryContact;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name="company_lead",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="company_lead_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Lead>companyLead;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name="company_project",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="company_project_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
