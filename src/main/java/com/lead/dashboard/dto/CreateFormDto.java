@@ -23,6 +23,7 @@ public class CreateFormDto {
 	String companyAge;
 	
 	//primary
+	Boolean isPrimaryAddress;
 	String Address;
 	String City;
 	String State;
@@ -31,6 +32,7 @@ public class CreateFormDto {
 	
 	
 	//secondary address
+	Boolean isSecondaryAddress;
 	String sAddress;
 	String sCity;
 	String sState;
@@ -289,7 +291,18 @@ public class CreateFormDto {
 	public void setAddedByInOldCrm(String addedByInOldCrm) {
 		this.addedByInOldCrm = addedByInOldCrm;
 	}
-	
+	public Boolean getIsPrimaryAddress() {
+		return isPrimaryAddress;
+	}
+	public void setIsPrimaryAddress(Boolean isPrimaryAddress) {
+		this.isPrimaryAddress = isPrimaryAddress;
+	}
+	public Boolean getIsSecondaryAddress() {
+		return isSecondaryAddress;
+	}
+	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
+		this.isSecondaryAddress = isSecondaryAddress;
+	}
 	
 	
 

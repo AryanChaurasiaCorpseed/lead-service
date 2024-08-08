@@ -127,6 +127,74 @@ public class CompanyFormController {
 		companyFormRepo.save(companyForm);
 		return companyForm;
 	}
+	
+	
+	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
+	public CompanyForm createCompanyFormv2(@RequestBody CreateFormDto createFormDto)
+	{				
+		CompanyForm companyForm =  new CompanyForm();
+
+		companyForm.setIsPresent(createFormDto.getIsPresent());
+		companyForm.setCompanyName(createFormDto.getCompanyName());
+		companyForm.setCompanyId(createFormDto.getCompanyId());
+
+		companyForm.setIsUnit(createFormDto.getIsUnit());
+		companyForm.setUnitName(createFormDto.getUnitName());
+		companyForm.setUnitId(createFormDto.getUnitId());
+
+		companyForm.setAddress(createFormDto.getAddress());
+		companyForm.setAssigneeId(createFormDto.getAssigneeId());
+
+		companyForm.setCity(createFormDto.getCity());
+		companyForm.setCompanyAge(createFormDto.getCompanyAge());
+		companyForm.setCompanyName(createFormDto.getCompanyName());
+		companyForm.setCompanyId(createFormDto.getCompanyId());
+		companyForm.setPrimaryPinCode(createFormDto.getPrimaryPinCode());
+		companyForm.setCountry(createFormDto.getCountry());
+
+		companyForm.setGstType(createFormDto.getGstType());
+		companyForm.setGstDocuments(createFormDto.getGstDocuments());
+		companyForm.setGstNo(createFormDto.getGstNo());
+		companyForm.setCompanyAge(createFormDto.getCompanyAge());
+
+		companyForm.setSAddress(createFormDto.getSAddress());
+		companyForm.setSCity(createFormDto.getSCity());
+		companyForm.setSState(createFormDto.getSState());
+		companyForm.setSecondaryPinCode(createFormDto.getSecondaryPinCode());
+		companyForm.setSCountry(createFormDto.getSCountry());
+
+		companyForm.setStatus(createFormDto.getStatus());
+		companyForm.setIsPresent(createFormDto.getIsPresent());
+		companyForm.setIsUnit(createFormDto.getIsUnit());
+		companyForm.setStatus("Initiated");
+		companyForm.setPanNo(createFormDto.getPanNo());
+
+		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+		companyForm.setContactName(createFormDto.getContactName());
+		companyForm.setContactEmails(createFormDto.getContactEmails());
+		companyForm.setContactNo(createFormDto.getContactNo());
+		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
+
+		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+		System.out.println(createFormDto.getSContactName());
+		companyForm.setSContactName(createFormDto.getSContactName());
+		System.out.println(createFormDto.getSContactEmails());
+
+		companyForm.setSContactEmails(createFormDto.getSContactEmails());
+		companyForm.setSContactNo(createFormDto.getSContactNo());
+		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+		if(createFormDto.getUpdatedBy()!=null) {
+			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
+			companyForm.setUpdatedBy(user);
+		}
+
+		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
+		companyForm.setLead(lead);
+		companyForm.setPanNo(createFormDto.getPanNo());
+		companyForm.setState(createFormDto.getState());
+		companyFormRepo.save(companyForm);
+		return companyForm;
+	}
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM)
 	public List<Map<String,Object>> getAllCompanyForm(@RequestParam String status)
 	{
