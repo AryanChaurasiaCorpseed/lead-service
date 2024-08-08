@@ -15,7 +15,7 @@ public class CreateRemark {
 	List<String> file;
 	String type;
 	
-	̥
+	
 	public Long getLeadId() {
 		return leadId;
 	}

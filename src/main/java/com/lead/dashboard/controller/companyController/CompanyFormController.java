@@ -61,7 +61,7 @@ public class CompanyFormController {
 	ProjectRepository projectRepository;
 
 
-	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
+//	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
 	public CompanyForm createCompanyForm(@RequestBody CreateFormDto createFormDto)
 	{				
 		CompanyForm companyForm =  new CompanyForm();
@@ -133,18 +133,34 @@ public class CompanyFormController {
 	public CompanyForm createCompanyFormv2(@RequestBody CreateFormDto createFormDto)
 	{				
 		CompanyForm companyForm =  new CompanyForm();
-
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
+		Company comp=null;
+        if(createFormDto.getIsPresent()) {
+        	 comp = companyRepository.findById(createFormDto.getCompanyId()).get();
+        	
+        }
 		companyForm.setCompanyId(createFormDto.getCompanyId());
-
+        if(createFormDto.getIsPresent()) {
+        	 comp = companyRepository.findById(createFormDto.getCompanyId()).get();
+        	companyForm.setCompanyName(comp.getName());
+        	
+        }else {
+        	companyForm.setCompanyName(createFormDto.getCompanyName());
+        }
 		companyForm.setIsUnit(createFormDto.getIsUnit());
+		if(createFormDto.getIsUnit()) {
+			
+		}else {
+			
+		}
 		companyForm.setUnitName(createFormDto.getUnitName());
 		companyForm.setUnitId(createFormDto.getUnitId());
 
-		companyForm.setAddress(createFormDto.getAddress());
+		
 		companyForm.setAssigneeId(createFormDto.getAssigneeId());
-
+	    
+		companyForm.setAddress(createFormDto.getAddress());
 		companyForm.setCity(createFormDto.getCity());
 		companyForm.setCompanyAge(createFormDto.getCompanyAge());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
