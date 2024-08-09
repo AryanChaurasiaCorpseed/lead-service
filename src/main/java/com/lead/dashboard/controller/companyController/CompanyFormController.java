@@ -37,10 +37,14 @@ import com.lead.dashboard.repository.ContactRepo;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.repository.UserRepo;
+import com.lead.dashboard.service.CompanyFormService;
 import com.lead.dashboard.util.UrlsMapping;
 
 @RestController
 public class CompanyFormController {
+
+	//	@Autowired
+	//	CompanyFormService companyFormService;
 
 	@Autowired
 	CompanyFormRepo companyFormRepo;
@@ -61,7 +65,7 @@ public class CompanyFormController {
 	ProjectRepository projectRepository;
 
 
-//	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
+	//	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
 	public CompanyForm createCompanyForm(@RequestBody CreateFormDto createFormDto)
 	{				
 		CompanyForm companyForm =  new CompanyForm();
@@ -127,8 +131,8 @@ public class CompanyFormController {
 		companyFormRepo.save(companyForm);
 		return companyForm;
 	}
-	
-	
+
+
 	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
 	public CompanyForm createCompanyFormv2(@RequestBody CreateFormDto createFormDto)
 	{				
@@ -136,69 +140,158 @@ public class CompanyFormController {
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		Company comp=null;
-        if(createFormDto.getIsPresent()) {
-        	 comp = companyRepository.findById(createFormDto.getCompanyId()).get();
-        	
-        }
-		companyForm.setCompanyId(createFormDto.getCompanyId());
-        if(createFormDto.getIsPresent()) {
-        	 comp = companyRepository.findById(createFormDto.getCompanyId()).get();
-        	companyForm.setCompanyName(comp.getName());
-        	
-        }else {
-        	companyForm.setCompanyName(createFormDto.getCompanyName());
-        }
-		companyForm.setIsUnit(createFormDto.getIsUnit());
-		if(createFormDto.getIsUnit()) {
-			
-		}else {
-			
+		if(createFormDto.getIsPresent()) {
+			comp = companyRepository.findById(createFormDto.getCompanyId()).get();
+
 		}
-		companyForm.setUnitName(createFormDto.getUnitName());
-		companyForm.setUnitId(createFormDto.getUnitId());
-
-		
-		companyForm.setAssigneeId(createFormDto.getAssigneeId());
-	    
-		companyForm.setAddress(createFormDto.getAddress());
-		companyForm.setCity(createFormDto.getCity());
-		companyForm.setCompanyAge(createFormDto.getCompanyAge());
-		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setCompanyId(createFormDto.getCompanyId());
-		companyForm.setPrimaryPinCode(createFormDto.getPrimaryPinCode());
-		companyForm.setCountry(createFormDto.getCountry());
+		if(createFormDto.getIsPresent()&&comp!=null) { //if old company pick
+			//        	 comp = companyRepository.findById(createFormDto.getCompanyId()).get();
+			companyForm.setCompanyName(comp.getName());
 
-		companyForm.setGstType(createFormDto.getGstType());
-		companyForm.setGstDocuments(createFormDto.getGstDocuments());
-		companyForm.setGstNo(createFormDto.getGstNo());
-		companyForm.setCompanyAge(createFormDto.getCompanyAge());
+		}else {
+			companyForm.setIsPresent(createFormDto.getIsPresent());
+			companyForm.setCompanyId(createFormDto.getCompanyId());
+			companyForm.setCompanyName(createFormDto.getCompanyName());
 
-		companyForm.setSAddress(createFormDto.getSAddress());
-		companyForm.setSCity(createFormDto.getSCity());
-		companyForm.setSState(createFormDto.getSState());
-		companyForm.setSecondaryPinCode(createFormDto.getSecondaryPinCode());
-		companyForm.setSCountry(createFormDto.getSCountry());
-
-		companyForm.setStatus(createFormDto.getStatus());
-		companyForm.setIsPresent(createFormDto.getIsPresent());
+		}
 		companyForm.setIsUnit(createFormDto.getIsUnit());
+		if(createFormDto.getIsUnit()) {//new unit add 
+			System.out.println("aaaaaaaaaaaaaaaaaa");
+			companyForm.setUnitName(createFormDto.getUnitName());
+			companyForm.setAssigneeId(createFormDto.getAssigneeId());   
+			companyForm.setCompanyAge(createFormDto.getCompanyAge());
+			companyForm.setCompanyName(createFormDto.getCompanyName());
+
+			companyForm.setGstType(createFormDto.getGstType());
+			companyForm.setGstDocuments(createFormDto.getGstDocuments());
+			companyForm.setGstNo(createFormDto.getGstNo());
+			companyForm.setCompanyAge(createFormDto.getCompanyAge());
+
+		}
+		else {
+			System.out.println("cccccccccccccccccc");
+
+			if(!createFormDto.getIsPresent()) {
+
+				System.out.println("bbbbbbbbbbbb");
+
+				companyForm.setUnitName(createFormDto.getUnitName());
+				companyForm.setAssigneeId(createFormDto.getAssigneeId());   
+				companyForm.setCompanyAge(createFormDto.getCompanyAge());
+				companyForm.setCompanyName(createFormDto.getCompanyName());
+
+				companyForm.setGstType(createFormDto.getGstType());
+				companyForm.setGstDocuments(createFormDto.getGstDocuments());
+				companyForm.setGstNo(createFormDto.getGstNo());
+				companyForm.setCompanyAge(createFormDto.getCompanyAge());  
+
+			}else {
+				Company unit = companyRepository.findById(createFormDto.getUnitId()).get();
+				companyForm.setCompanyName(unit.getName());
+				companyForm.setUnitName(unit.getName());
+				companyForm.setUnitId(createFormDto.getUnitId());
+				//			companyForm.setAssigneeId(unit.getAssignee());  //Add Assignee Name 
+				companyForm.setCompanyAge(unit.getCompanyAge());
+
+				companyForm.setGstType(unit.getGstType());
+				companyForm.setGstDocuments(unit.getGstDocuments());
+				companyForm.setGstNo(unit.getGstNo());
+				companyForm.setCompanyAge(unit.getCompanyAge());
+
+				if(!createFormDto.getIsPrimaryAddress()) {
+					System.out.println("ddddddddddddddddddddddddd");
+
+					companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
+					companyForm.setAddress(unit.getAddress());
+					companyForm.setCity(unit.getCity());
+					companyForm.setState(unit.getState());
+					companyForm.setPrimaryPinCode(companyForm.getPrimaryPinCode());  //============== Pin Code not prsent===
+					companyForm.setCountry(unit.getCountry());
+
+				}
+				if(!createFormDto.getIsSecondaryAddress()) {
+					System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
+					companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
+					companyForm.setSAddress(unit.getSAddress());
+					companyForm.setSCity(unit.getSCity());
+					companyForm.setSState(unit.getSState());
+					companyForm.setSecondaryPinCode(companyForm.getSecondaryPinCode());  //============== Pin Code not prsent===
+					companyForm.setSCountry(unit.getSCountry());
+
+				}
+			}
+
+		}
+		if(createFormDto.getIsPrimaryAddress()) {
+			System.out.println("ffffffffffffffffffffffffff");
+			companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
+
+			companyForm.setAddress(createFormDto.getAddress());
+			companyForm.setCity(createFormDto.getCity());
+			companyForm.setState(createFormDto.getState());
+			companyForm.setPrimaryPinCode(createFormDto.getPrimaryPinCode());
+			companyForm.setCountry(createFormDto.getCountry());
+		}
+
+		if(createFormDto.getIsPrimaryAddress()) {
+			System.out.println("ggggggggggggggggg");
+			companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
+			companyForm.setSAddress(createFormDto.getSAddress());
+			companyForm.setSCity(createFormDto.getSCity());
+			companyForm.setSState(createFormDto.getSState());
+			companyForm.setSecondaryPinCode(createFormDto.getSecondaryPinCode());
+			companyForm.setSCountry(createFormDto.getSCountry());
+		}
+
+
+		if(createFormDto.isPrimaryContact()) {
+			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+			companyForm.setContactName(createFormDto.getContactName());
+			companyForm.setContactEmails(createFormDto.getContactEmails());
+			companyForm.setContactNo(createFormDto.getContactNo());
+			companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
+		}else {
+			Contact cont = contactRepo.findById(createFormDto.getContactId()).get();
+			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+			companyForm.setContactName(cont.getName());
+			companyForm.setContactEmails(cont.getEmails());
+			companyForm.setContactNo(cont.getContactNo());
+			companyForm.setContactWhatsappNo(cont.getWhatsappNo());
+		}
+
+		if(createFormDto.isSecondaryContact()) {
+			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+			companyForm.setSContactName(createFormDto.getSContactName());
+			companyForm.setSContactEmails(createFormDto.getSContactEmails());
+			companyForm.setSContactNo(createFormDto.getSContactNo());
+			companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+		}else {
+			Contact cont = contactRepo.findById(createFormDto.getSContactId()).get();
+			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+			companyForm.setSContactName(cont.getName());
+			companyForm.setSContactEmails(cont.getEmails());
+			companyForm.setSContactNo(cont.getContactNo());
+			companyForm.setSContactWhatsappNo(cont.getWhatsappNo());
+		}
 		companyForm.setStatus("Initiated");
 		companyForm.setPanNo(createFormDto.getPanNo());
 
-		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
-		companyForm.setContactName(createFormDto.getContactName());
-		companyForm.setContactEmails(createFormDto.getContactEmails());
-		companyForm.setContactNo(createFormDto.getContactNo());
-		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
-
-		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
-		System.out.println(createFormDto.getSContactName());
-		companyForm.setSContactName(createFormDto.getSContactName());
-		System.out.println(createFormDto.getSContactEmails());
-
-		companyForm.setSContactEmails(createFormDto.getSContactEmails());
-		companyForm.setSContactNo(createFormDto.getSContactNo());
-		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+		//		companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+		//		companyForm.setContactName(createFormDto.getContactName());
+		//		companyForm.setContactEmails(createFormDto.getContactEmails());
+		//		companyForm.setContactNo(createFormDto.getContactNo());
+		//		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
+		//
+		//		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+		//		System.out.println(createFormDto.getSContactName());
+		//		companyForm.setSContactName(createFormDto.getSContactName());
+		//		System.out.println(createFormDto.getSContactEmails());
+		//
+		//		companyForm.setSContactEmails(createFormDto.getSContactEmails());
+		//		companyForm.setSContactNo(createFormDto.getSContactNo());
+		//		  Form.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
 		if(createFormDto.getUpdatedBy()!=null) {
 			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
@@ -207,7 +300,6 @@ public class CompanyFormController {
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
 		companyForm.setLead(lead);
 		companyForm.setPanNo(createFormDto.getPanNo());
-		companyForm.setState(createFormDto.getState());
 		companyFormRepo.save(companyForm);
 		return companyForm;
 	}
@@ -314,7 +406,7 @@ public class CompanyFormController {
 
 		return company;
 	}
-	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
+//	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
 	public Boolean AccountApprovalOnInvoice(String status,Long id,Long currentUserId){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
@@ -323,11 +415,11 @@ public class CompanyFormController {
 				Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
 				if(companyForm.getIsUnit()) {
 					Company unit = companyRepository.findById(id).get();
-					
+
 					List<Lead> leadList = unit.getCompanyLead();
 					leadList.add(companyForm.getLead());
 					unit.setCompanyLead(leadList);
-					
+
 					unit.setStatus("open");
 					Project p = new Project();
 					p.setName(companyForm.getLead().getName());
@@ -437,7 +529,7 @@ public class CompanyFormController {
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
 					List<Project> projectList = new ArrayList<>();
-//					List<Project> projectList = unit.getCompanyProject();
+					//					List<Project> projectList = unit.getCompanyProject();
 					if(unit.getCompanyProject()!=null) {
 						projectList.addAll(unit.getCompanyProject());
 					}
@@ -540,6 +632,260 @@ public class CompanyFormController {
 		}
 		return flag;
 	}
+
+	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
+	public Boolean AccountApprovalOnInvoiceV2(String status,Long id,Long currentUserId){
+		CompanyForm companyForm = companyFormRepo.findById(id).get();
+		Boolean flag=false;
+		if("approved".equals(status)) {
+			if(companyForm.getIsPresent()) {
+				Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
+				if(companyForm.getIsUnit()) {
+					Company unit = companyRepository.findById(id).get();
+
+					List<Lead> leadList = unit.getCompanyLead();
+					leadList.add(companyForm.getLead());
+					unit.setCompanyLead(leadList);
+
+					unit.setStatus("open");
+					
+					Project p = new Project();
+					p.setName(companyForm.getLead().getName());
+					p.setLead(companyForm.getLead());
+					User assignee = unit.getAssignee();
+					p.setAssignee(assignee);
+					
+					//Contact
+					Contact c=null;
+					if(companyForm.isPrimaryContact()) {
+						 c = new Contact();
+						
+						c.setName(companyForm.getContactName());
+						c.setContactNo(companyForm.getContactNo());
+						c.setEmails(companyForm.getContactEmails());
+						c.setWhatsappNo(companyForm.getContactWhatsappNo());
+						c.setDeleteStatus(false);
+						contactRepo.save(c);
+					}else {
+						c=contactRepo.findById(companyForm.getContactId()).get();
+					}	
+					
+					unit.setPrimaryContact(c);
+					
+					// SecondaryContact
+					Contact sc=null;
+					if(companyForm.isSecondaryContact()) {
+						 sc = new Contact();
+						sc.setName(companyForm.getSContactName());
+						sc.setContactNo(companyForm.getSContactNo());
+						sc.setEmails(companyForm.getSContactEmails());
+						sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+						sc.setDeleteStatus(false);
+						contactRepo.save(sc);
+
+					}else {
+						sc=contactRepo.findById(companyForm.getSContactId()).get();
+					}
+					unit.setSecondaryContact(sc);
+
+					//ADDRESS
+					
+					
+					p.setStatus("initiated");
+					p.setCreateDate(new Date());
+					List<Project> projectList = unit.getCompanyProject();
+					projectList.add(p);
+					unit.setCompanyProject(projectList);
+					if(currentUserId!=null) {
+						User user = userRepo.findById(currentUserId).get();
+						companyForm.setUpdatedBy(user);
+					}
+					p.setCompany(unit);
+					companyRepository.save(unit);
+					companyForm.setStatus(status);
+					companyFormRepo.save(companyForm);
+					flag=true;
+
+				}else {
+					Company unit = new Company();
+					unit.setName(companyForm.getCompanyName());
+					//					company.setAssignee(assignee);
+					unit.setCompanyAge(companyForm.getCompanyAge());
+					unit.setStatus("open");
+
+
+					unit.setGstNo(companyForm.getGstNo());
+					unit.setGstType(companyForm.getGstType());
+					unit.setGstDocuments(companyForm.getGstDocuments());
+					unit.setCompanyAge(companyForm.getCompanyAge());
+
+					unit.setAddress(companyForm.getAddress());
+					unit.setCity(companyForm.getCity());
+					unit.setState(companyForm.getState());
+					unit.setCountry(companyForm.getCountry());
+
+					unit.setSAddress(companyForm.getSAddress());
+					unit.setSCity(companyForm.getSCity());
+					unit.setSState(companyForm.getSState());
+					unit.setSCountry(companyForm.getSCountry());
+					if(currentUserId!=null) {
+						User user = userRepo.findById(currentUserId).get();
+						companyForm.setUpdatedBy(user);
+					}
+
+					//Contact
+					Contact c=null;
+					if(companyForm.isPrimaryContact()) {
+						 c = new Contact();
+						
+						c.setName(companyForm.getContactName());
+						c.setContactNo(companyForm.getContactNo());
+						c.setEmails(companyForm.getContactEmails());
+						c.setWhatsappNo(companyForm.getContactWhatsappNo());
+						c.setDeleteStatus(false);
+						contactRepo.save(c);
+					}else {
+						c=contactRepo.findById(companyForm.getContactId()).get();
+					}	
+					unit.setPrimaryContact(c);
+					
+					// SecondaryContact
+					Contact sc=null;
+					if(companyForm.isSecondaryContact()) {
+						 sc = new Contact();
+						sc.setName(companyForm.getSContactName());
+						sc.setContactNo(companyForm.getSContactNo());
+						sc.setEmails(companyForm.getSContactEmails());
+						sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+						sc.setDeleteStatus(false);
+						contactRepo.save(sc);
+
+					}else {
+						sc=contactRepo.findById(companyForm.getSContactId()).get();
+					}
+					unit.setSecondaryContact(sc);
+
+
+					Lead lead = companyForm.getLead();
+					List<Lead>leadList =new ArrayList<>();
+					leadList.add(lead);
+					unit.setCompanyLead(leadList);
+					unit.setParent(false);
+					unit.setParent(parentCompany);
+
+					Project p = new Project();
+					p.setName(companyForm.getLead().getName());
+					p.setLead(companyForm.getLead());
+					User assignee = unit.getAssignee();
+
+					p.setAssignee(assignee);
+					p.setStatus("initiated");
+					p.setCreateDate(new Date());
+					List<Project> projectList = new ArrayList<>();
+					//					List<Project> projectList = unit.getCompanyProject();
+					if(unit.getCompanyProject()!=null) {
+						projectList.addAll(unit.getCompanyProject());
+					}
+					projectList.add(p);
+					unit.setCompanyProject(projectList);
+					//					p.setCompany(unit);
+					companyRepository.save(unit);
+					companyForm.setStatus(status);
+					companyFormRepo.save(companyForm);
+					flag=true;
+
+				}
+
+
+			}else {
+				User assignee = userRepo.findById(companyForm.getAssigneeId()).get();
+
+				Company company = new Company();
+				company.setName(companyForm.getCompanyName());
+				company.setAssignee(assignee);
+
+				company.setGstNo(companyForm.getGstNo());
+				company.setGstType(companyForm.getGstType());
+				company.setGstDocuments(companyForm.getGstDocuments());		
+				company.setCompanyAge(companyForm.getCompanyAge());
+				company.setAssignee(assignee);
+				company.setStatus("open");
+				Lead lead = companyForm.getLead();
+				List<Lead>leadList = new ArrayList<>();
+				if(lead!=null) {
+					leadList.add(lead);
+
+				}
+				company.setCompanyLead(leadList);
+				company.setParent(true);
+				if(currentUserId!=null) {
+					User user = userRepo.findById(currentUserId).get();
+					companyForm.setUpdatedBy(user);
+				}
+
+				//company
+				Contact c=null;
+				if(!companyForm.isPrimaryContact()){
+					c=contactRepo.findById(companyForm.getContactId()).get();
+				}else {
+					c = new Contact();
+					c.setName(companyForm.getContactName());
+					c.setContactNo(companyForm.getContactNo());
+					c.setEmails(companyForm.getContactEmails());
+					c.setWhatsappNo(companyForm.getContactWhatsappNo());
+					c.setDeleteStatus(false);
+					contactRepo.save(c);
+
+				}
+
+				Contact sc=null;
+				if(!companyForm.isSecondaryContact()){
+					sc=contactRepo.findById(companyForm.getSContactId()).get();
+				}else {
+					sc = new Contact();
+
+					sc.setName(companyForm.getSContactName());
+					sc.setContactNo(companyForm.getSContactNo());
+					sc.setEmails(companyForm.getSContactEmails());
+					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+					sc.setDeleteStatus(false);
+					contactRepo.save(sc);
+
+				}
+				company.setPrimaryContact(c);
+				company.setSecondaryContact(sc);
+
+
+
+				//Assignee
+
+				Project p = new Project();
+				p.setName(companyForm.getLead().getName());
+				p.setLead(companyForm.getLead());
+
+				p.setAssignee(assignee);
+				p.setStatus("initiated");
+				p.setCreateDate(new Date());
+				List<Project> projectList =new ArrayList<>();
+				projectList.add(p);
+				company.setCompanyProject(projectList);
+				//				p.setCompany(unit);
+				companyRepository.save(company);
+				companyForm.setStatus(status);
+				companyFormRepo.save(companyForm);
+				flag=true;
+
+			}
+
+		}else {
+			companyForm.setStatus(status);
+			companyFormRepo.save(companyForm);
+			flag=true;
+
+		}
+		return flag;
+	}
+
 
 
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_V2)
@@ -708,25 +1054,25 @@ public class CompanyFormController {
 
 	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS)
 	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size)
+			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		List<CompanyForm> compList  = new ArrayList<>();
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
-//			compList = companyFormRepo.findAllByStatus(status);
-			
+			//			compList = companyFormRepo.findAllByStatus(status);
+
 			Pageable pageable = PageRequest.of(page, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
 			compList=comp.getContent();
 
-	         		  
+
 		}else {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 			compList=comp.getContent();
-//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
+			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
 		}
 		//		
 		for(CompanyForm c:compList) {
