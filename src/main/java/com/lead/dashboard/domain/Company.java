@@ -47,13 +47,14 @@ public class Company {
 	String City;
 	String State;
 	String Country;
-	
+	String primaryPinCode;	
 	
 	//secondary address
 	String sAddress;
 	String sCity;
 	String sState;
 	String sCountry;
+	String secondaryPinCode;
 
 	
 	@ManyToOne
