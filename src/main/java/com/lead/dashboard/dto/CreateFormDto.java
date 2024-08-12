@@ -10,7 +10,7 @@ public class CreateFormDto {
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 	
-	Boolean isUnit;
+	boolean isUnit;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 	
