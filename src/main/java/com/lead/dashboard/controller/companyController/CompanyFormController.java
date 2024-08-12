@@ -1135,7 +1135,7 @@ public class CompanyFormController {
 	{				
 		CompanyForm companyForm =  new CompanyForm();
 		companyForm.setIsPresent(createFormDto.getIsPresent());
-		
+		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		Company comp=null;
 		if(createFormDto.getIsPresent()) {
@@ -1306,6 +1306,7 @@ public class CompanyFormController {
 					unit.setStatus("open");
 					
 					Project p = new Project();
+				
 					p.setName(companyForm.getLead().getName());
 					p.setLead(companyForm.getLead());
 					User assignee = unit.getAssignee();
