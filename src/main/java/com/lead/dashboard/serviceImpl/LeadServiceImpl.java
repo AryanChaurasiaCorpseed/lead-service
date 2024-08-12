@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
+import com.lead.dashboard.controller.companyController.CompanyFormController;
 import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
@@ -56,6 +57,9 @@ public class LeadServiceImpl implements LeadService  {
 	MailSendSerivceImpl mailSendSerivceImpl;
 	@Autowired
 	CommonServices commonServices;
+	
+	@Autowired
+	CompanyFormController companyFormController;
 	
 	@Autowired
 	SlugRepository slugRepository;
@@ -257,7 +261,12 @@ public class LeadServiceImpl implements LeadService  {
 	
 	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
-		List<Lead> leadList = company.getCompanyLead();
+		List<Lead> leadList = company.getCompanyLead().stream().distinct().collect(Collectors.toList());
+		System.out.println("=======================================================");
+		System.out.println(leadList.size());
+//		System.out.println(leadList.get(0).getId());
+//		System.out.println(leadList.get(1).getId());
+
 		List<Project> result = new ArrayList<>();
 	    Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
 		for(Project p:projectList) {
@@ -1294,6 +1303,20 @@ public class LeadServiceImpl implements LeadService  {
 			flag=true;
 		}
 		leadRepository.save(lead);
+		return flag;
+	}
+	@Override
+	public Boolean leadAssignSamePerson(Long leadId) {
+			Boolean flag=false;
+		Company company = companyFormController.checkCompanyExistv2(leadId);
+		if(company!=null) {
+			User assignee = company.getAssignee();
+			Lead lead = leadRepository.findById(leadId).get();
+			lead.setAssignee(assignee);
+			leadRepository.save(lead);
+			flag=true;
+		}
+
 		return flag;
 	}
  

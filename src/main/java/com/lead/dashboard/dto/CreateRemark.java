@@ -13,6 +13,7 @@ public class CreateRemark {
 	Long userId;
 	String message;
 	List<String> file;
+	String type;
 	
 	
 	public Long getLeadId() {
@@ -38,6 +39,12 @@ public class CreateRemark {
 	}
 	public void setFile(List<String> file) {
 		this.file = file;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

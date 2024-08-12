@@ -40,6 +40,7 @@ public interface LeadService {
 	Boolean updateLeadOriginalName(UpdateLeadOriginal updateLeadOriginal);
 	List<Map<String, Object>> getAllLeadNameAndId();
 	Boolean updateHelper(Long userId, Long leadId);
+	Boolean leadAssignSamePerson(Long leadId);
 
 
 
