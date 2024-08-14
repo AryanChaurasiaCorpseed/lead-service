@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.lead.dashboard.domain.Department;
 import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.dto.DepartmentDto;
+import com.lead.dashboard.dto.UpdateDepartment;
 import com.lead.dashboard.repository.DepartmentRepo;
 import com.lead.dashboard.repository.DesignationRepo;
 import com.lead.dashboard.service.DepartmentService;
@@ -49,6 +51,22 @@ public class DepartmentServiceImpl implements DepartmentService{
 		Department department = departmentRepo.findById(departmentId).get();
 		List<Designation> designationList = department.getDesignations();
 		return designationList;
+	}
+
+	@Override
+	public Boolean updateDepartment(UpdateDepartment updateDepartment) {
+		Boolean flag=false;
+		Department department = departmentRepo.findById(updateDepartment.getId()).get();
+		
+		department.setName(updateDepartment.getName());
+		
+		List<Designation> designationList = designationRepo.findAllByIdIn(updateDepartment.getDesignationIds());
+	
+		department.setDesignations(designationList);
+		updateDepartment.getWeightValue();
+		department.setDeleted(false);
+		departmentRepo.save(department);
+		return null;
 	}
 
 }
