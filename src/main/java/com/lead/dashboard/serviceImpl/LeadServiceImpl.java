@@ -20,6 +20,7 @@ import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
@@ -1320,6 +1321,12 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
  
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	public void createIvrLead(Long leadId) {
+         
+	
+	}
+
 		
 
 
