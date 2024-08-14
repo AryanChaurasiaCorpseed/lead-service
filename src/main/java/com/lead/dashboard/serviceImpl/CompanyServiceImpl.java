@@ -197,8 +197,19 @@ public class CompanyServiceImpl implements CompanyService {
 				map.put("product", p.getProduct());
 				map.put("status", p.getStatus());
 				map.put("client", p.getClient());
-				map.put("companyName", p.getCompany());
+				map.put("companyName", company.getName());
 				map.put("createDate", p.getCreateDate()); 
+				map.put("pAddress", p.getAddress());
+				map.put("pCity", p.getCity());
+				map.put("pState", p.getState());
+				map.put("pCountry", p.getCountry());
+				map.put("pPinCode", p.getPrimaryPinCode());
+				
+				map.put("sAddress", p.getSAddress());
+				map.put("sCity", p.getSCity());
+				map.put("sState", p.getSState());
+				map.put("sCountry", p.getSCountry());
+				map.put("sPinCode", p.getSecondaryPinCode());
 				result.add(map);
 			}
 		}

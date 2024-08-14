@@ -10,7 +10,7 @@ public class CreateFormDto {
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 	
-	Boolean isUnit;
+	boolean isUnit;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 	
@@ -23,7 +23,7 @@ public class CreateFormDto {
 	String companyAge;
 	
 	//primary
-	Boolean isPrimaryAddress;
+	Boolean isPrimaryAddress=true;
 	String Address;
 	String City;
 	String State;
@@ -32,7 +32,7 @@ public class CreateFormDto {
 	
 	
 	//secondary address
-	Boolean isSecondaryAddress;
+	Boolean isSecondaryAddress=true;
 	String sAddress;
 	String sCity;
 	String sState;
