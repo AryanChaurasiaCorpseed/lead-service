@@ -12,7 +12,7 @@ import com.lead.dashboard.dto.UpdateRatingDto;
 @Service
 public interface RatingService {
 
-	Ratings addUserRating(RatingDto ratingDto);
+	Ratings addUserRating(RatingDto ratingDto) throws Exception;
 
 	List<Map<String,Object>> getAllUserRating();
 

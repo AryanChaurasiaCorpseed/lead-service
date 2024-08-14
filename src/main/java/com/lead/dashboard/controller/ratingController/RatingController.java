@@ -24,7 +24,7 @@ public class RatingController {
 	RatingService ratingService;
 	
 	@PostMapping(UrlsMapping.ADD_USER_AND_RATING)
-	public Ratings addUserAndRating(@RequestBody RatingDto ratingDto)
+	public Ratings addUserAndRating(@RequestBody RatingDto ratingDto) throws Exception
 	{
 		Ratings rating=ratingService.addUserRating(ratingDto);
 		
