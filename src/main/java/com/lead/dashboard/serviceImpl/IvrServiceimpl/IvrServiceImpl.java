@@ -58,6 +58,7 @@ public class IvrServiceImpl implements IvrService {
 			e.printStackTrace();
 		}  
 	    Date endDate=null;
+	    System.out.println("date ..... "+new Date());
 	    try {
 	    	endDate=formatter.parse(endTime);
 		} catch (ParseException e) {

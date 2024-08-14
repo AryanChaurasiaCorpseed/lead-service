@@ -25,6 +25,8 @@ public class IvrData {
 	Date endTime;
 	String duration;
 	String recording;
+	
+	boolean flag;
 	public Long getId() {
 		return id;
 	}
@@ -90,6 +92,12 @@ public class IvrData {
 	}
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	public boolean isFlag() {
+		return flag;
+	}
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 	
 	
