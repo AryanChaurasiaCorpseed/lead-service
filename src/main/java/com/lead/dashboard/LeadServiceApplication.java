@@ -16,27 +16,29 @@ import com.lead.dashboard.util.Helper;
 @EnableFeignClients
 @EnableScheduling
 public class LeadServiceApplication  implements CommandLineRunner {
-	
+
 	@Autowired
 	private Helper helper;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LeadServiceApplication.class, args);
 	}
-	
-	   @Bean
-	   public RestTemplate getRestTemplate() {
-	      return new RestTemplate();
-	   }
 
-	
-	   
-		@Override
-		public void run(String... args) throws Exception {
-			String filePath = "D:/crm_client.csv";
-//			helper.processCsvFile(filePath);
-		}
-		
+	@Bean
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
+
+
+
+	@Override
+	public void run(String... args) throws Exception {
+		String filePath = "D:/Lead_Migration.xlsx";
+		String filePath1 = "D:/crm_client.csv";
+
+		helper.processLeadMigration(filePath,filePath1);
+	}
+
 
 }
   
