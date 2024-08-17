@@ -6,6 +6,7 @@ import com.lead.dashboard.domain.CompanyForm;
 import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.repository.product.ProductRepo;
+import com.lead.dashboard.serviceImpl.LeadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
@@ -17,14 +18,13 @@ import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class Helper {
@@ -65,56 +65,26 @@ public class Helper {
     @Autowired
     UrlsManagmentRepo urlsManagmentRepo;
 
+    @Autowired
+    LeadServiceImpl leadService;
+
+    private Map<String, String[]> crmClientData = new HashMap<>();
 
 
 
-//    public void processCsvFile(String filePath) {
-//        try (FileReader filereader = new FileReader(filePath);
-//             CSVReader csvReader = new CSVReaderBuilder(filereader).withCSVParser(new CSVParser()).build()) {
-//
-//            String[] nextLine;
-//            while ((nextLine = csvReader.readNext()) != null) {
-//                CreateFormDto companyRequestData = new CreateFormDto();
-//                companyRequestData.setCompanyName(nextLine[0]);
-//                companyRequestData.setAddress(nextLine[1]);
-//                companyRequestData.setCity(nextLine[2]);
-//                companyRequestData.setContactName(nextLine[3] + nextLine[4]);
-//                companyRequestData.setContactEmails(nextLine[5]);
-//                companyRequestData.setContactNo(nextLine[6]);
-//                companyRequestData.setPanNo(nextLine[7]);
-//                companyRequestData.setGstNo(nextLine[8]);
-//                companyRequestData.setAddedByInOldCrm(nextLine[9]);
-//                companyRequestData.setState(nextLine[10]);
-//                companyRequestData.setCountry(nextLine[11]);
-//                companyRequestData.setIsPresent(true);
-//                companyRequestData.setAssigneeId(1L);
-//                companyRequestData.setUpdatedBy(1L);
-//                companyRequestData.setLeadId(1L);
-//
-//                CompanyForm savedData= companyFormController.createCompanyForm(companyRequestData);
-//
-//                System.out.println(savedData+ "Saved Succesfully");
-//            }
-//
-//        } catch (IOException | CsvValidationException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("Error processing CSV file", e);
-//        }
-//    }
+    public void processLeadMigration(String leadMigrationFilePath, String crmClientFilePath) {
+        try (FileInputStream leadFile = new FileInputStream(leadMigrationFilePath);
+             XSSFWorkbook leadWorkbook = new XSSFWorkbook(leadFile)) {
 
 
-    public void processLeadMigration(String filePath, String crmClientFilePath) {
-        Set<String> phoneNumbers = readPhoneNumbersFromCsv(crmClientFilePath);
+            readCsvFile(crmClientFilePath);
 
 
+            Sheet leadSheet = leadWorkbook.getSheetAt(0);
+            Iterator<Row> leadRowIterator = leadSheet.iterator();
 
-        try (FileInputStream file = new FileInputStream(filePath);
-             XSSFWorkbook workbook = new XSSFWorkbook(file)) {  // XSSFWorkbook implements Closeable
 
-            Sheet sheet = workbook.getSheetAt(0); // Get the first sheet
-            Iterator<Row> rowIterator = sheet.iterator();
-
-            Row headerRow = rowIterator.next();  // Read the header line
+            Row leadHeaderRow = leadRowIterator.next();
 
             int leadNameIndex = -1;
             int customerNameIndex = -1;
@@ -122,9 +92,10 @@ public class Helper {
             int customerEmailIndex = -1;
             int statusIndex = -1;
 
-            for (Cell cell : headerRow) {
-                String columnName = cell.getStringCellValue();
-                switch (columnName.toUpperCase()) {
+
+            for (Cell cell : leadHeaderRow) {
+                String columnName = cell.getStringCellValue().trim().toUpperCase();
+                switch (columnName) {
                     case "LEAD_NAME":
                         leadNameIndex = cell.getColumnIndex();
                         break;
@@ -140,6 +111,9 @@ public class Helper {
                     case "STATUS":
                         statusIndex = cell.getColumnIndex();
                         break;
+                    default:
+                        System.out.println("Unknown column: " + columnName);
+                        break;
                 }
             }
 
@@ -147,19 +121,23 @@ public class Helper {
                 throw new IllegalArgumentException("One or more required columns not found");
             }
 
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
+            while (leadRowIterator.hasNext()) {
+                Row leadRow = leadRowIterator.next();
+                String status = getCellValueAsString(leadRow.getCell(statusIndex)).trim();
 
-                String status = getCellValueAsString(row.getCell(statusIndex));
                 if ("Deal won".equalsIgnoreCase(status)) {
-                    String customerPhone = getCellValueAsString(row.getCell(customerPhoneIndex));
-                    String customerEmail = getCellValueAsString(row.getCell(customerEmailIndex));
+                    String customerPhone = normalizePhoneNumber(getCellValueAsString(leadRow.getCell(customerPhoneIndex)).trim());
+                    String customerEmail = getCellValueAsString(leadRow.getCell(customerEmailIndex)).trim().toLowerCase();
 
-                    if (phoneNumbers.contains(customerPhone)) {
-                        System.out.println("Customer Phone: " + customerPhone);
-                        System.out.println("Customer Email: " + customerEmail);
+                    System.out.println("Searching for Phone: " + customerPhone + " and Email: " + customerEmail);
+
+                    String[] crmClientRow = crmClientData.get(customerPhone + "_" + customerEmail);
+                    if (crmClientRow != null) {
+                        // Print the matching rows from both lead_migration and crm_client
+                        System.out.println("Matched Lead Migration Row: " + getRowAsString(leadRow));
+                        System.out.println("Matched CRM Client Row: " + String.join(", ", crmClientRow));
                     } else {
-                        System.out.println("Phone number not found: " + customerPhone);
+                        System.out.println("No match found for Phone: " + customerPhone + " or Email: " + customerEmail);
                     }
                 }
             }
@@ -170,42 +148,17 @@ public class Helper {
         }
     }
 
-    private Set<String> readPhoneNumbersFromCsv(String filePath) {
-        Set<String> phoneNumbers = new HashSet<>();
-        try (FileReader fileReader = new FileReader(filePath);
-             CSVReader csvReader = new CSVReaderBuilder(fileReader).build()) {
+    private String normalizePhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replaceAll("\\D+", "");
 
-            String[] header = csvReader.readNext(); // Read header
-            int phoneIndex = -1;
-
-            if (header != null) {
-                for (int i = 0; i < header.length; i++) {
-                    if ("cregcontmobile".equalsIgnoreCase(header[i])) {
-                        phoneIndex = i;
-                        break;
-                    }
-                }
+        if (phoneNumber.length() > 10) {
+            if (phoneNumber.startsWith("91")) {
+                return phoneNumber.substring(phoneNumber.length() - 10);
             }
-
-            if (phoneIndex == -1) {
-                throw new IllegalArgumentException("Column 'cregcontmobile' not found in CSV");
-            }
-
-            String[] nextLine;
-            while ((nextLine = csvReader.readNext()) != null) {
-                if (nextLine.length > phoneIndex) {
-                    String phoneNumber = nextLine[phoneIndex];
-                    if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
-                        phoneNumbers.add(phoneNumber.trim());
-                    }
-                }
-            }
-
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error processing CSV file", e);
         }
-        return phoneNumbers;
+
+
+        return phoneNumber.length() == 10 ? phoneNumber : "";
     }
 
     private String getCellValueAsString(Cell cell) {
@@ -220,12 +173,7 @@ public class Helper {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     return sdf.format(cell.getDateCellValue());
                 } else {
-                    String numericValue = String.valueOf(cell.getNumericCellValue());
-                    if (numericValue.contains("E")) {
-                        BigDecimal bd = new BigDecimal(numericValue);
-                        return bd.toPlainString();
-                    }
-                    return numericValue;
+                    return String.valueOf((long) cell.getNumericCellValue());
                 }
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
@@ -237,5 +185,41 @@ public class Helper {
     }
 
 
+    private String getRowAsString(Row row) {
+        StringBuilder sb = new StringBuilder();
+        for (Cell cell : row) {
+            sb.append(getCellValueAsString(cell)).append(", ");
+        }
+        return sb.toString();
+    }
+
+    // Read CSV file and populate crmClientData map
+    private void readCsvFile(String csvFilePath) {
+        try (CSVReader csvReader = new CSVReader(new FileReader(csvFilePath))) {
+            String[] header = csvReader.readNext(); // Read header
+            if (header != null) {
+                System.out.println("Header: " + String.join(", ", header));
+            }
+
+            String[] values;
+            while ((values = csvReader.readNext()) != null) {
+                String phone = values[headerIndex("cregcontmobile", header)];
+                String email = values[headerIndex("cregcontemailid", header)];
+                crmClientData.put(normalizePhoneNumber(phone) + "_" + email.toLowerCase(), values);
+            }
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        }
+    }
+
+    private int headerIndex(String columnName, String[] header) {
+        for (int i = 0; i < header.length; i++) {
+            if (header[i].equalsIgnoreCase(columnName)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Column not found: " + columnName);
+    }
 
 }
