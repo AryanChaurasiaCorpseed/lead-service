@@ -3,7 +3,9 @@ package com.lead.dashboard.util;
 import com.lead.dashboard.config.CommonServices;
 import com.lead.dashboard.controller.companyController.CompanyFormController;
 import com.lead.dashboard.domain.CompanyForm;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CreateFormDto;
+import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.repository.product.ProductRepo;
 import com.lead.dashboard.serviceImpl.LeadServiceImpl;
@@ -68,6 +70,9 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
+
+
+
     private Map<String, String[]> crmClientData = new HashMap<>();
 
 
@@ -76,23 +81,24 @@ public class Helper {
         try (FileInputStream leadFile = new FileInputStream(leadMigrationFilePath);
              XSSFWorkbook leadWorkbook = new XSSFWorkbook(leadFile)) {
 
-
             readCsvFile(crmClientFilePath);
-
 
             Sheet leadSheet = leadWorkbook.getSheetAt(0);
             Iterator<Row> leadRowIterator = leadSheet.iterator();
 
-
             Row leadHeaderRow = leadRowIterator.next();
 
+            // Define indexes for all necessary columns
             int leadNameIndex = -1;
             int customerNameIndex = -1;
             int customerPhoneIndex = -1;
             int customerEmailIndex = -1;
+            int commentsIndex = -1;
+            int createdDateIndex = -1;
+            int generatedByIndex = -1;
             int statusIndex = -1;
 
-
+            // Map header columns to their indices
             for (Cell cell : leadHeaderRow) {
                 String columnName = cell.getStringCellValue().trim().toUpperCase();
                 switch (columnName) {
@@ -108,6 +114,15 @@ public class Helper {
                     case "CUSTOMER-EMAIL":
                         customerEmailIndex = cell.getColumnIndex();
                         break;
+                    case "COMMENTS":
+                        commentsIndex = cell.getColumnIndex();
+                        break;
+                    case "CREATED_DATE":
+                        createdDateIndex = cell.getColumnIndex();
+                        break;
+                    case "GENERATED_BY":
+                        generatedByIndex = cell.getColumnIndex();
+                        break;
                     case "STATUS":
                         statusIndex = cell.getColumnIndex();
                         break;
@@ -117,10 +132,14 @@ public class Helper {
                 }
             }
 
-            if (leadNameIndex == -1 || customerNameIndex == -1 || customerPhoneIndex == -1 || customerEmailIndex == -1 || statusIndex == -1) {
+            // Validate all required columns are present
+            if (leadNameIndex == -1 || customerNameIndex == -1 || customerPhoneIndex == -1 ||
+                    customerEmailIndex == -1 || statusIndex == -1 || commentsIndex == -1 ||
+                    createdDateIndex == -1 || generatedByIndex == -1) {
                 throw new IllegalArgumentException("One or more required columns not found");
             }
 
+            // Iterate over the rows
             while (leadRowIterator.hasNext()) {
                 Row leadRow = leadRowIterator.next();
                 String status = getCellValueAsString(leadRow.getCell(statusIndex)).trim();
@@ -133,8 +152,21 @@ public class Helper {
 
                     String[] crmClientRow = crmClientData.get(customerPhone + "_" + customerEmail);
                     if (crmClientRow != null) {
-                        // Print the matching rows from both lead_migration and crm_client
+                        LeadDTO leadDTO = new LeadDTO();
+                        leadDTO.setLeadName(getCellValueAsString(leadRow.getCell(leadNameIndex)));
+                        leadDTO.setName(getCellValueAsString(leadRow.getCell(customerNameIndex)));
+                        leadDTO.setMobileNo(customerPhone);
+                        leadDTO.setEmail(customerEmail);
+                        leadDTO.setLeadDescription(getCellValueAsString(leadRow.getCell(commentsIndex)));
+                        leadDTO.setCreatedById(1L);
+                        leadDTO.setDisplayStatus(status);
+
+                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+
                         System.out.println("Matched Lead Migration Row: " + getRowAsString(leadRow));
+
+                        CreateFormDto createFormDto= new  CreateFormDto();
+                        companyFormController.createCompanyForm(crmClientRow);
                         System.out.println("Matched CRM Client Row: " + String.join(", ", crmClientRow));
                     } else {
                         System.out.println("No match found for Phone: " + customerPhone + " or Email: " + customerEmail);
