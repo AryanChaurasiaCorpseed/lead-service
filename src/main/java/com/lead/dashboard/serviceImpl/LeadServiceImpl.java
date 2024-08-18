@@ -1327,7 +1327,47 @@ public class LeadServiceImpl implements LeadService  {
 	
 	}
 
-		
+	public Lead createLeadViaSheet(LeadDTO leadDTO) {
+		String email = leadDTO.getEmail();
+		if (email != null && email.equals("NA")) {
+			email = null;
+		}
+		List<Lead> leadList = leadRepository.findAllByEmailAndMobile(email, leadDTO.getMobileNo());
+		Lead lead = new Lead();
+
+		if (leadList != null && !leadList.isEmpty()) {
+			Long companyId = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+
+			if (companyId != null) {
+				Company company = companyRepository.findById(companyId).orElse(null);
+				if (company != null) {
+					String companyStatus = company.getStatus();
+					List<Project> projects = isLeadOpen(company, leadDTO.getLeadName());
+
+					if (projects.isEmpty()) {
+						lead = leadCreation(lead, leadDTO);
+					} else {
+
+						lead = leadList.get(0);
+					}
+				}
+			} else {
+				lead = leadList.get(0);
+				lead.setBacklogTask(true);
+				lead.setName(leadDTO.getLeadName());
+				lead.setOriginalName(leadDTO.getLeadName());
+				Status status = statusRepository.findAllByName("Deal won");
+				lead.setStatus(status);
+				lead.setAuto(false);
+				leadRepository.save(lead);
+			}
+		} else {
+
+			lead = leadCreation(lead, leadDTO);
+		}
+
+		return leadRepository.save(lead);
+	}
 
 
 }
