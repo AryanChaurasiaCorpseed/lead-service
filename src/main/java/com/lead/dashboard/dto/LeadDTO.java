@@ -6,11 +6,13 @@ import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LeadDTO {
 
 	String uuid;

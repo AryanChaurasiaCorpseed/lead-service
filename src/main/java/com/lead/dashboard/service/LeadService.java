@@ -43,6 +43,5 @@ public interface LeadService {
 	Boolean leadAssignSamePerson(Long leadId);
 
 
-
-
+	Lead createLeadViaSheet(LeadDTO leadDTO);
 }
