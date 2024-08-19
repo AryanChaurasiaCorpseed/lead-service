@@ -1328,46 +1328,56 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	public Lead createLeadViaSheet(LeadDTO leadDTO) {
+		if (leadDTO == null) {
+			throw new IllegalArgumentException("LeadDTO cannot be null");
+		}
+
+		if (leadDTO.getName() == null || leadDTO.getLeadName() == null || leadDTO.getMobileNo() == null) {
+			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
+		}
+
 		String email = leadDTO.getEmail();
 		if (email != null && email.equals("NA")) {
 			email = null;
 		}
+
 		List<Lead> leadList = leadRepository.findAllByEmailAndMobile(email, leadDTO.getMobileNo());
-		Lead lead = new Lead();
-
 		if (leadList != null && !leadList.isEmpty()) {
-			Long companyId = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
-
-			if (companyId != null) {
-				Company company = companyRepository.findById(companyId).orElse(null);
-				if (company != null) {
-					String companyStatus = company.getStatus();
-					List<Project> projects = isLeadOpen(company, leadDTO.getLeadName());
-
-					if (projects.isEmpty()) {
-						lead = leadCreation(lead, leadDTO);
-					} else {
-
-						lead = leadList.get(0);
-					}
-				}
-			} else {
-				lead = leadList.get(0);
-				lead.setBacklogTask(true);
-				lead.setName(leadDTO.getLeadName());
-				lead.setOriginalName(leadDTO.getLeadName());
-				Status status = statusRepository.findAllByName("Deal won");
-				lead.setStatus(status);
-				lead.setAuto(false);
-				leadRepository.save(lead);
-			}
-		} else {
-
-			lead = leadCreation(lead, leadDTO);
+			int size = leadList.size();
+			leadDTO.setLeadName("(Duplicate - " + size + " )" + leadDTO.getLeadName());
 		}
 
+		Lead lead = new Lead();
+		lead.setOriginalName(leadDTO.getLeadName());
+		lead.setName(leadDTO.getName());
+		lead.setLeadDescription(leadDTO.getLeadDescription());
+		lead.setMobileNo(leadDTO.getMobileNo());
+		lead.setEmail(email);
+		lead.setUrls(leadDTO.getUrls());
+		lead.setAuto(true);
+		lead.setIsUrlsChecked(true);
+		lead.setCreateDate(new Date()); // Ensure this is correct for your use case
+		lead.setView(false);
+		lead.setLastUpdated(new Date());
+		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
+		lead.setCity(leadDTO.getCity());
+		lead.setCategoryId(leadDTO.getCategoryId());
+		lead.setServiceId(leadDTO.getServiceId());
+		lead.setIndustryId(leadDTO.getIndustryId());
+		lead.setIpAddress(leadDTO.getIpAddress());
+		lead.setDisplayStatus(leadDTO.getDisplayStatus());
+		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
+		lead.setUuid(commonServices.getUuid());
+
+		Status status = statusRepository.findByStatusName("New");
+		System.out.println("Status "+ status);
+		if (status == null) {
+			throw new IllegalStateException("Status 'New' not found in the database");
+		}
+		lead.setStatus(status);
+
+		// Save the lead
 		return leadRepository.save(lead);
 	}
-
 
 }
