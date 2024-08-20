@@ -1350,6 +1350,7 @@ public class LeadServiceImpl implements LeadService  {
 		Lead lead = new Lead();
 		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
+		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(email);
@@ -1361,6 +1362,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setLastUpdated(new Date());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		lead.setCity(leadDTO.getCity());
+		lead.setSource("Corpseed Website");
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
 		lead.setIndustryId(leadDTO.getIndustryId());
