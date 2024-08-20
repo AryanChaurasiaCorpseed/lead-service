@@ -1,33 +1,24 @@
 package com.lead.dashboard.util;
 
 import com.lead.dashboard.config.CommonServices;
-import com.lead.dashboard.controller.companyController.CompanyFormController;
-import com.lead.dashboard.domain.CompanyForm;
-import com.lead.dashboard.domain.Status;
-import com.lead.dashboard.domain.User;
+import com.lead.dashboard.controller.companyController.CompanyController;
+import com.lead.dashboard.domain.*;
 import com.lead.dashboard.domain.lead.Lead;
-import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.dto.LeadDTO;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.repository.product.ProductRepo;
 import com.lead.dashboard.serviceImpl.LeadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
-import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
-import io.micrometer.core.instrument.MultiGauge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -35,7 +26,7 @@ import java.util.*;
 public class Helper {
 
     @Autowired
-    private CompanyFormController companyFormController;
+    private CompanyController companyController;
 
     @Autowired
     LeadRepository leadRepository;
@@ -46,6 +37,10 @@ public class Helper {
 
     @Autowired
     SlugRepository slugRepository;
+
+    @Autowired
+
+    ContactRepo contactRepo;
     @Autowired
     UserRepo userRepo;
 
@@ -60,6 +55,9 @@ public class Helper {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    CompanyFormRepo companyFormRepo;
 
     @Autowired
     StatusRepository statusRepository;
@@ -77,12 +75,14 @@ public class Helper {
 
 
 
-    public void processLeadMigration(String leadMigrationFilePath, String crmClientFilePath) {
+    public void processLeadMigration(String leadMigrationFilePath, String crmClientFilePath, String projects) {
         try (FileInputStream leadFile = new FileInputStream(leadMigrationFilePath);
              XSSFWorkbook leadWorkbook = new XSSFWorkbook(leadFile)) {
 
             // Read the CRM client data from the CSV file
             readCsvFile(crmClientFilePath);
+            processProjectsFile(projects);
+
 
             Sheet leadSheet = leadWorkbook.getSheetAt(0);
             Iterator<Row> leadRowIterator = leadSheet.iterator();
@@ -140,14 +140,12 @@ public class Helper {
                 Row leadRow = leadRowIterator.next();
                 String status = getCellValueAsString(leadRow.getCell(statusIndex)).trim();
 
-                // Only process leads with a "Deal won" status
                 if ("Deal won".equalsIgnoreCase(status)) {
                     String customerPhone = normalizePhoneNumber(getCellValueAsString(leadRow.getCell(customerPhoneIndex)).trim());
                     String customerEmail = getCellValueAsString(leadRow.getCell(customerEmailIndex)).trim().toLowerCase();
 
                     System.out.println("Searching for Phone: " + customerPhone + " and Email: " + customerEmail);
 
-                    // Try to match the lead data with the CRM client data
                     String[] crmClientRow = crmClientData.get(customerPhone + "_" + customerEmail);
 
                     // Create LeadDTO and save the lead data
@@ -165,20 +163,56 @@ public class Helper {
                     System.out.println("Lead created: " + savedLead);
 
                     if (crmClientRow != null) {
-                        // Print the matching rows from both lead_migration and crm_client
-                        System.out.println("Matched Lead Migration Row: " + getRowAsString(leadRow));
-                        System.out.println("Matched CRM Client Row: " + String.join(", ", crmClientRow));
 
-                        CreateFormDto companyRequestData = new CreateFormDto();
+                        String companyName = crmClientRow[0];
+                        Company existingCompanyOpt = companyRepository.findByName(companyName);
 
-                        companyRequestData.setCompanyName(crmClientRow[0]);
-                        companyRequestData.setIsPresent(true);
-                        companyRequestData.setAssigneeId(1L);
-                        companyRequestData.setUpdatedBy(1L);
-                        companyRequestData.setLeadId(savedLead.getId());
+                        if (existingCompanyOpt!=null) {
+                            System.out.println("Company with name " + companyName + " already exists. Skipping save.");
+                        } else {
+                            System.out.println("Matched Lead Migration Row: " + getRowAsString(leadRow));
+                            System.out.println("Matched CRM Client Row: " + String.join(", ", crmClientRow));
 
-                        CompanyForm savedCompanyForm = companyFormController.createCompanyForm(companyRequestData);
-                        System.out.println("CompanyForm created: " + savedCompanyForm);
+                            Contact primaryContact = new Contact();
+                            primaryContact.setName(crmClientRow[3] + " " + crmClientRow[4]);
+                            primaryContact.setEmails(crmClientRow[6]);
+                            primaryContact.setContactNo(crmClientRow[7]);
+
+                            Contact savedContact = contactRepo.save(primaryContact);
+
+                            Company company = new Company();
+                            company.setName(companyName);
+                            company.setAddress(crmClientRow[1]);
+                            company.setCity(crmClientRow[2]);
+                            company.setPrimaryContact(savedContact);
+
+                            company.setPanNo(crmClientRow[8]);
+                            company.setGstNo(crmClientRow[9]);
+                            company.setState(crmClientRow[11]);
+                            company.setCountry(crmClientRow[12]);
+
+                            List<Lead> leads = new ArrayList<>();
+                            leads.add(savedLead);
+                            company.setCompanyLead(leads);
+
+                            processProjectsFile(projects);
+
+
+                            Company savedCompanyForm = companyRepository.save(company);
+
+                            if (savedCompanyForm != null)
+                            {
+                                processProjectsFile(projects);
+
+                                Project project = new Project();
+//
+//                                project.setCompany(savedCompanyForm);
+                            }
+
+
+
+                            System.out.println("CompanyForm created: " + savedCompanyForm);
+                        }
                     } else {
                         System.out.println("No matching CRM client found for Phone: " + customerPhone + " or Email: " + customerEmail);
                     }
@@ -190,6 +224,60 @@ public class Helper {
             throw new RuntimeException("Error processing Excel file", e);
         }
     }
+
+    private void processProjectsFile(String projectsFilePath) {
+        try (FileInputStream projectFile = new FileInputStream(projectsFilePath);
+             XSSFWorkbook projectWorkbook = new XSSFWorkbook(projectFile)) {
+
+            Sheet projectSheet = projectWorkbook.getSheetAt(0);
+            Iterator<Row> projectRowIterator = projectSheet.iterator();
+
+            // Read the header row
+            Row projectHeaderRow = projectRowIterator.next();
+
+            // Debugging: Print header columns to ensure correct reading
+            System.out.println("Project Header Columns:");
+            for (Cell cell : projectHeaderRow) {
+                System.out.print(cell.getStringCellValue() + " | ");
+            }
+            System.out.println();
+
+            // Iterate over each row in the project sheet
+            while (projectRowIterator.hasNext()) {
+                Row projectRow = projectRowIterator.next();
+
+                // Debugging: Print the row number
+                System.out.println("Processing Row: " + projectRow.getRowNum());
+
+                String soldDate = getCellValueAsString(projectRow.getCell(0)).trim();
+                String invoice = getCellValueAsString(projectRow.getCell(1)).trim();
+                String estimateNo = getCellValueAsString(projectRow.getCell(2)).trim();
+                String projectNo = getCellValueAsString(projectRow.getCell(3)).trim();
+                String serviceName = getCellValueAsString(projectRow.getCell(4)).trim();
+                String companyName = getCellValueAsString(projectRow.getCell(5)).trim();
+                String contactName = getCellValueAsString(projectRow.getCell(6)).trim();
+                String contactEmail = getCellValueAsString(projectRow.getCell(7)).trim();
+                String contactMobileFirst = getCellValueAsString(projectRow.getCell(8)).trim();
+                String contactMobileSecond = getCellValueAsString(projectRow.getCell(9)).trim();
+                String soldBy = getCellValueAsString(projectRow.getCell(10)).trim();
+                String deliveryDate = getCellValueAsString(projectRow.getCell(11)).trim();
+                String gst = getCellValueAsString(projectRow.getCell(12)).trim();
+                String address = getCellValueAsString(projectRow.getCell(13)).trim();
+
+                // Print the read values
+                System.out.println("Sold Date: " + soldDate + ", Invoice: " + invoice + ", Estimate No: " + estimateNo +
+                        ", Project No: " + projectNo + ", Service Name: " + serviceName + ", Company: " + companyName +
+                        ", Contact Name: " + contactName + ", Contact Email: " + contactEmail + ", Contact Mobile First: " + contactMobileFirst +
+                        ", Contact Mobile Second: " + contactMobileSecond + ", Sold By: " + soldBy + ", Delivery Date: " + deliveryDate +
+                        ", GST: " + gst + ", Address: " + address);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error processing projects Excel file", e);
+        }
+    }
+
 
 
     private String normalizePhoneNumber(String phoneNumber) {
@@ -266,81 +354,81 @@ public class Helper {
         throw new IllegalArgumentException("Column not found: " + columnName);
     }
 
-    public void savedRunningLead(String runningFile) {
-        try (FileInputStream inputStream = new FileInputStream(runningFile);
-             XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
-
-            Sheet sheet = workbook.getSheetAt(0);
-            DataFormatter dataFormatter = new DataFormatter();
-
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) {
-                    continue; // Skip header row
-                }
-
-                String leadName = dataFormatter.formatCellValue(row.getCell(0));
-                String customerName = dataFormatter.formatCellValue(row.getCell(1));
-                String phone = dataFormatter.formatCellValue(row.getCell(2));
-                String customerEmail = dataFormatter.formatCellValue(row.getCell(3)); // Adjust index if needed
-                String comments = dataFormatter.formatCellValue(row.getCell(4)); // Adjust index if needed
-
-                // Handle startDate safely
-                Date startDate = null;
-                Cell startDateCell = row.getCell(5); // Adjust index if needed
-                if (startDateCell != null) {
-                    if (startDateCell.getCellType() == CellType.STRING) {
-                        try {
-                            // Parse string to date if necessary
-                            String dateStr = startDateCell.getStringCellValue();
-                            startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
-                        } catch (ParseException e) {
-                            System.out.println("Date parsing error: " + e.getMessage());
-                        }
-                    } else if (startDateCell.getCellType() == CellType.NUMERIC) {
-                        startDate = startDateCell.getDateCellValue();
-                    }
-                }
-
-                String generatedFrom = dataFormatter.formatCellValue(row.getCell(6)); // Adjust index if needed
-                String userName = dataFormatter.formatCellValue(row.getCell(7)); // Adjust index if needed
-                String userEmail = dataFormatter.formatCellValue(row.getCell(8)); // Adjust index if needed
-                String statusName = dataFormatter.formatCellValue(row.getCell(9)); // Adjust index if needed
-
-                // Normalize phone number
-                if (phone.startsWith("91") && phone.length() > 10) {
-                    phone = phone.substring(2);
-                }
-
-                Status status = statusRepository.findByName(statusName);
-
-                if (status != null) {
-                    User assignTo = userRepo.findByemail(userEmail);
-
-                    if (assignTo != null) {
-                        Lead lead = new Lead();
-                        lead.setLeadName(leadName);
-                        lead.setName(customerName);
-                        lead.setMobileNo(phone);
-                        lead.setEmail(customerEmail);
-                        lead.setCreateDate(startDate);
-                        lead.setDisplayStatus("1"); // Adjust based on your requirements
-                        lead.setStatus(status);
-                        lead.setSource(generatedFrom);
-                        lead.setAssignee(assignTo);
-
-                        leadRepository.save(lead);
-                    } else {
-                        System.out.println("User not found for email: " + userEmail);
-                    }
-                } else {
-                    System.out.println("Status not found for: " + statusName);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void savedRunningLead(String runningFile) {
+//        try (FileInputStream inputStream = new FileInputStream(runningFile);
+//             XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
+//
+//            Sheet sheet = workbook.getSheetAt(0);
+//            DataFormatter dataFormatter = new DataFormatter();
+//
+//            for (Row row : sheet) {
+//                if (row.getRowNum() == 0) {
+//                    continue; // Skip header row
+//                }
+//
+//                String leadName = dataFormatter.formatCellValue(row.getCell(0));
+//                String customerName = dataFormatter.formatCellValue(row.getCell(1));
+//                String phone = dataFormatter.formatCellValue(row.getCell(2));
+//                String customerEmail = dataFormatter.formatCellValue(row.getCell(3)); // Adjust index if needed
+//                String comments = dataFormatter.formatCellValue(row.getCell(4)); // Adjust index if needed
+//
+//                // Handle startDate safely
+//                Date startDate = null;
+//                Cell startDateCell = row.getCell(5); // Adjust index if needed
+//                if (startDateCell != null) {
+//                    if (startDateCell.getCellType() == CellType.STRING) {
+//                        try {
+//                            // Parse string to date if necessary
+//                            String dateStr = startDateCell.getStringCellValue();
+//                            startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
+//                        } catch (ParseException e) {
+//                            System.out.println("Date parsing error: " + e.getMessage());
+//                        }
+//                    } else if (startDateCell.getCellType() == CellType.NUMERIC) {
+//                        startDate = startDateCell.getDateCellValue();
+//                    }
+//                }
+//
+//                String generatedFrom = dataFormatter.formatCellValue(row.getCell(6)); // Adjust index if needed
+//                String userName = dataFormatter.formatCellValue(row.getCell(7)); // Adjust index if needed
+//                String userEmail = dataFormatter.formatCellValue(row.getCell(8)); // Adjust index if needed
+//                String statusName = dataFormatter.formatCellValue(row.getCell(9)); // Adjust index if needed
+//
+//                // Normalize phone number
+//                if (phone.startsWith("91") && phone.length() > 10) {
+//                    phone = phone.substring(2);
+//                }
+//
+//                Status status = statusRepository.findByName(statusName);
+//
+//                if (status != null) {
+//                    User assignTo = userRepo.findByemail(userEmail);
+//
+//                    if (assignTo != null) {
+//                        Lead lead = new Lead();
+//                        lead.setLeadName(leadName);
+//                        lead.setName(customerName);
+//                        lead.setMobileNo(phone);
+//                        lead.setEmail(customerEmail);
+//                        lead.setCreateDate(startDate);
+//                        lead.setDisplayStatus("1"); // Adjust based on your requirements
+//                        lead.setStatus(status);
+//                        lead.setSource(generatedFrom);
+//                        lead.setAssignee(assignTo);
+//
+//                        leadRepository.save(lead);
+//                    } else {
+//                        System.out.println("User not found for email: " + userEmail);
+//                    }
+//                } else {
+//                    System.out.println("Status not found for: " + statusName);
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
