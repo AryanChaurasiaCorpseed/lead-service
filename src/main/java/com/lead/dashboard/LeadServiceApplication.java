@@ -36,11 +36,12 @@ public class LeadServiceApplication  implements CommandLineRunner {
 		String filePath = "D:/Lead_Migration.xlsx";
 		String filePath1 = "D:/crm_client.csv";
 		String running = "D:/running_lead.xlsx";
+		String projects = "D:/projects.xlsx";
 
 
-		helper.processLeadMigration(filePath,filePath1);
+		helper.processLeadMigration(filePath,filePath1,projects);
 
-		helper.savedRunningLead(running);
+//		helper.savedRunningLead(running);
 	}
 
 

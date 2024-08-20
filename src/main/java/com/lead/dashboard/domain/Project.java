@@ -44,7 +44,6 @@ public class Project implements Serializable{
 	
 	@ManyToOne	
 	@JsonBackReference
-
 	Product product;
 	
 	String status;
