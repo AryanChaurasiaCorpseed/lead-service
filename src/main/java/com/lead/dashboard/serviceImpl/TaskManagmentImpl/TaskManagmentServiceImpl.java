@@ -98,8 +98,8 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 	public Date convertTime(Date date) {
 		 Calendar calendar=Calendar.getInstance();
 	     calendar.setTime(date);
-	     calendar.add(Calendar.HOUR,-5);
-	     calendar.add(Calendar.MINUTE,-30);
+//	     calendar.add(Calendar.HOUR,-5);
+//	     calendar.add(Calendar.MINUTE,-30);
 		return calendar.getTime();
 	}
 	@Override
