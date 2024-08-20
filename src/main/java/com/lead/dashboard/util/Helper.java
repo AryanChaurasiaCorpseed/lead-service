@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -45,7 +46,6 @@ public class Helper {
 
     @Autowired
     SlugRepository slugRepository;
-
     @Autowired
     UserRepo userRepo;
 
@@ -73,41 +73,6 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
-
-    public void processCsvFile(String filePath) {
-        try (FileReader filereader = new FileReader(filePath);
-             CSVReader csvReader = new CSVReaderBuilder(filereader).withCSVParser(new CSVParser()).build()) {
-
-            String[] nextLine;
-            while ((nextLine = csvReader.readNext()) != null) {
-                CreateFormDto companyRequestData = new CreateFormDto();
-                companyRequestData.setCompanyName(nextLine[0]);
-                companyRequestData.setAddress(nextLine[1]);
-                companyRequestData.setCity(nextLine[2]);
-                companyRequestData.setContactName(nextLine[3] + nextLine[4]);
-                companyRequestData.setContactEmails(nextLine[5]);
-                companyRequestData.setContactNo(nextLine[6]);
-                companyRequestData.setPanNo(nextLine[7]);
-                companyRequestData.setGstNo(nextLine[8]);
-                companyRequestData.setAddedByInOldCrm(nextLine[9]);
-                companyRequestData.setState(nextLine[10]);
-                companyRequestData.setCountry(nextLine[11]);
-                companyRequestData.setIsPresent(true);
-                companyRequestData.setAssigneeId(1L);
-                companyRequestData.setUpdatedBy(1L);
-                companyRequestData.setLeadId(1L);
-
-                CompanyForm savedData= companyFormController.createCompanyForm(companyRequestData);
-
-                System.out.println(savedData+ "Saved Succesfully");
-            }
-
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error processing CSV file", e);
-        }
-    }
-
     private Map<String, String[]> crmClientData = new HashMap<>();
 
 
@@ -116,24 +81,24 @@ public class Helper {
         try (FileInputStream leadFile = new FileInputStream(leadMigrationFilePath);
              XSSFWorkbook leadWorkbook = new XSSFWorkbook(leadFile)) {
 
+            // Read the CRM client data from the CSV file
             readCsvFile(crmClientFilePath);
 
             Sheet leadSheet = leadWorkbook.getSheetAt(0);
             Iterator<Row> leadRowIterator = leadSheet.iterator();
 
+            // Read the header row and determine the indices of the necessary columns
             Row leadHeaderRow = leadRowIterator.next();
 
-            // Define indexes for all necessary columns
             int leadNameIndex = -1;
             int customerNameIndex = -1;
             int customerPhoneIndex = -1;
             int customerEmailIndex = -1;
-            int commentsIndex = -1;
+            int statusIndex = -1;
             int createdDateIndex = -1;
             int generatedByIndex = -1;
-            int statusIndex = -1;
+            int commentsIndex = -1;
 
-            // Map header columns to their indices
             for (Cell cell : leadHeaderRow) {
                 String columnName = cell.getStringCellValue().trim().toUpperCase();
                 switch (columnName) {
@@ -167,10 +132,7 @@ public class Helper {
                 }
             }
 
-            // Validate all required columns are present
-            if (leadNameIndex == -1 || customerNameIndex == -1 || customerPhoneIndex == -1 ||
-                    customerEmailIndex == -1 || statusIndex == -1 || commentsIndex == -1 ||
-                    createdDateIndex == -1 || generatedByIndex == -1) {
+            if (leadNameIndex == -1 || customerNameIndex == -1 || customerPhoneIndex == -1 || customerEmailIndex == -1 || statusIndex == -1) {
                 throw new IllegalArgumentException("One or more required columns not found");
             }
 
@@ -178,52 +140,57 @@ public class Helper {
                 Row leadRow = leadRowIterator.next();
                 String status = getCellValueAsString(leadRow.getCell(statusIndex)).trim();
 
-//                if ("Deal won".equalsIgnoreCase(status)) {
-//                    String customerPhone = normalizePhoneNumber(getCellValueAsString(leadRow.getCell(customerPhoneIndex)).trim());
-//                    String customerEmail = getCellValueAsString(leadRow.getCell(customerEmailIndex)).trim().toLowerCase();
-//
-//                    System.out.println("Searching for Phone: " + customerPhone + " and Email: " + customerEmail);
-//
-//                    String[] crmClientRow = crmClientData.get(customerPhone + "_" + customerEmail);
-//
-//                    LeadDTO leadDTO = new LeadDTO();
-//                    leadDTO.setLeadName(getCellValueAsString(leadRow.getCell(leadNameIndex)));
-//                    leadDTO.setName(getCellValueAsString(leadRow.getCell(customerNameIndex)));
-//                    leadDTO.setMobileNo(customerPhone);
-//                    leadDTO.setEmail(customerEmail);
-//                    leadDTO.setLeadDescription(getCellValueAsString(leadRow.getCell(commentsIndex)));
-//                    leadDTO.setCreatedById(1L);
-//                    leadDTO.setDisplayStatus(status);
-//
-//                    // Create the Lead entity first
-//                    Lead savedLead = leadService.createLeadViaSheet(leadDTO);
-//                    System.out.println("Lead created: " + savedLead);
-//
-//                    if (crmClientRow != null) {
-//                        CreateFormDto companyRequestData = new CreateFormDto();
-//
-//                        String companyName = crmClientRow[1];
-//                        companyRequestData.setCompanyName(companyName);
-//
-//                        companyRequestData.setIsPresent(true);
-//                        companyRequestData.setAssigneeId(1L);
-//                        companyRequestData.setUpdatedBy(1L);
-//                        companyRequestData.setLeadId(savedLead.getId());
-//
-//                        // Create the CompanyForm entity
-////                        CompanyForm savedCompanyForm = companyFormController.createCompanyForm(companyRequestData);
-////                        System.out.println("CompanyForm created: " + savedCompanyForm);
-//                    } else {
-//                        // No matching CRM client data found, only Lead will be created
-//                        System.out.println("No matching CRM client found for Phone: " + customerPhone + " or Email: " + customerEmail);
-//                    }
-//                }
+                // Only process leads with a "Deal won" status
+                if ("Deal won".equalsIgnoreCase(status)) {
+                    String customerPhone = normalizePhoneNumber(getCellValueAsString(leadRow.getCell(customerPhoneIndex)).trim());
+                    String customerEmail = getCellValueAsString(leadRow.getCell(customerEmailIndex)).trim().toLowerCase();
+
+                    System.out.println("Searching for Phone: " + customerPhone + " and Email: " + customerEmail);
+
+                    // Try to match the lead data with the CRM client data
+                    String[] crmClientRow = crmClientData.get(customerPhone + "_" + customerEmail);
+
+                    // Create LeadDTO and save the lead data
+                    LeadDTO leadDTO = new LeadDTO();
+                    leadDTO.setLeadName(getCellValueAsString(leadRow.getCell(leadNameIndex)));
+                    leadDTO.setName(getCellValueAsString(leadRow.getCell(customerNameIndex)));
+                    leadDTO.setMobileNo(customerPhone);
+                    leadDTO.setEmail(customerEmail);
+                    leadDTO.setLeadDescription(getCellValueAsString(leadRow.getCell(commentsIndex)));
+                    leadDTO.setCreatedById(1L);
+//                    leadDTO.setSource(getCellValueAsString(leadRow.getCell(generatedByIndex)));
+                    leadDTO.setDisplayStatus(status);
+
+                    Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+                    System.out.println("Lead created: " + savedLead);
+
+                    if (crmClientRow != null) {
+                        // Print the matching rows from both lead_migration and crm_client
+                        System.out.println("Matched Lead Migration Row: " + getRowAsString(leadRow));
+                        System.out.println("Matched CRM Client Row: " + String.join(", ", crmClientRow));
+
+                        CreateFormDto companyRequestData = new CreateFormDto();
+
+                        companyRequestData.setCompanyName(crmClientRow[0]);
+                        companyRequestData.setIsPresent(true);
+                        companyRequestData.setAssigneeId(1L);
+                        companyRequestData.setUpdatedBy(1L);
+                        companyRequestData.setLeadId(savedLead.getId());
+
+                        CompanyForm savedCompanyForm = companyFormController.createCompanyForm(companyRequestData);
+                        System.out.println("CompanyForm created: " + savedCompanyForm);
+                    } else {
+                        System.out.println("No matching CRM client found for Phone: " + customerPhone + " or Email: " + customerEmail);
+                    }
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error processing Excel file", e);
         }
     }
+
 
     private String normalizePhoneNumber(String phoneNumber) {
         phoneNumber = phoneNumber.replaceAll("\\D+", "");
@@ -299,7 +266,6 @@ public class Helper {
         throw new IllegalArgumentException("Column not found: " + columnName);
     }
 
-
     public void savedRunningLead(String runningFile) {
         try (FileInputStream inputStream = new FileInputStream(runningFile);
              XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
@@ -309,18 +275,38 @@ public class Helper {
 
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) {
-                    continue;
+                    continue; // Skip header row
                 }
 
                 String leadName = dataFormatter.formatCellValue(row.getCell(0));
                 String customerName = dataFormatter.formatCellValue(row.getCell(1));
                 String phone = dataFormatter.formatCellValue(row.getCell(2));
-                String customerEmail = dataFormatter.formatCellValue(row.getCell(4));
-                Date startDate = row.getCell(6).getDateCellValue();
-                String generatedFrom = dataFormatter.formatCellValue(row.getCell(7));
-                String userEmail = dataFormatter.formatCellValue(row.getCell(9));
-                String statusName = dataFormatter.formatCellValue(row.getCell(10));
+                String customerEmail = dataFormatter.formatCellValue(row.getCell(3)); // Adjust index if needed
+                String comments = dataFormatter.formatCellValue(row.getCell(4)); // Adjust index if needed
 
+                // Handle startDate safely
+                Date startDate = null;
+                Cell startDateCell = row.getCell(5); // Adjust index if needed
+                if (startDateCell != null) {
+                    if (startDateCell.getCellType() == CellType.STRING) {
+                        try {
+                            // Parse string to date if necessary
+                            String dateStr = startDateCell.getStringCellValue();
+                            startDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
+                        } catch (ParseException e) {
+                            System.out.println("Date parsing error: " + e.getMessage());
+                        }
+                    } else if (startDateCell.getCellType() == CellType.NUMERIC) {
+                        startDate = startDateCell.getDateCellValue();
+                    }
+                }
+
+                String generatedFrom = dataFormatter.formatCellValue(row.getCell(6)); // Adjust index if needed
+                String userName = dataFormatter.formatCellValue(row.getCell(7)); // Adjust index if needed
+                String userEmail = dataFormatter.formatCellValue(row.getCell(8)); // Adjust index if needed
+                String statusName = dataFormatter.formatCellValue(row.getCell(9)); // Adjust index if needed
+
+                // Normalize phone number
                 if (phone.startsWith("91") && phone.length() > 10) {
                     phone = phone.substring(2);
                 }
@@ -337,10 +323,9 @@ public class Helper {
                         lead.setMobileNo(phone);
                         lead.setEmail(customerEmail);
                         lead.setCreateDate(startDate);
-                        lead.setDisplayStatus("1");
+                        lead.setDisplayStatus("1"); // Adjust based on your requirements
                         lead.setStatus(status);
                         lead.setSource(generatedFrom);
-
                         lead.setAssignee(assignTo);
 
                         leadRepository.save(lead);
@@ -359,3 +344,5 @@ public class Helper {
 
 
 }
+
+

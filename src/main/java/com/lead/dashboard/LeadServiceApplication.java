@@ -35,7 +35,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		String filePath = "D:/Lead_Migration.xlsx";
 		String filePath1 = "D:/crm_client.csv";
-		String running = "D:/running_lead_format.xlsx";
+		String running = "D:/running_lead.xlsx";
 
 
 		helper.processLeadMigration(filePath,filePath1);
