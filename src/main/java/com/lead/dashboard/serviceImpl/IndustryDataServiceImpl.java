@@ -3,11 +3,12 @@ package com.lead.dashboard.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.IndustryData;
 import com.lead.dashboard.repository.IndustryDataRepo;
 import com.lead.dashboard.service.IndustryDataService;
-
+@Service
 public class IndustryDataServiceImpl implements IndustryDataService{
 
 	@Autowired
