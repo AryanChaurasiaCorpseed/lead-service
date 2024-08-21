@@ -83,6 +83,24 @@ public class Company {
 	Company parent;
 	
 	boolean isDeleted;
+	
+	
+
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
+	}
 
 	public Long getId() {
 		return id;
