@@ -311,4 +311,21 @@ public class LeadController {
 		return res;
 	}
 
+	@PostMapping("/createLeadByHelper")
+	public ResponseEntity<Lead> createByHelper(@RequestBody LeadDTO leadDTO)
+	{
+		if (leadDTO!=null) {
+			try {
+				Lead createdLead = leadservice.createLeadViaSheet(leadDTO);
+				return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
+			} catch (Exception e) {
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create lead", e);
+			}
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+	}
+
+
 }
