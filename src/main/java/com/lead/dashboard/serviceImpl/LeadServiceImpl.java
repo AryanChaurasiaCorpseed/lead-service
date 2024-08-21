@@ -913,7 +913,7 @@ public class LeadServiceImpl implements LeadService  {
 		String name=lead.getLeadName();
 		lead.setLeadName(newLeadName);
 		lead.setLastUpdated(new Date());
-		Long slugId = slugRepository.findIdByName(name);
+		Long slugId = slugRepository.findIdByName(newLeadName);
 		String urlsName=urlsManagmentRepo.findNameBySlugId(slugId);
 		if(urlsName!=null) {
 			lead.setOriginalName(urlsName);
