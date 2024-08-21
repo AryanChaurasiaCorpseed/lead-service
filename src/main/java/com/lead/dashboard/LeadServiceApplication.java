@@ -31,15 +31,28 @@ public class LeadServiceApplication  implements CommandLineRunner {
 
 
 
+//	@Override
+//	public void run(String... args) throws Exception {
+//		String filePath = "D:/Lead_Migration.xlsx";
+//		String filePath1 = "D:/crm_client.csv";
+//		String running = "D:/running_lead.xlsx";
+//		String projectsFilePath = "D:/projects.xlsx";
+//
+//
+//		helper.processLeadMigration(filePath,filePath1,projectsFilePath);
+//
+////		helper.savedRunningLead(running);
+//	}
+
+
 	@Override
 	public void run(String... args) throws Exception {
-		String filePath = "D:/Lead_Migration.xlsx";
 		String filePath1 = "D:/crm_client.csv";
 		String running = "D:/running_lead.xlsx";
-		String projects = "D:/projects.xlsx";
+		String projectsFilePath = "D:/projects.xlsx";
 
 
-		helper.processLeadMigration(filePath,filePath1,projects);
+		helper.lead_migration(filePath1,projectsFilePath);
 
 //		helper.savedRunningLead(running);
 	}
