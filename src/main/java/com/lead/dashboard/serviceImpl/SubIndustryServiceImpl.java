@@ -3,6 +3,7 @@ package com.lead.dashboard.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.SubIndustry;
 import com.lead.dashboard.domain.SubSubIndustry;
@@ -12,6 +13,7 @@ import com.lead.dashboard.repository.SubIndustryRepo;
 import com.lead.dashboard.repository.SubSubIndustryRepo;
 import com.lead.dashboard.service.SubIndustryService;
 
+@Service
 public class SubIndustryServiceImpl implements SubIndustryService{
 	
 	@Autowired
