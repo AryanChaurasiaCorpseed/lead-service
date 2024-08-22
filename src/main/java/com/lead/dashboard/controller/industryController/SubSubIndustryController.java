@@ -30,7 +30,7 @@ public class SubSubIndustryController {
 	}
 	
 	@GetMapping("/api/v1/industryData/getAllSubSubIndustry")
-	public List<SubSubIndustry> getAllIndustryData(){	
+	public List<SubSubIndustry> getAllSubSubIndustry(){	
 		List<SubSubIndustry> res= subSubIndustryService.getAllSubSubIndustry();
 		return res;
 	}
