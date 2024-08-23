@@ -1335,6 +1335,60 @@ public class LeadServiceImpl implements LeadService  {
 	
 	}
 
+	//Only For Bad Fit data
+	public Lead createBadFitLead(LeadDTO leadDTO) {
+		if (leadDTO == null) {
+			throw new IllegalArgumentException("LeadDTO cannot be null");
+		}
+
+		if (leadDTO.getName() == null || leadDTO.getLeadName() == null || leadDTO.getMobileNo() == null) {
+			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
+		}
+
+		String email = leadDTO.getEmail();
+		if (email != null && email.equals("NA")) {
+			email = null;
+		}
+
+		List<Lead> leadList = leadRepository.findAllByEmailAndMobile(email, leadDTO.getMobileNo());
+		if (leadList != null && !leadList.isEmpty()) {
+			int size = leadList.size();
+			leadDTO.setLeadName("(Duplicate - " + size + " )" + leadDTO.getLeadName());
+		}
+
+		Lead lead = new Lead();
+		lead.setOriginalName(leadDTO.getLeadName());
+		lead.setName(leadDTO.getName());
+		lead.setLeadName(leadDTO.getLeadName());
+		lead.setLeadDescription("");
+		lead.setMobileNo(leadDTO.getMobileNo());
+		lead.setEmail(email);
+		lead.setUrls("");
+		lead.setAuto(false);
+		lead.setIsUrlsChecked(true);
+		lead.setCreateDate(new Date()); //
+		lead.setView(false);
+		lead.setLastUpdated(new Date());
+		lead.setLatestStatusChangeDate(leadDTO.getCreateDate());
+		lead.setCity("");
+		lead.setSource("Corpseed Website");
+		lead.setCategoryId("");
+		lead.setServiceId("");
+		lead.setIndustryId("");
+		lead.setIpAddress("");
+		lead.setDisplayStatus("1");
+		lead.setWhatsAppStatus(0);
+		lead.setUuid(commonServices.getUuid());
+//		lead.setAssignee();
+
+		Status status = statusRepository.findByStatusName("Bad fit");
+		if (status == null) {
+			throw new IllegalStateException("Status Bad fit not found in the database");
+		}
+		lead.setStatus(status);
+
+		return leadRepository.save(lead);
+	}
 	public Lead createLeadViaSheet(LeadDTO leadDTO) {
 		if (leadDTO == null) {
 			throw new IllegalArgumentException("LeadDTO cannot be null");
@@ -1365,7 +1419,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setUrls(leadDTO.getUrls());
 		lead.setAuto(true);
 		lead.setIsUrlsChecked(true);
-		lead.setCreateDate(new Date()); // Ensure this is correct for your use case
+		lead.setCreateDate(new Date());
 		lead.setView(false);
 		lead.setLastUpdated(new Date());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
@@ -1389,5 +1443,6 @@ public class LeadServiceImpl implements LeadService  {
 		// Save the lead
 		return leadRepository.save(lead);
 	}
+
 
 }
