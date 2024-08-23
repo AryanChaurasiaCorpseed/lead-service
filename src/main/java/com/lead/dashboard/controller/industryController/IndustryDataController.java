@@ -30,5 +30,5 @@ public class IndustryDataController {
 	public List<IndustryData> getAllIndustryData(){	
 		List<IndustryData> res= industryDataService.getAllIndustryData();
 		return res;
-	}
+	}  
 }
