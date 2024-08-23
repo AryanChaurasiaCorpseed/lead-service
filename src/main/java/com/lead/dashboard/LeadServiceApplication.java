@@ -55,12 +55,10 @@ public class LeadServiceApplication  implements CommandLineRunner {
 
 		helper.lead_migration(filePath1,projectsFilePath);
 
-//		helper.savedRunningLead(running);
+		helper.savedRunningLead(running);
 
 		helper.processBadFitLeads(badFit);
 	}
-
-
 
 }
   

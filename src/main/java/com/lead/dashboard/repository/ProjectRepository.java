@@ -14,4 +14,5 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
 	@Query(value = "SELECT * FROM project p WHERE p.id in(:projectId)", nativeQuery = true)
 	List<Project> findAllByIdIn(List<Long> projectId);
 
+    Project findByProjectNo(String projectNumber);
 }
