@@ -1335,6 +1335,7 @@ public class LeadServiceImpl implements LeadService  {
 	
 	}
 
+	//Only For Bad Fit data
 	public Lead createBadFitLead(LeadDTO leadDTO) {
 		if (leadDTO == null) {
 			throw new IllegalArgumentException("LeadDTO cannot be null");
@@ -1363,7 +1364,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setMobileNo(leadDTO.getMobileNo());
 		lead.setEmail(email);
 		lead.setUrls("");
-		lead.setAuto(true);
+		lead.setAuto(false);
 		lead.setIsUrlsChecked(true);
 		lead.setCreateDate(new Date()); //
 		lead.setView(false);
@@ -1378,6 +1379,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus("1");
 		lead.setWhatsAppStatus(0);
 		lead.setUuid(commonServices.getUuid());
+//		lead.setAssignee();
 
 		Status status = statusRepository.findByStatusName("Bad fit");
 		if (status == null) {

@@ -53,7 +53,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 		String badFit="D:/bad_fit.xlsx";
 
 
-//		helper.lead_migration(filePath1,projectsFilePath);
+		helper.lead_migration(filePath1,projectsFilePath);
 
 //		helper.savedRunningLead(running);
 
