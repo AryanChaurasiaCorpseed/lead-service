@@ -78,156 +78,189 @@ public class Helper {
     private Map<String, String[]> crmClientData = new HashMap<>();
 
 
-//    public void lead_migration(String crmClientFilePath, String projectsFilePath) {
-//        try {
-//            List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
-//            List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
-//
-//            for (Map<String, String> crmClientRow : crmClientData) {
-//                String crmClientName = crmClientRow.get("cregname");
-//
-//                Company existingCompany = companyRepository.findByName(crmClientName);
-//
-//                if (existingCompany == null) {
-//                    Contact primaryContact = new Contact();
-//                    primaryContact.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
-//                    primaryContact.setEmails(crmClientRow.get("cregcontemailid"));
-//                    primaryContact.setContactNo(crmClientRow.get("cregcontmobile"));
-//
-//                    Contact savedContact = contactRepo.save(primaryContact);
-//
-//                    Company company = new Company();
-//                    company.setName(crmClientRow.get("cregname"));
-//                    company.setAddress(crmClientRow.get("cregaddress"));
-//                    company.setCity(crmClientRow.get("creglocation"));
-//                    company.setPrimaryContact(savedContact);
-//                    company.setPanNo(crmClientRow.get("cregpan"));
-//                    company.setGstNo(crmClientRow.get("creggstin"));
-//                    company.setState(crmClientRow.get("cregstate"));
-//                    company.setCountry(crmClientRow.get("cregcountry"));
-//
-//                    existingCompany = companyRepository.save(company);
-//                    System.out.println("Company created: " + existingCompany);
-//                }
-//
-//                for (Map<String, String> projectRow : projectSheetData) {
-//                    String projectName = projectRow.get("Company");
-//
-//                    System.out.println("Processing Project Row: " + projectRow);
-//
-//                    if (projectName != null && projectName.equalsIgnoreCase(crmClientName)) {
-//                        String status = "Deal won";
-//
-//                        LeadDTO leadDTO = new LeadDTO();
-//                        leadDTO.setLeadName(projectRow.get("Service_Name"));
-//                        leadDTO.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
-//                        leadDTO.setMobileNo(projectRow.get("Contact_Mobile_First"));
-//                        leadDTO.setEmail(projectRow.get("Contact_Email_First"));
-//                        leadDTO.setLeadDescription(projectRow.get("Service_Name"));
-//                        leadDTO.setCreatedById(1L);
-//                        leadDTO.setDisplayStatus(status);
-//                        leadDTO.setSource("Corpseed HO");
-//
-//                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
-//                        System.out.println("Lead created: " + savedLead);
-//
-//                        Project project = new Project();
-//                        project.setCompany(existingCompany);
-//                        project.setProjectNo(projectRow.get("Project_No"));
-//                        project.setName(projectRow.get("Service_Name"));
-//                        project.setLead(savedLead);
-//
-//                        Project savedProjectData = projectRepository.save(project);
-//                        System.out.println("Project created: " + savedProjectData);
-//                    } else {
-//                        System.out.println("Warning: Project name is null or does not match CRM client name.");
-//                    }
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("Error processing files", e);
-//        }
-//    }
-//
-//    public List<Map<String, String>> readCsvFile(String filePath) throws IOException {
-//        List<Map<String, String>> data = new ArrayList<>();
-//        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-//            String[] headers = reader.readNext();
-//            if (headers == null) {
-//                throw new IOException("Empty CSV file");
-//            }
-//            String[] values;
-//            while ((values = reader.readNext()) != null) {
-//                Map<String, String> row = new HashMap<>();
-//                for (int i = 0; i < headers.length; i++) {
-//                    row.put(headers[i], i < values.length ? values[i] : "");
-//                }
-//                data.add(row);
-//            }
-//        } catch (CsvValidationException e) {
-//            throw new IOException("CSV validation error", e);
-//        }
-//        return data;
-//    }
-//
-//    private List<Map<String, String>> readProjectFile(String filePath) throws IOException {
-//        List<Map<String, String>> data = new ArrayList<>();
-//        try (FileInputStream fis = new FileInputStream(filePath);
-//             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
-//            Sheet sheet = workbook.getSheetAt(0);
-//            Iterator<Row> rowIterator = sheet.iterator();
-//
-//            // Read header row
-//            Row headerRow = rowIterator.next();
-//            Map<Integer, String> headers = new HashMap<>();
-//            for (Cell cell : headerRow) {
-//                headers.put(cell.getColumnIndex(), cell.getStringCellValue());
-//            }
-//
-//            // Read data rows
-//            while (rowIterator.hasNext()) {
-//                Row row = rowIterator.next();
-//                Map<String, String> rowData = new HashMap<>();
-//                for (Cell cell : row) {
-//                    String header = headers.get(cell.getColumnIndex());
-//                    String value = getCellValueAsString(cell);
-//                    rowData.put(header, value);
-//                }
-//                data.add(rowData);
-//            }
-//        }
-//        return data;
-//    }
-//
-//    private String getCellValueAsString(Cell cell) {
-//        switch (cell.getCellType()) {
-//            case STRING:
-//                return cell.getStringCellValue();
-//            case NUMERIC:
-//                if (DateUtil.isCellDateFormatted(cell)) {
-//                    return cell.getDateCellValue().toString();
-//                } else {
-//                    // Convert numeric value to string without scientific notation
-//                    BigDecimal numericValue = BigDecimal.valueOf(cell.getNumericCellValue());
-//                    return numericValue.toPlainString();
-//                }
-//            case BOOLEAN:
-//                return String.valueOf(cell.getBooleanCellValue());
-//            case FORMULA:
-//                switch (cell.getCachedFormulaResultType()) {
-//                    case STRING:
-//                        return cell.getStringCellValue();
-//                    case NUMERIC:
-//                        BigDecimal numericValue = BigDecimal.valueOf(cell.getNumericCellValue());
-//                        return numericValue.toPlainString();
-//                    default:
-//                        return "";
-//                }
-//            default:
-//                return "";
-//        }
-//    }
+    public void lead_migration(String crmClientFilePath, String projectsFilePath) {
+        try {
+            List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
+            List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
+
+            for (Map<String, String> crmClientRow : crmClientData) {
+                String crmClientName = crmClientRow.get("cregname");
+
+                // Check if CRM client data is complete
+                if (crmClientName == null || crmClientName.trim().isEmpty()) {
+                    System.out.println("Warning: CRM client name is null or empty.");
+                    continue;
+                }
+
+                Company existingCompany = companyRepository.findByName(crmClientName);
+
+                if (existingCompany == null) {
+                    if (crmClientRow.get("cregcontfirstname") == null || crmClientRow.get("cregcontlastname") == null ||
+                            crmClientRow.get("cregcontemailid") == null || crmClientRow.get("cregcontmobile") == null) {
+                        System.out.println("Warning: Incomplete CRM client data for " + crmClientName);
+                        continue;
+                    }
+
+                    Contact primaryContact = new Contact();
+                    primaryContact.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
+                    primaryContact.setEmails(crmClientRow.get("cregcontemailid"));
+                    primaryContact.setContactNo(crmClientRow.get("cregcontmobile"));
+
+                    Contact savedContact = contactRepo.save(primaryContact);
+
+                    String assigneeIdentifier = crmClientRow.get("assign_to");
+
+                    User assignee = userRepo.findByemail(assigneeIdentifier);
+
+                    Company company = new Company();
+                    company.setName(crmClientName);
+                    company.setAddress(crmClientRow.get("cregaddress"));
+                    company.setCity(crmClientRow.get("creglocation"));
+                    company.setPrimaryContact(savedContact);
+                    company.setPanNo(crmClientRow.get("cregpan"));
+                    company.setGstNo(crmClientRow.get("creggstin"));
+                    company.setState(crmClientRow.get("cregstate"));
+                    company.setCountry(crmClientRow.get("cregcountry"));
+
+                    if (assignee != null) {
+                        company.setAssignee(assignee);
+                    } else {
+                        System.out.println("Warning: User with identifier " + assigneeIdentifier + " not found.");
+                    }
+                    existingCompany = companyRepository.save(company);
+                    System.out.println("Company created: " + existingCompany);
+                }
+
+                for (Map<String, String> projectRow : projectSheetData) {
+                    String projectName = projectRow.get("Company");
+
+                    // Check if project data is complete
+                    if (projectName == null || projectName.trim().isEmpty()) {
+                        System.out.println("Warning: Project name is null or empty.");
+                        continue;
+                    }
+
+                    if (projectName.equalsIgnoreCase(crmClientName)) {
+                        String status = "Deal won";
+
+                        // Validate project data
+                        if (projectRow.get("Service_Name") == null || projectRow.get("Contact_Mobile_First") == null ||
+                                projectRow.get("Contact_Email_First") == null) {
+                            System.out.println("Warning: Incomplete project data for project " + projectRow.get("Project_No"));
+                            continue;
+                        }
+
+                        LeadDTO leadDTO = new LeadDTO();
+                        leadDTO.setLeadName(projectRow.get("Service_Name"));
+                        leadDTO.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
+                        leadDTO.setMobileNo(projectRow.get("Contact_Mobile_First"));
+                        leadDTO.setEmail(projectRow.get("Contact_Email_First"));
+                        leadDTO.setLeadDescription(projectRow.get("Service_Name"));
+                        leadDTO.setCreatedById(1L);
+                        leadDTO.setDisplayStatus(status);
+                        leadDTO.setSource("Corpseed HO");
+
+                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+                        System.out.println("Lead created: " + savedLead);
+
+                        Project project = new Project();
+                        project.setCompany(existingCompany);
+                        project.setProjectNo(projectRow.get("Project_No"));
+                        project.setName(projectRow.get("Service_Name"));
+                        project.setLead(savedLead);
+
+                        Project savedProjectData = projectRepository.save(project);
+                        System.out.println("Project created: " + savedProjectData);
+                    } else {
+                        System.out.println("Warning: Project name does not match CRM client name.");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error processing files", e);
+        }
+    }
+
+
+    public List<Map<String, String>> readCsvFile(String filePath) throws IOException {
+        List<Map<String, String>> data = new ArrayList<>();
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+            String[] headers = reader.readNext();
+            if (headers == null) {
+                throw new IOException("Empty CSV file");
+            }
+            String[] values;
+            while ((values = reader.readNext()) != null) {
+                Map<String, String> row = new HashMap<>();
+                for (int i = 0; i < headers.length; i++) {
+                    row.put(headers[i], i < values.length ? values[i] : "");
+                }
+                data.add(row);
+            }
+        } catch (CsvValidationException e) {
+            throw new IOException("CSV validation error", e);
+        }
+        return data;
+    }
+
+    private List<Map<String, String>> readProjectFile(String filePath) throws IOException {
+        List<Map<String, String>> data = new ArrayList<>();
+        try (FileInputStream fis = new FileInputStream(filePath);
+             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            // Read header row
+            Row headerRow = rowIterator.next();
+            Map<Integer, String> headers = new HashMap<>();
+            for (Cell cell : headerRow) {
+                headers.put(cell.getColumnIndex(), cell.getStringCellValue());
+            }
+
+            // Read data rows
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Map<String, String> rowData = new HashMap<>();
+                for (Cell cell : row) {
+                    String header = headers.get(cell.getColumnIndex());
+                    String value = getCellValueAsString(cell);
+                    rowData.put(header, value);
+                }
+                data.add(rowData);
+            }
+        }
+        return data;
+    }
+
+    private String getCellValueAsString(Cell cell) {
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toString();
+                } else {
+                    // Convert numeric value to string without scientific notation
+                    BigDecimal numericValue = BigDecimal.valueOf(cell.getNumericCellValue());
+                    return numericValue.toPlainString();
+                }
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                switch (cell.getCachedFormulaResultType()) {
+                    case STRING:
+                        return cell.getStringCellValue();
+                    case NUMERIC:
+                        BigDecimal numericValue = BigDecimal.valueOf(cell.getNumericCellValue());
+                        return numericValue.toPlainString();
+                    default:
+                        return "";
+                }
+            default:
+                return "";
+        }
+    }
 
 
 
@@ -316,18 +349,18 @@ public class Helper {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-                if (row.getRowNum() == 0) continue; // Skip header row
+                if (row.getRowNum() == 0) continue;
 
                 LeadDTO leadDTO = new LeadDTO();
-                leadDTO.setLeadName(getCellValue(row.getCell(1))); // Deal Name
-                leadDTO.setName(getCellValue(row.getCell(2))); // Contact
+                leadDTO.setLeadName(getCellValue(row.getCell(1)));
+                leadDTO.setName(getCellValue(row.getCell(2)));
                 leadDTO.setCreateDate(parseDate(getCellValue(row.getCell(3)))); // Start date
 
                 String mobileNo = getCellValue(row.getCell(4));
                 leadDTO.setMobileNo(formatMobileNumber(mobileNo));
 
                 String email = getCellValue(row.getCell(5));
-                leadDTO.setEmail(email.isEmpty() ? null : email); // Set null if blank
+                leadDTO.setEmail(email.isEmpty() ? null : email);
 
                 leadService.createBadFitLead(leadDTO);
             }
