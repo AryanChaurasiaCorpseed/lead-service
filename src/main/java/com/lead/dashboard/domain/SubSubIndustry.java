@@ -39,5 +39,30 @@ public class SubSubIndustry {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<IndustryData>IndustryDataList;
 
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public List<IndustryData> getIndustryDataList() {
+			return IndustryDataList;
+		}
+
+		public void setIndustryDataList(List<IndustryData> industryDataList) {
+			IndustryDataList = industryDataList;
+		}
+
+		
 
 }
