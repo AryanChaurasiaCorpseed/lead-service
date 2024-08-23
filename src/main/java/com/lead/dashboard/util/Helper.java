@@ -75,8 +75,6 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
-    private Map<String, String[]> crmClientData = new HashMap<>();
-
 
     public void lead_migration(String crmClientFilePath, String projectsFilePath) {
         try {
@@ -86,7 +84,6 @@ public class Helper {
             for (Map<String, String> crmClientRow : crmClientData) {
                 String crmClientName = crmClientRow.get("cregname");
 
-                // Check if CRM client data is complete
                 if (crmClientName == null || crmClientName.trim().isEmpty()) {
                     System.out.println("Warning: CRM client name is null or empty.");
                     continue;
@@ -134,7 +131,6 @@ public class Helper {
                 for (Map<String, String> projectRow : projectSheetData) {
                     String projectName = projectRow.get("Company");
 
-                    // Check if project data is complete
                     if (projectName == null || projectName.trim().isEmpty()) {
                         System.out.println("Warning: Project name is null or empty.");
                         continue;
@@ -143,7 +139,6 @@ public class Helper {
                     if (projectName.equalsIgnoreCase(crmClientName)) {
                         String status = "Deal won";
 
-                        // Validate project data
                         if (projectRow.get("Service_Name") == null || projectRow.get("Contact_Mobile_First") == null ||
                                 projectRow.get("Contact_Email_First") == null) {
                             System.out.println("Warning: Incomplete project data for project " + projectRow.get("Project_No"));
@@ -163,14 +158,21 @@ public class Helper {
                         Lead savedLead = leadService.createLeadViaSheet(leadDTO);
                         System.out.println("Lead created: " + savedLead);
 
-                        Project project = new Project();
-                        project.setCompany(existingCompany);
-                        project.setProjectNo(projectRow.get("Project_No"));
-                        project.setName(projectRow.get("Service_Name"));
-                        project.setLead(savedLead);
+                        String projectNumber = projectRow.get("Project_No");
+                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
 
-                        Project savedProjectData = projectRepository.save(project);
-                        System.out.println("Project created: " + savedProjectData);
+                        if (existingProject == null) {
+                            Project project = new Project();
+                            project.setCompany(existingCompany);
+                            project.setProjectNo(projectNumber);
+                            project.setName(projectRow.get("Service_Name"));
+                            project.setLead(savedLead);
+
+                            Project savedProjectData = projectRepository.save(project);
+                            System.out.println("Project created: " + savedProjectData);
+                        } else {
+                            System.out.println("Warning: Project with number " + projectNumber + " already exists.");
+                        }
                     } else {
                         System.out.println("Warning: Project name does not match CRM client name.");
                     }
