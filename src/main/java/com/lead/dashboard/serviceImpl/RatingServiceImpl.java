@@ -37,7 +37,7 @@ public class RatingServiceImpl implements RatingService{
 	
 	
 	@Override
-	public Ratings addUserRating(RatingDto ratingDto) {
+	public Ratings addUserRating(RatingDto ratingDto) throws Exception {
 		// TODO Auto-generated method stub
 		Ratings ratings=ratingRepository.findAllByRatingAndUrlsManagmentId(ratingDto.getRating(),ratingDto.getUrlsManagmentId());
 		if(ratings ==null) {
@@ -52,10 +52,15 @@ public class RatingServiceImpl implements RatingService{
 				}
 			}
 			System.out.println(users+" . .  users");
-			ratings.setRatingsUser(users);
-			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
-			ratings.setUrlsManagment(urlsManagment);
-			Ratings r=ratingRepository.save(ratings);
+            if(users!=null && users.size()!=0) {
+            	ratings.setRatingsUser(users);
+    			UrlsManagment urlsManagment = urlsManagmentRepo.findById(ratingDto.getUrlsManagmentId()).get();
+    			ratings.setUrlsManagment(urlsManagment);
+    			Ratings r=ratingRepository.save(ratings);
+			}else {
+				throw new Exception("Either user is already persent or empty");
+			}
+
 		}else {
 			List<User> userList = userRepo.findAllById(ratingDto.getRatingsUser());
 			List<User> ratingUser = ratings.getRatingsUser();
@@ -94,7 +99,7 @@ public class RatingServiceImpl implements RatingService{
  		if(opRating!=null && opRating.get()!=null) {
  			Ratings rating = opRating.get();
  			rating.setRating(updateRatingDto.getRating());
- 			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getRatingId());
+ 			Optional<UrlsManagment> urls = urlsManagmentRepo.findById(updateRatingDto.getUrlsManagmentId());
  			rating.setUrlsManagment(urls.get());
  			List<User> userList = userRepo.findUAllByUserIdIn(updateRatingDto.getRatingsUser());
  			

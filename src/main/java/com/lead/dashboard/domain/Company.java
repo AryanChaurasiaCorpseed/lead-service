@@ -47,13 +47,14 @@ public class Company {
 	String City;
 	String State;
 	String Country;
-	
+	String primaryPinCode;	
 	
 	//secondary address
 	String sAddress;
 	String sCity;
 	String sState;
 	String sCountry;
+	String secondaryPinCode;
 
 	
 	@ManyToOne
@@ -62,7 +63,7 @@ public class Company {
 	@ManyToOne
 	Contact secondaryContact;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name="company_lead",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="company_lead_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
@@ -82,6 +83,24 @@ public class Company {
 	Company parent;
 	
 	boolean isDeleted;
+	
+	
+
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
+	}
 
 	public Long getId() {
 		return id;

@@ -92,8 +92,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Remark createRemarks(Long leadId,Long userId, String message, List<String> images) {
-		// TODO Auto-generated method stub
+	public Remark createRemarks(Long leadId,Long userId, String message, List<String> images,String type) {
 		
 		User user = userRepo.findById(userId).get();
 		Optional<Lead> opLead = leadRepository.findById(leadId);
@@ -112,6 +111,7 @@ public class ChatServiceImpl implements ChatService {
 				remark.setMessage(message);
 				remark.setLatestUpdated(new Date());
 				remark.setUpdatedBy(user);
+				remark.setType(type);
 				remarkRepository.save(remark);
 				remarks.add(remark);
 				lead.setRemarks(remarks);
@@ -121,6 +121,7 @@ public class ChatServiceImpl implements ChatService {
 				remark.setMessage(message);
 				remark.setLatestUpdated(new Date());
 				remark.setUpdatedBy(user);
+				remark.setType(type);
 				remarkRepository.save(remark);
 				remarkList.add(remark);
 				lead.setRemarks(remarkList);

@@ -43,6 +43,8 @@ public class Remark {
 			inverseJoinColumns = {@JoinColumn(name="remark_file_data_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<FileData>imageList;
+	
+	String type;
 
 
 	@ManyToOne
@@ -98,6 +100,14 @@ public class Remark {
 
 	public void setImageList(List<FileData> imageList) {
 		this.imageList = imageList;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	

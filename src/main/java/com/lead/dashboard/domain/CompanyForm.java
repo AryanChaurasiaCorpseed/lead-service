@@ -42,6 +42,7 @@ public class CompanyForm {
 	String companyAge;
 	
 	//primary
+	Boolean isPrimaryAddress;
 	@Lob
 	String Address;
 	String City;
@@ -51,6 +52,7 @@ public class CompanyForm {
 	
 	
 	//secondary address
+	Boolean isSecondaryAddress;
 	@Lob
 	String sAddress;
 	String sCity;
@@ -385,6 +387,22 @@ public class CompanyForm {
 
 	public void setSecondaryPinCode(String secondaryPinCode) {
 		this.secondaryPinCode = secondaryPinCode;
+	}
+
+	public Boolean getIsPrimaryAddress() {
+		return isPrimaryAddress;
+	}
+
+	public void setIsPrimaryAddress(Boolean isPrimaryAddress) {
+		this.isPrimaryAddress = isPrimaryAddress;
+	}
+
+	public Boolean getIsSecondaryAddress() {
+		return isSecondaryAddress;
+	}
+
+	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
+		this.isSecondaryAddress = isSecondaryAddress;
 	}  
 	 
 	

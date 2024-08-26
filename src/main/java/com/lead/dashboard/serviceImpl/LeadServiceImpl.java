@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.config.CommonServices;
+import com.lead.dashboard.controller.companyController.CompanyFormController;
 import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
@@ -19,6 +20,7 @@ import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
@@ -56,6 +58,9 @@ public class LeadServiceImpl implements LeadService  {
 	MailSendSerivceImpl mailSendSerivceImpl;
 	@Autowired
 	CommonServices commonServices;
+	
+	@Autowired
+	CompanyFormController companyFormController;
 	
 	@Autowired
 	SlugRepository slugRepository;
@@ -257,7 +262,12 @@ public class LeadServiceImpl implements LeadService  {
 	
 	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
-		List<Lead> leadList = company.getCompanyLead();
+		List<Lead> leadList = company.getCompanyLead().stream().distinct().collect(Collectors.toList());
+		System.out.println("=======================================================");
+		System.out.println(leadList.size());
+//		System.out.println(leadList.get(0).getId());
+//		System.out.println(leadList.get(1).getId());
+
 		List<Project> result = new ArrayList<>();
 	    Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
 		for(Project p:projectList) {
@@ -903,6 +913,14 @@ public class LeadServiceImpl implements LeadService  {
 		String name=lead.getLeadName();
 		lead.setLeadName(newLeadName);
 		lead.setLastUpdated(new Date());
+		Long slugId = slugRepository.findIdByName(newLeadName);
+		String urlsName=urlsManagmentRepo.findNameBySlugId(slugId);
+		if(urlsName!=null) {
+			lead.setOriginalName(urlsName);
+		}else {
+			lead.setOriginalName("NA");
+
+		}
 		leadRepository.save(lead);
 		leadHistory(name,newLeadName,lead,userId);
 
@@ -1296,8 +1314,80 @@ public class LeadServiceImpl implements LeadService  {
 		leadRepository.save(lead);
 		return flag;
 	}
- 
-		
+	@Override
+	public Boolean leadAssignSamePerson(Long leadId) {
+			Boolean flag=false;
+		Company company = companyFormController.checkCompanyExistv2(leadId);
+		if(company!=null) {
+			User assignee = company.getAssignee();
+			Lead lead = leadRepository.findById(leadId).get();
+			lead.setAssignee(assignee);
+			leadRepository.save(lead);
+			flag=true;
+		}
 
+		return flag;
+	}
+ 
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	public void createIvrLead(Long leadId) {
+         
+	
+	}
+
+	public Lead createLeadViaSheet(LeadDTO leadDTO) {
+		if (leadDTO == null) {
+			throw new IllegalArgumentException("LeadDTO cannot be null");
+		}
+
+		if (leadDTO.getName() == null || leadDTO.getLeadName() == null || leadDTO.getMobileNo() == null) {
+			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
+		}
+
+		String email = leadDTO.getEmail();
+		if (email != null && email.equals("NA")) {
+			email = null;
+		}
+
+		List<Lead> leadList = leadRepository.findAllByEmailAndMobile(email, leadDTO.getMobileNo());
+		if (leadList != null && !leadList.isEmpty()) {
+			int size = leadList.size();
+			leadDTO.setLeadName("(Duplicate - " + size + " )" + leadDTO.getLeadName());
+		}
+
+		Lead lead = new Lead();
+		lead.setOriginalName(leadDTO.getLeadName());
+		lead.setName(leadDTO.getName());
+		lead.setLeadName(leadDTO.getLeadName());
+		lead.setLeadDescription(leadDTO.getLeadDescription());
+		lead.setMobileNo(leadDTO.getMobileNo());
+		lead.setEmail(email);
+		lead.setUrls(leadDTO.getUrls());
+		lead.setAuto(true);
+		lead.setIsUrlsChecked(true);
+		lead.setCreateDate(new Date()); // Ensure this is correct for your use case
+		lead.setView(false);
+		lead.setLastUpdated(new Date());
+		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
+		lead.setCity(leadDTO.getCity());
+		lead.setSource("Corpseed Website");
+		lead.setCategoryId(leadDTO.getCategoryId());
+		lead.setServiceId(leadDTO.getServiceId());
+		lead.setIndustryId(leadDTO.getIndustryId());
+		lead.setIpAddress(leadDTO.getIpAddress());
+		lead.setDisplayStatus(leadDTO.getDisplayStatus());
+		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
+		lead.setUuid(commonServices.getUuid());
+
+		Status status = statusRepository.findByStatusName("New");
+		System.out.println("Status "+ status);
+		if (status == null) {
+			throw new IllegalStateException("Status 'New' not found in the database");
+		}
+		lead.setStatus(status);
+
+		// Save the lead
+		return leadRepository.save(lead);
+	}
 
 }

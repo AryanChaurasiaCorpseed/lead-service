@@ -89,6 +89,19 @@ public class ProjectServiceImpl implements ProjectService{
 			res.put("status", p.getStatus());
 			res.put("leadId",p.getLead().getId());
 			res.put("leadNane",p.getLead().getLeadName());
+			
+			res.put("pAddress", p.getAddress());
+			res.put("pCity", p.getCity());
+			res.put("pState", p.getState());
+			res.put("pCountry", p.getCountry());
+			res.put("pPinCode", p.getPrimaryPinCode());
+			
+			res.put("sAddress", p.getSAddress());
+			res.put("sCity", p.getSCity());
+			res.put("sState", p.getSState());
+			res.put("sCountry", p.getSCountry());
+			res.put("sPinCode", p.getSecondaryPinCode());
+
 			result.add(res);
 		}
 		return result;

@@ -21,7 +21,7 @@ import lombok.Setter;
 
 @Entity
 @Table
-@Data
+//@Data
 public class Project implements Serializable{
 	
 	@Id
@@ -65,6 +65,23 @@ public class Project implements Serializable{
 	String progress;
 	
 	Date createDate;
+	
+	//primary
+	String Address;
+	String City;
+	String State;
+	String Country;
+	String primaryPinCode;	
+	
+	//secondary address
+	String sAddress;
+	String sCity;
+	String sState;
+	String sCountry;
+	String secondaryPinCode;
+
+	
+	
 
 	public Long getId() {
 		return id;
@@ -170,7 +187,90 @@ public class Project implements Serializable{
 		this.lead = lead;
 	}
 	
+	//address 
 	
+	
+	
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+
+	public String getState() {
+		return State;
+	}
+
+	public void setState(String state) {
+		State = state;
+	}
+
+	public String getCountry() {
+		return Country;
+	}
+
+	public void setCountry(String country) {
+		Country = country;
+	}
+
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+
+	public String getSAddress() {
+		return sAddress;
+	}
+
+	public void setSAddress(String sAddress) {
+		this.sAddress = sAddress;
+	}
+
+	public String getSCity() {
+		return sCity;
+	}
+
+	public void setSCity(String sCity) {
+		this.sCity = sCity;
+	}
+
+	public String getSState() {
+		return sState;
+	}
+
+	public void setSState(String sState) {
+		this.sState = sState;
+	}
+
+	public String getSCountry() {
+		return sCountry;
+	}
+
+	public void setSCountry(String sCountry) {
+		this.sCountry = sCountry;
+	}
+
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
+	}
+    
 	
 	
 	

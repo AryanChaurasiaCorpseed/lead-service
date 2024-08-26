@@ -31,6 +31,7 @@ public class UrlsMapping {
 	public static final String UPDATE_LEAD_ORIGINAL_NAME=PREFIX+"/lead/updateLeadOriginalName";
 	public static final String GET_ALL_LEAD_NAME_AND_ID=PREFIX+"/lead/getAllLeadNameAndId";
 	public static final String UPDATE_HELPER=PREFIX+"/lead/updateHelper";
+	public static final String LEAD_ASSIGN_SAME_PERSON=PREFIX+"/lead/leadAssignSamePerson";
 
 
 	//=================== Lead - Oppoertunity Service ===================
@@ -176,6 +177,7 @@ public class UrlsMapping {
 	public static final String CREATE_DEPARTMENT=PREFIX+"/designation/createDepartment";
 	public static final String CREATE_DEPARTMENT_IN_DESIGNATION=PREFIX+"/designation/createDepartmentInDesignation";
 	public static final String GET_ALL_DESIGNATION_BY_DEPARTMENT=PREFIX+"/designation/getAllDesignationByDepartment";
+	public static final String UPDATE_DEPARTMENT=PREFIX+"/designation/updateDepartment";
 
 
 	// Company Form
