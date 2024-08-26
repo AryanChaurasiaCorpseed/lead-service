@@ -31,7 +31,6 @@ public class Industry {
 	String name;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JsonIgnore
 	@JoinTable(name="industry_sub_industry",joinColumns = {@JoinColumn(name="industry_id",referencedColumnName="id",nullable=true)},
 	inverseJoinColumns = {@JoinColumn(name="industry_sub_industry_id"
 			+ "",referencedColumnName = "id",nullable=true,unique=false)})

@@ -24,7 +24,7 @@ public class IndustryServiceImpl implements IndustryService{
 	public Boolean createIndustry(IndustryDto industryDto) {
 		Industry industry = new Industry();
 		industry.setName(industryDto.getName());
-		List<SubIndustry> subIndustryList = subIndustryRepo.findAllById(industryDto.getSubIndustryId());
+		List<SubIndustry> subIndustryList = subIndustryRepo.findAllByIdIn(industryDto.getSubIndustryId());
 		industry.setSubIndustry(subIndustryList);
 		industryRepo.save(industry);   
 		return true;
