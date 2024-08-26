@@ -83,6 +83,7 @@ public class Helper {
 
             for (Map<String, String> crmClientRow : crmClientData) {
                 String crmClientName = crmClientRow.get("cregname");
+                Company  m = companyRepository.findByName(crmClientName);
 
                 if (crmClientName == null || crmClientName.trim().isEmpty()) {
                     System.out.println("Warning: CRM client name is null or empty.");
@@ -129,7 +130,12 @@ public class Helper {
                 }
 
                 for (Map<String, String> projectRow : projectSheetData) {
+                	
                     String projectName = projectRow.get("Company");
+                    System.out.println("Project....................+");
+
+                    Company comp = companyRepository.findByName(projectName);
+//                    System.out.println("Comppppppppppppppppppppppppppppppp+"+comp.getName());
 
                     if (projectName == null || projectName.trim().isEmpty()) {
                         System.out.println("Warning: Project name is null or empty.");
@@ -156,12 +162,18 @@ public class Helper {
                         leadDTO.setSource("Corpseed HO");
 
                         Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+                        List<Lead>leadList = new ArrayList<>();
+                        leadList.add(savedLead);
+                        System.out.println("Lead Datat  ...=============================       "+comp.getName());
+                        comp.setCompanyLead(leadList);
+                        companyRepository.save(comp);
                         System.out.println("Lead created: " + savedLead);
+                        System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
 
                         String projectNumber = projectRow.get("Project_No");
-                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
-
-                        if (existingProject == null) {
+//                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
+                        List<Project> existingProject = projectRepository.findAllByProjectNo(projectNumber);
+                        if (existingProject != null && existingProject.size()==0) {
                             Project project = new Project();
                             project.setCompany(existingCompany);
                             project.setProjectNo(projectNumber);
@@ -169,7 +181,13 @@ public class Helper {
                             project.setLead(savedLead);
 
                             Project savedProjectData = projectRepository.save(project);
-                            System.out.println("Project created: " + savedProjectData);
+                            
+                            List<Project>pList = new ArrayList<>();
+                            pList.add(savedProjectData);
+                            
+                            comp.setCompanyProject(pList);
+                            companyRepository.save(comp);
+//                            System.out.println("Project created: " + savedProjectData);
                         } else {
                             System.out.println("Warning: Project with number " + projectNumber + " already exists.");
                         }
