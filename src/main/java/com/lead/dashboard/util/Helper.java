@@ -11,6 +11,9 @@ import com.lead.dashboard.serviceImpl.LeadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+
+import jakarta.transaction.Transactional;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +78,7 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
-
+@Transactional
     public void lead_migration(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
@@ -160,12 +163,27 @@ public class Helper {
                         leadDTO.setCreatedById(1L);
                         leadDTO.setDisplayStatus(status);
                         leadDTO.setSource("Corpseed HO");
-
                         Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+                        
+//                        Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
+//                        lSet.add(savedLead);
+                     if(comp.getCompanyLead()!=null){
+                       Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
+                       lSet.add(savedLead);
+                         List<Lead>leadList = new ArrayList<>(lSet);
+                         comp.setCompanyLead(leadList);
+
+                     }else {
+                    	 
+                     }
+                        
                         List<Lead>leadList = new ArrayList<>();
-                        leadList.add(savedLead);
+                      leadList.add(savedLead);
+
                         System.out.println("Lead Datat  ...=============================       "+comp.getName());
                         comp.setCompanyLead(leadList);
+                        
+                        
                         companyRepository.save(comp);
                         System.out.println("Lead created: " + savedLead);
                         System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
@@ -182,10 +200,25 @@ public class Helper {
 
                             Project savedProjectData = projectRepository.save(project);
                             
-                            List<Project>pList = new ArrayList<>();
-                            pList.add(savedProjectData);
-                            
-                            comp.setCompanyProject(pList);
+//                            List<Project>pList = new ArrayList<>();
+//                            pList.add(savedProjectData);
+                            if(comp.getCompanyProject()!=null) {
+                            	 Set<Project>pset = new HashSet<>(comp.getCompanyProject());
+                                 pset.add(savedProjectData);
+                                 List<Project>pList = new ArrayList<>(pset);
+                                 comp.setCompanyProject(pList);
+
+                            }else {
+                                List<Project>pList = new ArrayList<>();
+                                pList.add(savedProjectData);
+                                comp.setCompanyProject(pList);
+
+                            }
+//                            Set<Project>pset = new HashSet<>(comp.getCompanyProject());
+//                            pset.add(savedProjectData);
+//                            List<Project>pList = new ArrayList<>(pset);
+
+//                            comp.setCompanyProject(pList);
                             companyRepository.save(comp);
 //                            System.out.println("Project created: " + savedProjectData);
                         } else {
