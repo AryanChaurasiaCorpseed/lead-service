@@ -25,5 +25,49 @@ public class Contact {
 	String whatsappNo;
 	Long companyId;
 	boolean deleteStatus =false;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmails() {
+		return emails;
+	}
+	public void setEmails(String emails) {
+		this.emails = emails;
+	}
+	public String getContactNo() {
+		return contactNo;
+	}
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+	public String getWhatsappNo() {
+		return whatsappNo;
+	}
+	public void setWhatsappNo(String whatsappNo) {
+		this.whatsappNo = whatsappNo;
+	}
+	public Long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+	
+	
 
 }
