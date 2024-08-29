@@ -20,10 +20,14 @@ import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.CompanyForm;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.ServiceDetails;
@@ -429,6 +433,50 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistory.setLeadId(lead.getId());
 		leadHistoryRepository.save(leadHistory);
 		return leadHistory;
+	}
+	
+	
+	public List<Lead> getAllActiveCustomerLeadV3(AllLeadFilter allLeadFilter, int page, int size) {
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long uId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		Optional<User> user = userRepo.findById(uId);
+		Pageable pageable = PageRequest.of(page, size);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			//			String startDate = convertLongToStringDateFormat(toDate);
+			//			String endDate = convertLongToStringDateFormat(fromDate);
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					return leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList, pageable).getContent();
+					
+				}else {
+					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate,pageable).getContent();
+
+				}
+				//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+			}else {
+				return leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate,pageable).getContent();
+			}
+		}else {
+
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				//				return leadRepository.findAllByIsDeleted(false);
+				if(userList!=null &&userList.size()!=0) {
+					return leadRepository.findAllByIsDeleted(false,userList,pageable).getContent();
+				}else {
+					return leadRepository.findAllByStatusIdAndIsDeleted(1l,false, pageable).getContent();
+				}
+			}else {
+				return leadRepository.findAllByAssigneeAndIsDeleted(uId, false, pageable).getContent();
+			}
+
+
+		}
+
 	}
 
 	@Override
@@ -972,6 +1020,59 @@ public class LeadServiceImpl implements LeadService  {
 		return service;
 	}
 
+	
+	
+	public List<Lead> getAllLeadV3(AllLeadFilter allLeadFilter ,int page, int size) {
+
+		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long userId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		List<Long>statusIds=allLeadFilter.getStatusId();
+		boolean flag =false;
+		List<Lead>leadList = new ArrayList<>();
+		Optional<User> user = userRepo.findById(userId);
+		Pageable pageable = PageRequest.of(page, size);
+//		Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+
+				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+				if(userList!=null &&userList.size()!=0) {
+					
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList,pageable).getContent();
+
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate,pageable).getContent();
+
+				}
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId,flag,startDate,endDate,pageable).getContent();
+			}
+		}else {
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag,pageable).getContent();
+                      System.out.println("TEST");
+				}else {
+                    System.out.println("TEST2");
+
+					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag,pageable).getContent();
+
+				}
+
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeleted(userId,flag,pageable).getContent();
+			}
+		}
+
+		return leadList;
+
+	}
 
 	@Override
 	//	public List<Lead> getAllLead(Long userId, Long statusId,String toDate,String fromDate) {
