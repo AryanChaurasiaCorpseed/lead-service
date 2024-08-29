@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Company;
@@ -110,6 +112,85 @@ public class CompanyServiceImpl implements CompanyService {
 			}else {
 
 				companyList =companyRepository.findByAssigneeId(userId);
+
+			}
+		}
+		//		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		List<Map<String,Object>>res = new ArrayList<>();
+		for(Company c:companyList) {
+			Map<String,Object>result = new HashMap<>();
+
+			result.put("companyId", c.getId());
+			result.put("companyName", c.getName());
+			result.put("country", c.getCountry());
+			result.put("gstNo", c.getGstNo());
+			result.put("gstType", c.getGstType());
+			result.put("gstDoc", c.getGstDocuments());
+
+
+			result.put("assignee", c.getAssignee());
+			
+			result.put("address", c.getAddress());
+			result.put("city", c.getCity());
+			result.put("state", c.getState());
+			result.put("country", c.getCountry());
+
+			result.put("secAddress", c.getSAddress());
+			result.put("secCity", c.getSCity());
+			result.put("secState", c.getSState());
+			result.put("seCountry", c.getSCountry());
+			
+			result.put("primaryContact", c.getPrimaryContact());
+			result.put("secondaryContact", c.getSecondaryContact());
+
+			
+			List<Lead> lList = c.getCompanyLead();
+			List<Map<String,Object>>leadList = new ArrayList<>();
+			for(Lead l:lList) {
+				Map<String,Object>lMap = new HashMap<>();
+				lMap.put("leadId", l.getId());
+				lMap.put("leadNameame", l.getLeadName());
+				leadList.add(lMap);
+
+			}
+			result.put("lead", leadList);
+
+			List<Project> pList = c.getCompanyProject();
+			List<Map<String,Object>>projectList = new ArrayList<>();
+			for(Project p:pList) {
+				Map<String,Object>pMap = new HashMap<>();
+				pMap.put("projectId", p.getId());
+				pMap.put("projectName", p.getName());
+				projectList.add(pMap);				
+			}
+			result.put("project", projectList);
+			res.add(result);
+
+		}
+		return res;
+	}
+
+	
+	public List<Map<String,Object>> getAllCompanyV2(Long userId, int page, int size) {
+		Optional<User> userOp = userRepo.findById(userId);
+		List<Company> companyList = new ArrayList<>();
+		User user = userOp.get();
+		Pageable pageable = PageRequest.of(page, size);
+		List<String> roleList = user.getRole();
+		if(roleList.contains("ADMIN")) {
+//			companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+			companyRepository.findAll(pageable).getContent().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+		}else {
+			if(user.isManager()) {
+				List<Long>userList = new ArrayList<>();
+				userList.add(userId);
+				List<Long> uList = userServiceImpl.getUserManager(userId);
+				userList.addAll(uList);
+				companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+
+			}else {
+
+				companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
 
 			}
 		}

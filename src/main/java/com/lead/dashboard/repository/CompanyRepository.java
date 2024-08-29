@@ -1,7 +1,9 @@
 package com.lead.dashboard.repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,13 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	@Query(value = "SELECT * FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
 	List<Company> findAllByAssigneeIdIn(List<Long> userList);
+	
+	
+	@Query(value = "SELECT * FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
+	Page<Company> findAllByAssigneeIdIn(List<Long> userList,Pageable pageable);
+	
+	@Query(value = "SELECT * FROM company c where c.assignee_id=:userId", nativeQuery = true)
+	Page<Company> findByAssigneeId(Long userId,Pageable pageable);
 
 	@Query(value = "SELECT * FROM company c where c.assignee_id=:userId", nativeQuery = true)
 	List<Company> findByAssigneeId(Long userId);
