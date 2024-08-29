@@ -1379,6 +1379,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus("1");
 		lead.setWhatsAppStatus(0);
 		lead.setUuid(commonServices.getUuid());
+		
 //		lead.setAssignee();
 
 		Status status = statusRepository.findByStatusName("Bad fit");
@@ -1395,7 +1396,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 		if (leadDTO.getName() == null || leadDTO.getLeadName() == null || leadDTO.getMobileNo() == null) {
-			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
+//			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
 		}
 
 		String email = leadDTO.getEmail();
@@ -1432,8 +1433,13 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
 		lead.setUuid(commonServices.getUuid());
+		
+		if(leadDTO.getAssigneeId()!=null) {
+			User assignee = userRepo.findById(leadDTO.getAssigneeId()).get();
+			lead.setAssignee(assignee);
+		}
 
-		Status status = statusRepository.findByStatusName("New");
+		Status status = statusRepository.findByStatusName("Deal won");
 		System.out.println("Status "+ status);
 		if (status == null) {
 			throw new IllegalStateException("Status 'New' not found in the database");

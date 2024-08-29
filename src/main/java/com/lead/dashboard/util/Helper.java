@@ -78,8 +78,8 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
-@Transactional
-    public void lead_migration(String crmClientFilePath, String projectsFilePath) {
+//@Transactional
+    public void lead_migrationV2(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
             List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
@@ -115,7 +115,10 @@ public class Helper {
 
                     Company company = new Company();
                     company.setName(crmClientName);
-                    company.setAddress(crmClientRow.get("cregaddress"));
+                    if(crmClientRow.get("cregaddress").length()<116) {
+                     company.setAddress(crmClientRow.get("cregaddress"));
+
+                    }
                     company.setCity(crmClientRow.get("creglocation"));
                     company.setPrimaryContact(savedContact);
                     company.setPanNo(crmClientRow.get("cregpan"));
@@ -132,102 +135,102 @@ public class Helper {
                     System.out.println("Company created: " + existingCompany);
                 }
 
-                for (Map<String, String> projectRow : projectSheetData) {
-                	
-                    String projectName = projectRow.get("Company");
-                    System.out.println("Project....................+");
-
-                    Company comp = companyRepository.findByName(projectName);
-//                    System.out.println("Comppppppppppppppppppppppppppppppp+"+comp.getName());
-
-                    if (projectName == null || projectName.trim().isEmpty()) {
-                        System.out.println("Warning: Project name is null or empty.");
-                        continue;
-                    }
-
-                    if (projectName.equalsIgnoreCase(crmClientName)) {
-                        String status = "Deal won";
-
-                        if (projectRow.get("Service_Name") == null || projectRow.get("Contact_Mobile_First") == null ||
-                                projectRow.get("Contact_Email_First") == null) {
-                            System.out.println("Warning: Incomplete project data for project " + projectRow.get("Project_No"));
-                            continue;
-                        }
-
-                        LeadDTO leadDTO = new LeadDTO();
-                        leadDTO.setLeadName(projectRow.get("Service_Name"));
-                        leadDTO.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
-                        leadDTO.setMobileNo(projectRow.get("Contact_Mobile_First"));
-                        leadDTO.setEmail(projectRow.get("Contact_Email_First"));
-                        leadDTO.setLeadDescription(projectRow.get("Service_Name"));
-                        leadDTO.setCreatedById(1L);
-                        leadDTO.setDisplayStatus(status);
-                        leadDTO.setSource("Corpseed HO");
-                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
-                        
-//                        Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
-//                        lSet.add(savedLead);
-                     if(comp.getCompanyLead()!=null){
-                       Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
-                       lSet.add(savedLead);
-                         List<Lead>leadList = new ArrayList<>(lSet);
-                         comp.setCompanyLead(leadList);
-
-                     }else {
-                    	 
-                     }
-                        
-                        List<Lead>leadList = new ArrayList<>();
-                      leadList.add(savedLead);
-
-                        System.out.println("Lead Datat  ...=============================       "+comp.getName());
-                        comp.setCompanyLead(leadList);
-                        
-                        
-                        companyRepository.save(comp);
-                        System.out.println("Lead created: " + savedLead);
-                        System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
-
-                        String projectNumber = projectRow.get("Project_No");
-//                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
-                        List<Project> existingProject = projectRepository.findAllByProjectNo(projectNumber);
-                        if (existingProject != null && existingProject.size()==0) {
-                            Project project = new Project();
-                            project.setCompany(existingCompany);
-                            project.setProjectNo(projectNumber);
-                            project.setName(projectRow.get("Service_Name"));
-                            project.setLead(savedLead);
-
-                            Project savedProjectData = projectRepository.save(project);
-                            
-//                            List<Project>pList = new ArrayList<>();
-//                            pList.add(savedProjectData);
-                            if(comp.getCompanyProject()!=null) {
-                            	 Set<Project>pset = new HashSet<>(comp.getCompanyProject());
-                                 pset.add(savedProjectData);
-                                 List<Project>pList = new ArrayList<>(pset);
-                                 comp.setCompanyProject(pList);
-
-                            }else {
-                                List<Project>pList = new ArrayList<>();
-                                pList.add(savedProjectData);
-                                comp.setCompanyProject(pList);
-
-                            }
-//                            Set<Project>pset = new HashSet<>(comp.getCompanyProject());
-//                            pset.add(savedProjectData);
-//                            List<Project>pList = new ArrayList<>(pset);
-
-//                            comp.setCompanyProject(pList);
-                            companyRepository.save(comp);
-//                            System.out.println("Project created: " + savedProjectData);
-                        } else {
-                            System.out.println("Warning: Project with number " + projectNumber + " already exists.");
-                        }
-                    } else {
-                        System.out.println("Warning: Project name does not match CRM client name.");
-                    }
-                }
+//                for (Map<String, String> projectRow : projectSheetData) {
+//                	
+//                    String projectName = projectRow.get("Company");
+//                    System.out.println("Project....................+");
+//
+//                    Company comp = companyRepository.findByName(projectName);
+////                    System.out.println("Comppppppppppppppppppppppppppppppp+"+comp.getName());
+//
+//                    if (projectName == null || projectName.trim().isEmpty()) {
+//                        System.out.println("Warning: Project name is null or empty.");
+//                        continue;
+//                    }
+//
+//                    if (projectName.equalsIgnoreCase(crmClientName)) {
+//                        String status = "Deal won";
+//
+//                        if (projectRow.get("Service_Name") == null || projectRow.get("Contact_Mobile_First") == null ||
+//                                projectRow.get("Contact_Email_First") == null) {
+//                            System.out.println("Warning: Incomplete project data for project " + projectRow.get("Project_No"));
+//                            continue;
+//                        }
+//
+//                        LeadDTO leadDTO = new LeadDTO();
+//                        leadDTO.setLeadName(projectRow.get("Service_Name"));
+//                        leadDTO.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
+//                        leadDTO.setMobileNo(projectRow.get("Contact_Mobile_First"));
+//                        leadDTO.setEmail(projectRow.get("Contact_Email_First"));
+//                        leadDTO.setLeadDescription(projectRow.get("Service_Name"));
+//                        leadDTO.setCreatedById(1L);
+//                        leadDTO.setDisplayStatus(status);
+//                        leadDTO.setSource("Corpseed HO");
+//                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
+//                        
+////                        Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
+////                        lSet.add(savedLead);
+//                     if(comp.getCompanyLead()!=null){
+//                       Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
+//                       lSet.add(savedLead);
+//                         List<Lead>leadList = new ArrayList<>(lSet);
+//                         comp.setCompanyLead(leadList);
+//
+//                     }else {
+//                    	 
+//                     }
+//                        
+//                        List<Lead>leadList = new ArrayList<>();
+//                      leadList.add(savedLead);
+//
+//                        System.out.println("Lead Datat  ...=============================       "+comp.getName());
+//                        comp.setCompanyLead(leadList);
+//                        
+//                        
+//                        companyRepository.save(comp);
+//                        System.out.println("Lead created: " + savedLead);
+//                        System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
+//
+//                        String projectNumber = projectRow.get("Project_No");
+////                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
+//                        List<Project> existingProject = projectRepository.findAllByProjectNo(projectNumber);
+//                        if (existingProject != null && existingProject.size()==0) {
+//                            Project project = new Project();
+//                            project.setCompany(existingCompany);
+//                            project.setProjectNo(projectNumber);
+//                            project.setName(projectRow.get("Service_Name"));
+//                            project.setLead(savedLead);
+//
+//                            Project savedProjectData = projectRepository.save(project);
+//                            
+////                            List<Project>pList = new ArrayList<>();
+////                            pList.add(savedProjectData);
+//                            if(comp.getCompanyProject()!=null) {
+//                            	 Set<Project>pset = new HashSet<>(comp.getCompanyProject());
+//                                 pset.add(savedProjectData);
+//                                 List<Project>pList = new ArrayList<>(pset);
+//                                 comp.setCompanyProject(pList);
+//
+//                            }else {
+//                                List<Project>pList = new ArrayList<>();
+//                                pList.add(savedProjectData);
+//                                comp.setCompanyProject(pList);
+//
+//                            }
+////                            Set<Project>pset = new HashSet<>(comp.getCompanyProject());
+////                            pset.add(savedProjectData);
+////                            List<Project>pList = new ArrayList<>(pset);
+//
+////                            comp.setCompanyProject(pList);
+//                            companyRepository.save(comp);
+////                            System.out.println("Project created: " + savedProjectData);
+//                        } else {
+//                            System.out.println("Warning: Project with number " + projectNumber + " already exists.");
+//                        }
+//                    } else {
+//                        System.out.println("Warning: Project name does not match CRM client name.");
+//                    }
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -469,7 +472,7 @@ public class Helper {
     
     
     @Transactional
-    public void lead_migrationV2(String crmClientFilePath, String projectsFilePath) {
+    public void lead_migration(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
             List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
@@ -503,6 +506,7 @@ public class Helper {
                         leadDTO.setMobileNo(projectRow.get("Contact_Mobile_First"));
                         leadDTO.setEmail(projectRow.get("Contact_Email_First"));
                         leadDTO.setLeadDescription(projectRow.get("Service_Name"));
+                        leadDTO.setAssigneeId(comp.getAssignee()!=null?comp.getAssignee().getId():null);
                         leadDTO.setCreatedById(1L);
                         leadDTO.setDisplayStatus(status);
                         leadDTO.setSource("Corpseed HO");
