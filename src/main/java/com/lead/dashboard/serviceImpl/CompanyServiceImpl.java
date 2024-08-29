@@ -179,7 +179,8 @@ public class CompanyServiceImpl implements CompanyService {
 		List<String> roleList = user.getRole();
 		if(roleList.contains("ADMIN")) {
 //			companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
-			companyRepository.findAll(pageable).getContent().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+			companyList=companyRepository.findAll(pageable).getContent();
+			System.out.println("test1.......");
 		}else {
 			if(user.isManager()) {
 				List<Long>userList = new ArrayList<>();

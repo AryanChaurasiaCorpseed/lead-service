@@ -1388,6 +1388,7 @@ public class CompanyFormController {
 					
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
+					projectRepository.save(p);
 					List<Project> projectList = unit.getCompanyProject();
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
@@ -1493,6 +1494,7 @@ public class CompanyFormController {
 					p.setAssignee(assignee);
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
+					projectRepository.save(p);
 					List<Project> projectList = new ArrayList<>();
 					//					List<Project> projectList = unit.getCompanyProject();
 					if(unit.getCompanyProject()!=null) {
@@ -1601,6 +1603,8 @@ public class CompanyFormController {
 				p.setAssignee(assignee);
 				p.setStatus("initiated");
 				p.setCreateDate(new Date());
+				projectRepository.save(p);
+
 				List<Project> projectList =new ArrayList<>();
 				projectList.add(p);
 				company.setCompanyProject(projectList);
