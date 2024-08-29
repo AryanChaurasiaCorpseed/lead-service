@@ -84,7 +84,7 @@ public class LeadController {
 		}
 	}
 
-	@PostMapping(UrlsMapping.GET_ALL_LEAD)
+//	@PostMapping(UrlsMapping.GET_ALL_LEAD)
 	public ResponseEntity <List<Lead>> getAllLead(@RequestBody AllLeadFilter allLeadFilter)
 	{		
 		//type->active , inActive 
@@ -94,6 +94,22 @@ public class LeadController {
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
 			List<Lead> alllead= leadservice.getAllActiveCustomerLead(allLeadFilter);
+
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}
+
+	}
+	@PostMapping(UrlsMapping.GET_ALL_LEAD)
+	public ResponseEntity <List<Lead>> getAllLeadV3(@RequestBody AllLeadFilter allLeadFilter,@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{		
+		//type->active , inActive 
+		//status->new,potential . etc
+		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
+			List<Lead> alllead= leadservice.getAllLeadV3(allLeadFilter,page,size);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}else {
+			List<Lead> alllead= leadservice.getAllActiveCustomerLeadV3(allLeadFilter,page,size);
 
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
