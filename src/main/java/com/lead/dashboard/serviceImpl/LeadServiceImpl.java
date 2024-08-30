@@ -335,7 +335,7 @@ public class LeadServiceImpl implements LeadService  {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
 			lead.setAssignee(user.get());
 		}else {
-			Optional<User> user = userRepo.findById(1l);
+			Optional<User> user = userRepo.findById(3l);
 	        System.out.println("Aryan14  null user........"+user.get());
 
 			lead.setAssignee(user.get());
