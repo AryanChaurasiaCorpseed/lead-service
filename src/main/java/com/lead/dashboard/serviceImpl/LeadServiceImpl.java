@@ -62,10 +62,10 @@ public class LeadServiceImpl implements LeadService  {
 	MailSendSerivceImpl mailSendSerivceImpl;
 	@Autowired
 	CommonServices commonServices;
-	
+
 	@Autowired
 	CompanyFormController companyFormController;
-	
+
 	@Autowired
 	SlugRepository slugRepository;
 	@Autowired
@@ -88,7 +88,7 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	ClientRepository clientRepository;
-	
+
 	@Autowired
 	UrlsManagmentRepo urlsManagmentRepo;
 
@@ -176,13 +176,13 @@ public class LeadServiceImpl implements LeadService  {
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
-//		System.out.println("ttttt");
+		System.out.println("ttttt");
 
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
 			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
-//			System.out.println(companyId);
+			//			System.out.println(companyId);
 			if(companyId!=null) {
 				// check company status if open
 				Company company = companyRepository.findById(companyId).get();
@@ -196,19 +196,27 @@ public class LeadServiceImpl implements LeadService  {
 				}
 			}else {
 				// means is lead is in bad fit
-//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+				//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
 
 				lead=leadList.get(0);
-				lead.setBacklogTask(true);
-				lead.setName(leadDTO.getLeadName());
-				lead.setOriginalName(leadDTO.getLeadName());
-				Status status = statusRepository.findAllByName("New");
-				lead.setStatus(status);
-				lead.setAuto(false);
-				leadRepository.save(lead);//also create history
-				
+				String lStatus =lead.getStatus()!=null?lead.getStatus().getName():"NA";
+				if("Bad Fit".equals(lead.getStatus().getName())) {
+					lead.setBacklogTask(true);
+					lead.setCount(leadList.size()+1);
+					lead.setName(leadDTO.getLeadName());
+					lead.setOriginalName(leadDTO.getLeadName());
+					Status status = statusRepository.findAllByName("New");
+					lead.setStatus(status);
+					lead.setAuto(false);
+					leadRepository.save(lead);//also create history
+				}else {
+					lead.setCount(leadList.size()+1);
+					leadRepository.save(lead);//also create history
+
+				}
+
 			}
-			
+
 		}else {   
 			System.out.println("ddddddddddddddddddddddddddddddddddddd");
 
@@ -243,7 +251,7 @@ public class LeadServiceImpl implements LeadService  {
 				}
 			}else {
 				// means is lead is in bad fit
-//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+				//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
 
 				lead=leadList.get(0);
 				lead.setBacklogTask(true);
@@ -253,9 +261,9 @@ public class LeadServiceImpl implements LeadService  {
 				lead.setStatus(status);
 				lead.setAuto(false);
 				leadRepository.save(lead);//also create history
-				
+
 			}
-			
+
 		}else {   
 			System.out.println("ddddddddddddddddddddddddddddddddddddd");
 
@@ -263,54 +271,54 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		return lead;
 	}
-	
+
 	public List<Project> isLeadOpen(Company company,String serviceName) {
 		List<Project> projectList = company.getCompanyProject();
 		List<Lead> leadList = company.getCompanyLead().stream().distinct().collect(Collectors.toList());
 		System.out.println("=======================================================");
 		System.out.println(leadList.size());
-//		System.out.println(leadList.get(0).getId());
-//		System.out.println(leadList.get(1).getId());
+		//		System.out.println(leadList.get(0).getId());
+		//		System.out.println(leadList.get(1).getId());
 
 		List<Project> result = new ArrayList<>();
-	    Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
+		Map<Long,Lead>leadMap=leadList.stream().collect(Collectors.toMap(i->i.getId(), i->i));
 		for(Project p:projectList) {
-		   if("Open".equalsIgnoreCase(p.getStatus()) && p.getName().equals(serviceName)) {
-			   result.add(p);
-			   Lead l=leadMap.get(p.getLead().getId());
-			   if(l!=null) {
-				   int count = l.getCount();
-				   count=count==0?count+2:count++;
-				  l.setCount(count);
-			   }
-			   leadRepository.save(l);
-		   }
+			if("Open".equalsIgnoreCase(p.getStatus()) && p.getName().equals(serviceName)) {
+				result.add(p);
+				Lead l=leadMap.get(p.getLead().getId());
+				if(l!=null) {
+					int count = l.getCount();
+					count=count==0?count+2:count++;
+					l.setCount(count);
+				}
+				leadRepository.save(l);
+			}
 		}
 		return result;
 	}
-	
+
 
 	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
-//		if(leadList!=null && leadList.size()!=0) {
-//			int size = leadList.size();
-//			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
-//		}else {
-//			lead.setLeadName(leadDTO.getLeadName());
-//		}
+		//		if(leadList!=null && leadList.size()!=0) {
+		//			int size = leadList.size();
+		//			lead.setLeadName("(Duplicate - "+size+" )"+leadDTO.getLeadName());
+		//		}else {
+		//			lead.setLeadName(leadDTO.getLeadName());
+		//		}
 		lead.setLeadName(leadDTO.getLeadName());
-         System.out.println("Aryan12........");
-         System.out.println(leadDTO.getSource());
- 		if("Corpseed Website".equals(leadDTO.getSource())) {
- 			 Long sId=slugRepository.findIdByName(leadDTO.getLeadName());
- 			System.out.println("sId....."+sId);
- 			String urlsName=urlsManagmentRepo.findNameBySlugId(sId);
- 			System.out.println(urlsName+".........................Aryan chaurasia");
+		System.out.println("Aryan12........");
+		System.out.println(leadDTO.getSource());
+		if("Corpseed Website".equals(leadDTO.getSource())) {
+			Long sId=slugRepository.findIdByName(leadDTO.getLeadName());
+			System.out.println("sId....."+sId);
+			String urlsName=urlsManagmentRepo.findNameBySlugId(sId);
+			System.out.println(urlsName+".........................Aryan chaurasia");
 			lead.setOriginalName(urlsName);
- 			System.out.println(urlsName+".........................Aryan ");
- 			
+			System.out.println(urlsName+".........................Aryan ");
+
 
 		}
-//		lead.setOriginalName(leadDTO.getLeadName());
+		//		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
 		//		lead.setLeadName(leadDTO.getLeadName());
 		lead.setLeadDescription(leadDTO.getLeadDescription());
@@ -319,11 +327,14 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setUrls(leadDTO.getUrls());
 		lead.setAuto(true);
 		lead.setIsUrlsChecked(true);
+		if(leadDTO.getCount()!=0) {
+			lead.setCount(leadDTO.getCount());
+		}
 		lead.setCreateDate(new Date());		
 		lead.setView(false);
 		lead.setLastUpdated(new Date());
 		User createdBy=null;
-        System.out.println("Aryan13........");
+		System.out.println("Aryan13........");
 
 		if(leadDTO.getCreatedById()!=null) {
 			createdBy= userRepo.findById(leadDTO.getCreatedById()).get();
@@ -336,11 +347,11 @@ public class LeadServiceImpl implements LeadService  {
 			lead.setAssignee(user.get());
 		}else {
 			Optional<User> user = userRepo.findById(3l);
-	        System.out.println("Aryan14  null user........"+user.get());
+			System.out.println("Aryan14  null user........"+user.get());
 
 			lead.setAssignee(user.get());
 		}
-        System.out.println("Aryan14........");
+		System.out.println("Aryan14........");
 
 		Client client = new Client();
 		client.setName(leadDTO.getName());
@@ -359,7 +370,7 @@ public class LeadServiceImpl implements LeadService  {
 			client.setServiceDetails(sList);
 		}         System.out.println("Aryan15........");
 
-		
+
 		clientRepository.save(client);
 		List<Client>cList = new ArrayList<>();
 		cList.add(client);
@@ -371,8 +382,8 @@ public class LeadServiceImpl implements LeadService  {
 		if(status!=null) {
 			lead.setStatus(status);
 		}
-        System.out.println("Aryan16........");
-        lead.setAuto(true);
+		System.out.println("Aryan16........");
+		lead.setAuto(true);
 		lead.setCity(leadDTO.getCity());
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
@@ -381,7 +392,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus(leadDTO.getDisplayStatus());
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
 		lead.setUuid(commonServices.getUuid());
-		
+
 		System.out.println("Aryan17........");
 
 		leadRepository.save(lead);
@@ -391,7 +402,7 @@ public class LeadServiceImpl implements LeadService  {
 			List<Lead> compLead = comp.getCompanyLead();
 			compLead.add(lead);
 			companyRepository.save(comp);
-						
+
 		}
 
 		createLeadHistory(lead,createdBy);
@@ -434,8 +445,8 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistoryRepository.save(leadHistory);
 		return leadHistory;
 	}
-	
-	
+
+
 	public List<Lead> getAllActiveCustomerLeadV3(AllLeadFilter allLeadFilter, int page, int size) {
 		String toDate=allLeadFilter.getToDate();
 		String fromDate=allLeadFilter.getFromDate();
@@ -452,7 +463,7 @@ public class LeadServiceImpl implements LeadService  {
 			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 				if(userList!=null &&userList.size()!=0) {
 					return leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList, pageable).getContent();
-					
+
 				}else {
 					return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate,pageable).getContent();
 
@@ -691,6 +702,7 @@ public class LeadServiceImpl implements LeadService  {
 			map.put("remarks", lead.getRemarks());
 			map.put("status", lead.getStatus());
 			map.put("isBacklog", lead.isBacklogTask());
+			map.put("count", lead.getCount());
 
 			//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 			List<Client> clientList = lead.getClients();
@@ -1020,8 +1032,8 @@ public class LeadServiceImpl implements LeadService  {
 		return service;
 	}
 
-	
-	
+
+
 	public List<Lead> getAllLeadV3(AllLeadFilter allLeadFilter ,int page, int size) {
 
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
@@ -1034,7 +1046,7 @@ public class LeadServiceImpl implements LeadService  {
 		List<Lead>leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
 		Pageable pageable = PageRequest.of(page, size);
-//		Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
+		//		Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
@@ -1043,7 +1055,7 @@ public class LeadServiceImpl implements LeadService  {
 
 				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
 				if(userList!=null &&userList.size()!=0) {
-					
+
 					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList,pageable).getContent();
 
 				}else {
@@ -1057,9 +1069,9 @@ public class LeadServiceImpl implements LeadService  {
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 				if(userList!=null &&userList.size()!=0) {
 					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag,pageable).getContent();
-                      System.out.println("TEST");
+					System.out.println("TEST");
 				}else {
-                    System.out.println("TEST2");
+					System.out.println("TEST2");
 
 					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag,pageable).getContent();
 
@@ -1165,24 +1177,24 @@ public class LeadServiceImpl implements LeadService  {
 			}
 		}
 		List<Map<String,Object>>result = new ArrayList<>();
-		
-        for(Lead l:leadList) {
-            Map<String,Object>map = new HashMap<>();
-            map.put("id", l.getId());
-            map.put("leadName", l.getLeadName());
-            map.put("clientName", l.getName());
-            map.put("clientEmail", l.getEmail());
-            map.put("mobileNo", l.getMobileNo());
-            map.put("originalName", l.getOriginalName());
-            map.put("status", l.getStatus());
-            map.put("createdBy", l.getCreatedBy());
-            map.put("missedTaskName", l.getMissedTaskName());
-            map.put("missedTaskStatus", l.getMissedTaskStatus());
-            map.put("missedTaskCreatedBy", l.getMissedTaskCretedBy());
-            map.put("missedTaskDate", l.getMissedTaskDate());
+
+		for(Lead l:leadList) {
+			Map<String,Object>map = new HashMap<>();
+			map.put("id", l.getId());
+			map.put("leadName", l.getLeadName());
+			map.put("clientName", l.getName());
+			map.put("clientEmail", l.getEmail());
+			map.put("mobileNo", l.getMobileNo());
+			map.put("originalName", l.getOriginalName());
+			map.put("status", l.getStatus());
+			map.put("createdBy", l.getCreatedBy());
+			map.put("missedTaskName", l.getMissedTaskName());
+			map.put("missedTaskStatus", l.getMissedTaskStatus());
+			map.put("missedTaskCreatedBy", l.getMissedTaskCretedBy());
+			map.put("missedTaskDate", l.getMissedTaskDate());
 
 
-        }
+		}
 		return leadList;
 
 	}
@@ -1227,7 +1239,7 @@ public class LeadServiceImpl implements LeadService  {
 	@Override
 	public Boolean updateMultiLeadAssigne(UpdateMultiLeadAssignee updateMultiLeadAssignee) {
 		Boolean flag=false;
-        List<Status>filterStatus=statusRepository.findAllByEnableAutoAssign(true);
+		List<Status>filterStatus=statusRepository.findAllByEnableAutoAssign(true);
 		Status status = null;
 		if(updateMultiLeadAssignee.getStatusId()!=null) {
 			status=statusRepository.findById(updateMultiLeadAssignee.getStatusId()).get();
@@ -1249,8 +1261,8 @@ public class LeadServiceImpl implements LeadService  {
 			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				if(filterStatus!=null && filterStatus.contains(status)) {
-		        	l.setAuto(true);
-		        }
+					l.setAuto(true);
+				}
 				l.setStatus(status);
 			}
 			l.setView(false);
@@ -1318,8 +1330,8 @@ public class LeadServiceImpl implements LeadService  {
 		Boolean flag=false;
 		Optional<Lead> leadOp = leadRepository.findById(leadId);
 		Status status = statusRepository.findByName(statusName);
-        User u = userRepo.findById(updatedById).get();
-//		Status status = statusRepository.findById(statusId).get();
+		User u = userRepo.findById(updatedById).get();
+		//		Status status = statusRepository.findById(statusId).get();
 		if(leadOp!=null && leadOp.get()!=null) {
 			Lead lead = leadOp.get();
 			Status prevStatus = lead.getStatus();
@@ -1331,12 +1343,12 @@ public class LeadServiceImpl implements LeadService  {
 			multiLeadStatusHistoryAuto(leadId, prevStatus,currStatus, u,isNotAutoSame);
 
 			flag=true;
-			
+
 		}
 
 		return flag;
 	}
-	
+
 
 	public Boolean multiLeadStatusHistoryAuto(Long leadId,Status prevStatus,Status status,User updatedBy,Boolean isNotAutoSame) {
 		Boolean flag=false;
@@ -1353,16 +1365,16 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
-	
+
 	public Lead assignBadFitToQuality(Lead lead) {
 		List<User> qualityList = userRepo.findAllByIsDeletedAndIsQuality(true);
 		qualityList.stream().sorted(Comparator.comparing(User::getLockerSize).reversed()).collect(Collectors.toList());
-	    Optional<User> u = qualityList.stream().findFirst();
-	    if(u!=null && u.isPresent()){
-	    	User user=u.get();
-	    	lead.setAssignee(user);
-	    	leadRepository.save(lead);
-	    }
+		Optional<User> u = qualityList.stream().findFirst();
+		if(u!=null && u.isPresent()){
+			User user=u.get();
+			lead.setAssignee(user);
+			leadRepository.save(lead);
+		}
 		return lead;
 	}
 	@Override
@@ -1378,7 +1390,7 @@ public class LeadServiceImpl implements LeadService  {
 				if(lead.getOriginalName()==null) {
 					lead.setOriginalName(updateLeadOriginal.getOriginalName());
 					lead.setLeadName(updateLeadOriginal.getOriginalName());
-                    b=true;
+					b=true;
 				}
 			}
 		}
@@ -1394,7 +1406,7 @@ public class LeadServiceImpl implements LeadService  {
 			map.put("value",l.getId());
 			map.put("label",l.getLeadName());
 			result.add(map);
-			
+
 		}
 		return result;
 	}
@@ -1417,7 +1429,7 @@ public class LeadServiceImpl implements LeadService  {
 	}
 	@Override
 	public Boolean leadAssignSamePerson(Long leadId) {
-			Boolean flag=false;
+		Boolean flag=false;
 		Company company = companyFormController.checkCompanyExistv2(leadId);
 		if(company!=null) {
 			User assignee = company.getAssignee();
@@ -1429,11 +1441,11 @@ public class LeadServiceImpl implements LeadService  {
 
 		return flag;
 	}
- 
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+
+	//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void createIvrLead(Long leadId) {
-         
-	
+
+
 	}
 
 	//Only For Bad Fit data
@@ -1480,7 +1492,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setDisplayStatus("1");
 		lead.setWhatsAppStatus(0);
 		lead.setUuid(commonServices.getUuid());
-//		lead.setAssignee();
+		//		lead.setAssignee();
 
 		Status status = statusRepository.findByStatusName("Bad fit");
 		if (status == null) {

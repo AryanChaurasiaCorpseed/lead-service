@@ -59,6 +59,7 @@ public class LeadDTO {
 	
 	Long assigneeId;
 
+	int count=0;
 
 	int whatsAppStatus;
 
