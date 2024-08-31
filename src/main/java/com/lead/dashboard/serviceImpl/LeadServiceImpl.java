@@ -210,8 +210,8 @@ public class LeadServiceImpl implements LeadService  {
 					lead.setAuto(false);
 					leadRepository.save(lead);//also create history
 				}else {
-					lead.setCount(leadList.size()+1);
-					leadRepository.save(lead);//also create history
+					leadDTO.setCount(leadList.size()+1);
+					lead=leadCreation(lead,leadDTO);
 
 				}
 
@@ -1074,11 +1074,11 @@ public class LeadServiceImpl implements LeadService  {
 					System.out.println("TEST2");
 
 					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag,pageable).getContent();
-
 				}
 
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndIsDeleted(userId,flag,pageable).getContent();
+				
+				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag,pageable).getContent();
 			}
 		}
 

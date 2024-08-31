@@ -101,6 +101,9 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId) ORDER BY id desc", nativeQuery = true)
 	Page<Lead> findAllByAssigneeAndIsDeleted(Long userId,boolean b,Pageable pageable);
 	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and el.status_id in(:statusIds) and el.assignee_id in(:userId) ORDER BY id desc", nativeQuery = true)
+	Page<Lead> findAllByAssigneeAndStatusIdInAndIsDeleted(Long userId,List<Long> statusIds,boolean b,Pageable pageable);
+	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and  el.assignee_id in(:userIds) ORDER BY id desc", nativeQuery = true)
 	Page<Lead> findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(boolean b,String d1,String d2,List<Long>userIds,Pageable pageable);
 	
