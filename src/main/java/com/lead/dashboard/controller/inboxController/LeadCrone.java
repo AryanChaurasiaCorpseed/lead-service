@@ -1404,6 +1404,97 @@ public class LeadCrone {
 
 		return result;
 	}
+	
+	public  ArrayList<User>mergeStarUserV3new(List<User>user4,List<User>user5,Map<Long,Integer>countMap){
+		int i=0;
+		int j=0;
+		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
+
+		ArrayList<User>result =new ArrayList<>();
+		int l1=user4!=null?user4.size():0;
+		int l2=user5!=null?user5.size():0;
+		while(i<l1 &&j<l2) {
+			User u4=user4.get(i);
+			User u5=user5.get(j);
+
+			int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId())+10:10:10;
+			countManage.put(u4.getId(), c4);
+			int c5=countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
+     
+			if(c4>c5) {
+				result.add(u5);
+				j++;
+			}else {
+				int c=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId())+10:10:10;
+				countManage.put(u4.getId(), c+10);
+				result.add(u4);
+				i++;
+			}
+		}
+
+		if(i==l1 &&j<l2) {
+			while(j<l2) {
+				User u5=user5.get(j);
+				result.add(u5);
+				j++;
+			}
+		}
+		if(j==l2 &&i<l1) {
+			while(i<l1) {
+				User u4=user4.get(i);
+				result.add(u4);
+				i++;
+			}
+		}
+		
+		//test sort
+		Collections.sort(result, (a, b) -> {
+			Integer c1=0;
+			Integer cp1=100;
+
+			if(countManage!=null && a.getId()!=null) {
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				c1=c1*100;
+				int lockerSize = a.getLockerSize();
+			     if(lockerSize!=0) {
+			    	 cp1= c1/lockerSize;
+			     }
+			}
+			
+			Integer c2=0;
+			Integer cp2=100;
+
+			if(countManage!=null && b.getId()!=null) {
+				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
+				c2=c2*100;
+				int lockerSize = b.getLockerSize();
+				if(lockerSize!=0) {
+			    	 cp2= c2/lockerSize;
+			     }
+
+				
+			}
+			System.out.println("Testing . . .. ");
+			if(cp1>cp2) {
+				return 1;
+			}else if(cp2>cp1) {
+				return -1;
+			}else {
+				return 0;
+			}
+		});
+		
+		//		System.out.println("=========start=============");
+		//		System.out.println(countMap);
+		//		for(User u:result) {
+		//			int c=countMap!=null?countMap.get(u.getId())!=null?countMap.get(u.getId()):0:0;
+		//
+		//			System.out.println(u.getId()+"...count..."+c);
+		//		}
+		//		System.out.println("==========end============");
+
+		return result;
+	}
 
 	public List<User> mergeAllUser1to5StarV3(List<Ratings>ratings,Map<Long,Integer>countMap) {
 		//		Map<Long,Integer>countManage=countMap;
@@ -1486,6 +1577,101 @@ public class LeadCrone {
 				}else {
 					return 0;
 				}
+			}
+		});
+		System.out.println("array List current data "+resUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
+
+		//		System.out.println("=======================A=============================="+countManage);
+		//		for(User ru:resUser) {
+		//			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
+		//		   System.out.println(ru.getFullName()+"... testing ...."+count);
+		//		}
+		//		System.out.println("=======================B===============================");
+
+		return resUser;	
+	}
+	
+	public List<User> mergeAllUser1to5StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
+		//		Map<Long,Integer>countManage=countMap;
+		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
+		List<User>resUser = new ArrayList<>();
+		for(Ratings r:ratings) {
+			//			Integer c2=countManage.get(u)+10;
+			List<User> userList = r.getRatingsUser();
+			String rating=r.getRating();
+			for(User u:userList) {
+				if("2".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+30;
+					if(count!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+
+				}else if("3".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+2000;
+					if(count!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+				}else if("4".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+10;
+					if(count!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else if("5".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count;
+					if(count!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);
+				}else {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					if(count!=null) {
+						countManage.put(u.getId(), count);
+					}
+					resUser.add(u);
+				}
+
+			}
+		}
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=0;
+			Integer cp1=100;
+
+			if(countManage!=null && a.getId()!=null) {
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				c1=c1*100;
+				int lockerSize = a.getLockerSize();
+			     if(lockerSize!=0) {
+			    	 cp1= c1/lockerSize;
+			     }
+			}
+			
+			Integer c2=0;
+			Integer cp2=100;
+
+			if(countManage!=null && b.getId()!=null) {
+				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
+				c2=c2*100;
+				int lockerSize = b.getLockerSize();
+				if(lockerSize!=0) {
+			    	 cp2= c2/lockerSize;
+			     }
+
+				
+			}
+			System.out.println("Testing . . .. ");
+			if(cp1>cp2) {
+				return 1;
+			}else if(cp2>cp1) {
+				return -1;
+			}else {
+				return 0;
 			}
 		});
 		System.out.println("array List current data "+resUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
@@ -2071,6 +2257,90 @@ public class LeadCrone {
 		System.out.println("res user .. .... ... ..."+resUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 		return resUser;	
 	}
+	
+	
+	//replace v3 ->v3new
+	public List<User> mergeAllUser1to3StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
+		Map<Long,Integer>countManage=countMap;
+		List<User>resUser = new ArrayList<>();
+		for(Ratings r:ratings) {
+			//			Integer c2=countManage.get(u)+10;
+			List<User> userList = r.getRatingsUser();
+			String rating=r.getRating();
+			for(User u:userList) {
+				//				System.out.println(u.getFullName()+"full name.."+rating);
+				if("1".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+20;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+
+				}else if("2".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count+10;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+				}else if("3".equals(rating)) {
+					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					Integer c2=count;
+					if(countManage!=null) {
+						countManage.put(u.getId(), c2);
+					}
+					resUser.add(u);  
+				}
+
+			}
+		}
+		Collections.sort(resUser, (a, b) -> {
+			Integer c1=0;
+			Integer cp1=100;
+
+			if(countManage!=null && a.getId()!=null) {
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				c1=c1*100;
+				int lockerSize = a.getLockerSize();
+			     if(lockerSize!=0) {
+			    	 cp1= c1/lockerSize;
+			     }
+			}
+			
+			Integer c2=0;
+			Integer cp2=100;
+
+			if(countManage!=null && b.getId()!=null) {
+				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
+				c2=c2*100;
+				int lockerSize = b.getLockerSize();
+				if(lockerSize!=0) {
+			    	 cp2= c2/lockerSize;
+			     }
+
+				
+			}
+			System.out.println("Testing . . .. ");
+			if(cp1>cp2) {
+				return 1;
+			}else if(cp2>cp1) {
+				return -1;
+			}else {
+				return 0;
+			}
+		});
+		//		System.out.println("=======================A=============================="+countManage);
+		//		for(User ru:resUser) {
+		//			Integer count=countManage!=null?countManage.get(ru.getId())!=null?countManage.get(ru.getId()):0:0;
+		//		   System.out.println(ru.getFullName()+"... testing ...."+count);
+		//		}
+		//		System.out.println("=======================B===============================");
+
+		System.out.println("res user .. .... ... ..."+resUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
+		return resUser;	
+	}
+
 
 	public List<User> mergeAllUser4to5StarV3(List<Ratings>ratings,Map<Long,Integer>countMap) {
 		Map<Long,Integer>countManage=countMap;
@@ -3525,7 +3795,7 @@ public class LeadCrone {
 			leadRepository.save(lead);
 		}
 	}
-	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 		public void assignLeadByCroneV() {
 			List<Long>croneStatus= new ArrayList<>();
 			System.out.println("First tsting  .....");
@@ -3603,7 +3873,7 @@ public class LeadCrone {
 									//								 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
 									System.out.println("iiiiiiiiiiiiiiiiiiiiii");
 									Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
-									List<User> userMerged = mergeStarUserV3(user4Rating,user5Rating,userCounts);
+									List<User> userMerged = mergeStarUserV3new(user4Rating,user5Rating,userCounts);
 									userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 									System.out.println("jjjjjjjjjjjjjjjjj");
 									User u1=null;
@@ -3643,7 +3913,7 @@ public class LeadCrone {
 										System.out.println("ooooooooooooooooooooo"+ratingList.size());
 										if(ratingList!=null && ratingList.size()>0) {
 											System.out.println("pppppppppppppppppppppppppppp");
-											List<User> getAllStarUser = mergeAllUser1to5StarV3(ratingList, userCounts);
+											List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
 											getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 											System.out.println("p1-testfgddgdfgdfg  "+getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 											for(int i=0;i<getAllStarUser.size();i++) {
@@ -3686,7 +3956,7 @@ public class LeadCrone {
 									List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);                            
 									if(ratingList!=null&&ratingList.size()>0) {
 										System.out.println("tttttttttttttttttt");
-										List<User> getAllStarUser = mergeAllUser1to3StarV3(ratingList, userCounts);
+										List<User> getAllStarUser = mergeAllUser1to3StarV3new(ratingList, userCounts);
 										getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 										int lockerSize=0;
 										int actualCount=0;
