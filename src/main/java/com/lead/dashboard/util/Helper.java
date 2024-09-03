@@ -78,7 +78,7 @@ public class Helper {
     @Autowired
     LeadServiceImpl leadService;
 
-@Transactional
+    @Transactional
     public void lead_migration(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
@@ -86,7 +86,7 @@ public class Helper {
 
             for (Map<String, String> crmClientRow : crmClientData) {
                 String crmClientName = crmClientRow.get("cregname");
-                Company  m = companyRepository.findByName(crmClientName);
+                Company m = companyRepository.findByName(crmClientName);
 
                 if (crmClientName == null || crmClientName.trim().isEmpty()) {
                     System.out.println("Warning: CRM client name is null or empty.");
@@ -133,7 +133,7 @@ public class Helper {
                 }
 
                 for (Map<String, String> projectRow : projectSheetData) {
-                	
+
                     String projectName = projectRow.get("Company");
                     System.out.println("Project....................+");
 
@@ -164,34 +164,34 @@ public class Helper {
                         leadDTO.setDisplayStatus(status);
                         leadDTO.setSource("Corpseed HO");
                         Lead savedLead = leadService.createLeadViaSheet(leadDTO);
-                        
+
 //                        Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
 //                        lSet.add(savedLead);
-                     if(comp.getCompanyLead()!=null){
-                       Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
-                       lSet.add(savedLead);
-                         List<Lead>leadList = new ArrayList<>(lSet);
-                         comp.setCompanyLead(leadList);
+                        if (comp.getCompanyLead() != null) {
+                            Set<Lead> lSet = new HashSet<>(comp.getCompanyLead());
+                            lSet.add(savedLead);
+                            List<Lead> leadList = new ArrayList<>(lSet);
+                            comp.setCompanyLead(leadList);
 
-                     }else {
-                    	 
-                     }
-                        
-                        List<Lead>leadList = new ArrayList<>();
-                      leadList.add(savedLead);
+                        } else {
 
-                        System.out.println("Lead Datat  ...=============================       "+comp.getName());
+                        }
+
+                        List<Lead> leadList = new ArrayList<>();
+                        leadList.add(savedLead);
+
+                        System.out.println("Lead Datat  ...=============================       " + comp.getName());
                         comp.setCompanyLead(leadList);
-                        
-                        
+
+
                         companyRepository.save(comp);
                         System.out.println("Lead created: " + savedLead);
-                        System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
+                        System.out.println("Lead Datat  ...======Test=======================       " + comp.getName());
 
                         String projectNumber = projectRow.get("Project_No");
 //                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
                         List<Project> existingProject = projectRepository.findAllByProjectNo(projectNumber);
-                        if (existingProject != null && existingProject.size()==0) {
+                        if (existingProject != null && existingProject.size() == 0) {
                             Project project = new Project();
                             project.setCompany(existingCompany);
                             project.setProjectNo(projectNumber);
@@ -199,17 +199,17 @@ public class Helper {
                             project.setLead(savedLead);
 
                             Project savedProjectData = projectRepository.save(project);
-                            
+
 //                            List<Project>pList = new ArrayList<>();
 //                            pList.add(savedProjectData);
-                            if(comp.getCompanyProject()!=null) {
-                            	 Set<Project>pset = new HashSet<>(comp.getCompanyProject());
-                                 pset.add(savedProjectData);
-                                 List<Project>pList = new ArrayList<>(pset);
-                                 comp.setCompanyProject(pList);
+                            if (comp.getCompanyProject() != null) {
+                                Set<Project> pset = new HashSet<>(comp.getCompanyProject());
+                                pset.add(savedProjectData);
+                                List<Project> pList = new ArrayList<>(pset);
+                                comp.setCompanyProject(pList);
 
-                            }else {
-                                List<Project>pList = new ArrayList<>();
+                            } else {
+                                List<Project> pList = new ArrayList<>();
                                 pList.add(savedProjectData);
                                 comp.setCompanyProject(pList);
 
@@ -314,7 +314,6 @@ public class Helper {
                 return "";
         }
     }
-
 
 
     public void savedRunningLead(String runningFile) {
@@ -466,22 +465,22 @@ public class Helper {
         // Ensure the mobile number is exactly 10 digits
         return mobileNo.length() > 10 ? mobileNo.substring(0, 10) : (mobileNo.length() == 10 ? mobileNo : "");
     }
-    
-    
+
+
     @Transactional
     public void lead_migrationV2(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
             List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
 
-                System.out.println(projectSheetData.size());
-                for (Map<String, String> projectRow : projectSheetData) {
-                	
-                    String projectName = projectRow.get("Company");
-                    System.out.println("Project....................+");
+            System.out.println(projectSheetData.size());
+            for (Map<String, String> projectRow : projectSheetData) {
 
-                    Company comp = companyRepository.findByName(projectName);
-                    if(comp!=null) {
+                String projectName = projectRow.get("Company");
+                System.out.println("Project....................+");
+
+                Company comp = companyRepository.findByName(projectName);
+                if (comp != null) {
 
                     if (projectName == null || projectName.trim().isEmpty()) {
                         System.out.println("Warning: Project name is null or empty.");
@@ -508,31 +507,31 @@ public class Helper {
                         leadDTO.setSource("Corpseed HO");
                         Lead savedLead = leadService.createLeadViaSheet(leadDTO);
 
-                     if(comp!=null &&comp.getCompanyLead()!=null){
-                       Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
-                       lSet.add(savedLead);
-                         List<Lead>leadList = new ArrayList<>(lSet);
-                         comp.setCompanyLead(leadList);
+                        if (comp != null && comp.getCompanyLead() != null) {
+                            Set<Lead> lSet = new HashSet<>(comp.getCompanyLead());
+                            lSet.add(savedLead);
+                            List<Lead> leadList = new ArrayList<>(lSet);
+                            comp.setCompanyLead(leadList);
 
-                     }else {
-                    	 
-                     }
-                        
-                        List<Lead>leadList = new ArrayList<>();
-                      leadList.add(savedLead);
+                        } else {
 
-                        System.out.println("Lead Datat  ...=============================       "+comp.getName());
+                        }
+
+                        List<Lead> leadList = new ArrayList<>();
+                        leadList.add(savedLead);
+
+                        System.out.println("Lead Datat  ...=============================       " + comp.getName());
                         comp.setCompanyLead(leadList);
-                        
-                        
+
+
                         companyRepository.save(comp);
                         System.out.println("Lead created: " + savedLead);
-                        System.out.println("Lead Datat  ...======Test=======================       "+comp.getName());
+                        System.out.println("Lead Datat  ...======Test=======================       " + comp.getName());
 
                         String projectNumber = projectRow.get("Project_No");
 //                        Project existingProject = projectRepository.findByProjectNo(projectNumber);
                         List<Project> existingProject = projectRepository.findAllByProjectNo(projectNumber);
-                        if (existingProject != null && existingProject.size()==0) {
+                        if (existingProject != null && existingProject.size() == 0) {
                             Project project = new Project();
 //                            project.setCompany(existingCompany);
                             project.setProjectNo(projectNumber);
@@ -540,17 +539,17 @@ public class Helper {
                             project.setLead(savedLead);
 
                             Project savedProjectData = projectRepository.save(project);
-                            
+
 //                            List<Project>pList = new ArrayList<>();
 //                            pList.add(savedProjectData);
-                            if(comp.getCompanyProject()!=null) {
-                            	 Set<Project>pset = new HashSet<>(comp.getCompanyProject());
-                                 pset.add(savedProjectData);
-                                 List<Project>pList = new ArrayList<>(pset);
-                                 comp.setCompanyProject(pList);
+                            if (comp.getCompanyProject() != null) {
+                                Set<Project> pset = new HashSet<>(comp.getCompanyProject());
+                                pset.add(savedProjectData);
+                                List<Project> pList = new ArrayList<>(pset);
+                                comp.setCompanyProject(pList);
 
-                            }else {
-                                List<Project>pList = new ArrayList<>();
+                            } else {
+                                List<Project> pList = new ArrayList<>();
                                 pList.add(savedProjectData);
                                 comp.setCompanyProject(pList);
 
@@ -571,11 +570,116 @@ public class Helper {
             throw new RuntimeException("Error processing files", e);
         }
     }
-    
-    
-    
-    
+
+    public void companyAssignee(String companyAssignee) {
+        try {
+            List<Map<String, String>> projectSheetData = readProjectFile(companyAssignee);
+
+            if (projectSheetData == null) {
+                throw new RuntimeException("No data found in project file");
+            }
+
+            for (Map<String, String> companyRow : projectSheetData) {
+                String companyName = companyRow.get("name");
+                Company company = companyRepository.findByName(companyName);
+
+                if (company != null) {
+                    String assigneeEmail = companyRow.get("sales person");
+
+                    if (assigneeEmail != null && !assigneeEmail.isEmpty()) {
+                        User assignee = userRepo.findByemail(assigneeEmail);
+
+                        if (assignee != null) {
+                            company.setAssignee(assignee);
+                            companyRepository.save(company);
+                        } else {
+                            System.err.println("No user found with email: " + assigneeEmail);
+                        }
+                    } else {
+                        System.err.println("Assignee email is missing or empty for company: " + companyName);
+                    }
+                } else {
+                    System.err.println("No company found with name: " + companyName);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error processing files", e);
+        }
+    }
+
+
+    public void beforeCompany(String before2023) {
+        try {
+            List<Map<String, String>> leadCompanyData = readProjectFile(before2023);
+
+            if (leadCompanyData == null) {
+                throw new RuntimeException("Lead company data is null");
+            }
+
+            for (Map<String, String> companyRow : leadCompanyData) {
+                String companyName = companyRow.get("cregname");
+                Company company = companyRepository.findByName(companyName);
+
+                if (company == null) {
+                    String assigneeEmail = companyRow.get("assign_to");
+
+                    if (assigneeEmail != null && !assigneeEmail.isEmpty()) {
+                        User assignee = userRepo.findByemail(assigneeEmail);
+
+                        LeadDTO leadDTO = new LeadDTO();
+
+                        leadDTO.setLeadName(companyRow.get("name"));
+                        leadDTO.setName(companyRow.get("cregcontfirstname"));
+                        leadDTO.setMobileNo(companyRow.get("cregcontmobile"));
+                        leadDTO.setEmail(companyRow.get("cregcontemailid"));
+                        leadDTO.setPrimaryAddress(companyRow.get("cregaddress"));
+                        leadDTO.setCity(companyRow.get("creglocation"));
+                        leadDTO.setSource("Corpseed HO");
+
+                        if (assignee != null) {
+                            leadDTO.setAssigneeId(assignee.getId());
+                        }
+
+                        Lead savedLead = leadService.createLeadV2(leadDTO);
+
+                        Company newCompany = new Company();
+                        newCompany.setName(companyName);
+                        newCompany.setAddress(companyRow.get("cregaddress"));
+                        newCompany.setState(companyRow.get("creglocation"));
+
+                        Contact primaryContact = new Contact();
+                        primaryContact.setName(companyRow.get("cregcontfirstname") + " " + companyRow.get("cregcontlastname"));
+                        primaryContact.setEmails(companyRow.get("cregcontemailid"));
+                        primaryContact.setContactNo(companyRow.get("cregcontmobile"));
+
+                        Contact savedContact = contactRepo.save(primaryContact);
+
+                        newCompany.setPanNo(companyRow.get("cregpan"));
+                        newCompany.setGstNo(companyRow.get("creggstin"));
+                        newCompany.setCountry(companyRow.get("cregcountry"));
+                        newCompany.setState(companyRow.get("cregstate"));
+                        newCompany.setPrimaryContact(savedContact);
+                        newCompany.setAssignee(assignee);
+
+                        newCompany.setCompanyLead(List.of(savedLead));
+
+                        companyRepository.save(newCompany);
+
+                        System.out.println("Company and lead created successfully: " + companyName);
+                    } else {
+                        System.err.println("Assignee email is missing or empty for company: " + companyName);
+                    }
+                } else {
+                    System.out.println("Company already exists: " + companyName + ". Skipping lead creation.");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error processing files", e);
+        }
+    }
+
 
 }
-
 
