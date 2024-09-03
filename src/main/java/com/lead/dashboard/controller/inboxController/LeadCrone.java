@@ -1409,7 +1409,7 @@ public class LeadCrone {
 		int i=0;
 		int j=0;
 		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
-
+		Map<Long,Integer>bucketList = new HashMap<Long,Integer>();
 		ArrayList<User>result =new ArrayList<>();
 		int l1=user4!=null?user4.size():0;
 		int l2=user5!=null?user5.size():0;
@@ -1417,16 +1417,20 @@ public class LeadCrone {
 			User u4=user4.get(i);
 			User u5=user5.get(j);
 
-			int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId())+10:10:10;
-			countManage.put(u4.getId(), c4);
+			int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId()):0:0;
+			bucketList.put(u4.getId(), u4.getLockerSize());
+			System.out.println("4****************************** "+c4);
+			
 			int c5=countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
-     
+			System.out.println("5****************************** "+c5);
+
+			bucketList.put(u5.getId(), u5.getLockerSize()+10);
+
 			if(c4>c5) {
-				result.add(u5);
+               	result.add(u5);
 				j++;
 			}else {
-				int c=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId())+10:10:10;
-				countManage.put(u4.getId(), c+10);
+				int c=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId()):0:0;
 				result.add(u4);
 				i++;
 			}
@@ -1435,6 +1439,8 @@ public class LeadCrone {
 		if(i==l1 &&j<l2) {
 			while(j<l2) {
 				User u5=user5.get(j);
+				bucketList.put(u5.getId(), u5.getLockerSize()+10);
+
 				result.add(u5);
 				j++;
 			}
@@ -1454,8 +1460,12 @@ public class LeadCrone {
 
 			if(countManage!=null && a.getId()!=null) {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				System.out.println("count * "+c1+" user name "+a.getFullName());
+
 				c1=c1*100;
-				int lockerSize = a.getLockerSize();
+				int lockerSize =bucketList.get(a.getId());
+				System.out.println("count * "+c1+" locker size "+lockerSize+" user name "+a.getFullName());
+
 			     if(lockerSize!=0) {
 			    	 cp1= c1/lockerSize;
 			     }
@@ -1466,19 +1476,24 @@ public class LeadCrone {
 
 			if(countManage!=null && b.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
+				System.out.println("count * "+c2+" user name "+a.getFullName());
+
 				c2=c2*100;
-				int lockerSize = b.getLockerSize();
+				int lockerSize =bucketList.get(b.getId());
+				System.out.println("count 4* "+c2+" locker size "+lockerSize+" user name "+b.getFullName());
+
 				if(lockerSize!=0) {
 			    	 cp2= c2/lockerSize;
 			     }
 
 				
 			}
+			System.out.println(a.getFullName()+" cp1..."+cp1+""+b.getFullName()+" cp2 . . . . "+cp2);
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
-				return 1;
-			}else if(cp2>cp1) {
 				return -1;
+			}else if(cp2>cp1) {
+				return 1;
 			}else {
 				return 0;
 			}
@@ -1593,7 +1608,10 @@ public class LeadCrone {
 	
 	public List<User> mergeAllUser1to5StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
 		//		Map<Long,Integer>countManage=countMap;
+		
 		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
+		Map<Long,Integer>bucketList = new HashMap<Long,Integer>();
+
 		List<User>resUser = new ArrayList<>();
 		for(Ratings r:ratings) {
 			//			Integer c2=countManage.get(u)+10;
@@ -1602,7 +1620,8 @@ public class LeadCrone {
 			for(User u:userList) {
 				if("2".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
-					Integer c2=count+30;
+					Integer c2=count;
+					bucketList.put(u.getId(), u.getLockerSize()+10);
 					if(count!=null) {
 						countManage.put(u.getId(), c2);
 					}
@@ -1610,20 +1629,25 @@ public class LeadCrone {
 
 				}else if("3".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
-					Integer c2=count+2000;
+					bucketList.put(u.getId(), u.getLockerSize()+20);
+					Integer c2=count;
 					if(count!=null) {
 						countManage.put(u.getId(), c2);
 					}
 					resUser.add(u);  
 				}else if("4".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
-					Integer c2=count+10;
+					bucketList.put(u.getId(), u.getLockerSize()+30);
+
+					Integer c2=count;
 					if(count!=null) {
 						countManage.put(u.getId(), c2);
 					}
 					resUser.add(u);
 				}else if("5".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+
+					bucketList.put(u.getId(), u.getLockerSize()+40);
 					Integer c2=count;
 					if(count!=null) {
 						countManage.put(u.getId(), c2);
@@ -1646,7 +1670,7 @@ public class LeadCrone {
 			if(countManage!=null && a.getId()!=null) {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
-				int lockerSize = a.getLockerSize();
+				int lockerSize =bucketList.get(a.getId());
 			     if(lockerSize!=0) {
 			    	 cp1= c1/lockerSize;
 			     }
@@ -1658,7 +1682,7 @@ public class LeadCrone {
 			if(countManage!=null && b.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 				c2=c2*100;
-				int lockerSize = b.getLockerSize();
+				int lockerSize =bucketList.get(b.getId());
 				if(lockerSize!=0) {
 			    	 cp2= c2/lockerSize;
 			     }
@@ -1667,9 +1691,9 @@ public class LeadCrone {
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
-				return 1;
-			}else if(cp2>cp1) {
 				return -1;
+			}else if(cp2>cp1) {
+				return 1;
 			}else {
 				return 0;
 			}
@@ -2261,6 +2285,9 @@ public class LeadCrone {
 	
 	//replace v3 ->v3new
 	public List<User> mergeAllUser1to3StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
+		
+		Map<Long,Integer>bucketList = new HashMap<Long,Integer>();
+
 		Map<Long,Integer>countManage=countMap;
 		List<User>resUser = new ArrayList<>();
 		for(Ratings r:ratings) {
@@ -2271,7 +2298,7 @@ public class LeadCrone {
 				//				System.out.println(u.getFullName()+"full name.."+rating);
 				if("1".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
-					Integer c2=count+20;
+					Integer c2=count;
 					if(countManage!=null) {
 						countManage.put(u.getId(), c2);
 					}
@@ -2279,6 +2306,8 @@ public class LeadCrone {
 
 				}else if("2".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					bucketList.put(u.getId(), u.getLockerSize()+10);
+
 					Integer c2=count+10;
 					if(countManage!=null) {
 						countManage.put(u.getId(), c2);
@@ -2286,6 +2315,8 @@ public class LeadCrone {
 					resUser.add(u);  
 				}else if("3".equals(rating)) {
 					Integer count=countManage!=null?countManage.get(u.getId())!=null?countManage.get(u.getId()):0:0;
+					bucketList.put(u.getId(), u.getLockerSize()+20);
+
 					Integer c2=count;
 					if(countManage!=null) {
 						countManage.put(u.getId(), c2);
@@ -2302,7 +2333,7 @@ public class LeadCrone {
 			if(countManage!=null && a.getId()!=null) {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
-				int lockerSize = a.getLockerSize();
+				int lockerSize =bucketList.get(a.getId());
 			     if(lockerSize!=0) {
 			    	 cp1= c1/lockerSize;
 			     }
@@ -2314,7 +2345,7 @@ public class LeadCrone {
 			if(countManage!=null && b.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 				c2=c2*100;
-				int lockerSize = b.getLockerSize();
+				int lockerSize =bucketList.get(b.getId());
 				if(lockerSize!=0) {
 			    	 cp2= c2/lockerSize;
 			     }
@@ -3795,7 +3826,7 @@ public class LeadCrone {
 			leadRepository.save(lead);
 		}
 	}
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 		public void assignLeadByCroneV() {
 			List<Long>croneStatus= new ArrayList<>();
 			System.out.println("First tsting  .....");
@@ -3875,7 +3906,9 @@ public class LeadCrone {
 									Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
 									List<User> userMerged = mergeStarUserV3new(user4Rating,user5Rating,userCounts);
 									userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-									System.out.println("jjjjjjjjjjjjjjjjj");
+									List<String> fName = userMerged.stream().map(i->i.getFullName()).collect(Collectors.toList());
+
+									System.out.println("jjjjjjjjjjjjjjjjj..."+fName);
 									User u1=null;
 									//					System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
 									int cInt=0;
