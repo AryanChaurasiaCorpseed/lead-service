@@ -1408,7 +1408,7 @@ public class LeadCrone {
 	public  ArrayList<User>mergeStarUserV3new(List<User>user4,List<User>user5,Map<Long,Integer>countMap){
 		int i=0;
 		int j=0;
-		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
+//		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
 		Map<Long,Integer>bucketList = new HashMap<Long,Integer>();
 		ArrayList<User>result =new ArrayList<>();
 		int l1=user4!=null?user4.size():0;
@@ -1455,11 +1455,11 @@ public class LeadCrone {
 		
 		//test sort
 		Collections.sort(result, (a, b) -> {
-			Integer c1=0;
-			Integer cp1=100;
+			double c1=1.00f;
+			double cp1=100.00f;
 
-			if(countManage!=null && a.getId()!=null) {
-				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+			if(countMap!=null && a.getId()!=null) {
+				c1=countMap.get(a.getId())!=null?countMap.get(a.getId()):1.0f;
 				System.out.println("count * "+c1+" user name "+a.getFullName());
 
 				c1=c1*100;
@@ -1467,23 +1467,23 @@ public class LeadCrone {
 				System.out.println("count * "+c1+" locker size "+lockerSize+" user name "+a.getFullName());
 
 			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
+			    	 cp1= ((double)c1)/((double)lockerSize);
 			     }
 			}
-			
-			Integer c2=0;
-			Integer cp2=100;
+			System.out.println();
+			double c2=1.00f;
+			double cp2=100.00f;
 
-			if(countManage!=null && b.getId()!=null) {
-				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
-				System.out.println("count * "+c2+" user name "+a.getFullName());
+			if(countMap!=null && b.getId()!=null) {
+				c2=countMap.get(b.getId())!=null?((double)countMap.get(b.getId())):1.0f;
+				System.out.println("count * "+c2+" user name "+b.getFullName());
 
 				c2=c2*100;
 				int lockerSize =bucketList.get(b.getId());
 				System.out.println("count 4* "+c2+" locker size "+lockerSize+" user name "+b.getFullName());
 
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
+			    	 cp2= ((double)c2)/((double)lockerSize);
 			     }
 
 				
@@ -1663,37 +1663,39 @@ public class LeadCrone {
 
 			}
 		}
+//		double avg1=c11!=null?((double)a.getLockerSize())/((double)c11):a.getLockerSize();
+//		double avg2=c22!=null?((double)b.getLockerSize())/((double)c22):b.getLockerSize();
 		Collections.sort(resUser, (a, b) -> {
 			Integer c1=0;
-			Integer cp1=100;
+			double cp1=100.00;
 
 			if(countManage!=null && a.getId()!=null) {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
 				int lockerSize =bucketList.get(a.getId());
 			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
+			    	 cp1= ((double)c1)/((double)lockerSize);
 			     }
 			}
 			
 			Integer c2=0;
-			Integer cp2=100;
+			double cp2=100.00;
 
 			if(countManage!=null && b.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 				c2=c2*100;
 				int lockerSize =bucketList.get(b.getId());
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
+			    	 cp2= ((double)c2)/((double)lockerSize);
 			     }
 
 				
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
-				return -1;
-			}else if(cp2>cp1) {
 				return 1;
+			}else if(cp2>cp1) {
+				return -1;
 			}else {
 				return 0;
 			}
@@ -2328,35 +2330,35 @@ public class LeadCrone {
 		}
 		Collections.sort(resUser, (a, b) -> {
 			Integer c1=0;
-			Integer cp1=100;
+			double cp1=100.00;
 
 			if(countManage!=null && a.getId()!=null) {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
 				int lockerSize =bucketList.get(a.getId());
 			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
+			    	 cp1= ((double)c1)/((double)lockerSize);
 			     }
 			}
 			
 			Integer c2=0;
-			Integer cp2=100;
+			double cp2=100.00;
 
 			if(countManage!=null && b.getId()!=null) {
 				c2=countManage.get(b.getId())!=null?countManage.get(b.getId()):0;
 				c2=c2*100;
 				int lockerSize =bucketList.get(b.getId());
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
+			    	 cp2= ((double)c2)/((double)lockerSize);
 			     }
 
 				
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
-				return 1;
-			}else if(cp2>cp1) {
 				return -1;
+			}else if(cp2>cp1) {
+				return 1;
 			}else {
 				return 0;
 			}

@@ -49,12 +49,12 @@ public class LeadServiceApplication  implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		String companyAssignee = "D:/company_assign.xlsx";
-
-		String before2023 = "D:/before2023.xlsx";
-
-		helper.companyAssignee(companyAssignee);
-		helper.beforeCompany(before2023);
+//		String companyAssignee = "D:/company_assign.xlsx";
+//
+//		String before2023 = "D:/before2023.xlsx";
+//
+//		helper.companyAssignee(companyAssignee);
+//		helper.beforeCompany(before2023);
 
 
 
