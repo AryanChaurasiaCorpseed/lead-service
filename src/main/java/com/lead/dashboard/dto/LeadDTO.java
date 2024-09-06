@@ -258,6 +258,14 @@ public class LeadDTO {
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 	
 	
 
