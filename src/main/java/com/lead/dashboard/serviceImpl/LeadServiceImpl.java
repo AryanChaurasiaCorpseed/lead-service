@@ -1553,7 +1553,6 @@ public class LeadServiceImpl implements LeadService  {
 		}
 		lead.setStatus(status);
 
-		// Save the lead
 		return leadRepository.save(lead);
 	}
 
@@ -1561,10 +1560,12 @@ public class LeadServiceImpl implements LeadService  {
 		if (isNumeric(searchParam)) {
 			searchParam = searchParam.replaceAll("[^\\d]", "");
 			return leadRepository.findAllByMobileNo(searchParam);
-		} else if (isEmail(searchParam)) {
+		}
+		else if (isEmail(searchParam)) {
 			return leadRepository.findAllByEmail(searchParam);
-		} else {
-			return new ArrayList<>();
+		}
+		else {
+			return leadRepository.findAllByLeadNameContaining(searchParam);
 		}
 	}
 
@@ -1576,13 +1577,6 @@ public class LeadServiceImpl implements LeadService  {
 		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
 	}
 
-	public List<Lead> searchLeadsByLeadName(String leadName) {
-		if (leadName != null && !leadName.isEmpty()) {
-			return leadRepository.findAllByLeadNameContaining(leadName);
-		} else {
-			return new ArrayList<>();
-		}
-	}
 
 
 

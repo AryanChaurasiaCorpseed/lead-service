@@ -345,26 +345,11 @@ public class LeadController {
 
 
 
-	@GetMapping("/searchLeadNameANdMobile")
+	@GetMapping(UrlsMapping.LEAD_SEARCH)
 	public ResponseEntity<List<Lead>> searchLeads(@RequestParam String searchParam) {
 
 		try {
 			List<Lead> leads = leadservice.searchLeads(searchParam);
-			if (leads.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(leads, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@GetMapping("/searchLeadByName")
-	public ResponseEntity<List<Lead>> searchLeadsByLeadName(
-			@RequestParam String leadName) {
-
-		try {
-			List<Lead> leads = leadservice.searchLeadsByLeadName(leadName);
 			if (leads.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
