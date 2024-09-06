@@ -1557,5 +1557,33 @@ public class LeadServiceImpl implements LeadService  {
 		return leadRepository.save(lead);
 	}
 
+	public List<Lead> searchLeads(String searchParam) {
+		if (isNumeric(searchParam)) {
+			searchParam = searchParam.replaceAll("[^\\d]", "");
+			return leadRepository.findAllByMobileNo(searchParam);
+		} else if (isEmail(searchParam)) {
+			return leadRepository.findAllByEmail(searchParam);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	private boolean isNumeric(String str) {
+		return str != null && str.matches("\\d+");
+	}
+
+	private boolean isEmail(String str) {
+		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
+	}
+
+	public List<Lead> searchLeadsByLeadName(String leadName) {
+		if (leadName != null && !leadName.isEmpty()) {
+			return leadRepository.findAllByLeadNameContaining(leadName);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+
 
 }

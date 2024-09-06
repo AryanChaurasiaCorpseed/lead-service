@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 
@@ -162,4 +163,13 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and assignee_id in(:assigneeIds)", nativeQuery = true)
 	List<Lead> findAllByAssigneeIdInAndStatusIdIn(List<Long> assigneeIds,List<Long> statusIds);
+
+	@Query("SELECT l FROM Lead l WHERE REPLACE(l.mobileNo, '+', '') LIKE %:mobileNo%")
+	List<Lead> findAllByMobileNo(@Param("mobileNo") String mobileNo);
+
+	@Query("SELECT l FROM Lead l WHERE l.email LIKE %:email%")
+	List<Lead> findAllByEmail(@Param("email") String email);
+
+	@Query("SELECT l FROM Lead l WHERE LOWER(l.leadName) LIKE LOWER(CONCAT('%', :leadName, '%'))")
+	List<Lead> findAllByLeadNameContaining(@Param("leadName") String leadName);
 }

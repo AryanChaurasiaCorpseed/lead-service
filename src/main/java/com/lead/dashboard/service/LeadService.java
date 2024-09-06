@@ -46,4 +46,8 @@ public interface LeadService {
 	Lead createLeadViaSheet(LeadDTO leadDTO);
 	List<Lead> getAllLeadV3(AllLeadFilter allLeadFilter, int page, int size);
 	List<Lead> getAllActiveCustomerLeadV3(AllLeadFilter allLeadFilter, int page, int size);
+
+	List<Lead> searchLeadsByLeadName(String leadName);
+
+	List<Lead> searchLeads(String searchParam);
 }
