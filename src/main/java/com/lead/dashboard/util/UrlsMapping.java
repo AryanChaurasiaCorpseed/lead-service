@@ -33,7 +33,7 @@ public class UrlsMapping {
 	public static final String UPDATE_HELPER=PREFIX+"/lead/updateHelper";
 	public static final String LEAD_ASSIGN_SAME_PERSON=PREFIX+"/lead/leadAssignSamePerson";
 	public static final String UPDATE_LEAD_DESCRIPTION=PREFIX+"/lead/updateLeadDescription";
-
+	public static final String LEAD_SEARCH=PREFIX+"/lead//searchLead";
 
 	//=================== Lead - Oppoertunity Service ===================
 	
