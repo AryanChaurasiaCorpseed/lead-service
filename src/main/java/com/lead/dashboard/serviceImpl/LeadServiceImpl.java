@@ -210,8 +210,22 @@ public class LeadServiceImpl implements LeadService  {
 					lead.setAuto(false);
 					leadRepository.save(lead);//also create history
 				}else {
-					leadDTO.setCount(leadList.size()+1);
-					lead=leadCreation(lead,leadDTO);
+					List<String>status = new ArrayList<>();
+					status.add("New");
+					status.add("Follow Up");
+					status.add("Proposal Sent");
+					status.add("Hot Leads");
+					status.add("Awaiting Documents");
+					status.add("Awaiting Payment");
+					
+					if(leadDTO.getName().equals(lead.getName())&& status.contains(lead.getStatus().getName())) {
+						lead.setCount(leadList.size()+1);
+						leadRepository.save(lead);//also create history
+
+					}else {
+						leadDTO.setCount(leadList.size()+1);
+						lead=leadCreation(lead,leadDTO);
+					}
 
 				}
 
@@ -1568,5 +1582,26 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
+	
+	public List<Lead> searchLeads(String searchParam) {
+		if (isNumeric(searchParam)) {
+			searchParam = searchParam.replaceAll("[^\\d]", "");
+			return leadRepository.findAllByMobileNo(searchParam);
+		}
+		else if (isEmail(searchParam)) {
+			return leadRepository.findAllByEmail(searchParam);
+		}
+		else {
+			return leadRepository.findAllByLeadNameContaining(searchParam);
+		}
+	}
+
+	private boolean isNumeric(String str) {
+		return str != null && str.matches("\\d+");
+	}
+
+	private boolean isEmail(String str) {
+		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
+	}
 
 }
