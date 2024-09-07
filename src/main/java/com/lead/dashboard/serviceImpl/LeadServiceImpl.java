@@ -1558,6 +1558,15 @@ public class LeadServiceImpl implements LeadService  {
 		// Save the lead
 		return leadRepository.save(lead);
 	}
+	@Override
+	public Boolean updateLeadDescription(Long leadId, String desc) {
+		boolean flag = false;
+		Lead lead = leadRepository.findById(leadId).get();
+		lead.setLeadDescription(desc);
+		leadRepository.save(lead);
+		flag=true;
+		return flag;
+	}
 
 
 }

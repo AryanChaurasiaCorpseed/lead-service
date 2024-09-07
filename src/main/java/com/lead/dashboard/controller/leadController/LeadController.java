@@ -343,5 +343,12 @@ public class LeadController {
 		}
 	}
 
+	@PutMapping(UrlsMapping.UPDATE_LEAD_DESCRIPTION)
+	public Boolean updateLeadDescription(@RequestParam Long leadId,@RequestParam String desc)
+	{ 
+		
+		Boolean res=leadservice.updateLeadDescription(leadId,desc);
+		return res;
+	}
 
 }
