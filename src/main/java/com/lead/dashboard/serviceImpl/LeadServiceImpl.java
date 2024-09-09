@@ -177,6 +177,10 @@ public class LeadServiceImpl implements LeadService  {
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
 		System.out.println("ttttt");
+		String leadName=leadDTO.getLeadName();
+		if(leadName!=null && leadName.equals("NA")) {
+			leadName=null;
+		}
 
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
@@ -218,11 +222,16 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Awaiting Documents");
 					status.add("Awaiting Payment");
 					
-					if(leadDTO.getName().equals(lead.getName())&& status.contains(lead.getStatus().getName())) {
-						lead.setCount(leadList.size()+1);
+					if(leadName!=null && leadName.equals(lead.getName())&& (status.contains(lead.getStatus().getName()))) {
+						System.out.println("TEST . . . . 1  .  "+leadList);
+						int leadSize = lead.getCount()+1;
+						lead.setCount(leadSize);
 						leadRepository.save(lead);//also create history
 
+
 					}else {
+						System.out.println("TEST . . . . 2");
+
 						leadDTO.setCount(leadList.size()+1);
 						lead=leadCreation(lead,leadDTO);
 					}
@@ -360,10 +369,16 @@ public class LeadServiceImpl implements LeadService  {
 			Optional<User> user = userRepo.findById(leadDTO.getAssigneeId());
 			lead.setAssignee(user.get());
 		}else {
-			Optional<User> user = userRepo.findById(3l);
-			System.out.println("Aryan14  null user........"+user.get());
+			if(leadDTO.getCreatedById()!=null) {
+				Optional<User> user = userRepo.findById(leadDTO.getCreatedById());
+				lead.setAssignee(user.get());
+			}else {
+				Optional<User> user = userRepo.findById(3l);
 
-			lead.setAssignee(user.get());
+
+				lead.setAssignee(user.get());
+			}
+
 		}
 		System.out.println("Aryan14........");
 
