@@ -381,7 +381,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<Company> getCompanyByGst(String gst) {
-		List<Company>companyList=companyRepository.findByGst(gst);
+//		List<Company>companyList=companyRepository.findByGst(gst);
+		List<Company>companyList=new ArrayList<>();
 		return companyList;
 	}
 
