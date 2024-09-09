@@ -1592,7 +1592,9 @@ public class LeadServiceImpl implements LeadService  {
 			return leadRepository.findAllByEmail(searchParam);
 		}
 		else {
-			return leadRepository.findAllByLeadNameContaining(searchParam);
+//			return leadRepository.findAllByLeadNameContaining(searchParam);
+			List<Lead>arr = new ArrayList<>();
+			return arr;
 		}
 	}
 
