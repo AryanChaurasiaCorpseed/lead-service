@@ -765,7 +765,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		Optional<User> user = userRepo.findById(userId);
 		List<CompanyForm> compList  = new ArrayList<>();
 		String department = user.get()!=null?user.get().getUserDepartment().getName():"NA";
-		if((user.get()!=null && user.get().getRole().contains("ADMIN")) || ("Accounts".equalsIgnoreCase(department))) {
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 			//			compList = companyFormRepo.findAllByStatus(status);
 
 			Pageable pageable = PageRequest.of(page, size);
@@ -773,7 +773,12 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 			compList=comp.getContent();
 
 
-		}else {
+		}else if(("Accounts".equalsIgnoreCase(department))) {
+			Pageable pageable = PageRequest.of(page, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+		}
+		else {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 			compList=comp.getContent();
