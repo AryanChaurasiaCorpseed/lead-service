@@ -764,7 +764,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		List<CompanyForm> compList  = new ArrayList<>();
-		String department = user.get()!=null?user.get().getUserDepartment().getName():"NA";
+		String department = user.get()!=null?user.get().getDepartment():"NA";
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 			//			compList = companyFormRepo.findAllByStatus(status);
 
