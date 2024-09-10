@@ -764,7 +764,8 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		List<CompanyForm> compList  = new ArrayList<>();
-		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+		String department = user.get()!=null?user.get().getUserDepartment().getName():"NA";
+		if(user.get()!=null && user.get().getRole().contains("ADMIN") && "Accounts".equalsIgnoreCase(department)) {
 			//			compList = companyFormRepo.findAllByStatus(status);
 
 			Pageable pageable = PageRequest.of(page, size);
