@@ -173,5 +173,10 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query("SELECT l FROM Lead l WHERE LOWER(l.leadName) LIKE LOWER(CONCAT('%', :leadName, '%'))")
 	List<Lead> findAllByLeadNameContaining(@Param("leadName") String leadName);
 	
-	
+	@Query(value = "SELECT * FROM erp_leads l WHERE l.client_mob_no = :searchParam AND l.assignee_id = :userId", nativeQuery = true)
+	List<Lead> findAllByMobileNoAndAssignee(@Param("searchParam") String searchParam, @Param("userId") Long userId);
+
+
+	@Query(value = "SELECT * FROM erp_leads l WHERE l.email = :searchParam AND l.assignee_id = :userId", nativeQuery = true)
+	List<Lead> findAllByEmailAndAssignee(@Param("searchParam") String searchParam, @Param("userId") Long userId);
 }

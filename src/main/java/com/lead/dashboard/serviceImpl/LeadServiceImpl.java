@@ -1598,19 +1598,39 @@ public class LeadServiceImpl implements LeadService  {
 	}
 
 	
-	public List<Lead> searchLeads(String searchParam) {
-		if (isNumeric(searchParam)) {
-			searchParam = searchParam.replaceAll("[^\\d]", "");
-			return leadRepository.findAllByMobileNo(searchParam);
+	public List<Lead> searchLeads(String searchParam, Long userId) {
+		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
+
+		if (user != null) {
+
+			if (user.getRole().contains("ADMIN")) {
+				if (isNumeric(searchParam)) {
+					searchParam = searchParam.replaceAll("[^\\d]", "");
+					return leadRepository.findAllByMobileNo(searchParam);
+				} else if (isEmail(searchParam)) {
+					return leadRepository.findAllByEmail(searchParam);
+				} else {
+					return new ArrayList<>();
+				}
+			}
+
+			else {
+				if (isNumeric(searchParam)) {
+					searchParam = searchParam.replaceAll("[^\\d]", "");
+
+					return leadRepository.findAllByMobileNoAndAssignee(searchParam, userId);
+
+				} else if (isEmail(searchParam)) {
+
+					return leadRepository.findAllByEmailAndAssignee(searchParam, userId);
+				} else {
+					return new ArrayList<>();
+				}
+			}
+
 		}
-		else if (isEmail(searchParam)) {
-			return leadRepository.findAllByEmail(searchParam);
-		}
-		else {
-//			return leadRepository.findAllByLeadNameContaining(searchParam);
-			List<Lead>arr = new ArrayList<>();
-			return arr;
-		}
+
+		return new ArrayList<>();
 	}
 
 	private boolean isNumeric(String str) {
