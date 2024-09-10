@@ -352,10 +352,10 @@ public class LeadController {
 	}
 	
 	@GetMapping(UrlsMapping.LEAD_SEARCH)
-	public ResponseEntity<List<Lead>> searchLeads(@RequestParam String searchParam) {
+	public ResponseEntity<List<Lead>> searchLeads(@RequestParam String searchParam,@RequestParam Long userId) {
 
 		try {
-			List<Lead> leads = leadservice.searchLeads(searchParam);
+			List<Lead> leads = leadservice.searchLeads(searchParam,userId);
 			if (leads.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}

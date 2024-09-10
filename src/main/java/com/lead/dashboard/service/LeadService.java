@@ -47,5 +47,5 @@ public interface LeadService {
 	List<Lead> getAllLeadV3(AllLeadFilter allLeadFilter, int page, int size);
 	List<Lead> getAllActiveCustomerLeadV3(AllLeadFilter allLeadFilter, int page, int size);
 	Boolean updateLeadDescription(Long leadId, String desc);
-	List<Lead> searchLeads(String searchParam);
+	List<Lead> searchLeads(String searchParam, Long userId);
 }
