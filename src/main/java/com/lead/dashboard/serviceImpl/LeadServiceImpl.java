@@ -221,7 +221,7 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Hot Leads");
 					status.add("Awaiting Documents");
 					status.add("Awaiting Payment");
-					
+
 					if(leadName!=null && leadName.equals(lead.getName())&& (status.contains(lead.getStatus().getName()))) {
 						System.out.println("TEST . . . . 1  .  "+leadList);
 						int leadSize = lead.getCount()+1;
@@ -1108,7 +1108,7 @@ public class LeadServiceImpl implements LeadService  {
 				}
 
 			}else {
-				
+
 				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag,pageable).getContent();
 			}
 		}
@@ -1597,7 +1597,7 @@ public class LeadServiceImpl implements LeadService  {
 		return flag;
 	}
 
-	
+
 	public List<Lead> searchLeads(String searchParam, Long userId) {
 		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
 
@@ -1639,6 +1639,91 @@ public class LeadServiceImpl implements LeadService  {
 
 	private boolean isEmail(String str) {
 		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
+	}
+
+	public Lead createLeadV2New(LeadDTO leadDTO) {
+		String email=leadDTO.getEmail();
+		if(email!=null && email.equals("NA")) {
+			email=null;
+		}		
+		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
+		Lead lead = new Lead();
+		System.out.println("ttttt");
+		String leadName=leadDTO.getLeadName();
+		if(leadName!=null && leadName.equals("NA")) {
+			leadName=null;
+		}
+
+		//check lead is existing or not
+		if(leadList!=null && leadList.size()!=0) {
+			//check company
+			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+			//			System.out.println(companyId);
+			if(companyId!=null) {
+				// check company status if open
+				Company company = companyRepository.findById(companyId).get();
+				String companyStatus = company.getStatus();
+				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
+				if(l.size()==0) {
+					System.out.println("bbbbbbbbbbbbbbbbbbbbbb");
+
+					lead=leadCreation(lead,leadDTO);
+				}
+			}else {
+				// means is lead is in bad fit
+				//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
+
+				//				lead=leadList.stre
+				List<Lead> leadLists = leadList.stream().filter(i->i.getStatus().getName().equals("Bad Fit")).collect(Collectors.toList());
+				
+				if(leadLists.size()>0) {
+					Lead l = leadLists.get(0);
+					l.setBacklogTask(true);
+					l.setCount(leadList.size()+1);
+					l.setName(leadDTO.getLeadName());
+					l.setOriginalName(leadDTO.getLeadName());
+					Status status = statusRepository.findAllByName("New");
+					l.setStatus(status);
+					l.setAuto(false);
+					leadRepository.save(l); //also create history
+				}else {
+					
+					List<String>status = new ArrayList<>();
+					status.add("New");
+					status.add("Follow Up");
+					status.add("Proposal Sent");
+					status.add("Hot Leads");
+					status.add("Awaiting Documents");
+					status.add("Awaiting Payment");
+					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
+                    if(lList.size()>0) {
+                    	Lead l = lList.get(0);
+                    	if(leadName!=null && leadName.equals(l.getName())) {
+    						int actualCount=leadList.size();
+    						
+    					}else {
+    						if(leadDTO.getSource().equals("IVR")) {
+    							
+    						}else{
+    							
+    						}
+    					}
+                    }else {
+            			lead=leadCreation(lead,leadDTO);
+                    }
+					
+
+				}
+
+			}
+
+		}else {   
+			System.out.println("ddddddddddddddddddddddddddddddddddddd");
+
+			lead=leadCreation(lead,leadDTO);
+		}
+		return lead;
 	}
 
 }
