@@ -1060,6 +1060,7 @@ public class CompanyFormController {
 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
+		String dep = user.get()!=null?user.get().getDepartment():"NA";
 		List<CompanyForm> compList  = new ArrayList<>();
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 			//			compList = companyFormRepo.findAllByStatus(status);
@@ -1069,7 +1070,13 @@ public class CompanyFormController {
 			compList=comp.getContent();
 
 
-		}else {
+		}else if("Accounts".equals(dep)) {
+			Pageable pageable = PageRequest.of(page, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+		}
+		
+		else {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 			compList=comp.getContent();
