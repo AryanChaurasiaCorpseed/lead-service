@@ -1,6 +1,8 @@
 package com.lead.dashboard.serviceImpl.TaskManagmentImpl;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -120,8 +122,10 @@ public class TaskManagmentServiceImpl implements TaskManagmentService {
 			String name = t.getTaskStatus()!=null?t.getTaskStatus().getName():"NA";
 			result.put("statusName", name);
 
-			result.put("expectedDate", t.getExpectedDate());
-			result.put("name", t.getName());
+			ZonedDateTime expectedDate = t.getExpectedDate().toInstant().atZone(ZoneId.of("Asia/Kolkata"));
+			
+			result.put("expectedDate", expectedDate);
+			result.put("name", t.getName()); 
 			res.add(result);
 
 		}
