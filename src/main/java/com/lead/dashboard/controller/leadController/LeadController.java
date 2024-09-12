@@ -160,9 +160,9 @@ public class LeadController {
 	}
 
 	@GetMapping(UrlsMapping.GET_SINGLE_LEAD_DATA)
-	public ResponseEntity <Map<String,Object>> getSingleLeadData(@RequestParam Long leadId)
+	public ResponseEntity <Map<String,Object>> getSingleLeadData(@RequestParam Long leadId,@RequestParam(required=false) Long currentUserId)
 	{
-		Map<String,Object> alllead= leadservice.getSingleLeadDataV2(leadId);
+		Map<String,Object> alllead= leadservice.getSingleLeadDataV2(leadId,currentUserId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 

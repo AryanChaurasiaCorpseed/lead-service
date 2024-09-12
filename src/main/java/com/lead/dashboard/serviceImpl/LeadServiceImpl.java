@@ -205,14 +205,14 @@ public class LeadServiceImpl implements LeadService  {
 				lead=leadList.get(0);
 				String lStatus =lead.getStatus()!=null?lead.getStatus().getName():"NA";
 				if("Bad Fit".equals(lead.getStatus().getName())) {
-//					lead.setBacklogTask(true);
-//					lead.setCount(leadList.size()+1);
-//					lead.setName(leadDTO.getLeadName());
-//					lead.setOriginalName(leadDTO.getLeadName());
-//					Status status = statusRepository.findAllByName("New");
-//					lead.setStatus(status);
-//					lead.setAuto(false);
-//					leadRepository.save(lead);//also create history
+					//					lead.setBacklogTask(true);
+					//					lead.setCount(leadList.size()+1);
+					//					lead.setName(leadDTO.getLeadName());
+					//					lead.setOriginalName(leadDTO.getLeadName());
+					//					Status status = statusRepository.findAllByName("New");
+					//					lead.setStatus(status);
+					//					lead.setAuto(false);
+					//					leadRepository.save(lead);//also create history
 					leadDTO.setCount(leadList.size()+1);
 					lead=leadCreation(lead,leadDTO);
 				}else {
@@ -225,10 +225,10 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Awaiting Payment");
 
 					if(leadName!=null && leadName.equals(lead.getName())&& (status.contains(lead.getStatus().getName()))) {
-//						System.out.println("TEST . . . . 1  .  "+leadList);
-//						int leadSize = lead.getCount()+1;
-//						lead.setCount(leadSize);
-//						leadRepository.save(lead);//also create history
+						//						System.out.println("TEST . . . . 1  .  "+leadList);
+						//						int leadSize = lead.getCount()+1;
+						//						lead.setCount(leadSize);
+						//						leadRepository.save(lead);//also create history
 						lead=leadCreation(lead,leadDTO);
 
 
@@ -713,51 +713,55 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 
-	public Map<String,Object> getSingleLeadDataV2(Long leadId) {
+	public Map<String,Object> getSingleLeadDataV2(Long leadId,Long currentUserId) {
 		// TODO Auto-generated method stub
 		Optional<Lead> opLead = leadRepository.findById(leadId);
+		User user = userRepo.findById(currentUserId).get();
 		boolean flag=false;
 		Map<String,Object>map = new HashMap<>();
 		Lead lead = new Lead();
 		if(opLead!=null && opLead.get()!=null)
-		{
-			lead=opLead.get();
-			map.put("leadId", lead.getId());
-			map.put("leadName", lead.getLeadName());
-			map.put("originalName", lead.getOriginalName());
-			map.put("categoryId", lead.getCategoryId());
-			map.put("city", lead.getCity());
-			map.put("assigne", lead.getAssignee());
-			map.put("displayStatus", lead.getDisplayStatus());
-			map.put("description", lead.getLeadDescription());
-			map.put("email", lead.getEmail());
-			map.put("ipAddress", lead.getIpAddress());
-			map.put("remarks", lead.getRemarks());
-			map.put("status", lead.getStatus());
-			map.put("isBacklog", lead.isBacklogTask());
-			map.put("count", lead.getCount());
-			map.put("count", lead.getCount());
-			map.put("source", lead.getSource());
+		{   
+			System.out.println(currentUserId.equals(opLead.get().getAssignee().getId()));
+			if(user.getRole().contains("ADMIN")||currentUserId.equals(opLead.get().getAssignee().getId())) {
+				lead=opLead.get();
+				map.put("leadId", lead.getId());
+				map.put("leadName", lead.getLeadName());
+				map.put("originalName", lead.getOriginalName());
+				map.put("categoryId", lead.getCategoryId());
+				map.put("city", lead.getCity());
+				map.put("assigne", lead.getAssignee());
+				map.put("displayStatus", lead.getDisplayStatus());
+				map.put("description", lead.getLeadDescription());
+				map.put("email", lead.getEmail());
+				map.put("ipAddress", lead.getIpAddress());
+				map.put("remarks", lead.getRemarks());
+				map.put("status", lead.getStatus());
+				map.put("isBacklog", lead.isBacklogTask());
+				map.put("count", lead.getCount());
+				map.put("count", lead.getCount());
+				map.put("source", lead.getSource());
 
-			//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
-			List<Client> clientList = lead.getClients();
-			List<Map<String,Object>>listOfMap = new ArrayList<>();
-			List<ServiceDetails>serviceList = new ArrayList<>();
-			for(Client c:clientList) {
-				Map<String,Object>clientMap = new HashMap<>();
-				clientMap.put("clientId", c.getId());
-				clientMap.put("clientName", c.getName());
-				clientMap.put("email", c.getEmails());
-				clientMap.put("clientCommunication", c.getCommunication().stream().filter(i->i.isDeleted().equals("false")).collect(Collectors.toList()));
-				//				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
-				List<ServiceDetails> s = c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
-				serviceList.addAll(s);
-				clientMap.put("contactNo", c.getContactNo());
-				listOfMap.add(clientMap);
+				//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
+				List<Client> clientList = lead.getClients();
+				List<Map<String,Object>>listOfMap = new ArrayList<>();
+				List<ServiceDetails>serviceList = new ArrayList<>();
+				for(Client c:clientList) {
+					Map<String,Object>clientMap = new HashMap<>();
+					clientMap.put("clientId", c.getId());
+					clientMap.put("clientName", c.getName());
+					clientMap.put("email", c.getEmails());
+					clientMap.put("clientCommunication", c.getCommunication().stream().filter(i->i.isDeleted().equals("false")).collect(Collectors.toList()));
+					//				clientMap.put("serviceDetails", c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+					List<ServiceDetails> s = c.getServiceDetails().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
+					serviceList.addAll(s);
+					clientMap.put("contactNo", c.getContactNo());
+					listOfMap.add(clientMap);
+				}
+				map.put("serviceDetails",serviceList);
+
+				map.put("clients", listOfMap);
 			}
-			map.put("serviceDetails",serviceList);
-
-			map.put("clients", listOfMap);
 
 		}
 		return map;
@@ -1646,7 +1650,7 @@ public class LeadServiceImpl implements LeadService  {
 	private boolean isEmail(String str) {
 		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
 	}
-	
+
 	private List<Lead> filterLead(List<String>statusList,List<Lead>leadList) {
 		List<Lead>lList = new ArrayList<>();
 		for(Lead l:leadList) {
@@ -1691,7 +1695,7 @@ public class LeadServiceImpl implements LeadService  {
 
 				//				lead=leadList.stre
 				List<Lead> leadLists = leadList.stream().filter(i->i.getStatus().getName().equals("Bad Fit")).collect(Collectors.toList());
-				
+
 				if(leadLists.size()>0) {
 
 					Lead l = leadLists.get(0);
@@ -1712,45 +1716,45 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Hot Leads");
 					status.add("Awaiting Documents");
 					status.add("Awaiting Payment");
-					
-//					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
+
+					//					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
 					List<Lead> lList=filterLead(status,leadList);
 					if(lList.size()>0) {
 
-                    	Lead l = lList.get(lList.size()-1);
-                    	System.out.println("current name "+l.getName());
-                    	System.out.println("previous name "+leadName);
+						Lead l = lList.get(lList.size()-1);
+						System.out.println("current name "+l.getName());
+						System.out.println("previous name "+leadName);
 
-                    	if(leadName!=null && leadName.equals(l.getLeadName())) {
+						if(leadName!=null && leadName.equals(l.getLeadName())) {
 
-    						int actualCount=l.getCount()+1;
-    						l.setCount(actualCount);
-    						leadRepository.save(l);
-    						
-    					}else {
+							int actualCount=l.getCount()+1;
+							l.setCount(actualCount);
+							leadRepository.save(l);
 
-    						if(leadDTO.getSource().equals("IVR")) {
-    							int actualCount=l.getCount()+1;
-        						l.setCount(actualCount);
-        						leadRepository.save(l);
+						}else {
 
-    						}else{
-                                String prevSource = l.getSource();
-                                String currSource = leadDTO.getSource();
-                                if("IVR".equals(prevSource) && "Corpseed Website".equals(currSource) &&(!l.isQualityWorked())) {
-                					int actualCount=l.getCount()+1;
-            						l.setCount(actualCount);
-                					l.setOriginalName(leadDTO.getLeadName());
-                					leadRepository.save(l);
-                                }else {
-        	            			lead=leadCreation(lead,leadDTO);
-                                }
-    						}
-    					}
-                    }else {
-            			lead=leadCreation(lead,leadDTO);
-                    }
-					
+							if(leadDTO.getSource().equals("IVR")) {
+								int actualCount=l.getCount()+1;
+								l.setCount(actualCount);
+								leadRepository.save(l);
+
+							}else{
+								String prevSource = l.getSource();
+								String currSource = leadDTO.getSource();
+								if("IVR".equals(prevSource) && "Corpseed Website".equals(currSource) &&(!l.isQualityWorked())) {
+									int actualCount=l.getCount()+1;
+									l.setCount(actualCount);
+									l.setOriginalName(leadDTO.getLeadName());
+									leadRepository.save(l);
+								}else {
+									lead=leadCreation(lead,leadDTO);
+								}
+							}
+						}
+					}else {
+						lead=leadCreation(lead,leadDTO);
+					}
+
 
 				}
 
