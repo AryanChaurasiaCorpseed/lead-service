@@ -53,4 +53,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchTerm% or c.gst_no like %:searchTerm%", nativeQuery = true)
 	List<Company> findByNameOrGST(@Param("searchTerm") String searchTerm);
+
+	@Query(value = "SELECT * FROM company c WHERE c.assignee_id = :userId AND (c.name LIKE %:searchNameAndGST% OR c.gst_no LIKE %:searchNameAndGST%)", nativeQuery = true)
+	List<Company> findAllByCompanyNameAndGSTNumber(@Param("searchNameAndGST") String searchNameAndGST, @Param("userId") Long userId);
+
 }

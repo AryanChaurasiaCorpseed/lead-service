@@ -424,14 +424,23 @@ public class CompanyServiceImpl implements CompanyService {
 		return true;
 	}
 
-	public List<Company> searchCompanyByNameAndGST(String searchNameAndGSt, Long userId) {
+	public List<Company> searchCompanyByNameAndGST(String searchNameAndGST, Long userId) {
+
 		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
 
-		if (user != null) {
-			if (user.getRole().contains("ADMIN")) {
-				return companyRepository.findByNameOrGST(searchNameAndGSt);
+		if (user == null) {
+			return new ArrayList<>();
+		}
+
+		if (user.getRole().contains("ADMIN")) {
+			return companyRepository.findByNameOrGST(searchNameAndGST);
+		} else {
+			if (searchNameAndGST != null && !searchNameAndGST.isEmpty()) {
+				return companyRepository.findAllByCompanyNameAndGSTNumber(searchNameAndGST, userId);
+			} else {
+				return new ArrayList<>();
 			}
 		}
-		return null;
 	}
+
 }
