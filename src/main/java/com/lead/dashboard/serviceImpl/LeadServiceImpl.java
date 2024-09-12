@@ -1011,6 +1011,7 @@ public class LeadServiceImpl implements LeadService  {
 		Long slugId = slugRepository.findIdByName(newLeadName);
 		String urlsName=urlsManagmentRepo.findNameBySlugId(slugId);
 		if(urlsName!=null) {
+			lead.setQualityWorked(true);
 			lead.setOriginalName(urlsName);
 		}else {
 			lead.setOriginalName("NA");
@@ -1425,6 +1426,7 @@ public class LeadServiceImpl implements LeadService  {
 				if(lead.getOriginalName()==null) {
 					lead.setOriginalName(updateLeadOriginal.getOriginalName());
 					lead.setLeadName(updateLeadOriginal.getOriginalName());
+					lead.setQualityWorked(true);
 					b=true;
 				}
 			}
@@ -1644,6 +1646,16 @@ public class LeadServiceImpl implements LeadService  {
 	private boolean isEmail(String str) {
 		return str != null && str.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
 	}
+	
+	private List<Lead> filterLead(List<String>statusList,List<Lead>leadList) {
+		List<Lead>lList = new ArrayList<>();
+		for(Lead l:leadList) {
+			if(statusList.contains(l.getStatus().getName())) {
+				lList.add(l);
+			}
+		}
+		return lList;
+	}
 
 	public Lead createLeadV2New(LeadDTO leadDTO) {
 		String email=leadDTO.getEmail();
@@ -1657,24 +1669,32 @@ public class LeadServiceImpl implements LeadService  {
 		if(leadName!=null && leadName.equals("NA")) {
 			leadName=null;
 		}
-
+       System.out.println("111111111111111111111111111111");
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
 			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
 			//			System.out.println(companyId);
+		       System.out.println("222222222222222222222222222222222222222");
+
 			if(companyId!=null) {
+			       System.out.println("333333333333333333333333333333333333333333");
+
 				// check company status if open
 				Company company = companyRepository.findById(companyId).get();
 				String companyStatus = company.getStatus();
 				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
 				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
 				if(l.size()==0) {
+				       System.out.println("44444444444444444444444444444444444444444444444444444444");
+
 					System.out.println("bbbbbbbbbbbbbbbbbbbbbb");
 
 					lead=leadCreation(lead,leadDTO);
 				}
 			}else {
+			       System.out.println("55555555555555555555555555555555555555555555555555555555555555555");
+
 				// means is lead is in bad fit
 				//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
 
@@ -1682,6 +1702,8 @@ public class LeadServiceImpl implements LeadService  {
 				List<Lead> leadLists = leadList.stream().filter(i->i.getStatus().getName().equals("Bad Fit")).collect(Collectors.toList());
 				
 				if(leadLists.size()>0) {
+				       System.out.println("6666666666666666666666666666666666666666666666666666666666666");
+
 					Lead l = leadLists.get(0);
 					l.setBacklogTask(true);
 					l.setCount(leadList.size()+1);
@@ -1692,7 +1714,8 @@ public class LeadServiceImpl implements LeadService  {
 					l.setAuto(false);
 					leadRepository.save(l); //also create history
 				}else {
-					
+				       System.out.println("777777777777777777777777777777777777777777777777777777777777777");
+
 					List<String>status = new ArrayList<>();
 					status.add("New");
 					status.add("Follow Up");
@@ -1700,25 +1723,49 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Hot Leads");
 					status.add("Awaiting Documents");
 					status.add("Awaiting Payment");
-					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
-                    if(lList.size()>0) {
-                    	
+					
+//					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
+					List<Lead> lList=filterLead(status,leadList);
+					if(lList.size()>0) {
+					       System.out.println("88888888888888888888888888888888888888888888888888888888888888888888888888888888");
+
                     	Lead l = lList.get(lList.size()-1);
-                    	if(leadName!=null && leadName.equals(l.getName())) {
+                    	System.out.println("current name "+l.getName());
+                    	System.out.println("previous name "+leadName);
+
+                    	if(leadName!=null && leadName.equals(l.getLeadName())) {
+ 					       System.out.println("999999999999999999999999999999999999999999999999999999999999999999999999");
+
     						int actualCount=l.getCount()+1;
     						l.setCount(actualCount);
     						leadRepository.save(l);
     						
     					}else {
+ 					       System.out.println("101010101001000100001001010010010010101010010100110010101100101");
+
     						if(leadDTO.getSource().equals("IVR")) {
     							int actualCount=l.getCount()+1;
         						l.setCount(actualCount);
         						leadRepository.save(l);
+      					       System.out.println("1010101010010001000010010100100100101aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
     						}else{
-    	            			lead=leadCreation(lead,leadDTO);
+       					       System.out.println("1010101010010001000010010100100100101bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+                                String prevSource = l.getSource();
+                                String currSource = leadDTO.getSource();
+                                if("IVR".equals(prevSource) && "Corpseed Website".equals(currSource) &&(!l.isQualityWorked())) {
+                					int actualCount=l.getCount()+1;
+            						l.setCount(actualCount);
+                					l.setOriginalName(leadDTO.getLeadName());
+                					leadRepository.save(l);
+                                }else {
+        	            			lead=leadCreation(lead,leadDTO);
+                                }
     						}
     					}
                     }else {
+					       System.out.println("1010101010010001000010010100100100101ccccccccccccccccccccccccccccccccccccccccccccc");
+
             			lead=leadCreation(lead,leadDTO);
                     }
 					

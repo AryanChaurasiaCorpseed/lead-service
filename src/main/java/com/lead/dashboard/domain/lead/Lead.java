@@ -140,6 +140,8 @@ public class Lead {
 	
 	@ManyToOne
 	private User helpUser;
+	
+	boolean isQualityWorked;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -467,6 +469,14 @@ public class Lead {
 
 	public void setHelpUser(User helpUser) {
 		this.helpUser = helpUser;
+	}
+
+	public boolean isQualityWorked() {
+		return isQualityWorked;
+	}
+
+	public void setQualityWorked(boolean isQualityWorked) {
+		this.isQualityWorked = isQualityWorked;
 	}
 	
 	
