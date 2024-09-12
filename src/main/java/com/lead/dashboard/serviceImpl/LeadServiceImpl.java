@@ -205,14 +205,16 @@ public class LeadServiceImpl implements LeadService  {
 				lead=leadList.get(0);
 				String lStatus =lead.getStatus()!=null?lead.getStatus().getName():"NA";
 				if("Bad Fit".equals(lead.getStatus().getName())) {
-					lead.setBacklogTask(true);
-					lead.setCount(leadList.size()+1);
-					lead.setName(leadDTO.getLeadName());
-					lead.setOriginalName(leadDTO.getLeadName());
-					Status status = statusRepository.findAllByName("New");
-					lead.setStatus(status);
-					lead.setAuto(false);
-					leadRepository.save(lead);//also create history
+//					lead.setBacklogTask(true);
+//					lead.setCount(leadList.size()+1);
+//					lead.setName(leadDTO.getLeadName());
+//					lead.setOriginalName(leadDTO.getLeadName());
+//					Status status = statusRepository.findAllByName("New");
+//					lead.setStatus(status);
+//					lead.setAuto(false);
+//					leadRepository.save(lead);//also create history
+					leadDTO.setCount(leadList.size()+1);
+					lead=leadCreation(lead,leadDTO);
 				}else {
 					List<String>status = new ArrayList<>();
 					status.add("New");
@@ -1698,15 +1700,20 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Awaiting Payment");
 					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
                     if(lList.size()>0) {
-                    	Lead l = lList.get(0);
+                    	
+                    	Lead l = lList.get(lList.size()-1);
                     	if(leadName!=null && leadName.equals(l.getName())) {
-    						int actualCount=leadList.size();
+    						int actualCount=l.getCount()+1;
+    						l.setCount(actualCount);
+    						leadRepository.save(l);
     						
     					}else {
     						if(leadDTO.getSource().equals("IVR")) {
-    							
+    							int actualCount=l.getCount()+1;
+        						l.setCount(actualCount);
+        						leadRepository.save(l);
     						}else{
-    							
+    	            			lead=leadCreation(lead,leadDTO);
     						}
     					}
                     }else {
