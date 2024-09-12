@@ -1664,36 +1664,27 @@ public class LeadServiceImpl implements LeadService  {
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
 		Lead lead = new Lead();
-		System.out.println("ttttt");
 		String leadName=leadDTO.getLeadName();
 		if(leadName!=null && leadName.equals("NA")) {
 			leadName=null;
 		}
-       System.out.println("111111111111111111111111111111");
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
 			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
 			//			System.out.println(companyId);
-		       System.out.println("222222222222222222222222222222222222222");
 
 			if(companyId!=null) {
-			       System.out.println("333333333333333333333333333333333333333333");
-
 				// check company status if open
 				Company company = companyRepository.findById(companyId).get();
 				String companyStatus = company.getStatus();
 				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
 				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
 				if(l.size()==0) {
-				       System.out.println("44444444444444444444444444444444444444444444444444444444");
-
-					System.out.println("bbbbbbbbbbbbbbbbbbbbbb");
 
 					lead=leadCreation(lead,leadDTO);
 				}
 			}else {
-			       System.out.println("55555555555555555555555555555555555555555555555555555555555555555");
 
 				// means is lead is in bad fit
 				//				System.out.println("cccccccccccccccccccccccccccccccccccccccccc");
@@ -1702,7 +1693,6 @@ public class LeadServiceImpl implements LeadService  {
 				List<Lead> leadLists = leadList.stream().filter(i->i.getStatus().getName().equals("Bad Fit")).collect(Collectors.toList());
 				
 				if(leadLists.size()>0) {
-				       System.out.println("6666666666666666666666666666666666666666666666666666666666666");
 
 					Lead l = leadLists.get(0);
 					l.setBacklogTask(true);
@@ -1714,7 +1704,6 @@ public class LeadServiceImpl implements LeadService  {
 					l.setAuto(false);
 					leadRepository.save(l); //also create history
 				}else {
-				       System.out.println("777777777777777777777777777777777777777777777777777777777777777");
 
 					List<String>status = new ArrayList<>();
 					status.add("New");
@@ -1727,30 +1716,25 @@ public class LeadServiceImpl implements LeadService  {
 //					List<Lead> lList = leadList.stream().filter(i->(!(i.getStatus().getName().equals("Bad Fit")))).collect(Collectors.toList());
 					List<Lead> lList=filterLead(status,leadList);
 					if(lList.size()>0) {
-					       System.out.println("88888888888888888888888888888888888888888888888888888888888888888888888888888888");
 
                     	Lead l = lList.get(lList.size()-1);
                     	System.out.println("current name "+l.getName());
                     	System.out.println("previous name "+leadName);
 
                     	if(leadName!=null && leadName.equals(l.getLeadName())) {
- 					       System.out.println("999999999999999999999999999999999999999999999999999999999999999999999999");
 
     						int actualCount=l.getCount()+1;
     						l.setCount(actualCount);
     						leadRepository.save(l);
     						
     					}else {
- 					       System.out.println("101010101001000100001001010010010010101010010100110010101100101");
 
     						if(leadDTO.getSource().equals("IVR")) {
     							int actualCount=l.getCount()+1;
         						l.setCount(actualCount);
         						leadRepository.save(l);
-      					       System.out.println("1010101010010001000010010100100100101aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
     						}else{
-       					       System.out.println("1010101010010001000010010100100100101bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
                                 String prevSource = l.getSource();
                                 String currSource = leadDTO.getSource();
                                 if("IVR".equals(prevSource) && "Corpseed Website".equals(currSource) &&(!l.isQualityWorked())) {
@@ -1764,8 +1748,6 @@ public class LeadServiceImpl implements LeadService  {
     						}
     					}
                     }else {
-					       System.out.println("1010101010010001000010010100100100101ccccccccccccccccccccccccccccccccccccccccccccc");
-
             			lead=leadCreation(lead,leadDTO);
                     }
 					
@@ -1775,7 +1757,6 @@ public class LeadServiceImpl implements LeadService  {
 			}
 
 		}else {   
-			System.out.println("ddddddddddddddddddddddddddddddddddddd");
 
 			lead=leadCreation(lead,leadDTO);
 		}
