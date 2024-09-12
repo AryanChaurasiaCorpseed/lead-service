@@ -178,7 +178,6 @@ public class CompanyServiceImpl implements CompanyService {
 		Pageable pageable = PageRequest.of(page, size);
 		List<String> roleList = user.getRole();
 		if(roleList.contains("ADMIN")) {
-//			companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 			companyList=companyRepository.findAll(pageable).getContent();
 			System.out.println("test1.......");
 		}else {
@@ -195,7 +194,6 @@ public class CompanyServiceImpl implements CompanyService {
 
 			}
 		}
-		//		List<Company> companyList = companyRepository.findAll().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList());
 		List<Map<String,Object>>res = new ArrayList<>();
 		for(Company c:companyList) {
 			Map<String,Object>result = new HashMap<>();
@@ -426,5 +424,14 @@ public class CompanyServiceImpl implements CompanyService {
 		return true;
 	}
 
+	public List<Company> searchCompanyByNameAndGST(String searchNameAndGSt, Long userId) {
+		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
 
+		if (user != null) {
+			if (user.getRole().contains("ADMIN")) {
+				return companyRepository.findByNameOrGST(searchNameAndGSt);
+			}
+		}
+		return null;
+	}
 }
