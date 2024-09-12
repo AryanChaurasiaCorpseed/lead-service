@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.lead.dashboard.domain.lead.Lead;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -142,9 +143,24 @@ public class CompanyController {
 //		boolean isDeleted = companyService.updateCompany(companyId);
 		boolean res=companyService.updateCompanyAssignee(companyId,assigneeId);   
 		return true;
-	}     
-	
-	
-	
+	}
+
+	@GetMapping(UrlsMapping.COMPANY_SEARCH)
+	public ResponseEntity<List<Company>> searchCompanyByNameAndGST(@RequestParam String searchNameAndGSt, @RequestParam Long userId) {
+
+		try {
+			List<Company> companies = companyService.searchCompanyByNameAndGST(searchNameAndGSt,userId);
+			if (companies.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(companies, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
+
+
 
 }

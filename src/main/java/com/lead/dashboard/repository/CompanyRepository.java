@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.lead.dashboard.domain.Company;
@@ -48,7 +49,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
 	@Query(value = "SELECT c.id FROM company c left join contact ct on ct.id=c.id where ct.emails=:email", nativeQuery = true)
 	Long findByPrimaryEmails(String email);
-	
-	
 
+
+	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchTerm% or c.gst_no like %:searchTerm%", nativeQuery = true)
+	List<Company> findByNameOrGST(@Param("searchTerm") String searchTerm);
 }
