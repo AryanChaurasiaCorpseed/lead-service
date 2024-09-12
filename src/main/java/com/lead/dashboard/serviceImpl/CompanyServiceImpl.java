@@ -424,23 +424,71 @@ public class CompanyServiceImpl implements CompanyService {
 		return true;
 	}
 
-	public List<Company> searchCompanyByNameAndGST(String searchNameAndGST, Long userId) {
-
+	public List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGST, Long userId) {
 		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
 
 		if (user == null) {
 			return new ArrayList<>();
 		}
 
+		List<Company> companyList = new ArrayList<>();
+
 		if (user.getRole().contains("ADMIN")) {
-			return companyRepository.findByNameOrGST(searchNameAndGST);
+			companyList = companyRepository.findByNameOrGST(searchNameAndGST);
 		} else {
 			if (searchNameAndGST != null && !searchNameAndGST.isEmpty()) {
-				return companyRepository.findAllByCompanyNameAndGSTNumber(searchNameAndGST, userId);
+				companyList = companyRepository.findAllByCompanyNameAndGSTNumber(searchNameAndGST, userId);
 			} else {
 				return new ArrayList<>();
 			}
 		}
+
+		List<Map<String, Object>> res = new ArrayList<>();
+		for (Company c : companyList) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("companyId", c.getId());
+			result.put("companyName", c.getName());
+			result.put("country", c.getCountry());
+			result.put("gstNo", c.getGstNo());
+			result.put("gstType", c.getGstType());
+			result.put("gstDoc", c.getGstDocuments());
+			result.put("assignee", c.getAssignee());
+			result.put("address", c.getAddress());
+			result.put("city", c.getCity());
+			result.put("state", c.getState());
+			result.put("country", c.getCountry());
+			result.put("secAddress", c.getSAddress());
+			result.put("secCity", c.getSCity());
+			result.put("secState", c.getSState());
+			result.put("seCountry", c.getSCountry());
+			result.put("primaryContact", c.getPrimaryContact());
+			result.put("secondaryContact", c.getSecondaryContact());
+
+			List<Lead> lList = c.getCompanyLead();
+			List<Map<String, Object>> leadList = new ArrayList<>();
+			for (Lead l : lList) {
+				Map<String, Object> lMap = new HashMap<>();
+				lMap.put("leadId", l.getId());
+				lMap.put("leadNameame", l.getLeadName());
+				leadList.add(lMap);
+			}
+			result.put("lead", leadList);
+
+			List<Project> pList = c.getCompanyProject();
+			List<Map<String, Object>> projectList = new ArrayList<>();
+			for (Project p : pList) {
+				Map<String, Object> pMap = new HashMap<>();
+				pMap.put("projectId", p.getId());
+				pMap.put("projectName", p.getName());
+				projectList.add(pMap);
+			}
+			result.put("project", projectList);
+
+			res.add(result);
+		}
+
+		return res;
 	}
+
 
 }

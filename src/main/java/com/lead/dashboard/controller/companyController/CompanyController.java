@@ -146,10 +146,11 @@ public class CompanyController {
 	}
 
 	@GetMapping(UrlsMapping.COMPANY_SEARCH)
-	public ResponseEntity<List<Company>> searchCompanyByNameAndGST(@RequestParam String searchNameAndGSt, @RequestParam Long userId) {
+	public ResponseEntity<List<Map<String, Object>>> searchCompanyByNameAndGST(
+			@RequestParam String searchNameAndGSt, @RequestParam Long userId) {
 
 		try {
-			List<Company> companies = companyService.searchCompanyByNameAndGST(searchNameAndGSt,userId);
+			List<Map<String, Object>> companies = companyService.searchCompanyByNameAndGST(searchNameAndGSt, userId);
 			if (companies.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
