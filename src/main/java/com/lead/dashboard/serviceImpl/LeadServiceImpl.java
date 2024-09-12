@@ -225,10 +225,12 @@ public class LeadServiceImpl implements LeadService  {
 					status.add("Awaiting Payment");
 
 					if(leadName!=null && leadName.equals(lead.getName())&& (status.contains(lead.getStatus().getName()))) {
-						System.out.println("TEST . . . . 1  .  "+leadList);
-						int leadSize = lead.getCount()+1;
-						lead.setCount(leadSize);
-						leadRepository.save(lead);//also create history
+//						System.out.println("TEST . . . . 1  .  "+leadList);
+//						int leadSize = lead.getCount()+1;
+//						lead.setCount(leadSize);
+//						leadRepository.save(lead);//also create history
+						lead=leadCreation(lead,leadDTO);
+
 
 
 					}else {
