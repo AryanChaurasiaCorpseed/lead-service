@@ -386,7 +386,22 @@ public class CompanyFormController {
 				if(flag) {
 					Long cId=companyRepository.findByPrimaryEmails(lead.getEmail()); 
 					System.out.println(cId);
-					company=companyRepository.findById(cId).get();
+					if(cId!=null) {
+						company=companyRepository.findById(cId).get();
+
+					}else {
+						List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
+
+						if(leadList!=null && leadList.size()>0){
+							Long comp = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+							if(comp!=null) {
+								Optional<Company> cop = companyRepository.findById(comp);
+								if(cop!=null && cop.get()!=null) {
+									company=cop.get();
+								}
+							}
+						}
+					}
 				}else {
 					List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
 
@@ -950,15 +965,15 @@ public class CompanyFormController {
 	{
 		boolean flag=false;
 		String s1=breakString(email);
-		System.out.println(s1+"...si");
 		List<String>s=companyRepository.findAllEmail();
 		List<String>domain = new ArrayList<>();
 		for(String data:s) {
 			if(data!=null) {
 				String d=breakString(data);
 				System.out.println(d+"...d");
-
-				domain.add(d);
+				if(d!=null) {
+					domain.add(d);
+				}
 			}
 		}
 		if(domain.contains(s1)) {
@@ -969,9 +984,14 @@ public class CompanyFormController {
 	}
 	public String breakString( String email) {
 		String[] result = email.split("@");
+		if(result.length>1) {
 		String s=result[1];
+		
 		String[] res=s.split("\\.");
 		return res[0];
+		}
+			return null;
+		
 
 	}
 
