@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.projectController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -41,17 +42,23 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-    
+
+
     @GetMapping(UrlsMapping.GET_ALL_PROJECT)
-    public ResponseEntity<List<Map<String,Object>>> getAllProject(@RequestParam Long userId) {
-    	List<Map<String,Object>> pMap = projectService.getAllProject(userId);
-        if (pMap!=null) {
+    public ResponseEntity<List<Map<String, Object>>> getAllProject(@RequestParam Long userId,@RequestParam int page,@RequestParam int size) {
+
+        if (page < 0 || size <= 0) {
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
+
+        List<Map<String, Object>> pMap = projectService.getAllProject(userId, page, size);
+        if (pMap != null && !pMap.isEmpty()) {
             return ResponseEntity.ok(pMap);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
     
     @GetMapping(UrlsMapping.GET_ALL_PROJECT_NAME_AND_ID)
     public ResponseEntity<List<Map<String,Object>>> getAllProjectNameAndId() {
