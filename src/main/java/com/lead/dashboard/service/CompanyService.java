@@ -36,4 +36,5 @@ public interface CompanyService {
 
 	List<Map<String, Object>> getAllCompanyV2(Long userId, int page, int size);
 
+	List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGSt, Long userId);
 }

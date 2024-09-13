@@ -192,8 +192,12 @@ public class UrlsMapping {
 	public static final String GET_SINGLE_COMPANY_FORM=PREFIX+"/company/getSingleCompanyForm";
 	public static final String GET_ALL_COMPANY_FORM_BY_STATUS_V2=PREFIX+"/company/getAllCompanyFormByStatusV2";
 
+	public static final String COMPANY_SEARCH=PREFIX+"//company/fetchAllCompanyDetails";
+	public static final String GET_BY_COMPANY_FORM=PREFIX+"/company/searchCompanyByStatus";
 
-	
+
+
+
 	//Contact
 	public static final String GET_ALL_CONTACT=PREFIX+"/contact/getAllContact";
 	public static final String GET_CONTACT_BY_ID=PREFIX+"/contact/getContactById";

@@ -1616,7 +1616,7 @@ public class LeadServiceImpl implements LeadService  {
 			if (user.getRole().contains("ADMIN")) {
 				if (isNumeric(searchParam)) {
 					searchParam = searchParam.replaceAll("[^\\d]", "");
-					return leadRepository.findAllByMobileNo(searchParam);
+				 return leadRepository.findAllByMobileNo(searchParam);
 				} else if (isEmail(searchParam)) {
 					return leadRepository.findAllByEmail(searchParam);
 				} else {
