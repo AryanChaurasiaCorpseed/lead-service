@@ -28,6 +28,8 @@ public class CompanyForm {
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 	
+	boolean isApproved;
+	
 	Boolean isUnit;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
@@ -88,7 +90,26 @@ public class CompanyForm {
 	String amount;
 	
 	String comment;
+	
+	boolean isProjectCreated;
+	
     
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -407,6 +428,14 @@ public class CompanyForm {
 
 	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
 		this.isSecondaryAddress = isSecondaryAddress;
+	}
+
+	public boolean isProjectCreated() {
+		return isProjectCreated;
+	}
+
+	public void setProjectCreated(boolean isProjectCreated) {
+		this.isProjectCreated = isProjectCreated;
 	}  
 	 
 	
