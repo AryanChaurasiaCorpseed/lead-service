@@ -84,6 +84,10 @@ public class CompanyForm {
     User updatedBy;
     
 	String addedByInOldCrm;
+	
+	String amount;
+	
+	String comment;
     
 	public Long getId() {
 		return id;

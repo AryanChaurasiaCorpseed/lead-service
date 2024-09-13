@@ -61,6 +61,8 @@
 		Long updatedBy;
 
 		String addedByInOldCrm;
+		
+		String amount;
 
 
 		public Boolean getIsPresent() {
@@ -303,6 +305,14 @@
 		public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
 			this.isSecondaryAddress = isSecondaryAddress;
 		}
+		public String getAmount() {
+			return amount;
+		}
+		public void setAmount(String amount) {
+			this.amount = amount;
+		}
+		
+		
 
 
 
