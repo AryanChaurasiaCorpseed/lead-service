@@ -139,6 +139,7 @@ public class CompanyFormController {
 		CompanyForm companyForm =  new CompanyForm();
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
+		companyForm.setAmount(createFormDto.getAmount());
 		Company comp=null;
 		if(createFormDto.getIsPresent()) {
 			comp = companyRepository.findById(createFormDto.getCompanyId()).get();
@@ -1326,7 +1327,7 @@ public class CompanyFormController {
 					p.setLead(companyForm.getLead());
 					User assignee = unit.getAssignee();
 					p.setAssignee(assignee);
-					
+					p.setAmount(companyForm.getAmount());
 					//address in project
 					if(companyForm.getIsPrimaryAddress()) {
 						p.setAddress(companyForm.getAddress());
@@ -1708,6 +1709,23 @@ public class CompanyFormController {
 		}
 	}
 
+	@GetMapping(UrlsMapping.GET_COMPANY_COMMENT)
+	public String getCompanyComment(@RequestParam Long companyFormId){
+		String comment=companyFormRepo.findCommentById(companyFormId);
+		return comment;
+	}
+	
+	
+	@PutMapping(UrlsMapping.ADD_COMMENT)
+	public Boolean addComment(@RequestParam Long companyFormId,String comment){
+		Boolean flag=false;
+		 CompanyForm companyForm = companyFormRepo.findById(companyFormId).get();
+		 companyForm.setComment(comment);
+		 companyFormRepo.save(companyForm);
+		 flag=true;
+		return flag;
+	}
+	
 
 
 }
