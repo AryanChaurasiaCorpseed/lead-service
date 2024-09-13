@@ -324,6 +324,14 @@ public class LeadServiceImpl implements LeadService  {
 		return result;
 	}
 
+	private String extractSlugFromUrl(String url) {
+		try {
+			return url.substring(url.lastIndexOf('/') + 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public Lead leadCreation(Lead lead,LeadDTO leadDTO) {
 		//		if(leadList!=null && leadList.size()!=0) {
@@ -332,6 +340,18 @@ public class LeadServiceImpl implements LeadService  {
 		//		}else {
 		//			lead.setLeadName(leadDTO.getLeadName());
 		//		}
+		
+		if ("Missed OTP".equals(leadDTO.getLeadName()) && leadDTO.getUrls() != null) {
+			String urls = leadDTO.getUrls();
+			String extractedSlug = extractSlugFromUrl(urls);
+			if (extractedSlug != null && !extractedSlug.isEmpty()) {
+				lead.setLeadName("Missed OTP - " + extractedSlug);
+			} else {
+				lead.setLeadName(leadDTO.getLeadName()); 
+			}
+		} else {
+			lead.setLeadName(leadDTO.getLeadName());
+		}
 		lead.setLeadName(leadDTO.getLeadName());
 		System.out.println("Aryan12........");
 		System.out.println(leadDTO.getSource());
@@ -741,6 +761,7 @@ public class LeadServiceImpl implements LeadService  {
 				map.put("count", lead.getCount());
 				map.put("count", lead.getCount());
 				map.put("source", lead.getSource());
+				map.put("urls", lead.getUrls());
 
 				//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 				List<Client> clientList = lead.getClients();
@@ -1667,11 +1688,16 @@ public class LeadServiceImpl implements LeadService  {
 			email=null;
 		}		
 		List<Lead>leadList=leadRepository.findAllByEmailAndMobile(email,leadDTO.getMobileNo());
+		System.out.println();
+		if(leadDTO.getName().equals("IVR Call")) {
+			leadDTO.setSource("IVR");
+		}
 		Lead lead = new Lead();
 		String leadName=leadDTO.getLeadName();
 		if(leadName!=null && leadName.equals("NA")) {
 			leadName=null;
 		}
+		
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
