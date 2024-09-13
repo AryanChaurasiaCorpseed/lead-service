@@ -389,18 +389,6 @@ public class CompanyFormController {
 					if(cId!=null) {
 						company=companyRepository.findById(cId).get();
 
-					}else {
-						List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
-
-						if(leadList!=null && leadList.size()>0){
-							Long comp = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
-							if(comp!=null) {
-								Optional<Company> cop = companyRepository.findById(comp);
-								if(cop!=null && cop.get()!=null) {
-									company=cop.get();
-								}
-							}
-						}
 					}
 				}else {
 					List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
