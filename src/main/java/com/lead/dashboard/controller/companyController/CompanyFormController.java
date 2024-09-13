@@ -1653,5 +1653,73 @@ public class CompanyFormController {
 	}
 
 
+	@GetMapping(UrlsMapping.GET_BY_COMPANY_FORM)
+	public ResponseEntity<List<Map<String, Object>>> searchCompanyFormDataByStatus(
+			@RequestParam String searchNameAndGSt,
+			@RequestParam Long userId,
+			@RequestParam String status,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+
+		try {
+			Optional<User> user = userRepo.findById(userId);
+			if (user.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+			String dep = user.get().getDepartment();
+			List<CompanyForm> compList = new ArrayList<>();
+			Pageable pageable = PageRequest.of(page, size);
+
+			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {
+				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
+				compList = companyForms.getContent();
+			}
+			if (compList.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			List<Map<String, Object>> result = new ArrayList<>();
+			for (CompanyForm c : compList) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("id", c.getId());
+				map.put("unitName", c.getUnitName());
+				map.put("companyName", c.getCompanyName());
+				map.put("lead", c.getLead());
+				map.put("gstNo", c.getGstNo());
+				map.put("gstType", c.getGstType());
+				map.put("gstDocuments", c.getGstDocuments());
+				map.put("companyAge", c.getCompanyAge());
+				map.put("status", c.getStatus());
+				map.put("updatedBy", c.getUpdatedBy());
+				map.put("contactName", c.getContactName());
+				map.put("contactNo", c.getContactNo());
+				map.put("contactEmails", c.getContactEmails());
+				map.put("contactWhatsappNo", c.getContactWhatsappNo());
+				map.put("secondaryContactName", c.getSContactName());
+				map.put("secondaryContactNo", c.getSContactNo());
+				map.put("secondaryContactEmails", c.getSContactEmails());
+				map.put("secondaryContactWhatsappNo", c.getSContactWhatsappNo());
+				map.put("city", c.getCity());
+				map.put("address", c.getAddress());
+				map.put("state", c.getState());
+				map.put("primaryPinCode", c.getPrimaryPinCode());
+				map.put("country", c.getCountry());
+				map.put("sCity", c.getSCity());
+				map.put("sAddress", c.getSAddress());
+				map.put("sState", c.getSState());
+				map.put("secondaryPinCode", c.getSecondaryPinCode());
+				map.put("sCountry", c.getSCountry());
+
+				result.add(map);
+			}
+
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
 
 }
