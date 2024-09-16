@@ -3,6 +3,8 @@ package com.lead.dashboard.controller.chatController;
 import java.io.IOException;
 import java.util.List;
 
+import com.lead.dashboard.dto.UpdateRemark;
+import com.lead.dashboard.dto.remarkDTO.UpdateRemarkRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -50,6 +52,13 @@ public class ChatController {
 		Remark updatedDeatils =chatService.createRemarks(createRemark.getLeadId(),createRemark.getUserId(),createRemark.getMessage(),createRemark.getFile(),createRemark.getType());
 			return updatedDeatils;
 	}
+
+	@PostMapping("api/v1/updateRemark")
+	public Remark updateRemark(@RequestBody UpdateRemarkRequest updateRemarkRequest) {
+		Remark updatedDetails = chatService.updateRemarks(updateRemarkRequest);
+		return updatedDetails;
+	}
+
 	@GetMapping("api/v1/getAllRemarks")
 	public List<Remark> getAllRemarks(@RequestParam Long leadId){
 		List<Remark> updatedDeatils =chatService.getAllRemarks(leadId);

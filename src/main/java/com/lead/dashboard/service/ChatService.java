@@ -1,5 +1,6 @@
 package com.lead.dashboard.service;
 
+import com.lead.dashboard.dto.remarkDTO.UpdateRemarkRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,5 +19,6 @@ public interface ChatService {
 	Remark createRemarks(Long leadId,Long userId, String message, List<String> multipartFile,String type) ;
 
 	List<Remark> getAllRemarks(Long leadId);
-                     
+
+	Remark updateRemarks(UpdateRemarkRequest updateRemarkRequest);
 }

@@ -8,18 +8,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.lead.dashboard.domain.*;
+import com.lead.dashboard.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.lead.dashboard.domain.Client;
-import com.lead.dashboard.domain.Company;
-import com.lead.dashboard.domain.Project;
-import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
-import com.lead.dashboard.repository.CompanyRepository;
-import com.lead.dashboard.repository.LeadRepository;
-import com.lead.dashboard.repository.ProjectRepository;
-import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.service.ProjectService;
 
 @Service
@@ -36,6 +33,9 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	@Autowired
 	LeadRepository leadRepository;
+
+	@Autowired
+	UserRepo userRepo;
 	
 	@Override
 	public Project createProject(Long leadId,Long estimateId) {
@@ -73,40 +73,57 @@ public class ProjectServiceImpl implements ProjectService{
         }
         return p;      
 	}
-	@Override
-	public List<Map<String,Object>> getAllProject(Long userIds) {
-		List<Project> pList = projectRepository.findAll();
-		List<Map<String,Object>>result  = new ArrayList<>();
-		System.out.println(pList.size());
-		for(Project p:pList)  {
-			Map<String,Object>res = new HashMap<>();
-			res.put("id",p.getId());
-			res.put("projectName", p.getName());
-			res.put("assigneeId", p.getAssignee()!=null?p.getAssignee().getId():"NA");
-			res.put("assigneeName", p.getAssignee()!=null?p.getAssignee().getFullName():"NA");
-//			res.put("projectName", p.getCompany());
-			res.put("client", p.getClient());
-			res.put("status", p.getStatus());
-			res.put("leadId",p.getLead().getId());
-			res.put("leadNane",p.getLead().getLeadName());
-			
-			res.put("pAddress", p.getAddress());
-			res.put("pCity", p.getCity());
-			res.put("pState", p.getState());
-			res.put("pCountry", p.getCountry());
-			res.put("pPinCode", p.getPrimaryPinCode());
-			
-			res.put("sAddress", p.getSAddress());
-			res.put("sCity", p.getSCity());
-			res.put("sState", p.getSState());
-			res.put("sCountry", p.getSCountry());
-			res.put("sPinCode", p.getSecondaryPinCode());
 
-			result.add(res);
+	@Override
+	public List<Map<String, Object>> getAllProject(Long userId, int page, int size) {
+		List<Map<String, Object>> result = new ArrayList<>();
+		User userDetails = userRepo.findByUserIdAndIsDeletedFalse(userId);
+
+		if (userDetails == null) {
+			return result;
 		}
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Project> pPage;
+
+		if (userDetails.getRole().contains("ADMIN")) {
+			pPage = projectRepository.findAll(pageable);
+		} else {
+			pPage = projectRepository.findAllByAssigneeId(userId, pageable);
+		}
+
+		List<Project> pList = pPage.getContent();
+		for (Project p : pList) {
+			result.add(mapProjectToResponse(p));
+		}
+
 		return result;
 	}
 
+
+	private Map<String, Object> mapProjectToResponse(Project p) {
+		Map<String, Object> res = new HashMap<>();
+		res.put("id", p.getId());
+		res.put("projectName", p.getName());
+		res.put("assigneeId", p.getAssignee() != null ? p.getAssignee().getId() : "NA");
+		res.put("assigneeName", p.getAssignee() != null ? p.getAssignee().getFullName() : "NA");
+		res.put("client", p.getClient());
+		res.put("status", p.getStatus());
+		res.put("leadId", p.getLead().getId());
+		res.put("leadName", p.getLead().getLeadName());
+		res.put("pAddress", p.getAddress());
+		res.put("pCity", p.getCity());
+		res.put("pState", p.getState());
+		res.put("pCountry", p.getCountry());
+		res.put("pPinCode", p.getPrimaryPinCode());
+		res.put("sAddress", p.getSAddress());
+		res.put("sCity", p.getSCity());
+		res.put("sState", p.getSState());
+		res.put("sCountry", p.getSCountry());
+		res.put("sPinCode", p.getSecondaryPinCode());
+
+		return res;
+	}
 
 	@Override
 	public Project createProjectV2(Long leadId) {
