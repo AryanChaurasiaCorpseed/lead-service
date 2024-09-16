@@ -30,15 +30,21 @@ public class ServiceDetails {
     Long id ;
 	private String name;
 	private String ServiceName;
+
 	@NotBlank
 	@ManyToOne
-	Product product;	
+	Product product;
+
 	Date estimateData;
+
 	String company;
+
 	@ManyToOne
 	Company companies;
+
 	String contact;
 	Boolean consultingSale;
+
 	String productType;
 	String orderNumber;
 	String purchaseDate;
