@@ -6,16 +6,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.lead.dashboard.domain.*;
-import com.lead.dashboard.dto.remarkDTO.UpdateRemarkRequest;
-import com.lead.dashboard.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lead.dashboard.repository.UserRepo;
+import com.lead.dashboard.domain.Chats;
+import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Communication;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.FileData;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.Remark;
+import com.lead.dashboard.dto.remarkDTO.UpdateRemarkRequest;
+import com.lead.dashboard.repository.ClientRepository;
+import com.lead.dashboard.repository.CommunicationRepository;
+import com.lead.dashboard.repository.FileDataRepository;
+import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.RemarkRepository;
 import com.lead.dashboard.service.ChatService;
 
 /*
@@ -44,9 +52,6 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Autowired
 	LeadRepository leadRepository;
-
-	@Autowired
-	private LeadHistoryRepository leadHistoryRepository;
 
 	@Override
 	public Client createChat(Long clientId, Long userId, String message) {
@@ -88,52 +93,44 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Remark createRemarks(Long leadId, Long userId, String message, List<String> images, String type) {
-
+	public Remark createRemarks(Long leadId,Long userId, String message, List<String> images,String type) {
+		
 		User user = userRepo.findById(userId).get();
 		Optional<Lead> opLead = leadRepository.findById(leadId);
 		Remark remark = new Remark();
 
-		if (opLead.isPresent()) {
+		if(opLead!=null && opLead.get()!=null) {
 			Lead lead = opLead.get();
 			List<Remark> remarks = lead.getRemarks();
-
-			if (images != null && !images.isEmpty()) {
+			
+			if(images!=null && images.size()!=0) {
 				List<FileData> fileList = fileDataRepository.findByfilePathIn(images);
 				remark.setImageList(fileList);
 			}
 
-			remark.setMessage(message);
-			remark.setLatestUpdated(new Date());
-			remark.setUpdatedBy(user);
-			remark.setType(type);
-			remarkRepository.save(remark);
-
-			if (remarks != null) {
+			if(remarks!=null && remarks.size()!=0) {
+				remark.setMessage(message);
+				remark.setLatestUpdated(new Date());
+				remark.setUpdatedBy(user);
+				remark.setType(type);
+				remarkRepository.save(remark);
 				remarks.add(remark);
-			} else {
-				List<Remark> remarkList = new ArrayList<>();
+				lead.setRemarks(remarks);
+				leadRepository.save(lead);
+			}else {
+				List<Remark>remarkList = new ArrayList<>();
+				remark.setMessage(message);
+				remark.setLatestUpdated(new Date());
+				remark.setUpdatedBy(user);
+				remark.setType(type);
+				remarkRepository.save(remark);
 				remarkList.add(remark);
 				lead.setRemarks(remarkList);
+				leadRepository.save(lead);
 			}
-			leadRepository.save(lead);
-
-			saveLeadHistory(lead, user, "Remark Created", message);
-		}
+		}  
 		return remark;
 	}
-
-	public void saveLeadHistory(Lead lead, User user, String eventType, String description) {
-		LeadHistory leadHistory = new LeadHistory();
-		leadHistory.setCreateDate(new Date());
-		leadHistory.setCreatedBy(user);
-		leadHistory.setPrevUser(null);
-		leadHistory.setDescription(description);
-		leadHistory.setEventType(eventType);
-		leadHistory.setLeadId(lead.getId());
-		leadHistoryRepository.save(leadHistory);
-	}
-
 
 	@Override
 	public List<Remark> getAllRemarks(Long leadId) {
@@ -147,68 +144,10 @@ public class ChatServiceImpl implements ChatService {
 		return remark;
 	}
 
+	@Override
 	public Remark updateRemarks(UpdateRemarkRequest updateRemarkRequest) {
-
-		Long userId = updateRemarkRequest.getUserId();
-		Long remarkId = updateRemarkRequest.getRemarkId();
-		String updatedMessage = updateRemarkRequest.getMessage();
-		List<String> updatedImages = updateRemarkRequest.getFile();
-		String type = updateRemarkRequest.getType();
-		Long leadId = updateRemarkRequest.getLeadId();
-
-		User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
-		Remark remark = remarkRepository.findById(remarkId).orElseThrow(() -> new RuntimeException("Remark not found"));
-
-		Lead lead = leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found"));
-
-		String previousMessage = remark.getMessage();
-		List<FileData> previousImages = remark.getImageList();
-
-		if (updatedImages != null && !updatedImages.isEmpty()) {
-			List<FileData> fileList = fileDataRepository.findByfilePathIn(updatedImages);
-			remark.setImageList(fileList);
-		}
-
-		remark.setMessage(updatedMessage);
-		remark.setLatestUpdated(new Date());
-		remark.setUpdatedBy(user);
-		remark.setType(type);
-
-		remarkRepository.save(remark);
-
-		saveUpdateHistory(lead, user, "Remark updated", previousMessage, updatedMessage, previousImages, updatedImages);
-
-		return remark;
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	public void saveUpdateHistory(Lead lead, User user, String eventType, String previousMessage, String updatedMessage,
-								  List<FileData> previousImages, List<String> updatedImages) {
-
-		String description = "Updated remark. ";
-
-		if (!previousMessage.equals(updatedMessage)) {
-			description += "Message updated from: \"" + previousMessage + "\" to \"" + updatedMessage + "\". ";
-		}
-
-		if (previousImages != null && !previousImages.isEmpty() && updatedImages != null && !updatedImages.isEmpty()) {
-			description += "Images updated.";
-		} else if (previousImages == null || previousImages.isEmpty()) {
-			description += "Images added.";
-		} else if (updatedImages == null || updatedImages.isEmpty()) {
-			description += "Images removed.";
-		}
-
-		LeadHistory leadHistory = new LeadHistory();
-		leadHistory.setCreateDate(new Date());
-		leadHistory.setCreatedBy(user);
-		leadHistory.setDescription(description);
-		leadHistory.setEventType(eventType);
-		leadHistory.setLeadId(lead.getId());
-
-		leadHistoryRepository.save(leadHistory);
-	}
-
-
 
 }
