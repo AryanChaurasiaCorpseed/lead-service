@@ -213,6 +213,8 @@ public class UrlsMapping {
 	//Vendor
 	public static final String CREATE_VENDOR_REQUEST = "/create-vendor-request";
 	public static final String FIND_VENDOr_REQUEST_BY_USER_ID = "/find-vendor-request-by-user-id";
+	public static final String UPDATE_VENDOR_REQUEST = "/leadService/api/v1/vendor/update";
+
 
 
 

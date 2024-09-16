@@ -3,6 +3,7 @@ package com.lead.dashboard.domain.lead;
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.vendor.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -142,6 +143,9 @@ public class Lead {
 	private User helpUser;
 	
 	boolean isQualityWorked;
+
+	@OneToMany(mappedBy = "lead", cascade = CascadeType.ALL)
+	private List<Vendor> vendors;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;

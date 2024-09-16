@@ -1,9 +1,9 @@
 package com.lead.dashboard.domain.vendor;
 
-import com.lead.dashboard.domain.Company;
-import com.lead.dashboard.domain.ServiceDetails;
+
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.lead.Lead;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "vendor")
@@ -24,10 +25,13 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //person who is raise request to vendor team for service credits
     @ManyToOne
     @JoinColumn(name="user_vendor")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name="lead_id")
+    private Lead lead;
 
     private String requirementDescription;
 
@@ -63,6 +67,10 @@ public class Vendor {
 
     private String status;
 
+    private boolean proposalSentStatus;
+
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VendorUpdateHistory> vendorUpdateHistory;
 
 
 

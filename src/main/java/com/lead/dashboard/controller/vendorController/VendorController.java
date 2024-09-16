@@ -1,8 +1,6 @@
 package com.lead.dashboard.controller.vendorController;
 
-import com.lead.dashboard.domain.Company;
-import com.lead.dashboard.domain.vendor.Vendor;
-import com.lead.dashboard.dto.CompanyDto;
+
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.service.VendorService;
@@ -24,11 +22,12 @@ public class VendorController {
     VendorService vendorService;
 
     @PostMapping(UrlsMapping.CREATE_VENDOR_REQUEST)
-    public ResponseEntity<Object> createVendorRequest(@RequestBody VendorRequest vendorRequest, Long userId,@RequestParam MultipartFile files)
+    public ResponseEntity<Object> createVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam  Long userId,@RequestParam MultipartFile files ,
+                                                      @RequestParam Long leadId)
     {
 
         try {
-            VendorResponse vendorResponse =   vendorService.generateVendorRequest(vendorRequest , userId, files);
+            VendorResponse vendorResponse =   vendorService.generateVendorRequest(vendorRequest , userId, files, leadId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
@@ -44,6 +43,18 @@ public class VendorController {
         try {
             List<VendorResponse> vendorResponses = vendorService.findVendorRequestsByUserId(userId);
             return new ResponseEntity<>(vendorResponses, HttpStatus.OK);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(UrlsMapping.UPDATE_VENDOR_REQUEST)
+    public ResponseEntity<Object> updateVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam Long vendorId, Long userId,
+                                                      @RequestParam(required = false) MultipartFile files) {
+        try {
+            VendorResponse vendorResponse = vendorService.updateVendorRequest(vendorRequest, vendorId, userId, files);
+            return new ResponseEntity<>(vendorResponse, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);

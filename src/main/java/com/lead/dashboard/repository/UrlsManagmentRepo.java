@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.lead.dashboard.domain.UrlsManagment;
+import org.springframework.data.repository.query.Param;
 
 public interface UrlsManagmentRepo extends JpaRepository<UrlsManagment, Long>{
 
@@ -17,5 +18,8 @@ public interface UrlsManagmentRepo extends JpaRepository<UrlsManagment, Long>{
 	
 	@Query(value = "SELECT * FROM urls_managment um WHERE um.id in(:urlsId)", nativeQuery = true)
 	List<UrlsManagment> findAllByIdIn(List<Long> urlsId);
+
+	@Query("SELECT u FROM UrlsManagment u WHERE u.id = :urlId")
+	UrlsManagment findUrlsManagmentById(@Param("urlId") Long urlId);
 
 }
