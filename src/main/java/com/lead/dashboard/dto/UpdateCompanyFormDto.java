@@ -53,7 +53,9 @@ public class UpdateCompanyFormDto {
 	String sContactEmails;
 	String sContactNo;
 	String sContactWhatsappNo;
-	
+	String amount;
+	String comment;
+
 	Long updatedBy;
 
 	public Long getCompanyFormId() {
@@ -358,6 +360,22 @@ public class UpdateCompanyFormDto {
 
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	
