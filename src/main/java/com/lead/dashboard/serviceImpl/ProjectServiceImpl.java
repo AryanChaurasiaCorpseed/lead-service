@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService{
 		 Project project = new Project();
 		project.setAssignee(lead.getAssignee());
 		project.setCompany(estimate.getCompanies());
-		project.setAmount(estimate.getProfessionalFees());
+//		project.setAmount(estimate.getProfessionalFees());
 		project.setClient(client);
 		project.setLead(lead);
 		project.setName(estimate.getName());
@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService{
         if(leadOp.get()!=null) {
         	Lead l =leadOp.get();
     		p.setName(l.getLeadName());
-    		p.setAmount(0);
+//    		p.setAmount(0);
     		p.setLead(l);
     		projectRepository.save(p);
 
@@ -133,7 +133,7 @@ public class ProjectServiceImpl implements ProjectService{
         if(leadOp.get()!=null) {
         	Lead l =leadOp.get();
     		p.setName(l.getLeadName());
-    		p.setAmount(0);
+//    		p.setAmount(0);
     		p.setLead(l);
 //   		    p=projectRepository.save(p);
 

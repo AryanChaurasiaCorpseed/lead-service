@@ -194,6 +194,10 @@ public class UrlsMapping {
 
 	public static final String COMPANY_SEARCH=PREFIX+"//company/fetchAllCompanyDetails";
 	public static final String GET_BY_COMPANY_FORM=PREFIX+"/company/searchCompanyByStatus";
+	public static final String GET_COMPANY_COMMENT=PREFIX+"/company/getCompanyComment";
+	public static final String ADD_COMMENT=PREFIX+"/company/addComment";
+
+	
 
 
 

@@ -32,7 +32,7 @@ public class Project implements Serializable{
 	
 	String ProjectNo;
 	
-	int amount;
+	String amount;
 	
 	@ManyToOne
 	@JsonBackReference
@@ -106,11 +106,11 @@ public class Project implements Serializable{
 		ProjectNo = projectNo;
 	}
 
-	public int getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 

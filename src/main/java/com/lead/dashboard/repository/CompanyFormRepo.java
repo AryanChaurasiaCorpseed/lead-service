@@ -32,5 +32,8 @@ public interface CompanyFormRepo  extends JpaRepository<CompanyForm, Long> {
 	@Query(value = "SELECT c FROM CompanyForm c WHERE (c.companyName LIKE %:searchTerm% OR c.gstNo LIKE %:searchTerm%) AND c.status = :status")
 	Page<CompanyForm> findByCompanyNameOrGstNoAndStatus(@Param("searchTerm") String searchTerm, @Param("status") String status, Pageable pageable);
 
+	@Query(value = "SELECT comment FROM company_form WHERE id=:companyFormId", nativeQuery = true)
+	String findCommentById(Long companyFormId);
+
 
 }
