@@ -24,11 +24,13 @@ public class CompanyForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	Long id;
 	
-	Boolean isPresent;
+	Boolean isPresent=true;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 	
-	Boolean isUnit;
+	boolean isApproved;
+	
+	boolean isUnit;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 	
@@ -42,7 +44,7 @@ public class CompanyForm {
 	String companyAge;
 	
 	//primary
-	Boolean isPrimaryAddress;
+	Boolean isPrimaryAddress=true;
 	@Lob
 	String Address;
 	String City;
@@ -52,7 +54,7 @@ public class CompanyForm {
 	
 	
 	//secondary address
-	Boolean isSecondaryAddress;
+	Boolean isSecondaryAddress=true;
 	@Lob
 	String sAddress;
 	String sCity;
@@ -88,7 +90,26 @@ public class CompanyForm {
 	String amount;
 	
 	String comment;
+	
+	boolean isProjectCreated;
+	
     
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -407,6 +428,14 @@ public class CompanyForm {
 
 	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
 		this.isSecondaryAddress = isSecondaryAddress;
+	}
+
+	public boolean isProjectCreated() {
+		return isProjectCreated;
+	}
+
+	public void setProjectCreated(boolean isProjectCreated) {
+		this.isProjectCreated = isProjectCreated;
 	}  
 	 
 	
