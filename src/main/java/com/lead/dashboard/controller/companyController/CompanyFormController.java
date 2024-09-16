@@ -995,6 +995,8 @@ public class CompanyFormController {
 		companyForm.setIsPresent(UpdateCompanyFormDto.getIsPresent());
 		companyForm.setCompanyName(UpdateCompanyFormDto.getCompanyName());
 		companyForm.setCompanyId(UpdateCompanyFormDto.getCompanyId());
+		companyForm.setComment(UpdateCompanyFormDto.getComment());
+		companyForm.setAmount(UpdateCompanyFormDto.getAmount());
 
 		companyForm.setIsUnit(UpdateCompanyFormDto.getIsUnit());
 		companyForm.setUnitName(UpdateCompanyFormDto.getUnitName());
@@ -1115,6 +1117,7 @@ public class CompanyFormController {
 			map.put("secondaryContactNo", c.getSContactNo());
 			map.put("secondaryContactEmails", c.getSContactEmails());
 			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
+			map.put("panNo", c.getPanNo());
 
 			map.put("city", c.getCity());
 			map.put("address", c.getAddress());
@@ -1154,6 +1157,7 @@ public class CompanyFormController {
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
+		companyForm.setAmount(createFormDto.getAmount());
 		System.out.println("111111111111111111111111111111111111111111111111111111");
 		Company comp=null;
 		if(createFormDto.getIsPresent()) {
@@ -1220,7 +1224,7 @@ public class CompanyFormController {
 				companyForm.setUnitId(createFormDto.getUnitId());
 				//			companyForm.setAssigneeId(unit.getAssignee());  //Add Assignee Name 
 				companyForm.setCompanyAge(unit.getCompanyAge());
-
+				companyForm.setAssigneeId(unit.getAssignee().getId());
 				companyForm.setGstType(unit.getGstType());
 				companyForm.setGstDocuments(unit.getGstDocuments());
 				companyForm.setGstNo(unit.getGstNo());

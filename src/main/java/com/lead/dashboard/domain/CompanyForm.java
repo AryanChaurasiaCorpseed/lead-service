@@ -24,13 +24,13 @@ public class CompanyForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	Long id;
 	
-	Boolean isPresent;
+	Boolean isPresent=true;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 	
 	boolean isApproved;
 	
-	Boolean isUnit;
+	boolean isUnit;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 	
@@ -44,7 +44,7 @@ public class CompanyForm {
 	String companyAge;
 	
 	//primary
-	Boolean isPrimaryAddress;
+	Boolean isPrimaryAddress=true;
 	@Lob
 	String Address;
 	String City;
@@ -54,7 +54,7 @@ public class CompanyForm {
 	
 	
 	//secondary address
-	Boolean isSecondaryAddress;
+	Boolean isSecondaryAddress=true;
 	@Lob
 	String sAddress;
 	String sCity;
