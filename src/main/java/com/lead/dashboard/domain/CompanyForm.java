@@ -30,7 +30,7 @@ public class CompanyForm {
 	
 	boolean isApproved;
 	
-	boolean isUnit;
+	Boolean isUnit=true;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 	

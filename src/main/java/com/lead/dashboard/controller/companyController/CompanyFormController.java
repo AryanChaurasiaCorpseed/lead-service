@@ -1088,7 +1088,7 @@ public class CompanyFormController {
 		}
 
 		else {
-			Pageable pageable = PageRequest.of(page, size);
+			Pageable pageable = PageRequest.of(page, size);			
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 			compList=comp.getContent();
 			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
