@@ -55,7 +55,7 @@ public class ProjectController {
         if (pMap != null && !pMap.isEmpty()) {
             return ResponseEntity.ok(pMap);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(pMap);
         }
     }
 
