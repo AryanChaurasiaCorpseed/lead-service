@@ -1109,7 +1109,8 @@ public class CompanyFormController {
 			map.put("contactNo", c.getContactNo());
 			map.put("contactEmails", c.getContactEmails());
 			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
-
+			map.put("comment", c.getComment());
+			map.put("amount", c.getAmount());
 			map.put("secondaryContactName", c.getSContactName());
 			map.put("secondaryContactNo", c.getSContactNo());
 			map.put("secondaryContactEmails", c.getSContactEmails());
