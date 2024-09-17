@@ -742,7 +742,7 @@ public class LeadServiceImpl implements LeadService  {
 		Lead lead = new Lead();
 		if(opLead!=null && opLead.get()!=null)
 		{   
-			System.out.println(currentUserId.equals(opLead.get().getAssignee().getId()));
+
 			if(user.getRole().contains("ADMIN")||currentUserId.equals(opLead.get().getAssignee().getId())) {
 				lead=opLead.get();
 				map.put("leadId", lead.getId());
@@ -1130,10 +1130,7 @@ public class LeadServiceImpl implements LeadService  {
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 				if(userList!=null &&userList.size()!=0) {
 					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag,pageable).getContent();
-					System.out.println("TEST");
 				}else {
-					System.out.println("TEST2");
-
 					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag,pageable).getContent();
 				}
 

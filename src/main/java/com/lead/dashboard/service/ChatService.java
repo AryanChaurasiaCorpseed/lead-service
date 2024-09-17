@@ -7,16 +7,21 @@ import java.io.IOException;
 import java.util.*;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.lead.Remark;
+import com.lead.dashboard.dto.UpdateRemarkDto;
 
 @Service
 public interface ChatService {
 
 	Client createChat(Long clientId, Long userId, String message);
 
-	Boolean deleteChat(Long chatId);
+	Boolean deleteChat(Long chatId, Long currentUser);
 
 	Remark createRemarks(Long leadId,Long userId, String message, List<String> multipartFile,String type) ;
 
 	List<Remark> getAllRemarks(Long leadId);
+
+	Boolean deleteRemark(Long remarkId, Long currentUser);
+
+	Boolean updateRemark(UpdateRemarkDto updateRemarkDto);
                      
 }

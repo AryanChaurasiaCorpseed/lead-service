@@ -24,7 +24,7 @@ import lombok.Data;
 
 
 
-@Data
+//@Data
 @Table
 @Entity
 public class Remark {
@@ -51,6 +51,10 @@ public class Remark {
 	User updatedBy;
 	
 	Date latestUpdated;
+	
+	boolean isDeleted;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -108,6 +112,14 @@ public class Remark {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	
