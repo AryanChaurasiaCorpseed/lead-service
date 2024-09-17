@@ -20,8 +20,9 @@ public interface ChatService {
 
 	List<Remark> getAllRemarks(Long leadId);
 
-	Boolean deleteRemark(Long remarkId, Long currentUser);
 
 	Boolean updateRemark(UpdateRemarkDto updateRemarkDto);
+
+	Boolean deleteRemark(Long remarkId, Long currentUser, Long leadId);
                      
 }

@@ -58,8 +58,8 @@ public class ChatController {
 	}
 	
 	@DeleteMapping("api/v1/deleteRemark")
-	public ResponseEntity<Boolean> deleteRemark(@RequestParam Long remarkId,@RequestParam Long currentUser){
-			Boolean updatedDeatils =chatService.deleteRemark(remarkId,currentUser);
+	public ResponseEntity<Boolean> deleteRemark(@RequestParam Long remarkId,@RequestParam Long currentUser,@RequestParam Long leadId){
+			Boolean updatedDeatils =chatService.deleteRemark(remarkId,currentUser,leadId);
 			return ResponseEntity.ok(updatedDeatils);
 	}
 	

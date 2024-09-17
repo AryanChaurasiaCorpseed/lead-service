@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lead.dashboard.domain.LeadHistory;
-
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.lead.Remark;
 import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.service.LeadHistorySevice;
 
@@ -38,5 +40,35 @@ public class LeadHistoryServiceImpl implements LeadHistorySevice{
 		}
 		return result;
 	}
+	
+
+	public Boolean deleteRemarkHistory(User user, Long leadId, Remark chat) {
+		Boolean flag=false;
+		LeadHistory leadHistory = new LeadHistory();
+		leadHistory.setCreateDate(new Date());
+		leadHistory.setCreatedBy(user);
+		leadHistory.setLeadId(leadId);
+		String desc = "'"+chat.getMessage()+"' has been deleted by "+user.getFullName();
+		leadHistory.setDescription(desc);
+		leadHistory.setEventType("Remark has been deleted");
+		leadHistoryRepository.save(leadHistory);
+		flag=true;
+		return flag;
+	}
+	
+	public Boolean updateRemarkHistory(User user, Long leadId, String preRemark,String remark) {
+		Boolean flag=false;
+		LeadHistory leadHistory = new LeadHistory();
+		leadHistory.setCreateDate(new Date());
+		leadHistory.setCreatedBy(user);
+		leadHistory.setLeadId(leadId);
+		String desc = "Remark has been updated from '"+preRemark+"' to '"+remark+"' by "+user.getFullName();
+		leadHistory.setDescription(desc);
+		leadHistory.setEventType("Remark has been updated");
+		leadHistoryRepository.save(leadHistory);
+		flag=true;
+		return flag;
+	}
+
 
 }
