@@ -10,6 +10,7 @@ public class UpdateRemarkDto {
 	String message;
 	List<String> file;
 	String type;
+	Long leadId;
 	public Long getRemarkId() {
 		return remarkId;
 	}
@@ -39,6 +40,12 @@ public class UpdateRemarkDto {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
 	}
 	
 	

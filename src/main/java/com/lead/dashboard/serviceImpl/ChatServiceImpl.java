@@ -35,6 +35,9 @@ public class ChatServiceImpl implements ChatService {
 
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+	LeadHistoryServiceImpl leadHistoryServiceImpl;
 
 	@Autowired
 	FileUploadServiceImpl fileUploadServiceImpl;
@@ -165,7 +168,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public Boolean deleteRemark(Long remarkId, Long currentUser) {
+	public Boolean deleteRemark(Long remarkId, Long currentUser, Long leadId) {
 		boolean flag=false;
 		User user = userRepo.findById(currentUser).get();
 		List<String> roleList = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
@@ -175,6 +178,8 @@ public class ChatServiceImpl implements ChatService {
 				Remark chat = opChat.get();
 				chat.setDeleted(true);
 				remarkRepository.save(chat);
+				leadHistoryServiceImpl.deleteRemarkHistory(user,leadId,chat);
+				
 				flag=true;
 			}
 		}else{
@@ -186,6 +191,8 @@ public class ChatServiceImpl implements ChatService {
 
 					chat.setDeleted(true);
 					remarkRepository.save(chat);
+					leadHistoryServiceImpl.deleteRemarkHistory(user,leadId,chat);
+
 					flag=true;
 				}
 
@@ -199,11 +206,14 @@ public class ChatServiceImpl implements ChatService {
 	public Boolean updateRemark(UpdateRemarkDto updateRemarkDto) {
 		boolean flag=false;
 		User user = userRepo.findById(updateRemarkDto.getUserId()).get();
+		
 		List<String> roleList = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
 		if(roleList.contains("ADMIN")) {
 			Optional<Remark> opRemark = remarkRepository.findById(updateRemarkDto.getRemarkId());
 			if(opRemark!=null && opRemark.get()!=null) {
 				Remark remark = opRemark.get();
+				String preRemark=remark.getMessage();
+				String postRemark=updateRemarkDto.getMessage();
 				List<String> images = updateRemarkDto.getFile();
 				if(images!=null && images.size()!=0) {
 					List<FileData> fileList = fileDataRepository.findByfilePathIn(images);
@@ -213,6 +223,7 @@ public class ChatServiceImpl implements ChatService {
 				remark.setMessage(updateRemarkDto.getMessage());
 				remark.setType(updateRemarkDto.getType());
 				remarkRepository.save(remark);
+				leadHistoryServiceImpl.updateRemarkHistory(user,updateRemarkDto.getLeadId(),  preRemark,postRemark);
 				flag=true;
 
 			}
@@ -224,6 +235,8 @@ public class ChatServiceImpl implements ChatService {
 				Remark remark = opChat.get();
 				Long createdById = remark!=null?remark.getUpdatedBy()!=null?remark.getUpdatedBy().getId():0l:0l;
 				if(createdById.equals(updateRemarkDto.getUserId())) {
+					String preRemark=remark.getMessage();
+					String postRemark=updateRemarkDto.getMessage();
 					List<String> images = updateRemarkDto.getFile();
 					if(images!=null && images.size()!=0) {
 						List<FileData> fileList = fileDataRepository.findByfilePathIn(images);
@@ -233,6 +246,8 @@ public class ChatServiceImpl implements ChatService {
 					remark.setMessage(updateRemarkDto.getMessage());
 					remark.setType(updateRemarkDto.getType());
 					remarkRepository.save(remark);
+					leadHistoryServiceImpl.updateRemarkHistory(user,updateRemarkDto.getLeadId(),  preRemark,postRemark);
+
 					flag=true;
 
 				}
