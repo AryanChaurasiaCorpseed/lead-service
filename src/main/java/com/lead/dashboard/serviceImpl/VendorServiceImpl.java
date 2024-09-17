@@ -45,7 +45,7 @@ public class VendorServiceImpl implements VendorService {
 
         Optional<User> userDetails = userRepository.findById(userId);
 
-        if (userDetails.isPresent()) {
+        if (userDetails!=null) {
             Vendor vendor = new Vendor();
 
             if (vendorRequest != null) {

@@ -21,22 +21,36 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
-    @PostMapping(UrlsMapping.CREATE_VENDOR_REQUEST)
-    public ResponseEntity<Object> createVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam  Long userId,@RequestParam MultipartFile files ,
-                                                      @RequestParam Long leadId)
-    {
+    @PostMapping(value = UrlsMapping.CREATE_VENDOR_REQUEST, consumes = {"multipart/form-data"})
+    public ResponseEntity<Object> createVendorRequest(@RequestParam(name = "file", required = false) MultipartFile files,
+                                                      @RequestParam Long leadId, @RequestParam Long userId,
+                                                      @RequestParam String description,
+                                                      @RequestParam String concernPersonMailId,
+                                                      @RequestParam Long urlId,
+                                                      @RequestParam String companyName,
+                                                      @RequestParam String contactPersonName,
+                                                      @RequestParam String vendorReferenceFile) {
 
         try {
-            VendorResponse vendorResponse =   vendorService.generateVendorRequest(vendorRequest , userId, files, leadId);
+            VendorRequest vendorRequest = new VendorRequest(
+                    description,
+                    concernPersonMailId,
+                    urlId,
+                    companyName,
+                    contactPersonName,
+                    vendorReferenceFile
+            );
+
+            VendorResponse vendorResponse = vendorService.generateVendorRequest(vendorRequest, userId, files, leadId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
-
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
     }
+
+
 
     @GetMapping(UrlsMapping.FIND_VENDOr_REQUEST_BY_USER_ID)
     public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId) {
