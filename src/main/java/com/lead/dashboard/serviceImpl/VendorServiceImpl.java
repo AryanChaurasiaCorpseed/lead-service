@@ -99,6 +99,7 @@ public class VendorServiceImpl implements VendorService {
 
         return null;
     }
+
     @Override
     public List<VendorResponse> findVendorRequestsByUserId(Long userId, Long leadId) {
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
@@ -112,9 +113,9 @@ public class VendorServiceImpl implements VendorService {
         List<Vendor> vendors;
 
         if (userDetails.getRole().contains("ADMIN")) {
-            vendors = vendorRepository.findAllVendorRequests();
+            vendors = vendorRepository.findAllVendorRequests(leadId);
         } else {
-            vendors = vendorRepository.findAllVendorRequestByUserId(userId);
+            vendors = vendorRepository.findAllVendorRequestByUserId(userId, leadId);
         }
 
         return vendors.stream().map(vendor -> {
@@ -130,7 +131,6 @@ public class VendorServiceImpl implements VendorService {
             return vendorResponse;
         }).collect(Collectors.toList());
     }
-
 
     @Override
     public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId) {
