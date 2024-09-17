@@ -21,7 +21,11 @@ public class VendorRequest {
 
     private String companyName;
 
+    private String contactNumber;
+
     private String contactPersonName;
 
     private String vendorReferenceFile;
+
+    private Long assignedUserId;
 }

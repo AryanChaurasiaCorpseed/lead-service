@@ -2,7 +2,6 @@ package com.lead.dashboard.domain.vendor;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -28,8 +27,13 @@ public class Vendor implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_vendor")
+    @JoinColumn(name="created_by")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name="assigned_user_id")
+    private User assignedUser;
+
 
     @ManyToOne
     @JoinColumn(name="lead_id")
@@ -47,6 +51,8 @@ public class Vendor implements Serializable {
     private String clientCompanyName;
 
     private String contactPersonName;
+
+    private String contactNumber;
 
     private String vendorReferenceFile;
 
@@ -71,6 +77,8 @@ public class Vendor implements Serializable {
     private String status;
 
     private boolean proposalSentStatus;
+
+    boolean isView;
 
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendorUpdateHistory> vendorUpdateHistory;

@@ -1,9 +1,11 @@
 package com.lead.dashboard.repository;
 
+import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -62,4 +64,8 @@ public interface UserRepo extends JpaRepository<User,Long>
 	
 	@Query(value = "SELECT * FROM user u WHERE u.id = :userId AND u.is_deleted = false", nativeQuery = true)
 	User findByUserIdAndIsDeletedFalse(Long userId);
+
+    Optional<User> findByUserDesignation(Designation designation);
+
+	Optional<User> findByRole(String admin);
 }

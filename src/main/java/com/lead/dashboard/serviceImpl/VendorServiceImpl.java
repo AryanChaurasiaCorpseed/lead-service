@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -12,9 +13,7 @@ import com.lead.dashboard.repository.*;
 import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,67 +40,79 @@ public class VendorServiceImpl implements VendorService {
     @Autowired
     private VendorHistoryRepository vendorHistoryRepository;
 
+    @Autowired
+    private DesignationRepo designationRepo;
+
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
-
         Optional<User> userDetails = userRepository.findById(userId);
-
-        if (userDetails!=null) {
+        if (userDetails.isPresent()) {
             Vendor vendor = new Vendor();
+            UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
 
-            if (vendorRequest != null) {
-              UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
+            if (urlsManagmentOpt != null) {
+                Optional<Lead> leadOpt = leadRepository.findById(leadId);
+                if (leadOpt.isPresent()) {
+                    Lead lead = leadOpt.get();
 
-                if (urlsManagmentOpt!=null) {
+                    vendor.setUser(userDetails.get());
+                    vendor.setRequirementDescription(vendorRequest.getDescription());
+                    vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
+                    vendor.setClientCompanyName(vendorRequest.getCompanyName());
+                    vendor.setContactPersonName(vendorRequest.getContactPersonName());
+                    vendor.setVendorReferenceFile(vendorRequest.getVendorReferenceFile());
+                    vendor.setUrlsManagment(urlsManagmentOpt);
+                    vendor.setDisplay(true);
+                    vendor.setAddedBy(userDetails.get().getId());
+                    vendor.setContactNumber(vendorRequest.getContactNumber());
+                    vendor.setLead(lead);
+                    vendor.setCreateDate(new Date());
+                    vendor.setUpdatedDate(new Date());
 
-
-                    Optional<Lead> leadOpt = leadRepository.findById(leadId);
-
-                    if (leadOpt!=null) {
-                        Lead lead = leadOpt.get();
-
-                        vendor.setUser(userDetails.get());
-                        vendor.setRequirementDescription(vendorRequest.getDescription());
-                        vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
-                        vendor.setClientCompanyName(vendorRequest.getCompanyName());
-                        vendor.setContactPersonName(vendorRequest.getContactPersonName());
-                        vendor.setVendorReferenceFile(vendorRequest.getVendorReferenceFile());
-                        vendor.setUrlsManagment(urlsManagmentOpt);
-                        vendor.setDisplay(true);
-                        vendor.setAddedBy(userDetails.get().getId());
-
-//                        fileUploadService.uploadFilesData(files);
-
-                        vendor.setLead(lead);
-
-                        vendor.setCreateDate(new Date());
-                        vendor.setUpdatedDate(new Date());
-
-                        vendor = vendorRepository.save(vendor);
-
-                        VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
-                        vendorUpdate.setVendor(vendor);
-                        vendorUpdate.setRequestStatus("Vendor request created");
-                        vendorUpdate.setUpdateDate(new Date());
-                        vendorUpdate.setUpdateDescription(vendorUpdate.getUpdateDescription());
-                        vendorUpdate.setLead(lead);
-                        vendorUpdate.setAddedBy(vendor.getAddedBy());
-                        vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
-                        vendorHistoryRepository.save(vendorUpdate);
-
-                        return new VendorResponse(vendor);
+                    Optional<Designation> procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
+                    if (procurementManagerDesignation!=null) {
+                        Optional<User> procurementManagerOpt = userRepository.findByUserDesignation(procurementManagerDesignation.get());
+                        if (procurementManagerOpt!=null ) {
+                            vendor.setAssignedUser(procurementManagerOpt.get());
+                        } else {
+                            Optional<User> adminUserOpt = userRepository.findByRole("ADMIN");
+                            if (adminUserOpt.isPresent()) {
+                                vendor.setAssignedUser(adminUserOpt.get());
+                            } else {
+                                throw new RuntimeException("Admin user not found");
+                            }
+                        }
                     } else {
-                        throw new RuntimeException("Lead not found for ID: " + leadId);
+                        Optional<User> adminUserOpt = userRepository.findByRole("ADMIN");
+                        if (adminUserOpt.isPresent()) {
+                            vendor.setAssignedUser(adminUserOpt.get());
+                        } else {
+                            throw new RuntimeException("Admin user not found");
+                        }
                     }
+
+                    vendor = vendorRepository.save(vendor);
+
+                    VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
+                    vendorUpdate.setVendor(vendor);
+                    vendorUpdate.setRequestStatus("Vendor request created");
+                    vendorUpdate.setUpdateDate(new Date());
+                    vendorUpdate.setUpdateDescription("Initial request");
+                    vendorUpdate.setLead(lead);
+                    vendorUpdate.setAddedBy(vendor.getAddedBy());
+                    vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
+                    vendorHistoryRepository.save(vendorUpdate);
+
+                    return new VendorResponse(vendor);
                 } else {
-                    throw new RuntimeException("Urls not found for ID: " + vendorRequest.getServiceName());
+                    throw new RuntimeException("Lead not found for ID: " + leadId);
                 }
+            } else {
+                throw new RuntimeException("URLs not found for service name: " + vendorRequest.getServiceName());
             }
         } else {
             throw new RuntimeException("User not found for ID: " + userId);
         }
-
-        return null;
     }
 
     @Override

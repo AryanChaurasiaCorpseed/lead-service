@@ -2,6 +2,7 @@ package com.lead.dashboard.domain.vendor;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,15 @@ public class VendorUpdateHistory implements Serializable {
     @JsonIgnore
     private Vendor vendor;
 
+    @ManyToOne
+    @JoinColumn(name="user_vendor_history")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name="user_vendor")
+    private User raiseTo;
+
+
     private String updateDescription;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -37,7 +47,6 @@ public class VendorUpdateHistory implements Serializable {
     @ManyToOne
     @JoinColumn(name = "lead_id")
     @JsonIgnore
-
     private Lead lead;
 
     private String requestStatus;
