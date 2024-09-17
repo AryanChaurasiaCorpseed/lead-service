@@ -57,7 +57,7 @@ public class VendorServiceImpl implements VendorService {
 
                     Optional<Lead> leadOpt = leadRepository.findById(leadId);
 
-                    if (leadOpt.isPresent()) {
+                    if (leadOpt!=null) {
                         Lead lead = leadOpt.get();
 
                         vendor.setUser(userDetails.get());
@@ -81,8 +81,12 @@ public class VendorServiceImpl implements VendorService {
 
                         VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
                         vendorUpdate.setVendor(vendor);
-                        vendorUpdate.setUpdateDescription("Vendor request created");
+                        vendorUpdate.setRequestStatus("Vendor request created");
                         vendorUpdate.setUpdateDate(new Date());
+                        vendorUpdate.setUpdateDescription(vendorUpdate.getUpdateDescription());
+                        vendorUpdate.setLead(lead);
+                        vendorUpdate.setAddedBy(vendor.getAddedBy());
+                        vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
                         vendorHistoryRepository.save(vendorUpdate);
 
                         return new VendorResponse(vendor);
@@ -133,7 +137,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId) {
+    public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId, Long leadId) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
@@ -141,44 +145,44 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-        if (!vendor.getUser().getId().equals(userId) && !user.getRole().contains("ADMIN")) {
-            throw new RuntimeException("User is not authorized to update this vendor request");
+        Lead lead = leadRepository.findById(leadId)
+                .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
+
+        if (vendorRequest == null) {
+            throw new IllegalArgumentException("Vendor request data is invalid");
         }
 
-        if (vendorRequest != null) {
-            UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
-
-
-            vendor.setUrlsManagment(urlsManagment);
-            vendor.setRequirementDescription(vendorRequest.getDescription());
-            vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
-            vendor.setClientCompanyName(vendorRequest.getCompanyName());
-            vendor.setContactPersonName(vendorRequest.getContactPersonName());
-            vendor.setUpdatedDate(new Date());
-
-
-
-            vendor = vendorRepository.save(vendor);
-
-            VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
-            vendorUpdateHistory.setVendor(vendor);
-            vendorUpdateHistory.setUpdateDescription("Vendor request updated");
-            vendorUpdateHistory.setUpdateDate(new Date());
-            vendorUpdateHistory.setLead(vendor.getLead());
-            vendorUpdateHistory.setRequestStatus(vendor.getStatus());
-            vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
-            vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
-            vendorUpdateHistory.setAddedBy(userId);
-            vendorUpdateHistory.setUpdatedBy(userId);
-            vendorUpdateHistory.setCreateDate(new Date());
-            vendorHistoryRepository.save(vendorUpdateHistory);
-
-
-            return new VendorResponse(vendor);
-        } else {
-            throw new RuntimeException("Vendor request data is invalid");
+        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
+        if (urlsManagment == null) {
+            throw new IllegalArgumentException("Service name not found");
         }
+
+        vendor.setUrlsManagment(urlsManagment);
+        vendor.setRequirementDescription(vendorRequest.getDescription());
+        vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
+        vendor.setClientCompanyName(vendorRequest.getCompanyName());
+        vendor.setContactPersonName(vendorRequest.getContactPersonName());
+        vendor.setUpdatedDate(new Date());
+
+        vendorRepository.save(vendor);
+
+        VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
+        vendorUpdateHistory.setVendor(vendor);
+        vendorUpdateHistory.setRequestStatus(vendorUpdateHistory.getRequestStatus());
+        vendorUpdateHistory.setUpdateDate(new Date());
+        vendorUpdateHistory.setLead(lead);
+        vendorUpdateHistory.setRequestStatus(vendor.getStatus());
+        vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
+        vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
+        vendorUpdateHistory.setAddedBy(userId);
+        vendorUpdateHistory.setUpdatedBy(userId);
+        vendorUpdateHistory.setCreateDate(new Date());
+
+        vendorHistoryRepository.save(vendorUpdateHistory);
+
+        return new VendorResponse(vendor);
     }
+
 
 
 }

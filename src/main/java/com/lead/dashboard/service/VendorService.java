@@ -12,5 +12,5 @@ public interface VendorService {
 
     List<VendorResponse> findVendorRequestsByUserId(Long userId ,Long leadId);
 
-    VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId);
+    VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId,Long leadId);
 }

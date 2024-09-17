@@ -1,5 +1,7 @@
 package com.lead.dashboard.domain.vendor;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lead.dashboard.domain.lead.Lead;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -15,7 +18,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VendorUpdateHistory {
+public class VendorUpdateHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +26,7 @@ public class VendorUpdateHistory {
 
     @ManyToOne
     @JoinColumn(name = "vendor_id")
+    @JsonIgnore
     private Vendor vendor;
 
     private String updateDescription;
@@ -31,6 +35,9 @@ public class VendorUpdateHistory {
     private Date updateDate;
 
     @ManyToOne
+    @JoinColumn(name = "lead_id")
+    @JsonIgnore
+
     private Lead lead;
 
     private String requestStatus;
@@ -49,8 +56,4 @@ public class VendorUpdateHistory {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-
-
-
-
 }
