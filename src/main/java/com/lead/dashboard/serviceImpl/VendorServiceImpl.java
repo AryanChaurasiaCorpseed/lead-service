@@ -41,7 +41,7 @@ public class VendorServiceImpl implements VendorService {
     private VendorHistoryRepository vendorHistoryRepository;
 
     @Override
-    public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, MultipartFile files, Long leadId) {
+    public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
 
         Optional<User> userDetails = userRepository.findById(userId);
 
@@ -69,7 +69,7 @@ public class VendorServiceImpl implements VendorService {
                         vendor.setDisplay(true);
                         vendor.setAddedBy(userDetails.get().getId());
 
-                        fileUploadService.uploadFilesData(files);
+//                        fileUploadService.uploadFilesData(files);
 
                         vendor.setLead(lead);
 

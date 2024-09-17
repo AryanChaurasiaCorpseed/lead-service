@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface VendorService {
 
-    VendorResponse generateVendorRequest(VendorRequest vendorRequest , Long userId , MultipartFile files,Long leadId);
+    VendorResponse generateVendorRequest(VendorRequest vendorRequest , Long userId, Long leadId);
 
     List<VendorResponse> findVendorRequestsByUserId(Long userId);
 

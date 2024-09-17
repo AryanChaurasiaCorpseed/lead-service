@@ -21,27 +21,13 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
-    @PostMapping(value = UrlsMapping.CREATE_VENDOR_REQUEST, consumes = {"multipart/form-data"})
-    public ResponseEntity<Object> createVendorRequest(@RequestParam(name = "file", required = false) MultipartFile files,
+    @PostMapping(value = UrlsMapping.CREATE_VENDOR_REQUEST)
+    public ResponseEntity<Object> createVendorRequest(
                                                       @RequestParam Long leadId, @RequestParam Long userId,
-                                                      @RequestParam String description,
-                                                      @RequestParam String concernPersonMailId,
-                                                      @RequestParam Long urlId,
-                                                      @RequestParam String companyName,
-                                                      @RequestParam String contactPersonName,
-                                                      @RequestParam String vendorReferenceFile) {
+                                                      @RequestBody VendorRequest vendorRequest) {
 
         try {
-            VendorRequest vendorRequest = new VendorRequest(
-                    description,
-                    concernPersonMailId,
-                    urlId,
-                    companyName,
-                    contactPersonName,
-                    vendorReferenceFile
-            );
-
-            VendorResponse vendorResponse = vendorService.generateVendorRequest(vendorRequest, userId, files, leadId);
+            VendorResponse vendorResponse = vendorService.generateVendorRequest(vendorRequest, userId, leadId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
