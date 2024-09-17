@@ -39,9 +39,9 @@ public class VendorUpdateHistory {
 
     private boolean isDisplay;
 
-    private String estimatePrice;
+    private String budgetPrice;
 
-    private String estimatePriceByVendorTeam;
+    private String vendorSharedPrice;
 
     private Long addedBy;
 

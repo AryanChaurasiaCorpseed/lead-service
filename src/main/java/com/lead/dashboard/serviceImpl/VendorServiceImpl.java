@@ -7,6 +7,7 @@ import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.response.VendorResponse;
+import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,10 @@ public class VendorServiceImpl implements VendorService {
             Vendor vendor = new Vendor();
 
             if (vendorRequest != null) {
-                Optional<UrlsManagment> urlsManagmentOpt = urlsManagmentRepo.findById(vendorRequest.getUrlId());
+              UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
 
-                if (urlsManagmentOpt.isPresent()) {
-                    UrlsManagment urlsManagment = urlsManagmentOpt.get();
+                if (urlsManagmentOpt!=null) {
+
 
                     Optional<Lead> leadOpt = leadRepository.findById(leadId);
 
@@ -65,7 +66,7 @@ public class VendorServiceImpl implements VendorService {
                         vendor.setClientCompanyName(vendorRequest.getCompanyName());
                         vendor.setContactPersonName(vendorRequest.getContactPersonName());
                         vendor.setVendorReferenceFile(vendorRequest.getVendorReferenceFile());
-                        vendor.setUrlsManagment(urlsManagment);
+                        vendor.setUrlsManagment(urlsManagmentOpt);
                         vendor.setDisplay(true);
                         vendor.setAddedBy(userDetails.get().getId());
 
@@ -89,7 +90,7 @@ public class VendorServiceImpl implements VendorService {
                         throw new RuntimeException("Lead not found for ID: " + leadId);
                     }
                 } else {
-                    throw new RuntimeException("Urls not found for ID: " + vendorRequest.getUrlId());
+                    throw new RuntimeException("Urls not found for ID: " + vendorRequest.getServiceName());
                 }
             }
         } else {
@@ -99,27 +100,40 @@ public class VendorServiceImpl implements VendorService {
         return null;
     }
     @Override
-    public List<VendorResponse> findVendorRequestsByUserId(Long userId) {
+    public List<VendorResponse> findVendorRequestsByUserId(Long userId, Long leadId) {
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
-
-        if (userDetails != null) {
-            List<Vendor> vendors = new ArrayList<>();
-
-            if (userDetails.getRole().contains("ADMIN")) {
-                vendors = vendorRepository.findAllVendorRequests();
-            } else {
-                vendors = vendorRepository.findAllVendorRequestByUserId(userId);
-            }
-
-            return vendors.stream().map(VendorResponse::new).collect(Collectors.toList());
-        } else {
+        if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userId);
         }
+
+        Lead lead = leadRepository.findById(leadId)
+                .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
+
+        List<Vendor> vendors;
+
+        if (userDetails.getRole().contains("ADMIN")) {
+            vendors = vendorRepository.findAllVendorRequests();
+        } else {
+            vendors = vendorRepository.findAllVendorRequestByUserId(userId);
+        }
+
+        return vendors.stream().map(vendor -> {
+            VendorResponse vendorResponse = new VendorResponse(vendor);
+
+            List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
+            List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
+                    .map(VendorUpdateHistoryResponse::new)
+                    .collect(Collectors.toList());
+
+            vendorResponse.setUpdateHistory(updateHistoryResponses);
+
+            return vendorResponse;
+        }).collect(Collectors.toList());
     }
 
 
     @Override
-    public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId, MultipartFile files) {
+    public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
@@ -132,8 +146,8 @@ public class VendorServiceImpl implements VendorService {
         }
 
         if (vendorRequest != null) {
-            UrlsManagment urlsManagment = urlsManagmentRepo.findById(vendorRequest.getUrlId())
-                    .orElseThrow(() -> new RuntimeException("UrlsManagment not found for ID: " + vendorRequest.getUrlId()));
+            UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
+
 
             vendor.setUrlsManagment(urlsManagment);
             vendor.setRequirementDescription(vendorRequest.getDescription());
@@ -142,10 +156,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setContactPersonName(vendorRequest.getContactPersonName());
             vendor.setUpdatedDate(new Date());
 
-            if (files != null && !files.isEmpty()) {
-                fileUploadService.uploadFilesData(files);
-                vendor.setVendorReferenceFile(files.getOriginalFilename());
-            }
+
 
             vendor = vendorRepository.save(vendor);
 
@@ -155,8 +166,8 @@ public class VendorServiceImpl implements VendorService {
             vendorUpdateHistory.setUpdateDate(new Date());
             vendorUpdateHistory.setLead(vendor.getLead());
             vendorUpdateHistory.setRequestStatus(vendor.getStatus());
-            vendorUpdateHistory.setEstimatePrice(vendor.getEstimatePrice());
-            vendorUpdateHistory.setEstimatePriceByVendorTeam(vendor.getEstimatePriceByVendorTeam());
+            vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
+            vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
             vendorUpdateHistory.setAddedBy(userId);
             vendorUpdateHistory.setUpdatedBy(userId);
             vendorUpdateHistory.setCreateDate(new Date());

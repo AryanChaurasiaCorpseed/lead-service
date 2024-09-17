@@ -17,7 +17,7 @@ public class VendorRequest {
 
     private String concernPersonMailId;
 
-    private Long urlId;
+    private String serviceName;
 
     private String companyName;
 

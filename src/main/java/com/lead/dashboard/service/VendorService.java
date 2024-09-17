@@ -10,7 +10,7 @@ public interface VendorService {
 
     VendorResponse generateVendorRequest(VendorRequest vendorRequest , Long userId, Long leadId);
 
-    List<VendorResponse> findVendorRequestsByUserId(Long userId);
+    List<VendorResponse> findVendorRequestsByUserId(Long userId ,Long leadId);
 
-    VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId, MultipartFile files);
+    VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId);
 }

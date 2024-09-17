@@ -39,9 +39,9 @@ public class VendorController {
 
 
     @GetMapping(UrlsMapping.FIND_VENDOr_REQUEST_BY_USER_ID)
-    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId) {
+    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId,@RequestParam Long leadId) {
         try {
-            List<VendorResponse> vendorResponses = vendorService.findVendorRequestsByUserId(userId);
+            List<VendorResponse> vendorResponses = vendorService.findVendorRequestsByUserId(userId,leadId);
             return new ResponseEntity<>(vendorResponses, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
@@ -50,10 +50,9 @@ public class VendorController {
     }
 
     @PutMapping(UrlsMapping.UPDATE_VENDOR_REQUEST)
-    public ResponseEntity<Object> updateVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam Long vendorId, Long userId,
-                                                      @RequestParam(required = false) MultipartFile files) {
+    public ResponseEntity<Object> updateVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam Long vendorId, Long userId) {
         try {
-            VendorResponse vendorResponse = vendorService.updateVendorRequest(vendorRequest, vendorId, userId, files);
+            VendorResponse vendorResponse = vendorService.updateVendorRequest(vendorRequest, vendorId, userId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
