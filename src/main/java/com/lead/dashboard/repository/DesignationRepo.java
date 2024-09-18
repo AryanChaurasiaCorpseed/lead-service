@@ -22,5 +22,5 @@ public interface DesignationRepo extends JpaRepository<Designation, Long> {
 	List<Designation> findAllByIdIn(List<Long> designationId);
 
 
-	Optional<Designation> findByName(String procurementManager);
+    Designation findByName(String procurementManager);
 }

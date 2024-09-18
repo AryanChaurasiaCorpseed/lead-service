@@ -28,4 +28,8 @@ public class VendorRequest {
     private String vendorReferenceFile;
 
     private Long assignedUserId;
+
+    private String budgetPrice;
+
+    private String vendorSharedPrice;
 }

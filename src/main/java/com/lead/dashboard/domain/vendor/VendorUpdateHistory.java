@@ -26,17 +26,17 @@ public class VendorUpdateHistory implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "vendor_id")
+    @JoinColumn(name = "vendor_request_id")
     @JsonIgnore
     private Vendor vendor;
 
     @ManyToOne
-    @JoinColumn(name="user_vendor_history")
+    @JoinColumn(name="current_assignee_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="user_vendor")
-    private User raiseTo;
+    @JoinColumn(name="raised_by_id")
+    private User raisedBy;
 
 
     private String updateDescription;

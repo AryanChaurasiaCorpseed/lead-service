@@ -6,9 +6,7 @@ import com.lead.dashboard.domain.opportunity.Opportunities;
 import com.lead.dashboard.domain.product.Product;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,6 +16,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor(force = true)
 @Table(name = "user")
+@Getter
+@Setter
 public class User implements Serializable{
 	
 

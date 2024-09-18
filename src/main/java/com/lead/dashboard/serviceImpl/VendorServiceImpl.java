@@ -68,39 +68,42 @@ public class VendorServiceImpl implements VendorService {
                     vendor.setLead(lead);
                     vendor.setCreateDate(new Date());
                     vendor.setUpdatedDate(new Date());
+                    vendor.setStatus("Initial");
 
-                    Optional<Designation> procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
-                    if (procurementManagerDesignation!=null) {
-                        Optional<User> procurementManagerOpt = userRepository.findByUserDesignation(procurementManagerDesignation.get());
-                        if (procurementManagerOpt!=null ) {
-                            vendor.setAssignedUser(procurementManagerOpt.get());
+                    vendor.setBudgetPrice(vendorRequest.getBudgetPrice());
+                    vendor.setVendorSharedPrice(vendorRequest.getVendorSharedPrice());
+
+                    Designation procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
+                    if (procurementManagerDesignation != null) {
+                        User procurementManagerOpt = userRepository.findUserByDesignationName(procurementManagerDesignation.getName());
+                        if (procurementManagerOpt != null) {
+                            vendor.setAssignedUser(procurementManagerOpt);
                         } else {
-                            Optional<User> adminUserOpt = userRepository.findByRole("ADMIN");
-                            if (adminUserOpt.isPresent()) {
-                                vendor.setAssignedUser(adminUserOpt.get());
-                            } else {
-                                throw new RuntimeException("Admin user not found");
-                            }
+                            assignAdminUser(vendor);
                         }
                     } else {
-                        Optional<User> adminUserOpt = userRepository.findByRole("ADMIN");
-                        if (adminUserOpt.isPresent()) {
-                            vendor.setAssignedUser(adminUserOpt.get());
-                        } else {
-                            throw new RuntimeException("Admin user not found");
-                        }
+                        assignAdminUser(vendor);
                     }
 
                     vendor = vendorRepository.save(vendor);
 
                     VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
                     vendorUpdate.setVendor(vendor);
-                    vendorUpdate.setRequestStatus("Vendor request created");
+                    vendorUpdate.setRequestStatus("Initial");
                     vendorUpdate.setUpdateDate(new Date());
-                    vendorUpdate.setUpdateDescription("Initial request");
+                    vendorUpdate.setUpdateDescription("Vendor request created");
                     vendorUpdate.setLead(lead);
                     vendorUpdate.setAddedBy(vendor.getAddedBy());
                     vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
+                    vendorUpdate.setCreateDate(new Date());
+                    vendorUpdate.setDisplay(true);
+
+                    vendorUpdate.setBudgetPrice(vendorRequest.getBudgetPrice());
+                    vendorUpdate.setVendorSharedPrice(vendorRequest.getVendorSharedPrice());
+
+                    vendorUpdate.setRaisedBy(userDetails.get());
+                    vendorUpdate.setUser(vendor.getAssignedUser());
+
                     vendorHistoryRepository.save(vendorUpdate);
 
                     return new VendorResponse(vendor);
@@ -112,6 +115,17 @@ public class VendorServiceImpl implements VendorService {
             }
         } else {
             throw new RuntimeException("User not found for ID: " + userId);
+        }
+    }
+
+
+
+    private void assignAdminUser(Vendor vendor) {
+        List<User> adminUsers = userRepository.findByRoleAndIsNotDeleted("ADMIN");
+        if (!adminUsers.isEmpty()) {
+            vendor.setAssignedUser(adminUsers.get(0));
+        } else {
+            throw new RuntimeException("Admin user not found");
         }
     }
 
@@ -127,7 +141,10 @@ public class VendorServiceImpl implements VendorService {
 
         List<Vendor> vendors;
 
-        if (userDetails.getRole().contains("ADMIN")) {
+        boolean isAdmin = userDetails.getRole().contains("ADMIN");
+        boolean isProcurementManager = userDetails.getDesignation().equalsIgnoreCase("Procurement Manager");
+
+        if (isAdmin || isProcurementManager) {
             vendors = vendorRepository.findAllVendorRequests(leadId);
         } else {
             vendors = vendorRepository.findAllVendorRequestByUserId(userId, leadId);
@@ -146,6 +163,8 @@ public class VendorServiceImpl implements VendorService {
             return vendorResponse;
         }).collect(Collectors.toList());
     }
+
+
 
     @Override
     public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId, Long leadId) {
@@ -168,14 +187,6 @@ public class VendorServiceImpl implements VendorService {
             throw new IllegalArgumentException("Service name not found");
         }
 
-        vendor.setUrlsManagment(urlsManagment);
-        vendor.setRequirementDescription(vendorRequest.getDescription());
-        vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
-        vendor.setClientCompanyName(vendorRequest.getCompanyName());
-        vendor.setContactPersonName(vendorRequest.getContactPersonName());
-        vendor.setUpdatedDate(new Date());
-
-        vendorRepository.save(vendor);
 
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);

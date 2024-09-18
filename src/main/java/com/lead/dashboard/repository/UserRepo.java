@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -64,8 +65,10 @@ public interface UserRepo extends JpaRepository<User,Long>
 	
 	@Query(value = "SELECT * FROM user u WHERE u.id = :userId AND u.is_deleted = false", nativeQuery = true)
 	User findByUserIdAndIsDeletedFalse(Long userId);
+	
+	@Query("SELECT u FROM User u JOIN u.userRole r WHERE r.name = :roleName AND u.isDeleted = false")
+	List<User> findByRoleAndIsNotDeleted(@Param("roleName") String roleName);
 
-    Optional<User> findByUserDesignation(Designation designation);
-
-	Optional<User> findByRole(String admin);
+	@Query("SELECT u FROM User u WHERE u.userDesignation.name = :name")
+	User findUserByDesignationName(@Param("name") String name);
 }
