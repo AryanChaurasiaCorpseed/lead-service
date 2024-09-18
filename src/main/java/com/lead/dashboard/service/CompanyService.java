@@ -34,7 +34,8 @@ public interface CompanyService {
 	boolean updateCompanyAssignee(Long companyId, Long assigneeId);
 
 
-	List<Map<String, Object>> getAllCompanyV2(Long userId, int page, int size);
 
 	List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGSt, Long userId);
+
+	List<Map<String, Object>> getAllCompanyV2(Long userId, Long filterUserId, int page, int size);
 }
