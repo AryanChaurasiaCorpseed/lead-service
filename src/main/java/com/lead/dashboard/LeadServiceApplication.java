@@ -46,8 +46,8 @@ public class LeadServiceApplication  implements CommandLineRunner {
 //	}
 
 
-	@Override
-	public void run(String... args) throws Exception {
+//	@Override
+//	public void run(String... args) throws Exception {
 //////		                                                                       
 //		String filePath1 = "D:/crm_client.csv";
 //		String running = "D:/running_lead.xlsx";
@@ -62,6 +62,13 @@ public class LeadServiceApplication  implements CommandLineRunner {
 //		helper.savedRunningLead(running);
 //
 //		helper.processBadFitLeads(badFit);
+//	}
+	
+	@Override
+	public void run(String... args) throws Exception {
+		String file1 = "D:/test.xlsx";
+
+//		helper.updateCompanyMail(file1);
 	}
 
 }

@@ -572,7 +572,41 @@ public class Helper {
         }
     }
     
-    
+    public void updateCompanyMail(String filePath) {
+        try {
+            List<Map<String, String>> companyData = readProjectFile(filePath);
+
+            for (Map<String, String> row : companyData) {
+                String companyName = row.get("cregname").trim();
+                String emailId = row.get("cregcontemailid").trim();
+                String mobNumber = row.get("cregcontmobile").trim();
+                String firstName = row.get("cregcontfirstname").trim();
+                String lastName = row.get("cregcontlastname").trim();
+                String fullName=firstName+" "+lastName;
+                if (companyName.isEmpty() || emailId.isEmpty()) {
+                    continue;
+                }
+                Company company = companyRepository.findByName(companyName);
+                if (company != null) {
+                    Contact primaryContact = company.getPrimaryContact();
+                    if (primaryContact != null) {
+                        primaryContact.setEmails(emailId);
+                        primaryContact.setContactNo(mobNumber);
+                        primaryContact.setWhatsappNo(mobNumber);
+                        primaryContact.setName(fullName);
+                        contactRepo.save(primaryContact);
+                    }
+
+
+                    System.out.println("Updated company: " + companyName + " with email: " + emailId);
+                } else {
+                    System.out.println("Company not found: " + companyName);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     
 
