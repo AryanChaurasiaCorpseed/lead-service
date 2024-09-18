@@ -70,8 +70,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 			}else {
 				company.setParent(companyDto.isParent());
-//				 Company parent = companyRepository.findById(companyDto.getParentId()).get();
-//				company.setParent(parent);
+				//				 Company parent = companyRepository.findById(companyDto.getParentId()).get();
+				//				company.setParent(parent);
 				companyRepository.save(company);
 
 			}
@@ -80,7 +80,7 @@ public class CompanyServiceImpl implements CompanyService {
 			return company;
 		}else {
 			String name=companyExist.getAssignee()!=null?companyExist.getAssignee().getFullName():"NA";
-//			throw new Exception("Already Exist . "+name+" are working on it");
+			//			throw new Exception("Already Exist . "+name+" are working on it");
 			return null;
 		}
 	}
@@ -129,7 +129,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 
 			result.put("assignee", c.getAssignee());
-			
+
 			result.put("address", c.getAddress());
 			result.put("city", c.getCity());
 			result.put("state", c.getState());
@@ -139,11 +139,11 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("secCity", c.getSCity());
 			result.put("secState", c.getSState());
 			result.put("seCountry", c.getSCountry());
-			
+
 			result.put("primaryContact", c.getPrimaryContact());
 			result.put("secondaryContact", c.getSecondaryContact());
 
-			
+
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String,Object>>leadList = new ArrayList<>();
 			for(Lead l:lList) {
@@ -170,31 +170,54 @@ public class CompanyServiceImpl implements CompanyService {
 		return res;
 	}
 
-	
-	public List<Map<String,Object>> getAllCompanyV2(Long userId, int page, int size) {
+
+	public List<Map<String,Object>> getAllCompanyV2(Long userId, Long filterUserId, int page, int size) {
 		Optional<User> userOp = userRepo.findById(userId);
 		List<Company> companyList = new ArrayList<>();
 		User user = userOp.get();
 		Pageable pageable = PageRequest.of(page, size);
 		List<String> roleList = user.getRole();
-		if(roleList.contains("ADMIN")) {
-			companyList=companyRepository.findAll(pageable).getContent();
-			System.out.println("test1.......");
-		}else {
-			if(user.isManager()) {
-				List<Long>userList = new ArrayList<>();
-				userList.add(userId);
-				List<Long> uList = userServiceImpl.getUserManager(userId);
-				userList.addAll(uList);
-				companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+		if(filterUserId==null) {
 
+			if(roleList.contains("ADMIN")) {
+				companyList=companyRepository.findAll(pageable).getContent();
+				System.out.println("test1.......12345678");
 			}else {
+				if(user.isManager()) {
+					List<Long>userList = new ArrayList<>();
+					userList.add(userId);
+					List<Long> uList = userServiceImpl.getUserManager(userId);
+					userList.addAll(uList);
+					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
 
-				companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+				}else {
 
+					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+
+				}
+			}
+		}else {
+			if(roleList.contains("ADMIN")) {
+				List<Long>userIds = new ArrayList<>();
+				userIds.add(filterUserId);
+				companyList =companyRepository.findAllByAssigneeIdIn(userIds,pageable).getContent();
+			}else {
+				if(user.isManager()) {
+					List<Long>userList = new ArrayList<>();
+					userList.add(userId);
+					List<Long> uList = userServiceImpl.getUserManager(userId);
+					userList.addAll(uList);
+					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+
+				}else {
+
+					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+
+				}
 			}
 		}
 		List<Map<String,Object>>res = new ArrayList<>();
+		System.out.println("test .. . . ");
 		for(Company c:companyList) {
 			Map<String,Object>result = new HashMap<>();
 
@@ -207,7 +230,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 
 			result.put("assignee", c.getAssignee());
-			
+
 			result.put("address", c.getAddress());
 			result.put("city", c.getCity());
 			result.put("state", c.getState());
@@ -217,11 +240,11 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("secCity", c.getSCity());
 			result.put("secState", c.getSState());
 			result.put("seCountry", c.getSCountry());
-			
+
 			result.put("primaryContact", c.getPrimaryContact());
 			result.put("secondaryContact", c.getSecondaryContact());
 
-			
+
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String,Object>>leadList = new ArrayList<>();
 			for(Lead l:lList) {
@@ -284,7 +307,7 @@ public class CompanyServiceImpl implements CompanyService {
 				map.put("pState", p.getState());
 				map.put("pCountry", p.getCountry());
 				map.put("pPinCode", p.getPrimaryPinCode());
-				
+
 				map.put("sAddress", p.getSAddress());
 				map.put("sCity", p.getSCity());
 				map.put("sState", p.getSState());
@@ -351,7 +374,7 @@ public class CompanyServiceImpl implements CompanyService {
 			Map<String,Object> map = new HashMap<>();
 			map.put("id", c.getId());
 			map.put("companyName", c.getName());
-//			map.put("companyId", c.getId());
+			//			map.put("companyId", c.getId());
 			map.put("country", c.getCountry());
 			map.put("gstNo", c.getGstNo());
 			map.put("gstType", c.getGstType());
@@ -359,7 +382,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 
 			map.put("assignee", c.getAssignee());
-			
+
 			map.put("address", c.getAddress());
 			map.put("city", c.getCity());
 			map.put("state", c.getState());
@@ -369,17 +392,17 @@ public class CompanyServiceImpl implements CompanyService {
 			map.put("secCity", c.getSCity());
 			map.put("secState", c.getSState());
 			map.put("seCountry", c.getSCountry());
-			
+
 			map.put("primaryContact", c.getPrimaryContact());
 			map.put("secondaryContact", c.getSecondaryContact());
-            res.add(map);
+			res.add(map);
 		}
 		return res;
 	}
 
 	@Override
 	public List<Company> getCompanyByGst(String gst) {
-//		List<Company>companyList=companyRepository.findByGst(gst);
+		//		List<Company>companyList=companyRepository.findByGst(gst);
 		List<Company>companyList=new ArrayList<>();
 		return companyList;
 	}
@@ -387,28 +410,28 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Map<String, Object> getCompanyById(Long id) {
 		Company comp = companyRepository.findById(id).get();
-		 Map<String, Object> res = new HashMap<>();
-		 res.put("id", comp.getId());
-		 res.put("name", comp.getName());
-		 res.put("status", comp.getStatus());
+		Map<String, Object> res = new HashMap<>();
+		res.put("id", comp.getId());
+		res.put("name", comp.getName());
+		res.put("status", comp.getStatus());
 
-		 
-		 res.put("gstType", comp.getGstType());
-		 res.put("gstNo", comp.getGstNo());
-		 res.put("gstDoc", comp.getGstDocuments());
-		 
-		 res.put("address", comp.getAddress());
-		 res.put("city", comp.getCity());
-		 res.put("state", comp.getState());
-		 res.put("country", comp.getCountry());
 
-		 
-		 res.put("status", comp.getStatus());
-         res.put("email", comp.getPrimaryContact());
-		 res.put("assigneeId", comp.getAssignee()!=null?comp.getAssignee().getId():"NA");
-		 res.put("assigneeName",  comp.getAssignee()!=null?comp.getAssignee().getFullName():"NA");
-		 res.put("assigneeRole",  comp.getAssignee()!=null?comp.getAssignee().getRole():"NA");
-		 res.put("assigneeEmail",  comp.getAssignee()!=null?comp.getAssignee().getEmail():"NA");
+		res.put("gstType", comp.getGstType());
+		res.put("gstNo", comp.getGstNo());
+		res.put("gstDoc", comp.getGstDocuments());
+
+		res.put("address", comp.getAddress());
+		res.put("city", comp.getCity());
+		res.put("state", comp.getState());
+		res.put("country", comp.getCountry());
+
+
+		res.put("status", comp.getStatus());
+		res.put("email", comp.getPrimaryContact());
+		res.put("assigneeId", comp.getAssignee()!=null?comp.getAssignee().getId():"NA");
+		res.put("assigneeName",  comp.getAssignee()!=null?comp.getAssignee().getFullName():"NA");
+		res.put("assigneeRole",  comp.getAssignee()!=null?comp.getAssignee().getRole():"NA");
+		res.put("assigneeEmail",  comp.getAssignee()!=null?comp.getAssignee().getEmail():"NA");
 
 
 		return res;
@@ -417,7 +440,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public boolean updateCompanyAssignee(Long companyId, Long assigneeId) {
 		Company comp = companyRepository.findById(companyId).get();
-		
+
 		User assignee = userRepo.findById(assigneeId).get();
 		comp.setAssignee(assignee);
 		companyRepository.save(comp);
