@@ -74,6 +74,8 @@ public class CompanyForm {
 	String contactEmails;
 	String contactNo;
 	String contactWhatsappNo;
+	String primaryDesignation;
+
 	
 	boolean isSecondaryContact;
 	Long sContactId ;
@@ -81,7 +83,8 @@ public class CompanyForm {
 	String sContactEmails;
 	String sContactNo;
 	String sContactWhatsappNo;
-	
+	String secondaryDesignation;
+
     @ManyToOne
     User updatedBy;
     
