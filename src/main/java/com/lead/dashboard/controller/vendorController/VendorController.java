@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.vendorController;
 
 
+import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.service.VendorService;
@@ -60,5 +61,20 @@ public class VendorController {
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @PutMapping(UrlsMapping.UPDATE_VENDOR_DETAILS)
+    public ResponseEntity<Object> updateVendorDetails(@RequestBody VendorEditRequest vendorEditRequest,
+                                                      @RequestParam Long vendorId,
+                                                      @RequestParam Long userId) {
+        try {
+            VendorResponse vendorResponse = vendorService.updateVendorDetails(vendorEditRequest, vendorId, userId);
+            return new ResponseEntity<>(vendorResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

@@ -6,6 +6,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
+import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
@@ -209,6 +210,43 @@ public class VendorServiceImpl implements VendorService {
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 
+
+        return new VendorResponse(vendor);
+    }
+
+
+    public VendorResponse updateVendorDetails(VendorEditRequest vendorEditRequest, Long vendorId, Long userId) {
+
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+        vendor.setClientCompanyName(vendorEditRequest.getClientCompanyName());
+        vendor.setClientEmailId(vendorEditRequest.getClientEmailId());
+        vendor.setContactPersonName(vendorEditRequest.getContactPersonName());
+        vendor.setContactNumber(vendorEditRequest.getContactNumber());
+        vendor.setUpdatedBy(userId);
+        vendor.setUpdatedDate(new Date());
+
+        vendorRepository.save(vendor);
+
+        VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
+        vendorUpdateHistory.setVendor(vendor);
+        vendorUpdateHistory.setLead(vendor.getLead());
+        vendorUpdateHistory.setUser(user);
+        vendorUpdateHistory.setUpdateDate(new Date());
+        vendorUpdateHistory.setAddedBy(userId);
+        vendorUpdateHistory.setUpdatedBy(userId);
+        vendorUpdateHistory.setDisplay(true);
+//        vendorUpdateHistory.setc(vendorRequest.getClientCompanyName());
+//        vendorUpdateHistory.set(vendorRequest.getClientEmailId());
+//        vendorUpdateHistory.setContactPersonName(vendorRequest.getContactPersonName());
+//        vendorUpdateHistory.setContactNumber(vendorRequest.getContactNumber());
+
+        // Save the update history
+        vendorHistoryRepository.save(vendorUpdateHistory);
 
         return new VendorResponse(vendor);
     }
