@@ -46,6 +46,7 @@ public class UpdateCompanyFormDto {
 	String contactEmails;
 	String contactNo;
 	String contactWhatsappNo;
+	String primaryDesignation;
 	
 	boolean isSecondaryContact;
 	Long sContactId ;
@@ -53,6 +54,7 @@ public class UpdateCompanyFormDto {
 	String sContactEmails;
 	String sContactNo;
 	String sContactWhatsappNo;
+	String secondaryDesignation;
 	String amount;
 	String comment;
 
@@ -376,6 +378,22 @@ public class UpdateCompanyFormDto {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getPrimaryDesignation() {
+		return primaryDesignation;
+	}
+
+	public void setPrimaryDesignation(String primaryDesignation) {
+		this.primaryDesignation = primaryDesignation;
+	}
+
+	public String getSecondaryDesignation() {
+		return secondaryDesignation;
+	}
+
+	public void setSecondaryDesignation(String secondaryDesignation) {
+		this.secondaryDesignation = secondaryDesignation;
 	}
 	
 	

@@ -12,8 +12,8 @@ import lombok.Setter;
 //@Data
 @Table
 @Entity
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class Contact {
 	
 	@Id
@@ -24,7 +24,10 @@ public class Contact {
 	String contactNo;
 	String whatsappNo;
 	Long companyId;
+	String designation;
 	boolean deleteStatus =false;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,6 +69,12 @@ public class Contact {
 	}
 	public void setDeleteStatus(boolean deleteStatus) {
 		this.deleteStatus = deleteStatus;
+	}
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 	
 	

@@ -111,6 +111,7 @@ public class CompanyFormController {
 		companyForm.setContactNo(createFormDto.getContactNo());
 		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
 
+		
 		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 		System.out.println(createFormDto.getSContactName());
 		companyForm.setSContactName(createFormDto.getSContactName());
@@ -119,6 +120,7 @@ public class CompanyFormController {
 		companyForm.setSContactEmails(createFormDto.getSContactEmails());
 		companyForm.setSContactNo(createFormDto.getSContactNo());
 		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+		
 		if(createFormDto.getUpdatedBy()!=null) {
 			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
@@ -1034,7 +1036,8 @@ public class CompanyFormController {
 		companyForm.setContactEmails(UpdateCompanyFormDto.getContactEmails());
 		companyForm.setContactNo(UpdateCompanyFormDto.getContactNo());
 		companyForm.setContactWhatsappNo(UpdateCompanyFormDto.getContactWhatsappNo());
-
+		companyForm.setPrimaryDesignation(UpdateCompanyFormDto.getPrimaryDesignation());
+		
 		companyForm.setSecondaryContact(UpdateCompanyFormDto.isSecondaryContact());
 		System.out.println(UpdateCompanyFormDto.getSContactName());
 		companyForm.setSContactName(UpdateCompanyFormDto.getSContactName());
@@ -1043,6 +1046,7 @@ public class CompanyFormController {
 		companyForm.setSContactEmails(UpdateCompanyFormDto.getSContactEmails());
 		companyForm.setSContactNo(UpdateCompanyFormDto.getSContactNo());
 		companyForm.setSContactWhatsappNo(UpdateCompanyFormDto.getSContactWhatsappNo());
+		companyForm.setSecondaryDesignation(UpdateCompanyFormDto.getSecondaryDesignation());
 		if(UpdateCompanyFormDto.getUpdatedBy()!=null) {
 			User user = userRepo.findById(UpdateCompanyFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
@@ -1158,13 +1162,11 @@ public class CompanyFormController {
 		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setAmount(createFormDto.getAmount());
-		System.out.println("111111111111111111111111111111111111111111111111111111");
 		Company comp=null;
 		if(createFormDto.getIsPresent()) {
 			comp = companyRepository.findById(createFormDto.getCompanyId()).get();
 
 		}
-		System.out.println("222222222222222222222222222222222222222222222222222222");
 
 		companyForm.setCompanyId(createFormDto.getCompanyId());
 		if(createFormDto.getIsPresent()&&comp!=null) { //if old company pick
@@ -1287,6 +1289,8 @@ public class CompanyFormController {
 			companyForm.setContactEmails(createFormDto.getContactEmails());
 			companyForm.setContactNo(createFormDto.getContactNo());
 			companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
+	        companyForm.setPrimaryDesignation(createFormDto.getPrimaryDesignation());
+
 		}else {
 			System.out.println("101010101010100101010101001010101010100101001101010010101010");
 
@@ -1296,6 +1300,8 @@ public class CompanyFormController {
 			companyForm.setContactEmails(cont.getEmails());
 			companyForm.setContactNo(cont.getContactNo());
 			companyForm.setContactWhatsappNo(cont.getWhatsappNo());
+	        companyForm.setPrimaryDesignation(cont.getDesignation());
+
 		}
 
 		if(createFormDto.isSecondaryContact()) {
@@ -1306,6 +1312,8 @@ public class CompanyFormController {
 			companyForm.setSContactEmails(createFormDto.getSContactEmails());
 			companyForm.setSContactNo(createFormDto.getSContactNo());
 			companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
+			companyForm.setSecondaryDesignation(createFormDto.getSecondaryDesignation());
+
 		}else {
 			System.out.println("10bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
@@ -1315,6 +1323,8 @@ public class CompanyFormController {
 			companyForm.setSContactEmails(cont.getEmails());
 			companyForm.setSContactNo(cont.getContactNo());
 			companyForm.setSContactWhatsappNo(cont.getWhatsappNo());
+			companyForm.setSecondaryDesignation(cont.getDesignation());
+
 		}
 		companyForm.setStatus("Initiated");
 		companyForm.setPanNo(createFormDto.getPanNo());
@@ -1397,6 +1407,7 @@ public class CompanyFormController {
 							c.setContactNo(companyForm.getContactNo());
 							c.setEmails(companyForm.getContactEmails());
 							c.setWhatsappNo(companyForm.getContactWhatsappNo());
+							c.setDesignation(companyForm.getPrimaryDesignation());
 							c.setDeleteStatus(false);
 							contactRepo.save(c);
 						}else {
@@ -1413,6 +1424,7 @@ public class CompanyFormController {
 							sc.setContactNo(companyForm.getSContactNo());
 							sc.setEmails(companyForm.getSContactEmails());
 							sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+							sc.setDesignation(companyForm.getSecondaryDesignation());
 							sc.setDeleteStatus(false);
 							contactRepo.save(sc);
 

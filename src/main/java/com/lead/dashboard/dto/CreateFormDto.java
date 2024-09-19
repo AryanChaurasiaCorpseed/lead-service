@@ -50,6 +50,7 @@
 		String contactEmails;
 		String contactNo;
 		String contactWhatsappNo;
+		String primaryDesignation;
 
 		boolean isSecondaryContact;
 		Long sContactId ;
@@ -57,6 +58,7 @@
 		String sContactEmails;
 		String sContactNo;
 		String sContactWhatsappNo;
+		String secondaryDesignation;
 
 		Long updatedBy;
 
@@ -310,6 +312,18 @@
 		}
 		public void setAmount(String amount) {
 			this.amount = amount;
+		}
+		public String getPrimaryDesignation() {
+			return primaryDesignation;
+		}
+		public void setPrimaryDesignation(String primaryDesignation) {
+			this.primaryDesignation = primaryDesignation;
+		}
+		public String getSecondaryDesignation() {
+			return secondaryDesignation;
+		}
+		public void setSecondaryDesignation(String secondaryDesignation) {
+			this.secondaryDesignation = secondaryDesignation;
 		}
 		
 		
