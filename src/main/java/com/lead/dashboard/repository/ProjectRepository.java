@@ -2,6 +2,7 @@ package com.lead.dashboard.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,11 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
 
      @Query(value = "SELECT * FROM project p WHERE p.project_no =:projectNo", nativeQuery = true)
 	List<Project> findAllByProjectNo(String projectNo);
+
+     @Query(value = "SELECT * FROM project p WHERE p.assignee_id =:userId", nativeQuery = true)
+	 List<Project> findAllByAssigneeId(Long userId);
+     
+     @Query(value = "SELECT * FROM project p WHERE p.assignee_id =:userId", nativeQuery = true)
+	 List<Project> findAllByAssigneeId(Long userId,Pageable pageable);
 	
 }

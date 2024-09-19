@@ -44,8 +44,9 @@ public class ProjectController {
     
     
     @GetMapping(UrlsMapping.GET_ALL_PROJECT)
-    public ResponseEntity<List<Map<String,Object>>> getAllProject(@RequestParam Long userId) {
-    	List<Map<String,Object>> pMap = projectService.getAllProject(userId);
+    public ResponseEntity<List<Map<String,Object>>> getAllProject(@RequestParam Long userId,@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+    	List<Map<String,Object>> pMap = projectService.getAllProject(userId,page,size);
         if (pMap!=null) {
             return ResponseEntity.ok(pMap);
         } else {

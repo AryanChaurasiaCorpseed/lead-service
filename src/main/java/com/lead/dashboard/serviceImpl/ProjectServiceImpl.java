@@ -9,17 +9,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.ProjectService;
 
 @Service
@@ -33,6 +37,9 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	@Autowired
 	CompanyRepository companyRepository;
+	
+	@Autowired
+	UserRepo userRepo;
 	
 	@Autowired
 	LeadRepository leadRepository;
@@ -66,7 +73,7 @@ public class ProjectServiceImpl implements ProjectService{
         if(leadOp.get()!=null) {
         	Lead l =leadOp.get();
     		p.setName(l.getLeadName());
-//    		p.setAmount(0);
+//    		p.setAmount(0);̥
     		p.setLead(l);
     		projectRepository.save(p);
 
@@ -74,10 +81,22 @@ public class ProjectServiceImpl implements ProjectService{
         return p;      
 	}
 	@Override
-	public List<Map<String,Object>> getAllProject(Long userIds) {
-		List<Project> pList = projectRepository.findAll();
+	public List<Map<String,Object>> getAllProject(Long userId,int page,int size) {
+//		List<Project> pList = projectRepository.findAll();
 		List<Map<String,Object>>result  = new ArrayList<>();
-		System.out.println(pList.size());
+		Optional<User> userOp = userRepo.findById(userId);
+		Pageable pageable = PageRequest.of(page, size);
+		List<Project> pList = new ArrayList<>(); 
+		
+		if(userOp!=null &&userOp.get()!=null && userOp.get().getRole().contains("ADMIN")) {
+//			 pList = projectRepository.findAll();
+			 pList = projectRepository.findAll(pageable).getContent();
+
+		}else {
+			  pList = projectRepository.findAllByAssigneeId(userId,pageable);
+	
+		}
+
 		for(Project p:pList)  {
 			Map<String,Object>res = new HashMap<>();
 			res.put("id",p.getId());
@@ -88,8 +107,9 @@ public class ProjectServiceImpl implements ProjectService{
 			res.put("client", p.getClient());
 			res.put("status", p.getStatus());
 			res.put("leadId",p.getLead().getId());
-			res.put("leadNane",p.getLead().getLeadName());
-			
+			res.put("leadName",p.getLead().getLeadName());
+			res.put("amount",p.getAmount());
+
 			res.put("pAddress", p.getAddress());
 			res.put("pCity", p.getCity());
 			res.put("pState", p.getState());
@@ -104,6 +124,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 			result.add(res);
 		}
+
 		return result;
 	}
 

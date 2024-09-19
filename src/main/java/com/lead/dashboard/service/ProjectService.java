@@ -12,7 +12,7 @@ public interface ProjectService {
 
 	Project createProject(Long leadId,Long estimateId);
 
-	List<Map<String,Object>> getAllProject(Long userId);
+	List<Map<String,Object>> getAllProject(Long userId,int page,int size);
 
 	Project createProjectV2(Long leadId);
 
