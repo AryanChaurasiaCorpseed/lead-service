@@ -65,7 +65,7 @@ public class CompanyController {
 		List<Map<String,Object>> allCompany = companyService.getAllCompanyV2(userId,filterUserId,page,size);
 		
 		return allCompany;
-
+ 
 	}
 	
 	@GetMapping(UrlsMapping.GET_ALL_PARENT_COMPANY)
