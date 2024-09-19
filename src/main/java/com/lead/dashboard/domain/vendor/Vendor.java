@@ -83,4 +83,8 @@ public class Vendor implements Serializable {
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendorUpdateHistory> vendorUpdateHistory;
 
+    private String quotationAttachmentPath;
+
+    private String quotationAmount;
+
 }

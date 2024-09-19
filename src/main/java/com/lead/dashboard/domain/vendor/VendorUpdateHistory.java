@@ -65,4 +65,14 @@ public class VendorUpdateHistory implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+
+
+    private String quotationAttachmentPath; // Path to the quotation file
+    private String quotationAmount; // Quotation amount from the vendor
+    private boolean proposalSentStatus; // Status of whether the proposal has been sent
+
+
+
+
+
 }

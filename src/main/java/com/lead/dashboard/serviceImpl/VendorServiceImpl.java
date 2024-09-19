@@ -188,12 +188,14 @@ public class VendorServiceImpl implements VendorService {
         }
 
 
+        vendor.setQuotationAmount(vendorRequest.getQuotationAmount());
+        vendor.setProposalSentStatus(vendorRequest.isProposalSentStatus());
+
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setRequestStatus(vendorUpdateHistory.getRequestStatus());
+        vendorUpdateHistory.setRequestStatus(vendorRequest.getStatus());
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setLead(lead);
-        vendorUpdateHistory.setRequestStatus(vendor.getStatus());
         vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
         vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
         vendorUpdateHistory.setAddedBy(userId);
@@ -201,7 +203,12 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setCreateDate(new Date());
 
+        vendorUpdateHistory.setQuotationAttachmentPath(vendor.getQuotationAttachmentPath());
+        vendorUpdateHistory.setQuotationAmount(vendor.getQuotationAmount());
+        vendorUpdateHistory.setProposalSentStatus(vendor.isProposalSentStatus());
+
         vendorHistoryRepository.save(vendorUpdateHistory);
+
 
         return new VendorResponse(vendor);
     }

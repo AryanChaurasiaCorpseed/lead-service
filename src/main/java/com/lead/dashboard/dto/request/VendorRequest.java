@@ -21,6 +21,8 @@ public class VendorRequest {
 
     private String companyName;
 
+    private String status;
+
     private String contactNumber;
 
     private String contactPersonName;
@@ -32,4 +34,12 @@ public class VendorRequest {
     private String budgetPrice;
 
     private String vendorSharedPrice;
+
+    private String quotationAttachmentPath;
+    private String quotationAmount;
+    private boolean proposalSentStatus;
+
+
+
+
 }
