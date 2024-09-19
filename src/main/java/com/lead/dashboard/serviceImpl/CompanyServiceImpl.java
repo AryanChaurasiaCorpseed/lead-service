@@ -177,11 +177,10 @@ public class CompanyServiceImpl implements CompanyService {
 		User user = userOp.get();
 		Pageable pageable = PageRequest.of(page, size);
 		List<String> roleList = user.getRole();
-		if(filterUserId==null) {
+		if(filterUserId==null||filterUserId==0) {
 
 			if(roleList.contains("ADMIN")) {
 				companyList=companyRepository.findAll(pageable).getContent();
-				System.out.println("test1.......12345678");
 			}else {
 				if(user.isManager()) {
 					List<Long>userList = new ArrayList<>();
