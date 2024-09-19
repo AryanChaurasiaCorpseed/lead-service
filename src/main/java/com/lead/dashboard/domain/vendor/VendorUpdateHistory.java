@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "vendor_update_history")
@@ -62,6 +63,10 @@ public class VendorUpdateHistory implements Serializable {
     private Long addedBy;
 
     private Long updatedBy;
+
+    private List<String> mailTo;
+
+    private List<User> mailCs;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;

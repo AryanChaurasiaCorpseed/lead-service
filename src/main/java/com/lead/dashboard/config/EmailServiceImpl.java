@@ -1,8 +1,12 @@
 package com.lead.dashboard.config;
 
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.request.VendorQuotationRequest;
+import com.lead.dashboard.dto.request.VendorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,25 +19,16 @@ import com.lead.dashboard.service.MailSendService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+import java.io.File;
+
 @Service
 public class EmailServiceImpl implements MailSendService {
 
-//    @Autowired
-//    private   JavaMailSender javaMailSender;
 
     public EmailServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
-//    public void sendSimpleMessage(
-//      String to, String subject, String text) {
-//        SimpleMailMessage message = new SimpleMailMessage(); 
-//        message.setFrom("aryanchaurasia11298@gmail.com");
-//        message.setTo(to); 
-//        message.setSubject(subject); 
-//        message.setText(text);
-//        javaMailSender.send(message);
-//    }
-    
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -80,4 +75,9 @@ public class EmailServiceImpl implements MailSendService {
         }
     }
 
+
+    @Override
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, User from, String subject, String body, String attachmentPath, VendorQuotationRequest vendorQuotationRequest, User raisedBy) {
+
+    }
 }

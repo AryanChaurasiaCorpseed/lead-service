@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quotation for Lead #</title>
+</head>
+<body>
+<p>Dear <span th:text="${clientName}">Client</span>,</p>  <!-- This will include the client's name -->
+
+<p>Thank you for the opportunity to assist with your <span th:text="${urlsName}">service</span>. We have attached the requested quotation for your review.</p>
+
+<p>We look forward to helping you further and simplifying the compliance process for your business. Please feel free to reach out if you need any additional information.</p>
+
+<p>Best Regards,<br/>
+    <span th:text="${raisedByName}">Corpseed Team</span></p>  <!-- This will show the raised by user's name -->
+</body>
+</html>

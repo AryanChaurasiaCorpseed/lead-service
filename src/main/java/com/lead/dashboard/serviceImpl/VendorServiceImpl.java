@@ -7,6 +7,7 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorEditRequest;
+import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
@@ -43,6 +44,9 @@ public class VendorServiceImpl implements VendorService {
 
     @Autowired
     private DesignationRepo designationRepo;
+
+    @Autowired
+    private MailSendSerivceImpl mailSendSerivce;
 
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
@@ -251,6 +255,53 @@ public class VendorServiceImpl implements VendorService {
         return new VendorResponse(vendor);
     }
 
+
+    @Override
+    public VendorResponse sendQuotation(VendorQuotationRequest vendorQuotationRequest, Long userId, Long leadId, Long vendorRequestId) {
+        Vendor vendor = vendorRepository.findById(vendorRequestId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+        User raisedBy = vendor.getUser();  // User who first raised request yo the vendor
+        String clientEmailId = vendorQuotationRequest.getClientMailId();  // Updated to use client email from request
+        String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();  // Additional email
+
+        String[] mailTo = new String[]{clientEmailId, additionalEmailId};  // Send to both client and additional mail IDs
+        String[] mailCc = new String[]{raisedBy.getEmail()};  // CC to the raisedBy email
+        String from = user.getEmail();  // The email of the current user
+        String subject = "Quotation for Lead #" + leadId;
+        String body = vendorQuotationRequest.getComment();
+
+        try {
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, user, subject, body,
+                    vendorQuotationRequest.getAttachmentPath(), vendorQuotationRequest, raisedBy);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage());
+        }
+
+        VendorUpdateHistory history = new VendorUpdateHistory();
+        history.setVendor(vendor);
+        history.setRaisedBy(raisedBy);
+        history.setUpdateDate(new Date());
+        vendorHistoryRepository.save(history);
+
+        vendor.setProposalSentStatus(true);
+        vendor.setUpdatedDate(new Date());
+        vendorRepository.save(vendor);
+
+        VendorResponse response = new VendorResponse(vendor);
+
+        List<VendorUpdateHistoryResponse> historyResponses = vendorHistoryRepository.findById(vendor.getId())
+                .stream()
+                .map(VendorUpdateHistoryResponse::new)
+                .collect(Collectors.toList());
+
+        response.setUpdateHistory(historyResponses);
+
+        return response;
+    }
 
 
 }

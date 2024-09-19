@@ -1,19 +1,22 @@
 package com.lead.dashboard.serviceImpl;
 
 
-import com.lead.dashboard.domain.Mails;
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.vendor.Vendor;
+import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.service.MailSendService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.io.File;
 
 @Service
 public class MailSendSerivceImpl implements MailSendService {
@@ -96,6 +99,43 @@ public class MailSendSerivceImpl implements MailSendService {
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             e.printStackTrace();
+        }
+    }
+
+
+
+
+    @Override
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, User from, String subject,
+                                                 String body, String attachmentPath, VendorQuotationRequest vendorQuotationRequest,
+                                                 User raisedBy) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+            helper.setFrom("erp@corpseed.com");  // Set sender's email
+            helper.setTo(emailTo);  // Set recipient email
+            helper.setCc(ccPersons);  // Set CC
+            helper.setSubject(subject);  // Set subject
+
+            Context context = new Context();
+            context.setVariable("clientName", vendorQuotationRequest.getClientName());
+            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());  // Ensure this is set in the request
+            context.setVariable("raisedByName", raisedBy.getFullName());  // Use fullName for the raisedBy user
+
+            String htmlContent = templateEngine.process("vendor_email_template", context);
+            helper.setText(htmlContent, true);  // Set HTML content
+
+//            // Attach file if path is provided
+//            if (attachmentPath != null && !attachmentPath.isEmpty()) {
+//                FileSystemResource file = new FileSystemResource(new File(attachmentPath));
+//                helper.addAttachment("Quotation.pdf", file);
+//            }
+
+            javaMailSender.send(mimeMessage);  // Send the email
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
     }
 
