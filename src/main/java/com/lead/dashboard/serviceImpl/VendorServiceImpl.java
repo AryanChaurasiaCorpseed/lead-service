@@ -198,6 +198,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
         vendorUpdateHistory.setAddedBy(userId);
         vendorUpdateHistory.setUpdatedBy(userId);
+        vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setCreateDate(new Date());
 
         vendorHistoryRepository.save(vendorUpdateHistory);
