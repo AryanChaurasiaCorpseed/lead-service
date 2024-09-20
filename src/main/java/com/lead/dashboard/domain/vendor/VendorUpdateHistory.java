@@ -50,7 +50,7 @@ public class VendorUpdateHistory implements Serializable {
     @JsonIgnore
     private Lead lead;
 
-    private String requestStatus;
+    private String b ;
 
     private boolean isDeleted;
 
@@ -70,9 +70,12 @@ public class VendorUpdateHistory implements Serializable {
     private Date createDate;
 
 
-    private String quotationAttachmentPath; // Path to the quotation file
-    private String quotationAmount; // Quotation amount from the vendor
-    private boolean proposalSentStatus; // Status of whether the proposal has been sent
+    private String quotationAttachmentPath;
+
+    private String quotationAmount;
+
+
+    private boolean proposalSentStatus;
 
 
 

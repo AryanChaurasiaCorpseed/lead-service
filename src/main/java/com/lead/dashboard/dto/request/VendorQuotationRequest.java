@@ -18,11 +18,14 @@ public class VendorQuotationRequest {
 
    private String clientMailId;
 
+   private String requestStatus;
+
    private String additionalMailId;
 
    private String comment;
 
    private String attachmentPath;
 
+   private boolean proposalSentStatus;
 
 }

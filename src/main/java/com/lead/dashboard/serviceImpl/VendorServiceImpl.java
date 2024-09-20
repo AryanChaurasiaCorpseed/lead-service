@@ -214,6 +214,9 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
+        UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
+
+
         User raisedBy = vendor.getUser();  // User who first raised request yo the vendor
         String clientEmailId = vendorQuotationRequest.getClientMailId();  // Updated to use client email from request
         String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();  // Additional email
@@ -235,6 +238,10 @@ public class VendorServiceImpl implements VendorService {
         history.setVendor(vendor);
         history.setRaisedBy(raisedBy);
         history.setUpdateDate(new Date());
+        history.setProposalSentStatus(true);
+        history.setRequestStatus(vendorQuotationRequest.getRequestStatus());
+        history.setMailCs();
+
         vendorHistoryRepository.save(history);
 
         vendor.setProposalSentStatus(true);
