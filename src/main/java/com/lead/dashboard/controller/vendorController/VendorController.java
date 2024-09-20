@@ -4,7 +4,9 @@ package com.lead.dashboard.controller.vendorController;
 import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
+import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorResponse;
+import com.lead.dashboard.dto.response.VendorUpdatedResponse;
 import com.lead.dashboard.service.VendorService;
 import com.lead.dashboard.util.UrlsMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,8 @@ public class VendorController {
     @GetMapping(UrlsMapping.FIND_VENDOr_REQUEST_BY_USER_ID)
     public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId,@RequestParam Long leadId) {
         try {
-            List<VendorResponse> vendorResponses = vendorService.findVendorRequestsByUserId(userId,leadId);
-            return new ResponseEntity<>(vendorResponses, HttpStatus.OK);
+            List<VendorUpdatedResponse> vendorUpdatedResponses = vendorService.findVendorRequestsByUserId(userId,leadId);
+            return new ResponseEntity<>(vendorUpdatedResponses, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,10 +54,10 @@ public class VendorController {
     }
 
     @PutMapping(UrlsMapping.UPDATE_VENDOR_REQUEST)
-    public ResponseEntity<Object> updateVendorRequest(@RequestBody VendorRequest vendorRequest, @RequestParam Long vendorId,
-                                                      @RequestParam Long userId,@RequestParam Long leadId) {
+    public ResponseEntity<Object> updateVendorRequest(@RequestBody VendorRequestUpdate vendorRequestUpdate, @RequestParam Long vendorId,
+                                                      @RequestParam Long userId, @RequestParam Long leadId) {
         try {
-            VendorResponse vendorResponse = vendorService.updateVendorRequest(vendorRequest, vendorId, userId,leadId);
+            VendorResponse vendorResponse = vendorService.updateVendorRequest(vendorRequestUpdate, vendorId, userId,leadId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();

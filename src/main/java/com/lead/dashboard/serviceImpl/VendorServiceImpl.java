@@ -9,8 +9,10 @@ import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
+import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
+import com.lead.dashboard.dto.response.VendorUpdatedResponse;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +137,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<VendorResponse> findVendorRequestsByUserId(Long userId, Long leadId) {
+    public List<VendorUpdatedResponse> findVendorRequestsByUserId(Long userId, Long leadId) {
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
         if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userId);
@@ -156,23 +158,23 @@ public class VendorServiceImpl implements VendorService {
         }
 
         return vendors.stream().map(vendor -> {
-            VendorResponse vendorResponse = new VendorResponse(vendor);
+            VendorUpdatedResponse vendorUpdatedResponse = new VendorUpdatedResponse(vendor);
 
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
                     .map(VendorUpdateHistoryResponse::new)
                     .collect(Collectors.toList());
 
-            vendorResponse.setUpdateHistory(updateHistoryResponses);
+            vendorUpdatedResponse.setUpdateHistory(updateHistoryResponses);
 
-            return vendorResponse;
+            return vendorUpdatedResponse;
         }).collect(Collectors.toList());
     }
 
 
 
     @Override
-    public VendorResponse updateVendorRequest(VendorRequest vendorRequest, Long vendorId, Long userId, Long leadId) {
+    public VendorResponse updateVendorRequest(VendorRequestUpdate vendorRequestUpdate, Long vendorId, Long userId, Long leadId) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
@@ -183,30 +185,28 @@ public class VendorServiceImpl implements VendorService {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-        if (vendorRequest == null) {
+        if (vendorRequestUpdate == null) {
             throw new IllegalArgumentException("Vendor request data is invalid");
         }
 
-        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
+        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
         if (urlsManagment == null) {
             throw new IllegalArgumentException("Service name not found");
         }
 
 
-        vendor.setQuotationAmount(vendorRequest.getQuotationAmount());
-        vendor.setProposalSentStatus(vendorRequest.isProposalSentStatus());
-
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setRequestStatus(vendorRequest.getStatus());
+        vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getStatus());
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
         vendorUpdateHistory.setVendorSharedPrice(vendor.getVendorSharedPrice());
-        vendorUpdateHistory.setAddedBy(userId);
+        vendorUpdateHistory.setAddedBy(vendor.getAddedBy());
         vendorUpdateHistory.setUpdatedBy(userId);
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setCreateDate(new Date());
+        vendorUpdateHistory.setVendorSharedPrice(vendorRequestUpdate.getVendorSharedPrice());
 
         vendorUpdateHistory.setQuotationAttachmentPath(vendor.getQuotationAttachmentPath());
         vendorUpdateHistory.setQuotationAmount(vendor.getQuotationAmount());
@@ -244,10 +244,6 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setAddedBy(userId);
         vendorUpdateHistory.setUpdatedBy(userId);
         vendorUpdateHistory.setDisplay(true);
-//        vendorUpdateHistory.setc(vendorRequest.getClientCompanyName());
-//        vendorUpdateHistory.set(vendorRequest.getClientEmailId());
-//        vendorUpdateHistory.setContactPersonName(vendorRequest.getContactPersonName());
-//        vendorUpdateHistory.setContactNumber(vendorRequest.getContactNumber());
 
         // Save the update history
         vendorHistoryRepository.save(vendorUpdateHistory);
