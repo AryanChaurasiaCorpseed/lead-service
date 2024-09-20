@@ -36,7 +36,7 @@ public class VendorUpdateHistory implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="raised_by_id")
+    @JoinColumn(name="raised_by")
     private User raisedBy;
 
 
@@ -59,8 +59,6 @@ public class VendorUpdateHistory implements Serializable {
     private String budgetPrice;
 
     private String vendorSharedPrice;
-
-    private Long addedBy;
 
     private Long updatedBy;
 
