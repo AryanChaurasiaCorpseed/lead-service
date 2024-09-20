@@ -28,6 +28,7 @@ public class VendorResponse {
     private Date createDate;
     private Date updatedDate;
     private String serviceName;
+    private String contactNumber;
 
 
     private List<VendorUpdateHistoryResponse> updateHistory;
@@ -46,6 +47,7 @@ public class VendorResponse {
         this.createDate = vendor.getCreateDate();
         this.updatedDate = vendor.getUpdatedDate();
         this.serviceName=vendor.getUrlsManagment().getUrlsName();
+        this.contactNumber=vendor.getContactNumber();
 
 
     }
