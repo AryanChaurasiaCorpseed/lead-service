@@ -235,6 +235,7 @@ public class VendorServiceImpl implements VendorService {
         String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
         String body = vendorQuotationRequest.getComment();
 
+
         try {
             mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, user, subject, body,
                     vendorQuotationRequest.getAttachmentPath(), vendorQuotationRequest, raisedBy);
