@@ -103,6 +103,7 @@ public class UrlsMapping {
 	public static final String GET_COMPANY_BY_GST=PREFIX+"/company/getCompanyByGst";
 	public static final String GET_COMPANY_BY_ID=PREFIX+"/company/getCompanyById";
 	public static final String UPDATE_COMPANY_ASSIGNEE=PREFIX+"/company/updateCompanyAssignee";
+	public static final String UPDATE_MULTI_COMPANY_ASSIGNEE=PREFIX+"/company/updateMultiCompanyAssignee";
 
 
 

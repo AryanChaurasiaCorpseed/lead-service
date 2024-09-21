@@ -17,6 +17,7 @@ import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
+import com.lead.dashboard.dto.UpdateCompanyDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
@@ -510,6 +511,27 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 
 		return res;
+	}
+
+	@Override
+	public boolean updateMultiCompanyAssignee(UpdateCompanyDto updateCompanyDto) {
+		Boolean flag=false;
+		Optional<User> userOp = userRepo.findById(updateCompanyDto.getCurrentUserId());
+		if(userOp!=null && userOp.get()!=null) {
+			User user = userOp.get();
+			List<String> role = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
+			if(role.contains("ADMIN")) {
+				User assignee = userRepo.findById(updateCompanyDto.getAssigneeId()).get();
+				List<Company>comp=companyRepository.findByIdIn(updateCompanyDto.getCompanyId());
+				for(Company c:comp) {
+					c.setAssignee(assignee);
+				    companyRepository.save(c);
+				    flag=true;
+				}
+				
+			}
+		}
+		return flag;
 	}
 
 

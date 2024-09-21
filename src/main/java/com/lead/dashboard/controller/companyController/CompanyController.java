@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.dto.CompanyDto;
+import com.lead.dashboard.dto.UpdateCompanyDto;
 import com.lead.dashboard.service.CompanyService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -161,6 +162,13 @@ public class CompanyController {
 		}
 	}
 
+	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_ASSIGNEE)
+	public boolean updateMultiCompanyAssignee(@RequestBody UpdateCompanyDto updateCompanyDto)
+	{
+//		boolean isDeleted = companyService.updateCompany(companyId);
+		boolean res=companyService.updateMultiCompanyAssignee(updateCompanyDto);   
+		return true;
+	}
 
 
 
