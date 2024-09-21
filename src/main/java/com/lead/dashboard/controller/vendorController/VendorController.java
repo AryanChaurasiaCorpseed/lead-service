@@ -1,6 +1,7 @@
 package com.lead.dashboard.controller.vendorController;
 
 
+import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
@@ -90,6 +91,20 @@ public class VendorController {
             VendorResponse vendorResponse = vendorService.sendQuotation(vendorQuotationRequest, userId, leadId,vendorRequestId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.CREATED);
 
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST)
+    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId) {
+        try {
+
+           List<Vendor> vendorList =vendorService.findAllVendorRequest(userId);
+
+            return new ResponseEntity<>(vendorList, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
