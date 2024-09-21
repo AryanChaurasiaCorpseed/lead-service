@@ -18,6 +18,7 @@ import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -217,15 +218,19 @@ public class VendorServiceImpl implements VendorService {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-
         UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
-
 
         User raisedBy = vendor.getUser();
         String clientEmailId = vendorQuotationRequest.getClientMailId();
         String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();
 
-        String[] mailTo = new String[]{clientEmailId, additionalEmailId};
+        List<String> mailToList = new ArrayList<>();
+        mailToList.add(clientEmailId);
+        if (additionalEmailId != null && !additionalEmailId.isEmpty()) {
+            mailToList.add(additionalEmailId);
+        }
+        String[] mailTo = mailToList.toArray(new String[0]);
+
         String[] mailCc = new String[]{raisedBy.getEmail()};
         String subject = "Quotation for - " + lead.getName();
         String body = vendorQuotationRequest.getComment();

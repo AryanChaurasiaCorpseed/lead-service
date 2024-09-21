@@ -140,8 +140,10 @@ public class MailSendSerivceImpl implements MailSendService {
 
     private void validateEmailAddresses(String[] emailAddresses, String type) {
         for (String email : emailAddresses) {
-            if (email == null || !email.contains("@") || !email.contains(".")) {
-                throw new IllegalArgumentException(type + " email is invalid: " + email);
+            if (email != null && !email.isEmpty()) {
+                if (!email.contains("@") || !email.contains(".")) {
+                    throw new IllegalArgumentException(type + " email is invalid: " + email);
+                }
             }
         }
     }
