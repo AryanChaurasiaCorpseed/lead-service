@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.dto.CompanyDto;
+import com.lead.dashboard.dto.UpdateCompanyDto;
 
 @Service
 public interface CompanyService {
@@ -38,4 +39,6 @@ public interface CompanyService {
 	List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGSt, Long userId);
 
 	List<Map<String, Object>> getAllCompanyV2(Long userId, Long filterUserId, int page, int size);
+
+	boolean updateMultiCompanyAssignee(UpdateCompanyDto updateCompanyDto);
 }
