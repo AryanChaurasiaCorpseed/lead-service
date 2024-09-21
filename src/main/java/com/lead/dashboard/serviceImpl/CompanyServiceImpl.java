@@ -298,7 +298,7 @@ public class CompanyServiceImpl implements CompanyService {
 				map.put("assignee", p.getAssignee());
 				map.put("product", p.getProduct());
 				map.put("status", p.getStatus());
-				map.put("client", p.getClient());
+				map.put("client", company.getPrimaryContact());
 				map.put("companyName", company.getName());
 				map.put("createDate", p.getCreateDate()); 
 				map.put("pAddress", p.getAddress());

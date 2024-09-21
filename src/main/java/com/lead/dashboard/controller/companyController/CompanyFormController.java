@@ -1511,7 +1511,7 @@ public class CompanyFormController {
 							c=contactRepo.findById(companyForm.getContactId()).get();
 						}	
 						unit.setPrimaryContact(c);
-
+                        
 						// SecondaryContact
 						Contact sc=null;
 						if(companyForm.isSecondaryContact()) {
@@ -1552,7 +1552,8 @@ public class CompanyFormController {
 						p.setSState(companyForm.getSState());
 						p.setSCountry(companyForm.getSCountry());
 						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
-
+                        
+						p.setContact(c);
 
 						User assignee = unit.getAssignee();
 

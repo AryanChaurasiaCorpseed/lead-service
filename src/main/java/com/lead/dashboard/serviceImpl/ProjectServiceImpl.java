@@ -56,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setAssignee(lead.getAssignee());
 		project.setCompany(estimate.getCompanies());
 //		project.setAmount(estimate.getProfessionalFees());
-		project.setClient(client);
+//		project.setClient(client);
 		project.setLead(lead);
 		project.setName(estimate.getName());
 //		project.setProjectNo(null);  //no need to setup 
@@ -104,7 +104,7 @@ public class ProjectServiceImpl implements ProjectService{
 			res.put("assigneeId", p.getAssignee()!=null?p.getAssignee().getId():"NA");
 			res.put("assigneeName", p.getAssignee()!=null?p.getAssignee().getFullName():"NA");
 //			res.put("projectName", p.getCompany());
-			res.put("client", p.getClient());
+			res.put("client", p.getContact());
 			res.put("status", p.getStatus());
 			res.put("leadId",p.getLead().getId());
 			res.put("leadName",p.getLead().getLeadName());
