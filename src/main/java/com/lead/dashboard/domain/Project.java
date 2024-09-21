@@ -51,8 +51,7 @@ public class Project implements Serializable{
 	
 	@ManyToOne
 	@JsonBackReference
-
-	Client client;
+	Contact contact;
 	
 	@OneToOne
 	Lead lead;
@@ -136,14 +135,6 @@ public class Project implements Serializable{
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
 	}
 
 	public Company getCompany() {
@@ -268,6 +259,14 @@ public class Project implements Serializable{
 
 	public void setSecondaryPinCode(String secondaryPinCode) {
 		this.secondaryPinCode = secondaryPinCode;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
     
 	
