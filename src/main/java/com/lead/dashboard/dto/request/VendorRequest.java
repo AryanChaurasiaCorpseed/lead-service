@@ -15,23 +15,23 @@ public class VendorRequest {
 
     private String description;
 
-    private String concernPersonMailId;
-
     private String serviceName;
 
     private String companyName;
 
     private String status;
 
-    private String contactNumber;
+    private String clientMailId;
 
-    private String contactPersonName;
+    private String clientName;
 
-    private String vendorReferenceFile;
+    private String clientMobileNumber;
+
+    private String saleTeamAttachmentReference;
 
     private Long assignedUserId;
 
-    private String budgetPrice;
+    private String clientBudgetPrice;
 
 
 

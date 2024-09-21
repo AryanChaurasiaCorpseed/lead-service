@@ -38,16 +38,16 @@ public class VendorUpdatedResponse {
         this.requirementDescription = vendor.getRequirementDescription();
         this.clientEmailId = vendor.getClientEmailId();
         this.clientCompanyName = vendor.getClientCompanyName();
-        this.contactPersonName = vendor.getContactPersonName();
-        this.vendorReferenceFile = vendor.getVendorReferenceFile();
-        this.budgetPrice = vendor.getBudgetPrice();
+        this.contactPersonName = vendor.getClientName();
+        this.vendorReferenceFile = vendor.getSalesAttachmentReferencePath();
+        this.budgetPrice = vendor.getClientBudget();
         this.vendorSharedPrice = vendor.getVendorSharedPrice();
         this.status = vendor.getStatus();
         this.proposalSentStatus = vendor.isProposalSentStatus();
         this.createDate = vendor.getCreateDate();
         this.updatedDate = vendor.getUpdatedDate();
         this.serviceName=vendor.getUrlsManagment().getUrlsName();
-        this.contactNumber=vendor.getContactNumber();
+        this.contactNumber=vendor.getClientMobileNumber();
 
 
     }

@@ -64,21 +64,21 @@ public class VendorServiceImpl implements VendorService {
 
                     vendor.setUser(userDetails.get());
                     vendor.setRequirementDescription(vendorRequest.getDescription());
-                    vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
+                    vendor.setClientEmailId(vendorRequest.getClientMailId());
                     vendor.setClientCompanyName(vendorRequest.getCompanyName());
-                    vendor.setClientName(vendorRequest.getContactPersonName());
-                    vendor.setSalesAttachmentReferencePath(vendorRequest.getVendorReferenceFile());
+                    vendor.setClientName(vendorRequest.getClientName());
+                    vendor.setSalesAttachmentReferencePath(vendorRequest.getSaleTeamAttachmentReference());
                     vendor.setUrlsManagment(urlsManagmentOpt);
                     vendor.setDisplay(true);
                     vendor.setAddedBy(userDetails.get().getId());
-                    vendor.setClientMobileNumber(vendorRequest.getContactNumber());
+                    vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
                     vendor.setLead(lead);
                     vendor.setCreateDate(new Date());
                     vendor.setUpdatedDate(new Date());
                     vendor.setStatus("Initial");
 
 
-                    vendor.setClientBudget(vendorRequest.getBudgetPrice());
+                    vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
 
                     Designation procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
                     if (procurementManagerDesignation != null) {
@@ -105,7 +105,7 @@ public class VendorServiceImpl implements VendorService {
                     vendorUpdate.setDisplay(true);
                     vendorUpdate.setUrlsManagment(urlsManagmentOpt);
 
-                    vendorUpdate.setBudgetPrice(vendorRequest.getBudgetPrice());
+                    vendorUpdate.setBudgetPrice(vendorRequest.getClientBudgetPrice());
 
                     vendorUpdate.setRaisedBy(userDetails.get());
                     vendorUpdate.setUser(vendor.getAssignedUser());
