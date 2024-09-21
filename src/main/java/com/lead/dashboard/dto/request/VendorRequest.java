@@ -33,13 +33,6 @@ public class VendorRequest {
 
     private String budgetPrice;
 
-    private String vendorSharedPrice;
-
-    private String quotationAttachmentPath;
-    private String quotationAmount;
-    private boolean proposalSentStatus;
-
-
 
 
 }

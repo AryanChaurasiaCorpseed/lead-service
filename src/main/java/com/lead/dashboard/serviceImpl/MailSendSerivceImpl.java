@@ -113,26 +113,20 @@ public class MailSendSerivceImpl implements MailSendService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setFrom("erp@corpseed.com");  // Set sender's email
-            helper.setTo(emailTo);  // Set recipient email
-            helper.setCc(ccPersons);  // Set CC
-            helper.setSubject(subject);  // Set subject
+            helper.setFrom("erp@corpseed.com");
+            helper.setTo(emailTo);
+            helper.setCc(ccPersons);
+            helper.setSubject(subject);
 
             Context context = new Context();
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
-            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());  // Ensure this is set in the request
-            context.setVariable("raisedByName", raisedBy.getFullName());  // Use fullName for the raisedBy user
+            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
+            context.setVariable("raisedByName", raisedBy.getFullName());
 
             String htmlContent = templateEngine.process("vendor_email_template", context);
-            helper.setText(htmlContent, true);  // Set HTML content
+            helper.setText(htmlContent, true);
 
-//            // Attach file if path is provided
-//            if (attachmentPath != null && !attachmentPath.isEmpty()) {
-//                FileSystemResource file = new FileSystemResource(new File(attachmentPath));
-//                helper.addAttachment("Quotation.pdf", file);
-//            }
-
-            javaMailSender.send(mimeMessage);  // Send the email
+            javaMailSender.send(mimeMessage);
 
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());

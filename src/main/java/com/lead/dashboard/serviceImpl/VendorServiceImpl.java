@@ -77,8 +77,8 @@ public class VendorServiceImpl implements VendorService {
                     vendor.setUpdatedDate(new Date());
                     vendor.setStatus("Initial");
 
+
                     vendor.setBudgetPrice(vendorRequest.getBudgetPrice());
-                    vendor.setVendorSharedPrice(vendorRequest.getVendorSharedPrice());
 
                     Designation procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
                     if (procurementManagerDesignation != null) {
@@ -103,9 +103,9 @@ public class VendorServiceImpl implements VendorService {
                     vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
                     vendorUpdate.setCreateDate(new Date());
                     vendorUpdate.setDisplay(true);
+                    vendorUpdate.setUrlsManagment(urlsManagmentOpt);
 
                     vendorUpdate.setBudgetPrice(vendorRequest.getBudgetPrice());
-                    vendorUpdate.setVendorSharedPrice(vendorRequest.getVendorSharedPrice());
 
                     vendorUpdate.setRaisedBy(userDetails.get());
                     vendorUpdate.setUser(vendor.getAssignedUser());
@@ -214,17 +214,20 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-        UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
+        Lead lead = leadRepository.findById(leadId)
+                .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
 
-        User raisedBy = vendor.getUser();  // User who first raised request yo the vendor
-        String clientEmailId = vendorQuotationRequest.getClientMailId();  // Updated to use client email from request
-        String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();  // Additional email
+        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
 
-        String[] mailTo = new String[]{clientEmailId, additionalEmailId};  // Send to both client and additional mail IDs
-        String[] mailCc = new String[]{raisedBy.getEmail()};  // CC to the raisedBy email
-        String from = user.getEmail();  // The email of the current user
-        String subject = "Quotation for Lead #" + leadId;
+
+        User raisedBy = vendor.getUser();
+        String clientEmailId = vendorQuotationRequest.getClientMailId();
+        String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();
+
+        String[] mailTo = new String[]{clientEmailId, additionalEmailId};
+        String[] mailCc = new String[]{raisedBy.getEmail()};
+        String subject = "Quotation for Services #" + leadId;
         String body = vendorQuotationRequest.getComment();
 
         try {
@@ -240,7 +243,9 @@ public class VendorServiceImpl implements VendorService {
         history.setUpdateDate(new Date());
         history.setProposalSentStatus(true);
         history.setRequestStatus(vendorQuotationRequest.getRequestStatus());
-        history.setMailCs();
+        history.setUrlsManagment(urlsManagment);
+        history.setUpdatedBy(user.getId());
+        history.setLead(lead);
 
         vendorHistoryRepository.save(history);
 
@@ -261,10 +266,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorHistoryUpdate updateVendorHistory(VendorRequestUpdate request, Long leadId, Long userId, Long vendorId) {
+    public VendorHistoryUpdate updateVendorHistory(VendorRequestUpdate vendorRequestUpdate, Long leadId, Long userId, Long vendorId) {
 
-        // Validate input parameters
-        if (request == null) {
+        if (vendorRequestUpdate == null) {
             throw new IllegalArgumentException("Request cannot be null.");
         }
         if (userId == null) {
@@ -274,36 +278,33 @@ public class VendorServiceImpl implements VendorService {
             throw new IllegalArgumentException("Lead ID cannot be null.");
         }
 
-        // Check if User exists
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-        // Check if Lead exists
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-        // Check if Vendor exists
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-        // Create and populate VendorUpdateHistory object
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
 
-        vendorUpdateHistory.setRequestStatus(request.getStatus());
-        vendorUpdateHistory.setVendorSharedPrice(request.getVendorSharedPrice());
-        vendorUpdateHistory.setUpdateDescription(request.getDescription());
+        vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getStatus());
+        vendorUpdateHistory.setVendorSharedPrice(vendorRequestUpdate.getVendorSharedPrice());
+        vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getDescription());
         vendorUpdateHistory.setUpdatedBy(userId);
         vendorUpdateHistory.setUpdateDate(new Date());
-        vendorUpdateHistory.setQuotationAttachmentPath(request.getVendorReferenceFile());
+        vendorUpdateHistory.setQuotationAttachmentPath(vendorRequestUpdate.getVendorReferenceFile());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setBudgetPrice(vendorUpdateHistory.getBudgetPrice());
+        vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
         vendorUpdateHistory.setCreateDate(new Date());
-        vendorUpdateHistory.setQuotationAmount(vendorUpdateHistory.getQuotationAmount());
+        vendorUpdateHistory.setDisplay(true);
+        vendorUpdateHistory.setRaisedBy(vendor.getUser());
+        vendorUpdateHistory.setUrlsManagment(vendor.getUrlsManagment());
 
-        // Save the history record
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
         return new VendorHistoryUpdate(vendorUpdateHistory);

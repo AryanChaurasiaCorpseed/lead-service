@@ -1,7 +1,7 @@
 package com.lead.dashboard.domain.vendor;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ import java.util.List;
 public class VendorUpdateHistory implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -39,6 +39,11 @@ public class VendorUpdateHistory implements Serializable {
     @JoinColumn(name="raised_by")
     private User raisedBy;
 
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private UrlsManagment urlsManagment;
+
+    private String requestStatus;
 
     private String updateDescription;
 
@@ -49,8 +54,6 @@ public class VendorUpdateHistory implements Serializable {
     @JoinColumn(name = "lead_id")
     @JsonIgnore
     private Lead lead;
-
-    private String b ;
 
     private boolean isDeleted;
 
