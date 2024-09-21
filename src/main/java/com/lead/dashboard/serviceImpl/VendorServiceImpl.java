@@ -232,7 +232,7 @@ public class VendorServiceImpl implements VendorService {
         String[] mailTo = mailToList.toArray(new String[0]);
 
         String[] mailCc = new String[]{raisedBy.getEmail()};
-        String subject = "Quotation for - " + lead.getName();
+        String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
         String body = vendorQuotationRequest.getComment();
 
         try {
