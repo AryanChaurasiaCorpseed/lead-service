@@ -10,9 +10,7 @@ import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
-import com.lead.dashboard.dto.response.VendorHistoryUpdate;
-import com.lead.dashboard.dto.response.VendorResponse;
-import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
+import com.lead.dashboard.dto.response.*;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -321,11 +319,46 @@ public class VendorServiceImpl implements VendorService {
 
 
     @Override
-    public List<Vendor> findAllVendorRequest(Long userId) {
+    public List<VendorAllResponse> findAllVendorRequest(Long userId) {
 
         List<Vendor> vendorList = vendorRepository.findAll();
+        List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
 
-        return vendorList;
+        for (Vendor vendor : vendorList) {
+            VendorAllResponse vendorResponseDTO = new VendorAllResponse();
+
+            // Mapping Vendor details
+            vendorResponseDTO.setId(vendor.getId());
+            vendorResponseDTO.setClientEmailId(vendor.getClientEmailId());
+            vendorResponseDTO.setClientCompanyName(vendor.getClientCompanyName());
+            vendorResponseDTO.setClientName(vendor.getClientName());
+            vendorResponseDTO.setClientMobileNumber(vendor.getClientMobileNumber());
+            vendorResponseDTO.setRequirementDescription(vendor.getRequirementDescription());
+            vendorResponseDTO.setStatus(vendor.getStatus());
+            vendorResponseDTO.setProposalSentStatus(vendor.isProposalSentStatus());
+
+            List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
+            for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
+                VendorUpdateHistoryAllResponse historyDTO = new VendorUpdateHistoryAllResponse();
+                historyDTO.setId(history.getId());
+                historyDTO.setRequestStatus(history.getRequestStatus());
+                historyDTO.setUpdateDescription(history.getUpdateDescription());
+                historyDTO.setUpdateDate(history.getUpdateDate());
+                historyDTO.setBudgetPrice(history.getBudgetPrice());
+                historyDTO.setVendorSharedPrice(history.getVendorSharedPrice());
+                historyDTO.setProposalSentStatus(history.isProposalSentStatus());
+                historyDTO.setQuotationAttachmentPath(history.getQuotationAttachmentPath());
+                historyDTO.setQuotationAmount(history.getQuotationAmount());
+
+                updateHistoryDTOList.add(historyDTO);
+            }
+            vendorResponseDTO.setVendorUpdateHistoryAllResponseList(updateHistoryDTOList);
+
+            vendorResponseDTOList.add(vendorResponseDTO);
+        }
+
+        return vendorResponseDTOList;
     }
+
 }
 

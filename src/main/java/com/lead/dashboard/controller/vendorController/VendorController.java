@@ -6,6 +6,7 @@ import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
+import com.lead.dashboard.dto.response.VendorAllResponse;
 import com.lead.dashboard.dto.response.VendorHistoryUpdate;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
@@ -101,10 +102,8 @@ public class VendorController {
     @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST)
     public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId) {
         try {
-
-           List<Vendor> vendorList =vendorService.findAllVendorRequest(userId);
-
-            return new ResponseEntity<>(vendorList, HttpStatus.OK);
+            List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId);
+            return new ResponseEntity<>(vendorResponseDTOList, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
