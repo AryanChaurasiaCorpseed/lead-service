@@ -31,9 +31,10 @@ public class Vendor implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="assigned_user_id")
+    @JoinColumn(name="assigned_user")
     private User assignedUser;
 
+    private String salesAttachmentReferencePath;
 
     @ManyToOne
     @JoinColumn(name="lead_id")
@@ -50,19 +51,22 @@ public class Vendor implements Serializable {
 
     private String clientCompanyName;
 
-    private String contactPersonName;
+    private String clientName;
 
-    private String contactNumber;
+    private String clientMobileNumber;
 
-    private String vendorReferenceFile;
 
     private boolean isDeleted;
 
     private boolean isDisplay;
 
-    private String budgetPrice;
+    private String clientBudget;
+
+    private String vendorSharedDocument;
 
     private String vendorSharedPrice;
+
+    private String vendorComment;
 
     private Long addedBy;
 
@@ -83,8 +87,6 @@ public class Vendor implements Serializable {
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendorUpdateHistory> vendorUpdateHistory;
 
-    private String quotationAttachmentPath;
-
-    private String quotationAmount;
+    private String sharePriceToClient;
 
 }

@@ -28,4 +28,8 @@ public class VendorQuotationRequest {
 
    private boolean proposalSentStatus;
 
+   private String status;
+
+   private String contactNumber;
+
 }

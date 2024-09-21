@@ -66,19 +66,19 @@ public class VendorServiceImpl implements VendorService {
                     vendor.setRequirementDescription(vendorRequest.getDescription());
                     vendor.setClientEmailId(vendorRequest.getConcernPersonMailId());
                     vendor.setClientCompanyName(vendorRequest.getCompanyName());
-                    vendor.setContactPersonName(vendorRequest.getContactPersonName());
-                    vendor.setVendorReferenceFile(vendorRequest.getVendorReferenceFile());
+                    vendor.setClientName(vendorRequest.getContactPersonName());
+                    vendor.setSalesAttachmentReferencePath(vendorRequest.getVendorReferenceFile());
                     vendor.setUrlsManagment(urlsManagmentOpt);
                     vendor.setDisplay(true);
                     vendor.setAddedBy(userDetails.get().getId());
-                    vendor.setContactNumber(vendorRequest.getContactNumber());
+                    vendor.setClientMobileNumber(vendorRequest.getContactNumber());
                     vendor.setLead(lead);
                     vendor.setCreateDate(new Date());
                     vendor.setUpdatedDate(new Date());
                     vendor.setStatus("Initial");
 
 
-                    vendor.setBudgetPrice(vendorRequest.getBudgetPrice());
+                    vendor.setClientBudget(vendorRequest.getBudgetPrice());
 
                     Designation procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
                     if (procurementManagerDesignation != null) {
@@ -184,8 +184,8 @@ public class VendorServiceImpl implements VendorService {
 
         vendor.setClientCompanyName(vendorEditRequest.getClientCompanyName());
         vendor.setClientEmailId(vendorEditRequest.getClientEmailId());
-        vendor.setContactPersonName(vendorEditRequest.getContactPersonName());
-        vendor.setContactNumber(vendorEditRequest.getContactNumber());
+        vendor.setClientName(vendorEditRequest.getContactPersonName());
+        vendor.setClientMobileNumber(vendorEditRequest.getContactNumber());
         vendor.setUpdatedBy(userId);
         vendor.setUpdatedDate(new Date());
 
@@ -227,7 +227,7 @@ public class VendorServiceImpl implements VendorService {
 
         String[] mailTo = new String[]{clientEmailId, additionalEmailId};
         String[] mailCc = new String[]{raisedBy.getEmail()};
-        String subject = "Quotation for Services #" + leadId;
+        String subject = "Quotation for - " + lead.getName();
         String body = vendorQuotationRequest.getComment();
 
         try {
@@ -287,6 +287,9 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
+        UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
+
+
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
 
@@ -299,7 +302,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setBudgetPrice(vendor.getBudgetPrice());
+        vendorUpdateHistory.setBudgetPrice(vendor.getClientBudget());
         vendorUpdateHistory.setCreateDate(new Date());
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setRaisedBy(vendor.getUser());

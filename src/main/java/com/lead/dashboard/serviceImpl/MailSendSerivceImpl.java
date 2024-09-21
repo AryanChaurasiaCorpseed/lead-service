@@ -110,14 +110,18 @@ public class MailSendSerivceImpl implements MailSendService {
                                                  String body, String attachmentPath, VendorQuotationRequest vendorQuotationRequest,
                                                  User raisedBy) {
         try {
+            validateEmailAddresses(emailTo, "To");
+            validateEmailAddresses(ccPersons, "Cc");
+
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setFrom("erp@corpseed.com");
+            helper.setFrom(fromEmail);
             helper.setTo(emailTo);
             helper.setCc(ccPersons);
             helper.setSubject(subject);
 
+            // Prepare email content
             Context context = new Context();
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
@@ -126,6 +130,7 @@ public class MailSendSerivceImpl implements MailSendService {
             String htmlContent = templateEngine.process("vendor_email_template", context);
             helper.setText(htmlContent, true);
 
+            // Send email
             javaMailSender.send(mimeMessage);
 
         } catch (MessagingException e) {
@@ -133,5 +138,15 @@ public class MailSendSerivceImpl implements MailSendService {
         }
     }
 
+    private void validateEmailAddresses(String[] emailAddresses, String type) {
+        for (String email : emailAddresses) {
+            if (email == null || !email.contains("@") || !email.contains(".")) {
+                throw new IllegalArgumentException(type + " email is invalid: " + email);
+            }
+        }
+    }
+
+
 
 }
+
