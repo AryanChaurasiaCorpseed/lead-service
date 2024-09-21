@@ -106,6 +106,7 @@ public class UrlsMapping {
 	public static final String UPDATE_MULTI_COMPANY_ASSIGNEE=PREFIX+"/company/updateMultiCompanyAssignee";
 
 
+	public static final String GET_ALL_COMPANY_HISTORY=PREFIX+"/companyHistory/getAllCompanyHistory";
 
 
 	

@@ -446,6 +446,10 @@ public class CompanyServiceImpl implements CompanyService {
 		companyRepository.save(comp);
 		return true;
 	}
+	
+	public void createHistory() {
+		
+	}
 
 	public List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGST, Long userId) {
 		User user = userRepo.findByUserIdAndIsDeletedFalse(userId);
