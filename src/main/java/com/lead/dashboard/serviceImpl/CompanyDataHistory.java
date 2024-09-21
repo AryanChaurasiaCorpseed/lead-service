@@ -3,6 +3,7 @@ package com.lead.dashboard.serviceImpl;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.User;
 
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ public class CompanyDataHistory {
 	
 	Date createDate;
 	
-	@ManyToOne
+	@ManyToOne   
 	@JsonIgnore
 	User createdBy;
 	
@@ -36,7 +37,8 @@ public class CompanyDataHistory {
 	
 	String eventType;
 	
-    Long  companyId;
+	@ManyToOne
+    Company company;
 
 	public Long getId() {
 		return id;
@@ -95,13 +97,15 @@ public class CompanyDataHistory {
 		this.previous = previous;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
+
+	
 
 	
     
