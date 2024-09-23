@@ -17,7 +17,7 @@ public class CompanyHistoryServiceImpl implements CompanyHistoryService{
 	
 	@Override
 	public List<CompanyDataHistory> getAllCompanyHistory(Long companyId) {
-		List<CompanyDataHistory>task=companyHistoryRepo.findAll();
+		List<CompanyDataHistory>task=companyHistoryRepo.findAllByCompanyId(companyId);
 		return task;
 	}
 
