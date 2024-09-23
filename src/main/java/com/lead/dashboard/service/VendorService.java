@@ -1,6 +1,7 @@
 package com.lead.dashboard.service;
 
 import com.lead.dashboard.domain.vendor.Vendor;
+import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
@@ -27,4 +28,6 @@ public interface VendorService {
     VendorHistoryUpdated updateVendorHistory(VendorRequestUpdate updateHistoryRequest, Long leadId, Long userId, Long vendorId);
 
     List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size);
+
+    List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, int page, int size, Long leadId, Long vendorRequestId);
 }

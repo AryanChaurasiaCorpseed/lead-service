@@ -2,6 +2,7 @@ package com.lead.dashboard.controller.vendorController;
 
 
 import com.lead.dashboard.domain.vendor.Vendor;
+import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
@@ -108,6 +109,22 @@ public class VendorController {
 
             List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId, page, size);
             return new ResponseEntity<>(vendorResponseDTOList, HttpStatus.OK);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(UrlsMapping.FIND_UPDATE_REQUEST_HISTORY)
+    public ResponseEntity<Object> findUpdateRequestHistory(@RequestParam Long userId, @RequestParam Long leadId,@RequestParam Long vendorRequestId,
+                                                           @RequestParam int page, @RequestParam int size) {
+        try {
+            if (page < 0 || size <= 0) {
+                return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
+            }
+
+             List<VendorUpdateHistory> updateHistoryList = vendorService.fetchUpdatedhistory(userId, page, size,leadId,vendorRequestId);
+            return new ResponseEntity<>(updateHistoryList, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
