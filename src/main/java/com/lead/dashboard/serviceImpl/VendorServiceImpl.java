@@ -325,8 +325,10 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size) {
 
-        Pageable pageable = PageRequest.of(page - 1, size);
+        // Create a pageable object using zero-based page indexing
+        Pageable pageable = PageRequest.of(page, size); // no need to subtract 1
 
+        // Fetch vendors with pagination from the repository
         Page<Vendor> vendorPage = vendorRepository.findAll(pageable);
         List<Vendor> vendorList = vendorPage.getContent(); // Get the current page content
 
@@ -346,6 +348,8 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setProposalSentStatus(vendor.isProposalSentStatus());
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
+            vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
+            vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
 
             // Map vendor update history
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();

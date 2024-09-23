@@ -101,6 +101,10 @@ public class VendorController {
     @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST)
     public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId, @RequestParam int page, @RequestParam int size) {
         try {
+            if (page < 0 || size <= 0) {
+                return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
+            }
+
             List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId, page, size);
             return new ResponseEntity<>(vendorResponseDTOList, HttpStatus.OK);
         } catch (Exception e) {

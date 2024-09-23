@@ -22,5 +22,7 @@ public class VendorAllResponse {
     private boolean proposalSentStatus;
     private Long leadId;
     private String leadName;
+    private String budgetPrice;
+    private String serviceName;
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
 }
