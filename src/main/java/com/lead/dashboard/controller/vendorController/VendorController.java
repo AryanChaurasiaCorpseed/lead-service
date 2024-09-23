@@ -24,7 +24,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/leadService/api/v1/vendor")
 public class VendorController {
 
     @Autowired
