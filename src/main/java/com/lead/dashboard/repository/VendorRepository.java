@@ -3,6 +3,8 @@ package com.lead.dashboard.repository;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.vendor.Vendor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +27,8 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
 
     @Query("SELECT v FROM Vendor v WHERE v.id = :vendorId")
     Vendor findVendorById(@Param("vendorId") Long vendorId);
+
+    Page<Vendor> findAll(Pageable pageable);
+
 
 }

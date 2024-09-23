@@ -14,6 +14,9 @@ import com.lead.dashboard.dto.response.*;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -322,7 +325,11 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size) {
 
-        List<Vendor> vendorList = vendorRepository.findAll();
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Vendor> vendorPage = vendorRepository.findAll(pageable);
+        List<Vendor> vendorList = vendorPage.getContent(); // Get the current page content
+
         List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
 
         for (Vendor vendor : vendorList) {
@@ -337,7 +344,10 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setRequirementDescription(vendor.getRequirementDescription());
             vendorResponseDTO.setStatus(vendor.getStatus());
             vendorResponseDTO.setProposalSentStatus(vendor.isProposalSentStatus());
+            vendorResponseDTO.setLeadId(vendor.getLead().getId());
+            vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
 
+            // Map vendor update history
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
                 VendorUpdateHistoryAllResponse historyDTO = new VendorUpdateHistoryAllResponse();
@@ -360,6 +370,7 @@ public class VendorServiceImpl implements VendorService {
 
         return vendorResponseDTOList;
     }
+
 
 }
 

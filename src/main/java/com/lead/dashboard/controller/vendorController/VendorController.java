@@ -98,11 +98,10 @@ public class VendorController {
         }
     }
 
-
     @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST)
-    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId ,@RequestParam int page,@RequestParam int size ) {
+    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId, @RequestParam int page, @RequestParam int size) {
         try {
-            List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId,page,size);
+            List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId, page, size);
             return new ResponseEntity<>(vendorResponseDTOList, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();

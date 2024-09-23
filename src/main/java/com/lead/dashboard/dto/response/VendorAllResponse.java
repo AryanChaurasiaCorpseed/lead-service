@@ -20,5 +20,7 @@ public class VendorAllResponse {
     private String requirementDescription;
     private String status;
     private boolean proposalSentStatus;
+    private Long leadId;
+    private String leadName;
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
 }
