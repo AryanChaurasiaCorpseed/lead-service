@@ -18,10 +18,6 @@ import lombok.Setter;
 
         private String status;
 
-        private String vendorReferenceFile;
-
-        private String vendorSharedPrice;
-
        private String externalVendorPrice;
 
        private String externalVendorFilePath;
