@@ -545,10 +545,14 @@ public class CompanyServiceImpl implements CompanyService {
 			List<String> role = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
 			if(role.contains("ADMIN")) {
 				User assignee = userRepo.findById(updateCompanyDto.getAssigneeId()).get();
+				
 				List<Company>comp=companyRepository.findByIdIn(updateCompanyDto.getCompanyId());
 				for(Company c:comp) {
+					User prevAssignee=c.getAssignee();
 					c.setAssignee(assignee);
 				    companyRepository.save(c);
+					createHistory(assignee,prevAssignee,updateCompanyDto.getCurrentUserId(),c);
+
 				    flag=true;
 				}
 				
