@@ -68,7 +68,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		String file1 = "D:/test.xlsx";
 
-//		helper.updateCompanyMail(file1);
+		helper.updateCompanyMail(file1);
 	}
 
 }

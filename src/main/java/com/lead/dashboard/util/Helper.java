@@ -596,6 +596,14 @@ public class Helper {
                         primaryContact.setName(fullName);
                         contactRepo.save(primaryContact);
                     }
+                    User assignee = company.getAssignee();
+                    List<Project> pList = company.getCompanyProject();
+                    for(Project p:pList) {
+                    	if(p.getAssignee()==null) {
+                    		p.setAssignee(assignee);
+                    		projectRepository.save(p);
+                    	}
+                    }
 
 
                     System.out.println("Updated company: " + companyName + " with email: " + emailId);
