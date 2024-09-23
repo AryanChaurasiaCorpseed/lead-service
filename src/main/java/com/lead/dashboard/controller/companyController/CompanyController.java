@@ -140,10 +140,10 @@ public class CompanyController {
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_ASSIGNEE)
-	public boolean updateCompanyAssignee(@RequestParam Long companyId,@RequestParam Long assigneeId)
+	public boolean updateCompanyAssignee(@RequestParam Long companyId,@RequestParam Long assigneeId,@RequestParam Long currentUserId)
 	{
 //		boolean isDeleted = companyService.updateCompany(companyId);
-		boolean res=companyService.updateCompanyAssignee(companyId,assigneeId);   
+		boolean res=companyService.updateCompanyAssignee(companyId,assigneeId,currentUserId);   
 		return true;
 	}
 
