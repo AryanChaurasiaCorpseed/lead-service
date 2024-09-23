@@ -31,5 +31,17 @@ public class VendorUpdateHistoryResponse {
 
 
     public VendorUpdateHistoryResponse(VendorUpdateHistory vendorUpdateHistory) {
+        this.id = vendorUpdateHistory.getId();
+        this.updateDescription = vendorUpdateHistory.getUpdateDescription();
+        this.updateDate = vendorUpdateHistory.getUpdateDate();
+        this.requestStatus = vendorUpdateHistory.getRequestStatus();
+        this.budgetPrice = vendorUpdateHistory.getBudgetPrice();
+        this.externalVendorPrice = vendorUpdateHistory.getExternalVendorPrice();
+        this.externalVendorFilePath = vendorUpdateHistory.getExternalVendorFilePath();
+        this.internalVendorPrices = vendorUpdateHistory.getInternalVendorPrices();
+        this.internalVendorFilePath = vendorUpdateHistory.getInternalVendorFilePath();
+        this.quotationAmount = vendorUpdateHistory.getQuotationAmount();
+        this.quotationFilePath = vendorUpdateHistory.getQuotationFilePath();
     }
+
 }
