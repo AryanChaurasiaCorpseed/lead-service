@@ -38,6 +38,7 @@ public class CompanyDataHistory {
 	String eventType;
 	
 	@ManyToOne
+	@JsonIgnore
     Company company;
 
 	public Long getId() {

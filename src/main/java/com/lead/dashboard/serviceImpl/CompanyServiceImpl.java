@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.dto.UpdateCompanyDto;
+import com.lead.dashboard.repository.CompanyHistoryRepo;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
@@ -32,6 +34,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	ProjectRepository projectRepository;
+	
+	@Autowired
+	CompanyHistoryRepo companyHistoryRepo;
 
 	@Autowired
 	LeadRepository leadRepository;
@@ -438,17 +443,31 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public boolean updateCompanyAssignee(Long companyId, Long assigneeId) {
+	public boolean updateCompanyAssignee(Long companyId, Long assigneeId,Long currentUserId) {
 		Company comp = companyRepository.findById(companyId).get();
-
 		User assignee = userRepo.findById(assigneeId).get();
+		User prevAssignee=comp.getAssignee();
+		
 		comp.setAssignee(assignee);
 		companyRepository.save(comp);
+		createHistory(assignee,prevAssignee,currentUserId,comp);
 		return true;
 	}
 	
-	public void createHistory() {
+	public void createHistory(User postAssignee,User prevAssignee,Long currentUserId,Company comp) {
+		CompanyDataHistory compHistory = new CompanyDataHistory();
+		compHistory.setCompany(comp);
+		compHistory.setCreateDate(new Date());
 		
+		User user = userRepo.findById(currentUserId).get();	
+		String fullName=user!=null?user.getFullName():"NA";
+		compHistory.setCreatedBy(user);
+		
+		String description="company assignee has been change from "+prevAssignee.getFullName()+" to "
+				+ ""+postAssignee.getFullName()+" by "+fullName;
+		compHistory.setDescription(description);
+		compHistory.setEventType("Assignee has been changed");
+		companyHistoryRepo.save(compHistory);
 	}
 
 	public List<Map<String, Object>> searchCompanyByNameAndGST(String searchNameAndGST, Long userId) {

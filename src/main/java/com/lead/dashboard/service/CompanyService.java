@@ -32,7 +32,7 @@ public interface CompanyService {
 
 	Map<String, Object> getCompanyById(Long id);
 
-	boolean updateCompanyAssignee(Long companyId, Long assigneeId);
+	boolean updateCompanyAssignee(Long companyId, Long assigneeId,Long currentUserId);
 
 
 
