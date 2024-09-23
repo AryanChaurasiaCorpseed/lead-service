@@ -318,8 +318,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
 
+
     @Override
-    public List<VendorAllResponse> findAllVendorRequest(Long userId) {
+    public List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size) {
 
         List<Vendor> vendorList = vendorRepository.findAll();
         List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();

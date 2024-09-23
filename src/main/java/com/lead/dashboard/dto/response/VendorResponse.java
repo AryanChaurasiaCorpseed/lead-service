@@ -29,6 +29,8 @@ public class VendorResponse {
     private Date updatedDate;
     private String serviceName;
     private String contactNumber;
+    private Long leadId;
+    private String leadName;
 
 
     private List<VendorUpdateHistoryResponse> updateHistory;
@@ -48,6 +50,8 @@ public class VendorResponse {
         this.updatedDate = vendor.getUpdatedDate();
         this.serviceName=vendor.getUrlsManagment().getUrlsName();
         this.contactNumber=vendor.getClientMobileNumber();
+        this.leadId=vendor.getId();
+        this.leadName=vendor.getLead().getLeadName();
 
 
     }
