@@ -17,4 +17,4 @@ public interface VendorHistoryRepository extends JpaRepository<VendorUpdateHisto
 
     @Query(value = "SELECT * FROM vendor_update_history u WHERE u.lead_id = :leadId AND u.vendor_request_id = :vendorRequestId AND u.is_deleted = false ORDER BY u.update_date DESC",
             nativeQuery = true)
-    Page<VendorUpdateHistory> findUpdateHistoryByLeadAndVendor(@Param("leadId") Long leadId, @Param("vendorRequestId") Long vendorRequestId, Pageable pageable);}
+    List<VendorUpdateHistory> findUpdateHistoryByLeadAndVendor(@Param("leadId") Long leadId, @Param("vendorRequestId") Long vendorRequestId);}

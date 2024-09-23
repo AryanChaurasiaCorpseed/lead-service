@@ -29,5 +29,5 @@ public interface VendorService {
 
     List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size);
 
-    List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, int page, int size, Long leadId, Long vendorRequestId);
+    List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, Long leadId, Long vendorRequestId);
 }

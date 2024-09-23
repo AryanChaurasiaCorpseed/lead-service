@@ -396,7 +396,8 @@ public class VendorServiceImpl implements VendorService {
     }
 
 
-    public List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, int page, int size, Long leadId, Long vendorRequestId) {
+
+    public List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, Long leadId, Long vendorRequestId) {
 
         Vendor vendor = vendorRepository.findById(vendorRequestId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
@@ -405,11 +406,10 @@ public class VendorServiceImpl implements VendorService {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-        Pageable pageable = PageRequest.of(page, size);
 
-        Page<VendorUpdateHistory> updateHistoryPage = vendorHistoryRepository.findUpdateHistoryByLeadAndVendor(leadId, vendorRequestId, pageable);
+        List<VendorUpdateHistory> updateHistoryPage = vendorHistoryRepository.findUpdateHistoryByLeadAndVendor(leadId, vendorRequestId);
 
-        return updateHistoryPage.getContent();
+        return updateHistoryPage;
     }
 }
 
