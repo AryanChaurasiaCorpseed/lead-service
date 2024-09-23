@@ -7,7 +7,8 @@ import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorAllResponse;
-import com.lead.dashboard.dto.response.VendorHistoryUpdate;
+import com.lead.dashboard.dto.response.VendorHistoryUpdated;
+import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
 import com.lead.dashboard.service.VendorService;
@@ -60,7 +61,7 @@ public class VendorController {
     public ResponseEntity<Object> updateVendorHistory(@RequestBody VendorRequestUpdate updateHistoryRequest,@RequestParam Long leadId,
                                                       @RequestParam Long userId, @RequestParam Long vendorId) {
         try {
-            VendorHistoryUpdate response = vendorService.updateVendorHistory(updateHistoryRequest,leadId, userId, vendorId);
+            VendorHistoryUpdated response = vendorService.updateVendorHistory(updateHistoryRequest,leadId, userId, vendorId);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();

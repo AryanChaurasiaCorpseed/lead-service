@@ -77,7 +77,7 @@ public class EmailServiceImpl implements MailSendService {
 
 
     @Override
-    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, User from, String subject, String body, String attachmentPath, VendorQuotationRequest vendorQuotationRequest, User raisedBy) {
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject, String body, VendorQuotationRequest vendorQuotationRequest, User raisedBy) {
 
     }
 }

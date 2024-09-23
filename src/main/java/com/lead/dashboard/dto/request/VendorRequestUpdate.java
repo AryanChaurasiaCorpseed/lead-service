@@ -22,6 +22,18 @@ import lombok.Setter;
 
         private String vendorSharedPrice;
 
+       private String externalVendorPrice;
+
+       private String externalVendorFilePath;
+
+       private String internalVendorPrices;
+
+       private String internalVendorFilePath;
+
+       private String quotationAmount;
+
+       private String quotationFilePath;
+
 
     }
 

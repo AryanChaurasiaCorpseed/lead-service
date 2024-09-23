@@ -6,7 +6,8 @@ import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorAllResponse;
-import com.lead.dashboard.dto.response.VendorHistoryUpdate;
+import com.lead.dashboard.dto.response.VendorHistoryUpdated;
+import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,7 @@ public interface VendorService {
 
     VendorResponse sendQuotation(VendorQuotationRequest vendorQuotationRequest, Long userId, Long leadId, Long vendorRequestId);
 
-    VendorHistoryUpdate updateVendorHistory(VendorRequestUpdate updateHistoryRequest, Long leadId, Long userId, Long vendorId);
+    VendorHistoryUpdated updateVendorHistory(VendorRequestUpdate updateHistoryRequest, Long leadId, Long userId, Long vendorId);
 
     List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size);
 }

@@ -1,22 +1,26 @@
 package com.lead.dashboard.dto.response;
 
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+        import lombok.AllArgsConstructor;
+        import lombok.Getter;
+        import lombok.NoArgsConstructor;
+        import lombok.Setter;
 
-import java.util.Date;
+        import java.util.Date;
 
-@Getter@Setter
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class VendorUpdateHistoryResponse {
+@AllArgsConstructor
+public class VendorHistoryUpdated {
+
     private Long id;
     private String updateDescription;
+    private String status;
+    private String vendorSharedPrice;
+    private boolean proposalSentStatus;
     private Date updateDate;
-    private String requestStatus;
-    private String budgetPrice;
+
     private String externalVendorPrice;
 
     private String externalVendorFilePath;
@@ -30,6 +34,5 @@ public class VendorUpdateHistoryResponse {
     private String quotationFilePath;
 
 
-    public VendorUpdateHistoryResponse(VendorUpdateHistory vendorUpdateHistory) {
-    }
+
 }

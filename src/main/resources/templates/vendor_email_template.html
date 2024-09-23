@@ -4,13 +4,17 @@
     <title>Quotation for Lead #</title>
 </head>
 <body>
-<p>Dear <span th:text="${clientName}">Client</span>,</p>  <!-- This will include the client's name -->
+<p>Dear <span th:text="${clientName}">Client</span>,</p> <!-- This will include the client's name -->
 
 <p>Thank you for the opportunity to assist with your <span th:text="${urlsName}">service</span>. We have attached the requested quotation for your review.</p>
+
+<p>The quotation amount is <strong><span th:text="${quotationAmount}">Quotation Amount</span></strong>.</p>
+
+<p>You can view the quotation details in the attached file. If the attachment is missing, please <a th:href="${quotationFilePath}">click here</a> to download the quotation.</p>
 
 <p>We look forward to helping you further and simplifying the compliance process for your business. Please feel free to reach out if you need any additional information.</p>
 
 <p>Best Regards,<br/>
-    <span th:text="${raisedByName}">Corpseed Team</span></p>  <!-- This will show the raised by user's name -->
+    <span th:text="${raisedByName}">Corpseed Team</span></p> <!-- This will show the raised-by user's name -->
 </body>
 </html>

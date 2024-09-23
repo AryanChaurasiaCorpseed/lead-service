@@ -32,4 +32,8 @@ public class VendorQuotationRequest {
 
    private String contactNumber;
 
+   private String quotationAmount;
+
+   private String quotationFilePath;
+
 }

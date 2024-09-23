@@ -61,7 +61,6 @@ public class VendorUpdateHistory implements Serializable {
 
     private String budgetPrice;
 
-    private String vendorSharedPrice;
 
     private Long updatedBy;
 
@@ -72,11 +71,17 @@ public class VendorUpdateHistory implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+    private String externalVendorPrice;
 
-    private String quotationAttachmentPath;
+    private String externalVendorFilePath;
+
+    private String internalVendorPrices;
+
+    private String internalVendorFilePath;
 
     private String quotationAmount;
 
+    private String quotationFilePath;
 
     private boolean proposalSentStatus;
 

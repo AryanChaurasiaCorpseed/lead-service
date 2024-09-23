@@ -18,9 +18,19 @@ public class VendorUpdateHistoryAllResponse {
     private String updateDescription;
     private Date updateDate;
     private String budgetPrice;
-    private String vendorSharedPrice;
     private boolean proposalSentStatus;
-    private String quotationAttachmentPath;
+    private String externalVendorPrice;
+
+    private String externalVendorFilePath;
+
+    private String internalVendorPrices;
+
+    private String internalVendorFilePath;
+
     private String quotationAmount;
+
+    private String quotationFilePath;
+
+
 
 }

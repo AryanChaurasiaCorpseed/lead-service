@@ -2,7 +2,6 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.domain.User;
-import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.service.MailSendService;
 import jakarta.mail.MessagingException;
@@ -15,8 +14,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.io.File;
 
 @Service
 public class MailSendSerivceImpl implements MailSendService {
@@ -106,37 +103,50 @@ public class MailSendSerivceImpl implements MailSendService {
 
 
     @Override
-    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, User from, String subject,
-                                                 String body, String attachmentPath, VendorQuotationRequest vendorQuotationRequest,
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
+                                                 String body, VendorQuotationRequest vendorQuotationRequest,
                                                  User raisedBy) {
         try {
+            // Validate email addresses
             validateEmailAddresses(emailTo, "To");
             validateEmailAddresses(ccPersons, "Cc");
 
+            // Create and configure the email
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setFrom(fromEmail);
+            helper.setFrom(fromEmail); // You may change the "fromEmail" as per your application logic
             helper.setTo(emailTo);
             helper.setCc(ccPersons);
             helper.setSubject(subject);
 
-            // Prepare email content
+            // Prepare email content using Thymeleaf template
             Context context = new Context();
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
             context.setVariable("raisedByName", raisedBy.getFullName());
+            context.setVariable("quotationAmount", vendorQuotationRequest.getQuotationAmount());
+            context.setVariable("quotationFilePath", vendorQuotationRequest.getQuotationFilePath());
 
             String htmlContent = templateEngine.process("vendor_email_template", context);
             helper.setText(htmlContent, true);
 
-            // Send email
+            // Attach the quotation file if available
+            if (vendorQuotationRequest.getQuotationFilePath() != null && !vendorQuotationRequest.getQuotationFilePath().isEmpty()) {
+                FileSystemResource file = new FileSystemResource(vendorQuotationRequest.getQuotationFilePath());
+                helper.addAttachment("Quotation.pdf", file);
+            }
+
+            // Send the email
             javaMailSender.send(mimeMessage);
 
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
     }
+
+
+
 
     private void validateEmailAddresses(String[] emailAddresses, String type) {
         for (String email : emailAddresses) {

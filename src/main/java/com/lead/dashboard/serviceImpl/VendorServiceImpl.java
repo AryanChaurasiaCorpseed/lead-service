@@ -238,23 +238,25 @@ public class VendorServiceImpl implements VendorService {
 
 
         try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, user, subject, body,
-                    vendorQuotationRequest.getAttachmentPath(), vendorQuotationRequest, raisedBy);
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest, raisedBy);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
 
-        VendorUpdateHistory history = new VendorUpdateHistory();
-        history.setVendor(vendor);
-        history.setRaisedBy(raisedBy);
-        history.setUpdateDate(new Date());
-        history.setProposalSentStatus(true);
-        history.setRequestStatus(vendorQuotationRequest.getRequestStatus());
-        history.setUrlsManagment(urlsManagment);
-        history.setUpdatedBy(user.getId());
-        history.setLead(lead);
 
-        vendorHistoryRepository.save(history);
+        VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
+        vendorUpdateHistory.setVendor(vendor);
+        vendorUpdateHistory.setRaisedBy(raisedBy);
+        vendorUpdateHistory.setUpdateDate(new Date());
+        vendorUpdateHistory.setProposalSentStatus(true);
+        vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
+        vendorUpdateHistory.setUrlsManagment(urlsManagment);
+        vendorUpdateHistory.setUpdatedBy(user.getId());
+        vendorUpdateHistory.setLead(lead);
+        vendorUpdateHistory.setQuotationAmount(vendorQuotationRequest.getQuotationAmount());
+        vendorUpdateHistory.setQuotationFilePath(vendorQuotationRequest.getQuotationFilePath());
+
+        vendorHistoryRepository.save(vendorUpdateHistory);
 
         vendor.setProposalSentStatus(true);
         vendor.setUpdatedDate(new Date());
@@ -273,7 +275,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public VendorHistoryUpdate updateVendorHistory(VendorRequestUpdate vendorRequestUpdate, Long leadId, Long userId, Long vendorId) {
+    public VendorHistoryUpdated updateVendorHistory(VendorRequestUpdate vendorRequestUpdate, Long leadId, Long userId, Long vendorId) {
 
         if (vendorRequestUpdate == null) {
             throw new IllegalArgumentException("Request cannot be null.");
@@ -294,18 +296,14 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-        UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
-
+        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
 
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
-
         vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getStatus());
-        vendorUpdateHistory.setVendorSharedPrice(vendorRequestUpdate.getVendorSharedPrice());
         vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getDescription());
         vendorUpdateHistory.setUpdatedBy(userId);
         vendorUpdateHistory.setUpdateDate(new Date());
-        vendorUpdateHistory.setQuotationAttachmentPath(vendorRequestUpdate.getVendorReferenceFile());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setVendor(vendor);
@@ -314,16 +312,40 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setRaisedBy(vendor.getUser());
         vendorUpdateHistory.setUrlsManagment(vendor.getUrlsManagment());
+        vendorUpdateHistory.setExternalVendorPrice(vendorRequestUpdate.getExternalVendorPrice());
+        vendorUpdateHistory.setInternalVendorPrices(vendorRequestUpdate.getInternalVendorPrices());
+        vendorUpdateHistory.setExternalVendorFilePath(vendorRequestUpdate.getExternalVendorFilePath());
+        vendorUpdateHistory.setInternalVendorFilePath(vendorRequestUpdate.getInternalVendorFilePath());
+        vendorUpdateHistory.setQuotationAmount(vendorRequestUpdate.getQuotationAmount());
+        vendorUpdateHistory.setQuotationFilePath(vendorRequestUpdate.getQuotationFilePath());
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
-        return new VendorHistoryUpdate(vendorUpdateHistory);
+        VendorHistoryUpdated vendorHistoryUpdated = new VendorHistoryUpdated();
+        vendorHistoryUpdated.setId(vendorUpdateHistory.getId());
+        vendorHistoryUpdated.setUpdateDescription(vendorUpdateHistory.getUpdateDescription());
+        vendorHistoryUpdated.setStatus(vendorUpdateHistory.getRequestStatus());
+        vendorHistoryUpdated.setExternalVendorPrice(vendorUpdateHistory.getExternalVendorPrice());
+        vendorHistoryUpdated.setInternalVendorPrices(vendorUpdateHistory.getInternalVendorPrices());
+        vendorHistoryUpdated.setExternalVendorFilePath(vendorUpdateHistory.getExternalVendorFilePath());
+        vendorHistoryUpdated.setInternalVendorFilePath(vendorUpdateHistory.getInternalVendorFilePath());
+        vendorHistoryUpdated.setQuotationAmount(vendorUpdateHistory.getQuotationAmount());
+        vendorHistoryUpdated.setQuotationFilePath(vendorUpdateHistory.getQuotationFilePath());
+        vendorHistoryUpdated.setUpdateDate(vendorUpdateHistory.getUpdateDate());
+        vendorHistoryUpdated.setVendorSharedPrice(vendorUpdateHistory.getBudgetPrice().toString()); // Assuming this field maps to the budget price
+        vendorHistoryUpdated.setProposalSentStatus(true); // Set this based on your business logic if needed
+
+        return vendorHistoryUpdated;
     }
+
 
 
 
     @Override
     public List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
         // Create a pageable object using zero-based page indexing
         Pageable pageable = PageRequest.of(page, size); // no need to subtract 1
@@ -360,9 +382,7 @@ public class VendorServiceImpl implements VendorService {
                 historyDTO.setUpdateDescription(history.getUpdateDescription());
                 historyDTO.setUpdateDate(history.getUpdateDate());
                 historyDTO.setBudgetPrice(history.getBudgetPrice());
-                historyDTO.setVendorSharedPrice(history.getVendorSharedPrice());
                 historyDTO.setProposalSentStatus(history.isProposalSentStatus());
-                historyDTO.setQuotationAttachmentPath(history.getQuotationAttachmentPath());
                 historyDTO.setQuotationAmount(history.getQuotationAmount());
 
                 updateHistoryDTOList.add(historyDTO);
