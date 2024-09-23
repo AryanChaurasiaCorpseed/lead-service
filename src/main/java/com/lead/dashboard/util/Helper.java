@@ -577,11 +577,11 @@ public class Helper {
             List<Map<String, String>> companyData = readProjectFile(filePath);
 
             for (Map<String, String> row : companyData) {
-                String companyName = row.get("cregname").trim();
-                String emailId = row.get("cregcontemailid").trim();
-                String mobNumber = row.get("cregcontmobile").trim();
-                String firstName = row.get("cregcontfirstname").trim();
-                String lastName = row.get("cregcontlastname").trim();
+                String companyName = row.get("cregname")!=null?row.get("cregname").trim():"NA";
+                String emailId = row.get("cregcontemailid")!=null?row.get("cregcontemailid").trim():"NA";
+                String mobNumber = row.get("cregcontmobile")!=null?row.get("cregcontmobile").trim():null;
+                String firstName = row.get("cregcontfirstname")!=null?row.get("cregcontfirstname").trim():null;
+                String lastName = row.get("cregcontlastname")!=null?row.get("cregcontfirstname").trim():null;
                 String fullName=firstName+" "+lastName;
                 if (companyName.isEmpty() || emailId.isEmpty()) {
                     continue;
