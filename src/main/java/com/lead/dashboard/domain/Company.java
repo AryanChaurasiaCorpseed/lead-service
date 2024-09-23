@@ -6,6 +6,7 @@ import com.lead.dashboard.domain.lead.Lead;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -60,13 +61,13 @@ public class Company {
 	@ManyToOne
 	Contact secondaryContact;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="company_lead",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="company_lead_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Lead>companyLead;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="company_project",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="company_project_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
