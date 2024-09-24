@@ -12,11 +12,26 @@ import lombok.Setter;
     public class VendorRequestUpdate {
 
 
-        private String description;
 
-        private String serviceName;
+       private String serviceName;
 
-        private String status;
+       private String clientName;
+
+       private String clientMailId;
+
+       private String requestStatus;
+
+       private String additionalMailId;
+
+       private String comment;
+
+       private boolean proposalSentStatus;
+
+       private String clientContactNumber;
+
+       private String quotationAmount;
+
+       private String quotationFilePath;
 
        private String externalVendorPrice;
 
@@ -25,10 +40,6 @@ import lombok.Setter;
        private String internalVendorPrices;
 
        private String internalVendorFilePath;
-
-       private String quotationAmount;
-
-       private String quotationFilePath;
 
 
     }

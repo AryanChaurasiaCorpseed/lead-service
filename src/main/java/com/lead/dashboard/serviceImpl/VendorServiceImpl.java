@@ -300,8 +300,7 @@ public class VendorServiceImpl implements VendorService {
 
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
-        vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getStatus());
-        vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getDescription());
+        vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getComment());
         vendorUpdateHistory.setUpdatedBy(userId);
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setLead(lead);

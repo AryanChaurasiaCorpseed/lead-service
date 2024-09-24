@@ -24,16 +24,21 @@ public class VendorQuotationRequest {
 
    private String comment;
 
-   private String attachmentPath;
-
    private boolean proposalSentStatus;
 
-   private String status;
-
-   private String contactNumber;
+   private String clientContactNumber;
 
    private String quotationAmount;
 
    private String quotationFilePath;
+
+   private String externalVendorPrice;
+
+   private String externalVendorFilePath;
+
+   private String internalVendorPrices;
+
+   private String internalVendorFilePath;
+
 
 }
