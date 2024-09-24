@@ -124,7 +124,6 @@ public class MailSendSerivceImpl implements MailSendService {
             helper.setCc(ccPersons);
             helper.setSubject(subject);
 
-            // Prepare email content using Thymeleaf template
             Context context = new Context();
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
@@ -135,33 +134,11 @@ public class MailSendSerivceImpl implements MailSendService {
             String htmlContent = templateEngine.process("vendor_email_template", context);
             helper.setText(htmlContent, true);
 
-            // Attach the quotation file if available
-            String filePath = vendorQuotationRequest.getQuotationFilePath();
-            if (filePath != null && !filePath.isEmpty()) {
-                File file = new File(filePath);
-                if (file.exists() && file.isFile()) {
-                    String originalFileName = file.getName();
-
-                    try {
-                        FileSystemResource fileResource = new FileSystemResource(filePath);
-                        helper.addAttachment(originalFileName, fileResource);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Error while attaching file: " + e.getMessage(), e);
-                    }
-                } else {
-                    // Log or throw a more descriptive exception if file is not found
-                    throw new FileNotFoundException("File not found at path: " + filePath);
-                }
-            }
-
-            // Send the email
             javaMailSender.send(mimeMessage);
             System.out.println("Email sent successfully to: " + Arrays.toString(emailTo));
 
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send email due to MessagingException: " + e.getMessage(), e);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Failed to send email: Quotation file not found - " + e.getMessage(), e);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
         }
