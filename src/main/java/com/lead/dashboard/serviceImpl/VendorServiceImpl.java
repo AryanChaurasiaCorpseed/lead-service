@@ -19,10 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -258,6 +255,10 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setRequestStatus("Quotation Sent");
         vendorUpdateHistory.setBudgetPrice(vendor.getClientBudget());
         vendorUpdateHistory.setCreateDate(new Date());
+        vendorUpdateHistory.setUser(user);
+        vendorUpdateHistory.setUpdateDescription(vendorQuotationRequest.getComment());
+        vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));  // Set mailTo
+        vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));   // Set mailCc as List<String>
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 

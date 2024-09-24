@@ -64,9 +64,9 @@ public class VendorUpdateHistory implements Serializable {
 
     private Long updatedBy;
 
-    private List<String> mailTo;
+    private List<String> mailTo;  // Keep as List<String>
 
-    private List<User> mailcc;
+    private List<String> mailCc;   // Change this from List<User> to List<String>
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
