@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+
 @Service
 public class MailSendSerivceImpl implements MailSendService {
 
@@ -132,18 +136,37 @@ public class MailSendSerivceImpl implements MailSendService {
             helper.setText(htmlContent, true);
 
             // Attach the quotation file if available
-            if (vendorQuotationRequest.getQuotationFilePath() != null && !vendorQuotationRequest.getQuotationFilePath().isEmpty()) {
-                FileSystemResource file = new FileSystemResource(vendorQuotationRequest.getQuotationFilePath());
-                helper.addAttachment("Quotation.pdf", file);
+            String filePath = vendorQuotationRequest.getQuotationFilePath();
+            if (filePath != null && !filePath.isEmpty()) {
+                File file = new File(filePath);
+                if (file.exists() && file.isFile()) {
+                    String originalFileName = file.getName();
+
+                    try {
+                        FileSystemResource fileResource = new FileSystemResource(filePath);
+                        helper.addAttachment(originalFileName, fileResource);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Error while attaching file: " + e.getMessage(), e);
+                    }
+                } else {
+                    // Log or throw a more descriptive exception if file is not found
+                    throw new FileNotFoundException("File not found at path: " + filePath);
+                }
             }
 
             // Send the email
             javaMailSender.send(mimeMessage);
+            System.out.println("Email sent successfully to: " + Arrays.toString(emailTo));
 
         } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email: " + e.getMessage());
+            throw new RuntimeException("Failed to send email due to MessagingException: " + e.getMessage(), e);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Failed to send email: Quotation file not found - " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
         }
     }
+
 
 
 

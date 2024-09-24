@@ -255,6 +255,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setQuotationAmount(vendorQuotationRequest.getQuotationAmount());
         vendorUpdateHistory.setQuotationFilePath(vendorQuotationRequest.getQuotationFilePath());
+        vendorUpdateHistory.setRequestStatus("Quotation Sent");
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 
