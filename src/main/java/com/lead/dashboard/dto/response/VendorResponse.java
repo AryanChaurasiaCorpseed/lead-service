@@ -31,6 +31,8 @@ public class VendorResponse {
     private String contactNumber;
     private Long leadId;
     private String leadName;
+    private Long assigneeId;
+    private String assigneeName;
 
 
     private List<VendorUpdateHistoryResponse> updateHistory;
@@ -52,7 +54,8 @@ public class VendorResponse {
         this.contactNumber=vendor.getClientMobileNumber();
         this.leadId=vendor.getId();
         this.leadName=vendor.getLead().getLeadName();
-
+        this.assigneeId=vendor.getAssignedUser().getId();
+        this.assigneeName=vendor.getAssignedUser().getFullName();
 
     }
 

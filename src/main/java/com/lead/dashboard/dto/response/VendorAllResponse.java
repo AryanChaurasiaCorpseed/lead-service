@@ -24,5 +24,7 @@ public class VendorAllResponse {
     private String leadName;
     private String budgetPrice;
     private String serviceName;
+    private Long assigneeId;
+    private String assigneeName;
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
 }

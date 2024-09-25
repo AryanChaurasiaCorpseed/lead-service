@@ -6,6 +6,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.dto.response.userResponse.ProcurementUserDTO;
 import com.lead.dashboard.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -273,16 +274,23 @@ public class UserController {
 
 
 	@GetMapping("api/v1/users/fetchProcurementUsers")
-	public ResponseEntity<List<User>> getUserOfProcurement(@RequestParam Long userId)
-	{
+	public ResponseEntity<List<ProcurementUserDTO>> getUserOfProcurement(@RequestParam Long userId) {
 
-		List<User> userOfProcurement=userService.getUserOfProcurement(userId);
-		if(!userOfProcurement.isEmpty())
-		{
-			return  new ResponseEntity<>(userOfProcurement,HttpStatus.OK);
-		}
-		else {
+		List<User> userOfProcurement = userService.getUserOfProcurement(userId);
+
+		List<ProcurementUserDTO> procurementUserDTOList = userOfProcurement.stream()
+				.map(user -> new ProcurementUserDTO(
+						user.getId(),
+						user.getUserDesignation().getName(),
+						user.getUserDesignation().getWeightValue()
+				))
+				.collect(Collectors.toList());
+
+		if (!procurementUserDTOList.isEmpty()) {
+			return new ResponseEntity<>(procurementUserDTOList, HttpStatus.OK);
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 }
