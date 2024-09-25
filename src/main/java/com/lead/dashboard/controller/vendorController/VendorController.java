@@ -72,11 +72,9 @@ public class VendorController {
 
 
     @PutMapping(UrlsMapping.UPDATE_VENDOR_DETAILS)
-    public ResponseEntity<Object> updateVendorDetails(@RequestBody VendorEditRequest vendorEditRequest,
-                                                      @RequestParam Long vendorId,
-                                                      @RequestParam Long userId) {
+    public ResponseEntity<Object> updateVendorDetails(@RequestParam Long vendorId,@RequestParam Long updatedById,@RequestParam Long assigneeToId) {
         try {
-            VendorResponse vendorResponse = vendorService.updateVendorDetails(vendorEditRequest, vendorId, userId);
+            VendorResponse vendorResponse = vendorService.updateVendorDetails(vendorId, updatedById,assigneeToId);
             return new ResponseEntity<>(vendorResponse, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();

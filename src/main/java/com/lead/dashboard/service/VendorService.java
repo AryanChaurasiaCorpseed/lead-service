@@ -21,7 +21,6 @@ public interface VendorService {
     List<VendorResponse> findVendorRequestsByUserId(Long userId ,Long leadId);
 
 
-    VendorResponse updateVendorDetails(VendorEditRequest vendorEditRequest, Long vendorId, Long userId);
 
     VendorResponse sendQuotation(VendorQuotationRequest vendorQuotationRequest, Long userId, Long leadId, Long vendorRequestId);
 
@@ -30,4 +29,6 @@ public interface VendorService {
     List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size);
 
     List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, Long leadId, Long vendorRequestId);
+
+    VendorResponse updateVendorDetails(Long vendorId, Long updatedById, Long assigneeToId);
 }

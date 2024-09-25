@@ -152,7 +152,7 @@ public class VendorServiceImpl implements VendorService {
         if (isAdmin || isProcurementManager) {
             vendors = vendorRepository.findAllVendorRequests(leadId);
         } else {
-            vendors = vendorRepository.findAllVendorRequestByUserId(userId, leadId);
+            vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
         return vendors.stream().map(vendor -> {
@@ -172,37 +172,31 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-
-    public VendorResponse updateVendorDetails(VendorEditRequest vendorEditRequest, Long vendorId, Long userId) {
-
+    public VendorResponse updateVendorDetails(Long vendorId, Long updatedById, Long assigneeToId) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+        // Fetch the user who updated the vendor (updatedById)
+        User updatedByUser = userRepository.findById(updatedById)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + updatedById));
 
-        vendor.setClientCompanyName(vendorEditRequest.getClientCompanyName());
-        vendor.setClientEmailId(vendorEditRequest.getClientEmailId());
-        vendor.setClientName(vendorEditRequest.getContactPersonName());
-        vendor.setClientMobileNumber(vendorEditRequest.getContactNumber());
-        vendor.setUpdatedBy(userId);
+        // Fetch the assignee user (assigneeToId)
+        User assignedToUser = userRepository.findById(assigneeToId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + assigneeToId));
+
+        // Set the updatedBy and assignedUser fields
+        vendor.setUpdatedBy(updatedById);
+        vendor.setAssignedUser(assignedToUser);
+        // Update the updated date
         vendor.setUpdatedDate(new Date());
 
+        // Save the updated vendor
         vendorRepository.save(vendor);
 
-        VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
-        vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setLead(vendor.getLead());
-        vendorUpdateHistory.setUser(user);
-        vendorUpdateHistory.setUpdateDate(new Date());
-        vendorUpdateHistory.setUpdatedBy(userId);
-        vendorUpdateHistory.setDisplay(true);
-
-        // Save the update history
-        vendorHistoryRepository.save(vendorUpdateHistory);
-
+        // Return the response with updated vendor data
         return new VendorResponse(vendor);
     }
+
 
 
     @Override

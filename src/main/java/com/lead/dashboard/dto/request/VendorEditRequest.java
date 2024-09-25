@@ -9,8 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VendorEditRequest {
-    private String clientCompanyName;
-    private String clientEmailId;
-    private String contactPersonName;
-    private String contactNumber;
+  private Long assigneId;
 }

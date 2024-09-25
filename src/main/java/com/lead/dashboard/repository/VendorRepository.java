@@ -16,8 +16,8 @@ import java.util.List;
 public interface VendorRepository  extends JpaRepository<Vendor,Long> {
 
 
-    @Query("SELECT v FROM Vendor v WHERE v.user.id = :userId AND v.lead.id = :leadId AND v.isDeleted = false")
-    List<Vendor> findAllVendorRequestByUserId(@Param("userId") Long userId, @Param("leadId") Long leadId);
+    @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.lead.id = :leadId AND v.isDeleted = false")
+    List<Vendor> findAllVendorRequestByAssignedUser(@Param("userId") Long userId, @Param("leadId") Long leadId);
 
 
     @Query("SELECT v FROM Vendor v WHERE v.lead.id = :leadId AND v.isDeleted = false")
