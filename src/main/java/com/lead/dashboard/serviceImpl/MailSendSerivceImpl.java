@@ -109,7 +109,7 @@ public class MailSendSerivceImpl implements MailSendService {
     @Override
     public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
                                                  String body, VendorQuotationRequest vendorQuotationRequest,
-                                                 User raisedBy) {
+                                                 User mailSentBy) {
         try {
             // Validate email addresses
             validateEmailAddresses(emailTo, "To");
@@ -127,7 +127,7 @@ public class MailSendSerivceImpl implements MailSendService {
             Context context = new Context();
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
-            context.setVariable("raisedByName", raisedBy.getFullName());
+            context.setVariable("sentBy", mailSentBy.getFullName());
             context.setVariable("quotationAmount", vendorQuotationRequest.getQuotationAmount());
             context.setVariable("quotationFilePath", vendorQuotationRequest.getQuotationFilePath());
 

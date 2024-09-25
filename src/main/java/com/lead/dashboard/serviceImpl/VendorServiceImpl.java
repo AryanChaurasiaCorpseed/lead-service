@@ -219,7 +219,7 @@ public class VendorServiceImpl implements VendorService {
 
         UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
 
-        User raisedBy = vendor.getUser();
+        User mailSentBy = user;
         String clientEmailId = vendorQuotationRequest.getClientMailId();
         String additionalEmailId = vendorQuotationRequest.getAdditionalMailId();
 
@@ -230,13 +230,13 @@ public class VendorServiceImpl implements VendorService {
         }
         String[] mailTo = mailToList.toArray(new String[0]);
 
-        String[] mailCc = new String[]{raisedBy.getEmail()};
+        String[] mailCc = new String[]{mailSentBy.getEmail()};
         String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
         String body = vendorQuotationRequest.getComment();
 
 
         try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest, raisedBy);
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest, mailSentBy);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
@@ -244,7 +244,7 @@ public class VendorServiceImpl implements VendorService {
 
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
-        vendorUpdateHistory.setRaisedBy(raisedBy);
+        vendorUpdateHistory.setRaisedBy(mailSentBy);
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setProposalSentStatus(true);
         vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
