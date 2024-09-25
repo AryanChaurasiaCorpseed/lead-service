@@ -24,15 +24,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -709,8 +701,24 @@ public class UserServiceImpl implements UserService {
 		return uList;
 	}
 
+	@Override
+	public List<User> getUserOfProcurement(Long userId) {
+		Optional<User> userDetails = userRepo.findById(userId);
 
+		if (userDetails.isPresent()) {
+			User user = userDetails.get();
 
+			if (user.getDepartment().equalsIgnoreCase("Procurement Manager") ||
+					user.getDepartment().equalsIgnoreCase("Manager") ||
+					user.getDepartment().equalsIgnoreCase("Chief executive officer")) {
 
+				return userRepo.findAllProcurementUsers();
+			} else {
+				return userRepo.findProcurementManager();
+			}
+		}
+
+		return Collections.emptyList();
+	}
 
 }

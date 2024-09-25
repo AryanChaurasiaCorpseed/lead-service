@@ -43,4 +43,5 @@ public interface UserService
 	List<User> checkEmailExist(String email);
 	List<User> getUserManagerByDepartment(Long departmentId);
 
+	List<User> getUserOfProcurement(Long userId);
 }

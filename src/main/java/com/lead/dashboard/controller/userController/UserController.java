@@ -270,4 +270,19 @@ public class UserController {
 		List<User> allUser=userService.getUserManagerByDepartment(departmentId);
 		return allUser;
 	}
+
+
+	@GetMapping("api/v1/users/fetchProcurementUsers")
+	public ResponseEntity<List<User>> getUserOfProcurement(@RequestParam Long userId)
+	{
+
+		List<User> userOfProcurement=userService.getUserOfProcurement(userId);
+		if(!userOfProcurement.isEmpty())
+		{
+			return  new ResponseEntity<>(userOfProcurement,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

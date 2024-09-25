@@ -258,12 +258,17 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setUpdateDescription(vendorQuotationRequest.getComment());
         vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));  // Set mailTo
-        vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));   // Set mailCc as List<String>
+        vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));
+        vendorUpdateHistory.setDeleted(true);// Set mailCc as List<String>
+
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 
         vendor.setProposalSentStatus(true);
         vendor.setUpdatedDate(new Date());
+        vendor.setSharePriceToClient(vendorUpdateHistory.getQuotationAmount());
+        vendor.setVendorSharedPrice(vendorUpdateHistory.getExternalVendorPrice());
+        vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
         vendorRepository.save(vendor);
 
         VendorResponse response = new VendorResponse(vendor);
@@ -321,6 +326,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setInternalVendorFilePath(vendorRequestUpdate.getInternalVendorFilePath());
         vendorUpdateHistory.setQuotationAmount(vendorRequestUpdate.getQuotationAmount());
         vendorUpdateHistory.setQuotationFilePath(vendorRequestUpdate.getQuotationFilePath());
+        vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getRequestStatus());
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
