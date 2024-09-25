@@ -712,7 +712,7 @@ public class UserServiceImpl implements UserService {
 
 			List<User> users;
 			String designation = user.getDesignation();
-			if (designation.equalsIgnoreCase("Chief executive officer") ||
+			if (designation.equalsIgnoreCase("Chief executive officer ") ||
 					designation.equalsIgnoreCase("Manager") ||
 					designation.equalsIgnoreCase("Procurement Manager")) {
 

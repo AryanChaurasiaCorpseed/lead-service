@@ -24,11 +24,16 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     List<Vendor> findAllVendorRequests(@Param("leadId") Long leadId);
 
 
-
     @Query("SELECT v FROM Vendor v WHERE v.id = :vendorId")
     Vendor findVendorById(@Param("vendorId") Long vendorId);
 
     Page<Vendor> findAll(Pageable pageable);
+
+
+    @Query("SELECT v FROM Vendor v JOIN v.user u WHERE u.id = :userId AND v.lead.id = :leadId AND v.isDeleted = false")
+    List<Vendor> findVendorRequestsBySalesUserAndLead(@Param("userId") Long userId, @Param("leadId") Long leadId);
+
+
 
 
 }

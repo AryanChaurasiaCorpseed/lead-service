@@ -148,16 +148,23 @@ public class VendorServiceImpl implements VendorService {
 
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
         boolean isProcurementManager = userDetails.getDesignation().equalsIgnoreCase("Procurement Manager");
+        boolean isSalesDepartment = userDetails.getDepartment().equalsIgnoreCase("Sales");
 
         if (isAdmin || isProcurementManager) {
+            // Fetch all vendor requests for admin or procurement manager
             vendors = vendorRepository.findAllVendorRequests(leadId);
+        } else if (isSalesDepartment) {
+            // Fetch vendor requests for users in the Sales department
+            vendors = vendorRepository.findVendorRequestsBySalesUserAndLead(userId, leadId);
         } else {
+            // Fetch vendor requests assigned to the user
             vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
 
+            // Fetch update history for each vendor
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
                     .map(VendorUpdateHistoryResponse::new)
