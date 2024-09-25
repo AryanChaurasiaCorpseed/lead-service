@@ -709,6 +709,7 @@ public class UserServiceImpl implements UserService {
 		if (userDetails.isPresent()) {
 			User user = userDetails.get();
 
+
 			List<User> users;
 			String designation = user.getDesignation();
 			if (designation.equalsIgnoreCase("Chief executive officer") ||
