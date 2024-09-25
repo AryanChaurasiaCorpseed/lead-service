@@ -36,6 +36,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.NotificationRepository;
 import com.lead.dashboard.repository.ServiceDetailsRepository;
 import com.lead.dashboard.repository.SlugRepository;
 import com.lead.dashboard.service.LeadService;
@@ -58,8 +59,15 @@ public class LeadServiceImpl implements LeadService  {
 
 	@Autowired
 	LeadRepository leadRepository;
+	
+	@Autowired
+	NotificationServiceImpl notificationServiceImpl;
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
+	
+	@Autowired
+	NotificationRepository notificationRepository;
+	
 	@Autowired
 	CommonServices commonServices;
 
@@ -973,9 +981,10 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistory.setPrevUser(lead.getAssignee());
 		leadHistory.setDescription("'Lead Assignee' has been changed from "+assignee+" to "+user.getFullName());
 		leadHistory.setLeadId(lead.getId());
-
+        User updatedBy=null;
 		if(updatedById!=null) {
 			User createdBy = userRepo.findById(updatedById).get();
+			updatedBy=createdBy;
 			leadHistory.setCreatedBy(createdBy); 
 		}
 		leadHistory.setCreateDate(new Date());
@@ -984,6 +993,7 @@ public class LeadServiceImpl implements LeadService  {
 		leadHistoryRepository.save(leadHistory);
 		leadRepository.save(lead);
 		leadHistoryRepository.save(leadHistory);
+		notificationServiceImpl.addNotification(user, lead, updatedBy);
 		return lead;
 	}
 	//	public LeadHistory createViewHistory(Lead lead,User user) {
@@ -997,7 +1007,6 @@ public class LeadServiceImpl implements LeadService  {
 	//
 	//		return leadHistory;
 	//	}
-
 
 	@Override
 	public Lead createProductInLead(AddProductInLead addProductInLead) throws Exception  {
@@ -1327,11 +1336,13 @@ public class LeadServiceImpl implements LeadService  {
 			leadRepository.save(l);
 			if(updateMultiLeadAssignee.getAssigneId()!=null && assigne!=null&&updateMultiLeadAssignee.getAssigneId()!=0) {
 				multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
+				notificationServiceImpl.addNotification(assigne , l , updatedBy);
 				System.out.println("In Lead");
 			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				multiLeadStatusHistory(l.getId(),prevStatus,status,updatedBy);			
 			}
+			
 			flag=true;
 		}
 		return flag;

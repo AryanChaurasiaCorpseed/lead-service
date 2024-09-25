@@ -1,11 +1,14 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Notification;
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.NotificationRepository;
 import com.lead.dashboard.service.NotificationService;
 
@@ -39,5 +42,19 @@ public class NotificationServiceImpl  implements NotificationService {
 		
 	}
 	
+
+	public   void addNotification(User user ,Lead lead ,User assignBy) {
+		System.out.println("Final Test");
+		   Notification notification = new Notification();
+		   notification.setUser(user);
+//		   notification.setMessage("This is to remind you about activity "+taskManagment.getName()+" is pending");
+		   notification.setMessage("This lead '"+lead.getLeadName()+"' has been assigned to you by "+assignBy.getFullName());
+		   notification.setLeadId(lead.getId());
+		   notification.setType("lead");
+		   notification.setView(false);
+		   notification.setNotifyDate(new Date());
+		   notificationRepository.save(notification);
+	}
+
 
 }

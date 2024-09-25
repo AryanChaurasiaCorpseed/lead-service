@@ -17,10 +17,12 @@ public class Notification {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	Long id;
+	Long leadId;
 	String message;
 	@ManyToOne
 	User user;
 	boolean isView;
+	String type;
 	Date notifyDate;
 	
 	public Long getId() {
@@ -52,6 +54,18 @@ public class Notification {
 	}
 	public void setNotifyDate(Date notifyDate) {
 		this.notifyDate = notifyDate;
+	}
+	public Long getLeadId() {
+		return leadId;
+	}
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	
