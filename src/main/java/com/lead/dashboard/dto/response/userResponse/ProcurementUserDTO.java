@@ -10,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProcurementUserDTO {
-    private Long id ;
-    private String name;
-    private Long weightValue;
+    private Long id;
+    private String fullName;
+    private String department;
+    private String designation;
 
 }

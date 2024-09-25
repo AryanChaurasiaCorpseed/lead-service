@@ -275,19 +275,9 @@ public class UserController {
 
 	@GetMapping("api/v1/users/fetchProcurementUsers")
 	public ResponseEntity<List<ProcurementUserDTO>> getUserOfProcurement(@RequestParam Long userId) {
-
-		List<User> userOfProcurement = userService.getUserOfProcurement(userId);
-
-		List<ProcurementUserDTO> procurementUserDTOList = userOfProcurement.stream()
-				.map(user -> new ProcurementUserDTO(
-						user.getId(),
-						user.getFullName(),
-						user.getUserDesignation().getWeightValue()
-				))
-				.collect(Collectors.toList());
-
-		if (!procurementUserDTOList.isEmpty()) {
-			return new ResponseEntity<>(procurementUserDTOList, HttpStatus.OK);
+		List<ProcurementUserDTO> userOfProcurement = userService.getUserOfProcurement(userId);
+		if (!userOfProcurement.isEmpty()) {
+			return new ResponseEntity<>(userOfProcurement, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

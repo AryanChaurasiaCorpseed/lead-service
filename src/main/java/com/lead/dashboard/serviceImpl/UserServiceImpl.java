@@ -10,6 +10,7 @@ import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.dto.NewSignupRequest;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
+import com.lead.dashboard.dto.response.userResponse.ProcurementUserDTO;
 import com.lead.dashboard.repository.DepartmentRepo;
 import com.lead.dashboard.repository.DesignationRepo;
 import com.lead.dashboard.repository.RoleRepository;
@@ -702,23 +703,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUserOfProcurement(Long userId) {
+	public List<ProcurementUserDTO> getUserOfProcurement(Long userId) {
 		Optional<User> userDetails = userRepo.findById(userId);
 
 		if (userDetails.isPresent()) {
 			User user = userDetails.get();
 
-			if (user.getDepartment().equalsIgnoreCase("Procurement Manager") ||
-					user.getDepartment().equalsIgnoreCase("Manager") ||
-					user.getDepartment().equalsIgnoreCase("Chief executive officer")) {
+			List<User> users;
+			String designation = user.getDesignation();
+			if (designation.equalsIgnoreCase("Chief executive officer") ||
+					designation.equalsIgnoreCase("Manager") ||
+					designation.equalsIgnoreCase("Procurement Manager")) {
 
-				return userRepo.findAllProcurementUsers();
+				users = userRepo.findAllProcurementUsers();
 			} else {
-				return userRepo.findProcurementManager();
+				users = userRepo.findProcurementManager();
 			}
+
+			return users.stream()
+					.map(u -> new ProcurementUserDTO(u.getId(), u.getFullName(),
+							u.getDepartment(), u.getDesignation()))
+					.collect(Collectors.toList());
 		}
 
 		return Collections.emptyList();
 	}
+
+
+
 
 }
