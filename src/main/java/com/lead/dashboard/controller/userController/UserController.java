@@ -281,7 +281,7 @@ public class UserController {
 		List<ProcurementUserDTO> procurementUserDTOList = userOfProcurement.stream()
 				.map(user -> new ProcurementUserDTO(
 						user.getId(),
-						user.getUserDesignation().getName(),
+						user.getFullName(),
 						user.getUserDesignation().getWeightValue()
 				))
 				.collect(Collectors.toList());
