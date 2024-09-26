@@ -72,7 +72,7 @@ public class VendorController {
 
 
     @PutMapping(UrlsMapping.UPDATE_VENDOR_DETAILS)
-    public ResponseEntity<Object> updateVendorDetails(@RequestParam List<Long> vendorId,@RequestParam Long updatedById,@RequestParam Long assigneeToId) {
+    public ResponseEntity<Object> updateVendorDetails(@RequestBody List<Long> vendorId,@RequestParam Long updatedById,@RequestParam Long assigneeToId) {
         try {
             List<VendorResponse> vendorResponseList = vendorService.updateVendorDetails(vendorId, updatedById,assigneeToId);
             return new ResponseEntity<>(vendorResponseList, HttpStatus.OK);

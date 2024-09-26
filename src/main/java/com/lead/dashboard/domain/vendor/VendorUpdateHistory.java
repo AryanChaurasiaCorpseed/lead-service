@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +86,11 @@ public class VendorUpdateHistory implements Serializable {
 
     private boolean proposalSentStatus;
 
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "current_updated_date")
+    private LocalDate currentUpdatedDate;
 
 
 

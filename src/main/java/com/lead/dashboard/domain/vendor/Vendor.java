@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -88,5 +89,14 @@ public class Vendor implements Serializable {
     private List<VendorUpdateHistory> vendorUpdateHistory;
 
     private String sharePriceToClient;
+
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "current_updated_date")
+    private LocalDate currentUpdatedDate;
+
+
+
 
 }

@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,6 +76,8 @@ public class VendorServiceImpl implements VendorService {
                     vendor.setCreateDate(new Date());
                     vendor.setUpdatedDate(new Date());
                     vendor.setStatus("Initial");
+                    vendor.setDate(LocalDate.now());
+                    vendor.setCurrentUpdatedDate(LocalDate.now());
 
 
                     vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
@@ -103,6 +106,8 @@ public class VendorServiceImpl implements VendorService {
                     vendorUpdate.setCreateDate(new Date());
                     vendorUpdate.setDisplay(true);
                     vendorUpdate.setUrlsManagment(urlsManagmentOpt);
+                    vendor.setDate(LocalDate.now());
+                    vendor.setCurrentUpdatedDate(LocalDate.now());
 
                     vendorUpdate.setBudgetPrice(vendorRequest.getClientBudgetPrice());
 
@@ -199,6 +204,8 @@ public class VendorServiceImpl implements VendorService {
             vendor.setAssignedUser(assignedToUser);
             // Update the updated date
             vendor.setUpdatedDate(new Date());
+            vendor.setDate(LocalDate.now());
+            vendor.setCurrentUpdatedDate(LocalDate.now());
 
             // Save the updated vendor
             vendorRepository.save(vendor);
@@ -266,6 +273,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));  // Set mailTo
         vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));
         vendorUpdateHistory.setDeleted(true);// Set mailCc as List<String>
+        vendor.setDate(LocalDate.now());
+        vendor.setCurrentUpdatedDate(LocalDate.now());
 
 
         vendorHistoryRepository.save(vendorUpdateHistory);
@@ -333,6 +342,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setQuotationAmount(vendorRequestUpdate.getQuotationAmount());
         vendorUpdateHistory.setQuotationFilePath(vendorRequestUpdate.getQuotationFilePath());
         vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getRequestStatus());
+        vendor.setDate(LocalDate.now());
+        vendor.setCurrentUpdatedDate(LocalDate.now());
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
