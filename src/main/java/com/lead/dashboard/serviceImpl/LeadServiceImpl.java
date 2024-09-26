@@ -1096,55 +1096,43 @@ public class LeadServiceImpl implements LeadService  {
 
 
 	public List<Lead> getAllLeadV3(AllLeadFilter allLeadFilter ,int page, int size) {
-
-		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
-		String toDate=allLeadFilter.getToDate();
-		String fromDate=allLeadFilter.getFromDate();
-		Long userId=allLeadFilter.getUserId();
-		List<Long>userList=allLeadFilter.getUserIdFilter();
-		List<Long>statusIds=allLeadFilter.getStatusId();
-		boolean flag =false;
-		List<Lead>leadList = new ArrayList<>();
+		String toDate = allLeadFilter.getToDate();
+		String fromDate = allLeadFilter.getFromDate();
+		Long userId = allLeadFilter.getUserId();
+		List<Long> userList = allLeadFilter.getUserIdFilter();
+		List<Long> statusIds = allLeadFilter.getStatusId();
+		boolean flag = false;
+		List<Lead> leadList = new ArrayList<>();
 		Optional<User> user = userRepo.findById(userId);
-		Pageable pageable = PageRequest.of(page, size);
-		//		Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
-		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		if (toDate != null && (!toDate.equals("")) && fromDate != null && (!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
-			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
-			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 
-				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
-				if(userList!=null &&userList.size()!=0) {
-
-					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList,pageable).getContent();
-
-				}else {
-					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate,pageable).getContent();
-
+			if (user.isPresent() && user.get().getRole().contains("ADMIN")) {
+				if (userList != null && userList.size() != 0) {
+					leadList = leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds, flag, startDate, endDate, userList, pageable).getContent();
+				} else {
+					leadList = leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds, flag, startDate, endDate, pageable).getContent();
 				}
-			}else {
-				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId,flag,startDate,endDate,pageable).getContent();
+			} else {
+				leadList = leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId, flag, startDate, endDate, pageable).getContent();
 			}
-		}else {
-			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
-				if(userList!=null &&userList.size()!=0) {
-					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag,pageable).getContent();
-					System.out.println("TEST");
-				}else {
-					System.out.println("TEST2");
-
-					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag,pageable).getContent();
+		} else {
+			if (user.isPresent() && user.get().getRole().contains("ADMIN")) {
+				if (userList != null && userList.size() != 0) {
+					leadList = leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds, userList, flag, pageable).getContent();
+				} else {
+					leadList = leadRepository.findAllByStatusIdInAndIsDeleted(statusIds, flag, pageable).getContent();
 				}
-
-			}else {
-
-				leadList= leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag,pageable).getContent();
+			} else {
+				leadList = leadRepository.findAllByAssigneeAndStatusIdInAndIsDeleted(userId, statusIds, flag, pageable).getContent();
 			}
 		}
 
 		return leadList;
-
 	}
 
 	@Override
