@@ -113,6 +113,9 @@ public class VendorServiceImpl implements VendorService {
 
                     vendorUpdate.setRaisedBy(userDetails.get());
                     vendorUpdate.setUser(vendor.getAssignedUser());
+                    vendorUpdate.setDate(LocalDate.now());
+                    vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
+
 
                     vendorHistoryRepository.save(vendorUpdate);
 
@@ -273,8 +276,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));  // Set mailTo
         vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));
         vendorUpdateHistory.setDeleted(true);// Set mailCc as List<String>
-        vendor.setDate(LocalDate.now());
-        vendor.setCurrentUpdatedDate(LocalDate.now());
+        vendorUpdateHistory.setDate(LocalDate.now());
+        vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
 
 
         vendorHistoryRepository.save(vendorUpdateHistory);
@@ -284,6 +287,8 @@ public class VendorServiceImpl implements VendorService {
         vendor.setSharePriceToClient(vendorUpdateHistory.getQuotationAmount());
         vendor.setVendorSharedPrice(vendorUpdateHistory.getExternalVendorPrice());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
+        vendor.setDate(LocalDate.now());
+        vendor.setCurrentUpdatedDate(LocalDate.now());
         vendorRepository.save(vendor);
 
         VendorResponse response = new VendorResponse(vendor);
@@ -342,8 +347,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setQuotationAmount(vendorRequestUpdate.getQuotationAmount());
         vendorUpdateHistory.setQuotationFilePath(vendorRequestUpdate.getQuotationFilePath());
         vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getRequestStatus());
-        vendor.setDate(LocalDate.now());
-        vendor.setCurrentUpdatedDate(LocalDate.now());
+        vendorUpdateHistory.setDate(LocalDate.now());
+        vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
@@ -360,6 +365,7 @@ public class VendorServiceImpl implements VendorService {
         vendorHistoryUpdated.setUpdateDate(vendorUpdateHistory.getUpdateDate());
         vendorHistoryUpdated.setVendorSharedPrice(vendorUpdateHistory.getBudgetPrice().toString()); // Assuming this field maps to the budget price
         vendorHistoryUpdated.setProposalSentStatus(true); // Set this based on your business logic if needed
+
 
         return vendorHistoryUpdated;
     }
