@@ -364,4 +364,10 @@ public class LeadController {
 		}
 	}
 
+	@GetMapping(UrlsMapping.GET_ALL_LEAD_COUNT)
+	public ResponseEntity<Long> getLeadCount() {
+		long count = leadservice.getLeadCount();
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+
 }

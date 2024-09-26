@@ -34,6 +34,8 @@ public class UrlsMapping {
 	public static final String LEAD_ASSIGN_SAME_PERSON=PREFIX+"/lead/leadAssignSamePerson";
 	public static final String UPDATE_LEAD_DESCRIPTION=PREFIX+"/lead/updateLeadDescription";
 	public static final String LEAD_SEARCH=PREFIX+"/lead//searchLead";
+	public static final String GET_ALL_LEAD_COUNT=PREFIX+"/lead/allLeadCount";
+
 
 	//=================== Lead - Oppoertunity Service ===================
 	

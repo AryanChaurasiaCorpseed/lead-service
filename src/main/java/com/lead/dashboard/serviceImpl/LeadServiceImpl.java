@@ -1793,4 +1793,8 @@ public class LeadServiceImpl implements LeadService  {
 		return lead;
 	}
 
+	public long getLeadCount() {
+		return leadRepository.count();
+	}
+
 }
