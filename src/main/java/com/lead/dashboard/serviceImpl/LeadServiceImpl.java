@@ -1337,7 +1337,6 @@ public class LeadServiceImpl implements LeadService  {
 			if(updateMultiLeadAssignee.getAssigneId()!=null && assigne!=null&&updateMultiLeadAssignee.getAssigneId()!=0) {
 				multiLeadAssigneeHistory(l.getId(),prevAssignee,assigne,updatedBy);
 				notificationServiceImpl.addNotification(assigne , l , updatedBy);
-				System.out.println("In Lead");
 			}
 			if(updateMultiLeadAssignee.getStatusId()!=null && status!=null) {
 				multiLeadStatusHistory(l.getId(),prevStatus,status,updatedBy);			

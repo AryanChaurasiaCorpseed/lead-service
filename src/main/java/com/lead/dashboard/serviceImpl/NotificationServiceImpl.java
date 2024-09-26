@@ -42,9 +42,7 @@ public class NotificationServiceImpl  implements NotificationService {
 		
 	}
 	
-
 	public   void addNotification(User user ,Lead lead ,User assignBy) {
-		System.out.println("Final Test");
 		   Notification notification = new Notification();
 		   notification.setUser(user);
 //		   notification.setMessage("This is to remind you about activity "+taskManagment.getName()+" is pending");
