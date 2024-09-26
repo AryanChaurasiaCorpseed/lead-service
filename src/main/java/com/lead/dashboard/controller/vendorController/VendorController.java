@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -104,7 +105,7 @@ public class VendorController {
                 return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
             }
 
-            List<VendorAllResponse> vendorResponseDTOList = vendorService.findAllVendorRequest(userId, page, size);
+           Map<String,Object> vendorResponseDTOList = vendorService.findAllVendorRequest(userId, page, size);
             return new ResponseEntity<>(vendorResponseDTOList, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();

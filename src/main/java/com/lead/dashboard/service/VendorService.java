@@ -13,6 +13,7 @@ import com.lead.dashboard.dto.response.VendorResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface VendorService {
 
@@ -26,9 +27,10 @@ public interface VendorService {
 
     VendorHistoryUpdated updateVendorHistory(VendorRequestUpdate updateHistoryRequest, Long leadId, Long userId, Long vendorId);
 
-    List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size);
 
     List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, Long leadId, Long vendorRequestId);
 
     List<VendorResponse> updateVendorDetails(List<Long> vendorId, Long updatedById, Long assigneeToId);
+
+    Map<String, Object> findAllVendorRequest(Long userId, int page, int size);
 }

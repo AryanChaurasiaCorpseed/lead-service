@@ -372,19 +372,21 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-
     @Override
-    public List<VendorAllResponse> findAllVendorRequest(Long userId, int page, int size) {
+    public Map<String, Object> findAllVendorRequest(Long userId, int page, int size) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
         // Create a pageable object using zero-based page indexing
-        Pageable pageable = PageRequest.of(page, size); // no need to subtract 1
+        Pageable pageable = PageRequest.of(page, size);
 
         // Fetch vendors with pagination from the repository
         Page<Vendor> vendorPage = vendorRepository.findAll(pageable);
         List<Vendor> vendorList = vendorPage.getContent(); // Get the current page content
+
+        long totalCount = vendorRepository.count();
+
 
         List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
 
@@ -426,7 +428,14 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTOList.add(vendorResponseDTO);
         }
 
-        return vendorResponseDTOList;
+        // Create response map with pagination details
+        Map<String, Object> response = new HashMap<>();
+        response.put("vendorsRequests", vendorResponseDTOList);
+//        response.put("currentPage", vendorPage.getNumber());
+        response.put("totalItems", totalCount);
+//        response.put("totalPages", vendorPage.getTotalPages());
+
+        return response;
     }
 
 
