@@ -30,5 +30,5 @@ public interface VendorService {
 
     List<VendorUpdateHistory> fetchUpdatedhistory(Long userId, Long leadId, Long vendorRequestId);
 
-    VendorResponse updateVendorDetails(Long vendorId, Long updatedById, Long assigneeToId);
+    List<VendorResponse> updateVendorDetails(List<Long> vendorId, Long updatedById, Long assigneeToId);
 }

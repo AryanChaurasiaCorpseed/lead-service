@@ -178,11 +178,7 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-
-    public VendorResponse updateVendorDetails(Long vendorId, Long updatedById, Long assigneeToId) {
-        Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
-
+    public List<VendorResponse> updateVendorDetails(List<Long> vendorIdList, Long updatedById, Long assigneeToId) {
         // Fetch the user who updated the vendor (updatedById)
         User updatedByUser = userRepository.findById(updatedById)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + updatedById));
@@ -191,19 +187,28 @@ public class VendorServiceImpl implements VendorService {
         User assignedToUser = userRepository.findById(assigneeToId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + assigneeToId));
 
-        // Set the updatedBy and assignedUser fields
-        vendor.setUpdatedBy(updatedById);
-        vendor.setAssignedUser(assignedToUser);
-        // Update the updated date
-        vendor.setUpdatedDate(new Date());
+        List<VendorResponse> responses = new ArrayList<>();
 
-        // Save the updated vendor
-        vendorRepository.save(vendor);
+        for (Long vendorId : vendorIdList) {
+            // Fetch the vendor
+            Vendor vendor = vendorRepository.findById(vendorId)
+                    .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-        // Return the response with updated vendor data
-        return new VendorResponse(vendor);
+            // Set the updatedBy and assignedUser fields
+            vendor.setUpdatedBy(updatedById);
+            vendor.setAssignedUser(assignedToUser);
+            // Update the updated date
+            vendor.setUpdatedDate(new Date());
+
+            // Save the updated vendor
+            vendorRepository.save(vendor);
+
+            // Add the response with updated vendor data
+            responses.add(new VendorResponse(vendor));
+        }
+
+        return responses;
     }
-
 
 
     @Override
