@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Quotation for Lead #</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation for Lead</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-<p>Dear <span th:text="${clientName}">Client</span>,</p> <!-- This will include the client's name -->
+<h1>Quotation for <span th:text="${serviceName}"></span></h1>
 
-<p>Thank you for the opportunity to assist with your <span th:text="${urlsName}">service</span>. We have attached the requested quotation for your review.</p>
+<p>Dear <span th:text="${clientName}">Client</span>,</p>
 
-<p>You can view the quotation details in the attached file. If the attachment is missing, please <a th:href="${quotationFilePath}">click here</a> to download the quotation.</p>
+<p>Thank you for the opportunity to assist with your <span th:text="${urlsName}">service</span>. We are pleased to provide you with the requested quotation for your review.</p>
 
-<p>We look forward to helping you further and simplifying the compliance process for your business. Please feel free to reach out if you need any additional information.</p>
+<p>You can view the quotation details in the provided link. Please <a th:href="${quotationFilePath}">click here</a> to download the quotation.</p>
 
-<p>Best Regards,<br/>
-    <span th:text="${sentBy}">Corpseed Team</span></p> <!-- This will show the raised-by user's name -->
+<p>We look forward to assisting you further and simplifying the compliance process for your business. If you have any questions or need additional information, please do not hesitate to reach out.</p>
+
+<p>For more information, visit our website: <a href="https://www.corpseed.com/" target="_blank">www.corpseed.com</a></p>
+
+<div class="footer">
+    <p>Best regards,<br/>
+        <span th:text="${sentBy}">Corpseed Team</span></p>
+</div>
 </body>
 </html>

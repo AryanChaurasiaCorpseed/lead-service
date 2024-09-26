@@ -125,6 +125,8 @@ public class MailSendSerivceImpl implements MailSendService {
             helper.setSubject(subject);
 
             Context context = new Context();
+            context.setVariable("serviceName", vendorQuotationRequest.getServiceName());
+
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
             context.setVariable("sentBy", mailSentBy.getFullName());
