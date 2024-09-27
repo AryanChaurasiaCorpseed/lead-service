@@ -542,6 +542,53 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 	}
+	
+	public Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter) {
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long uId=allLeadFilter.getUserId();
+		List<Lead>leadList = new ArrayList<>();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		Optional<User> user = userRepo.findById(uId);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			//			String startDate = convertLongToStringDateFormat(toDate);
+			//			String endDate = convertLongToStringDateFormat(fromDate);
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
+				}else {
+					leadList= leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+
+				}
+				//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
+			}
+		}else {
+
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				//				return leadRepository.findAllByIsDeleted(false);
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByIsDeleted(false,userList);
+				}else {
+					leadList= leadRepository.findAllByStatusIdAndIsDeleted(1l,false);
+				}
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+			}
+
+
+		}
+		int count=0;
+		if(leadList!=null) {
+			count=leadList.size();
+		}
+		return count;
+
+	}
 
 	@Override
 	//	public List<Lead> getAllActiveCustomerLead(Long uId,String toDate,String fromDate) {
@@ -1141,6 +1188,53 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 		return leadList;
+
+	}
+	
+	public Integer getAllLeadCount(AllLeadFilter allLeadFilter) {
+
+		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long userId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		List<Long>statusIds=allLeadFilter.getStatusId();
+		boolean flag =false;
+		List<Lead>leadList = new ArrayList<>();
+		Optional<User> user = userRepo.findById(userId);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+
+				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
+
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate);
+
+				}
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(userId,flag,startDate,endDate);
+			}
+		}else {
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					leadList= leadRepository.findAllByStatusIdInAndAssigneeIdInAndIsDeleted(statusIds,userList,flag);
+
+				}else {
+					leadList= leadRepository.findAllByStatusIdInAndIsDeleted(statusIds,flag);
+
+				}
+
+			}else {
+				leadList= leadRepository.findAllByAssigneeAndIsDeleted(userId,flag);
+			}
+		}
+
+		return leadList.size();
 
 	}
 

@@ -49,4 +49,6 @@ public interface LeadService {
 	Boolean updateLeadDescription(Long leadId, String desc);
 	List<Lead> searchLeads(String searchParam, Long userId);
 	Lead createLeadV2New(LeadDTO leadDTO);
+	Integer getAllLeadCount(AllLeadFilter allLeadFilter);
+	Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter);
 }
