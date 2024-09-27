@@ -1,5 +1,7 @@
 package com.lead.dashboard.config;
 
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -80,4 +82,8 @@ public class EmailServiceImpl implements MailSendService {
         }
     }
 
+    @Override
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject, String body, VendorQuotationRequest vendorQuotationRequest, User mailSentBy) {
+
+    }
 }
