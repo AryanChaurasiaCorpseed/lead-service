@@ -20,5 +20,6 @@ public interface DesignationRepo extends JpaRepository<Designation, Long> {
 	@Query(value = "SELECT * FROM designation d WHERE d.id in(:designationId)", nativeQuery = true)
 	List<Designation> findAllByIdIn(List<Long> designationId);
 
-	
+	Designation findByName(String procurementManager);
+
 }
