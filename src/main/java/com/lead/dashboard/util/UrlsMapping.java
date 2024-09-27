@@ -114,7 +114,8 @@ public class UrlsMapping {
 	
 	public static final String GET_NO_OF_LEAD_DATA_GRAPH=PREFIX+"/salesDashboard/getNoOfLeadDataGraph";
 	public static final String GET_LATEST_LEAD=PREFIX+"/salesDashboard/getLatestLead";
-	
+	public static final String GET_ALL_PROJECT_GRAPH=PREFIX+"/salesDashboard/getAllProjectGraph";
+
 	
 	// Project
 	public static final String CREATE_PROJECT=PREFIX+"/project/createProject";
