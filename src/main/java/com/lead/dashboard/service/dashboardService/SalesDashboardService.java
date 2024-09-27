@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphFilterDto;
 
 @Service
 public interface SalesDashboardService {
@@ -15,6 +16,7 @@ public interface SalesDashboardService {
 
 	List<Lead> getLatestLead(Long userId);
 
-	Map<String,Integer> getAllProjectGraphAmount(Long userId, String projectName);
+
+	Map<String, Integer> getAllProjectGraphAmount(GraphFilterDto graphFilterDto);
 
 }

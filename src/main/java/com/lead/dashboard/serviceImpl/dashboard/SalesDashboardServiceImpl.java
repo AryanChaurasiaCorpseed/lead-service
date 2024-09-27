@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
@@ -69,34 +70,74 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		return leadList;
 	}
 	@Override
-	public Map<String,Integer> getAllProjectGraphAmount(Long userId, String projectName) {
+	public Map<String,Integer> getAllProjectGraphAmount(GraphFilterDto graphFilterDto) {
 		List<Project> project=new ArrayList<>();
-		if(userId!=null && projectName!=null) {
-			project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
-		}else if(userId!=null &&projectName==null) {
-			project = projectRepository.findAllByAssigneeId(userId);
-
-		}else if(userId==null &&projectName!=null) {
-			project = projectRepository.findAllByProjectName(projectName);
-
-		}else {
-			project = projectRepository.findAll();
-
-		}
-		List<Map<String,Integer>>result = new ArrayList<>();
-		Map<String,Integer>map=new HashMap<>();
-
-		for(Project p:project) {
-			if(map.containsKey(p.getName())){
-				Integer count = map.get(p.getName());
-				map.put(p.getName(), count);
-			}else {
-				
-				map.put(p.getName(), 1);
-			}
-		}
+		Long userId=graphFilterDto.getUserId();
+		String projectName=graphFilterDto.getServiceName();
+		String toDate=graphFilterDto.getToDate();
+		String fromDate=graphFilterDto.getFromDate();
+		
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			String startDate = toDate;
+			String endDate = fromDate;
 			
-		return map;
+			if(userId!=null && projectName!=null) {
+				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
+			}else if(userId!=null &&projectName==null) {
+				project = projectRepository.findAllByAssigneeId(userId);
+
+			}else if(userId==null &&projectName!=null) {
+				project = projectRepository.findAllByProjectName(projectName);
+
+			}else {
+				project = projectRepository.findAll();
+
+			}
+			List<Map<String,Integer>>result = new ArrayList<>();
+			Map<String,Integer>map=new HashMap<>();
+
+			for(Project p:project) {
+				if(map.containsKey(p.getName())){
+					Integer count = map.get(p.getName());
+					map.put(p.getName(), count);
+				}else {
+					
+					map.put(p.getName(), 1);
+				}
+			}
+				
+			return map;
+			
+		}else {
+			if(userId!=null && projectName!=null) {
+				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
+			}else if(userId!=null &&projectName==null) {
+				project = projectRepository.findAllByAssigneeId(userId);
+
+			}else if(userId==null &&projectName!=null) {
+				project = projectRepository.findAllByProjectName(projectName);
+
+			}else {
+				project = projectRepository.findAll();
+
+			}
+			List<Map<String,Integer>>result = new ArrayList<>();
+			Map<String,Integer>map=new HashMap<>();
+
+			for(Project p:project) {
+				if(map.containsKey(p.getName())){
+					Integer count = map.get(p.getName());
+					map.put(p.getName(), count);
+				}else {
+					
+					map.put(p.getName(), 1);
+				}
+			}
+				
+			return map;
+		}
+		
+		
 	}
 	
 	//  =================== start new =================================================
