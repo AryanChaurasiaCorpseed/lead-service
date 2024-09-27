@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -36,11 +37,12 @@ public class SalesDashboardController {
 		List<Lead> alllead= salesDashboardService.getLatestLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
+	// new amount wise
 	
 	@GetMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH)
-	public ResponseEntity <Map<String,Integer>> getAllProjectGraphAmount(@RequestParam Long userId,String projectName)
+	public ResponseEntity <Map<String,Integer>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto)
 	{
-		Map<String,Integer> alllead= salesDashboardService.getAllProjectGraphAmount(userId,projectName);
+		Map<String,Integer> alllead= salesDashboardService.getAllProjectGraphAmount(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	
