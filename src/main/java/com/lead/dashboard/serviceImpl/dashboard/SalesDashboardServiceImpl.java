@@ -2,11 +2,16 @@ package com.lead.dashboard.serviceImpl.dashboard;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,71 +75,97 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		return leadList;
 	}
 	@Override
-	public Map<String,Integer> getAllProjectGraphAmount(GraphFilterDto graphFilterDto) {
+	public List<Map<String,Object>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto) {
 		List<Project> project=new ArrayList<>();
 		Long userId=graphFilterDto.getUserId();
 		String projectName=graphFilterDto.getServiceName();
 		String toDate=graphFilterDto.getToDate();
 		String fromDate=graphFilterDto.getFromDate();
-		
+		System.out.println("aaaaaa");
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
 			
-			if(userId!=null && projectName!=null) {
-				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
-			}else if(userId!=null &&projectName==null) {
-				project = projectRepository.findAllByAssigneeId(userId);
+			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
+				project = projectRepository.findAllByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
+				System.out.println("bbbbbbbbbbbbbbbb");
 
-			}else if(userId==null &&projectName!=null) {
-				project = projectRepository.findAllByProjectName(projectName);
+			}else if(userId!=null &&projectName==null) {
+				project = projectRepository.findAllByAssigneeIdAndInBetweenDate(userId,startDate,endDate);
+				System.out.println("cccccccccccccccccc");
+
+			}else if(userId==null &&projectName!=null &&(!projectName.equals(""))) {
+				project = projectRepository.findAllByProjectNameAndInBetweenDate(projectName, startDate, endDate);
+				System.out.println("ddddddddddddd");
 
 			}else {
-				project = projectRepository.findAll();
+				project = projectRepository.findAllInBetweenDate(startDate, endDate);
+				System.out.println("eeeeeeeeeeeeeeeeee");
 
 			}
-			List<Map<String,Integer>>result = new ArrayList<>();
 			Map<String,Integer>map=new HashMap<>();
 
 			for(Project p:project) {
 				if(map.containsKey(p.getName())){
 					Integer count = map.get(p.getName());
-					map.put(p.getName(), count);
+					map.put(p.getName(), count+1);
 				}else {
 					
 					map.put(p.getName(), 1);
 				}
 			}
 				
-			return map;
+			List<Map<String,Object>>result = new ArrayList<>();
+			for(Entry<String,Integer> entry:map.entrySet()) {
+				Map<String,Object>m=new HashMap<>();
+                m.put("name", entry.getKey());
+                m.put("value", entry.getValue());
+                 result.add(m);
+			}
+//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
+            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+
+			return result;
 			
 		}else {
-			if(userId!=null && projectName!=null) {
+			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
+				System.out.println("fffffffffffffffffff");
+
 			}else if(userId!=null &&projectName==null) {
 				project = projectRepository.findAllByAssigneeId(userId);
+				System.out.println("gggggggggggggggggggggg");
 
-			}else if(userId==null &&projectName!=null) {
+			}else if(userId==null && projectName!=null &&(!projectName.equals(""))) {
+				System.out.println("test ... "+projectName+"aaaa");
 				project = projectRepository.findAllByProjectName(projectName);
+				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
 			}else {
 				project = projectRepository.findAll();
 
 			}
-			List<Map<String,Integer>>result = new ArrayList<>();
 			Map<String,Integer>map=new HashMap<>();
 
 			for(Project p:project) {
 				if(map.containsKey(p.getName())){
 					Integer count = map.get(p.getName());
-					map.put(p.getName(), count);
+					map.put(p.getName(), count+1);
 				}else {
 					
 					map.put(p.getName(), 1);
 				}
 			}
-				
-			return map;
+			List<Map<String,Object>>result = new ArrayList<>();
+			for(Entry<String,Integer> entry:map.entrySet()) {
+				Map<String,Object>m=new HashMap<>();
+                m.put("name", entry.getKey());
+                m.put("value", entry.getValue());
+                 result.add(m);
+			}
+//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
+            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+			return result;
 		}
 		
 		

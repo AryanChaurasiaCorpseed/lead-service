@@ -1,5 +1,6 @@
 package com.lead.dashboard.controller.dashboardController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +41,9 @@ public class SalesDashboardController {
 	// new amount wise
 	
 	@GetMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH)
-	public ResponseEntity <Map<String,Integer>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto)
+	public ResponseEntity <List<Map<String,Object>>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto)
 	{
-		Map<String,Integer> alllead= salesDashboardService.getAllProjectGraphAmount(graphFilterDto);
+		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraphAmount(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	

@@ -1,5 +1,6 @@
 package com.lead.dashboard.service.dashboardService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,6 @@ public interface SalesDashboardService {
 	List<Lead> getLatestLead(Long userId);
 
 
-	Map<String, Integer> getAllProjectGraphAmount(GraphFilterDto graphFilterDto);
+	List<Map<String,Object>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto);
 
 }
