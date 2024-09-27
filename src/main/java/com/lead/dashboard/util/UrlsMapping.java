@@ -212,5 +212,14 @@ public class UrlsMapping {
 	public static final String GET_CONTACT_BY_ID=PREFIX+"/contact/getContactById";
 	public static final String CREATE_CONTACT=PREFIX+"/contact/createContact";
 
+	//Vendor
+	public static final String CREATE_VENDOR_REQUEST = "/leadService/api/v1/vendor/create-vendor-request";
+	public static final String FIND_VENDOr_REQUEST_BY_USER_ID = "/leadService/api/v1/vendor/find-vendor-request-by-user-id";
+	public static final String UPDATE_VENDOR_REQUEST = "/leadService/api/v1/vendor/update-vendor-request";
+	public static final String UPDATE_VENDOR_DETAILS = "/leadService/api/v1/vendor/edit-vendor-details-request";
+	public static final String SEND_QUOTATION_TO_CLIENT = "/leadService/api/v1/vendor/send-quotation";
+	public static final String FIND_ALL_VENDOR_REQUEST = "/leadService/api/v1/vendor/find-all-vendor-request";
+	public static final String FIND_UPDATE_REQUEST_HISTORY = "/leadService/api/v1/vendor/find-update-request-history";
+
 
 }
