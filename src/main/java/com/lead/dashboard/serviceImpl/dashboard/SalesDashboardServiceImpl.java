@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl.dashboard;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,8 +11,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 
 @Service
@@ -19,6 +22,10 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	LeadRepository leadRepository;
+	
+	@Autowired
+	ProjectRepository projectRepository;
+	
 	@Override
 	public Map<String,Integer> getNoOfLeadDataGraph(Long userId,Long d1,Long d2) {
         String date1 = convertLongToStringDateFormat(d1);
@@ -61,5 +68,37 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 		return leadList;
 	}
+	@Override
+	public Map<String,Integer> getAllProjectGraphAmount(Long userId, String projectName) {
+		List<Project> project=new ArrayList<>();
+		if(userId!=null && projectName!=null) {
+			project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
+		}else if(userId!=null &&projectName==null) {
+			project = projectRepository.findAllByAssigneeId(userId);
+
+		}else if(userId==null &&projectName!=null) {
+			project = projectRepository.findAllByProjectName(projectName);
+
+		}else {
+			project = projectRepository.findAll();
+
+		}
+		List<Map<String,Integer>>result = new ArrayList<>();
+		Map<String,Integer>map=new HashMap<>();
+
+		for(Project p:project) {
+			if(map.containsKey(p.getName())){
+				Integer count = map.get(p.getName());
+				map.put(p.getName(), count);
+			}else {
+				
+				map.put(p.getName(), 1);
+			}
+		}
+			
+		return map;
+	}
+	
+	//  =================== start new =================================================
 
 }

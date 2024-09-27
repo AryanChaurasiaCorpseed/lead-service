@@ -15,4 +15,6 @@ public interface SalesDashboardService {
 
 	List<Lead> getLatestLead(Long userId);
 
+	Map<String,Integer> getAllProjectGraphAmount(Long userId, String projectName);
+
 }

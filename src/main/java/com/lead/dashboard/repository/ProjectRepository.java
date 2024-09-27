@@ -23,5 +23,11 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
      
      @Query(value = "SELECT * FROM project p WHERE p.assignee_id =:userId", nativeQuery = true)
 	 List<Project> findAllByAssigneeId(Long userId,Pageable pageable);
+
+     @Query(value = "SELECT * FROM project p WHERE p.assignee_id =:userId and name =projectName", nativeQuery = true)
+	 List<Project> findAllByAssigneeIdAndProjectName(Long userId, String projectName);
+
+     @Query(value = "SELECT * FROM project p WHERE p.name =:projectName", nativeQuery = true)
+	 List<Project> findAllByProjectName(String projectName);
 	
 }

@@ -36,4 +36,13 @@ public class SalesDashboardController {
 		List<Lead> alllead= salesDashboardService.getLatestLead(userId);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH)
+	public ResponseEntity <Map<String,Integer>> getAllProjectGraphAmount(@RequestParam Long userId,String projectName)
+	{
+		Map<String,Integer> alllead= salesDashboardService.getAllProjectGraphAmount(userId,projectName);
+		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	}
+	
+	
 }
