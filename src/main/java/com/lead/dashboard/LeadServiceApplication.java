@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
-import com.lead.dashboard.util.Helper;
+//import com.lead.dashboard.util.Helper;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -17,8 +17,8 @@ import com.lead.dashboard.util.Helper;
 @EnableScheduling
 public class LeadServiceApplication  implements CommandLineRunner {
 
-	@Autowired
-	private Helper helper;
+//	@Autowired
+//	private Helper helper;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LeadServiceApplication.class, args);
@@ -48,10 +48,10 @@ public class LeadServiceApplication  implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//////		                                                                       
-		String filePath1 = "D:/crm_client.csv";
+//////
+//		String filePath1 = "D:/crm_client.csv";
 //		String running = "D:/running_lead.xlsx";
-		String projectsFilePath = "D:/projects.xlsx";
+//		String projectsFilePath = "D:/projects.xlsx";
 //		String badFit="D:/bad_fit.xlsx";
 //
 //		
@@ -60,7 +60,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 //		String filePath1 = "/Users/aryanchaurasia/Downloads/crm_client.csv";
 //		String projectsFilePath = "/Users/aryanchaurasia/Downloads/projects.xlsx";
 
-		helper.lead_migration(filePath1,projectsFilePath);
+//		helper.lead_migration(filePath1,projectsFilePath);
 //
 //		helper.savedRunningLead(running);
 //

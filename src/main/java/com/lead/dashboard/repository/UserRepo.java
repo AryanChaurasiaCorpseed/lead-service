@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -57,6 +58,21 @@ public interface UserRepo extends JpaRepository<User,Long>
 	List<User> findByEmailContainingIgnoreCase(String email);
 	@Query(value = "SELECT * FROM user u WHERE u.user_department_id=:departmentId and u.user_designation_id in(:designationList)", nativeQuery = true)
 	List<User> findByUserDepartmentIdAndUserDesignationIdIn(Long departmentId, List<Long> designationList);
+
+	@Query(value = "SELECT * FROM user u WHERE u.id = :userId AND u.is_deleted = false", nativeQuery = true)
+	User findByUserIdAndIsDeletedFalse(Long userId);
+
+	@Query("SELECT u FROM User u JOIN u.userRole r WHERE r.name = :roleName AND u.isDeleted = false")
+	List<User> findByRoleAndIsNotDeleted(@Param("roleName") String roleName);
+
+	@Query("SELECT u FROM User u WHERE u.userDesignation.name = :name")
+	User findUserByDesignationName(@Param("name") String name);
+
+	@Query(value = "SELECT * FROM user u WHERE u.department = 'Procurement' and u.is_deleted =false", nativeQuery = true)
+	List<User> findAllProcurementUsers();
+
+	@Query(value = "SELECT * FROM user u WHERE u.designation = 'Procurement Manager'", nativeQuery = true)
+	List<User> findProcurementManager();
 
 
 
