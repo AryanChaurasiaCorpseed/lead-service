@@ -14,6 +14,8 @@ public class UrlsMapping {
 	public static final String TEST=PREFIX+ "/lead/test";
 	public static final String CREATE_LEAD=PREFIX+"/lead/createLead";
 	public static final String GET_ALL_LEAD=PREFIX+"/lead/getAllLead";
+	public static final String GET_ALL_LEAD_COUNT=PREFIX+"/lead/getAllLeadCount";
+
 	public static final String UPDATE_LEAD=PREFIX+"/lead/updateLead";
 	public static final String DELETE_LEAD=PREFIX+"/lead/deleteLead";
 	public static final String SEND_MAIL_IN_LEAD=PREFIX+"/lead/sendMailInLead";
