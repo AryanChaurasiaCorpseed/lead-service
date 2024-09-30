@@ -41,11 +41,17 @@ public class SalesDashboardController {
 	// new amount wise
 	
 	@GetMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH)
+	public ResponseEntity <List<Map<String,Object>>> getAllProjectGraph(GraphFilterDto graphFilterDto)
+	{
+		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraph(graphFilterDto);
+		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH_AMOUNT)
 	public ResponseEntity <List<Map<String,Object>>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto)
 	{
 		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraphAmount(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
-	
 	
 }
