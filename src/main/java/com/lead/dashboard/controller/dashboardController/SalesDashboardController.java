@@ -54,4 +54,11 @@ public class SalesDashboardController {
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_AMOUNT_GRAPH)
+	public ResponseEntity <List<Map<String,Object>>> getAllCompanyAmountGraph(GraphFilterDto graphFilterDto)
+	{
+		List<Map<String,Object>> alllead= salesDashboardService.getAllCompanyAmountGraph(graphFilterDto);
+		return new ResponseEntity<>(alllead,HttpStatus.OK);
+	}
+	
 }

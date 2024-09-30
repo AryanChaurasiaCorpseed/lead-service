@@ -11,14 +11,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.GraphFilterDto;
+import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
@@ -28,6 +32,9 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	LeadRepository leadRepository;
+	
+	@Autowired
+    CompanyRepository companyRepository;
 
 	@Autowired
 	ProjectRepository projectRepository;
@@ -276,5 +283,27 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 
 	}
+	
+
+	@Override
+	public List<Map<String, Object>> getAllCompanyAmountGraph(GraphFilterDto graphFilterDto) {
+		List<Company>compList = new ArrayList<>();
+		if(graphFilterDto.getUserId()!=null) {
+			
+//			String startDate = graphFilterDto.getFromDate();
+//			String endDate =graphFilterDto.getToDate();
+//              Optional<Project> project = projectRepository.findAllInBetweenCreateDate(graphFilterDto.getToDate());
+		}	
+		return null;
+	}
+	
+//	compList=companyRepository.findByAssigneeId(graphFilterDto.getUserId());
+//	Map<String,Integer>map = new HashMap<>();
+//	for(Company comp:compList) {
+//		 List<Company> company = companyRepository.findAllByParentId(comp.getId());
+//		 for(Company c:company) {
+//			 
+//		 }
+//	}
 
 }
