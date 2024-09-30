@@ -118,6 +118,7 @@ public class UrlsMapping {
 	public static final String GET_LATEST_LEAD=PREFIX+"/salesDashboard/getLatestLead";
 	public static final String GET_ALL_PROJECT_GRAPH=PREFIX+"/salesDashboard/getAllProjectGraph";
 	public static final String GET_ALL_PROJECT_GRAPH_AMOUNT=PREFIX+"/salesDashboard/getAllProjectGraphAmount";
+	public static final String GET_ALL_COMPANY_AMOUNT_GRAPH=PREFIX+"/salesDashboard/getAllCompanyAmountGraph";
 
 	
 	// Project

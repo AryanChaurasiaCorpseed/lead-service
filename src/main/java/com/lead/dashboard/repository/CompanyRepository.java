@@ -59,5 +59,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	@Query(value = "SELECT * FROM company c where c.id in(:companyId)", nativeQuery = true)
 	List<Company> findByIdIn(List<Long> companyId);
+	
+	@Query(value = "SELECT * FROM company c where c.parent_id = :id", nativeQuery = true)
+	List<Company> findAllByParentId(Long id);
 
 }
