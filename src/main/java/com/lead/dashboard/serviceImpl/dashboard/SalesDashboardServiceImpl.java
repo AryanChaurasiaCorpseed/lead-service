@@ -28,16 +28,16 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	LeadRepository leadRepository;
-	
+
 	@Autowired
 	ProjectRepository projectRepository;
-	
+
 	@Override
 	public Map<String,Integer> getNoOfLeadDataGraph(Long userId,Long d1,Long d2) {
-        String date1 = convertLongToStringDateFormat(d1);
-        String date2 = convertLongToStringDateFormat(d2);
-        System.out.println("date 1 . ."+date1);
-        System.out.println("date 2 . . "+date2);
+		String date1 = convertLongToStringDateFormat(d1);
+		String date2 = convertLongToStringDateFormat(d2);
+		System.out.println("date 1 . ."+date1);
+		System.out.println("date 2 . . "+date2);
 
 		List<Lead> leadList = leadRepository.findAllByAssigneeAndInBetweenDate(userId,date1,date2);
 		Map<String,Integer>res =new LinkedHashMap<> ();
@@ -45,27 +45,27 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			Date d = new Date(d1);
 			d.setMonth(d.getMonth()+i);
 			String pattern = "yyyy-MMMM";
-	        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-	        String df1 = simpleDateFormat.format(d);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String df1 = simpleDateFormat.format(d);
 			res.put(df1,0);
 		}
 		for(Lead l:leadList) {
 			Date ld = l.getCreateDate();
 			String pattern = "yyyy-MMMM";
-	        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-	        String df1 = simpleDateFormat.format(ld);
-	        Integer count = res.get(df1)!=null?res.get(df1):0;
-	        res.put(df1, count+1);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String df1 = simpleDateFormat.format(ld);
+			Integer count = res.get(df1)!=null?res.get(df1):0;
+			res.put(df1, count+1);
 		}
 		return res;
 	}
 	public String convertLongToStringDateFormat(Long date) {
 		Date startDate = new Date(date);
-//		String pattern = "yyyy-MM-dd HH:mm:ss"; //Format of String
+		//		String pattern = "yyyy-MM-dd HH:mm:ss"; //Format of String
 		String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String date1 = simpleDateFormat.format(startDate);
-        return date1;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date1 = simpleDateFormat.format(startDate);
+		return date1;
 	}
 	@Override
 	public List<Lead> getLatestLead(Long userId) {
@@ -85,7 +85,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
-			
+
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
 				System.out.println("bbbbbbbbbbbbbbbb");
@@ -110,23 +110,23 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 					Integer count = map.get(p.getName());
 					map.put(p.getName(), count+1);
 				}else {
-					
+
 					map.put(p.getName(), 1);
 				}
 			}
-				
+
 			List<Map<String,Object>>result = new ArrayList<>();
 			for(Entry<String,Integer> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
-                m.put("name", entry.getKey());
-                m.put("value", entry.getValue());
-                 result.add(m);
+				m.put("name", entry.getKey());
+				m.put("value", entry.getValue());
+				result.add(m);
 			}
-//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
-            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
 
 			return result;
-			
+
 		}else {
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
@@ -152,25 +152,25 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 					Integer count = map.get(p.getName());
 					map.put(p.getName(), count+1);
 				}else {
-					
+
 					map.put(p.getName(), 1);
 				}
 			}
 			List<Map<String,Object>>result = new ArrayList<>();
 			for(Entry<String,Integer> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
-                m.put("name", entry.getKey());
-                m.put("value", entry.getValue());
-                 result.add(m);
+				m.put("name", entry.getKey());
+				m.put("value", entry.getValue());
+				result.add(m);
 			}
-//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
-            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
 			return result;
 		}
-		
-		
+
+
 	}
-	
+
 	//  =================== start new =================================================
 	@Override
 	public List<Map<String,Object>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto) {
@@ -183,7 +183,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
-			
+
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
 				System.out.println("bbbbbbbbbbbbbbbb");
@@ -208,23 +208,23 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 					Integer count = map.get(p.getName());
 					map.put(p.getName(), count+1);
 				}else {
-					
+
 					map.put(p.getName(), 1);
 				}
 			}
-				
+
 			List<Map<String,Object>>result = new ArrayList<>();
 			for(Entry<String,Integer> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
-                m.put("name", entry.getKey());
-                m.put("value", entry.getValue());
-                 result.add(m);
+				m.put("name", entry.getKey());
+				m.put("value", entry.getValue());
+				result.add(m);
 			}
-//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
-            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
 
 			return result;
-			
+
 		}else {
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
@@ -248,32 +248,33 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			for(Project p:project) {
 				if(map.containsKey(p.getName())){
 					long amount=0l;
-//					Integer count = c;
+					//					Integer count = c;
 					if(p.getAmount()!=null) {
 						long a = Long.parseLong(p.getAmount());
 						amount=map.get(p.getName())+a;
 						map.put(p.getName(), amount);
 					}
-//					map.put(p.getName(), count+1);
-					
 				}else {
-					Long amount =  Long.parseLong(p.getAmount());
-					map.put(p.getName(), amount);
+					if(p.getAmount()!=null) {
+
+						Long amount =  Long.parseLong(p.getAmount());
+						map.put(p.getName(), amount);
+					}
 				}
 			}
 			List<Map<String,Object>>result = new ArrayList<>();
 			for(Entry<String,Long> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
-                m.put("name", entry.getKey());
-                m.put("value", entry.getValue());
-                 result.add(m);
+				m.put("name", entry.getKey());
+				m.put("value", entry.getValue()!=null?entry.getValue():0l);
+				result.add(m);
 			}
-//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
-            result=result.stream().sorted(Comparator.comparing(i->(int)i.get("value"))) .collect(Collectors.toList());	
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 			return result;
 		}
-		
-		
+
+
 	}
 
 }

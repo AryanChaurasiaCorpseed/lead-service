@@ -1451,6 +1451,8 @@ public class CompanyFormController {
 						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
 
 						p.setStatus("initiated");
+						p.setAmount(companyForm.getAmount());
+
 						p.setCreateDate(new Date());
 						projectRepository.save(p);
 						List<Project> projectList = unit.getCompanyProject();
@@ -1539,6 +1541,7 @@ public class CompanyFormController {
 						Project p = new Project();
 						p.setName(companyForm.getLead().getName());
 						p.setLead(companyForm.getLead());
+						p.setAmount(companyForm.getAmount());
 
 						//ADDRESS
 						p.setSAddress(companyForm.getSAddress());
@@ -1657,6 +1660,7 @@ public class CompanyFormController {
 					Project p = new Project();
 					p.setName(companyForm.getLead().getName());
 					p.setLead(companyForm.getLead());
+					p.setAmount(companyForm.getAmount());
 
 					//ADDRESS
 					p.setSAddress(companyForm.getSAddress());
