@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
@@ -314,6 +315,46 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			for(Entry<String,Long> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
 				m.put("name", entry.getKey());
+				m.put("value", entry.getValue()!=null?entry.getValue():0l);
+				result.add(m);
+			}
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+			return result;
+              
+		}	
+		return result;
+	}
+	@Override
+	public List<Map<String, Object>> getAllAmountUserWise(GraphFilterDto graphFilterDto) {
+		
+		List<Company>compList = new ArrayList<>();
+      	List<Map<String,Object>>result = new ArrayList<>();
+
+		if(graphFilterDto.getUserId()!=null) {
+			
+			String startDate = graphFilterDto.getToDate();
+			String endDate =graphFilterDto.getFromDate();
+//			p.id ,cp.company_id , p.amount , c.companyName
+			
+               List<Project> project = projectRepository.findAllByInBetweenDate(startDate,endDate);
+              Map<User, Long>map = new HashMap<>();
+              for(Project p:project) {
+            	
+            	long a = p.getAmount()!=null?Long.parseLong((String)p.getAmount()):0l;
+            	User u = p.getAssignee();
+            	Object companyName;
+				if(map.containsKey(u)) {
+            		Long amo =  map.get(u)+a;
+            		map.put(u, amo);
+            	}else {
+            		map.put(u, a);
+            	}
+              }
+			for(Entry<User,Long> entry:map.entrySet()) {
+				Map<String,Object>m=new HashMap<>();
+				m.put("name", entry.getKey().getFullName());
+				m.put("email", entry.getKey().getEmail());
 				m.put("value", entry.getValue()!=null?entry.getValue():0l);
 				result.add(m);
 			}
