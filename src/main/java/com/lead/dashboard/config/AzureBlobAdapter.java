@@ -124,7 +124,7 @@ public class AzureBlobAdapter {
 
         if (file != null && file.getSize() > 0) {
             try {
-                // Implement your own file name logic
+
                 if (prefixName != 0) {
                     fileName = prefixName + file.getOriginalFilename().replace(" ", "_");
                 } else {
@@ -157,9 +157,9 @@ public class AzureBlobAdapter {
             return true;
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
-                return false; // File does not exist
+                return false;
             }
-            throw e; // For other exceptions, rethrow
+            throw e;
         }
     }
 
