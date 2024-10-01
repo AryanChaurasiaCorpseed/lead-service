@@ -24,10 +24,11 @@ public class LeadServiceApplication  implements CommandLineRunner {
 		SpringApplication.run(LeadServiceApplication.class, args);
 	}
 
-	@Bean
+	@Bean  
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
+	
 
      
 
