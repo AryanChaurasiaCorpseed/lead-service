@@ -288,13 +288,41 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 	@Override
 	public List<Map<String, Object>> getAllCompanyAmountGraph(GraphFilterDto graphFilterDto) {
 		List<Company>compList = new ArrayList<>();
+      	List<Map<String,Object>>result = new ArrayList<>();
+
 		if(graphFilterDto.getUserId()!=null) {
 			
-//			String startDate = graphFilterDto.getFromDate();
-//			String endDate =graphFilterDto.getToDate();
-//              Optional<Project> project = projectRepository.findAllInBetweenCreateDate(graphFilterDto.getToDate());
+			String startDate = graphFilterDto.getToDate();
+			String endDate =graphFilterDto.getFromDate();
+//			p.id ,cp.company_id , p.amount , c.companyName
+			
+              List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
+              Map<String, Long>map = new HashMap<>();
+              for(Object[] o:project) {
+            	Long projectId=  (Long)o[0];
+            	Long companyId= (Long)o[1];
+            	String amount  =(String)o[2];
+            	long a = o[2]!=null?Long.parseLong((String)o[2]):0l;
+            	String companyName  =(String)o[3];
+            	if(map.containsKey(companyName)) {
+            		Long amo =  map.get(companyName)+a;
+            		map.put(companyName, amo);
+            	}else {
+            		map.put(companyName, a);
+            	}
+              }
+			for(Entry<String,Long> entry:map.entrySet()) {
+				Map<String,Object>m=new HashMap<>();
+				m.put("name", entry.getKey());
+				m.put("value", entry.getValue()!=null?entry.getValue():0l);
+				result.add(m);
+			}
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?1:((int)i1.get("value"))>((int)i2.get("value"))?-1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+			return result;
+              
 		}	
-		return null;
+		return result;
 	}
 	
 //	compList=companyRepository.findByAssigneeId(graphFilterDto.getUserId());
