@@ -39,7 +39,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 //    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
 //    public final String PROD_PATH="https://demo003.blob.core.windows.net/test3/";
 //    public final String PROD_PATH="https://recordplus.blob.core.windows.net/eeptest/";
-    public final String PROD_PATH="https://corpseeds.blob.core.windows.net/corpseed-erp/";
+    public final String PROD_PATH="https://corpseed-test.s3.ap-south-1.amazonaws.com/corpseed/";
 
 
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
@@ -79,7 +79,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		
 //		String filePath=PROD_PATH+file.getOriginalFilename();
 
-		String s=azureAdapter.uploadv2(file, 0);
+		String s=azureAdapter.uploadAws(file, 0);
 		String filePath=PROD_PATH+s;
 		FileData fileData = new FileData();
 		fileData.setName(s);
@@ -106,7 +106,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 		fileData.setType(file.getContentType());
 		fileData.setFilePath(filePath);
 		fileDataRepository.save(fileData);
-		String s=azureAdapter.upload(file, 0);
+		String s=azureAdapter.uploadAws(file, 0);
 		System.out.println("UPLOAD IMAGE .."+s);
 //		file.transferTo(new File(filePath));
 		if(filePath!=null) {

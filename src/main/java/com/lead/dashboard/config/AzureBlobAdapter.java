@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -85,35 +86,45 @@ public class AzureBlobAdapter {
         return null;
     }
 
-    public boolean deleteFile(String name) {
+//    public boolean deleteFile(String name) {
+//        try {
+//            if(client.blobName(name).buildClient().exists())
+//                client.blobName(name).buildClient().delete();
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//
+//    }
+
+    private boolean deleteFile(String fileName) {
         try {
-            if(client.blobName(name).buildClient().exists())
-                client.blobName(name).buildClient().delete();
+            amazonS3Client.deleteObject(awsBucketName, fileName);
             return true;
-        } catch (Exception e) {
+        } catch (AmazonS3Exception e) {
             e.printStackTrace();
             return false;
         }
-
     }
-    public boolean isFileExist(String name) {
-        boolean flag=false;
-        try {
-            if(client.blobName(name).buildClient().exists())
-                flag=true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return flag;
-    }
+//    public boolean isFileExist(String name) {
+//        boolean flag=false;
+//        try {
+//            if(client.blobName(name).buildClient().exists())
+//                flag=true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return flag;
+//    }
 
 
-    //AWS Upload method
-    public String upload(MultipartFile file, long prefixName) {
+    public String uploadAws(MultipartFile file, long prefixName) {
         String fileName = null;
 
         if (file != null && file.getSize() > 0) {
             try {
+                // Implement your own file name logic
                 if (prefixName != 0) {
                     fileName = prefixName + file.getOriginalFilename().replace(" ", "_");
                 } else {
@@ -125,9 +136,11 @@ public class AzureBlobAdapter {
                     ObjectMetadata metadata = new ObjectMetadata();
                     metadata.setContentLength(file.getSize());
 
+                    // Create the PutObjectRequest with public read access
                     PutObjectRequest putObjectRequest = new PutObjectRequest(awsBucketName, fileName, file.getInputStream(), metadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead);
 
+                    // Upload the file to the S3 bucket with public read access
                     amazonS3Client.putObject(putObjectRequest);
                 }
             } catch (IOException e) {
@@ -136,6 +149,18 @@ public class AzureBlobAdapter {
         }
 
         return fileName;
+    }
+
+    private boolean isFileExist(String fileName) {
+        try {
+            amazonS3Client.getObjectMetadata(awsBucketName, fileName);
+            return true;
+        } catch (AmazonS3Exception e) {
+            if (e.getStatusCode() == 404) {
+                return false; // File does not exist
+            }
+            throw e; // For other exceptions, rethrow
+        }
     }
 
 
