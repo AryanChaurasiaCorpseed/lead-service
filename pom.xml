@@ -255,11 +255,6 @@
 			<version>5.9</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.account</groupId>
-			<artifactId>account-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -27,8 +27,8 @@ public class Slug {
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore
-	@JoinTable(name="lead_child",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="lead_child_id"
+	@JoinTable(name="slug_child",joinColumns = {@JoinColumn(name="slug_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="slug_child_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<Slug>slugList;
 	
@@ -49,6 +49,12 @@ public class Slug {
 	}
 	public void setPlantSetup(boolean isPlantSetup) {
 		this.isPlantSetup = isPlantSetup;
+	}
+	public List<Slug> getSlugList() {
+		return slugList;
+	}
+	public void setSlugList(List<Slug> slugList) {
+		this.slugList = slugList;
 	}
 	
 	
