@@ -1,9 +1,18 @@
 package com.lead.dashboard.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -13,8 +22,15 @@ public class Slug {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;	
+	private String name;		
+	boolean isPlantSetup;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonIgnore
+	@JoinTable(name="lead_child",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="lead_child_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Slug>slugList;
 	
 	public Long getId() {
 		return id;
@@ -28,5 +44,12 @@ public class Slug {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public boolean isPlantSetup() {
+		return isPlantSetup;
+	}
+	public void setPlantSetup(boolean isPlantSetup) {
+		this.isPlantSetup = isPlantSetup;
+	}
+	
 	
 }
