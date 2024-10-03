@@ -22,6 +22,7 @@ import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.dto.EditUrlsDto;
 import com.lead.dashboard.dto.UrlsDto;
 import com.lead.dashboard.repository.SlugRepository;
+import com.lead.dashboard.repository.UrlsManagmentRepo;
 
 @RestController
 @RequestMapping("/leadService/api/v1")
@@ -30,6 +31,9 @@ public class SlugController {
   
 	@Autowired
 	SlugRepository slugRepository;
+	
+	@Autowired
+	UrlsManagmentRepo urlsManagmentRepo;
 	
 	@PostMapping("/slug/createSlug")
 	public 	Slug createSlug(@RequestParam String name) {
@@ -65,6 +69,17 @@ public class SlugController {
 //		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
 		return urls;
 	}
+	
+	@GetMapping("/urls/getTotalSlugCount")
+	public Long getTotalSlugCount() {
+		return slugRepository.count();
+	}
+
+    @GetMapping("/urls/getTotalUrlsCount")
+	public Long fetchTotalUrlsCount() {
+		return urlsManagmentRepo.count();
+	}
+
 	
 
 }
