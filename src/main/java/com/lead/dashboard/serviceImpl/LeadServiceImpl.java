@@ -6,6 +6,7 @@ import com.lead.dashboard.controller.companyController.CompanyFormController;
 import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
+import com.lead.dashboard.dto.ChildLeadDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
@@ -1882,6 +1883,12 @@ public class LeadServiceImpl implements LeadService  {
 			lead=leadCreation(lead,leadDTO);
 		}
 		return lead;
+	}
+	@Override
+	public Boolean addChildLead(ChildLeadDto childLeadDto) {
+		Lead lead = leadRepository.findById(childLeadDto.getLeadId()).get();
+		List<String> serviceList = childLeadDto.getServiceName();
+		return null;
 	}
 
 }

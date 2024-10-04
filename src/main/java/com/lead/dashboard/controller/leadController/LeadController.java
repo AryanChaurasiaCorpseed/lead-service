@@ -4,6 +4,7 @@ import com.lead.dashboard.domain.lead.LeadStatusChangeHistory;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
 import com.lead.dashboard.dto.AutoAssignDto;
+import com.lead.dashboard.dto.ChildLeadDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.dto.LeadDTO;
@@ -383,6 +384,14 @@ public class LeadController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PutMapping(UrlsMapping.ADD_CHILD_LEAD)
+	public Boolean addChildLead(@RequestBody ChildLeadDto childLeadDto)
+	{ 
+		
+		Boolean res=leadservice.addChildLead(childLeadDto);
+		return res;
 	}
 
 }

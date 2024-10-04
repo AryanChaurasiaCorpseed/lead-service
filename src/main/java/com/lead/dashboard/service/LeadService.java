@@ -4,6 +4,7 @@ import com.lead.dashboard.controller.leadController.UpdateLeadOriginal;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.dto.AddProductInLead;
 import com.lead.dashboard.dto.AllLeadFilter;
+import com.lead.dashboard.dto.ChildLeadDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.DeleteMultiLeadDto;
 import com.lead.dashboard.domain.lead.Lead;
@@ -51,4 +52,5 @@ public interface LeadService {
 	Lead createLeadV2New(LeadDTO leadDTO);
 	Integer getAllLeadCount(AllLeadFilter allLeadFilter);
 	Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter);
+	Boolean addChildLead(ChildLeadDto childLeadDto);
 }

@@ -114,6 +114,8 @@ public class SlugController {
 			return slugList.getSlugList();
 		}
 	    
+	 
+	 
 
 	
 

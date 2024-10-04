@@ -25,7 +25,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "erp_leads")
-@Data
+//@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -136,12 +136,22 @@ public class Lead {
 	private boolean  isNotAssignSame;
 	private int count;
 	
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="child_lead",joinColumns = {@JoinColumn(name="lead_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="child_lead_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	@JsonIgnore
+	List<Lead>childLead;
+	
 	private boolean isHelper;
 	
 	@ManyToOne
 	private User helpUser;
 	
 	boolean isQualityWorked;
+	
+	boolean isParent;
+	
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -478,6 +488,23 @@ public class Lead {
 	public void setQualityWorked(boolean isQualityWorked) {
 		this.isQualityWorked = isQualityWorked;
 	}
+
+	public boolean isParent() {
+		return isParent;
+	}
+
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
+	}
+
+	public List<Lead> getChildLead() {
+		return childLead;
+	}
+
+	public void setChildLead(List<Lead> childLead) {
+		this.childLead = childLead;
+	}
+	
 	
 	
 	
