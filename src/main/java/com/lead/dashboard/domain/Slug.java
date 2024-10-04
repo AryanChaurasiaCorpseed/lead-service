@@ -50,6 +50,14 @@ public class Slug {
 	public void setPlantSetup(boolean isPlantSetup) {
 		this.isPlantSetup = isPlantSetup;
 	}
+	public List<Slug> getSlugList() {
+		return slugList;
+	}
+	public void setSlugList(List<Slug> slugList) {
+		this.slugList = slugList;
+	}
+	
+	
 	
 	
 }
