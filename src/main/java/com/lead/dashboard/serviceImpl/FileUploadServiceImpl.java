@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.util.NativeImageUtil;
+import com.lead.dashboard.config.AwsBlobAdapter;
 import com.lead.dashboard.config.AzureBlobAdapter;
 import com.lead.dashboard.domain.lead.FileData;
 import com.lead.dashboard.repository.FileDataRepository;
@@ -32,6 +33,9 @@ public class FileUploadServiceImpl implements FileUploadService{
     private AzureBlobAdapter azureAdapter;
 	
 	@Autowired
+	AwsBlobAdapter awsBlobAdapter;
+	
+	@Autowired
 	FileDataRepository fileDataRepository;
 	
 //	public String UPLOAD_DIR="/Users/aryanchaurasia/Documents/Corpseed-img";
@@ -39,8 +43,8 @@ public class FileUploadServiceImpl implements FileUploadService{
 //    public final String FOLDER_PATH="C:/Users/user/Documents/images/";
 //    public final String PROD_PATH="https://demo003.blob.core.windows.net/test3/";
 //    public final String PROD_PATH="https://recordplus.blob.core.windows.net/eeptest/";
-    public final String PROD_PATH="https://corpseeds.blob.core.windows.net/corpseed-erp/";
-
+//    public final String PROD_PATH="https://corpseeds.blob.core.windows.net/corpseed-erp/";
+    public final String PROD_PATH= "https://corpseed-test.s3.ap-south-1.amazonaws.com/";
 
 	 public boolean uploadFilesData( MultipartFile multipartFile) {
 		 
@@ -73,13 +77,16 @@ public class FileUploadServiceImpl implements FileUploadService{
 		        return filenames;		
 	}
 
+	
+	
 
 	
 	public String uploadImageToFileData(MultipartFile file) throws IllegalStateException, IOException {
 		
 //		String filePath=PROD_PATH+file.getOriginalFilename();
 
-		String s=azureAdapter.uploadv2(file, 0);
+//		String s=azureAdapter.uploadv2(file, 0);
+		String s =awsBlobAdapter.uploadAws(file, 0);
 		String filePath=PROD_PATH+s;
 		FileData fileData = new FileData();
 		fileData.setName(s);

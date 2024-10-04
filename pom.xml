@@ -144,7 +144,7 @@
 			<artifactId>spring-cloud-azure-starter-storage-blob</artifactId>
 			<version>4.0.0</version>
 			<exclusions>
-				<exclusion>
+			<exclusion>
 					<groupId>io.projectreactor</groupId>
 					<artifactId>reactor-core</artifactId>
 				</exclusion>
