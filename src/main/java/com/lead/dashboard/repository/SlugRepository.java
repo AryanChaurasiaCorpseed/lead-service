@@ -19,4 +19,7 @@ public interface SlugRepository extends JpaRepository<Slug, Long> {
 	@Query(value = "SELECT s.id FROM slug s WHERE s.name =:name limit 1", nativeQuery = true)
 	Long findIdByName(String name);
 
+	@Query(value = "SELECT * FROM slug s WHERE s.name =:name and is_plant_setup =:b limit 1", nativeQuery = true)
+	Slug findByNameAndIsPlantSetUp(String name, boolean b);
+
 }

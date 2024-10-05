@@ -120,12 +120,17 @@ public class SlugController {
 	}
 	
 	 @GetMapping("/urls/getSlugChild")
-		public List<Slug> fetchTotalUrlsCount(@RequestParam Long slugId) {
+		public List<Slug> getSlugChild(@RequestParam Long slugId) {
 			Slug slugList = slugRepository.findById(slugId).get();
 			return slugList.getSlugList();
 		}
 	    
-	 
+	 @GetMapping("/urls/getSlugChildByName")
+		public List<Slug> getSlugChildByName(@RequestParam String name) {
+			Slug slugList = slugRepository.findByNameAndIsPlantSetUp(name,true);
+			return slugList.getSlugList();
+		}
+	    
 	 
 
 	
