@@ -99,12 +99,23 @@ public class SlugController {
 	@PutMapping("/slug/createPlantSetUp")
 	public 	Boolean createPlantSetUp(@RequestBody  CreatePlantSetup createPlantSetup) {
 		Boolean flag=false;
+		if(createPlantSetup.isFlag()) {
 		 Slug slug = slugRepository.findById(createPlantSetup.getId()).get();
 		 List<Slug> slugList = slugRepository.findAllByIdIn(createPlantSetup.getSlugId());
 		 slug.setSlugList(slugList);
 		 slug.setPlantSetup(true);
 		 slugRepository.save(slug);
 		 flag=true;
+
+		}else {
+			 Slug slug = slugRepository.findById(createPlantSetup.getId()).get();
+//			 List<Slug> slugList = slugRepository.findAllByIdIn(createPlantSetup.getSlugId());
+			 slug.setSlugList(null);
+			 slug.setPlantSetup(false);
+			 slugRepository.save(slug);
+			 flag=true;
+
+		}
 		 return flag;		 
 	}
 	
