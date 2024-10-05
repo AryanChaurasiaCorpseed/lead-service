@@ -6,6 +6,7 @@ public class ChildLeadDto {
 	
 	Long leadId;
 	List<String>serviceName;
+	
 	public Long getLeadId() {
 		return leadId;
 	}

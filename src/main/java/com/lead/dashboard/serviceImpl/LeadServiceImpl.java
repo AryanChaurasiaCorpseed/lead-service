@@ -828,6 +828,8 @@ public class LeadServiceImpl implements LeadService  {
 					listOfMap.add(clientMap);
 				}
 				map.put("serviceDetails",serviceList);
+				
+				map.put("childLead",lead.getChildLead());
 
 				map.put("clients", listOfMap);
 			}
@@ -1886,9 +1888,35 @@ public class LeadServiceImpl implements LeadService  {
 	}
 	@Override
 	public Boolean addChildLead(ChildLeadDto childLeadDto) {
+		Boolean flag=false;
 		Lead lead = leadRepository.findById(childLeadDto.getLeadId()).get();
 		List<String> serviceList = childLeadDto.getServiceName();
-		return null;
+		List<Lead>leadList = new ArrayList<>();
+		for(String s:serviceList) {
+			Lead l=new Lead();
+			l.setLeadName(s);
+			l.setAuto(false);
+			l.setAssignee(lead.getAssignee());
+			l.setOriginalName(s);
+			Long slugId = slugRepository.findIdByName(s);
+			String urlsName=urlsManagmentRepo.findNameBySlugId(slugId);
+			if(urlsName!=null) {
+				lead.setQualityWorked(true);
+				lead.setOriginalName(urlsName);
+			}else {
+				lead.setOriginalName("NA");
+
+			}
+//			l.setClients(lead.getClients());
+			leadRepository.save(l);
+			leadList.add(l);
+		}
+		List<Lead> lList = lead.getChildLead();
+		lList.addAll(leadList);
+		lead.setChildLead(lList);
+		leadRepository.save(lead);
+		flag=true;
+		return flag;
 	}
 
 }
