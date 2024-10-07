@@ -1072,34 +1072,41 @@ public class CompanyFormController {
 	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
-		List<Map<String,Object>>result = new ArrayList<>();
+ 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		String dep = user.get()!=null?user.get().getDepartment():"NA";
 		List<CompanyForm> compList  = new ArrayList<>();
+		int total=0;
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
 			//			compList = companyFormRepo.findAllByStatus(status);
 
-			Pageable pageable = PageRequest.of(page, size);
+			Pageable pageable = PageRequest.of(page-1, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
 			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
 
 
 		}else if("Accounts".equals(dep)) {
-			Pageable pageable = PageRequest.of(page, size);
+			Pageable pageable = PageRequest.of(page-1, size);
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
 			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
 		}
 
 		else {
-			Pageable pageable = PageRequest.of(page, size);			
+			Pageable pageable = PageRequest.of(page-1, size);			
 			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
 			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatusAndassigneeId(status,userId);
 			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
 		}
 		//		
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
+			map.put("totalLeadFor", total);
 			map.put("id", c.getId());
 			map.put("unitName", c.getUnitName());
 			//			map.put("primaryAddress", c.get);

@@ -21,12 +21,18 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	@Query(value = "SELECT * FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
 	List<Company> findAllByAssigneeIdIn(List<Long> userList);
 	
+	@Query(value = "SELECT count(id) FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
+	int findAllCountByAssigneeIdIn(List<Long> userList);
 	
 	@Query(value = "SELECT * FROM company c where c.assignee_id in(:userList)", nativeQuery = true)
 	Page<Company> findAllByAssigneeIdIn(List<Long> userList,Pageable pageable);
 	
 	@Query(value = "SELECT * FROM company c where c.assignee_id=:userId", nativeQuery = true)
 	Page<Company> findByAssigneeId(Long userId,Pageable pageable);
+	
+	@Query(value = "SELECT count(id) FROM company c where c.assignee_id=:userId", nativeQuery = true)
+	int findCountByAssigneeId(Long userId);
+
 
 	@Query(value = "SELECT * FROM company c where c.assignee_id=:userId", nativeQuery = true)
 	List<Company> findByAssigneeId(Long userId);

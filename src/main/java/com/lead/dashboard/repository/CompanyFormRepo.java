@@ -22,6 +22,8 @@ public interface CompanyFormRepo  extends JpaRepository<CompanyForm, Long> {
 	@Query(value = "SELECT * FROM company_form WHERE status=:status", nativeQuery = true)
 	Page<CompanyForm> findAllByStatus(String status,Pageable pageable);
 
+	@Query(value = "SELECT count(id) FROM company_form WHERE status=:status", nativeQuery = true)
+	int findAllCountByStatus(String status);
 	
 	@Query(value = "SELECT * FROM company_form WHERE status=:status and assignee_id=:assigneeId", nativeQuery = true)
 	List<CompanyForm> findAllByStatusAndassigneeId(String status,Long assigneeId);
@@ -34,6 +36,9 @@ public interface CompanyFormRepo  extends JpaRepository<CompanyForm, Long> {
 
 	@Query(value = "SELECT comment FROM company_form WHERE id=:companyFormId", nativeQuery = true)
 	String findCommentById(Long companyFormId);
+	
+	@Query(value = "SELECT count(*) FROM company_form WHERE status=:status and assignee_id=:assigneeId", nativeQuery = true)
+	int findAllCountByStatusAndassigneeId(String status,Long assigneeId);
 
 
 }

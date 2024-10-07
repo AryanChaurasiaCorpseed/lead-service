@@ -183,10 +183,13 @@ public class CompanyServiceImpl implements CompanyService {
 		User user = userOp.get();
 		Pageable pageable = PageRequest.of(page, size);
 		List<String> roleList = user.getRole();
+		int total=0;
 		if(filterUserId==null||filterUserId==0) {
 
 			if(roleList.contains("ADMIN")) {
 				companyList=companyRepository.findAll(pageable).getContent();
+				total=companyRepository.findAll().size();
+
 			}else {
 				if(user.isManager()) {
 					List<Long>userList = new ArrayList<>();
@@ -194,10 +197,12 @@ public class CompanyServiceImpl implements CompanyService {
 					List<Long> uList = userServiceImpl.getUserManager(userId);
 					userList.addAll(uList);
 					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+					total =companyRepository.findAllCountByAssigneeIdIn(userList);
 
 				}else {
 
 					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+					total =companyRepository.findCountByAssigneeId(userId);
 
 				}
 			}
@@ -206,6 +211,8 @@ public class CompanyServiceImpl implements CompanyService {
 				List<Long>userIds = new ArrayList<>();
 				userIds.add(filterUserId);
 				companyList =companyRepository.findAllByAssigneeIdIn(userIds,pageable).getContent();
+				total =companyRepository.findAllCountByAssigneeIdIn(userIds);
+
 			}else {
 				if(user.isManager()) {
 					List<Long>userList = new ArrayList<>();
@@ -213,18 +220,22 @@ public class CompanyServiceImpl implements CompanyService {
 					List<Long> uList = userServiceImpl.getUserManager(userId);
 					userList.addAll(uList);
 					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+					total =companyRepository.findAllCountByAssigneeIdIn(userList);
+
 
 				}else {
 
 					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+					total =companyRepository.findCountByAssigneeId(userId);
 
 				}
 			}
 		}
 		List<Map<String,Object>>res = new ArrayList<>();
-		System.out.println("test .. . . ");
 		for(Company c:companyList) {
+		
 			Map<String,Object>result = new HashMap<>();
+			result.put("total", total);
 
 			result.put("companyId", c.getId());
 			result.put("companyName", c.getName());
@@ -273,6 +284,7 @@ public class CompanyServiceImpl implements CompanyService {
 			res.add(result);
 
 		}
+		
 		return res;
 	}
 
