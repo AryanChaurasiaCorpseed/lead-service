@@ -32,6 +32,7 @@ import com.lead.dashboard.domain.CompanyForm;
 import com.lead.dashboard.domain.LeadHistory;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.Slug;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -341,7 +342,7 @@ public class LeadServiceImpl implements LeadService  {
 		//		}else {
 		//			lead.setLeadName(leadDTO.getLeadName());
 		//		}
-		
+
 		if ("Missed OTP".equals(leadDTO.getLeadName()) && leadDTO.getUrls() != null) {
 			String urls = leadDTO.getUrls();
 			String extractedSlug = extractSlugFromUrl(urls);
@@ -357,14 +358,15 @@ public class LeadServiceImpl implements LeadService  {
 		System.out.println("Aryan12........");
 		System.out.println(leadDTO.getSource());
 		if("Corpseed Website".equals(leadDTO.getSource())) {
-			Long sId=slugRepository.findIdByName(leadDTO.getLeadName());
-			System.out.println("sId....."+sId);
-			String urlsName=urlsManagmentRepo.findNameBySlugId(sId);
-			System.out.println(urlsName+".........................Aryan chaurasia");
-			lead.setOriginalName(urlsName);
-			System.out.println(urlsName+".........................Aryan ");
-
-
+			Slug slug = slugRepository.findByName(leadDTO.getLeadName());
+			if(slug!=null) {
+				Long sId=slug.getId();
+				System.out.println("sId....."+sId);
+				String urlsName=urlsManagmentRepo.findNameBySlugId(sId);
+				System.out.println(urlsName+".........................Aryan chaurasia");
+				lead.setOriginalName(urlsName);
+				lead.setParent(slug.isPlantSetup());
+			}
 		}
 		//		lead.setOriginalName(leadDTO.getLeadName());
 		lead.setName(leadDTO.getName());
@@ -543,7 +545,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 	}
-	
+
 	public Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter) {
 		String toDate=allLeadFilter.getToDate();
 		String fromDate=allLeadFilter.getFromDate();
@@ -810,6 +812,8 @@ public class LeadServiceImpl implements LeadService  {
 				map.put("count", lead.getCount());
 				map.put("source", lead.getSource());
 				map.put("urls", lead.getUrls());
+				map.put("parent", lead.isParent());
+
 
 				//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
 				List<Client> clientList = lead.getClients();
@@ -828,7 +832,7 @@ public class LeadServiceImpl implements LeadService  {
 					listOfMap.add(clientMap);
 				}
 				map.put("serviceDetails",serviceList);
-				
+
 				map.put("childLead",lead.getChildLead());
 
 				map.put("clients", listOfMap);
@@ -1193,7 +1197,7 @@ public class LeadServiceImpl implements LeadService  {
 		return leadList;
 
 	}
-	
+
 	public Integer getAllLeadCount(AllLeadFilter allLeadFilter) {
 
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
@@ -1731,7 +1735,7 @@ public class LeadServiceImpl implements LeadService  {
 			if (user.getRole().contains("ADMIN")) {
 				if (isNumeric(searchParam)) {
 					searchParam = searchParam.replaceAll("[^\\d]", "");
-				 return leadRepository.findAllByMobileNo(searchParam);
+					return leadRepository.findAllByMobileNo(searchParam);
 				} else if (isEmail(searchParam)) {
 					return leadRepository.findAllByEmail(searchParam);
 				} else {
@@ -1791,7 +1795,7 @@ public class LeadServiceImpl implements LeadService  {
 		if(leadName!=null && leadName.equals("NA")) {
 			leadName=null;
 		}
-		
+
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
@@ -1907,7 +1911,7 @@ public class LeadServiceImpl implements LeadService  {
 				lead.setOriginalName("NA");
 
 			}
-//			l.setClients(lead.getClients());
+			//			l.setClients(lead.getClients());
 			leadRepository.save(l);
 			leadList.add(l);
 		}
