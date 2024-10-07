@@ -65,7 +65,7 @@ public class UrlsManagmentController {
 	@GetMapping("/urls/getUrls")
 	public 	List<UrlsManagment> getUrls(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
 		
-		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+		PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize);
      	Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
      	List<UrlsManagment>urlsList=urls.getContent();
 		return urlsList;
