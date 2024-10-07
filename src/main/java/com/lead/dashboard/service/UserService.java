@@ -5,6 +5,7 @@ import com.lead.dashboard.domain.CreateUserDto;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.NewSignupRequest;
+import com.lead.dashboard.dto.ProcurementUserDTO;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 
@@ -42,5 +43,6 @@ public interface UserService
 	List<String> getAllEmails();
 	List<User> checkEmailExist(String email);
 	List<User> getUserManagerByDepartment(Long departmentId);
+	List<ProcurementUserDTO> getUserOfProcurement(Long userId);
 
 }

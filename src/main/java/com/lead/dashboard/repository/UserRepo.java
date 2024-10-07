@@ -75,6 +75,9 @@ public interface UserRepo extends JpaRepository<User,Long>
 	List<User> findByRoleAndIsNotDeleted(@Param("roleName") String roleName);
 
 
+	@Query(value = "SELECT * FROM user u WHERE u.department = 'Procurement' and u.is_deleted =false", nativeQuery = true)
+	List<User> findAllProcurementUsers();
+
 
 
 
