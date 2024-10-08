@@ -785,6 +785,7 @@ public class LeadServiceImpl implements LeadService  {
 
 	public Map<String,Object> getSingleLeadDataV2(Long leadId,Long currentUserId) {
 		// TODO Auto-generated method stub
+		System.out.println("test..");
 		Optional<Lead> opLead = leadRepository.findById(leadId);
 		User user = userRepo.findById(currentUserId).get();
 		boolean flag=false;
@@ -813,6 +814,22 @@ public class LeadServiceImpl implements LeadService  {
 				map.put("source", lead.getSource());
 				map.put("urls", lead.getUrls());
 				map.put("parent", lead.isParent());
+				List<Map<String,Object>> child = new ArrayList<>();
+
+				if(lead.isParent()) {
+					List<Lead> lList = lead.getChildLead();
+					for(Lead l:lList) {
+						Map<String,Object>r = new HashMap<>();
+						r.put("childId",l.getId());
+						r.put("childLeadName",l.getLeadName());
+						User assignee = lead.getAssignee();
+						r.put("childAssigneeId", assignee!=null?assignee.getId():null);
+						r.put("childAssigneeName", assignee!=null?assignee.getFullName():null);
+						r.put("childAssigneeEmail", assignee!=null?assignee.getEmail():null);
+						child.add(r);
+					}
+				}
+				map.put("childLead", child); 
 
 
 				//			map.put(null, lead.getClients().stream().map(i->i.g).collect(Collectors.toList()));
@@ -833,7 +850,7 @@ public class LeadServiceImpl implements LeadService  {
 				}
 				map.put("serviceDetails",serviceList);
 
-				map.put("childLead",lead.getChildLead());
+//				map.put("childLead",lead.getChildLead());
 
 				map.put("clients", listOfMap);
 			}
