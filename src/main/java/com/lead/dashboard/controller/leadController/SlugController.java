@@ -60,7 +60,7 @@ public class SlugController {
 	@GetMapping("/slug/getSlug")
 	public 	List<Map<String,Object>> getSlug(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
 
-		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+		PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize);
 	        //pass it to repos
 	        //pagingUser.hasContent(); -- to check pages are there or not
 		Page<Slug> urlsPage = slugRepository.findAll(pageRequest);
