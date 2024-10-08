@@ -4,6 +4,7 @@ import com.lead.dashboard.domain.CreateUserDto;
 import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.dto.NewSignupRequest;
+import com.lead.dashboard.dto.ProcurementUserDTO;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.service.UserService;
@@ -270,4 +271,17 @@ public class UserController {
 		List<User> allUser=userService.getUserManagerByDepartment(departmentId);
 		return allUser;
 	}
+	
+	@GetMapping("api/v1/users/fetchProcurementUsers")
+	public ResponseEntity<List<ProcurementUserDTO>> getUserOfProcurement(@RequestParam Long userId) {
+		List<ProcurementUserDTO> userOfProcurement = userService.getUserOfProcurement(userId);
+		if (!userOfProcurement.isEmpty()) {
+			return new ResponseEntity<>(userOfProcurement, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	
 }

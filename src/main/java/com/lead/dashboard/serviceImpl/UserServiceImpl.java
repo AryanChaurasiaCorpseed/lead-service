@@ -8,6 +8,7 @@ import com.lead.dashboard.domain.UpdateUserByHr;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.dto.NewSignupRequest;
+import com.lead.dashboard.dto.ProcurementUserDTO;
 import com.lead.dashboard.dto.UpdateUser;
 import com.lead.dashboard.dto.UserDto;
 import com.lead.dashboard.repository.DepartmentRepo;
@@ -25,6 +26,7 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -709,7 +711,31 @@ public class UserServiceImpl implements UserService {
 		return uList;
 	}
 
+	@Override
+	public List<ProcurementUserDTO> getUserOfProcurement(Long userId) {
+		Optional<User> userDetails = userRepo.findById(userId);
 
+		if (userDetails.isPresent()) {
+			User user = userDetails.get();
+
+
+			List<User> users;
+			String designation = user.getDesignation();
+			if (user.getRole().contains("ADMIN") ||	designation.equalsIgnoreCase("Procurement Manager")) {
+
+				users = userRepo.findAllProcurementUsers();
+			} else {
+				users = userRepo.findProcurementManager();
+			}
+
+			return users.stream()
+					.map(u -> new ProcurementUserDTO(u.getId(), u.getFullName(),
+							u.getDepartment(), u.getDesignation()))
+					.collect(Collectors.toList());
+		}
+
+		return Collections.emptyList();
+	}
 
 
 
