@@ -50,6 +50,58 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
      @Query(value = "SELECT * FROM project p where p.create_date BETWEEN :d1 AND :d2", nativeQuery = true)
    	 List<Project> findAllByInBetweenDate(String d1,String d2);
   	 
+     //test
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE p.assignee_id =:userId and name =:projectName and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	 List<Object[]> findIdAndNameByAssigneeIdAndProjectNameAndInBetweenDate(Long userId, String projectName,String d1,String d2);
+	 
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE p.assignee_id =:userId and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Object[]> findIdAndNameByAssigneeIdAndInBetweenDate(Long userId,String d1,String d2);
+	
+    @Query(value = "SELECT  p.id,p.name FROM project p WHERE p.name =:projectName and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	 List<Object[]> findIdAndNameByProjectNameAndInBetweenDate(String projectName,String d1,String d2);
+	 
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+  	 List<Object[]> findIdAndNameByInBetweenDate(String d1,String d2);
+  	 
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE p.assignee_id =:userId and name =:projectName", nativeQuery = true)
+	 List<Object[]> findIdAndNameByAssigneeIdAndProjectName(Long userId, String projectName);
+     
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE p.assignee_id =:userId", nativeQuery = true)
+	 List<Object[]> findIdAndNameByAssigneeId(Long userId);
+     
+     @Query(value = "SELECT p.id,p.name FROM project p WHERE p.name =:projectName", nativeQuery = true)
+	 List<Object[]> findIdAndNameByProjectName(String projectName);
+	 
+     @Query(value = "SELECT id,name FROM project", nativeQuery = true)
+	 List<Object[]> findIdAndName();
+	 
+	 //amount
+	 @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE p.assignee_id =:userId and name =:projectName and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmountByAssigneeIdAndProjectNameAndInBetweenDate(Long userId, String projectName,String d1,String d2);
+	 
+     @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE p.assignee_id =:userId and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	List<Object[]> findIdAndNameAndAmountByAssigneeIdAndInBetweenDate(Long userId,String d1,String d2);
+	
+    @Query(value = "SELECT  p.id,p.name,p.amount FROM project p WHERE p.name =:projectName and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmountByProjectNameAndInBetweenDate(String projectName,String d1,String d2);
+	 
+     @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+  	 List<Object[]> findIdAndNameAndAmountByInBetweenDate(String d1,String d2);
+  	 
+     @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE p.assignee_id =:userId and name =:projectName", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmountByAssigneeIdAndProjectName(Long userId, String projectName);
+     
+     @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE p.assignee_id =:userId", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmountByAssigneeId(Long userId);
+     
+     @Query(value = "SELECT p.id,p.name,p.amount FROM project p WHERE p.name =:projectName", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmountByProjectName(String projectName);
+	 
+     @Query(value = "SELECT id,name,amount FROM project", nativeQuery = true)
+	 List<Object[]> findIdAndNameAndAmount();
+	 
+	 
+	 
      
      
 }

@@ -44,14 +44,14 @@ public class SalesDashboardController {
 	@PostMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH)
 	public ResponseEntity <List<Map<String,Object>>> getAllProjectGraph(GraphFilterDto graphFilterDto)
 	{
-		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraph(graphFilterDto);
+		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraphV2(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	
 	@PostMapping(UrlsMapping.GET_ALL_PROJECT_GRAPH_AMOUNT)
 	public ResponseEntity <List<Map<String,Object>>> getAllProjectGraphAmount(GraphFilterDto graphFilterDto)
 	{
-		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraphAmount(graphFilterDto);
+		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectGraphAmountV2(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	

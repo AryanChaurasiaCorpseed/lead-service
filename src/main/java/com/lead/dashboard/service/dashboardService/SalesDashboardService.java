@@ -26,5 +26,9 @@ public interface SalesDashboardService {
 
 	List<Map<String, Object>> getAllAmountUserWise(GraphFilterDto graphFilterDto);
 
+	List<Map<String, Object>> getAllProjectGraphV2(GraphFilterDto graphFilterDto);
+
+	List<Map<String, Object>> getAllProjectGraphAmountV2(GraphFilterDto graphFilterDto);
+
 
 }
