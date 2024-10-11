@@ -31,6 +31,7 @@ import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.dto.CreateFormDto;
 import com.lead.dashboard.dto.UpdateCompanyFormDto;
+import com.lead.dashboard.dto.UpdateMultiFormDto;
 import com.lead.dashboard.repository.CompanyFormRepo;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.ContactRepo;
@@ -1452,6 +1453,18 @@ public class CompanyFormController {
 		companyFormRepo.save(companyForm);
 		return companyForm;
 	}
+	
+	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_FORM_STATUS)
+	public Boolean updateMultiCompanyFormStatus(UpdateMultiFormDto updateMultiFormDto){
+		Boolean flag=false;
+		for(Long fId:updateMultiFormDto.getId()) {
+			AccountApprovalOnInvoiceV3(updateMultiFormDto.getStatus(),fId,updateMultiFormDto.getCurrentUserId());
+		flag=true;
+		}
+		return flag;
+	}
+	
+	
 
 
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
