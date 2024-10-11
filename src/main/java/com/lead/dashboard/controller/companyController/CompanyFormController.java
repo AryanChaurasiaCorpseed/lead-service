@@ -1154,6 +1154,103 @@ public class CompanyFormController {
 	}
 
 
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
+	public Map<String,List<Map<String,Object>>>  getAllCompanyFormByStatusAndCompany(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+// 		List<Map<String,Object>>result = new ArrayList<>();
+		//		List<CompanyForm> compList = companyFormRepo.findAll();
+		Optional<User> user = userRepo.findById(userId);
+		String dep = user.get()!=null?user.get().getDepartment():"NA";
+		List<CompanyForm> compList  = new ArrayList<>();
+		int total=0;
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+			//			compList = companyFormRepo.findAllByStatus(status);
+
+			Pageable pageable = PageRequest.of(page-1, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
+
+
+		}else if("Accounts".equals(dep)) {
+			Pageable pageable = PageRequest.of(page-1, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
+		}
+
+		else {
+			Pageable pageable = PageRequest.of(page-1, size);			
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatusAndassigneeId(status,userId);
+			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
+		}
+		//
+		Map<String,List<Map<String,Object>>>res = new HashMap<>();
+
+		for(CompanyForm c:compList) {
+			Map<String,Object>map = new HashMap<>();
+//			Map<String,Object>map = new HashMap<>();
+			map.put("totalLeadFor", total);
+			map.put("id", c.getId());
+			map.put("unitName", c.getUnitName());
+			//			map.put("primaryAddress", c.get);
+			map.put("companyName", c.getCompanyName());
+			map.put("lead", c.getLead());
+			map.put("gstNo", c.getGstNo());
+			map.put("gstType", c.getGstType());
+			map.put("gstDocuments", c.getGstDocuments());
+			map.put("companyAge", c.getCompanyAge());
+			map.put("status", c.getStatus());
+			map.put("updatedBy", c.getUpdatedBy());
+			map.put("contactName", c.getContactName());
+			map.put("contactNo", c.getContactNo());
+			map.put("contactEmails", c.getContactEmails());
+			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
+			map.put("primaryDesignation", c.getPrimaryDesignation());
+
+			map.put("comment", c.getComment());
+			map.put("amount", c.getAmount());
+			map.put("secondaryContactName", c.getSContactName());
+			map.put("secondaryContactNo", c.getSContactNo());
+			map.put("secondaryContactEmails", c.getSContactEmails());
+			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
+			map.put("secondaryDesignation", c.getSecondaryDesignation());
+
+			map.put("panNo", c.getPanNo());
+
+			map.put("city", c.getCity());
+			map.put("address", c.getAddress());
+			map.put("state", c.getState());
+			map.put("primaryPinCode", c.getPrimaryPinCode());
+			map.put("country", c.getCountry());
+
+			map.put("sCity", c.getSCity());
+			map.put("sAddress", c.getSAddress());
+			map.put("sState", c.getSState());
+			map.put("secondaryPinCode", c.getSecondaryPinCode());
+			map.put("sCountry", c.getSCountry());
+
+			if(res.containsKey(c.getCompanyName())) {
+				    List<Map<String, Object>> cList = res.get(c.getCompanyName());
+				    cList.add(map);
+				   res.put(c.getCompanyName(), cList);
+			}else {
+				List<Map<String, Object>> cList=new ArrayList<>();
+				cList.add(map);
+				res.put(c.getCompanyName(), cList);
+
+			}
+
+		}
+	
+		return res;
+	}
+
 
 
 
