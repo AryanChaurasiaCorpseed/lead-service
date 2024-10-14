@@ -3,19 +3,13 @@ package com.lead.dashboard.serviceImpl.VendorServicesImpl;
 import com.lead.dashboard.domain.Designation;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
-import com.lead.dashboard.domain.vendor.Vendor;
-import com.lead.dashboard.domain.vendor.VendorCategory;
-import com.lead.dashboard.domain.vendor.VendorSubCategory;
-import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
+import com.lead.dashboard.domain.vendor.*;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.*;
 import com.lead.dashboard.repository.*;
-import com.lead.dashboard.repository.VendorRepository.VendorCategoryRepo;
-import com.lead.dashboard.repository.VendorRepository.VendorHistoryRepository;
-import com.lead.dashboard.repository.VendorRepository.VendorRepository;
-import com.lead.dashboard.repository.VendorRepository.VendorSubCategoryRepository;
+import com.lead.dashboard.repository.VendorRepository.*;
 import com.lead.dashboard.service.vendorServices.VendorService;
 import com.lead.dashboard.serviceImpl.FileUploadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
@@ -62,8 +56,12 @@ public class VendorServiceImpl implements VendorService {
     @Autowired
     private VendorCategoryRepo vendorCategoryRepository;
 
+    @Autowired
+    private UserVendorRequestCountRepository userVendorRequestCountRepository;
+
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
+
         Optional<User> userDetails = userRepository.findById(userId);
         if (userDetails.isPresent()) {
             Vendor vendor = new Vendor();
@@ -75,12 +73,12 @@ public class VendorServiceImpl implements VendorService {
                     .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
 
             List<User> alignedUserListForSubCategory = vendorSubCategory.getAssignedUsers();
-
             User assignedUser;
 
-            if (alignedUserListForSubCategory.isEmpty()) {
+            if (alignedUserListForSubCategory==null && alignedUserListForSubCategory.isEmpty()) {
                 assignedUser = assignAdminUser();
             } else {
+
                 int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % alignedUserListForSubCategory.size();
                 assignedUser = alignedUserListForSubCategory.get(nextUserIndex);
 
@@ -97,7 +95,6 @@ public class VendorServiceImpl implements VendorService {
             vendor.setSalesAttachmentReferencePath(vendorRequest.getSaleTeamAttachmentReference());
             vendor.setVendorCategory(vendorCategory);
             vendor.setVendorSubCategory(vendorSubCategory);
-
             vendor.setDisplay(true);
             vendor.setAddedBy(userDetails.get().getId());
             vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
@@ -110,6 +107,24 @@ public class VendorServiceImpl implements VendorService {
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
 
             vendor = vendorRepository.save(vendor);
+
+            Optional<UserVendorRequestCount> userVendorRequestCountOpt = userVendorRequestCountRepository
+                    .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
+
+            UserVendorRequestCount userVendorRequestCount;
+            if (userVendorRequestCountOpt!=null) {
+                userVendorRequestCount = userVendorRequestCountOpt.get();
+                userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
+            } else {
+                userVendorRequestCount = new UserVendorRequestCount();
+                userVendorRequestCount.setUser(assignedUser);
+                userVendorRequestCount.setVendorCategory(vendorCategory);
+                userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
+                userVendorRequestCount.setRequestCount(1);
+                userVendorRequestCount.setCreatedAt(new Date());
+            }
+            userVendorRequestCount.setUpdatedAt(new Date());
+            userVendorRequestCountRepository.save(userVendorRequestCount);
 
             VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
             vendorUpdate.setVendor(vendor);
@@ -135,6 +150,8 @@ public class VendorServiceImpl implements VendorService {
         }
     }
 
+
+
     private User assignAdminUser() {
         List<User> adminUsers = userRepository.findByRoleAndIsNotDeleted("ADMIN");
         if (!adminUsers.isEmpty()) {
@@ -157,24 +174,19 @@ public class VendorServiceImpl implements VendorService {
         List<Vendor> vendors;
 
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
-        boolean isProcurementManager = userDetails.getDesignation().equalsIgnoreCase("Procurement Manager");
         boolean isSalesDepartment = userDetails.getDepartment().equalsIgnoreCase("Sales");
 
-        if (isAdmin || isProcurementManager) {
-            // Fetch all vendor requests for admin or procurement manager
+        if (isAdmin) {
             vendors = vendorRepository.findAllVendorRequests(leadId);
         } else if (isSalesDepartment) {
-            // Fetch vendor requests for users in the Sales department
             vendors = vendorRepository.findVendorRequestsBySalesUserAndLead(userId, leadId);
         } else {
-            // Fetch vendor requests assigned to the user
             vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
 
-            // Fetch update history for each vendor
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
                     .map(VendorUpdateHistoryResponse::new)
@@ -189,11 +201,9 @@ public class VendorServiceImpl implements VendorService {
 
 
     public List<VendorResponse> updateVendorDetails(List<Long> vendorIdList, Long updatedById, Long assigneeToId) {
-        // Fetch the user who updated the vendor (updatedById)
         User updatedByUser = userRepository.findById(updatedById)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + updatedById));
 
-        // Fetch the assignee user (assigneeToId)
         User assignedToUser = userRepository.findById(assigneeToId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + assigneeToId));
 
@@ -204,18 +214,14 @@ public class VendorServiceImpl implements VendorService {
             Vendor vendor = vendorRepository.findById(vendorId)
                     .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-            // Set the updatedBy and assignedUser fields
             vendor.setUpdatedBy(updatedById);
             vendor.setAssignedUser(assignedToUser);
-            // Update the updated date
             vendor.setUpdatedDate(new Date());
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
 
-            // Save the updated vendor
             vendorRepository.save(vendor);
 
-            // Add the response with updated vendor data
             responses.add(new VendorResponse(vendor));
         }
 
@@ -238,7 +244,7 @@ public class VendorServiceImpl implements VendorService {
 
         Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorQuotationRequest.getVendorCategoryId());
 
-        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubVendorCategoryId());
+        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubCategoryId());
 
         User mailSentBy = user;
         String clientEmailId = vendorQuotationRequest.getClientMailId();
@@ -259,7 +265,8 @@ public class VendorServiceImpl implements VendorService {
 
 
         try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest, mailSentBy);
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest,
+                    mailSentBy,vendorCategory,vendorSubCategory);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }

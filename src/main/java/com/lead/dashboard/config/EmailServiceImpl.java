@@ -1,6 +1,8 @@
 package com.lead.dashboard.config;
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.vendor.VendorCategory;
+import com.lead.dashboard.domain.vendor.VendorSubCategory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,8 @@ import com.lead.dashboard.service.MailSendService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
+import java.util.Optional;
 
 @Service
 public class EmailServiceImpl implements MailSendService {
@@ -81,7 +85,10 @@ public class EmailServiceImpl implements MailSendService {
     }
 
     @Override
-    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject, String body, VendorQuotationRequest vendorQuotationRequest, User mailSentBy) {
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
+                                                 String body, VendorQuotationRequest vendorQuotationRequest,
+                                                 User mailSentBy, Optional<VendorCategory> vendorCategory,
+                                                 Optional<VendorSubCategory> vendorSubCategory) {
 
     }
 }

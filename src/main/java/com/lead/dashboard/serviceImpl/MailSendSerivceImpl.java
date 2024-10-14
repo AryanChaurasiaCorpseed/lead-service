@@ -2,6 +2,8 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.vendor.VendorCategory;
+import com.lead.dashboard.domain.vendor.VendorSubCategory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.service.MailSendService;
 import jakarta.mail.MessagingException;
@@ -15,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class MailSendSerivceImpl implements MailSendService {
@@ -104,7 +107,7 @@ public class MailSendSerivceImpl implements MailSendService {
     @Override
     public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
                                                  String body, VendorQuotationRequest vendorQuotationRequest,
-                                                 User mailSentBy) {
+                                                 User mailSentBy, Optional<VendorCategory> vendorCategory,Optional<VendorSubCategory> vendorSubCategory) {
         try {
             validateEmailAddresses(emailTo, "To");
             validateEmailAddresses(ccPersons, "Cc");

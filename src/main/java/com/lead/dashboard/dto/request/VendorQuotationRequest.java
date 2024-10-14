@@ -40,9 +40,9 @@ public class VendorQuotationRequest {
 
    private String internalVendorFilePath;
 
-   private Long vendorCategoryName;
+   private Long vendorCategoryId;
 
-   private Long subCategoryName;
+   private Long subCategoryId;
 
 
 }
