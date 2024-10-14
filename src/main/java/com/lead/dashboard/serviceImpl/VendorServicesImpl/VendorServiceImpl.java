@@ -13,6 +13,8 @@ import com.lead.dashboard.repository.VendorRepository.*;
 import com.lead.dashboard.service.vendorServices.VendorService;
 import com.lead.dashboard.serviceImpl.FileUploadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,10 +77,9 @@ public class VendorServiceImpl implements VendorService {
             List<User> alignedUserListForSubCategory = vendorSubCategory.getAssignedUsers();
             User assignedUser;
 
-            if (alignedUserListForSubCategory==null && alignedUserListForSubCategory.isEmpty()) {
+            if (alignedUserListForSubCategory == null || alignedUserListForSubCategory.isEmpty()) {
                 assignedUser = assignAdminUser();
             } else {
-
                 int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % alignedUserListForSubCategory.size();
                 assignedUser = alignedUserListForSubCategory.get(nextUserIndex);
 
@@ -112,7 +113,7 @@ public class VendorServiceImpl implements VendorService {
                     .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
 
             UserVendorRequestCount userVendorRequestCount;
-            if (userVendorRequestCountOpt!=null) {
+            if (userVendorRequestCountOpt.isPresent()) {  // Check if the optional contains a value
                 userVendorRequestCount = userVendorRequestCountOpt.get();
                 userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
             } else {
@@ -124,6 +125,7 @@ public class VendorServiceImpl implements VendorService {
                 userVendorRequestCount.setCreatedAt(new Date());
             }
             userVendorRequestCount.setUpdatedAt(new Date());
+
             userVendorRequestCountRepository.save(userVendorRequestCount);
 
             VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
@@ -405,22 +407,26 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-        // Create a pageable object using zero-based page indexing
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Vendor> vendorPage;
 
-        // Fetch vendors with pagination from the repository
-        Page<Vendor> vendorPage = vendorRepository.findAll(pageable);
-        List<Vendor> vendorList = vendorPage.getContent(); // Get the current page content
+        boolean isAdmin = user.getUserRole().stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
 
-        long totalCount = vendorRepository.count();
+        if (isAdmin) {
+            vendorPage = vendorRepository.findAll(pageable);
+        } else {
+            vendorPage = vendorRepository.findByAssignedUser(user, pageable);
+        }
 
+        List<Vendor> vendorList = vendorPage.getContent();
+        long totalCount = vendorPage.getTotalElements();
 
         List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
 
         for (Vendor vendor : vendorList) {
             VendorAllResponse vendorResponseDTO = new VendorAllResponse();
 
-            // Mapping Vendor details
             vendorResponseDTO.setId(vendor.getId());
             vendorResponseDTO.setClientEmailId(vendor.getClientEmailId());
             vendorResponseDTO.setClientCompanyName(vendor.getClientCompanyName());
@@ -432,13 +438,11 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
-//            vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
+            // vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
             vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
 
-
-            // Map vendor update history
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
                 VendorUpdateHistoryAllResponse historyDTO = new VendorUpdateHistoryAllResponse();
@@ -452,7 +456,6 @@ public class VendorServiceImpl implements VendorService {
                 historyDTO.setVendorCategoryName(history.getVendorCategory().getVendorCategoryName());
                 historyDTO.setVendorSubCategoryName(history.getVendorSubCategory().getVendorSubCategoryName());
 
-
                 updateHistoryDTOList.add(historyDTO);
             }
             vendorResponseDTO.setVendorUpdateHistoryAllResponseList(updateHistoryDTOList);
@@ -460,12 +463,9 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTOList.add(vendorResponseDTO);
         }
 
-        // Create response map with pagination details
         Map<String, Object> response = new HashMap<>();
         response.put("vendorsRequests", vendorResponseDTOList);
-//        response.put("currentPage", vendorPage.getNumber());
         response.put("totalItems", totalCount);
-//        response.put("totalPages", vendorPage.getTotalPages());
 
         return response;
     }
