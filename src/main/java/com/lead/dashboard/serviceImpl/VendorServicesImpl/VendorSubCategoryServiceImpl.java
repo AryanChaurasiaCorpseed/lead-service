@@ -36,23 +36,33 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        VendorCategory vendorCategory = vendorCategoryRepository.findById(vendorSubCategoryRequest.getVendorCategoryId())
-                .orElseThrow(() -> new RuntimeException("Vendor Category not found"));
+        if (user!=null) {
 
-        VendorSubCategory vendorSubCategory = new VendorSubCategory();
-        vendorSubCategory.setVendorSubCategoryName(vendorSubCategoryRequest.getSubCategoryName());
-        vendorSubCategory.setVendorCategory(vendorCategory);
-        vendorSubCategory.setEnable(true);
-        vendorSubCategory.setAddedBy(userId);
-        vendorSubCategory.setUpdatedBy(userId);
-        vendorSubCategory.setCreatedAt(new Date());
-        vendorSubCategory.setDeleted(false);
-        vendorSubCategory.setDate(LocalDate.now());
 
-        vendorSubCategory.setVendorCategoryResearchTat(vendorSubCategoryRequest.getVendorCategoryResearchTat());
-        vendorSubCategory.setVendorCompletionTat(vendorSubCategoryRequest.getVendorCompletionTat());
+            VendorCategory vendorCategory = vendorCategoryRepository.findById(vendorSubCategoryRequest.getVendorCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Vendor Category not found"));
 
-        return vendorSubCategoryRepository.save(vendorSubCategory);
+            if(vendorCategory!=null)
+            {
+                VendorSubCategory vendorSubCategory = new VendorSubCategory();
+                vendorSubCategory.setVendorSubCategoryName(vendorSubCategoryRequest.getSubCategoryName());
+                vendorSubCategory.setVendorCategory(vendorCategory);
+                vendorSubCategory.setEnable(true);
+                vendorSubCategory.setAddedBy(userId);
+                vendorSubCategory.setUpdatedBy(userId);
+                vendorSubCategory.setCreatedAt(new Date());
+                vendorSubCategory.setDeleted(false);
+                vendorSubCategory.setDate(LocalDate.now());
+
+                vendorSubCategory.setVendorCategoryResearchTat(vendorSubCategoryRequest.getVendorCategoryResearchTat());
+                vendorSubCategory.setVendorCompletionTat(vendorSubCategoryRequest.getVendorCompletionTat());
+                return vendorSubCategoryRepository.save(vendorSubCategory);
+
+            }
+
+        }
+
+        return null;
     }
 
     @Override
@@ -60,19 +70,29 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Optional<VendorCategory> vendorCategoryOpt = vendorCategoryRepository.findById(categoryId);
-        if (!vendorCategoryOpt.isPresent()) {
-            throw new RuntimeException("Vendor Category not found");
+        if (user!=null)
+        {
+
+            Optional<VendorCategory> vendorCategoryOpt = vendorCategoryRepository.findById(categoryId);
+            if (!vendorCategoryOpt.isPresent()) {
+                throw new RuntimeException("Vendor Category not found");
+            }
+
+            VendorSubCategory vendorSubCategory = vendorSubCategoryRepository.findById(subCategoryId)
+                    .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
+
+            vendorSubCategory.setVendorSubCategoryName(newSubCategoryName);
+            vendorSubCategory.setUpdatedBy(userId);
+            vendorSubCategory.setUpdatedAt(new Date());
+
+            return vendorSubCategoryRepository.save(vendorSubCategory);
+
+
         }
+        return  null;
 
-        VendorSubCategory vendorSubCategory = vendorSubCategoryRepository.findById(subCategoryId)
-                .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
 
-        vendorSubCategory.setVendorSubCategoryName(newSubCategoryName);
-        vendorSubCategory.setUpdatedBy(userId);
-        vendorSubCategory.setUpdatedAt(new Date());
 
-        return vendorSubCategoryRepository.save(vendorSubCategory);
     }
 
 
@@ -119,7 +139,7 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
         }
 
         vendorSubCategory.setAssignedUsers(users);
-        vendorSubCategory.setUpdatedAt(new Date()); // Update timestamp
+        vendorSubCategory.setUpdatedAt(new Date());
         return vendorSubCategoryRepository.save(vendorSubCategory);
     }
 

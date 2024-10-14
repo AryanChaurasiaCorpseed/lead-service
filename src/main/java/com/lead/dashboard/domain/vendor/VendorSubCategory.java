@@ -59,4 +59,7 @@ public class VendorSubCategory {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> assignedUsers;
 
+    private int lastAssignedUserIndex = -1; // Track the last assigned user index
+
+
 }

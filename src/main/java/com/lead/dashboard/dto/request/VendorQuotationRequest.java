@@ -12,7 +12,7 @@ import lombok.Setter;
 public class VendorQuotationRequest {
 
 
-   private String serviceName;
+//   private String serviceName;
 
    private String clientName;
 
@@ -40,9 +40,9 @@ public class VendorQuotationRequest {
 
    private String internalVendorFilePath;
 
-   private Long vendorCategoryId;
+   private Long vendorCategoryName;
 
-   private Long subVendorCategoryId;
+   private Long subCategoryName;
 
 
 }

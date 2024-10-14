@@ -106,24 +106,20 @@ public class MailSendSerivceImpl implements MailSendService {
                                                  String body, VendorQuotationRequest vendorQuotationRequest,
                                                  User mailSentBy) {
         try {
-            // Validate email addresses
             validateEmailAddresses(emailTo, "To");
             validateEmailAddresses(ccPersons, "Cc");
 
-            // Create and configure the email
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setFrom(fromEmail); // You may change the "fromEmail" as per your application logic
+            helper.setFrom(fromEmail);
             helper.setTo(emailTo);
             helper.setCc(ccPersons);
             helper.setSubject(subject);
 
             Context context = new Context();
-            context.setVariable("serviceName", vendorQuotationRequest.getServiceName());
 
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
-            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
             context.setVariable("sentBy", mailSentBy.getFullName());
             context.setVariable("quotationAmount", vendorQuotationRequest.getQuotationAmount());
             context.setVariable("quotationFilePath", vendorQuotationRequest.getQuotationFilePath());

@@ -35,7 +35,7 @@ public class VendorRequest {
 
     private String saleTeamAttachmentReference;
 
-    private Long assignedUserId;
+//    private Long assignedUserId;
 
     private String clientBudgetPrice;
 
