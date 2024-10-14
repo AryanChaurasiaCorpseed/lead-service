@@ -1932,7 +1932,8 @@ public class CompanyFormController {
 			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
 		}
 		//
-		Map<String,Object>res = new HashMap<>();
+		Map<String,Object>result = new HashMap<>();
+		Map<String,List<Map<String,Object>>>res = new HashMap<>();
 
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
@@ -1978,7 +1979,7 @@ public class CompanyFormController {
 			map.put("sCountry", c.getSCountry());
 
 			if(res.containsKey(c.getCompanyName())) {
-				    List<Map<String, Object>> cList = (List<Map<String, Object>>)res.get(c.getCompanyName());
+				    List<Map<String, Object>> cList = res.get(c.getCompanyName());
 				    cList.add(map);
 				   res.put(c.getCompanyName(), cList);
 			}else {
@@ -1989,9 +1990,9 @@ public class CompanyFormController {
 			}
 
 		}
-		res.put("count", total);
-	
-		return res;
+		result.put("count", total);
+	    result.put("data", res);
+		return result;
 	}
 
 
