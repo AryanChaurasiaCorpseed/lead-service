@@ -593,14 +593,19 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 		if(graphFilterDto.getUserId()!=null) {
 			
-			String startDate = graphFilterDto.getToDate();
-			String endDate =graphFilterDto.getFromDate();
+			String endDate= graphFilterDto.getToDate();
+			String startDate =graphFilterDto.getFromDate();
 //			p.id ,cp.company_id , p.amount , c.companyName
-			
+//			if() {
+//	              List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
+//
+//			}else {
+//				
+//			}
               List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
               Map<String, Long>map = new HashMap<>();
               for(Object[] o:project) {
-            	Long projectId=  (Long)o[0];
+                Long projectId=  (Long)o[0];
             	Long companyId= (Long)o[1];
             	String amount  =(String)o[2];
             	long a = o[2]!=null?Long.parseLong((String)o[2]):0l;
@@ -633,8 +638,8 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 		if(graphFilterDto.getUserId()!=null) {
 			
-			String startDate = graphFilterDto.getToDate();
-			String endDate =graphFilterDto.getFromDate();
+			String startDate = graphFilterDto.getFromDate();
+			String endDate =graphFilterDto.getToDate();
 //			p.id ,cp.company_id , p.amount , c.companyName
 			
                List<Project> project = projectRepository.findAllByInBetweenDate(startDate,endDate);

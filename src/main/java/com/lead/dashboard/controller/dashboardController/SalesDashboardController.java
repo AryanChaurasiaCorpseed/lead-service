@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,14 +57,14 @@ public class SalesDashboardController {
 	}
 	
 	@PostMapping(UrlsMapping.GET_ALL_COMPANY_AMOUNT_GRAPH)
-	public ResponseEntity <List<Map<String,Object>>> getAllCompanyAmountGraph(GraphFilterDto graphFilterDto)
+	public ResponseEntity <List<Map<String,Object>>> getAllCompanyAmountGraph(@RequestBody GraphFilterDto graphFilterDto)
 	{
 		List<Map<String,Object>> alllead= salesDashboardService.getAllCompanyAmountGraph(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
 	}
 	
 	@PostMapping(UrlsMapping.GET_ALL_AMOUNT_USER_WISE)
-	public ResponseEntity <List<Map<String,Object>>> getAllAmountUserWise(GraphFilterDto graphFilterDto)
+	public ResponseEntity <List<Map<String,Object>>> getAllAmountUserWise(@RequestBody GraphFilterDto graphFilterDto)
 	{
 		List<Map<String,Object>> alllead= salesDashboardService.getAllAmountUserWise(graphFilterDto);
 		return new ResponseEntity<>(alllead,HttpStatus.OK);
