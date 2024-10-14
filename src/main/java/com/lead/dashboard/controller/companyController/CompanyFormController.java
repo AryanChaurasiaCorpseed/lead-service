@@ -1155,7 +1155,7 @@ public class CompanyFormController {
 	}
 
 
-	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
+//	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
 	public Map<String,List<Map<String,Object>>>  getAllCompanyFormByStatusAndCompany(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
@@ -1327,7 +1327,6 @@ public class CompanyFormController {
 
 
 			}else {
-				System.out.println("6666666666666666666666666666666666666666666666666666666666666666666");
 
 				Company unit = companyRepository.findById(createFormDto.getUnitId()).get();
 				companyForm.setCompanyName(unit.getName());
@@ -1342,9 +1341,7 @@ public class CompanyFormController {
 				companyForm.setCompanyAge(unit.getCompanyAge());
 
 				if(!createFormDto.getIsPrimaryAddress()) {
-					System.out.println("ddddddddddddddddddddddddd");
-					System.out.println("77777777777777777777777777777777777777777777777777777777777777777777");
-
+					
 					companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
 					companyForm.setAddress(unit.getAddress());
 					companyForm.setCity(unit.getCity());
@@ -1354,9 +1351,7 @@ public class CompanyFormController {
 
 				}
 				if(!createFormDto.getIsSecondaryAddress()) {
-					System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-					System.out.println("888888888888888888888888888888888888888888888888888");
-
+					
 					companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
 					companyForm.setSAddress(unit.getSAddress());
 					companyForm.setSCity(unit.getSCity());
@@ -1369,7 +1364,6 @@ public class CompanyFormController {
 
 		}
 		if(createFormDto.getIsPrimaryAddress()) {
-			System.out.println("ffffffffffffffffffffffffff");
 			companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
 
 			companyForm.setAddress(createFormDto.getAddress());
@@ -1380,7 +1374,6 @@ public class CompanyFormController {
 		}
 
 		if(createFormDto.getIsPrimaryAddress()) {
-			System.out.println("ggggggggggggggggg");
 			companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
 			companyForm.setSAddress(createFormDto.getSAddress());
 			companyForm.setSCity(createFormDto.getSCity());
@@ -1391,7 +1384,6 @@ public class CompanyFormController {
 
 
 		if(createFormDto.isPrimaryContact()) {
-			System.out.println("9999999999999999999999999999999999999999999999999999999");
 
 			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
 			companyForm.setContactName(createFormDto.getContactName());
@@ -1401,7 +1393,6 @@ public class CompanyFormController {
 	        companyForm.setPrimaryDesignation(createFormDto.getPrimaryDesignation());
 
 		}else {
-			System.out.println("101010101010100101010101001010101010100101001101010010101010");
 
 			Contact cont = contactRepo.findById(createFormDto.getContactId()).get();
 			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
@@ -1414,7 +1405,6 @@ public class CompanyFormController {
 		}
 
 		if(createFormDto.isSecondaryContact()) {
-			System.out.println("10aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 			companyForm.setSContactName(createFormDto.getSContactName());
@@ -1424,7 +1414,6 @@ public class CompanyFormController {
 			companyForm.setSecondaryDesignation(createFormDto.getSecondaryDesignation());
 
 		}else {
-			System.out.println("10bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
 			Contact cont = contactRepo.findById(createFormDto.getSContactId()).get();
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
@@ -1437,15 +1426,12 @@ public class CompanyFormController {
 		}
 		companyForm.setStatus("Initiated");
 		companyForm.setPanNo(createFormDto.getPanNo());
-		System.out.println("10ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
 
 		if(createFormDto.getUpdatedBy()!=null) {
-			System.out.println("10eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
 			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
 		}
-		System.out.println("10ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
 		companyForm.setLead(lead);
@@ -1909,6 +1895,105 @@ public class CompanyFormController {
 		flag=true;
 		return flag;
 	}
+
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
+	public Map<String,Object>  getAllCompanyFormCountByStatusAndCompany(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+// 		List<Map<String,Object>>result = new ArrayList<>();
+		//		List<CompanyForm> compList = companyFormRepo.findAll();
+		Optional<User> user = userRepo.findById(userId);
+		String dep = user.get()!=null?user.get().getDepartment():"NA";
+		List<CompanyForm> compList  = new ArrayList<>();
+		int total=0;
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+			//			compList = companyFormRepo.findAllByStatus(status);
+
+			Pageable pageable = PageRequest.of(page-1, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
+
+
+		}else if("Accounts".equals(dep)) {
+			Pageable pageable = PageRequest.of(page-1, size);
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatus(status,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatus(status);
+
+		}
+
+		else {
+			Pageable pageable = PageRequest.of(page-1, size);			
+			Page<CompanyForm> comp = companyFormRepo.findAllByStatusAndassigneeId(status,userId,pageable);
+			compList=comp.getContent();
+			total = companyFormRepo.findAllCountByStatusAndassigneeId(status,userId);
+			//			compList = companyFormRepo.findAllByStatusAndassigneeId(status,userId);
+		}
+		//
+		Map<String,Object>res = new HashMap<>();
+
+		for(CompanyForm c:compList) {
+			Map<String,Object>map = new HashMap<>();
+//			Map<String,Object>map = new HashMap<>();
+//			map.put("totalLeadFor", total);
+			map.put("id", c.getId());
+			map.put("unitName", c.getUnitName());
+			//			map.put("primaryAddress", c.get);
+			map.put("companyName", c.getCompanyName());
+			map.put("lead", c.getLead());
+			map.put("gstNo", c.getGstNo());
+			map.put("gstType", c.getGstType());
+			map.put("gstDocuments", c.getGstDocuments());
+			map.put("companyAge", c.getCompanyAge());
+			map.put("status", c.getStatus());
+			map.put("updatedBy", c.getUpdatedBy());
+			map.put("contactName", c.getContactName());
+			map.put("contactNo", c.getContactNo());
+			map.put("contactEmails", c.getContactEmails());
+			map.put("contactWhatsappNo ", c.getContactWhatsappNo());
+			map.put("primaryDesignation", c.getPrimaryDesignation());
+
+			map.put("comment", c.getComment());
+			map.put("amount", c.getAmount());
+			map.put("secondaryContactName", c.getSContactName());
+			map.put("secondaryContactNo", c.getSContactNo());
+			map.put("secondaryContactEmails", c.getSContactEmails());
+			map.put("secondaryContactWhatsappNo ", c.getSContactWhatsappNo());
+			map.put("secondaryDesignation", c.getSecondaryDesignation());
+
+			map.put("panNo", c.getPanNo());
+
+			map.put("city", c.getCity());
+			map.put("address", c.getAddress());
+			map.put("state", c.getState());
+			map.put("primaryPinCode", c.getPrimaryPinCode());
+			map.put("country", c.getCountry());
+
+			map.put("sCity", c.getSCity());
+			map.put("sAddress", c.getSAddress());
+			map.put("sState", c.getSState());
+			map.put("secondaryPinCode", c.getSecondaryPinCode());
+			map.put("sCountry", c.getSCountry());
+
+			if(res.containsKey(c.getCompanyName())) {
+				    List<Map<String, Object>> cList = (List<Map<String, Object>>)res.get(c.getCompanyName());
+				    cList.add(map);
+				   res.put(c.getCompanyName(), cList);
+			}else {
+				List<Map<String, Object>> cList=new ArrayList<>();
+				cList.add(map);
+				res.put(c.getCompanyName(), cList);
+
+			}
+
+		}
+		res.put("count", total);
+	
+		return res;
+	}
+
 
 
 
