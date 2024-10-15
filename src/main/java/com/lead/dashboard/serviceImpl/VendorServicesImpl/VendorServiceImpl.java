@@ -441,6 +441,11 @@ public class VendorServiceImpl implements VendorService {
             // vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+            vendorResponseDTO.setVendorCategoryId(vendor.getVendorCategory().getId());
+            vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+            vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
+
+
             vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();

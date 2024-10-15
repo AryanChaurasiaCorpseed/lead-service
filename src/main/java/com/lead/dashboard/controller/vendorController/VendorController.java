@@ -93,7 +93,7 @@ public class VendorController {
     }
 
     @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST)
-    public ResponseEntity<Object> findVendorRequest(@RequestParam Long userId, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Object> findAllVendorRequest(@RequestParam Long userId, @RequestParam int page, @RequestParam int size) {
         try {
             if (page < 0 || size <= 0) {
                 return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
