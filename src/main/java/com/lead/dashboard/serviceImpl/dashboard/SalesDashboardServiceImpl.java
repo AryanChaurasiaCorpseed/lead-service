@@ -28,6 +28,8 @@ import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @Service
 public class SalesDashboardServiceImpl implements SalesDashboardService{
 
@@ -180,7 +182,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 	}
 	
 	//optimize Version
-	public List<Map<String,Object>> getAllProjectGraphV2(GraphFilterDto graphFilterDto) {
+	public List<Map<String,Object>> getAllProjectGraphV2( GraphFilterDto graphFilterDto) {
 		List<Project> project=new ArrayList<>();
 		List<Object[]> projects=new ArrayList<>();
 
@@ -189,9 +191,13 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		String toDate=graphFilterDto.getToDate();
 		String fromDate=graphFilterDto.getFromDate();
 		System.out.println("aaaaaa");
+		System.out.println("111111"+toDate);
+
+		System.out.println("222222"+fromDate);
+
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
-			String startDate = toDate;
-			String endDate = fromDate;
+			String startDate =fromDate;
+			String endDate = toDate;
 
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				projects = projectRepository.findIdAndNameByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
@@ -201,7 +207,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			}else if(userId!=null &&projectName==null) {
 				projects = projectRepository.findIdAndNameByAssigneeIdAndInBetweenDate(userId,startDate,endDate);
 
-				System.out.println("cccccccccccccccccc");
+				System.out.println("cccccccccccccccccc"+projects);
 
 			}else if(userId==null &&projectName!=null &&(!projectName.equals(""))) {
 				projects = projectRepository.findIdAndNameByProjectNameAndInBetweenDate(projectName, startDate, endDate);

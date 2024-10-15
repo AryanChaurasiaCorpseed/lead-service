@@ -144,7 +144,7 @@
 			<artifactId>spring-cloud-azure-starter-storage-blob</artifactId>
 			<version>4.0.0</version>
 			<exclusions>
-			<exclusion>
+				<exclusion>
 					<groupId>io.projectreactor</groupId>
 					<artifactId>reactor-core</artifactId>
 				</exclusion>
@@ -155,14 +155,6 @@
 			<artifactId>reactor-core</artifactId>
 			<version>3.4.19</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk-s3</artifactId>
-			<version>1.12.753</version>
-		</dependency>
-		
-		
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -193,6 +185,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+
 -->
 
 		<!-- Swagger Implementation -->
@@ -233,6 +226,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+                <dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.753</version>
+		</dependency>
 		<!-- mail sender Implementation-->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -254,6 +252,7 @@
 			<artifactId>opencsv</artifactId>
 			<version>5.9</version>
 		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
