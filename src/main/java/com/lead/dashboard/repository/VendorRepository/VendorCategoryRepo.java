@@ -24,12 +24,13 @@ public interface VendorCategoryRepo extends JpaRepository<VendorCategory,Long> {
     @Query("SELECT vc FROM VendorCategory vc LEFT JOIN FETCH vc.vendorSubCategories WHERE vc.id = :categoryId")
     Optional<VendorCategory> findByIdWithSubCategories(@Param("categoryId") Long categoryId);
 
-    @Query("SELECT vc.id, vc.vendorCategoryName, vsc.id, vsc.vendorSubCategoryName, u.id, u.fullName, u.email " +
+    @Query("SELECT vc.id, vc.vendorCategoryName, vsc.id, vsc.vendorSubCategoryName, vsc.vendorCategoryResearchTat, vsc.vendorCompletionTat, u.id, u.fullName, u.email " +
             "FROM VendorCategory vc " +
             "LEFT JOIN vc.vendorSubCategories vsc " +
             "LEFT JOIN vsc.assignedUsers u " +
             "WHERE vc.id = :categoryId")
     List<Object[]> findCategoryWithSubCategoriesAndUsers(@Param("categoryId") Long categoryId);
+
 
     @Query("SELECT vc FROM VendorCategory vc LEFT JOIN FETCH vc.vendorSubCategories WHERE vc.id = :categoryId")
     Optional<VendorCategory> findVendorCategoryWithSubCategories(@Param("categoryId") Long categoryId);

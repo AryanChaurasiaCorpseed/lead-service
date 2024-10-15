@@ -80,28 +80,31 @@ public class VendorCatServiceImpl implements VendorCategoryService {
         for (Object[] row : result) {
             Long subCategoryId = (Long) row[2];
             String subCategoryName = (String) row[3];
+            int vendorCategoryResearchTat = (Integer) row[4];
+            int vendorCompletionTat = (Integer) row[5];
 
             if (!subCategoryMap.containsKey(subCategoryId)) {
                 Map<String, Object> subCategory = new HashMap<>();
                 subCategory.put("subCategoryId", subCategoryId);
                 subCategory.put("subCategoryName", subCategoryName);
+                subCategory.put("vendorCategoryResearchTat", vendorCategoryResearchTat);
+                subCategory.put("vendorCompletionTat", vendorCompletionTat);
                 subCategory.put("assignedUsers", new ArrayList<Map<String, Object>>());
 
                 subCategoryMap.put(subCategoryId, subCategory);
             }
 
-            if (row[4] != null) {
+            if (row[6] != null) {
                 Map<String, Object> user = new HashMap<>();
-                user.put("userId", row[4]);
-                user.put("userName", row[5]);
-                user.put("userEmail", row[6]);
+                user.put("userId", row[6]);
+                user.put("userName", row[7]);
+                user.put("userEmail", row[8]);
 
                 List<Map<String, Object>> assignedUsers = (List<Map<String, Object>>) subCategoryMap.get(subCategoryId).get("assignedUsers");
                 assignedUsers.add(user);
             }
         }
 
-        // Add subcategories to the final response
         response.put("subCategories", new ArrayList<>(subCategoryMap.values()));
         return response;
     }
