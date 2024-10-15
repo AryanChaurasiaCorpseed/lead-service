@@ -597,7 +597,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		List<Company>compList = new ArrayList<>();
       	List<Map<String,Object>>result = new ArrayList<>();
 
-		if(graphFilterDto.getUserId()!=null) {
+		if(true) {
 			
 			String endDate= graphFilterDto.getToDate();
 			String startDate =graphFilterDto.getFromDate();
@@ -644,7 +644,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		List<Company>compList = new ArrayList<>();
       	List<Map<String,Object>>result = new ArrayList<>();
 
-		if(graphFilterDto.getUserId()!=null) {
+		if(true) {
 			
 			String startDate = graphFilterDto.getFromDate();
 			String endDate =graphFilterDto.getToDate();
