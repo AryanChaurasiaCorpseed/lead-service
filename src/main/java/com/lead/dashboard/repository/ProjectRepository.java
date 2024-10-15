@@ -99,8 +99,11 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
      @Query(value = "SELECT id,name,amount FROM project", nativeQuery = true)
 	 List<Object[]> findIdAndNameAndAmount();
 	 
+     @Query(value = "SELECT p.id ,cp.company_id , p.amount ,c.name FROM project p left join company_project cp on cp.company_project_id=p.id left join company c on c.id=cp.company_id", nativeQuery = true)
+  	 List<Object[]> findCompanyIdAndAmount();
 	 
-	 
+     @Query(value = "SELECT * FROM project p", nativeQuery = true)
+   	 List<Project> findAllProject();
      
      
 }

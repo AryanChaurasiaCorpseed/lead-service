@@ -602,13 +602,15 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			String endDate= graphFilterDto.getToDate();
 			String startDate =graphFilterDto.getFromDate();
 //			p.id ,cp.company_id , p.amount , c.companyName
-//			if() {
-//	              List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
-//
-//			}else {
-//				
-//			}
-              List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
+			List<Object[]> project=new ArrayList<>();
+			if(startDate!=null && endDate!=null) {
+	              project = projectRepository.findInBetweenDate(startDate,endDate);
+
+			}else {
+	              project = projectRepository.findCompanyIdAndAmount();
+
+			}
+//              List<Object[]> project = projectRepository.findInBetweenDate(startDate,endDate);
               Map<String, Long>map = new HashMap<>();
               for(Object[] o:project) {
                 Long projectId=  (Long)o[0];
@@ -647,8 +649,15 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			String startDate = graphFilterDto.getFromDate();
 			String endDate =graphFilterDto.getToDate();
 //			p.id ,cp.company_id , p.amount , c.companyName
-			
-               List<Project> project = projectRepository.findAllByInBetweenDate(startDate,endDate);
+			 List<Project> project =new ArrayList<>();
+			if(startDate!=null && endDate!=null) {
+	              project = projectRepository.findAllByInBetweenDate(startDate,endDate);
+
+			}else {
+	              project = projectRepository.findAllProject();
+
+			}
+//               List<Project> project = projectRepository.findAllByInBetweenDate(startDate,endDate);
               Map<User, Long>map = new HashMap<>();
               for(Project p:project) {
             	
