@@ -66,7 +66,8 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
     }
 
     @Override
-    public VendorSubCategory updateVendorSubCategory(Long userId, Long categoryId, Long subCategoryId, String newSubCategoryName) {
+    public VendorSubCategory updateVendorSubCategory(Long userId, Long categoryId, Long subCategoryId, String newSubCategoryName,
+                                                     int vendorCategoryResearchTat, int vendorCompletionTat) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -84,6 +85,8 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
             vendorSubCategory.setVendorSubCategoryName(newSubCategoryName);
             vendorSubCategory.setUpdatedBy(userId);
             vendorSubCategory.setUpdatedAt(new Date());
+            vendorSubCategory.setVendorCategoryResearchTat(vendorCategoryResearchTat);
+            vendorSubCategory.setVendorCompletionTat(vendorCompletionTat);
 
             return vendorSubCategoryRepository.save(vendorSubCategory);
 
@@ -100,8 +103,11 @@ public class VendorSubCategoryServiceImpl implements VendorSubCategoryService {
 
     @Override
     public VendorSubCategory getVendorSubCategoryById(Long subCategoryId) {
-        return vendorSubCategoryRepository.findById(subCategoryId)
+
+        VendorSubCategory vendorSubCategory =vendorSubCategoryRepository.findById(subCategoryId)
                 .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
+
+        return  vendorSubCategory;
     }
 
     @Override

@@ -44,9 +44,11 @@ public class VendorSubCategoryController {
 
 
     @PutMapping(value = UrlsMapping.UPDATE_VENDOR_SUB_CATEGORY)
-    public ResponseEntity<Object> updateVendorCategory(@RequestParam Long userId, @RequestParam Long categoryId,@RequestParam Long subCategoryId, @RequestParam String newSubCategoryName) {
+    public ResponseEntity<Object> updateVendorCategory(@RequestParam Long userId, @RequestParam Long categoryId,
+                                                       @RequestParam Long subCategoryId, @RequestParam String newSubCategoryName,
+                                                       @RequestParam int vendorCategoryResearchTat , @RequestParam int vendorCompletionTat) {
         try {
-            VendorSubCategory updateSubVendorCategory = vendorSubCategoryService.updateVendorSubCategory(userId, categoryId, subCategoryId, newSubCategoryName);
+            VendorSubCategory updateSubVendorCategory = vendorSubCategoryService.updateVendorSubCategory(userId, categoryId, subCategoryId, newSubCategoryName,vendorCategoryResearchTat,vendorCompletionTat);
             return new ResponseEntity<>(updateSubVendorCategory, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

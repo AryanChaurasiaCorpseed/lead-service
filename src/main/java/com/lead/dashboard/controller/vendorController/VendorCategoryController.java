@@ -34,7 +34,8 @@ public class VendorCategoryController {
 
 
     @PutMapping(value = UrlsMapping.UPDATE_VENDOR_CATEGORY)
-    public ResponseEntity<Object> updateVendorCategory(@RequestParam Long userId, @RequestParam Long categoryId, @RequestParam String newCategoryName) {
+    public ResponseEntity<Object> updateVendorCategory(@RequestParam Long userId, @RequestParam Long categoryId,
+                                                       @RequestParam String newCategoryName) {
         try {
             VendorCategory updatedCategory = vendorCategoryService.updateVendorCategory(userId, categoryId, newCategoryName);
             return new ResponseEntity<>(updatedCategory, HttpStatus.OK);

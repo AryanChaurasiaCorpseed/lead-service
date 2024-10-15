@@ -1,5 +1,6 @@
 package com.lead.dashboard.domain.vendor;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,6 +47,7 @@ public class VendorCategory {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "vendorCategory", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonBackReference
     private List<VendorSubCategory> vendorSubCategories;
 
 

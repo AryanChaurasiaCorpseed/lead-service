@@ -14,9 +14,10 @@ public interface VendorSubCategoryService {
 
     VendorSubCategory createSubVendorCategory(Long userId, VendorSubCategoryRequest vendorSubCategoryRequest);
 
-    VendorSubCategory updateVendorSubCategory(Long userId, Long categoryId, Long subCategoryId, String newSubCategoryName);
 
     List<VendorSubCategoryDTO> getAllVendorSubCategories(int page, int size);
 
     VendorSubCategory assignUsersToSubCategory(Long subCategoryId, List<Long> userIds);
+
+    VendorSubCategory updateVendorSubCategory(Long userId, Long categoryId, Long subCategoryId, String newSubCategoryName, int vendorCategoryResearchTat, int vendorCompletionTat);
 }

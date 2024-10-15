@@ -1,5 +1,7 @@
 package com.lead.dashboard.domain.vendor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lead.dashboard.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,14 +54,16 @@ public class VendorSubCategory {
 
     @ManyToOne
     @JoinColumn(name = "vendor_category_id")
+    @JsonIgnore
     private VendorCategory vendorCategory;
 
     @ManyToMany
     @JoinTable(name = "vendor_subcategory_users",joinColumns = @JoinColumn (name = "vendor_subcategory_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
     private List<User> assignedUsers;
 
-    private int lastAssignedUserIndex = -1; // Track the last assigned user index
+    private int lastAssignedUserIndex = -1;
 
 
 }
