@@ -67,11 +67,15 @@ public class VendorCatServiceImpl implements VendorCategoryService {
     public Map<String, Object> getVendorCategoryWithSubCategories(Long categoryId) {
         List<Object[]> result = vendorCategoryRepo.findCategoryWithSubCategoriesAndUsers(categoryId);
 
-        if (result.isEmpty() || result == null) {
-            throw new EntityNotFoundException("VendorCategory not found");
+        Map<String, Object> response = new HashMap<>();
+
+        if (result == null || result.isEmpty()) {
+            response.put("categoryId", categoryId);
+            response.put("categoryName", "");
+            response.put("subCategories", new ArrayList<>());
+            return response;
         }
 
-        Map<String, Object> response = new HashMap<>();
         response.put("categoryId", result.get(0)[0]);
         response.put("categoryName", result.get(0)[1]);
 
@@ -80,6 +84,12 @@ public class VendorCatServiceImpl implements VendorCategoryService {
         for (Object[] row : result) {
             Long subCategoryId = (Long) row[2];
             String subCategoryName = (String) row[3];
+
+            // If either vendorCategoryResearchTat or vendorCompletionTat is null, skip adding this subcategory
+            if (row[4] == null || row[5] == null) {
+                continue; // Skip this row
+            }
+
             int vendorCategoryResearchTat = (Integer) row[4];
             int vendorCompletionTat = (Integer) row[5];
 
