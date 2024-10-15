@@ -1812,17 +1812,23 @@ public class LeadServiceImpl implements LeadService  {
 		if(leadName!=null && leadName.equals("NA")) {
 			leadName=null;
 		}
-
+		int ll = leadList!=null?leadList.size():0;
+        System.out.println("lead size . . . "+ll);
 		//check lead is existing or not
 		if(leadList!=null && leadList.size()!=0) {
 			//check company
-			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
-			//			System.out.println(companyId);
+//			Long companyId=companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
+			List<Long> leadIds = leadList.stream().map(i->i.getId()).collect(Collectors.toList());
+			Long companyId=companyRepository.findCompanyIdByLeadId(leadIds);
+
+			
+						System.out.println("company id . . . "+companyId);
 
 			if(companyId!=null) {
 				// check company status if open
 				Company company = companyRepository.findById(companyId).get();
 				String companyStatus = company.getStatus();
+				leadDTO.setCompanyId(companyId);
 				List<Project> l = isLeadOpen(company,leadDTO.getLeadName());
 				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+l);
 				if(l.size()==0) {
@@ -1893,6 +1899,7 @@ public class LeadServiceImpl implements LeadService  {
 							}
 						}
 					}else {
+						System.out.println("ratan tata");
 						lead=leadCreation(lead,leadDTO);
 					}
 
