@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class VendorAllRequestOfUser {
 
+    private Long vendorRequestId;
+    private String budgetPrice;
     private Long leadId;
     private String leadName;
     private String categoryName;

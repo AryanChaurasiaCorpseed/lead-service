@@ -505,6 +505,8 @@ public class VendorServiceImpl implements VendorService {
             List<VendorAllRequestOfUser> responseList = vendorRequests.stream()
                     .map(vendor -> {
                         VendorAllRequestOfUser response = new VendorAllRequestOfUser();
+                        response.setVendorRequestId(vendor.getId());
+                        response.setBudgetPrice(vendor.getClientBudget());
                         response.setLeadId(vendor.getLead().getId());
                         response.setLeadName(vendor.getLead().getLeadName());
                         response.setCategoryName(vendor.getVendorCategory().getVendorCategoryName());
