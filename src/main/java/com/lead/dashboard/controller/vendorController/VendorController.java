@@ -5,6 +5,7 @@ import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
+import com.lead.dashboard.dto.response.VendorAllRequestOfUser;
 import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 import com.lead.dashboard.service.vendorServices.VendorService;
@@ -119,6 +120,20 @@ public class VendorController {
         }
     }
 
+    @GetMapping(UrlsMapping.FIND_ALL_VENDOR_REQUEST_OF_USER)
+    public ResponseEntity<?> findAllVendorRequestOfUser(@RequestParam Long userId, @RequestParam int page, @RequestParam int size) {
+        try {
+            if (page < 0 || size <= 0) {
+                return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
+            }
+
+            List<VendorAllRequestOfUser>  vendorAllRequestOfUser = vendorService.findAllVendorRequestOfUser(userId, page, size);
+            return new ResponseEntity<>(vendorAllRequestOfUser, HttpStatus.OK);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 

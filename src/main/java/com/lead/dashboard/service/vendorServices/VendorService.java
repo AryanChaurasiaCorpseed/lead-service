@@ -4,6 +4,7 @@ import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
+import com.lead.dashboard.dto.response.VendorAllRequestOfUser;
 import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 
@@ -28,4 +29,6 @@ public interface VendorService {
     List<VendorResponse> updateVendorDetails(List<Long> vendorId, Long updatedById, Long assigneeToId);
 
     Map<String, Object> findAllVendorRequest(Long userId, int page, int size);
+
+    List<VendorAllRequestOfUser>  findAllVendorRequestOfUser(Long userId, int page, int size);
 }

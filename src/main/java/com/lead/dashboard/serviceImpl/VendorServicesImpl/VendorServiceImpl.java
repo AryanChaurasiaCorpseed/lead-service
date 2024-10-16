@@ -491,5 +491,53 @@ public class VendorServiceImpl implements VendorService {
 
         return updateHistoryPage;
     }
+
+    @Override
+    public List<VendorAllRequestOfUser> findAllVendorRequestOfUser(Long userId, int page, int size) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
+
+        if (vendorRequests.hasContent()) {
+            List<VendorAllRequestOfUser> responseList = vendorRequests.stream()
+                    .map(vendor -> {
+                        VendorAllRequestOfUser response = new VendorAllRequestOfUser();
+                        response.setLeadId(vendor.getLead().getId());
+                        response.setLeadName(vendor.getLead().getLeadName());
+                        response.setCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+                        response.setCategoryId(vendor.getVendorCategory().getId());
+                        response.setSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
+                        response.setSubCategoryId(vendor.getVendorSubCategory().getId());
+                        response.setClientName(vendor.getClientName());
+                        response.setCompanyName(vendor.getClientCompanyName());
+                        response.setInitialQuotationName(vendor.getSalesAttachmentReferencePath());
+                        response.setCurrentStatus(vendor.getStatus());
+                        response.setDate(vendor.getDate());
+                        return response;
+                    })
+                    .collect(Collectors.toList());
+
+            return responseList;
+        }
+
+        throw new RuntimeException("No vendor requests found for the user.");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 

@@ -37,7 +37,5 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     Page<Vendor> findByAssignedUser(User assignedUser, Pageable pageable);
 
 
-
-
-
+    Page<Vendor> findByUser(User user, Pageable pageable);
 }
