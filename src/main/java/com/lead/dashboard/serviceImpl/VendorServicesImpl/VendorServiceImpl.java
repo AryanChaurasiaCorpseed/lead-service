@@ -491,7 +491,6 @@ public class VendorServiceImpl implements VendorService {
 
         return updateHistoryPage;
     }
-
     @Override
     public List<VendorAllRequestOfUser> findAllVendorRequestOfUser(Long userId, int page, int size) {
 
@@ -515,7 +514,11 @@ public class VendorServiceImpl implements VendorService {
                         response.setClientName(vendor.getClientName());
                         response.setCompanyName(vendor.getClientCompanyName());
                         response.setInitialQuotationName(vendor.getSalesAttachmentReferencePath());
-                        response.setCurrentStatus(vendor.getStatus());
+
+                        vendor.getVendorUpdateHistory().stream()
+                                .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
+                                .ifPresent(latestUpdate -> response.setCurrentStatus(latestUpdate.getRequestStatus()));
+
                         response.setDate(vendor.getDate());
                         return response;
                     })
