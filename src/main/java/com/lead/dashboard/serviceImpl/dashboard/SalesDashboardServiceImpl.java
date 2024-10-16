@@ -673,8 +673,8 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
               }
 			for(Entry<User,Long> entry:map.entrySet()) {
 				Map<String,Object>m=new HashMap<>();
-				m.put("name", entry.getKey().getFullName());
-				m.put("email", entry.getKey().getEmail());
+				m.put("name", entry.getKey()!=null?entry.getKey().getFullName():"NA");
+				m.put("email", entry.getKey()!=null?entry.getKey().getEmail():"NA");
 				m.put("value", entry.getValue()!=null?entry.getValue():0l);
 				result.add(m);
 			}

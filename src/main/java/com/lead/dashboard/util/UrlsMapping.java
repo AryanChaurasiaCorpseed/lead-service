@@ -209,7 +209,8 @@ public class UrlsMapping {
 	public static final String GET_COMPANY_COMMENT=PREFIX+"/company/getCompanyComment";
 	public static final String ADD_COMMENT=PREFIX+"/company/addComment";
 
-	
+	public static final String GET_COMPANY_FORM_COMPANYWISE=PREFIX+"/company/searchCompanyFormDataCompanywise";
+
 
 
 

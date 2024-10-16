@@ -40,5 +40,8 @@ public interface CompanyFormRepo  extends JpaRepository<CompanyForm, Long> {
 	@Query(value = "SELECT count(*) FROM company_form WHERE status=:status and assignee_id=:assigneeId", nativeQuery = true)
 	int findAllCountByStatusAndassigneeId(String status,Long assigneeId);
 
+	@Query(value = "SELECT c FROM CompanyForm c WHERE (c.companyName LIKE %:searchTerm% OR c.gstNo LIKE %:searchTerm%) AND c.status = :status")
+	List<CompanyForm> findByCompanyNameOrGstNoAndStatus(@Param("searchTerm") String searchTerm, @Param("status") String status);
+
 
 }
