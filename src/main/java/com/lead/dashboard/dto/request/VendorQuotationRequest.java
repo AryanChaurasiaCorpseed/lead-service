@@ -42,7 +42,7 @@ public class VendorQuotationRequest {
 
    private Long vendorCategoryId;
 
-   private Long subCategoryId;
+   private Long subVendorCategoryId;
 
 
 }

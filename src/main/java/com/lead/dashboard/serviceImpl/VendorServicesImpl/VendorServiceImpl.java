@@ -246,7 +246,7 @@ public class VendorServiceImpl implements VendorService {
 
         Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorQuotationRequest.getVendorCategoryId());
 
-        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubCategoryId());
+        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubVendorCategoryId());
 
         User mailSentBy = user;
         String clientEmailId = vendorQuotationRequest.getClientMailId();
@@ -444,6 +444,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setVendorCategoryId(vendor.getVendorCategory().getId());
             vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
             vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
+            vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
 
 
             vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
