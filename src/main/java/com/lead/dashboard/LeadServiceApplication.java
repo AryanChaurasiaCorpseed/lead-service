@@ -24,11 +24,10 @@ public class LeadServiceApplication  implements CommandLineRunner {
 		SpringApplication.run(LeadServiceApplication.class, args);
 	}
 
-	@Bean  
+	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
-	
 
      
 
@@ -55,7 +54,7 @@ public class LeadServiceApplication  implements CommandLineRunner {
 //		String projectsFilePath = "D:/projects.xlsx";
 //		String badFit="D:/bad_fit.xlsx";
 //
-//		̥
+//		
 //   
 //		
 //		helper.lead_migration(filePath1,projectsFilePath);
@@ -64,14 +63,33 @@ public class LeadServiceApplication  implements CommandLineRunner {
 //
 //		helper.processBadFitLeads(badFit);
 //	}
-	 
+	
+//	@Override
+//	public void run(String... args) throws Exception {
+//		String file1 = "D:/test.xlsx";
+//    
+//		 
+////		helper.updateCompanyMail(file1);
+//	}
+	
 	
 	@Override
 	public void run(String... args) throws Exception {
-		String file1 = "D:/test.xlsx";
-    
-		 
-//		helper.updateCompanyMail(file1);
+////		                                                                       
+		String filePath1 = "D:/crm_clienttest.csv";
+//		String running = "D:/running_lead.xlsx";
+		String projectsFilePath = "D:/projects.xlsx";
+//		String badFit="D:/bad_fit.xlsx";
+
+		System.out.println("Test............."); 
+     
+		
+		
+//		helper.lead_migration(filePath1,projectsFilePath);
+
+//		helper.savedRunningLead(running);
+//
+//		helper.processBadFitLeads(badFit);
 	}
 
 }
