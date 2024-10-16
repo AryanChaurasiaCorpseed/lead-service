@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -127,13 +128,16 @@ public class VendorController {
                 return new ResponseEntity<>("Page index must not be less than zero and size must be greater than zero.", HttpStatus.BAD_REQUEST);
             }
 
-            List<VendorAllRequestOfUser>  vendorAllRequestOfUser = vendorService.findAllVendorRequestOfUser(userId, page, size);
-            return new ResponseEntity<>(vendorAllRequestOfUser, HttpStatus.OK);
+            Map<String, Object> vendorRequestResponse = vendorService.findAllVendorRequestOfUser(userId, page, size);
+
+            return new ResponseEntity<>(vendorRequestResponse, HttpStatus.OK);
+
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
 

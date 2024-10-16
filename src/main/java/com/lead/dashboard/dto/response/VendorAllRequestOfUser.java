@@ -26,5 +26,8 @@ public class VendorAllRequestOfUser {
     private String initialQuotationName;
     private String currentStatus;
     private LocalDate date;
+    private String requirementDescription;
+    private String clientNumber;
+    private String clientEmail;
 
 }

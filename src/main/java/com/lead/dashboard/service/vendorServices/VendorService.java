@@ -30,5 +30,5 @@ public interface VendorService {
 
     Map<String, Object> findAllVendorRequest(Long userId, int page, int size);
 
-    List<VendorAllRequestOfUser>  findAllVendorRequestOfUser(Long userId, int page, int size);
+    Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size);
 }

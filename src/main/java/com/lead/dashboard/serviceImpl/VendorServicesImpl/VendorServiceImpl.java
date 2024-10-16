@@ -492,8 +492,7 @@ public class VendorServiceImpl implements VendorService {
         return updateHistoryPage;
     }
     @Override
-    public List<VendorAllRequestOfUser> findAllVendorRequestOfUser(Long userId, int page, int size) {
-
+    public Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
@@ -501,8 +500,11 @@ public class VendorServiceImpl implements VendorService {
 
         Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
 
+        long totalCount = vendorRequests.getTotalElements();
+
+        List<VendorAllRequestOfUser> responseList = new ArrayList<>();
         if (vendorRequests.hasContent()) {
-            List<VendorAllRequestOfUser> responseList = vendorRequests.stream()
+            responseList = vendorRequests.stream()
                     .map(vendor -> {
                         VendorAllRequestOfUser response = new VendorAllRequestOfUser();
                         response.setVendorRequestId(vendor.getId());
@@ -516,6 +518,9 @@ public class VendorServiceImpl implements VendorService {
                         response.setClientName(vendor.getClientName());
                         response.setCompanyName(vendor.getClientCompanyName());
                         response.setInitialQuotationName(vendor.getSalesAttachmentReferencePath());
+                        response.setRequirementDescription(vendor.getRequirementDescription());
+                        response.setClientEmail(vendor.getClientEmailId());
+                        response.setClientNumber(vendor.getClientMobileNumber());
 
                         vendor.getVendorUpdateHistory().stream()
                                 .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
@@ -525,11 +530,13 @@ public class VendorServiceImpl implements VendorService {
                         return response;
                     })
                     .collect(Collectors.toList());
-
-            return responseList;
         }
 
-        throw new RuntimeException("No vendor requests found for the user.");
+        Map<String, Object> response = new HashMap<>();
+        response.put("vendorRequests", responseList);
+        response.put("totalCount", totalCount);
+
+        return response;
     }
 
 
