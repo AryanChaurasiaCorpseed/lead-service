@@ -90,5 +90,6 @@ public class EmailServiceImpl implements MailSendService {
                                                  User mailSentBy, Optional<VendorCategory> vendorCategory,
                                                  Optional<VendorSubCategory> vendorSubCategory) {
 
+
     }
 }

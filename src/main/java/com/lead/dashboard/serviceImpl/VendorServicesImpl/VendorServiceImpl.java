@@ -266,6 +266,7 @@ public class VendorServiceImpl implements VendorService {
         String body = vendorQuotationRequest.getComment();
 
 
+
         try {
             mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest,
                     mailSentBy,vendorCategory,vendorSubCategory);

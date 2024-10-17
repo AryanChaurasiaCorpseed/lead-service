@@ -109,6 +109,8 @@ public class MailSendSerivceImpl implements MailSendService {
                                                  String body, VendorQuotationRequest vendorQuotationRequest,
                                                  User mailSentBy, Optional<VendorCategory> vendorCategory,Optional<VendorSubCategory> vendorSubCategory) {
         try {
+
+
             validateEmailAddresses(emailTo, "To");
             validateEmailAddresses(ccPersons, "Cc");
 

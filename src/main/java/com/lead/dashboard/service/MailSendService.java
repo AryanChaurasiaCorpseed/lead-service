@@ -13,4 +13,6 @@ public interface MailSendService {
     void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
                                           String body, VendorQuotationRequest vendorQuotationRequest,
                                           User mailSentBy, Optional<VendorCategory> vendorCategory, Optional<VendorSubCategory> vendorSubCategory);
+
+
 }
