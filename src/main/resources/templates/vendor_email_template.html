@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation for Lead</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<h1>Quotation</h1>
+
+<p>Dear <span th:text="${clientName}">Client</span>,</p>
+
+<p>Thank you for the opportunity to assist with your service. We are pleased to provide you with the requested quotation for your review.</p>
+
+<p>You can view the quotation details in the provided link. Please <a th:href="${quotationFilePath}">click here</a> to download the quotation.</p>
+
+<p>We look forward to assisting you further and simplifying the compliance process for your business. If you have any questions or need additional information, please do not hesitate to reach out.</p>
+
+<p>For more information, visit our website: <a href="https://www.corpseed.com/" target="_blank">www.corpseed.com</a></p>
+
+<div class="footer">
+    <p>Best regards,<br/>
+        <span th:text="${sentBy}">Corpseed Team</span></p>
+</div>
+</body>
+</html>
