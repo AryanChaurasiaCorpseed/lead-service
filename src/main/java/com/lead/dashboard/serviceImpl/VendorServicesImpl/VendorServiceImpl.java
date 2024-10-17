@@ -486,8 +486,10 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
+
 
 
         List<VendorUpdateHistory> updateHistoryPage = vendorHistoryRepository.findUpdateHistoryByLeadAndVendor(leadId, vendorRequestId);
@@ -499,7 +501,10 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
+
+
         Pageable pageable = PageRequest.of(page - 1, size);
+
 
         Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
 
