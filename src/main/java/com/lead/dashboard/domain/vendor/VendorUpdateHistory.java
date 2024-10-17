@@ -76,6 +76,8 @@ public class VendorUpdateHistory implements Serializable {
 
     private Long updatedBy;
 
+    private String updatedName;
+
     private List<String> mailTo;
 
     private List<String> mailCc;

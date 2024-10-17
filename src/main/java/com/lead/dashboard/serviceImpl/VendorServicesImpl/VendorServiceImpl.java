@@ -377,6 +377,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
         vendorUpdateHistory.setVendorCategory(vendorCategory.get());
         vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.get());
+        vendorUpdateHistory.setUpdatedName(user.getFullName());
+
 
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
