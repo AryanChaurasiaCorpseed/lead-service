@@ -32,6 +32,7 @@ public class VendorAllResponse {
 
     private Long vendorSubCategoryId;
     private String vendorSubCategoryName;
+    private String raiseBy;
 
 
 

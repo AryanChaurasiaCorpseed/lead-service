@@ -26,7 +26,7 @@ public class VendorResponse {
     private boolean proposalSentStatus;
     private Date createDate;
     private Date updatedDate;
-    private String serviceName;
+//    private String serviceName;
 //    private String serviceName;
     private String contactNumber;
     private Long leadId;
@@ -53,7 +53,7 @@ public class VendorResponse {
         this.proposalSentStatus = vendor.isProposalSentStatus();
         this.createDate = vendor.getCreateDate();
         this.updatedDate = vendor.getUpdatedDate();
-        this.serviceName=vendor.getUrlsManagment().getUrlsName();
+//        this.serviceName=vendor.getUrlsManagment().getUrlsName();
         this.contactNumber=vendor.getClientMobileNumber();
         this.leadId=vendor.getId();
         this.leadName=vendor.getLead().getLeadName();

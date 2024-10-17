@@ -140,7 +140,7 @@ public class VendorServiceImpl implements VendorService {
             vendorUpdate.setUser(vendor.getAssignedUser());
             vendorUpdate.setDate(LocalDate.now());
             vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
-
+            vendorUpdate.setBudgetPrice(vendor.getClientBudget());
             vendorHistoryRepository.save(vendorUpdate);
 
             return new VendorResponse(vendor);
@@ -445,6 +445,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
             vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
             vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
+            vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
 
 
             vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
