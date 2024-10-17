@@ -33,9 +33,7 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     @Query("SELECT v FROM Vendor v JOIN v.user u WHERE u.id = :userId AND v.lead.id = :leadId AND v.isDeleted = false")
     List<Vendor> findVendorRequestsBySalesUserAndLead(@Param("userId") Long userId, @Param("leadId") Long leadId);
 
-
     Page<Vendor> findByAssignedUser(User assignedUser, Pageable pageable);
-
 
     Page<Vendor> findByUser(User user, Pageable pageable);
 }
