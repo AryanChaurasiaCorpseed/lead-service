@@ -413,6 +413,7 @@ public class LeadServiceImpl implements LeadService  {
 		client.setName(leadDTO.getName());
 		client.setContactNo(leadDTO.getMobileNo());
 		client.setEmails(leadDTO.getEmail());
+		client.setPrimary(true);
 		client.setServiceDetails(null);
 		if(leadDTO.getProductId()!=null) {
 			ServiceDetails service = new ServiceDetails();
@@ -1685,7 +1686,7 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 		if (leadDTO.getName() == null || leadDTO.getLeadName() == null || leadDTO.getMobileNo() == null) {
-			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
+//			throw new IllegalArgumentException("Required fields are missing in LeadDTO");
 		}
 
 		String email = leadDTO.getEmail();
@@ -1726,7 +1727,7 @@ public class LeadServiceImpl implements LeadService  {
 		Status status = statusRepository.findByStatusName("New");
 		System.out.println("Status "+ status);
 		if (status == null) {
-			throw new IllegalStateException("Status 'New' not found in the database");
+//			throw new IllegalStateException("Status 'New' not found in the database");
 		}
 		lead.setStatus(status);
 

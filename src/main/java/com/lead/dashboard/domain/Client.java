@@ -24,6 +24,7 @@ public class Client {
 	String emails;
 	String contactNo;
 	boolean deleteStatus =false;
+	boolean  isPrimary;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="client_communication",joinColumns = {@JoinColumn(name="client_id",referencedColumnName="id",nullable=true)},

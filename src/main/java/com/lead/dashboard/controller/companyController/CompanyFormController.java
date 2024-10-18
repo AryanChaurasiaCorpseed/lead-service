@@ -1443,9 +1443,11 @@ public class CompanyFormController {
 	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_FORM_STATUS)
 	public Boolean updateMultiCompanyFormStatus(UpdateMultiFormDto updateMultiFormDto){
 		Boolean flag=false;
-		for(Long fId:updateMultiFormDto.getId()) {
+		List<Long>ids=updateMultiFormDto.getId();
+		System.out.println("test.............."+ids);
+		for(Long fId:ids) {
 			AccountApprovalOnInvoiceV3(updateMultiFormDto.getStatus(),fId,updateMultiFormDto.getCurrentUserId());
-		flag=true;
+		flag=true; 
 		}
 		return flag;
 	}
@@ -1455,13 +1457,17 @@ public class CompanyFormController {
 
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
 	public Boolean AccountApprovalOnInvoiceV3(String status,Long id,Long currentUserId){
+		System.out.println("test1 . . . "+status);
+		System.out.println("test2 . . . "+id);
+		System.out.println("test3 . . . "+currentUserId);
+
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
 		if("approved".equals(status)) {
 			if(!companyForm.isProjectCreated()) {
 				if(companyForm.getIsPresent()) {
 					Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
-					if(companyForm.getIsUnit()) {
+					if(companyForm.getIsUnit()) {                                                  
 						Company unit = companyRepository.findById(id).get();
 
 						List<Lead> leadList = unit.getCompanyLead();
@@ -1789,6 +1795,7 @@ public class CompanyFormController {
 					//				p.setCompany(unit);
 					companyRepository.save(company);
 					companyForm.setStatus(status);
+					companyForm.setProjectCreated(true);
 					companyForm.setApproved(true);
 					companyFormRepo.save(companyForm);
 					flag=true;
@@ -1988,7 +1995,6 @@ public class CompanyFormController {
 				res.put(c.getCompanyName(), cList);
 
 			}
-
 		}
 		result.put("count", total);
 	    result.put("data", res);
@@ -2000,9 +2006,7 @@ public class CompanyFormController {
 	public ResponseEntity<Map<String,List<Map<String,Object>>>> searchCompanyFormDataByStatusAndCompanywise(
 			@RequestParam String searchNameAndGSt,
 			@RequestParam Long userId,
-			@RequestParam String status,
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size) {
+			@RequestParam String status) {
 		
 
 		try {
@@ -2013,7 +2017,6 @@ public class CompanyFormController {
 
 			String dep = user.get().getDepartment();
 			List<CompanyForm> compList = new ArrayList<>();
-			Pageable pageable =  PageRequest.of(page, size);
   
 			
 			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {

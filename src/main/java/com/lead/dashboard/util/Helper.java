@@ -82,27 +82,27 @@ public class Helper {
     public void lead_migration(String crmClientFilePath, String projectsFilePath) {
         try {
             List<Map<String, String>> crmClientData = readCsvFile(crmClientFilePath);
-            List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
+//            List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
              System.out.println("test111111111111111 . . .. "+crmClientData);
             for (Map<String, String> crmClientRow : crmClientData) {
                 String crmClientName = crmClientRow.get("cregname");
                 Company  m = companyRepository.findByName(crmClientName);
 
-                if (crmClientName == null || crmClientName.trim().isEmpty()) {
-                    System.out.println("Warning: CRM client name is null or empty.");
-                    continue;
-                }
+//                if (crmClientName == null || crmClientName.trim().isEmpty()) {
+//                    System.out.println("Warning: CRM client name is null or empty.2222");
+//                    continue;
+//                }
                 System.out.println("test2222222222222222221 . . .. "+crmClientData);
 
                 Company existingCompany = companyRepository.findByName(crmClientName);
                 System.out.println("test2222222222222222221 . . .. "+existingCompany);
 
                 if (existingCompany == null) {
-                    if (crmClientRow.get("cregcontfirstname") == null || crmClientRow.get("cregcontlastname") == null ||
-                            crmClientRow.get("cregcontemailid") == null || crmClientRow.get("cregcontmobile") == null) {
-                        System.out.println("Warning: Incomplete CRM client data for " + crmClientName);
-                        continue;
-                    }
+//                    if (crmClientRow.get("cregcontfirstname") == null || crmClientRow.get("cregcontlastname") == null ||
+//                            crmClientRow.get("cregcontemailid") == null || crmClientRow.get("cregcontmobile") == null) {
+//                        System.out.println("Warning: Incomplete CRM client data for " + crmClientName);
+//                        continue;
+//                    }
 
                     Contact primaryContact = new Contact();
                     primaryContact.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));
@@ -125,6 +125,7 @@ public class Helper {
                     company.setState(crmClientRow.get("cregstate"));
                     company.setCountry(crmClientRow.get("cregcountry"));
                     company.setParent(true);
+                    System.out.println("in side .  . . . . ");
                    String tmp = crmClientRow.get("projectName");
                    
                    System.out.println("company testing pttern . .. . "+tmp  );
@@ -299,18 +300,18 @@ public class Helper {
                 Company  m = companyRepository.findByName(crmClientName);
 
                 if (crmClientName == null || crmClientName.trim().isEmpty()) {
-                    System.out.println("Warning: CRM client name is null or empty.");
+                    System.out.println("Warning: CRM client name is null or empty.111");
                     continue;
                 }
 
                 Company existingCompany = companyRepository.findByName(crmClientName);
 
                 if (existingCompany == null) {
-                    if (crmClientRow.get("cregcontfirstname") == null || crmClientRow.get("cregcontlastname") == null ||
-                            crmClientRow.get("cregcontemailid") == null || crmClientRow.get("cregcontmobile") == null) {
-                        System.out.println("Warning: Incomplete CRM client data for " + crmClientName);
-                        continue;
-                    }
+//                    if (crmClientRow.get("cregcontfirstname") == null || crmClientRow.get("cregcontlastname") == null ||
+//                            crmClientRow.get("cregcontemailid") == null || crmClientRow.get("cregcontmobile") == null) {
+//                        System.out.println("Warning: Incomplete CRM client data for " + crmClientName);
+//                        continue;
+//                    }
 
                     Contact primaryContact = new Contact();
                     primaryContact.setName(crmClientRow.get("cregcontfirstname") + " " + crmClientRow.get("cregcontlastname"));

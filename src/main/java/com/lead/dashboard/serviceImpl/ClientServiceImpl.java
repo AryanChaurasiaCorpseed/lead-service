@@ -76,30 +76,45 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public Client updateClientInfo(UpdateClientDto client) {
 		Client clientDetails = getClientById(client.getId());
-
+        Lead lead = leadRepository.findById(client.getLeadId()).get();
 		User user=null;
 		if(client.getUserId()!=null) {
 			user=userRepo.findById(client.getUserId()).get();
 		}
+
 		if (clientDetails != null)
 		{    
 			if(!(clientDetails.getName().equals(client.getName()))) {
 				updateClientNameHistory(user,clientDetails.getName(),client.getName(),client.getLeadId());
-				clientDetails.setName(client.getName());	
+				clientDetails.setName(client.getName());
+				if(clientDetails.isPrimary()) {
+					lead.setName(client.getName());
+				}
 			}
 			if(!(clientDetails.getEmails().equals(client.getEmail()))) {
 				updateClientEmailHistory(user,clientDetails.getEmails(),client.getEmail(),client.getLeadId());
 				clientDetails.setEmails(client.getEmail());
+                if(clientDetails.isPrimary()) {
+                	lead.setEmail(client.getEmail());
+        			leadRepository.save(lead);
+
+				}
 			}
 			if(!(clientDetails.getContactNo().equals(client.getContactNo()))) {
 				updateClientContactHistory(user,clientDetails.getContactNo(),client.getContactNo(),client.getLeadId());
 				clientDetails.setContactNo(client.getContactNo());
+                if(clientDetails.isPrimary()) {
+					lead.setMobileNo(client.getContactNo());
+				}
 
 			}
 
-			return clientRepository.save(clientDetails);
+			 clientRepository.save(clientDetails);
+			 leadRepository.save(lead);
+
+			 return clientDetails;
 		}
-		else return null;
+		return null;
 	}
 
 	public void updateClientNameHistory(User currentUser,String pName,String cName,Long leadId) {
