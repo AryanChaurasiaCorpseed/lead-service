@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.User;
 
 @Entity
@@ -39,6 +40,12 @@ public class Product {
     User createdBy;
     boolean isDeleted;
 	List<String> documents;
+	
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="product_stage",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="product_stage_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Stages>productStage;
 
 	public Long getId() {
 		return id;

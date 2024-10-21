@@ -137,13 +137,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Boolean createStageInProduct(StageDto stageDto) {
+		boolean flag = false;
 		Product product = productRepo.findById(stageDto.getProductId()).get();
 		Stages stage= new Stages();
 		stage.setName(stageDto.getName());
 		stage.setNoOfDays(stageDto.getNoOfDays());
 		stage.setTransferPercent(stageDto.getTransferPercent());
 		stage.setPricePercent(stageDto.getPricePercent());
-		return null;
+		List<Stages> prodList = product.getProductStage();
+		prodList.add(stage);
+		product.setProductStage(prodList);
+		productRepo.save(product);
+		flag=true;
+		return flag;
 	}
 
 }
