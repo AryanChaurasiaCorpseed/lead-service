@@ -1441,7 +1441,8 @@ public class CompanyFormController {
 	}
 	
 	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_FORM_STATUS)
-	public Boolean updateMultiCompanyFormStatus(UpdateMultiFormDto updateMultiFormDto){
+	public Boolean updateMultiCompanyFormStatus(@RequestBody
+			UpdateMultiFormDto updateMultiFormDto){
 		Boolean flag=false;
 		List<Long>ids=updateMultiFormDto.getId();
 		System.out.println("test.............."+ids);

@@ -91,26 +91,26 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		String projectName=graphFilterDto.getServiceName();
 		String toDate=graphFilterDto.getToDate();
 		String fromDate=graphFilterDto.getFromDate();
-		System.out.println("aaaaaa");
+//		System.out.println("aaaaaa");
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
 
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
-				System.out.println("bbbbbbbbbbbbbbbb");
+//				System.out.println("bbbbbbbbbbbbbbbb");
 
 			}else if(userId!=null &&projectName==null) {
 				project = projectRepository.findAllByAssigneeIdAndInBetweenDate(userId,startDate,endDate);
-				System.out.println("cccccccccccccccccc");
+//				System.out.println("cccccccccccccccccc");
 
 			}else if(userId==null &&projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByProjectNameAndInBetweenDate(projectName, startDate, endDate);
-				System.out.println("ddddddddddddd");
+//				System.out.println("ddddddddddddd");
 
 			}else {
 				project = projectRepository.findAllInBetweenDate(startDate, endDate);
-				System.out.println("eeeeeeeeeeeeeeeeee");
+//				System.out.println("eeeeeeeeeeeeeeeeee");
 
 			}
 			Map<String,Integer>map=new HashMap<>();
@@ -140,16 +140,16 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		}else {
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
-				System.out.println("fffffffffffffffffff");
+//				System.out.println("fffffffffffffffffff");
 
 			}else if(userId!=null &&projectName==null) {
 				project = projectRepository.findAllByAssigneeId(userId);
-				System.out.println("gggggggggggggggggggggg");
+//				System.out.println("gggggggggggggggggggggg");
 
 			}else if(userId==null && projectName!=null &&(!projectName.equals(""))) {
-				System.out.println("test ... "+projectName+"aaaa");
+//				System.out.println("test ... "+projectName+"aaaa");
 				project = projectRepository.findAllByProjectName(projectName);
-				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
+//				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
 			}else {
 				project = projectRepository.findAll();
@@ -190,10 +190,10 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		String projectName=graphFilterDto.getServiceName();
 		String toDate=graphFilterDto.getToDate();
 		String fromDate=graphFilterDto.getFromDate();
-		System.out.println("aaaaaa");
-		System.out.println("111111"+toDate);
+//		System.out.println("aaaaaa");
+//		System.out.println("111111"+toDate);
 
-		System.out.println("222222"+fromDate);
+//		System.out.println("222222"+fromDate);
 
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate =fromDate;
@@ -202,22 +202,22 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				projects = projectRepository.findIdAndNameByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
 
-				System.out.println("bbbbbbbbbbbbbbbb");
+//				System.out.println("bbbbbbbbbbbbbbbb");
 
 			}else if(userId!=null &&projectName==null) {
 				projects = projectRepository.findIdAndNameByAssigneeIdAndInBetweenDate(userId,startDate,endDate);
 
-				System.out.println("cccccccccccccccccc"+projects);
+//				System.out.println("cccccccccccccccccc"+projects);
 
 			}else if(userId==null &&projectName!=null &&(!projectName.equals(""))) {
 				projects = projectRepository.findIdAndNameByProjectNameAndInBetweenDate(projectName, startDate, endDate);
 
-				System.out.println("ddddddddddddd");
+//				System.out.println("ddddddddddddd");
 
 			}else {
 				projects = projectRepository.findIdAndNameByInBetweenDate(startDate, endDate);
 
-				System.out.println("eeeeeeeeeeeeeeeeee");
+//				System.out.println("eeeeeeeeeeeeeeeeee");
 
 			}
 			////
@@ -264,18 +264,18 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				projects = projectRepository.findIdAndNameByAssigneeIdAndProjectName(userId,projectName);
 
-				System.out.println("fffffffffffffffffff");
+//				System.out.println("fffffffffffffffffff");
 
 			}else if(userId!=null &&projectName==null) {
 				projects = projectRepository.findIdAndNameByAssigneeId(userId);
 
-				System.out.println("gggggggggggggggggggggg");
+//				System.out.println("gggggggggggggggggggggg");
 
 			}else if(userId==null && projectName!=null &&(!projectName.equals(""))) {
-				System.out.println("test ... "+projectName+"aaaa");
+//				System.out.println("test ... "+projectName+"aaaa");
 				projects = projectRepository.findIdAndNameByProjectName(projectName);
 
-				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
+//				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
 			}else {
 				projects = projectRepository.findIdAndName();
@@ -329,26 +329,26 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		String projectName=graphFilterDto.getServiceName();
 		String toDate=graphFilterDto.getToDate();
 		String fromDate=graphFilterDto.getFromDate();
-		System.out.println("aaaaaa");
+//		System.out.println("aaaaaa");
 		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
 			String startDate = toDate;
 			String endDate = fromDate;
 
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectNameAndInBetweenDate(userId,projectName,startDate,endDate);
-				System.out.println("bbbbbbbbbbbbbbbb");
+//				System.out.println("bbbbbbbbbbbbbbbb");
 
 			}else if(userId!=null &&projectName==null) {
 				project = projectRepository.findAllByAssigneeIdAndInBetweenDate(userId,startDate,endDate);
-				System.out.println("cccccccccccccccccc");
+//				System.out.println("cccccccccccccccccc");
 
 			}else if(userId==null &&projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByProjectNameAndInBetweenDate(projectName, startDate, endDate);
-				System.out.println("ddddddddddddd");
+//				System.out.println("ddddddddddddd");
 
 			}else {
 				project = projectRepository.findAllInBetweenDate(startDate, endDate);
-				System.out.println("eeeeeeeeeeeeeeeeee");
+//				System.out.println("eeeeeeeeeeeeeeeeee");
 
 			}
 			Map<String,Long>map=new HashMap<>();
@@ -386,16 +386,16 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		}else {
 			if(userId!=null && projectName!=null &&(!projectName.equals(""))) {
 				project = projectRepository.findAllByAssigneeIdAndProjectName(userId,projectName);
-				System.out.println("fffffffffffffffffff");
+//				System.out.println("fffffffffffffffffff");
 
 			}else if(userId!=null &&projectName==null) {
 				project = projectRepository.findAllByAssigneeId(userId);
-				System.out.println("gggggggggggggggggggggg");
+//				System.out.println("gggggggggggggggggggggg");
 
 			}else if(userId==null && projectName!=null &&(!projectName.equals(""))) {
-				System.out.println("test ... "+projectName+"aaaa");
+//				System.out.println("test ... "+projectName+"aaaa");
 				project = projectRepository.findAllByProjectName(projectName);
-				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
+//				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
 			}else {
 				project = projectRepository.findAll();

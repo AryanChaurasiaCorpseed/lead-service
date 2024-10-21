@@ -2,11 +2,13 @@ package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
 import com.lead.dashboard.controller.leadController.ProductImportDto;
+import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.CategoryRepo;
@@ -131,6 +133,17 @@ public class ProductServiceImpl implements ProductService {
 			urlsManagmentRepo.save(urls);
 		}
  		return flag;
+	}
+
+	@Override
+	public Boolean createStageInProduct(StageDto stageDto) {
+		Product product = productRepo.findById(stageDto.getProductId()).get();
+		Stages stage= new Stages();
+		stage.setName(stageDto.getName());
+		stage.setNoOfDays(stageDto.getNoOfDays());
+		stage.setTransferPercent(stageDto.getTransferPercent());
+		stage.setPricePercent(stageDto.getPricePercent());
+		return null;
 	}
 
 }
