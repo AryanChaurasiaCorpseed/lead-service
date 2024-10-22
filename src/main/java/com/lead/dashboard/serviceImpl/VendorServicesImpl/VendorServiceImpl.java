@@ -525,16 +525,12 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-
-
         Pageable pageable = PageRequest.of(page - 1, size);
-
-
         Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
 
         long totalCount = vendorRequests.getTotalElements();
-
         List<VendorAllRequestOfUser> responseList = new ArrayList<>();
+
         if (vendorRequests.hasContent()) {
             responseList = vendorRequests.stream()
                     .map(vendor -> {
@@ -553,7 +549,13 @@ public class VendorServiceImpl implements VendorService {
                         response.setRequirementDescription(vendor.getRequirementDescription());
                         response.setClientEmail(vendor.getClientEmailId());
                         response.setClientNumber(vendor.getClientMobileNumber());
-                        response.setSalesAttachmentImage(vendor.getSalesAttachmentImage());
+
+                        String fullImagePath = null;
+                        if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
+                            fullImagePath = awsConfig.getS3BaseUrl() + "/" + vendor.getSalesAttachmentImage();
+                        }
+                        response.setSalesAttachmentImage(fullImagePath);
+
                         response.setView(vendor.isView());
                         response.setViewedBy(vendor.getViewedBy());
 
