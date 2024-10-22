@@ -34,6 +34,9 @@ public class VendorAllResponse {
     private String vendorSubCategoryName;
     private String raiseBy;
 
+    private String salesAttachmentImage;
+
+
 
 
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;

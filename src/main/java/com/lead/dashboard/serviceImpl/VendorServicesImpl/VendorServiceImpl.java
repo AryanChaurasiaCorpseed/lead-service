@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl.VendorServicesImpl;
 
+import com.lead.dashboard.config.AwsConfig;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.vendor.*;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -62,6 +65,12 @@ public class VendorServiceImpl implements VendorService {
 
     @Autowired
     private UserVendorRequestCountRepository userVendorRequestCountRepository;
+
+    @Autowired
+    private AwsConfig awsConfig;
+
+
+
 
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
@@ -105,6 +114,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setCreateDate(new Date());
             vendor.setUpdatedDate(new Date());
             vendor.setStatus("Initial");
+            vendor.setSalesAttachmentImage(vendorRequest.getSalesAttachmentImage());
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
@@ -443,17 +453,17 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
-            // vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
+
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
+            vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
             vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
             vendorResponseDTO.setVendorCategoryId(vendor.getVendorCategory().getId());
-            vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
             vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
-            vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
+            vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
 
-
-            vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
+            String fullImagePath = awsConfig.getS3BaseUrl() + vendor.getSalesAttachmentImage();
+            vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {

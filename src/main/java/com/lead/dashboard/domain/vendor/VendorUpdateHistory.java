@@ -42,9 +42,9 @@ public class VendorUpdateHistory implements Serializable {
     @JoinColumn(name="raised_by")
     private User raisedBy;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id")
-    private UrlsManagment urlsManagment;
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
 
 
 //    @ManyToOne

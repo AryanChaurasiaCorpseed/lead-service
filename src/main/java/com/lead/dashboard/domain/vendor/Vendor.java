@@ -37,6 +37,8 @@ public class Vendor implements Serializable {
 
     private String salesAttachmentReferencePath;
 
+    private String salesAttachmentImage;
+
     @ManyToOne
     @JoinColumn(name="lead_id")
     @JsonIgnore
@@ -46,9 +48,9 @@ public class Vendor implements Serializable {
 
     private String clientEmailId;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id")
-    private UrlsManagment urlsManagment;
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
 //    @ManyToOne
 //    @JoinColumn(name = "service_id")
 //    private UrlsManagment urlsManagment;

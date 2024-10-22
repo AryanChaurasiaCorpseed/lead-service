@@ -41,6 +41,10 @@ public class VendorRequest {
 
     private String clientBudgetPrice;
 
+    private String salesAttachmentImage;
+
+
+
 
 
 }

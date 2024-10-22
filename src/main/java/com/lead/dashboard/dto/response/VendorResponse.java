@@ -40,6 +40,9 @@ public class VendorResponse {
 
     private List<VendorUpdateHistoryResponse> updateHistory;
 
+    private String salesAttachmentImage;
+
+
     public VendorResponse(Vendor vendor) {
         this.id = vendor.getId();
         this.requirementDescription = vendor.getRequirementDescription();
@@ -59,6 +62,7 @@ public class VendorResponse {
         this.leadName=vendor.getLead().getLeadName();
         this.assigneeId=vendor.getAssignedUser().getId();
         this.assigneeName=vendor.getAssignedUser().getFullName();
+        this.salesAttachmentImage=vendor.getSalesAttachmentImage();
 
 //        this.vendorCategoryName=vendor.getVendorCategory().getVendorCategoryName();
 //        this.vendorSubCategoryName=vendor.getVendorSubCategory().getVendorSubCategoryName();
