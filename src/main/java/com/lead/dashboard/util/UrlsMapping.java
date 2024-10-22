@@ -230,8 +230,10 @@ public class UrlsMapping {
 	public static final String FIND_UPDATE_REQUEST_HISTORY = "/leadService/api/v1/vendor/find-update-request-history";
 
 	public static final String FIND_ALL_VENDOR_REQUEST_OF_USER = "/leadService/api/v1/vendor/find-all-vendor-request-of-user";
+	public static final String MARK_AS_VIEWED = "/leadService/api/v1/vendor/vendor-request-view";
 
-	
+
+
 	//Vendor Category
 		public static final String CREATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/create-vendor-category";
 		public static final String UPDATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/update-vendor-category";

@@ -139,6 +139,22 @@ public class VendorController {
     }
 
 
+    @PutMapping(UrlsMapping.MARK_AS_VIEWED)
+    public ResponseEntity<?> markVendorAsViewed(@RequestParam Long id, @RequestParam Long userId) {
+        try {
+            boolean updated = vendorService.markVendorAsViewed(id,userId);
+            if (updated) {
+                return new ResponseEntity<>("Vendor marked as viewed.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Vendor not found.", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 
 }

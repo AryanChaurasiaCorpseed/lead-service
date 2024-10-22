@@ -97,7 +97,7 @@ public class Vendor implements Serializable {
 
     private boolean proposalSentStatus;
 
-    boolean isView;
+    boolean isView = false;
 
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendorUpdateHistory> vendorUpdateHistory;
@@ -109,6 +109,11 @@ public class Vendor implements Serializable {
 
     @Column(name = "current_updated_date")
     private LocalDate currentUpdatedDate;
+
+    private Long viewedBy;
+
+
+
 
 
 

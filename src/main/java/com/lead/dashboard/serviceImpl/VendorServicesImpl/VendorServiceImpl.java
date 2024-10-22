@@ -561,16 +561,20 @@ public class VendorServiceImpl implements VendorService {
         return response;
     }
 
+    @Override
+    public boolean markVendorAsViewed(Long id, Long userId) {
 
+        Optional<Vendor> vendorOptional = vendorRepository.findById(id);
 
-
-
-
-
-
-
-
-
+        if (vendorOptional.isPresent()) {
+            Vendor vendor = vendorOptional.get();
+            vendor.setView(true);
+            vendor.setViewedBy(userId);
+            vendorRepository.save(vendor);
+            return true;
+        }
+        return false;
+    }
 
 
 }
