@@ -206,8 +206,16 @@ public class VendorServiceImpl implements VendorService {
             vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
+        String s3BaseUrl = awsConfig.getS3BaseUrl();
+
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
+
+            String fullImagePath = null;
+            if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
+                fullImagePath = s3BaseUrl + "/" + vendor.getSalesAttachmentImage();
+            }
+            vendorResponse.setSalesAttachmentImage(fullImagePath);
 
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
