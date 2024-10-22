@@ -1,18 +1,23 @@
-package com.lead.dashboard.serviceImpl;
+package com.lead.dashboard.serviceImpl.VendorServicesImpl;
 
-import com.lead.dashboard.domain.Designation;
-import com.lead.dashboard.domain.UrlsManagment;
+import com.lead.dashboard.config.AwsConfig;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
-import com.lead.dashboard.domain.vendor.Vendor;
-import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
-import com.lead.dashboard.dto.request.VendorEditRequest;
+import com.lead.dashboard.domain.vendor.*;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
-import com.lead.dashboard.dto.response.*;
+import com.lead.dashboard.dto.response.VendorAllRequestOfUser;
+import com.lead.dashboard.dto.response.VendorAllResponse;
+import com.lead.dashboard.dto.response.VendorHistoryUpdated;
+import com.lead.dashboard.dto.response.VendorResponse;
+import com.lead.dashboard.dto.response.VendorUpdateHistoryAllResponse;
+import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
 import com.lead.dashboard.repository.*;
-import com.lead.dashboard.service.VendorService;
+import com.lead.dashboard.repository.VendorRepository.*;
+import com.lead.dashboard.service.vendorServices.VendorService;
+import com.lead.dashboard.serviceImpl.FileUploadServiceImpl;
+import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,17 +28,19 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
 @Service
 public class VendorServiceImpl implements VendorService {
 
     @Autowired
     private UserRepo userRepository;
+//
+//    @Autowired
+//    private UrlsManagmentRepo urlsManagmentRepo;
 
-    @Autowired
-    private UrlsManagmentRepo urlsManagmentRepo;
-
-    @Autowired
-    private VendorRepository vendorRepository;
+ @Autowired
+ private VendorRepository vendorRepository;
 
     @Autowired
     private FileUploadServiceImpl fileUploadService;
@@ -50,82 +57,115 @@ public class VendorServiceImpl implements VendorService {
     @Autowired
     private MailSendSerivceImpl mailSendSerivce;
 
+    @Autowired
+    private VendorSubCategoryRepository vendorSubCategoryRepository;
+
+    @Autowired
+    private VendorCategoryRepo vendorCategoryRepository;
+
+    @Autowired
+    private UserVendorRequestCountRepository userVendorRequestCountRepository;
+
+    @Autowired
+    private AwsConfig awsConfig;
+
+
+
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
+
         Optional<User> userDetails = userRepository.findById(userId);
         if (userDetails.isPresent()) {
             Vendor vendor = new Vendor();
-            UrlsManagment urlsManagmentOpt = urlsManagmentRepo.findByUrlsName(vendorRequest.getServiceName());
 
-            if (urlsManagmentOpt != null) {
-                Optional<Lead> leadOpt = leadRepository.findById(leadId);
-                if (leadOpt.isPresent()) {
-                    Lead lead = leadOpt.get();
+            VendorCategory vendorCategory = vendorCategoryRepository.findById(vendorRequest.getVendorCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Vendor Category not found"));
 
-                    vendor.setUser(userDetails.get());
-                    vendor.setRequirementDescription(vendorRequest.getDescription());
-                    vendor.setClientEmailId(vendorRequest.getClientMailId());
-                    vendor.setClientCompanyName(vendorRequest.getCompanyName());
-                    vendor.setClientName(vendorRequest.getClientName());
-                    vendor.setSalesAttachmentReferencePath(vendorRequest.getSaleTeamAttachmentReference());
-                    vendor.setUrlsManagment(urlsManagmentOpt);
-                    vendor.setDisplay(true);
-                    vendor.setAddedBy(userDetails.get().getId());
-                    vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
-                    vendor.setLead(lead);
-                    vendor.setCreateDate(new Date());
-                    vendor.setUpdatedDate(new Date());
-                    vendor.setStatus("Initial");
-                    vendor.setDate(LocalDate.now());
-                    vendor.setCurrentUpdatedDate(LocalDate.now());
+            VendorSubCategory vendorSubCategory = vendorSubCategoryRepository.findById(vendorRequest.getSubVendorCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
 
+            List<User> alignedUserListForSubCategory = vendorSubCategory.getAssignedUsers();
+            User assignedUser;
 
-                    vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
-
-                    Designation procurementManagerDesignation = designationRepo.findByName("Procurement Manager");
-                    if (procurementManagerDesignation != null) {
-                        User procurementManagerOpt = userRepository.findUserByDesignationName(procurementManagerDesignation.getName());
-                        if (procurementManagerOpt != null) {
-                            vendor.setAssignedUser(procurementManagerOpt);
-                        } else {
-                            assignAdminUser(vendor);
-                        }
-                    } else {
-                        assignAdminUser(vendor);
-                    }
-
-                    vendor = vendorRepository.save(vendor);
-
-                    VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
-                    vendorUpdate.setVendor(vendor);
-                    vendorUpdate.setRequestStatus("Initial");
-                    vendorUpdate.setUpdateDate(new Date());
-                    vendorUpdate.setUpdateDescription("Vendor request created");
-                    vendorUpdate.setLead(lead);
-                    vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
-                    vendorUpdate.setCreateDate(new Date());
-                    vendorUpdate.setDisplay(true);
-                    vendorUpdate.setUrlsManagment(urlsManagmentOpt);
-                    vendor.setDate(LocalDate.now());
-                    vendor.setCurrentUpdatedDate(LocalDate.now());
-
-                    vendorUpdate.setBudgetPrice(vendorRequest.getClientBudgetPrice());
-
-                    vendorUpdate.setRaisedBy(userDetails.get());
-                    vendorUpdate.setUser(vendor.getAssignedUser());
-                    vendorUpdate.setDate(LocalDate.now());
-                    vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
-
-
-                    vendorHistoryRepository.save(vendorUpdate);
-
-                    return new VendorResponse(vendor);
-                } else {
-                    throw new RuntimeException("Lead not found for ID: " + leadId);
-                }
+            if (alignedUserListForSubCategory == null || alignedUserListForSubCategory.isEmpty()) {
+                assignedUser = assignAdminUser();
             } else {
-                throw new RuntimeException("URLs not found for service name: " + vendorRequest.getServiceName());
+                int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % alignedUserListForSubCategory.size();
+                assignedUser = alignedUserListForSubCategory.get(nextUserIndex);
+
+                vendorSubCategory.setLastAssignedUserIndex(nextUserIndex);
+                vendorSubCategoryRepository.save(vendorSubCategory);
             }
+
+            vendor.setAssignedUser(assignedUser);
+            vendor.setUser(userDetails.get());
+            vendor.setRequirementDescription(vendorRequest.getDescription());
+            vendor.setClientEmailId(vendorRequest.getClientMailId());
+            vendor.setClientCompanyName(vendorRequest.getCompanyName());
+            vendor.setClientName(vendorRequest.getClientName());
+
+            String saleTeamAttachmentReference = vendorRequest.getSaleTeamAttachmentReference();
+            String salesAttachmentImage = null;
+
+            if (saleTeamAttachmentReference != null && !saleTeamAttachmentReference.isEmpty()) {
+                salesAttachmentImage = saleTeamAttachmentReference.substring(saleTeamAttachmentReference.lastIndexOf('/') + 1);
+            }
+
+            vendor.setSalesAttachmentReferencePath(saleTeamAttachmentReference);
+            vendor.setSalesAttachmentImage(salesAttachmentImage);
+            vendor.setVendorCategory(vendorCategory);
+            vendor.setVendorSubCategory(vendorSubCategory);
+            vendor.setDisplay(true);
+            vendor.setAddedBy(userDetails.get().getId());
+            vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
+            vendor.setLead(leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found")));
+            vendor.setCreateDate(new Date());
+            vendor.setUpdatedDate(new Date());
+            vendor.setStatus("Initial");
+            vendor.setDate(LocalDate.now());
+            vendor.setCurrentUpdatedDate(LocalDate.now());
+            vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
+
+            vendor = vendorRepository.save(vendor);
+
+            Optional<UserVendorRequestCount> userVendorRequestCountOpt = userVendorRequestCountRepository
+                    .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
+
+            UserVendorRequestCount userVendorRequestCount;
+            if (userVendorRequestCountOpt.isPresent()) {
+                userVendorRequestCount = userVendorRequestCountOpt.get();
+                userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
+            } else {
+                userVendorRequestCount = new UserVendorRequestCount();
+                userVendorRequestCount.setUser(assignedUser);
+                userVendorRequestCount.setVendorCategory(vendorCategory);
+                userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
+                userVendorRequestCount.setRequestCount(1);
+                userVendorRequestCount.setCreatedAt(new Date());
+            }
+            userVendorRequestCount.setUpdatedAt(new Date());
+            userVendorRequestCountRepository.save(userVendorRequestCount);
+
+            // Create VendorUpdateHistory entry
+            VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
+            vendorUpdate.setVendor(vendor);
+            vendorUpdate.setRequestStatus("Initial");
+            vendorUpdate.setUpdateDate(new Date());
+            vendorUpdate.setUpdateDescription("Vendor request created");
+            vendorUpdate.setLead(vendor.getLead());
+            vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
+            vendorUpdate.setCreateDate(new Date());
+            vendorUpdate.setDisplay(true);
+            vendorUpdate.setVendorCategory(vendorCategory);
+            vendorUpdate.setVendorSubCategory(vendorSubCategory);
+            vendorUpdate.setRaisedBy(userDetails.get());
+            vendorUpdate.setUser(vendor.getAssignedUser());
+            vendorUpdate.setDate(LocalDate.now());
+            vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
+            vendorUpdate.setBudgetPrice(vendor.getClientBudget());
+            vendorHistoryRepository.save(vendorUpdate);
+
+            return new VendorResponse(vendor);
         } else {
             throw new RuntimeException("User not found for ID: " + userId);
         }
@@ -133,12 +173,13 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-    private void assignAdminUser(Vendor vendor) {
+
+    private User assignAdminUser() {
         List<User> adminUsers = userRepository.findByRoleAndIsNotDeleted("ADMIN");
         if (!adminUsers.isEmpty()) {
-            vendor.setAssignedUser(adminUsers.get(0));
+            return adminUsers.get(0);
         } else {
-            throw new RuntimeException("Admin user not found");
+            throw new RuntimeException("No ADMIN user found");
         }
     }
 
@@ -155,24 +196,19 @@ public class VendorServiceImpl implements VendorService {
         List<Vendor> vendors;
 
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
-        boolean isProcurementManager = userDetails.getDesignation().equalsIgnoreCase("Procurement Manager");
         boolean isSalesDepartment = userDetails.getDepartment().equalsIgnoreCase("Sales");
 
-        if (isAdmin || isProcurementManager) {
-            // Fetch all vendor requests for admin or procurement manager
+        if (isAdmin) {
             vendors = vendorRepository.findAllVendorRequests(leadId);
         } else if (isSalesDepartment) {
-            // Fetch vendor requests for users in the Sales department
             vendors = vendorRepository.findVendorRequestsBySalesUserAndLead(userId, leadId);
         } else {
-            // Fetch vendor requests assigned to the user
             vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
 
-            // Fetch update history for each vendor
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
                     .map(VendorUpdateHistoryResponse::new)
@@ -187,11 +223,9 @@ public class VendorServiceImpl implements VendorService {
 
 
     public List<VendorResponse> updateVendorDetails(List<Long> vendorIdList, Long updatedById, Long assigneeToId) {
-        // Fetch the user who updated the vendor (updatedById)
         User updatedByUser = userRepository.findById(updatedById)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + updatedById));
 
-        // Fetch the assignee user (assigneeToId)
         User assignedToUser = userRepository.findById(assigneeToId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + assigneeToId));
 
@@ -202,18 +236,14 @@ public class VendorServiceImpl implements VendorService {
             Vendor vendor = vendorRepository.findById(vendorId)
                     .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-            // Set the updatedBy and assignedUser fields
             vendor.setUpdatedBy(updatedById);
             vendor.setAssignedUser(assignedToUser);
-            // Update the updated date
             vendor.setUpdatedDate(new Date());
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
 
-            // Save the updated vendor
             vendorRepository.save(vendor);
 
-            // Add the response with updated vendor data
             responses.add(new VendorResponse(vendor));
         }
 
@@ -232,7 +262,11 @@ public class VendorServiceImpl implements VendorService {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
+//        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
+
+        Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorQuotationRequest.getVendorCategoryId());
+
+        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubVendorCategoryId());
 
         User mailSentBy = user;
         String clientEmailId = vendorQuotationRequest.getClientMailId();
@@ -246,12 +280,16 @@ public class VendorServiceImpl implements VendorService {
         String[] mailTo = mailToList.toArray(new String[0]);
 
         String[] mailCc = new String[]{mailSentBy.getEmail()};
-        String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
+//        String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
+        String subject = "Quotation for - " + vendor.getVendorCategory().getVendorCategoryName();
+
         String body = vendorQuotationRequest.getComment();
 
 
+
         try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest, mailSentBy);
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest,
+                    mailSentBy,vendorCategory,vendorSubCategory);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
@@ -263,7 +301,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setProposalSentStatus(true);
         vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
-        vendorUpdateHistory.setUrlsManagment(urlsManagment);
+//        vendorUpdateHistory.setUrlsManagment(urlsManagment);
         vendorUpdateHistory.setUpdatedBy(user.getId());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setQuotationAmount(vendorQuotationRequest.getQuotationAmount());
@@ -278,6 +316,10 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setDeleted(true);// Set mailCc as List<String>
         vendorUpdateHistory.setDate(LocalDate.now());
         vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
+
+        vendorUpdateHistory.setVendorCategory(vendorCategory.get());
+        vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.get());
+
 
 
         vendorHistoryRepository.save(vendorUpdateHistory);
@@ -325,7 +367,12 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
+//        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
+
+        Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorRequestUpdate.getVendorCategoryId());
+
+        Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorRequestUpdate.getSubVendorCategoryId());
+
 
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
@@ -339,7 +386,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setCreateDate(new Date());
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setRaisedBy(vendor.getUser());
-        vendorUpdateHistory.setUrlsManagment(vendor.getUrlsManagment());
+//        vendorUpdateHistory.setUrlsManagment(vendor.getUrlsManagment());
         vendorUpdateHistory.setExternalVendorPrice(vendorRequestUpdate.getExternalVendorPrice());
         vendorUpdateHistory.setInternalVendorPrices(vendorRequestUpdate.getInternalVendorPrices());
         vendorUpdateHistory.setExternalVendorFilePath(vendorRequestUpdate.getExternalVendorFilePath());
@@ -349,6 +396,11 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setRequestStatus(vendorRequestUpdate.getRequestStatus());
         vendorUpdateHistory.setDate(LocalDate.now());
         vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
+        vendorUpdateHistory.setVendorCategory(vendorCategory.get());
+        vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.get());
+        vendorUpdateHistory.setUpdatedName(user.getFullName());
+
+
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
 
@@ -378,22 +430,26 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-        // Create a pageable object using zero-based page indexing
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Vendor> vendorPage;
 
-        // Fetch vendors with pagination from the repository
-        Page<Vendor> vendorPage = vendorRepository.findAll(pageable);
-        List<Vendor> vendorList = vendorPage.getContent(); // Get the current page content
+        boolean isAdmin = user.getUserRole().stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
 
-        long totalCount = vendorRepository.count();
+        if (isAdmin) {
+            vendorPage = vendorRepository.findAll(pageable);
+        } else {
+            vendorPage = vendorRepository.findByAssignedUser(user, pageable);
+        }
 
+        List<Vendor> vendorList = vendorPage.getContent();
+        long totalCount = vendorPage.getTotalElements();
 
         List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
 
         for (Vendor vendor : vendorList) {
             VendorAllResponse vendorResponseDTO = new VendorAllResponse();
 
-            // Mapping Vendor details
             vendorResponseDTO.setId(vendor.getId());
             vendorResponseDTO.setClientEmailId(vendor.getClientEmailId());
             vendorResponseDTO.setClientCompanyName(vendor.getClientCompanyName());
@@ -405,11 +461,20 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
-            vendorResponseDTO.setServiceName(vendor.getUrlsManagment().getUrlsName());
+
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
+            vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+            vendorResponseDTO.setVendorCategoryId(vendor.getVendorCategory().getId());
+            vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
+            vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
+            vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
+            vendorResponseDTO.setView(vendor.isView());
+            vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
-            // Map vendor update history
+            String fullImagePath = awsConfig.getS3BaseUrl() + "/"+vendor.getSalesAttachmentImage();
+            vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
+
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
                 VendorUpdateHistoryAllResponse historyDTO = new VendorUpdateHistoryAllResponse();
@@ -420,6 +485,8 @@ public class VendorServiceImpl implements VendorService {
                 historyDTO.setBudgetPrice(history.getBudgetPrice());
                 historyDTO.setProposalSentStatus(history.isProposalSentStatus());
                 historyDTO.setQuotationAmount(history.getQuotationAmount());
+                historyDTO.setVendorCategoryName(history.getVendorCategory().getVendorCategoryName());
+                historyDTO.setVendorSubCategoryName(history.getVendorSubCategory().getVendorSubCategoryName());
 
                 updateHistoryDTOList.add(historyDTO);
             }
@@ -428,12 +495,9 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTOList.add(vendorResponseDTO);
         }
 
-        // Create response map with pagination details
         Map<String, Object> response = new HashMap<>();
         response.put("vendorsRequests", vendorResponseDTOList);
-//        response.put("currentPage", vendorPage.getNumber());
         response.put("totalItems", totalCount);
-//        response.put("totalPages", vendorPage.getTotalPages());
 
         return response;
     }
@@ -446,13 +510,85 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
+
 
 
         List<VendorUpdateHistory> updateHistoryPage = vendorHistoryRepository.findUpdateHistoryByLeadAndVendor(leadId, vendorRequestId);
 
         return updateHistoryPage;
     }
+    @Override
+    public Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+
+        Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
+
+        long totalCount = vendorRequests.getTotalElements();
+
+        List<VendorAllRequestOfUser> responseList = new ArrayList<>();
+        if (vendorRequests.hasContent()) {
+            responseList = vendorRequests.stream()
+                    .map(vendor -> {
+                        VendorAllRequestOfUser response = new VendorAllRequestOfUser();
+                        response.setVendorRequestId(vendor.getId());
+                        response.setBudgetPrice(vendor.getClientBudget());
+                        response.setLeadId(vendor.getLead().getId());
+                        response.setLeadName(vendor.getLead().getLeadName());
+                        response.setCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+                        response.setCategoryId(vendor.getVendorCategory().getId());
+                        response.setSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
+                        response.setSubCategoryId(vendor.getVendorSubCategory().getId());
+                        response.setClientName(vendor.getClientName());
+                        response.setCompanyName(vendor.getClientCompanyName());
+                        response.setInitialQuotationName(vendor.getSalesAttachmentReferencePath());
+                        response.setRequirementDescription(vendor.getRequirementDescription());
+                        response.setClientEmail(vendor.getClientEmailId());
+                        response.setClientNumber(vendor.getClientMobileNumber());
+                        response.setSalesAttachmentImage(vendor.getSalesAttachmentImage());
+                        response.setView(vendor.isView());
+                        response.setViewedBy(vendor.getViewedBy());
+
+                        vendor.getVendorUpdateHistory().stream()
+                                .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
+                                .ifPresent(latestUpdate -> response.setCurrentStatus(latestUpdate.getRequestStatus()));
+
+                        response.setDate(vendor.getDate());
+                        return response;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("vendorRequests", responseList);
+        response.put("totalCount", totalCount);
+
+        return response;
+    }
+
+    @Override
+    public boolean markVendorAsViewed(Long id, Long userId) {
+
+        Optional<Vendor> vendorOptional = vendorRepository.findById(id);
+
+        if (vendorOptional.isPresent()) {
+            Vendor vendor = vendorOptional.get();
+            vendor.setView(true);
+            vendor.setViewedBy(userId);
+            vendorRepository.save(vendor);
+            return true;
+        }
+        return false;
+    }
+
+
 }
 

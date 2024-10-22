@@ -34,15 +34,30 @@ public class VendorUpdateHistory implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="current_assignee_id")
+    @JsonIgnore
+
     private User user;
 
     @ManyToOne
     @JoinColumn(name="raised_by")
     private User raisedBy;
 
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
+
+
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
+
     @ManyToOne
-    @JoinColumn(name = "service_id")
-    private UrlsManagment urlsManagment;
+    @JoinColumn(name = "vendor_category_id")
+    private VendorCategory vendorCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_sub_category_id")
+    private VendorSubCategory vendorSubCategory;
 
     private String requestStatus;
 
@@ -68,6 +83,7 @@ public class VendorUpdateHistory implements Serializable {
     private List<String> mailTo;  // Keep as List<String>
 
     private List<String> mailCc;   // Change this from List<User> to List<String>
+    private String updatedName;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;

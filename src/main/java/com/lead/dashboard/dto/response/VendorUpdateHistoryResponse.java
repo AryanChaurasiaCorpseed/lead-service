@@ -30,6 +30,10 @@ public class VendorUpdateHistoryResponse {
     private String quotationFilePath;
 
 
+    private String vendorCategoryName;
+    private String vendorSubCategoryName;
+
+
     public VendorUpdateHistoryResponse(VendorUpdateHistory vendorUpdateHistory) {
         this.id = vendorUpdateHistory.getId();
         this.updateDescription = vendorUpdateHistory.getUpdateDescription();
@@ -42,6 +46,9 @@ public class VendorUpdateHistoryResponse {
         this.internalVendorFilePath = vendorUpdateHistory.getInternalVendorFilePath();
         this.quotationAmount = vendorUpdateHistory.getQuotationAmount();
         this.quotationFilePath = vendorUpdateHistory.getQuotationFilePath();
+
+//        this.vendorCategoryName=vendorUpdateHistory.getVendorCategory().getVendorCategoryName();
+//        this.vendorSubCategoryName=vendorUpdateHistory.getVendorSubCategory().getVendorSubCategoryName();
     }
 
 }

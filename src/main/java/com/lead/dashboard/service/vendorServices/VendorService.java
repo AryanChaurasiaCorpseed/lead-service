@@ -1,16 +1,11 @@
-package com.lead.dashboard.service;
+package com.lead.dashboard.service.vendorServices;
 
-import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
-import com.lead.dashboard.dto.request.VendorEditRequest;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
-import com.lead.dashboard.dto.response.VendorAllResponse;
-import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -33,4 +28,8 @@ public interface VendorService {
     List<VendorResponse> updateVendorDetails(List<Long> vendorId, Long updatedById, Long assigneeToId);
 
     Map<String, Object> findAllVendorRequest(Long userId, int page, int size);
+
+    Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size);
+
+    boolean markVendorAsViewed(Long id, Long userId);
 }

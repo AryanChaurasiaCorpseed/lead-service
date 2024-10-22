@@ -37,6 +37,8 @@ public class Vendor implements Serializable {
 
     private String salesAttachmentReferencePath;
 
+    private String salesAttachmentImage;
+
     @ManyToOne
     @JoinColumn(name="lead_id")
     @JsonIgnore
@@ -46,9 +48,21 @@ public class Vendor implements Serializable {
 
     private String clientEmailId;
 
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
+
     @ManyToOne
-    @JoinColumn(name = "service_id")
-    private UrlsManagment urlsManagment;
+    @JoinColumn(name = "vendor_category_id")
+    private VendorCategory vendorCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_sub_category_id")
+    private VendorSubCategory vendorSubCategory;
+
 
     private String clientCompanyName;
 
@@ -83,7 +97,7 @@ public class Vendor implements Serializable {
 
     private boolean proposalSentStatus;
 
-    boolean isView;
+    boolean isView = false;
 
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendorUpdateHistory> vendorUpdateHistory;
@@ -95,6 +109,11 @@ public class Vendor implements Serializable {
 
     @Column(name = "current_updated_date")
     private LocalDate currentUpdatedDate;
+
+    private Long viewedBy;
+
+
+
 
 
 

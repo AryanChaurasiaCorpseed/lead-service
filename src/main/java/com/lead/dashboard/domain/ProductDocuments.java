@@ -23,4 +23,8 @@ public class ProductDocuments {
 	String description;
 	String type;
 	Boolean isDeleted;
+	
+	
+	
+
 }
