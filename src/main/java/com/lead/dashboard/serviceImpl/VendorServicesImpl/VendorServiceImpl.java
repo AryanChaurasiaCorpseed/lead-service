@@ -213,7 +213,7 @@ public class VendorServiceImpl implements VendorService {
 
             String fullImagePath = null;
             if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
-                fullImagePath = s3BaseUrl + "/" + vendor.getSalesAttachmentImage();
+                fullImagePath = s3BaseUrl + vendor.getSalesAttachmentImage();
             }
             vendorResponse.setSalesAttachmentImage(fullImagePath);
 
@@ -480,7 +480,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
-            String fullImagePath = awsConfig.getS3BaseUrl() + "/"+vendor.getSalesAttachmentImage();
+            String fullImagePath = awsConfig.getS3BaseUrl()+vendor.getSalesAttachmentImage();
             vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
@@ -560,7 +560,7 @@ public class VendorServiceImpl implements VendorService {
 
                         String fullImagePath = null;
                         if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
-                            fullImagePath = awsConfig.getS3BaseUrl() + "/" + vendor.getSalesAttachmentImage();
+                            fullImagePath = awsConfig.getS3BaseUrl()+ vendor.getSalesAttachmentImage();
                         }
                         response.setSalesAttachmentImage(fullImagePath);
 
