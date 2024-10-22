@@ -8,6 +8,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
@@ -143,6 +144,12 @@ public class ProductServiceImpl implements ProductService {
 		stage.setNoOfDays(stageDto.getNoOfDays());
 		stage.setTransferPercent(stageDto.getTransferPercent());
 		stage.setPricePercent(stageDto.getPricePercent());
+		return null;
+	}
+
+	@Override
+	public Boolean addDocumentsInProduct(DocProductDto docProductDto) {
+		
 		return null;
 	}
 

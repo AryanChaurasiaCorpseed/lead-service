@@ -4,6 +4,7 @@ package com.lead.dashboard.controller.productController;
 import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.UpdateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
@@ -85,12 +86,22 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
-    @PostMapping("/createStageInProduct")
-    public ResponseEntity<Boolean> createStageInProduct(@RequestBody StageDto StageDto) {
+    @PostMapping("/addStageInProduct")
+    public ResponseEntity<Boolean> addStageInProduct(@RequestBody StageDto StageDto) {
 
 
         Boolean result = productService.createStageInProduct(StageDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+    
+    @PostMapping("/addDocumentsInProduct")
+    public ResponseEntity<Boolean> addDocumentsInProduct(@RequestBody DocProductDto docProductDto) {
+
+
+        Boolean result = productService.addDocumentsInProduct(docProductDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
 }
