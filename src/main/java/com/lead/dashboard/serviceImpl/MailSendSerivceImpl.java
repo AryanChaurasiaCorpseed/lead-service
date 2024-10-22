@@ -2,6 +2,8 @@ package com.lead.dashboard.serviceImpl;
 
 
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.vendor.VendorCategory;
+import com.lead.dashboard.domain.vendor.VendorSubCategory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.service.MailSendService;
 import jakarta.mail.MessagingException;
@@ -15,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class MailSendSerivceImpl implements MailSendService {
@@ -120,10 +123,59 @@ public class MailSendSerivceImpl implements MailSendService {
             helper.setSubject(subject);
 
             Context context = new Context();
-            context.setVariable("serviceName", vendorQuotationRequest.getServiceName());
+//            context.setVariable("serviceName", vendorQuotationRequest.getServiceName());
 
             context.setVariable("clientName", vendorQuotationRequest.getClientName());
-            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
+//            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
+            context.setVariable("sentBy", mailSentBy.getFullName());
+            context.setVariable("quotationAmount", vendorQuotationRequest.getQuotationAmount());
+            context.setVariable("quotationFilePath", vendorQuotationRequest.getQuotationFilePath());
+
+            String htmlContent = templateEngine.process("vendor_email_template", context);
+            helper.setText(htmlContent, true);
+
+            javaMailSender.send(mimeMessage);
+            System.out.println("Email sent successfully to: " + Arrays.toString(emailTo));
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email due to MessagingException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
+        }
+    }
+
+
+
+
+
+   
+
+    
+    public void sendEmailWithAttachmentForVendor(String[] emailTo, String[] ccPersons, String subject,
+                                                 String body, VendorQuotationRequest vendorQuotationRequest,
+
+          User mailSentBy, Optional<VendorCategory> vendorCategory,Optional<VendorSubCategory> vendorSubCategory) {
+        try {
+
+
+            validateEmailAddresses(emailTo, "To");
+            validateEmailAddresses(ccPersons, "Cc");
+
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+            helper.setFrom(fromEmail);
+            helper.setTo(emailTo);
+            helper.setCc(ccPersons);
+            helper.setSubject(subject);
+
+            Context context = new Context();
+//            context.setVariable("serviceName", vendorQuotationRequest.getServiceName());
+
+            context.setVariable("clientName", vendorQuotationRequest.getClientName());
+//            context.setVariable("urlsName", vendorQuotationRequest.getServiceName());
+
+            context.setVariable("clientName", vendorQuotationRequest.getClientName());
             context.setVariable("sentBy", mailSentBy.getFullName());
             context.setVariable("quotationAmount", vendorQuotationRequest.getQuotationAmount());
             context.setVariable("quotationFilePath", vendorQuotationRequest.getQuotationFilePath());
@@ -154,8 +206,6 @@ public class MailSendSerivceImpl implements MailSendService {
             }
         }
     }
-
-
 
 
 

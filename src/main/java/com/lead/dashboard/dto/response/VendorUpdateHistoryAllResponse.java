@@ -31,6 +31,9 @@ public class VendorUpdateHistoryAllResponse {
 
     private String quotationFilePath;
 
+    private String vendorCategoryName;
+    private String vendorSubCategoryName;
+
 
 
 }

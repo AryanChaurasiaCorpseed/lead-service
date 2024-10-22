@@ -49,6 +49,18 @@ public class Vendor implements Serializable {
     @ManyToOne
     @JoinColumn(name = "service_id")
     private UrlsManagment urlsManagment;
+//    @ManyToOne
+//    @JoinColumn(name = "service_id")
+//    private UrlsManagment urlsManagment;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_category_id")
+    private VendorCategory vendorCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_sub_category_id")
+    private VendorSubCategory vendorSubCategory;
+
 
     private String clientCompanyName;
 

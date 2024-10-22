@@ -1,4 +1,4 @@
-package com.lead.dashboard.repository;
+package com.lead.dashboard.repository.VendorRepository;
 
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
 public interface VendorHistoryRepository extends JpaRepository<VendorUpdateHistory,Long> {
 
     List<VendorUpdateHistory> findByVendorIdAndIsDeletedFalse(Long id);

@@ -13,7 +13,8 @@ import lombok.Setter;
 
 
 
-       private String serviceName;
+//       private String serviceName;
+//       private String serviceName;
 
        private String clientName;
 
@@ -40,6 +41,11 @@ import lombok.Setter;
        private String internalVendorPrices;
 
        private String internalVendorFilePath;
+
+
+       private Long vendorCategoryId;
+
+       private Long subVendorCategoryId;
 
 
     }

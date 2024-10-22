@@ -15,7 +15,14 @@ public class VendorRequest {
 
     private String description;
 
-    private String serviceName;
+//    private String serviceName;
+//    private String serviceName;
+
+
+    private Long vendorCategoryId;
+
+    private Long subVendorCategoryId;
+
 
     private String companyName;
 
@@ -30,6 +37,7 @@ public class VendorRequest {
     private String saleTeamAttachmentReference;
 
     private Long assignedUserId;
+//    private Long assignedUserId;
 
     private String clientBudgetPrice;
 
