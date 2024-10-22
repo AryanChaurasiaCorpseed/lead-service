@@ -221,7 +221,6 @@ public class UrlsMapping {
 	public static final String CREATE_CONTACT=PREFIX+"/contact/createContact";
 
 
-	//Vendor
 	public static final String CREATE_VENDOR_REQUEST = "/leadService/api/v1/vendor/create-vendor-request";
 	public static final String FIND_VENDOr_REQUEST_BY_USER_ID = "/leadService/api/v1/vendor/find-vendor-request-by-user-id";
 	public static final String UPDATE_VENDOR_REQUEST = "/leadService/api/v1/vendor/update-vendor-request";
@@ -230,6 +229,22 @@ public class UrlsMapping {
 	public static final String FIND_ALL_VENDOR_REQUEST = "/leadService/api/v1/vendor/find-all-vendor-request";
 	public static final String FIND_UPDATE_REQUEST_HISTORY = "/leadService/api/v1/vendor/find-update-request-history";
 
+	public static final String FIND_ALL_VENDOR_REQUEST_OF_USER = "/leadService/api/v1/vendor/find-all-vendor-request-of-user";
 
+	
+	//Vendor Category
+		public static final String CREATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/create-vendor-category";
+		public static final String UPDATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/update-vendor-category";
+		public static final String GET_VENDOR_CATEGORY = "/leadService/api/v1/vendor/fetch-vendor-category";
+		public static final String GET_ALL_VENDOR_CATEGORIES = "/leadService/api/v1/vendor/fetch-all-vendor-category";
+//		public static final String UPDATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/update-category";
+//		public static final String UPDATE_VENDOR_CATEGORY = "/leadService/api/v1/vendor/update-category";
+
+		//Vendor Sub Category
+		public static final String CREATE_VENDOR_SUB_CATEGORY = "/leadService/api/v1/vendor/create-vendor-sub-category";
+		public static final String UPDATE_VENDOR_SUB_CATEGORY = "/leadService/api/v1/vendor/update-vendor-sub-category";
+		public static final String GET_VENDOR_SUB_CATEGORY = "/leadService/api/v1/vendor/fetch-vendor-sub-category";
+		public static final String GET_ALL_VENDOR_SUB_CATEGORIES = "/leadService/api/v1/vendor/fetch-all-vendor-sub-category";
+		public static final String ASSIGN_USERS_TO_SUB_CATEGORY = "/leadService/api/v1/vendor/map-assignee-to-sub-category";
 
 }

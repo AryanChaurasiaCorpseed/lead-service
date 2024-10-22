@@ -4,6 +4,7 @@ package com.lead.dashboard.controller.productController;
 import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProduct;
+import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.UpdateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,15 @@ public class ProductController {
 
 
     	Boolean result = productService.importProductByUrls(productImportDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
+    @PostMapping("/createStageInProduct")
+    public ResponseEntity<Boolean> createStageInProduct(@RequestBody StageDto StageDto) {
+
+
+        Boolean result = productService.createStageInProduct(StageDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

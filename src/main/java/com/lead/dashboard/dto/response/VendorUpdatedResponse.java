@@ -27,8 +27,11 @@ public class VendorUpdatedResponse {
     private boolean proposalSentStatus;
     private Date createDate;
     private Date updatedDate;
-    private String serviceName;
+//    private String serviceName;
     private String contactNumber;
+//    private String serviceName;
+    private String vendorCategoryName;
+    private String vendorSubCategoryName;
 
 
     private List<VendorUpdateHistoryResponse> updateHistory;
@@ -46,8 +49,12 @@ public class VendorUpdatedResponse {
         this.proposalSentStatus = vendor.isProposalSentStatus();
         this.createDate = vendor.getCreateDate();
         this.updatedDate = vendor.getUpdatedDate();
-        this.serviceName=vendor.getUrlsManagment().getUrlsName();
+//        this.serviceName=vendor.getUrlsManagment().getUrlsName();
         this.contactNumber=vendor.getClientMobileNumber();
+//        this.serviceName=vendor.getUrlsManagment().getUrlsName();
+        this.contactNumber=vendor.getClientMobileNumber();
+//        this.vendorCategoryName=vendor.getVendorCategory().getVendorCategoryName();
+//        this.vendorSubCategoryName=vendor.getVendorSubCategory().getVendorSubCategoryName();
 
 
     }

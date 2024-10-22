@@ -26,5 +26,15 @@ public class VendorAllResponse {
     private String serviceName;
     private Long assigneeId;
     private String assigneeName;
+
+    private Long vendorCategoryId;
+    private String vendorCategoryName;
+
+    private Long vendorSubCategoryId;
+    private String vendorSubCategoryName;
+    private String raiseBy;
+
+
+
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
 }
