@@ -29,5 +29,7 @@ public class VendorAllRequestOfUser {
     private String requirementDescription;
     private String clientNumber;
     private String clientEmail;
+    private String salesAttachmentImage;
+
 
 }

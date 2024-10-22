@@ -543,6 +543,7 @@ public class VendorServiceImpl implements VendorService {
                         response.setRequirementDescription(vendor.getRequirementDescription());
                         response.setClientEmail(vendor.getClientEmailId());
                         response.setClientNumber(vendor.getClientMobileNumber());
+                        response.setSalesAttachmentImage(vendor.getSalesAttachmentImage());
 
                         vendor.getVendorUpdateHistory().stream()
                                 .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
