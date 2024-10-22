@@ -40,4 +40,9 @@ public class VendorAllResponse {
 
 
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
+
+
+    boolean isView;
+
+    private Long viewedBy;
 }

@@ -31,5 +31,9 @@ public class VendorAllRequestOfUser {
     private String clientEmail;
     private String salesAttachmentImage;
 
+    boolean isView;
+
+    private Long viewedBy;
+
 
 }

@@ -461,6 +461,8 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
             vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
+            vendorResponseDTO.setView(vendor.isView());
+            vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
             String fullImagePath = awsConfig.getS3BaseUrl() + vendor.getSalesAttachmentImage();
             vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
@@ -544,6 +546,8 @@ public class VendorServiceImpl implements VendorService {
                         response.setClientEmail(vendor.getClientEmailId());
                         response.setClientNumber(vendor.getClientMobileNumber());
                         response.setSalesAttachmentImage(vendor.getSalesAttachmentImage());
+                        response.setView(vendor.isView());
+                        response.setViewedBy(vendor.getViewedBy());
 
                         vendor.getVendorUpdateHistory().stream()
                                 .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
