@@ -71,7 +71,6 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
 
@@ -104,7 +103,16 @@ public class VendorServiceImpl implements VendorService {
             vendor.setClientEmailId(vendorRequest.getClientMailId());
             vendor.setClientCompanyName(vendorRequest.getCompanyName());
             vendor.setClientName(vendorRequest.getClientName());
-            vendor.setSalesAttachmentReferencePath(vendorRequest.getSaleTeamAttachmentReference());
+
+            String saleTeamAttachmentReference = vendorRequest.getSaleTeamAttachmentReference();
+            String salesAttachmentImage = null;
+
+            if (saleTeamAttachmentReference != null && !saleTeamAttachmentReference.isEmpty()) {
+                salesAttachmentImage = saleTeamAttachmentReference.substring(saleTeamAttachmentReference.lastIndexOf('/') + 1);
+            }
+
+            vendor.setSalesAttachmentReferencePath(saleTeamAttachmentReference);
+            vendor.setSalesAttachmentImage(salesAttachmentImage);
             vendor.setVendorCategory(vendorCategory);
             vendor.setVendorSubCategory(vendorSubCategory);
             vendor.setDisplay(true);
@@ -114,7 +122,6 @@ public class VendorServiceImpl implements VendorService {
             vendor.setCreateDate(new Date());
             vendor.setUpdatedDate(new Date());
             vendor.setStatus("Initial");
-            vendor.setSalesAttachmentImage(vendorRequest.getSalesAttachmentImage());
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
@@ -125,7 +132,7 @@ public class VendorServiceImpl implements VendorService {
                     .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
 
             UserVendorRequestCount userVendorRequestCount;
-            if (userVendorRequestCountOpt.isPresent()) {  // Check if the optional contains a value
+            if (userVendorRequestCountOpt.isPresent()) {
                 userVendorRequestCount = userVendorRequestCountOpt.get();
                 userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
             } else {
@@ -137,9 +144,9 @@ public class VendorServiceImpl implements VendorService {
                 userVendorRequestCount.setCreatedAt(new Date());
             }
             userVendorRequestCount.setUpdatedAt(new Date());
-
             userVendorRequestCountRepository.save(userVendorRequestCount);
 
+            // Create VendorUpdateHistory entry
             VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
             vendorUpdate.setVendor(vendor);
             vendorUpdate.setRequestStatus("Initial");
@@ -163,6 +170,7 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException("User not found for ID: " + userId);
         }
     }
+
 
 
 
@@ -464,7 +472,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
-            String fullImagePath = awsConfig.getS3BaseUrl() + vendor.getSalesAttachmentImage();
+            String fullImagePath = awsConfig.getS3BaseUrl() + "/"+vendor.getSalesAttachmentImage();
             vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
