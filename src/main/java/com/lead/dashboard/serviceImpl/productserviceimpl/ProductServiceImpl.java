@@ -63,21 +63,21 @@ public class ProductServiceImpl implements ProductService {
     	product.setCreatedBy(user);
     	product.setCreatedDate(new Date());
     	
-    	product.setGovermentfees(createProduct.getGovermentfees());
-    	product.setGovermentCode(createProduct.getGovermentCode());
-    	product.setGovermentGst(createProduct.getGovermentGst());
-
-    	product.setProfessionalFees(createProduct.getProfessionalFees());
-    	product.setProfessionalCode(createProduct.getProfessionalCode());
-    	product.setProfesionalGst(createProduct.getProfesionalGst());
-		
-    	product.setServiceCharge(createProduct.getServiceCharge());			
-    	product.setServiceCode(createProduct.getServiceCode());
-    	product.setServiceGst(createProduct.getServiceGst());
-    	product.setOtherFees(createProduct.getOtherFees());
-		
-    	product.setOtherCode(createProduct.getOtherCode());
-    	product.setOtherGst(createProduct.getOtherGst());
+//    	product.setGovermentfees(createProduct.getGovermentfees());
+//    	product.setGovermentCode(createProduct.getGovermentCode());
+//    	product.setGovermentGst(createProduct.getGovermentGst());
+//
+//    	product.setProfessionalFees(createProduct.getProfessionalFees());
+//    	product.setProfessionalCode(createProduct.getProfessionalCode());
+//    	product.setProfesionalGst(createProduct.getProfesionalGst());
+//		
+//    	product.setServiceCharge(createProduct.getServiceCharge());			
+//    	product.setServiceCode(createProduct.getServiceCode());
+//    	product.setServiceGst(createProduct.getServiceGst());
+//    	product.setOtherFees(createProduct.getOtherFees());
+//		
+//    	product.setOtherCode(createProduct.getOtherCode());
+//    	product.setOtherGst(createProduct.getOtherGst());
     	
     	productRepo.save(product);
     	List<Product> productList = category.getProducts();
@@ -173,6 +173,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Boolean createStageInProduct(StageDto stageDto) {
 		boolean flag = false;
+		
 		Product product = productRepo.findById(stageDto.getProductId()).get();
 		Stages stage= new Stages();
 		stage.setName(stageDto.getName());
@@ -195,8 +196,9 @@ public class ProductServiceImpl implements ProductService {
 		pd.setDescription(docProductDto.getDescription());
 		pd.setName(docProductDto.getName());
 		pd.setType(docProductDto.getType());
-		List<ProductDocuments> prodList=new ArrayList();
-        prodList.add(pd);
+		List<ProductDocuments> prodList=product.getProductDoc();
+		prodList.add(pd);
+		product.setProductDoc(prodList);
 		productRepo.save(product);
 		flag=true;
 		return flag;

@@ -30,7 +30,7 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
-
+ 
     @GetMapping("/getProduct")
     public ResponseEntity<Optional<Product>> getProductById(@RequestParam Long id) {
 
@@ -105,7 +105,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
-    @PostMapping("/addDocumentsInProduct")
+    @PostMapping("/addAmountInProduct")
     public ResponseEntity<Boolean> addAmountInProduct(@RequestBody AddProductAmountDto addProductAmountDto) {
 
 
