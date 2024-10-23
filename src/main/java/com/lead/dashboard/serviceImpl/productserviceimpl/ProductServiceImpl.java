@@ -8,6 +8,7 @@ import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
@@ -91,6 +92,38 @@ public class ProductServiceImpl implements ProductService {
     	categoryRepo.save(category);
         return product;
     }
+
+    
+//    @Override
+    public Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto) {
+    	Boolean flag=false;
+		User user = userRepo.findById(addProductAmountDto.getUserId()).get();
+        Optional<Category> opCategory = categoryRepo.findById(addProductAmountDto.getCategoryId());
+        Category category = opCategory.get();
+    	Product product =productRepo.findById(addProductAmountDto.getProductId()).get();
+    	
+    	
+    	product.setGovermentfees(addProductAmountDto.getGovermentfees());
+    	product.setGovermentCode(addProductAmountDto.getGovermentCode());
+    	product.setGovermentGst(addProductAmountDto.getGovermentGst());
+
+    	product.setProfessionalFees(addProductAmountDto.getProfessionalFees());
+    	product.setProfessionalCode(addProductAmountDto.getProfessionalCode());
+    	product.setProfesionalGst(addProductAmountDto.getProfesionalGst());
+		
+    	product.setServiceCharge(addProductAmountDto.getServiceCharge());			
+    	product.setServiceCode(addProductAmountDto.getServiceCode());
+    	product.setServiceGst(addProductAmountDto.getServiceGst());
+    	product.setOtherFees(addProductAmountDto.getOtherFees());
+		
+    	product.setOtherCode(addProductAmountDto.getOtherCode());
+    	product.setOtherGst(addProductAmountDto.getOtherGst());
+    	
+    	productRepo.save(product);
+    	flag=true;
+        return flag;
+    }
+
 
 
     @Override

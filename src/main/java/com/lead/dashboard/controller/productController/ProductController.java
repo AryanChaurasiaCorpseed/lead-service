@@ -3,6 +3,7 @@ package com.lead.dashboard.controller.productController;
 
 import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
@@ -103,5 +104,15 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+    
+    @PostMapping("/addDocumentsInProduct")
+    public ResponseEntity<Boolean> addAmountInProduct(@RequestBody AddProductAmountDto addProductAmountDto) {
+
+
+        Boolean result = productService.addAmountInProduct(addProductAmountDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
     
 }

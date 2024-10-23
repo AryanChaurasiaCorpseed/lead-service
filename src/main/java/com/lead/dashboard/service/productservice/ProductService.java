@@ -3,6 +3,7 @@ package com.lead.dashboard.service.productservice;
 
 import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
@@ -30,4 +31,6 @@ public interface ProductService {
 	Boolean createStageInProduct(StageDto stageDto);
 
 	Boolean addDocumentsInProduct(DocProductDto docProductDto);
+
+	Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto);
 }
