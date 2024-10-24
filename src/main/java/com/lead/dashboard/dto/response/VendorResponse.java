@@ -19,7 +19,7 @@ public class VendorResponse {
     private String clientEmailId;
     private String clientCompanyName;
     private String contactPersonName;
-    private String vendorReferenceFile;
+    private List<String> vendorReferenceFile;
     private String budgetPrice;
     private String vendorSharedPrice;
     private String status;
@@ -40,7 +40,7 @@ public class VendorResponse {
 
     private List<VendorUpdateHistoryResponse> updateHistory;
 
-    private String salesAttachmentImage;
+    private List<String> salesAttachmentImage;
 
 
     public VendorResponse(Vendor vendor) {

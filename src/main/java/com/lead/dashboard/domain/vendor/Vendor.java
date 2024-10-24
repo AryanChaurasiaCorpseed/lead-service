@@ -35,9 +35,15 @@ public class Vendor implements Serializable {
     @JoinColumn(name="assigned_user")
     private User assignedUser;
 
-    private String salesAttachmentReferencePath;
+    @ElementCollection
+    @CollectionTable(name = "vendor_sales_attachments", joinColumns = @JoinColumn(name = "vendor_id"))
+    @Column(name = "attachment_path")
+    private List<String> salesAttachmentReferencePath;
 
-    private String salesAttachmentImage;
+    @ElementCollection
+    @CollectionTable(name = "vendor_sales_images", joinColumns = @JoinColumn(name = "vendor_id"))
+    @Column(name = "attachment_image")
+    private List<String> salesAttachmentImage;
 
     @ManyToOne
     @JoinColumn(name="lead_id")
