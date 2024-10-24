@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
 import com.lead.dashboard.controller.leadController.ProductImportDto;
+import com.lead.dashboard.domain.ProductAmount;
 import com.lead.dashboard.domain.ProductDocuments;
 import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.UrlsManagment;
@@ -12,6 +13,7 @@ import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
+import com.lead.dashboard.dto.TatAndDescDto;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.CategoryRepo;
@@ -22,7 +24,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -48,9 +52,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
+    public Map<String,Object> getProductById(Long id) {
 
-        return productRepo.findById(id);
+         Optional<Product> opProduct = productRepo.findById(id);
+         Map<String,Object>map = new HashMap<>();
+         
+        if(opProduct!=null && opProduct.get()!=null) {
+        	Product p = opProduct.get();
+            map.put("id", p.getId());
+            map.put("productName", p.getProductName());
+            map.put("productAmount", p.getProductAmount());
+            map.put("productDoc", p.getProductDoc());
+            map.put("productStage", p.getProductStage());
+            map.put("description", p.getDescription());
+            map.put("tatValue", p.getTatValue());
+            map.put("tatType", p.getTatType());
+   
+        }
+      return  map;
+        
     }
 
     @Override
@@ -62,23 +82,7 @@ public class ProductServiceImpl implements ProductService {
     	product.setProductName(createProduct.getName());
     	product.setCreatedBy(user);
     	product.setCreatedDate(new Date());
-    	
-//    	product.setGovermentfees(createProduct.getGovermentfees());
-//    	product.setGovermentCode(createProduct.getGovermentCode());
-//    	product.setGovermentGst(createProduct.getGovermentGst());
-//
-//    	product.setProfessionalFees(createProduct.getProfessionalFees());
-//    	product.setProfessionalCode(createProduct.getProfessionalCode());
-//    	product.setProfesionalGst(createProduct.getProfesionalGst());
-//		
-//    	product.setServiceCharge(createProduct.getServiceCharge());			
-//    	product.setServiceCode(createProduct.getServiceCode());
-//    	product.setServiceGst(createProduct.getServiceGst());
-//    	product.setOtherFees(createProduct.getOtherFees());
-//		
-//    	product.setOtherCode(createProduct.getOtherCode());
-//    	product.setOtherGst(createProduct.getOtherGst());
-    	
+
     	productRepo.save(product);
     	List<Product> productList = category.getProducts();
     	if(productList!=null && productList.size()!=0) {
@@ -95,30 +99,21 @@ public class ProductServiceImpl implements ProductService {
 
     
 //    @Override
-    public Boolean  (AddProductAmountDto addProductAmountDto) {
+    public Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto) {
     	Boolean flag=false;
 		User user = userRepo.findById(addProductAmountDto.getUserId()).get();
-        Optional<Category> opCategory = categoryRepo.findById(addProductAmountDto.getCategoryId());
-        Category category = opCategory.get();
+                                                                                   
     	Product product =productRepo.findById(addProductAmountDto.getProductId()).get();
     	
-    	
-    	product.setGovermentfees(addProductAmountDto.getGovermentfees());
-    	product.setGovermentCode(addProductAmountDto.getGovermentCode());
-    	product.setGovermentGst(addProductAmountDto.getGovermentGst());
+    	ProductAmount pa = new ProductAmount();
+    	pa.setFees(addProductAmountDto.getFees());
+    	pa.setHsnNo(addProductAmountDto.getHsnNo());
+    	pa.setName(addProductAmountDto.getName());
+    	pa.setTaxAmount(addProductAmountDto.getTaxAmount());
 
-    	product.setProfessionalFees(addProductAmountDto.getProfessionalFees());
-    	product.setProfessionalCode(addProductAmountDto.getProfessionalCode());
-    	product.setProfesionalGst(addProductAmountDto.getProfesionalGst());
-		
-    	product.setServiceCharge(addProductAmountDto.getServiceCharge());			
-    	product.setServiceCode(addProductAmountDto.getServiceCode());
-    	product.setServiceGst(addProductAmountDto.getServiceGst());
-    	product.setOtherFees(addProductAmountDto.getOtherFees());
-		
-    	product.setOtherCode(addProductAmountDto.getOtherCode());
-    	product.setOtherGst(addProductAmountDto.getOtherGst());
-    	
+    	List<ProductAmount>paList= new ArrayList<>();
+    	paList.add(pa);
+    	product.setProductAmount(paList); 
     	productRepo.save(product);
     	flag=true;
         return flag;
@@ -190,6 +185,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Boolean addDocumentsInProduct(DocProductDto docProductDto) {
+		
 		Boolean flag=false;
 		Product product = productRepo.findById(docProductDto.getProductId()).get();
 		ProductDocuments pd = new ProductDocuments();
@@ -203,7 +199,18 @@ public class ProductServiceImpl implements ProductService {
 		flag=true;
 		return flag;
 
+	}
 
+	@Override
+	public Boolean addTatAndDescription(TatAndDescDto tatAndDescDto) {
+		Boolean flag=false;
+		Product prod = productRepo.findById(tatAndDescDto.getProductId()).get();
+		prod.setTatType(tatAndDescDto.getTatType());
+		prod.setTatValue(tatAndDescDto.getTatValue());
+		prod.setDescription(tatAndDescDto.getRemarks());
+		productRepo.save(prod);
+		flag=true;
+		return flag;
 	}
 
 }

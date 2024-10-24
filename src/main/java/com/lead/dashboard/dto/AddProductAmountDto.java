@@ -7,18 +7,25 @@ public class AddProductAmountDto {
 	private Long categoryId;
 	private Long userId;
 	
-	int  govermentfees;
-    String govermentCode;
-    String govermentGst;
-    int professionalFees;
-    String professionalCode;
-    String profesionalGst;
-    int serviceCharge;
-    String serviceCode;
-    String serviceGst;
-    int otherFees;
-    String otherCode;
-    String otherGst;
+	String name;
+	int fees;
+	String hsnNo;
+	String taxAmount;
+	
+	
+//	
+//	int  govermentfees;
+//    String govermentCode;
+//    String govermentGst;
+//    int professionalFees;
+//    String professionalCode;
+//    String profesionalGst;
+//    int serviceCharge;
+//    String serviceCode;
+//    String serviceGst;
+//    int otherFees;
+//    String otherCode;
+//    String otherGst;
 	public Long getProductId() {
 		return productId;
 	}
@@ -37,78 +44,30 @@ public class AddProductAmountDto {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public int getGovermentfees() {
-		return govermentfees;
+	public String getName() {
+		return name;
 	}
-	public void setGovermentfees(int govermentfees) {
-		this.govermentfees = govermentfees;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getGovermentCode() {
-		return govermentCode;
+	public int getFees() {
+		return fees;
 	}
-	public void setGovermentCode(String govermentCode) {
-		this.govermentCode = govermentCode;
+	public void setFees(int fees) {
+		this.fees = fees;
 	}
-	public String getGovermentGst() {
-		return govermentGst;
+	public String getHsnNo() {
+		return hsnNo;
 	}
-	public void setGovermentGst(String govermentGst) {
-		this.govermentGst = govermentGst;
+	public void setHsnNo(String hsnNo) {
+		this.hsnNo = hsnNo;
 	}
-	public int getProfessionalFees() {
-		return professionalFees;
+	public String getTaxAmount() {
+		return taxAmount;
 	}
-	public void setProfessionalFees(int professionalFees) {
-		this.professionalFees = professionalFees;
+	public void setTaxAmount(String taxAmount) {
+		this.taxAmount = taxAmount;
 	}
-	public String getProfessionalCode() {
-		return professionalCode;
-	}
-	public void setProfessionalCode(String professionalCode) {
-		this.professionalCode = professionalCode;
-	}
-	public String getProfesionalGst() {
-		return profesionalGst;
-	}
-	public void setProfesionalGst(String profesionalGst) {
-		this.profesionalGst = profesionalGst;
-	}
-	public int getServiceCharge() {
-		return serviceCharge;
-	}
-	public void setServiceCharge(int serviceCharge) {
-		this.serviceCharge = serviceCharge;
-	}
-	public String getServiceCode() {
-		return serviceCode;
-	}
-	public void setServiceCode(String serviceCode) {
-		this.serviceCode = serviceCode;
-	}
-	public String getServiceGst() {
-		return serviceGst;
-	}
-	public void setServiceGst(String serviceGst) {
-		this.serviceGst = serviceGst;
-	}
-	public int getOtherFees() {
-		return otherFees;
-	}
-	public void setOtherFees(int otherFees) {
-		this.otherFees = otherFees;
-	}
-	public String getOtherCode() {
-		return otherCode;
-	}
-	public void setOtherCode(String otherCode) {
-		this.otherCode = otherCode;
-	}
-	public String getOtherGst() {
-		return otherGst;
-	}
-	public void setOtherGst(String otherGst) {
-		this.otherGst = otherGst;
-	}  
-    
+	
     
 }

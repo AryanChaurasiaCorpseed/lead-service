@@ -7,6 +7,7 @@ import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
+import com.lead.dashboard.dto.TatAndDescDto;
 import com.lead.dashboard.dto.UpdateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,9 +34,9 @@ public class ProductController {
     }
  
     @GetMapping("/getProduct")
-    public ResponseEntity<Optional<Product>> getProductById(@RequestParam Long id) {
+    public ResponseEntity<Map<String,Object>> getProductById(@RequestParam Long id) {
 
-        Optional<Product> product = productService.getProductById(id);
+    	Map<String,Object> product = productService.getProductById(id);
 
         if (product != null) {
             return ResponseEntity.ok(product);
@@ -110,6 +112,16 @@ public class ProductController {
 
 
         Boolean result = productService.addAmountInProduct(addProductAmountDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
+    
+    @PostMapping("/addTatAndDescription")
+    public ResponseEntity<Boolean> addTatAndDescription(@RequestBody TatAndDescDto tatAndDescDto) {
+
+
+        Boolean result = productService.addTatAndDescription(tatAndDescDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

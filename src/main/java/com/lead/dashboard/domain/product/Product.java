@@ -9,13 +9,14 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.ProductAmount;
 import com.lead.dashboard.domain.ProductDocuments;
 import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.User;
 
 @Entity
 @Table
-@Getter
+@Getter 
 @Setter
 @NoArgsConstructor
 public class Product {
@@ -25,6 +26,8 @@ public class Product {
     private Long id;
     private String productName;
     private Date createdDate; 
+    
+    
     int  govermentfees;
     String govermentCode;
     String govermentGst;
@@ -36,7 +39,9 @@ public class Product {
     String serviceGst;
     int otherFees;
     String otherCode;
-    String otherGst;     
+    String otherGst;  
+    
+    
     @ManyToOne
     User createdBy;
     boolean isDeleted;
@@ -53,6 +58,17 @@ public class Product {
 			inverseJoinColumns = {@JoinColumn(name="product_prod_documents_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<ProductDocuments>productDoc;
+	
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="product_prod_amount",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="product_prod_amount_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<ProductAmount>productAmount;
+	
+	
+	Long tatValue=0l;
+	String tatType;
+	String description;
 	
 
 	public Long getId() {
@@ -95,7 +111,7 @@ public class Product {
 		this.isDeleted = isDeleted;
 	}
 
-
+     
 	
 	
 	

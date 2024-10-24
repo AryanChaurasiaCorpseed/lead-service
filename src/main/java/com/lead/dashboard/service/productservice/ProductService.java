@@ -7,8 +7,10 @@ import com.lead.dashboard.dto.AddProductAmountDto;
 import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
+import com.lead.dashboard.dto.TatAndDescDto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProductService {
@@ -16,7 +18,7 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Optional<Product> getProductById(Long id);
+    Map<String,Object> getProductById(Long id);
 
     Product updateProduct(Long id, String name);
 
@@ -33,4 +35,6 @@ public interface ProductService {
 	Boolean addDocumentsInProduct(DocProductDto docProductDto);
 
 	Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto);
+
+	Boolean addTatAndDescription(TatAndDescDto tatAndDescDto);
 }
