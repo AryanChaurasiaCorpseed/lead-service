@@ -834,6 +834,8 @@ public class Helper {
 			List<Map<String, String>> projectSheetData = readProjectFile(projectsFilePath);
 
 			System.out.println(projectSheetData.size());
+		     int count=0;
+		     List<String>str=new ArrayList<>();
 			for (Map<String, String> projectRow : projectSheetData) {
 
 				String company = projectRow.get("companyname");
@@ -845,21 +847,22 @@ public class Helper {
 				String mobileNumber = projectRow.get("mobilenumber");
 				String assignedperson = projectRow.get("assignedperson");
 				String leadName = projectRow.get("description");
+                String fullName=firstName+" "+lastName;
 
-
-				System.out.println("Project....................+");
+				System.out.println("Project....................+"+fullName);
 
 				Company comp = companyRepository.findByName(company);
 				User assignTo = userRepo.findByemail(assignedperson);
 
 				if(comp!=null) {
 
+					 
 
 					if (true) {
 						String status = "New";
 						String desc=type+" - "+realcompany+" - "+leadName;
 						LeadDTO leadDTO = new LeadDTO();
-						leadDTO.setName(firstName+lastName);
+						leadDTO.setName(fullName);
 						
 						if(assignTo.getId()!=null) {
 							leadDTO.setAssigneeId(assignTo.getId());
@@ -870,13 +873,18 @@ public class Helper {
 						leadDTO.setEmail(emailId);
 						leadDTO.setCreatedById(1L);
 						leadDTO.setDisplayStatus(status);
-						leadDTO.setSource("Corpseed HO");
+						leadDTO.setSource("IVR");
+						
+						
+						
+//						leadDTO.setSource("Corpseed HO");
 						//                        Lead savedLead = leadService.createLeadViaSheet(leadDTO);
-
+                        System.out.println();
 						if(comp!=null &&comp.getCompanyLead()!=null){
 							Lead savedLead = leadService.createLeadViaSheet(leadDTO);
 							savedLead.setAssignee(assignTo);
 							savedLead.setOriginalName(leadName);
+							savedLead.setName(fullName);
 							leadRepository.save(savedLead);
 							Set<Lead>lSet = new HashSet<>(comp.getCompanyLead());
 							lSet.add(savedLead);
@@ -886,7 +894,12 @@ public class Helper {
 						}
 					}
 				}
+				else{
+					str.add(company);
+					count++;
+				}
 			}
+			System.out.println(str+" ...  "+count);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Error processing files", e);

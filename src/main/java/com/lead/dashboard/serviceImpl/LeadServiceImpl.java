@@ -1715,7 +1715,7 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setLastUpdated(new Date());
 		lead.setLatestStatusChangeDate(leadDTO.getLatestStatusChangeDate());
 		lead.setCity(leadDTO.getCity());
-		lead.setSource("Corpseed Website");
+		lead.setSource("IVR");
 		lead.setCategoryId(leadDTO.getCategoryId());
 		lead.setServiceId(leadDTO.getServiceId());
 		lead.setIndustryId(leadDTO.getIndustryId());
@@ -1724,6 +1724,15 @@ public class LeadServiceImpl implements LeadService  {
 		lead.setWhatsAppStatus(leadDTO.getWhatsAppStatus());
 		lead.setUuid(commonServices.getUuid());
 
+		Client c=new Client();
+		c.setName(leadDTO.getName());
+		c.setEmails(email);
+		c.setPrimary(true);
+		c.setContactNo(leadDTO.getMobileNo());
+		List<Client>cList=new ArrayList<>();
+		cList.add(c);
+		lead.setClients(cList);
+		
 		Status status = statusRepository.findByStatusName("New");
 		System.out.println("Status "+ status);
 		if (status == null) {

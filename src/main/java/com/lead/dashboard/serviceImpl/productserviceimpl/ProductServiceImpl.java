@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
     
 //    @Override
-    public Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto) {
+    public Boolean  (AddProductAmountDto addProductAmountDto) {
     	Boolean flag=false;
 		User user = userRepo.findById(addProductAmountDto.getUserId()).get();
         Optional<Category> opCategory = categoryRepo.findById(addProductAmountDto.getCategoryId());
