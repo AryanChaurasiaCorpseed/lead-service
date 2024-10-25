@@ -132,4 +132,30 @@ public class ProductController {
     }
     
     
+    @PostMapping("/deleteAmountFromProduct")
+    public ResponseEntity<Boolean> deleteAmountFromProduct(@RequestParam Long productAmountId) {
+
+
+        Boolean result = productService.deleteAmountFromProduct(productAmountId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    @PostMapping("/deleteDocumentFromProduct")
+    public ResponseEntity<Boolean> deleteDocumentFromProduct(@RequestParam Long productdocumentId) {
+
+
+        Boolean result = productService.deleteDocumentFromProduct(productdocumentId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    @PostMapping("/deleteStageFromProduct")
+    public ResponseEntity<Boolean> deleteStageFromProduct(@RequestParam Long productStageId) {
+
+
+        Boolean result = productService.deleteStageFromProduct(productStageId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
+    
 }

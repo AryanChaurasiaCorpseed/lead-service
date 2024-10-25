@@ -14,6 +14,9 @@ import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.TatAndDescDto;
+import com.lead.dashboard.repository.ProductAmountRepo;
+import com.lead.dashboard.repository.ProductDocumentRepo;
+import com.lead.dashboard.repository.StageRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.CategoryRepo;
@@ -28,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 
@@ -39,6 +43,15 @@ public class ProductServiceImpl implements ProductService {
     
     @Autowired
     UrlsManagmentRepo urlsManagmentRepo;
+    
+    @Autowired
+    ProductAmountRepo productAmountRepo;
+    
+    @Autowired
+    ProductDocumentRepo productDocumentRepo;
+    
+    @Autowired
+    StageRepository stageRepository;
     
     @Autowired
     CategoryRepo categoryRepo;
@@ -57,16 +70,17 @@ public class ProductServiceImpl implements ProductService {
     	List<Map<String,Object>>result=new ArrayList<>();
     	for(Product p:pList) {
             Map<String,Object>map = new HashMap<>();
-
+           if(!p.isDeleted()) {
     		map.put("id", p.getId());
             map.put("productName", p.getProductName());
-            map.put("productAmount", p.getProductAmount());
-            map.put("productDoc", p.getProductDoc());
-            map.put("productStage", p.getProductStage());
+            map.put("productAmount", p.getProductAmount().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
+            map.put("productDoc", p.getProductDoc().stream().filter(i->i.getIsDeleted()==false).collect(Collectors.toList()));
+            map.put("productStage", p.getProductStage().stream().filter(i->i.isDeleted()==false).collect(Collectors.toList()));
             map.put("description", p.getDescription());
             map.put("tatValue", p.getTatValue());
             map.put("tatType", p.getTatType());
             result.add(map);
+           }
 
     	}
         return result;
@@ -230,6 +244,39 @@ public class ProductServiceImpl implements ProductService {
 		prod.setTatValue(tatAndDescDto.getTatValue());
 		prod.setDescription(tatAndDescDto.getRemarks());
 		productRepo.save(prod);
+		flag=true;
+		return flag;
+	}
+
+
+	@Override
+	public Boolean deleteAmountFromProduct(Long productAmountId) {
+		Boolean flag=false;
+		ProductAmount productAmount = productAmountRepo.findById(productAmountId).get();
+		productAmount.setDeleted(true);
+		productAmountRepo.save(productAmount);
+		flag=true;
+		return flag;
+	}
+
+
+	@Override
+	public Boolean deleteDocumentFromProduct(Long productdocumentId) {
+		Boolean flag=false;
+		ProductDocuments productDocument = productDocumentRepo.findById(productdocumentId).get();
+		productDocument.setIsDeleted(true);
+		productDocumentRepo.save(productDocument);
+		flag=true;
+		return flag;
+	}
+
+
+	@Override
+	public Boolean deleteStageFromProduct(Long productdocumentId) {
+		Boolean flag=false;
+		Stages stage = stageRepository.findById(productdocumentId).get();
+		stage.setDeleted(true);
+		stageRepository.save(stage);
 		flag=true;
 		return flag;
 	}

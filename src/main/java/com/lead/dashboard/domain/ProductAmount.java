@@ -25,6 +25,8 @@ public class ProductAmount {
 	String hsnNo;
 	String taxAmount;
 	
+	boolean isDeleted;
+	
 	
 	public Long getId() {
 		return id;

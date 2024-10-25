@@ -39,4 +39,11 @@ public interface ProductService {
 	Boolean addTatAndDescription(TatAndDescDto tatAndDescDto);
 
 	List<Map<String, Object>> getAllProductList();
+
+
+	Boolean deleteAmountFromProduct(Long productAmountId);
+
+	Boolean deleteDocumentFromProduct(Long productdocumentId);
+
+	Boolean deleteStageFromProduct(Long productdocumentId);
 }

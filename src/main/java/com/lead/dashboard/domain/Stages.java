@@ -25,6 +25,9 @@ public class Stages {
 	int stageNo;
 	int transferPercent;
 	int pricePercent;
+	
+	boolean isDeleted;
+	
 	public String getName() {
 		return name;
 	}
