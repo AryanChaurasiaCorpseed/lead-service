@@ -132,7 +132,7 @@ public class ProductController {
     }
     
     
-    @PostMapping("/deleteAmountFromProduct")
+    @DeleteMapping("/deleteAmountFromProduct")
     public ResponseEntity<Boolean> deleteAmountFromProduct(@RequestParam Long productAmountId) {
 
 
@@ -140,7 +140,7 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
-    @PostMapping("/deleteDocumentFromProduct")
+    @DeleteMapping("/deleteDocumentFromProduct")
     public ResponseEntity<Boolean> deleteDocumentFromProduct(@RequestParam Long productdocumentId) {
 
 
@@ -148,7 +148,7 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
-    @PostMapping("/deleteStageFromProduct")
+    @DeleteMapping("/deleteStageFromProduct")
     public ResponseEntity<Boolean> deleteStageFromProduct(@RequestParam Long productStageId) {
 
 
