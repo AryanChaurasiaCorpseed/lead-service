@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
@@ -46,6 +48,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 
 	@Override
 	public Company createCompany(CompanyDto companyDto)  {
@@ -463,8 +468,36 @@ public class CompanyServiceImpl implements CompanyService {
 		comp.setAssignee(assignee);
 		companyRepository.save(comp);
 		createHistory(assignee,prevAssignee,currentUserId,comp);
+		Context context = new Context();
+
+		context.setVariable("companyName", comp.getName());
+		context.setVariable("clientName", comp.getPrimaryContact().getName());
+		String subject="Introduction as your Key Account Manager for Compliance and Safety";
+		context.setVariable("userName", context);
+		context.setVariable("userDesignation", context);
+		context.setVariable("userEmail", context);
+		context.setVariable("userContNumber", context);
+		String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
+		String[] toMail= {"aryan.chaurasia@corpseed.com"};
+		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context,"companyAssignee.html");
 		return true;
 	}
+//	public void sendCompanyAssigneeMail(User Assignee) {
+//		Context context1 = new Context();
+//		context1.setVariable("userName", "Aryan Chaurasia");
+//		context1.setVariable("user", u.getFullName());
+//		String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+//		context1.setVariable("email", u.getEmail());
+//		context1.setVariable("Rurl", feedbackStatusURLs);
+//		context1.setVariable("currentYear", LocalDateTime.now().getYear());
+//		String subject1="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+//		String[] ccPerson= {u.getEmail()};
+//		String[] toMail= {manager.getEmail()};
+//		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context1,"createUserManager.html");
+//	
+//	}
+
+	
 	
 	public void createHistory(User postAssignee,User prevAssignee,Long currentUserId,Company comp) {
 		CompanyDataHistory compHistory = new CompanyDataHistory();
