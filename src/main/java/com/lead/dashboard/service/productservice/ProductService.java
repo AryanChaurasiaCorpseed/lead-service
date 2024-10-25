@@ -37,4 +37,6 @@ public interface ProductService {
 	Boolean addAmountInProduct(AddProductAmountDto addProductAmountDto);
 
 	Boolean addTatAndDescription(TatAndDescDto tatAndDescDto);
+
+	List<Map<String, Object>> getAllProductList();
 }

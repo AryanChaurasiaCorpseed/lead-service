@@ -32,6 +32,11 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
     }
+    
+    @GetMapping("/getAllProductList")
+    public List<Map<String,Object>> getAllProductList() {
+        return productService.getAllProductList();
+    }
  
     @GetMapping("/getProduct")
     public ResponseEntity<Map<String,Object>> getProductById(@RequestParam Long id) {

@@ -50,6 +50,27 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
+    
+        
+    public List<Map<String,Object>> getAllProductList() {
+    	List<Product> pList = productRepo.findAll();
+    	List<Map<String,Object>>result=new ArrayList<>();
+    	for(Product p:pList) {
+            Map<String,Object>map = new HashMap<>();
+
+    		map.put("id", p.getId());
+            map.put("productName", p.getProductName());
+            map.put("productAmount", p.getProductAmount());
+            map.put("productDoc", p.getProductDoc());
+            map.put("productStage", p.getProductStage());
+            map.put("description", p.getDescription());
+            map.put("tatValue", p.getTatValue());
+            map.put("tatType", p.getTatType());
+            result.add(map);
+
+    	}
+        return result;
+    }
 
     @Override
     public Map<String,Object> getProductById(Long id) {
