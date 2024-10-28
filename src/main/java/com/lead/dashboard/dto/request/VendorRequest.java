@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,14 +36,14 @@ public class VendorRequest {
 
     private String clientMobileNumber;
 
-    private String saleTeamAttachmentReference;
+    private List<String> salesAttachmentReferencePath;
 
     private Long assignedUserId;
 //    private Long assignedUserId;
 
     private String clientBudgetPrice;
 
-    private String salesAttachmentImage;
+    private List<String> salesAttachmentImage;
 
 
 

@@ -20,7 +20,7 @@ public class VendorUpdatedResponse {
     private String clientEmailId;
     private String clientCompanyName;
     private String contactPersonName;
-    private String vendorReferenceFile;
+    private List<String> vendorReferenceFile;
     private String budgetPrice;
     private String vendorSharedPrice;
     private String status;

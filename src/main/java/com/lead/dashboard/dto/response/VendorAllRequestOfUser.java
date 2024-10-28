@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class VendorAllRequestOfUser {
     private String requirementDescription;
     private String clientNumber;
     private String clientEmail;
-    private String salesAttachmentImage;
+    private List<String> salesAttachmentImage;
 
     boolean isView;
 

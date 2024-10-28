@@ -92,7 +92,6 @@ public class VendorServiceImpl implements VendorService {
             } else {
                 int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % alignedUserListForSubCategory.size();
                 assignedUser = alignedUserListForSubCategory.get(nextUserIndex);
-
                 vendorSubCategory.setLastAssignedUserIndex(nextUserIndex);
                 vendorSubCategoryRepository.save(vendorSubCategory);
             }
@@ -103,21 +102,11 @@ public class VendorServiceImpl implements VendorService {
             vendor.setClientEmailId(vendorRequest.getClientMailId());
             vendor.setClientCompanyName(vendorRequest.getCompanyName());
             vendor.setClientName(vendorRequest.getClientName());
-
-            String saleTeamAttachmentReference = vendorRequest.getSaleTeamAttachmentReference();
-            String salesAttachmentImage = null;
-
-            if (saleTeamAttachmentReference != null && !saleTeamAttachmentReference.isEmpty()) {
-                salesAttachmentImage = saleTeamAttachmentReference.substring(saleTeamAttachmentReference.lastIndexOf('/') + 1);
-            }
-
-            vendor.setSalesAttachmentReferencePath(saleTeamAttachmentReference);
-            vendor.setSalesAttachmentImage(salesAttachmentImage);
+            vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
             vendor.setVendorCategory(vendorCategory);
             vendor.setVendorSubCategory(vendorSubCategory);
             vendor.setDisplay(true);
             vendor.setAddedBy(userDetails.get().getId());
-            vendor.setClientMobileNumber(vendorRequest.getClientMobileNumber());
             vendor.setLead(leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found")));
             vendor.setCreateDate(new Date());
             vendor.setUpdatedDate(new Date());
@@ -125,6 +114,13 @@ public class VendorServiceImpl implements VendorService {
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
+
+            vendor.setSalesAttachmentReferencePath(vendorRequest.getSalesAttachmentReferencePath());
+
+            List<String> imageNames = vendorRequest.getSalesAttachmentReferencePath().stream()
+                    .map(path -> path.substring(path.lastIndexOf('/') + 1))
+                    .collect(Collectors.toList());
+            vendor.setSalesAttachmentImage(imageNames);
 
             vendor = vendorRepository.save(vendor);
 
@@ -146,7 +142,6 @@ public class VendorServiceImpl implements VendorService {
             userVendorRequestCount.setUpdatedAt(new Date());
             userVendorRequestCountRepository.save(userVendorRequestCount);
 
-            // Create VendorUpdateHistory entry
             VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
             vendorUpdate.setVendor(vendor);
             vendorUpdate.setRequestStatus("Initial");
@@ -170,7 +165,6 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException("User not found for ID: " + userId);
         }
     }
-
 
 
 
@@ -206,8 +200,21 @@ public class VendorServiceImpl implements VendorService {
             vendors = vendorRepository.findAllVendorRequestByAssignedUser(userId, leadId);
         }
 
+        String s3BaseUrl = awsConfig.getS3BaseUrl();
+
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
+
+
+            // Initialize fullImagePath as an empty list
+            List<String> fullImagePath = new ArrayList<>();
+
+            if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
+                for (String salesAttachmentImage : vendor.getSalesAttachmentImage()) {
+                    fullImagePath.add(s3BaseUrl + salesAttachmentImage);
+                }
+            }
+            vendorResponse.setSalesAttachmentImage(fullImagePath);
 
             List<VendorUpdateHistory> runningUpdates = vendorHistoryRepository.findByVendorIdAndIsDeletedFalse(vendor.getId());
             List<VendorUpdateHistoryResponse> updateHistoryResponses = runningUpdates.stream()
@@ -472,8 +479,11 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
-            String fullImagePath = awsConfig.getS3BaseUrl() + "/"+vendor.getSalesAttachmentImage();
-            vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
+            List<String> fullImagePaths = new ArrayList<>();
+            for (String imagePath : vendor.getSalesAttachmentImage()) {
+                fullImagePaths.add(awsConfig.getS3BaseUrl() + imagePath);
+            }
+            vendorResponseDTO.setSalesAttachmentImage(fullImagePaths);
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
@@ -525,16 +535,12 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
-
-
         Pageable pageable = PageRequest.of(page - 1, size);
-
-
         Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
 
         long totalCount = vendorRequests.getTotalElements();
-
         List<VendorAllRequestOfUser> responseList = new ArrayList<>();
+
         if (vendorRequests.hasContent()) {
             responseList = vendorRequests.stream()
                     .map(vendor -> {
@@ -549,11 +555,18 @@ public class VendorServiceImpl implements VendorService {
                         response.setSubCategoryId(vendor.getVendorSubCategory().getId());
                         response.setClientName(vendor.getClientName());
                         response.setCompanyName(vendor.getClientCompanyName());
-                        response.setInitialQuotationName(vendor.getSalesAttachmentReferencePath());
                         response.setRequirementDescription(vendor.getRequirementDescription());
                         response.setClientEmail(vendor.getClientEmailId());
                         response.setClientNumber(vendor.getClientMobileNumber());
-                        response.setSalesAttachmentImage(vendor.getSalesAttachmentImage());
+
+                        List<String> fullImagePaths = new ArrayList<>();
+                        if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
+                            for (String image : vendor.getSalesAttachmentImage()) {
+                                fullImagePaths.add(awsConfig.getS3BaseUrl() + image);
+                            }
+                        }
+                        response.setSalesAttachmentImage(fullImagePaths);
+
                         response.setView(vendor.isView());
                         response.setViewedBy(vendor.getViewedBy());
 
@@ -573,6 +586,7 @@ public class VendorServiceImpl implements VendorService {
 
         return response;
     }
+
 
     @Override
     public boolean markVendorAsViewed(Long id, Long userId) {

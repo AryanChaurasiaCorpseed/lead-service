@@ -164,10 +164,11 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =false and assignee_id in(:assigneeIds)", nativeQuery = true)
 	List<Lead> findAllByAssigneeIdInAndStatusIdIn(List<Long> assigneeIds,List<Long> statusIds);
 
-	@Query("SELECT l FROM Lead l WHERE l.mobileNo LIKE %:mobileNo%")
+
+	@Query("SELECT l FROM Lead l WHERE l.mobileNo LIKE %:mobileNo% AND l.isDeleted =false")
 	List<Lead> findAllByMobileNo(@Param("mobileNo") String mobileNo);
 
-	@Query("SELECT l FROM Lead l WHERE l.email LIKE %:email%")
+	@Query("SELECT l FROM Lead l WHERE l.email LIKE %:email% AND l.isDeleted =false")
 	List<Lead> findAllByEmail(@Param("email") String email);
 
 	@Query("SELECT l FROM Lead l WHERE LOWER(l.leadName) LIKE LOWER(CONCAT('%', :leadName, '%'))")
