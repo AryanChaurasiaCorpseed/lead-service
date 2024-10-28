@@ -473,10 +473,10 @@ public class CompanyServiceImpl implements CompanyService {
 		context.setVariable("companyName", comp.getName());
 		context.setVariable("clientName", comp.getPrimaryContact().getName());
 		String subject="Introduction as your Key Account Manager for Compliance and Safety";
-		context.setVariable("userName", context);
-		context.setVariable("userDesignation", context);
-		context.setVariable("userEmail", context);
-		context.setVariable("userContNumber", context);
+		context.setVariable("userName", assignee.getFullName());
+		context.setVariable("userDesignation", assignee.getDesignation());
+		context.setVariable("userEmail", assignee.getEmail());
+		context.setVariable("userContNumber", assignee);
 		String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
 		String[] toMail= {"aryan.chaurasia@corpseed.com"};
 		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context,"companyAssignee.html");
@@ -599,7 +599,7 @@ public class CompanyServiceImpl implements CompanyService {
 					createHistory(assignee,prevAssignee,updateCompanyDto.getCurrentUserId(),c);
 
 				    flag=true;
-				}
+				}̥
 				
 			}
 		}

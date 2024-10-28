@@ -55,9 +55,9 @@ public class MailSendSerivceImpl implements MailSendService {
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            fromEmail="aryan.chaurasia@corpseed.com";
+
             helper.setFrom(fromEmail);
-            helper.setTo(emailTo);̥
+            helper.setTo(emailTo);
             helper.setCc(ccPersons);
             helper.setBcc(bccPersons);
             helper.setSubject(subject);
