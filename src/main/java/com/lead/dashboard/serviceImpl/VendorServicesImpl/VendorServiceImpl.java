@@ -205,6 +205,7 @@ public class VendorServiceImpl implements VendorService {
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
 
+
             // Initialize fullImagePath as an empty list
             List<String> fullImagePath = new ArrayList<>();
 
