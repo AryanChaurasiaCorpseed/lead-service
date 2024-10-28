@@ -116,7 +116,11 @@ public class VendorServiceImpl implements VendorService {
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
 
             vendor.setSalesAttachmentReferencePath(vendorRequest.getSalesAttachmentReferencePath());
-            vendor.setSalesAttachmentImage(vendorRequest.getSalesAttachmentImage());
+
+            List<String> imageNames = vendorRequest.getSalesAttachmentReferencePath().stream()
+                    .map(path -> path.substring(path.lastIndexOf('/') + 1))
+                    .collect(Collectors.toList());
+            vendor.setSalesAttachmentImage(imageNames);
 
             vendor = vendorRepository.save(vendor);
 
@@ -201,13 +205,12 @@ public class VendorServiceImpl implements VendorService {
         return vendors.stream().map(vendor -> {
             VendorResponse vendorResponse = new VendorResponse(vendor);
 
-            List<String> fullImagePath = null;
+            // Initialize fullImagePath as an empty list
+            List<String> fullImagePath = new ArrayList<>();
+
             if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
-
-                for(String salesAttachmentImage : vendor.getSalesAttachmentImage())
-                {
-                    fullImagePath.add(s3BaseUrl + salesAttachmentImage) ;
-
+                for (String salesAttachmentImage : vendor.getSalesAttachmentImage()) {
+                    fullImagePath.add(s3BaseUrl + salesAttachmentImage);
                 }
             }
             vendorResponse.setSalesAttachmentImage(fullImagePath);
@@ -475,8 +478,11 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy());
 
-            String fullImagePath = awsConfig.getS3BaseUrl()+vendor.getSalesAttachmentImage();
-            vendorResponseDTO.setSalesAttachmentImage(fullImagePath);
+            List<String> fullImagePaths = new ArrayList<>();
+            for (String imagePath : vendor.getSalesAttachmentImage()) {
+                fullImagePaths.add(awsConfig.getS3BaseUrl() + imagePath);
+            }
+            vendorResponseDTO.setSalesAttachmentImage(fullImagePaths);
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
