@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -468,8 +469,12 @@ public class CompanyServiceImpl implements CompanyService {
 		comp.setAssignee(assignee);
 		companyRepository.save(comp);
 		createHistory(assignee,prevAssignee,currentUserId,comp);
+		List<Company> unit = companyRepository.findAllCompanyUnitByCompanyId(companyId);
+		List<String> emailList = unit.stream().map(i->i.getPrimaryContact().getEmails()).collect(Collectors.toList());
+		
+		List<String> ccEmailList = unit.stream().map(i->i.getPrimaryContact().getEmails()).collect(Collectors.toList());
+        System.out.println(emailList);
 		Context context = new Context();
-
 		context.setVariable("companyName", comp.getName());
 		context.setVariable("clientName", comp.getPrimaryContact().getName());
 		String subject="Introduction as your Key Account Manager for Compliance and Safety";
@@ -477,9 +482,17 @@ public class CompanyServiceImpl implements CompanyService {
 		context.setVariable("userDesignation", assignee.getDesignation());
 		context.setVariable("userEmail", assignee.getEmail());
 		context.setVariable("userContNumber", "7651959792");
-		String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
-		String[] toMail= {"aryan.chaurasia@corpseed.com"};
-		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context,"companyAssignee.html");
+//		String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
+//		String[] toMail= {"aryan.chaurasia@corpseed.com"};
+//		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context,"companyAssignee.html");
+		
+		String[] ccPerson= ccEmailList.toArray(new String[ccEmailList.size()]);
+		String[] toMail=emailList.toArray(new String[emailList.size()]);
+		System.out.println("ccPerson  . . "+ccPerson.length);
+		System.out.println("toPerson  . . "+toMail.length);
+
+		mailSendSerivceImpl.sendEmail(toMail,ccPerson, subject,context,"companyAssignee.html");
+	    
 		return true;
 	}
 //	public void sendCompanyAssigneeMail(User Assignee) {
@@ -508,7 +521,7 @@ public class CompanyServiceImpl implements CompanyService {
 		String fullName=user!=null?user.getFullName():"NA";
 		compHistory.setCreatedBy(user);
 		
-		String description="company assignee has been change from "+prevAssignee.getFullName()+" to "
+		String description="company assignee has been change from "+prevAssignee!=null?prevAssignee.getFullName():"NA"+" to "
 				+ ""+postAssignee.getFullName()+" by "+fullName;
 		compHistory.setDescription(description);
 		compHistory.setEventType("Assignee has been changed");
@@ -597,7 +610,28 @@ public class CompanyServiceImpl implements CompanyService {
 					c.setAssignee(assignee);
 				    companyRepository.save(c);
 					createHistory(assignee,prevAssignee,updateCompanyDto.getCurrentUserId(),c);
+					//--===
+					List<Company> unit = companyRepository.findAllCompanyUnitByCompanyId(c.getId());
+					List<String> emailList = unit.stream().map(i->i.getPrimaryContact().getEmails()).collect(Collectors.toList());
+					List<String> ccEmailList = unit.stream().map(i->i.getPrimaryContact().getEmails()).collect(Collectors.toList());
+					System.out.println(emailList);
+					Context context = new Context();
+					context.setVariable("companyName", c.getName());
+					context.setVariable("clientName", c.getPrimaryContact().getName());
+					String subject="Introduction as your Key Account Manager for Compliance and Safety";
+					context.setVariable("userName", assignee.getFullName());
+					context.setVariable("userDesignation", assignee.getDesignation());
+					context.setVariable("userEmail", assignee.getEmail());
+					context.setVariable("userContNumber", "7651959792");
+//					String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
+//					String[] toMail= {"aryan.chaurasia@corpseed.com"};
+            
+					String[] ccPerson= ccEmailList.toArray(new String[ccEmailList.size()]);
+					String[] toMail=emailList.toArray(new String[emailList.size()]);
+					System.out.println("ccPerson  . . "+ccPerson.length);
+					System.out.println("toPerson  . . "+toMail.length);
 
+					mailSendSerivceImpl.sendEmail(toMail,ccPerson, subject,context,"companyAssignee.html");
 				    flag=true;
 				}
 				
