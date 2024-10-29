@@ -24,6 +24,7 @@
 
 		//primary
 		Boolean isPrimaryAddress=true;
+		String primaryTitle;
 		String Address;
 		String City;
 		String State;
@@ -33,6 +34,7 @@
 
 		//secondary address
 		Boolean isSecondaryAddress=true;
+		String secondaryTitle;
 		String sAddress;
 		String sCity;
 		String sState;
@@ -324,6 +326,18 @@
 		}
 		public void setSecondaryDesignation(String secondaryDesignation) {
 			this.secondaryDesignation = secondaryDesignation;
+		}
+		public String getPrimaryTitle() {
+			return primaryTitle;
+		}
+		public void setPrimaryTitle(String primaryTitle) {
+			this.primaryTitle = primaryTitle;
+		}
+		public String getSecondaryTitle() {
+			return secondaryTitle;
+		}
+		public void setSecondaryTitle(String secondaryTitle) {
+			this.secondaryTitle = secondaryTitle;
 		}
 		
 		

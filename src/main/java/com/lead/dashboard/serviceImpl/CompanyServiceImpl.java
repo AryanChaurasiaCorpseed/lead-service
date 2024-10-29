@@ -476,7 +476,7 @@ public class CompanyServiceImpl implements CompanyService {
 		context.setVariable("userName", assignee.getFullName());
 		context.setVariable("userDesignation", assignee.getDesignation());
 		context.setVariable("userEmail", assignee.getEmail());
-		context.setVariable("userContNumber", assignee);
+		context.setVariable("userContNumber", "7651959792");
 		String[] ccPerson= {"aryan.chaurasia@corpseed.com"};
 		String[] toMail= {"aryan.chaurasia@corpseed.com"};
 		mailSendSerivceImpl.sendEmail(toMail, subject,"test",context,"companyAssignee.html");
@@ -599,7 +599,7 @@ public class CompanyServiceImpl implements CompanyService {
 					createHistory(assignee,prevAssignee,updateCompanyDto.getCurrentUserId(),c);
 
 				    flag=true;
-				}̥
+				}
 				
 			}
 		}

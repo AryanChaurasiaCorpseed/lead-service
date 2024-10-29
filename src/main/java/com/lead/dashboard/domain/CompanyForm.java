@@ -70,6 +70,7 @@ public class CompanyForm {
 	// contact 
 	boolean isPrimaryContact;
 	Long contactId ;
+	String title;
 	String contactName;
 	String contactEmails;
 	String contactNo;
@@ -78,6 +79,7 @@ public class CompanyForm {
 
 	
 	boolean isSecondaryContact;
+	String secTitle;
 	Long sContactId ;
 	String sContactName;
 	String sContactEmails;

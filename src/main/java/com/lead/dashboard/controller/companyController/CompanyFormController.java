@@ -377,16 +377,17 @@ public class CompanyFormController {
 		Company company=null;
 
 		Long compId = companyRepository.findCompanyIdByLeadId(leadId);
+		
 		if(compId!=null) {
 			Optional<Company> comp = companyRepository.findById(compId);
 			if(comp!=null && comp.get()!=null) {
 				company=comp.get();
 			}
 		}else {
+
 			Lead lead = leadRepository.findById(leadId).get();
 			if(lead.getEmail()!=null&& (!lead.getEmail().equals("NA"))) {
 				boolean flag=checkEmailInCompany(lead.getEmail());
-				System.out.println("testing java    cddc  cd"+flag+lead.getEmail());
 				if(flag) {
 					Long cId=companyRepository.findByPrimaryEmails(lead.getEmail()); 
 					System.out.println(cId);
@@ -396,7 +397,6 @@ public class CompanyFormController {
 					}
 				}else {
 					List<Lead> leadList = leadRepository.findAllByEmailAndMobile(lead.getEmail(), lead.getMobileNo());
-
 					if(leadList!=null && leadList.size()>0){
 						Long comp = companyRepository.findCompanyIdByLeadId(leadList.get(0).getId());
 						if(comp!=null) {
@@ -1343,6 +1343,7 @@ public class CompanyFormController {
 				if(!createFormDto.getIsPrimaryAddress()) {
 					
 					companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
+					companyForm.setTitle(createFormDto.getPrimaryTitle() );
 					companyForm.setAddress(unit.getAddress());
 					companyForm.setCity(unit.getCity());
 					companyForm.setState(unit.getState());
@@ -1353,6 +1354,7 @@ public class CompanyFormController {
 				if(!createFormDto.getIsSecondaryAddress()) {
 					
 					companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
+					companyForm.setSecTitle(createFormDto.getSecondaryTitle());
 					companyForm.setSAddress(unit.getSAddress());
 					companyForm.setSCity(unit.getSCity());
 					companyForm.setSState(unit.getSState());
@@ -1384,7 +1386,7 @@ public class CompanyFormController {
 
 
 		if(createFormDto.isPrimaryContact()) {
-
+			companyForm.setTitle(createFormDto.getPrimaryTitle());
 			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
 			companyForm.setContactName(createFormDto.getContactName());
 			companyForm.setContactEmails(createFormDto.getContactEmails());
@@ -1396,6 +1398,7 @@ public class CompanyFormController {
 
 			Contact cont = contactRepo.findById(createFormDto.getContactId()).get();
 			companyForm.setPrimaryContact(createFormDto.isPrimaryContact());
+			companyForm.setTitle(cont.getTitle());
 			companyForm.setContactName(cont.getName());
 			companyForm.setContactEmails(cont.getEmails());
 			companyForm.setContactNo(cont.getContactNo());
@@ -1405,7 +1408,7 @@ public class CompanyFormController {
 		}
 
 		if(createFormDto.isSecondaryContact()) {
-
+            companyForm.setSecTitle(createFormDto.getSecondaryTitle());
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 			companyForm.setSContactName(createFormDto.getSContactName());
 			companyForm.setSContactEmails(createFormDto.getSContactEmails());
@@ -1417,6 +1420,7 @@ public class CompanyFormController {
 
 			Contact cont = contactRepo.findById(createFormDto.getSContactId()).get();
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
+            companyForm.setSecTitle(cont.getTitle());
 			companyForm.setSContactName(cont.getName());
 			companyForm.setSContactEmails(cont.getEmails());
 			companyForm.setSContactNo(cont.getContactNo());
@@ -1516,7 +1520,7 @@ public class CompanyFormController {
 						Contact c=null;
 						if(companyForm.isPrimaryContact() ||companyForm.getContactId()==null) {
 							c = new Contact();
-
+                            c.setTitle(companyForm.getTitle());
 							c.setName(companyForm.getContactName());
 							c.setContactNo(companyForm.getContactNo());
 							c.setEmails(companyForm.getContactEmails());
@@ -1534,6 +1538,7 @@ public class CompanyFormController {
 						Contact sc=null;
 						if(companyForm.isSecondaryContact()) {
 							sc = new Contact();
+						    sc.setTitle(companyForm.getSecTitle());
 							sc.setName(companyForm.getSContactName());
 							sc.setContactNo(companyForm.getSContactNo());
 							sc.setEmails(companyForm.getSContactEmails());
@@ -1612,7 +1617,7 @@ public class CompanyFormController {
 						Contact c=null;
 						if(companyForm.isPrimaryContact()||companyForm.getContactId()==null) {
 							c = new Contact();
-
+                            c.setTitle(companyForm.getTitle());
 							c.setName(companyForm.getContactName());
 							c.setContactNo(companyForm.getContactNo());
 							c.setEmails(companyForm.getContactEmails());
@@ -1628,6 +1633,7 @@ public class CompanyFormController {
 						Contact sc=null;
 						if(companyForm.isSecondaryContact()) {
 							sc = new Contact();
+							sc.setTitle(companyForm.getSecTitle());
 							sc.setName(companyForm.getSContactName());
 							sc.setContactNo(companyForm.getSContactNo());
 							sc.setEmails(companyForm.getSContactEmails());
@@ -1728,6 +1734,7 @@ public class CompanyFormController {
 						c=contactRepo.findById(companyForm.getContactId()).get();
 					}else {
 						c = new Contact();
+						c.setTitle(companyForm.getTitle());
 						c.setName(companyForm.getContactName());
 						c.setContactNo(companyForm.getContactNo());
 						c.setEmails(companyForm.getContactEmails());
@@ -1742,7 +1749,7 @@ public class CompanyFormController {
 						sc=contactRepo.findById(companyForm.getSContactId()).get();
 					}else {
 						sc = new Contact();
-
+                        sc.setTitle(companyForm.getSecTitle());
 						sc.setName(companyForm.getSContactName());
 						sc.setContactNo(companyForm.getSContactNo());
 						sc.setEmails(companyForm.getSContactEmails());

@@ -19,6 +19,7 @@ public class Contact {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
+	String title;
 	String name;
 	String emails;
 	String contactNo;
@@ -75,6 +76,12 @@ public class Contact {
 	}
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	
