@@ -530,6 +530,7 @@ public class VendorServiceImpl implements VendorService {
 
         return updateHistoryPage;
     }
+
     @Override
     public Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size) {
         User user = userRepository.findById(userId)
@@ -558,6 +559,8 @@ public class VendorServiceImpl implements VendorService {
                         response.setRequirementDescription(vendor.getRequirementDescription());
                         response.setClientEmail(vendor.getClientEmailId());
                         response.setClientNumber(vendor.getClientMobileNumber());
+                        response.setAssigneeId(vendor.getAssignedUser().getId());
+                        response.setAssigneeName(vendor.getAssignedUser().getFullName());
 
                         List<String> fullImagePaths = new ArrayList<>();
                         if (vendor.getSalesAttachmentImage() != null && !vendor.getSalesAttachmentImage().isEmpty()) {
@@ -586,7 +589,6 @@ public class VendorServiceImpl implements VendorService {
 
         return response;
     }
-
 
     @Override
     public boolean markVendorAsViewed(Long id, Long userId) {

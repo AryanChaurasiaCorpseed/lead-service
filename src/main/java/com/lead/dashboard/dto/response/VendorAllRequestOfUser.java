@@ -37,4 +37,8 @@ public class VendorAllRequestOfUser {
     private Long viewedBy;
 
 
+    private Long assigneeId;
+    private String assigneeName;
+
+
 }
