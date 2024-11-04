@@ -66,7 +66,7 @@ public class Product {
 	List<ProductAmount>productAmount;
 	
 	
-	Long tatValue=0l;
+	String tatValue;
 	String tatType;
 	String description;
 	

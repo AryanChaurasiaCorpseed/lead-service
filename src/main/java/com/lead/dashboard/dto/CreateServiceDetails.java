@@ -14,8 +14,10 @@ import lombok.Data;
 public class CreateServiceDetails {
 
 	private String name;
+	
 	@NotBlank
 	Date estimateData;
+	
 	//company
     Long companyId;
 	String company;

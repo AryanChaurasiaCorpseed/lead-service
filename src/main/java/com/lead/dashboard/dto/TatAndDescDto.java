@@ -3,15 +3,16 @@ package com.lead.dashboard.dto;
 public class TatAndDescDto {
 	
 	 Long productId;
-     Long tatValue=0l;
+     String tatValue;
      String tatType;
      String remarks;
      
 	
-	public long getTatValue() {
+	
+	public String getTatValue() {
 		return tatValue;
 	}
-	public void setTatValue(long tatValue) {
+	public void setTatValue(String tatValue) {
 		this.tatValue = tatValue;
 	}
 	public String getTatType() {
