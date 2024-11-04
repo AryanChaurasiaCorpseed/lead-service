@@ -159,5 +159,19 @@ public class FileUploadServiceImpl implements FileUploadService{
 		return image;
 	}
 
+	@Override
+	public String uploadDocument(InputStream inputStream, String finalFileName) {
+		String documentName = awsBlobAdapter.uploadDocumentOnAws(inputStream, finalFileName);
+		String filePath=PROD_PATH+documentName;
+		FileData fileData = new FileData();
+		fileData.setName(documentName);
+		fileData.setType("application/octet-stream");
+		fileData.setFilePath(filePath);
+		if(isFileExist(documentName)==null) {
+			fileDataRepository.save(fileData);
+		}
+		return documentName;
+	}
+
 
 }

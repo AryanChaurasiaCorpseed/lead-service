@@ -3,6 +3,7 @@ package com.lead.dashboard.service;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -21,4 +22,5 @@ public interface FileUploadService {
 
 	String getImageToFileSystem(String filePath);
 
+	String uploadDocument(InputStream inputStream, String finalFileName);
 }

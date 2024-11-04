@@ -1,6 +1,7 @@
 package com.lead.dashboard.config;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,4 +76,15 @@ private boolean deleteFile(String fileName) {
         }
     }
 
+    public String uploadDocumentOnAws(InputStream inputStream, String finalFilename) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.addUserMetadata("name", finalFilename);
+        // Create the PutObjectRequest with public read access
+        PutObjectRequest putObjectRequest = new PutObjectRequest(awsBucketName, finalFilename, inputStream, metadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead);
+
+        // Upload the file to the S3 bucket with public read access
+        amazonS3Client.putObject(putObjectRequest);
+        return finalFilename;
+    }
 }

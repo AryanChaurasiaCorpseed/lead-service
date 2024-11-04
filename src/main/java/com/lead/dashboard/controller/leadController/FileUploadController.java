@@ -1,11 +1,13 @@
 package com.lead.dashboard.controller.leadController;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.tomcat.jni.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -70,6 +72,22 @@ public class FileUploadController {
 		  String imageData=storageService.getImageToFileSystem(filePath);
            return imageData;
 	  }
+
+
+	@PostMapping("/crm/uploadFile")
+	public ResponseEntity<String> uploadFile(HttpServletRequest request, @RequestParam("fileName") String fileName) {
+
+		// Default to "uploaded_file" if no filename is provided
+		String finalFileName = (fileName != null) ? fileName : "uploaded_file";
+
+		try (InputStream inputStream = request.getInputStream()) {
+			return ResponseEntity.ok(storageService.uploadDocument(inputStream, finalFileName));
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+		}
+	}
+
+
 
 	  
 }
