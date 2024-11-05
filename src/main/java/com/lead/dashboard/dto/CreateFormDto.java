@@ -12,7 +12,7 @@
 
 		boolean isUnit;
 		String unitName; // isUnitFalse
-		Long unitId; //ISUNIT TRUE
+		Long unitId; // ISUNIT TRUE
 
 		String panNo;
 

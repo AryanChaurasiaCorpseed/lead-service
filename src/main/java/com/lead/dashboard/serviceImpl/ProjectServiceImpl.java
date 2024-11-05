@@ -54,11 +54,11 @@ public class ProjectServiceImpl implements ProjectService{
 		Client client =c.get(0); 
 		 Project project = new Project();
 		project.setAssignee(lead.getAssignee());
-		project.setCompany(estimate.getCompanies());
+//		project.setCompany(estimate.getCompanies());
 //		project.setAmount(estimate.getProfessionalFees());
 //		project.setClient(client);
 		project.setLead(lead);
-		project.setName(estimate.getName());
+//		project.setName(estimate.getName());
 //		project.setProjectNo(null);  //no need to setup 
 		project.setServiceDetails(estimate);
 		project.setCreateDate(new Date());

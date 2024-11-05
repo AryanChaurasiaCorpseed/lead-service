@@ -28,10 +28,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/getAllProducts")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts().stream().filter(i->!(i.isDeleted())).collect(Collectors.toList());
-    }
+
+
     
     @GetMapping("/getAllProductList")
     public List<Map<String,Object>> getAllProductList() {

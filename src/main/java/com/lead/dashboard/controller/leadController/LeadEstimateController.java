@@ -29,9 +29,9 @@ public class LeadEstimateController {
     EstimateService estimateService;
 
 	@PostMapping(UrlsMapping.CREATE_ESTIMATE)
-    public Lead createEstimate(@RequestBody CreateServiceDetails createServiceDetails)
+    public Boolean createEstimate(@RequestBody CreateServiceDetails createServiceDetails) throws Exception
     {
-    	Lead res=estimateService.createEstimate(createServiceDetails);
+    	Boolean res=estimateService.createEstimate(createServiceDetails);
         return res;
     }
     @GetMapping(UrlsMapping.GET_ALL_ESTIMATE)

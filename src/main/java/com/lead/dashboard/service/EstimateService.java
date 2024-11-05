@@ -13,7 +13,7 @@ import com.lead.dashboard.dto.EditEstimateAddress;
 @Service
 public interface EstimateService {
 
-	Lead createEstimate(CreateServiceDetails createServiceDetails);
+	Boolean createEstimate(CreateServiceDetails createServiceDetails) throws Exception;
 
 	List<ServiceDetails> getAllEstimate();
 

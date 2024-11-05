@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.lead.dashboard.domain.*;
 
 @Entity
 @Table(name = "erp_leads")
@@ -151,6 +152,13 @@ public class Lead {
 	boolean isQualityWorked;
 	
 	boolean isParent;
+	
+	@ManyToOne
+	ServiceDetails ServiceDetails;
+	
+	@ManyToOne
+	Proposal proposal;
+	
 	
 
 //	@OneToMany
@@ -503,6 +511,22 @@ public class Lead {
 
 	public void setChildLead(List<Lead> childLead) {
 		this.childLead = childLead;
+	}
+
+	public ServiceDetails getServiceDetails() {
+		return ServiceDetails;
+	}
+
+	public void setServiceDetails(ServiceDetails serviceDetails) {
+		ServiceDetails = serviceDetails;
+	}
+
+	public Proposal getProposal() {
+		return proposal;
+	}
+
+	public void setProposal(Proposal proposal) {
+		this.proposal = proposal;
 	}
 	
 	

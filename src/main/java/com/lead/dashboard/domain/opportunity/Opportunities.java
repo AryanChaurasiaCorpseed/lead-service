@@ -36,11 +36,7 @@ public class Opportunities {
     
     @ManyToOne
     private OpportunityStatus opportunityStatus;
-//
-//    @OneToOne(targetEntity = Client.class)
-//    @JoinColumn(name = "client_id",nullable = false)
-//    private Client client;
-//
+
     @ManyToOne
     private  User user;
 

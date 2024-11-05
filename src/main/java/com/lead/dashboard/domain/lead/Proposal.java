@@ -1,32 +1,35 @@
-package com.lead.dashboard.domain;
+package com.lead.dashboard.domain.lead;
 
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.lead.dashboard.domain.opportunity.Opportunities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lead.dashboard.domain.Client;
+import com.lead.dashboard.domain.Contact;
+import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.product.Product;
 
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+
 @Entity
-@Table(name = "service_details")
-@Data
-@Getter
-@Setter
-// Send Estimate
-public class ServiceDetails {
+@Table
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Proposal {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
@@ -84,8 +87,7 @@ public class ServiceDetails {
 	
 
 	@ManyToOne
-	User  assigneeId;
-	Long leadId;
+	User  assignee;
 	
 	String status;
 	
@@ -93,11 +95,8 @@ public class ServiceDetails {
 	
 	Boolean consultingSale;
 	String productType;
-	String orderNumber;
-	String purchaseDate;
 	List<String>cc;
-	String  invoiceNote;
-	String remarksForOption;
+	
 	String documents;
 
 	
@@ -114,10 +113,6 @@ public class ServiceDetails {
     String otherCode;
     String otherGst;	
     boolean isDeleted;
-    
-    
-    
-    
 	public Long getId() {
 		return id;
 	}
@@ -310,17 +305,11 @@ public class ServiceDetails {
 	public void setSecondaryCountry(String secondaryCountry) {
 		this.secondaryCountry = secondaryCountry;
 	}
-	public User getAssigneeId() {
-		return assigneeId;
+	public User getAssignee() {
+		return assignee;
 	}
-	public void setAssigneeId(User assigneeId) {
-		this.assigneeId = assigneeId;
-	}
-	public Long getLeadId() {
-		return leadId;
-	}
-	public void setLeadId(Long leadId) {
-		this.leadId = leadId;
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 	public String getStatus() {
 		return status;
@@ -340,35 +329,11 @@ public class ServiceDetails {
 	public void setProductType(String productType) {
 		this.productType = productType;
 	}
-	public String getOrderNumber() {
-		return orderNumber;
-	}
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-	public String getPurchaseDate() {
-		return purchaseDate;
-	}
-	public void setPurchaseDate(String purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
 	public List<String> getCc() {
 		return cc;
 	}
 	public void setCc(List<String> cc) {
 		this.cc = cc;
-	}
-	public String getInvoiceNote() {
-		return invoiceNote;
-	}
-	public void setInvoiceNote(String invoiceNote) {
-		this.invoiceNote = invoiceNote;
-	}
-	public String getRemarksForOption() {
-		return remarksForOption;
-	}
-	public void setRemarksForOption(String remarksForOption) {
-		this.remarksForOption = remarksForOption;
 	}
 	public String getDocuments() {
 		return documents;
@@ -453,42 +418,9 @@ public class ServiceDetails {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	} 
-	
-	
-	
-	
-//	@ManyToOne
-//	Company companies;
-////	String contact;
-//	Boolean consultingSale;
-//	String productType;
-//	String orderNumber;
-//	String purchaseDate;
-//	List<String>cc;
-//	String  invoiceNote;
-//	String remarksForOption;
-
-//	String documents;
-	
-	
-//    int  govermentfees;
-//    String govermentCode;
-//    String govermentGst;
-//    int professionalFees;
-//    String professionalCode;
-//    String profesionalGst;
-//    int serviceCharge;
-//    String serviceCode;
-//    String serviceGst;
-//    int otherFees;
-//    String otherCode;
-//    String otherGst;	
-//    boolean isDeleted; 
-
+	}
     
-   
-
-	
-	
+    
+    
+    
 }

@@ -52,7 +52,7 @@ public class OpportunityServiceImpl implements OpportunitesService {
     	opportunities.setUser(user);
     	ServiceDetails service = serviceDetailsRepository.findById(createOpportunity.getServiceId()).get();
     	opportunitiesRepo.save(opportunities);
-    	service.setOpportunities(opportunities);
+//    	service.setOpportunities(opportunities);
     	serviceDetailsRepository.save(service);
     	return opportunities;
     }

@@ -63,6 +63,12 @@ public class UrlsMapping {
 	public static final String EDIT_ESTIMATE_INVOICE=PREFIX+"/leadEstimate/editEstimateInvoice";
 	public static final String EDIT_ESTIMATE_ADDRESS=PREFIX+"/leadEstimate/editEstimateAddress";
 	
+	// - - - -  - - ---     create proposal - - - - -  
+	public static final String CREATE_PROPOSAL=PREFIX+"/proposal/createProposal";
+
+	
+	
+	
 	
 	// Node
 	public static final String CREATE_NODE=PREFIX+"/node/createNode";
