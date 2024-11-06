@@ -266,13 +266,13 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
+        User createdByUser = vendor.getUser(); // Assuming this field stores the user who created the vendor
+        String createdByEmail = createdByUser.getEmail();
+
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found for ID: " + leadId));
 
-//        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorQuotationRequest.getServiceName());
-
         Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorQuotationRequest.getVendorCategoryId());
-
         Optional<VendorSubCategory> vendorSubCategory = vendorSubCategoryRepository.findById(vendorQuotationRequest.getSubVendorCategoryId());
 
         User mailSentBy = user;
@@ -286,17 +286,14 @@ public class VendorServiceImpl implements VendorService {
         }
         String[] mailTo = mailToList.toArray(new String[0]);
 
-        String[] mailCc = new String[]{mailSentBy.getEmail()};
-//        String subject = "Quotation for - " + vendor.getUrlsManagment().getUrlsName();
+        String[] mailCc = new String[]{mailSentBy.getEmail(), createdByEmail};
+
         String subject = "Quotation for - " + vendor.getVendorCategory().getVendorCategoryName();
-
         String body = vendorQuotationRequest.getComment();
-
-
 
         try {
             mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest,
-                    mailSentBy,vendorCategory,vendorSubCategory);
+                    mailSentBy, vendorCategory, vendorSubCategory);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email: " + e.getMessage());
         }
