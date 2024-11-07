@@ -366,6 +366,8 @@ public class LeadServiceImpl implements LeadService  {
 				System.out.println(urlsName+".........................Aryan chaurasia");
 				lead.setOriginalName(urlsName);
 				lead.setParent(slug.isPlantSetup());
+			}else{
+				lead.setOriginalName(leadDTO.getLeadName());
 			}
 		}
 		//		lead.setOriginalName(leadDTO.getLeadName());
