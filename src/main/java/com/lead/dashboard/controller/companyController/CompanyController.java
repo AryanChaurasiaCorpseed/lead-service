@@ -171,7 +171,32 @@ public class CompanyController {
 		return true;
 	}
 
+	
 
+	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_TEMP_ASSIGNEE)
+	public boolean updateMultiCompanyTempAssignee(@RequestBody UpdateCompanyDto updateCompanyDto)
+	{
+//		boolean isDeleted = companyService.updateCompany(companyId);
+		boolean res=companyService.updateMultiCompanyTempAssignee(updateCompanyDto);   
+		return true;
+	}
 
+	@GetMapping(UrlsMapping.GET_ALL_TEMP_COMPANY)
+	public List<Map<String,Object>> getAllTempCompany(@RequestParam Long userId,@RequestParam(required = false) Long filterUserId,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllTempCompany(userId,filterUserId,page-1,size);
+		
+		return allCompany;
+ 
+	}
+	
+	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_TEMP_ASSIGNEE)
+	public boolean updateMultiCompanyTempAssignee(@RequestBody UpdateCompanyDto updateCompanyDto)
+	{
+//		boolean isDeleted = companyService.updateCompany(companyId);
+		boolean res=companyService.updateMultiCompanyTempAssignee(updateCompanyDto);   
+		return true;
+	}
 
 }

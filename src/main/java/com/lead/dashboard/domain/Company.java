@@ -74,6 +74,10 @@ public class Company {
 	
 	@ManyToOne                                                                                                               
 	User assignee;
+	
+	@ManyToOne
+	User tempAssignee;
+
 	String status;
 	boolean isParent;
 	@ManyToOne
@@ -193,7 +197,7 @@ public class Company {
 
 	public void setAddress(String address) {
 		Address = address;
-	}
+	} 
 
 	public Contact getPrimaryContact() {
 		return primaryContact;
@@ -297,6 +301,14 @@ public class Company {
 
 	public void setSCountry(String sCountry) {
 		this.sCountry = sCountry;
+	}
+
+	public User getTempAssignee() {
+		return tempAssignee;
+	}
+
+	public void setTempAssignee(User tempAssignee) {
+		this.tempAssignee = tempAssignee;
 	}
     
 	

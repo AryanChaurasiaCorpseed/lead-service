@@ -41,4 +41,8 @@ public interface CompanyService {
 	List<Map<String, Object>> getAllCompanyV2(Long userId, Long filterUserId, int page, int size);
 
 	boolean updateMultiCompanyAssignee(UpdateCompanyDto updateCompanyDto);
+
+	boolean updateMultiCompanyTempAssignee(UpdateCompanyDto updateCompanyDto);
+
+	List<Map<String, Object>> getAllTempCompany(Long userId, Long filterUserId, int i, int size);
 }

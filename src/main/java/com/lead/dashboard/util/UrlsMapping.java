@@ -105,6 +105,8 @@ public class UrlsMapping {
 	public static final String GET_COMPANY=PREFIX+"/company/getCompany";
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
+	public static final String GET_ALL_TEMP_COMPANY=PREFIX+"/company/getAllTempCompany";
+
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
 	public static final String GET_ALL_LEAD_BY_COMPANY =PREFIX+"/company/getAllLeadByCompany";
@@ -114,6 +116,8 @@ public class UrlsMapping {
 	public static final String GET_COMPANY_BY_ID=PREFIX+"/company/getCompanyById";
 	public static final String UPDATE_COMPANY_ASSIGNEE=PREFIX+"/company/updateCompanyAssignee";
 	public static final String UPDATE_MULTI_COMPANY_ASSIGNEE=PREFIX+"/company/updateMultiCompanyAssignee";
+	public static final String UPDATE_MULTI_COMPANY_TEMP_ASSIGNEE=PREFIX+"/company/updateMultiCompanyTempAssignee";
+	public static final String DELETE_TEMP_ASSIGNEE=PREFIX+"/company/deleteTempAssignee";
 
 
 	public static final String GET_ALL_COMPANY_HISTORY=PREFIX+"/companyHistory/getAllCompanyHistory";
