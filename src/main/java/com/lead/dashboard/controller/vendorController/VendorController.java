@@ -155,6 +155,21 @@ public class VendorController {
     }
 
 
+    @DeleteMapping(UrlsMapping.CANCEL_VENDOR_REQUEST)
+    public ResponseEntity<String> cancelRequest(@RequestParam Long vendorRequestId, @RequestParam Long userId,
+                                                @RequestParam String cancelReason) {
+        try {
+            boolean updated = vendorService.cancelRequest(vendorRequestId, userId,cancelReason);
+            if (updated) {
+                return new ResponseEntity<>("Vendor request canceled successfully.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Vendor request not found.", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 }

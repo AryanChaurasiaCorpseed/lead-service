@@ -108,6 +108,11 @@ public class VendorUpdateHistory implements Serializable {
     @Column(name = "current_updated_date")
     private LocalDate currentUpdatedDate;
 
+    private Date cancelledAt;
+
+    private Long cancelledBy;
+
+
 
 
 

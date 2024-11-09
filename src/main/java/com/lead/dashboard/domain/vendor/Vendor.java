@@ -118,6 +118,12 @@ public class Vendor implements Serializable {
 
     private Long viewedBy;
 
+    private Date viewedAt;
+
+    private Date cancelledAt;
+
+    private Long cancelledBy;
+
 
 
 
