@@ -596,12 +596,58 @@ public class VendorServiceImpl implements VendorService {
             Vendor vendor = vendorOptional.get();
             vendor.setView(true);
             vendor.setViewedBy(userId);
+            vendor.setViewedAt(new Date());
             vendorRepository.save(vendor);
             return true;
         }
         return false;
     }
 
+
+    @Override
+    public boolean cancelRequest(Long vendorRequestId, Long userId,String cancelReason) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+
+
+        Optional<Vendor> vendorOptional = vendorRepository.findById(vendorRequestId);
+
+        if (vendorOptional.isPresent() &&vendorOptional!=null) {
+            Vendor vendor = vendorOptional.get();
+
+            vendor.setStatus("Cancel");
+            vendor.setCancelledAt(new Date());
+            vendor.setCancelledBy(userId);
+            vendor.setVendorCategory(vendorOptional.get().getVendorCategory());
+            vendor.setVendorSubCategory(vendorOptional.get().getVendorSubCategory());
+            vendor.setLead(vendorOptional.get().getLead());
+            vendor.setUpdatedDate(new Date());
+            vendor.setUpdatedBy(user.getId());
+
+            vendorRepository.save(vendor);
+
+            VendorUpdateHistory history = new VendorUpdateHistory();
+            history.setVendor(vendor);
+            history.setRequestStatus("Cancel");
+            history.setUpdateDescription(cancelReason);
+            history.setUpdateDate(new Date());
+            history.setUpdatedBy(userId);
+            history.setUpdatedName(user.getFullName());
+            history.setCancelledBy(userId);
+            history.setCancelledAt(new Date());
+            history.setCreateDate(new Date());
+            history.setDate(LocalDate.now());
+            history.setLead(vendorOptional.get().getLead());
+            history.setUpdateDate(new Date());
+            vendorHistoryRepository.save(history);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
 

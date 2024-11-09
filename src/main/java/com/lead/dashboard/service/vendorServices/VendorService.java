@@ -32,4 +32,6 @@ public interface VendorService {
     Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size);
 
     boolean markVendorAsViewed(Long id, Long userId);
+
+    boolean cancelRequest(Long vendorRequestId, Long userId, String cancelReason);
 }
