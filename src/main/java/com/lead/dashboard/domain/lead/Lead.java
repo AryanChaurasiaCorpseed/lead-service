@@ -160,7 +160,7 @@ public class Lead {
 	@ManyToOne
 	Proposal proposal;
 	
-	Boolean isReopenByQuality;  // reopen by quality and assigne to sales person
+	boolean isReopenByQuality;  // reopen by quality and assigne to sales person
 	@ManyToOne
 	User reopenMarkedBy;
 
@@ -532,13 +532,6 @@ public class Lead {
 		this.proposal = proposal;
 	}
 
-	public Boolean getIsReopenByQuality() {
-		return isReopenByQuality;
-	}
-
-	public void setIsReopenByQuality(Boolean isReopenByQuality) {
-		this.isReopenByQuality = isReopenByQuality;
-	}
 
 	public User getReopenMarkedBy() {
 		return reopenMarkedBy;
@@ -546,6 +539,14 @@ public class Lead {
 
 	public void setReopenMarkedBy(User reopenMarkedBy) {
 		this.reopenMarkedBy = reopenMarkedBy;
+	}
+
+	public boolean isReopenByQuality() {
+		return isReopenByQuality;
+	}
+
+	public void setReopenByQuality(boolean isReopenByQuality) {
+		this.isReopenByQuality = isReopenByQuality;
 	}
 	
 	
