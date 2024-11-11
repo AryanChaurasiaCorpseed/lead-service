@@ -816,8 +816,8 @@ public class LeadServiceImpl implements LeadService  {
 				map.put("urls", lead.getUrls());
 				map.put("parent", lead.isParent());
 				map.put("isReopenByQuality", lead.getIsReopenByQuality());
-////				reopenByName=lead.getReopenMarkedBy()
-//				map.put("reopenByName", lead)
+				String reopenByName = lead.getReopenMarkedBy()!=null?lead.getReopenMarkedBy().getFullName():"NA";
+				map.put("reopenByName", reopenByName);
 				List<Map<String,Object>> child = new ArrayList<>();
 
 				if(lead.isParent()) {
