@@ -4,16 +4,19 @@ import java.util.List;
 
 public class CreateCategoryDocDto {
 	
-	Long categoryId;
+	long categoryId;
 	List<String>docList;
 	
 	
-	public Long getCategoryId() {
+
+	public long getCategoryId() {
 		return categoryId;
 	}
-	public void setCategoryId(Long categoryId) {
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
+	
+	
 	public List<String> getDocList() {
 		return docList;
 	}

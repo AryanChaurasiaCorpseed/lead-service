@@ -19,6 +19,8 @@ import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.service.ComplianceDocService;
 import com.lead.dashboard.util.UrlsMapping;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
 public class ComplianceDocumentController {
  
@@ -36,7 +38,7 @@ public class ComplianceDocumentController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_DOCUMENTS)
-	public Boolean createDocumentInCategory(CreateCategoryDocDto createCategoryDocDto){
+	public Boolean createDocumentInCategory(@RequestBody CreateCategoryDocDto createCategoryDocDto){
 		Boolean res=complianceDocService.createDocumentInCategory(createCategoryDocDto);	
 		return res;
 	}

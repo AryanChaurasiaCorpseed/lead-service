@@ -172,7 +172,7 @@ public class Lead {
 	}
 
 	public String getName() {
-		return name;
+		return name; 
 	}
 
 	public String getLeadName() {
