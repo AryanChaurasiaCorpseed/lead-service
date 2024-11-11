@@ -393,5 +393,13 @@ public class LeadController {
 		Boolean res=leadservice.addChildLead(childLeadDto);
 		return res;
 	}
+	
+	@PutMapping(UrlsMapping.ADD_REOPEN_BY_QUALITY)
+	public Boolean addReopenByQuality(@RequestParam Long currentUerId,@RequestParam Long leadId , @RequestParam boolean isMarked )
+	{ 
+		
+		Boolean res=leadservice.addReopenByQuality(currentUerId,leadId,isMarked);
+		return res;
+	}
 
 }

@@ -53,4 +53,5 @@ public interface LeadService {
 	Integer getAllLeadCount(AllLeadFilter allLeadFilter);
 	Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter);
 	Boolean addChildLead(ChildLeadDto childLeadDto);
+	Boolean addReopenByQuality(Long currentUerId, Long leadId, boolean isMarked);
 }

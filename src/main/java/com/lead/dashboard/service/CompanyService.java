@@ -45,4 +45,6 @@ public interface CompanyService {
 	boolean updateMultiCompanyTempAssignee(UpdateCompanyDto updateCompanyDto);
 
 	List<Map<String, Object>> getAllTempCompany(Long userId, Long filterUserId, int i, int size);
+
+	boolean deleteTempAssignee(UpdateCompanyDto updateCompanyDto);
 }

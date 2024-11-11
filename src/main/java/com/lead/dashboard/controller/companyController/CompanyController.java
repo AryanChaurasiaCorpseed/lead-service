@@ -191,11 +191,11 @@ public class CompanyController {
  
 	}
 	
-	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_TEMP_ASSIGNEE)
-	public boolean updateMultiCompanyTempAssignee(@RequestBody UpdateCompanyDto updateCompanyDto)
+	@DeleteMapping(UrlsMapping.DELETE_TEMP_ASSIGNEE)
+	public boolean deleteTempAssignee(@RequestBody UpdateCompanyDto updateCompanyDto)
 	{
 //		boolean isDeleted = companyService.updateCompany(companyId);
-		boolean res=companyService.updateMultiCompanyTempAssignee(updateCompanyDto);   
+		boolean res=companyService.deleteTempAssignee(updateCompanyDto);   
 		return true;
 	}
 

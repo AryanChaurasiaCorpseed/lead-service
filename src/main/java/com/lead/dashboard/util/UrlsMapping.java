@@ -38,6 +38,8 @@ public class UrlsMapping {
 	public static final String ADD_CHILD_LEAD=PREFIX+"/lead/addChildLead";
 
 	public static final String LEAD_SEARCH=PREFIX+"/lead//searchLead";
+	public static final String ADD_REOPEN_BY_QUALITY=PREFIX+"/lead/addReopenByQuality";
+
 
 	//=================== Lead - Oppoertunity Service ===================
 	

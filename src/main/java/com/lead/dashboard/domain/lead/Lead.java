@@ -149,6 +149,7 @@ public class Lead {
 	@ManyToOne
 	private User helpUser;
 	
+	
 	boolean isQualityWorked;
 	
 	boolean isParent;
@@ -159,7 +160,9 @@ public class Lead {
 	@ManyToOne
 	Proposal proposal;
 	
-	
+	Boolean isReopenByQuality;  // reopen by quality and assigne to sales person
+	@ManyToOne
+	User reopenMarkedBy;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -527,6 +530,22 @@ public class Lead {
 
 	public void setProposal(Proposal proposal) {
 		this.proposal = proposal;
+	}
+
+	public Boolean getIsReopenByQuality() {
+		return isReopenByQuality;
+	}
+
+	public void setIsReopenByQuality(Boolean isReopenByQuality) {
+		this.isReopenByQuality = isReopenByQuality;
+	}
+
+	public User getReopenMarkedBy() {
+		return reopenMarkedBy;
+	}
+
+	public void setReopenMarkedBy(User reopenMarkedBy) {
+		this.reopenMarkedBy = reopenMarkedBy;
 	}
 	
 	

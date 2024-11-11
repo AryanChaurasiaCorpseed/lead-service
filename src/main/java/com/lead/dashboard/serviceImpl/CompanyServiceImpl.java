@@ -774,6 +774,27 @@ public class CompanyServiceImpl implements CompanyService {
 		return res;
 	}
 
+	@Override
+	public boolean deleteTempAssignee(UpdateCompanyDto updateCompanyDto) {
+		Boolean flag=false;
+		Optional<User> userOp = userRepo.findById(updateCompanyDto.getCurrentUserId());
+		if(userOp!=null && userOp.get()!=null) {
+			User user = userOp.get();
+			List<String> role = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
+			if(role.contains("ADMIN")) {
+				User assignee = userRepo.findById(updateCompanyDto.getAssigneeId()).get();
+				
+				List<Company>comp=companyRepository.findByIdIn(updateCompanyDto.getCompanyId());
+				for(Company c:comp) {
+					c.setTempAssignee(null);
+					companyRepository.save(c);
+					flag=true;
+				}
+			}
+		}
+		return flag;
+	}
+
 
 
 }

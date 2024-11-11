@@ -815,6 +815,9 @@ public class LeadServiceImpl implements LeadService  {
 				map.put("source", lead.getSource());
 				map.put("urls", lead.getUrls());
 				map.put("parent", lead.isParent());
+				map.put("isReopenByQuality", lead.getIsReopenByQuality());
+////				reopenByName=lead.getReopenMarkedBy()
+//				map.put("reopenByName", lead)
 				List<Map<String,Object>> child = new ArrayList<>();
 
 				if(lead.isParent()) {
@@ -1956,5 +1959,21 @@ public class LeadServiceImpl implements LeadService  {
 		flag=true;
 		return flag;
 	}
+	@Override
+	public Boolean addReopenByQuality(Long currentUerId, Long leadId, boolean isMarked) {
+		Boolean flag=false;
+		if(currentUerId!=null) {
+			Lead lead = leadRepository.findById(leadId).get();	
+			User user = userRepo.findById(currentUerId).get();
+			lead.setIsReopenByQuality(isMarked);
+			lead.setReopenMarkedBy(user);
+			leadRepository.save(lead);
+			flag=true;
+		}
+	
+		return flag;
+	}
+	
+	
 
 }
