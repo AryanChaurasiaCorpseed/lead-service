@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.ServiceDetails;
@@ -38,8 +39,8 @@ public class ComplianceDocumentController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_DOCUMENTS)
-	public Boolean createDocumentInCategory(@RequestBody CreateCategoryDocDto createCategoryDocDto){
-		Boolean res=complianceDocService.createDocumentInCategory(createCategoryDocDto);	
+	public Boolean createDocumentInCategory(@RequestParam Long categoryId,  @RequestBody CreateCategoryDocDto createCategoryDocDto){
+		Boolean res=complianceDocService.createDocumentInCategory(categoryId,createCategoryDocDto);	
 		return res;
 	}
 	
