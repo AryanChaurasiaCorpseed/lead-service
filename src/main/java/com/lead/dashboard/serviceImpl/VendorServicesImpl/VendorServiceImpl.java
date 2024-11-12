@@ -430,7 +430,6 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Map<String, Object> findAllVendorRequest(Long userId, int page, int size) {
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
@@ -468,10 +467,18 @@ public class VendorServiceImpl implements VendorService {
 
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
-            vendorResponseDTO.setVendorCategoryName(vendor.getVendorCategory().getVendorCategoryName());
-            vendorResponseDTO.setVendorCategoryId(vendor.getVendorCategory().getId());
-            vendorResponseDTO.setVendorSubCategoryId(vendor.getVendorSubCategory().getId());
-            vendorResponseDTO.setVendorSubCategoryName(vendor.getVendorSubCategory().getVendorSubCategoryName());
+            vendorResponseDTO.setVendorCategoryName(
+                    vendor.getVendorCategory() != null ? vendor.getVendorCategory().getVendorCategoryName() : null
+            );
+            vendorResponseDTO.setVendorCategoryId(
+                    vendor.getVendorCategory() != null ? vendor.getVendorCategory().getId() : null
+            );
+            vendorResponseDTO.setVendorSubCategoryId(
+                    vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getId() : null
+            );
+            vendorResponseDTO.setVendorSubCategoryName(
+                    vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null
+            );
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy());
@@ -492,8 +499,13 @@ public class VendorServiceImpl implements VendorService {
                 historyDTO.setBudgetPrice(history.getBudgetPrice());
                 historyDTO.setProposalSentStatus(history.isProposalSentStatus());
                 historyDTO.setQuotationAmount(history.getQuotationAmount());
-                historyDTO.setVendorCategoryName(history.getVendorCategory().getVendorCategoryName());
-                historyDTO.setVendorSubCategoryName(history.getVendorSubCategory().getVendorSubCategoryName());
+
+                historyDTO.setVendorCategoryName(
+                        history.getVendorCategory() != null ? history.getVendorCategory().getVendorCategoryName() : null
+                );
+                historyDTO.setVendorSubCategoryName(
+                        history.getVendorSubCategory() != null ? history.getVendorSubCategory().getVendorSubCategoryName() : null
+                );
 
                 updateHistoryDTOList.add(historyDTO);
             }
