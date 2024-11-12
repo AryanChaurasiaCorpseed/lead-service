@@ -39,8 +39,8 @@ public class ComplianceDocumentController {
 	}
 	
 	@PostMapping(UrlsMapping.CREATE_DOCUMENTS)
-	public Boolean createDocumentInCategory(@RequestParam Long categoryId,  @RequestBody CreateCategoryDocDto createCategoryDocDto){
-		Boolean res=complianceDocService.createDocumentInCategory(categoryId,createCategoryDocDto);	
+	public Boolean createDocumentInCategory(@RequestParam Long categoryId, @RequestParam String docList){
+		Boolean res=complianceDocService.createDocumentInCategory(categoryId,docList);	
 		return res;
 	}
 	

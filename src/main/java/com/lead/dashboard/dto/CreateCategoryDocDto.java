@@ -7,7 +7,7 @@ public class CreateCategoryDocDto {
 //	long categoryId;
 	List<String>docList;
 	
-	
+
 
 	public List<String> getDocList() {
 		return docList;

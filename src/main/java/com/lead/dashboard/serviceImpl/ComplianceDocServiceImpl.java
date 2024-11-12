@@ -45,10 +45,12 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
    	}
 	
 	@Override
-	public Boolean createDocumentInCategory(Long categoryId,CreateCategoryDocDto createCategoryDocDto) {
+	public Boolean createDocumentInCategory(Long categoryId,String docList) {
 		Boolean flag = false;
 		Product product = productRepo.findById(categoryId).get();
-		product.setDocuments(createCategoryDocDto.getDocList());
+		List<String>doc=new ArrayList<>();
+		doc.add(docList);
+		product.setDocuments(doc);
 		productRepo.save(product);
 		flag=true;
 		return flag;
