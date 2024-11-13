@@ -63,7 +63,7 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 	   	public List<Map<String,Object>>getAllComplianceDocuments(int page, int size){
 			Pageable pageable = PageRequest.of(page, size);
 
-	   		List<Product> productList = productRepo.findAll(pageable);
+	   		List<Product> productList = productRepo.findAll(pageable).getContent();
 	   		List<Map<String,Object>> res = new ArrayList<>();
 	   		
 	   		for(Product product:productList) {
