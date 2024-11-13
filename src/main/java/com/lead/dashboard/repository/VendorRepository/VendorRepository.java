@@ -36,4 +36,13 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     Page<Vendor> findByAssignedUser(User assignedUser, Pageable pageable);
 
     Page<Vendor> findByUser(User user, Pageable pageable);
+
+    @Query("SELECT v FROM Vendor v ORDER BY v.id DESC")
+    Page<Vendor> findAllVendors(Pageable pageable);
+
+
+    @Query("SELECT v FROM Vendor v WHERE v.assignedUser = :user ORDER BY v.id DESC")
+    Page<Vendor> findVendorsByAssignedUser(@Param("user") User user, Pageable pageable);
+
+
 }

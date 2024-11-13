@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -324,7 +325,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setVendorCategory(vendorCategory.get());
         vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.get());
 
-
+//mooro
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 
@@ -433,16 +434,18 @@ public class VendorServiceImpl implements VendorService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
 
+
         Pageable pageable = PageRequest.of(page - 1, size);
+
         Page<Vendor> vendorPage;
 
         boolean isAdmin = user.getUserRole().stream()
                 .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
 
         if (isAdmin) {
-            vendorPage = vendorRepository.findAll(pageable);
+            vendorPage = vendorRepository.findAllVendors(pageable);  // Admin query
         } else {
-            vendorPage = vendorRepository.findByAssignedUser(user, pageable);
+            vendorPage = vendorRepository.findVendorsByAssignedUser(user, pageable);  // Non-admin query
         }
 
         List<Vendor> vendorList = vendorPage.getContent();
@@ -452,7 +455,6 @@ public class VendorServiceImpl implements VendorService {
 
         for (Vendor vendor : vendorList) {
             VendorAllResponse vendorResponseDTO = new VendorAllResponse();
-
             vendorResponseDTO.setId(vendor.getId());
             vendorResponseDTO.setClientEmailId(vendor.getClientEmailId());
             vendorResponseDTO.setClientCompanyName(vendor.getClientCompanyName());
