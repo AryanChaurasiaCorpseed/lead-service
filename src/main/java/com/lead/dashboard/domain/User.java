@@ -514,8 +514,7 @@ public class User implements Serializable{
 		this.contactNo = contactNo;
 	}
 
-	
-	
+
 
 //	public List<Ratings> getUserRatings() {
 //		return userRatings;

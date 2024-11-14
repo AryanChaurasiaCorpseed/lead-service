@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -45,4 +46,9 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     Page<Vendor> findVendorsByAssignedUser(@Param("user") User user, Pageable pageable);
 
 
+    @Query("SELECT v FROM Vendor v WHERE " +
+            "(:startDate IS NULL OR :endDate IS NULL OR v.date BETWEEN :startDate AND :endDate) " +
+            "AND v.isDeleted = false")
+    List<Vendor> findAllVendorRequestByDate(@Param("startDate") LocalDate startDate,
+                                            @Param("endDate") LocalDate endDate);
 }

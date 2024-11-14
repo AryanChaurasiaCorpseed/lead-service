@@ -61,6 +61,7 @@ public class VendorUpdateHistory implements Serializable {
 
     private String requestStatus;
 
+    @Column(length = 255)
     private String updateDescription;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,7 +79,8 @@ public class VendorUpdateHistory implements Serializable {
     private String budgetPrice;
 
 
-    private Long updatedBy;
+    @ManyToOne
+    private User updatedBy;
 
     private List<String> mailTo;  // Keep as List<String>
 
@@ -110,9 +112,16 @@ public class VendorUpdateHistory implements Serializable {
 
     private Date cancelledAt;
 
-    private Long cancelledBy;
+    @ManyToOne
+    private User cancelledBy;
 
-
+    public void setUpdateDescription(String updateDescription) {
+        if (updateDescription != null && updateDescription.length() > 255) {
+            this.updateDescription = updateDescription.substring(0, 255);  // Truncate to 255 characters
+        } else {
+            this.updateDescription = updateDescription;
+        }
+    }
 
 
 
