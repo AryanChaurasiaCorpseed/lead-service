@@ -134,6 +134,9 @@ public class UrlsMapping {
 	public static final String GET_ALL_PROJECT_GRAPH_AMOUNT=PREFIX+"/salesDashboard/getAllProjectGraphAmount";
 	public static final String GET_ALL_COMPANY_AMOUNT_GRAPH=PREFIX+"/salesDashboard/getAllCompanyAmountGraph";
 	public static final String GET_ALL_AMOUNT_USER_WISE=PREFIX+"/salesDashboard/getAllAmountUserWise";
+	public static final String GET_TOTAL_LEAD_COUNT=PREFIX+"/salesDashboard/getTotalLeadCount";
+	public static final String GET_TOTAL_PROJECT_COUNT=PREFIX+"/salesDashboard/getTotalProjectCount";
+	public static final String GET_ALL_LEADS_MONTH_WISE=PREFIX+"/salesDashboard/getAllLeadsMonthWise";
 
 	
 	// Project

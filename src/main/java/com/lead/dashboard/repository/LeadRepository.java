@@ -33,6 +33,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE  el.status_id=:statusId and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
 	List<Lead> findAllByAssigneeAndStatusAndIsDeleted(Long userId,Long statusId,boolean b);
 
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b", nativeQuery = true)
+	long findCountByIsDeleted(boolean b);
 
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.is_deleted =:b", nativeQuery = true)
 	List<Lead> findAllByIsDeleted(boolean b);
@@ -185,4 +187,9 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 
 	@Query(value = "SELECT * FROM erp_leads l WHERE l.email LIKE %:searchParam%  AND l.assignee_id = :userId", nativeQuery = true)
 	List<Lead> findAllByEmailAndAssignee(@Param("searchParam") String searchParam, @Param("userId") Long userId);
+
+
+    @Query(value = "SELECT l.id,l.lead_name,l.create_date FROM erp_leads l WHERE create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+ 	 List<Object[]> findIdAndNameAndCreateDateByInBetweenDate(String d1,String d2);
+
 }

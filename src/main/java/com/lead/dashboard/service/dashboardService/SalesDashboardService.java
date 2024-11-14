@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
 
 @Service
@@ -29,6 +30,12 @@ public interface SalesDashboardService {
 	List<Map<String, Object>> getAllProjectGraphV2(GraphFilterDto graphFilterDto);
 
 	List<Map<String, Object>> getAllProjectGraphAmountV2(GraphFilterDto graphFilterDto);
+
+	long getTotalLeadCount();
+
+	long getTotalProjectCount();
+
+	List<Map<String, Object>> getAllLeadMonthWise(GraphDateFilter graphDateFilter);
 
 
 }

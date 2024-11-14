@@ -104,6 +104,9 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
 	 
      @Query(value = "SELECT * FROM project p", nativeQuery = true)
    	 List<Project> findAllProject();
+
+     @Query(value = "SELECT count(*) FROM project p", nativeQuery = true)
+	long findAllCount();
      
      
 }

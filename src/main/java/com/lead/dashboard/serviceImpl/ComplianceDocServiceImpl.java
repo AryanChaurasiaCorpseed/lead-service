@@ -76,7 +76,9 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 	   			Map<String,Object>map = new HashMap<>();
 	   			map.put("id", product.getId());
 	   			map.put("name", product.getProductName());
+	   			
 	   			List<String>doc = new ArrayList<>();
+	   			product.getProductDoc();
 	   			if(product.getDocuments()!=null) {
 	   				doc.addAll (product.getDocuments());
 	   			}

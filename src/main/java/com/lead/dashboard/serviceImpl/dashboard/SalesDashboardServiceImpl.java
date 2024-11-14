@@ -22,6 +22,7 @@ import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
@@ -685,6 +686,151 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		}	
 		return result;
 	}
+	@Override
+	public long getTotalLeadCount() {
+		long lead = leadRepository.findCountByIsDeleted(false);
+		return lead;
+	}
+	@Override
+	public long getTotalProjectCount() {
+		long pCount=projectRepository.findAllCount();
+		return pCount;
+	}
+	@Override
+	public List<Map<String, Object>> getAllLeadMonthWise(GraphDateFilter graphDateFilter) {
+		
+
+		List<Object[]> projects=new ArrayList<>();
+
+		String toDate=graphDateFilter.getToDate();
+		String fromDate=graphDateFilter.getFromDate();
+		String startDate = toDate;
+		String endDate = fromDate;
+		List<Object[]> leads=new ArrayList<>();
+
+		System.out.println("aaaaaa");
+		projects = projectRepository.findIdAndNameAndAmountByInBetweenDate(startDate, endDate);
+		leads=leadRepository.findIdAndNameAndCreateDateByInBetweenDate(startDate, endDate);
+		System.out.println("t..........................t"+leads.size());
+
+//			Map<String,List<Object[]>>map=new LinkedHashMap();
+//            System.out.println("test.............projecta2"+project);
+		Map<String,Map<String,Object>>map=new LinkedHashMap();
+		for(Object[] l:leads) {
+			Long id=(Long)l[0];
+			String leadName=(String)l[1];
+			Date createDate=(Date)l[2];
+			int year = 1900+createDate.getYear();
+			String temp=createDate.getMonth()+""+year;
+			if(map.containsKey(temp)) {
+			
+				Map<String, Object> c = map.get(temp);
+				long cValue=(long)c.get("counts");
+				c.put("counts", cValue+1);
+				map.put(temp,c);
+			}else {
+				Long count = 1l; ;
+				Map<String,Object>m=new HashMap<>();
+				m.put("counts", count);
+				m.put("date", createDate);
+				map.put(temp, m);
+			}
+		}
+
+		List<Map<String,Object>>result = new ArrayList<>();
+		for(Entry<String,Map<String,Object>> entry:map.entrySet()) {
+			Map<String,Object>m=new HashMap<>();
+			Map<String, Object> data = entry.getValue();
+			m.put("name", data.get("date"));
+			m.put("value", data.get("counts"));
+			m.put("test", entry.getKey());
+
+			result.add(m);
+		}
+			
+		
+			
+//			for(Object[] l:leads) {
+//				Long id=(Long)l[0];
+//				String leadName=(String)l[1];
+//				Date createDate=(Date)l[2];
+//				int year = 1900+createDate.getYear();
+//				String temp=createDate.getMonth()+""+year;
+//				if(map.containsKey(temp)) {
+//					 List<Object[]> count = map.get(temp);
+//					 count.add(l);
+//					map.put(temp, count);
+//				}else {
+//					List<Object[]> count =new ArrayList<>();
+//					count.add(l);
+//					map.put(temp, count);
+//				}
+//			}
+			
+//			for(Object[] l:leads) {
+//				Long id=(Long)l[0];
+//				String leadName=(String)l[1];
+//				Date createDate=(Date)l[2];
+//				int year = 1900+createDate.getYear();
+//				String temp=createDate.getMonth()+""+year;
+//				if(map.containsKey(temp)) {
+//					Long count = map.get(temp)+1 ;
+//					map.put(temp, count);
+//				}else {
+//					Long count = 1l; ;
+//					map.put(temp, count);
+//				}
+//			}
+//			for(Object[] p:projects) {
+//				Long id=(Long)p[0];
+//				String leadName=(String)p[1];
+//				Date createDate=(Date)p[2];
+//
+////				if(map.containsKey(name)){
+////					long amount=0l;
+////					//					Integer count = c;
+////					if(am!=null) {
+//////						String s=(String)p[2];
+////						long a = Long.parseLong(am);
+////						amount=map.get(name)+a;
+////						map.put(name, amount);
+////					}
+////				}else {
+////					if(am!=null) {
+////
+////						Long amount =  Long.parseLong(am);
+////						map.put(name, amount);
+////					}
+////				}
+//			}
+			
+			
+//			List<Map<String,Object>>result = new ArrayList<>();
+//			for(Entry<String,List<Object[]>> entry:map.entrySet()) {
+//				Map<String,Object>m=new HashMap<>();
+//				m.put("name", entry.getKey());
+//				m.put("value", entry.getValue());
+//				result.add(m);
+//			}
+			//            Collections.sort(result,(i1,i2)->((int)i1.get("value"))>((int)i2.get("value"))?-1:((int)i1.get("value"))>((int)i2.get("value"))?1:0);
+			result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+
+			return result;
+
+		 
+			
+		}
+
+
+	
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 //	compList=companyRepository.findByAssigneeId(graphFilterDto.getUserId());
 //	Map<String,Integer>map = new HashMap<>();
@@ -695,4 +841,4 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 //		 }
 //	}
 
-}
+

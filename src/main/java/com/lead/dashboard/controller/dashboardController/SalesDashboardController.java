@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 import com.lead.dashboard.util.UrlsMapping;
@@ -71,6 +72,28 @@ public class SalesDashboardController {
 	}
 	
 	
+	@GetMapping(UrlsMapping.GET_TOTAL_LEAD_COUNT)
+	public long getTotalLeadCount()
+	{
+		long alllead= salesDashboardService.getTotalLeadCount();
+		return alllead;
+	}
+	
+	
+	@GetMapping(UrlsMapping.GET_TOTAL_PROJECT_COUNT)
+	public long getTotalProjectCount()
+	{
+		long alllead= salesDashboardService.getTotalProjectCount();
+		return alllead;
+	}
+	
+	
+	@GetMapping(UrlsMapping.GET_ALL_LEADS_MONTH_WISE)
+	public List<Map<String,Object>> getAllLeadMonthWise(GraphDateFilter graphDateFilter)
+	{
+		List<Map<String,Object>> alllead= salesDashboardService.getAllLeadMonthWise(graphDateFilter);
+		return alllead;
+	}
 	
 	
 	
