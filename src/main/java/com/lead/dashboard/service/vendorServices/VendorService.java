@@ -7,6 +7,7 @@ import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -34,4 +35,6 @@ public interface VendorService {
     boolean markVendorAsViewed(Long id, Long userId);
 
     boolean cancelRequest(Long vendorRequestId, Long userId, String cancelReason);
+
+    Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId);
 }

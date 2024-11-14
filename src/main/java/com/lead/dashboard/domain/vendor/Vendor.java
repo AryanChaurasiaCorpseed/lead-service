@@ -89,9 +89,11 @@ public class Vendor implements Serializable {
 
     private String vendorComment;
 
-    private Long addedBy;
+    @ManyToOne
+    private User addedBy;
 
-    private Long updatedBy;
+    @ManyToOne
+    private User updatedBy;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
@@ -116,7 +118,8 @@ public class Vendor implements Serializable {
     @Column(name = "current_updated_date")
     private LocalDate currentUpdatedDate;
 
-    private Long viewedBy;
+    @ManyToOne
+    private User viewedBy;
 
     private Date viewedAt;
 

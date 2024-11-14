@@ -245,6 +245,10 @@ public class UrlsMapping {
 	public static final String FIND_ALL_VENDOR_REQUEST_OF_USER = "/leadService/api/v1/vendor/find-all-vendor-request-of-user";
 	public static final String MARK_AS_VIEWED = "/leadService/api/v1/vendor/vendor-request-view";
 	public static final String CANCEL_VENDOR_REQUEST = "/leadService/api/v1/vendor/cancel-vendor-request";
+	public static final String VENDOR_REPORT = "/leadService/api/v1/vendor/vendor-report";
+	public static final String VENDOR_SEARCH = "/leadService/api/v1/vendor/vendor-search";
+
+
 
 
 

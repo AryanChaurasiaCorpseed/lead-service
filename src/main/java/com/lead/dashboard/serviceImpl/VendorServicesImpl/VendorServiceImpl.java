@@ -7,12 +7,7 @@ import com.lead.dashboard.domain.vendor.*;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
-import com.lead.dashboard.dto.response.VendorAllRequestOfUser;
-import com.lead.dashboard.dto.response.VendorAllResponse;
-import com.lead.dashboard.dto.response.VendorHistoryUpdated;
-import com.lead.dashboard.dto.response.VendorResponse;
-import com.lead.dashboard.dto.response.VendorUpdateHistoryAllResponse;
-import com.lead.dashboard.dto.response.VendorUpdateHistoryResponse;
+import com.lead.dashboard.dto.response.*;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.repository.VendorRepository.*;
 import com.lead.dashboard.service.vendorServices.VendorService;
@@ -107,7 +102,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setVendorCategory(vendorCategory);
             vendor.setVendorSubCategory(vendorSubCategory);
             vendor.setDisplay(true);
-            vendor.setAddedBy(userDetails.get().getId());
+            vendor.setAddedBy(userDetails.get());
             vendor.setLead(leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found")));
             vendor.setCreateDate(new Date());
             vendor.setUpdatedDate(new Date());
@@ -244,7 +239,7 @@ public class VendorServiceImpl implements VendorService {
             Vendor vendor = vendorRepository.findById(vendorId)
                     .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
-            vendor.setUpdatedBy(updatedById);
+            vendor.setUpdatedBy(updatedByUser);
             vendor.setAssignedUser(assignedToUser);
             vendor.setUpdatedDate(new Date());
             vendor.setDate(LocalDate.now());
@@ -307,7 +302,7 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setProposalSentStatus(true);
         vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
 //        vendorUpdateHistory.setUrlsManagment(urlsManagment);
-        vendorUpdateHistory.setUpdatedBy(user.getId());
+        vendorUpdateHistory.setUpdatedBy(user);
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setQuotationAmount(vendorQuotationRequest.getQuotationAmount());
         vendorUpdateHistory.setQuotationFilePath(vendorQuotationRequest.getQuotationFilePath());
@@ -382,7 +377,7 @@ public class VendorServiceImpl implements VendorService {
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
 
         vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getComment());
-        vendorUpdateHistory.setUpdatedBy(userId);
+        vendorUpdateHistory.setUpdatedBy(user);
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setUser(user);
@@ -408,6 +403,15 @@ public class VendorServiceImpl implements VendorService {
 
 
         vendorUpdateHistory = vendorHistoryRepository.save(vendorUpdateHistory);
+
+
+        vendor.setStatus(vendorRequestUpdate.getRequestStatus());
+        vendor.setUpdatedBy(user);
+        vendor.setCurrentUpdatedDate(LocalDate.now());
+
+        vendorRepository.save(vendor);
+
+
 
         VendorHistoryUpdated vendorHistoryUpdated = new VendorHistoryUpdated();
         vendorHistoryUpdated.setId(vendorUpdateHistory.getId());
@@ -483,7 +487,7 @@ public class VendorServiceImpl implements VendorService {
             );
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
             vendorResponseDTO.setView(vendor.isView());
-            vendorResponseDTO.setViewedBy(vendor.getViewedBy());
+            vendorResponseDTO.setViewedBy(vendor.getViewedBy().getId());
 
             List<String> fullImagePaths = new ArrayList<>();
             for (String imagePath : vendor.getSalesAttachmentImage()) {
@@ -544,8 +548,11 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Map<String, Object> findAllVendorRequestOfUser(Long userId, int page, int size) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+
+        User user = userRepository.findByUserIdAndIsDeletedFalse(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found for ID: " + userId);
+        }
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Vendor> vendorRequests = vendorRepository.findByUser(user, pageable);
@@ -582,7 +589,7 @@ public class VendorServiceImpl implements VendorService {
                         response.setSalesAttachmentImage(fullImagePaths);
 
                         response.setView(vendor.isView());
-                        response.setViewedBy(vendor.getViewedBy());
+                        response.setViewedBy(vendor.getViewedBy().getId());
 
                         vendor.getVendorUpdateHistory().stream()
                                 .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
@@ -604,12 +611,17 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public boolean markVendorAsViewed(Long id, Long userId) {
 
+        User user = userRepository.findByUserIdAndIsDeletedFalse(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found for ID: " + userId);
+        }
+
         Optional<Vendor> vendorOptional = vendorRepository.findById(id);
 
         if (vendorOptional.isPresent()) {
             Vendor vendor = vendorOptional.get();
             vendor.setView(true);
-            vendor.setViewedBy(userId);
+            vendor.setViewedBy(user);
             vendor.setViewedAt(new Date());
             vendorRepository.save(vendor);
             return true;
@@ -619,10 +631,12 @@ public class VendorServiceImpl implements VendorService {
 
 
     @Override
-    public boolean cancelRequest(Long vendorRequestId, Long userId,String cancelReason) {
+    public boolean  cancelRequest(Long vendorRequestId, Long userId,String cancelReason) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found for ID: " + userId));
+        User user = userRepository.findByUserIdAndIsDeletedFalse(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found for ID: " + userId);
+        }
 
 
 
@@ -638,7 +652,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setVendorSubCategory(vendorOptional.get().getVendorSubCategory());
             vendor.setLead(vendorOptional.get().getLead());
             vendor.setUpdatedDate(new Date());
-            vendor.setUpdatedBy(user.getId());
+            vendor.setUpdatedBy(user);
 
             vendorRepository.save(vendor);
 
@@ -647,9 +661,9 @@ public class VendorServiceImpl implements VendorService {
             history.setRequestStatus("Cancel");
             history.setUpdateDescription(cancelReason);
             history.setUpdateDate(new Date());
-            history.setUpdatedBy(userId);
+            history.setUpdatedBy(user);
             history.setUpdatedName(user.getFullName());
-            history.setCancelledBy(userId);
+            history.setCancelledBy(user);
             history.setCancelledAt(new Date());
             history.setCreateDate(new Date());
             history.setDate(LocalDate.now());
@@ -663,5 +677,49 @@ public class VendorServiceImpl implements VendorService {
         }
     }
 
+    @Override
+    public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
+
+        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
+        if (userDetails == null) {
+            throw new RuntimeException("User not found for ID: " + userIdBy);
+        }
+        List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
+
+        boolean isAdmin = userDetails.getRole().contains("ADMIN");
+
+        if (isAdmin) {
+            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate,endDate);
+
+            for (Vendor vendor : vendorList) {
+                boolean matchesStatus = (status == null || vendor.getStatus().equalsIgnoreCase(status));
+                boolean matchesDateRange = (startDate == null || !vendor.getDate().isBefore(startDate)) &&
+                        (endDate == null || !vendor.getDate().isAfter(endDate));
+
+                if (matchesStatus && matchesDateRange) {
+                    VendorReportResponse response = new VendorReportResponse();
+                    response.setId(vendor.getId());
+                    response.setGenerateByPersonName(userDetails.getMotherName());
+                    response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
+                    response.setStartDate(startDate);
+                    response.setEndDate(endDate);
+                    response.setClientName(vendor.getClientName());
+                    response.setCurrentStatus(vendor.getStatus());
+                    response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
+
+
+                    response.setVendorCompletionTat(vendor.getVendorSubCategory().getVendorCompletionTat());
+                    response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
+
+                    vendorReportResponses.add(response);
+                }
+            }
+        }
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("vendorReports", vendorReportResponses);
+        responseMap.put("totalCount", vendorReportResponses.size());
+
+        return responseMap;
+    }
 }
 
