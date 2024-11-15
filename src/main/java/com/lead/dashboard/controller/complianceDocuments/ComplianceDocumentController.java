@@ -44,5 +44,17 @@ public class ComplianceDocumentController {
 		return res;
 	}
 	
+//	@GetMapping(UrlsMapping.GET_ALL_COMPLIANCE_DOCUMENTS)
+	public List<Map<String,Object>>getAllComplianceDocumentsV2(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size){
+		List<Map<String,Object>>res=complianceDocService.getAllComplianceDocuments(page-1,size);	
+		return res;
+	}
+	@GetMapping(UrlsMapping.GET_ALL_COMPLIANCE_DOCUMENTS_TOTAL_COUNT)
+	public int getAllComplianceDocumentsTotalCounts(){
+		int res=complianceDocService.getAllComplianceDocuments().size();	
+		return res;
+	}
+	
 	
 } 

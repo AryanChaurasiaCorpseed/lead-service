@@ -14,4 +14,6 @@ public interface ComplianceDocService {
 
 	public Boolean createDocumentInCategory(Long categoryId,String docList);
 
+	public List<Map<String, Object>> getAllComplianceDocuments(int page, int size);
+
 }
