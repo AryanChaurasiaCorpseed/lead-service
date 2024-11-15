@@ -623,6 +623,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setView(true);
             vendor.setViewedBy(user);
             vendor.setViewedAt(new Date());
+            vendor.setViewedBy(user);
             vendorRepository.save(vendor);
             return true;
         }
