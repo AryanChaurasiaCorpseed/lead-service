@@ -178,6 +178,14 @@ public class VendorController {
                                                @RequestParam(required = false) LocalDate endDate,
                                                @RequestParam(required = false) List<Long> userId) {
         try {
+            // Default date handling: Current month's start date and today's date
+            if (startDate == null) {
+                startDate = LocalDate.now().withDayOfMonth(1); // Start of the current month
+            }
+            if (endDate == null) {
+                endDate = LocalDate.now(); // Current date
+            }
+
             Map<String, Object> vendorRequestResponse = vendorService.fetchVendorReport(userIdBy, status, startDate, endDate, userId);
             return new ResponseEntity<>(vendorRequestResponse, HttpStatus.OK);
         } catch (Exception e) {
@@ -185,6 +193,7 @@ public class VendorController {
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
 

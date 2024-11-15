@@ -115,6 +115,8 @@ public class VendorUpdateHistory implements Serializable {
     @ManyToOne
     private User cancelledBy;
 
+    private String agreementWithClientDocumentPath;
+
     public void setUpdateDescription(String updateDescription) {
         if (updateDescription != null && updateDescription.length() > 255) {
             this.updateDescription = updateDescription.substring(0, 255);  // Truncate to 255 characters

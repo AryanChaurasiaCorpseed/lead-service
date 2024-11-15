@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,6 +134,7 @@ public class VendorServiceImpl implements VendorService {
                 userVendorRequestCount.setVendorCategory(vendorCategory);
                 userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
                 userVendorRequestCount.setRequestCount(1);
+                userVendorRequestCount.setDate(LocalDate.now());
                 userVendorRequestCount.setCreatedAt(new Date());
             }
             userVendorRequestCount.setUpdatedAt(new Date());
@@ -330,6 +332,7 @@ public class VendorServiceImpl implements VendorService {
         vendor.setVendorSharedPrice(vendorUpdateHistory.getExternalVendorPrice());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
         vendor.setDate(LocalDate.now());
+        vendor.setStatus("Quotation Sent");
         vendor.setCurrentUpdatedDate(LocalDate.now());
         vendorRepository.save(vendor);
 
@@ -367,7 +370,13 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
+        if (vendor.getStatus() == vendorRequestUpdate.getRequestStatus()) {
+            throw new IllegalArgumentException("Duplicate status is not allowed.");
+        }
+
+
 //        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
+
 
         Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorRequestUpdate.getVendorCategoryId());
 
@@ -488,6 +497,8 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy().getId());
+            vendorResponseDTO.setViewedBy(vendor.getViewedBy() != null ? vendor.getViewedBy().getId(): null );
+
 
             List<String> fullImagePaths = new ArrayList<>();
             for (String imagePath : vendor.getSalesAttachmentImage()) {
@@ -623,6 +634,7 @@ public class VendorServiceImpl implements VendorService {
             vendor.setView(true);
             vendor.setViewedBy(user);
             vendor.setViewedAt(new Date());
+            vendor.setViewedBy(user);
             vendorRepository.save(vendor);
             return true;
         }
@@ -679,27 +691,33 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
-
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
         if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userIdBy);
         }
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
-
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
         if (isAdmin) {
-            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate,endDate);
+            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
 
             for (Vendor vendor : vendorList) {
-                boolean matchesStatus = (status == null || vendor.getStatus().equalsIgnoreCase(status));
-                boolean matchesDateRange = (startDate == null || !vendor.getDate().isBefore(startDate)) &&
-                        (endDate == null || !vendor.getDate().isAfter(endDate));
+                String latestStatus = status;
+                if (latestStatus == null) {
+                    // Determine the last updated status from VendorUpdateHistory
+                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
+                            .stream()
+                            .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
+                            .orElse(null);
+                    if (latestUpdate != null) {
+                        latestStatus = latestUpdate.getRequestStatus();
+                    }
+                }
 
-                if (matchesStatus && matchesDateRange) {
+                if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
                     VendorReportResponse response = new VendorReportResponse();
                     response.setId(vendor.getId());
-                    response.setGenerateByPersonName(userDetails.getMotherName());
+                    response.setGenerateByPersonName(userDetails.getFullName());
                     response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
                     response.setStartDate(startDate);
                     response.setEndDate(endDate);
@@ -707,9 +725,31 @@ public class VendorServiceImpl implements VendorService {
                     response.setCurrentStatus(vendor.getStatus());
                     response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
 
-
-                    response.setVendorCompletionTat(vendor.getVendorSubCategory().getVendorCompletionTat());
+                    int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
+                    response.setVendorCompletionTat(vendorTat);
                     response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
+
+                    // Calculate TAT days left and overdue TAT
+                    LocalDate requestCreatedDate = vendor.getDate();
+                    VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
+                            .stream()
+                            .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
+                            .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                            .orElse(null);
+
+                    if (finishedUpdate != null) {
+                        LocalDate completedDate = finishedUpdate.getDate();
+                        response.setCompletionDate(completedDate); // Set the completion date
+                        int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+                        response.setCompletionDays(daysTaken);
+                        response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
+                        response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
+                    } else {
+                        // Request still in progress, calculate days left
+                        int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+                        response.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
+                        response.setOverDueTat(0);
+                    }
 
                     vendorReportResponses.add(response);
                 }
@@ -717,9 +757,10 @@ public class VendorServiceImpl implements VendorService {
         }
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
-        responseMap.put("totalCount", vendorReportResponses.size());
-
         return responseMap;
     }
+
+
+
 }
 

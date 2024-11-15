@@ -23,6 +23,8 @@ public class VendorReportResponse {
 
     private LocalDate endDate;
 
+    private LocalDate completionDate;
+
     private String clientName;
 
     private String currentStatus;
