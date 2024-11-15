@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -331,6 +332,7 @@ public class VendorServiceImpl implements VendorService {
         vendor.setVendorSharedPrice(vendorUpdateHistory.getExternalVendorPrice());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
         vendor.setDate(LocalDate.now());
+        vendor.setStatus("Quotation Sent");
         vendor.setCurrentUpdatedDate(LocalDate.now());
         vendorRepository.save(vendor);
 
@@ -368,7 +370,13 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found for ID: " + vendorId));
 
+        if (vendor.getStatus() == vendorRequestUpdate.getRequestStatus()) {
+            throw new IllegalArgumentException("Duplicate status is not allowed.");
+        }
+
+
 //        UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(vendorRequestUpdate.getServiceName());
+
 
         Optional<VendorCategory> vendorCategory = vendorCategoryRepository.findById(vendorRequestUpdate.getVendorCategoryId());
 
@@ -680,10 +688,10 @@ public class VendorServiceImpl implements VendorService {
             return false;
         }
     }
-
+// if  LocalDate startDate, LocalDate endDate, if not provide my user then defaut take current month 1st date and current date as endDate.
+    // if status is null then take
     @Override
     public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
-
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
         if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userIdBy);
@@ -693,7 +701,7 @@ public class VendorServiceImpl implements VendorService {
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
         if (isAdmin) {
-            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate,endDate);
+            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
 
             for (Vendor vendor : vendorList) {
                 boolean matchesStatus = (status == null || vendor.getStatus().equalsIgnoreCase(status));
@@ -711,9 +719,29 @@ public class VendorServiceImpl implements VendorService {
                     response.setCurrentStatus(vendor.getStatus());
                     response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
 
-
-                    response.setVendorCompletionTat(vendor.getVendorSubCategory().getVendorCompletionTat());
+                    int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
+                    response.setVendorCompletionTat(vendorTat);
                     response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
+
+                    // Calculate TAT days left and overdue TAT
+                    LocalDate requestCreatedDate = vendor.getDate();
+                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
+                            .stream()
+                            .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
+                            .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                            .orElse(null);
+
+                    if (latestUpdate != null) {
+                        LocalDate completedDate = latestUpdate.getDate();
+                        int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+                        response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
+                        response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
+                    } else {
+                        // Request still in progress, calculate days left
+                        int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+                        response.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
+                        response.setOverDueTat(0);
+                    }
 
                     vendorReportResponses.add(response);
                 }
@@ -721,9 +749,10 @@ public class VendorServiceImpl implements VendorService {
         }
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
-        responseMap.put("totalCount", vendorReportResponses.size());
-
         return responseMap;
     }
+
+
+
 }
 
