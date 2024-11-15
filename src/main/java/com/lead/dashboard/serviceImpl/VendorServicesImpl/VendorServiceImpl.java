@@ -688,8 +688,7 @@ public class VendorServiceImpl implements VendorService {
             return false;
         }
     }
-// if  LocalDate startDate, LocalDate endDate, if not provide my user then defaut take current month 1st date and current date as endDate.
-    // if status is null then take
+
     @Override
     public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
@@ -697,21 +696,28 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException("User not found for ID: " + userIdBy);
         }
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
-
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
         if (isAdmin) {
             List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
 
             for (Vendor vendor : vendorList) {
-                boolean matchesStatus = (status == null || vendor.getStatus().equalsIgnoreCase(status));
-                boolean matchesDateRange = (startDate == null || !vendor.getDate().isBefore(startDate)) &&
-                        (endDate == null || !vendor.getDate().isAfter(endDate));
+                String latestStatus = status;
+                if (latestStatus == null) {
+                    // Determine the last updated status from VendorUpdateHistory
+                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
+                            .stream()
+                            .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
+                            .orElse(null);
+                    if (latestUpdate != null) {
+                        latestStatus = latestUpdate.getRequestStatus();
+                    }
+                }
 
-                if (matchesStatus && matchesDateRange) {
+                if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
                     VendorReportResponse response = new VendorReportResponse();
                     response.setId(vendor.getId());
-                    response.setGenerateByPersonName(userDetails.getMotherName());
+                    response.setGenerateByPersonName(userDetails.getFullName());
                     response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
                     response.setStartDate(startDate);
                     response.setEndDate(endDate);
@@ -725,15 +731,17 @@ public class VendorServiceImpl implements VendorService {
 
                     // Calculate TAT days left and overdue TAT
                     LocalDate requestCreatedDate = vendor.getDate();
-                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
+                    VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
                             .stream()
                             .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
                             .max(Comparator.comparing(VendorUpdateHistory::getDate))
                             .orElse(null);
 
-                    if (latestUpdate != null) {
-                        LocalDate completedDate = latestUpdate.getDate();
+                    if (finishedUpdate != null) {
+                        LocalDate completedDate = finishedUpdate.getDate();
+                        response.setCompletionDate(completedDate); // Set the completion date
                         int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+                        response.setCompletionDays(daysTaken);
                         response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
                         response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
                     } else {
