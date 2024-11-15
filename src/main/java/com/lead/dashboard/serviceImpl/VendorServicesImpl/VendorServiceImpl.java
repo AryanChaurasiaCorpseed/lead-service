@@ -133,6 +133,7 @@ public class VendorServiceImpl implements VendorService {
                 userVendorRequestCount.setVendorCategory(vendorCategory);
                 userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
                 userVendorRequestCount.setRequestCount(1);
+                userVendorRequestCount.setDate(LocalDate.now());
                 userVendorRequestCount.setCreatedAt(new Date());
             }
             userVendorRequestCount.setUpdatedAt(new Date());
@@ -488,6 +489,8 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
             vendorResponseDTO.setView(vendor.isView());
             vendorResponseDTO.setViewedBy(vendor.getViewedBy().getId());
+            vendorResponseDTO.setViewedBy(vendor.getViewedBy() != null ? vendor.getViewedBy().getId(): null );
+
 
             List<String> fullImagePaths = new ArrayList<>();
             for (String imagePath : vendor.getSalesAttachmentImage()) {
