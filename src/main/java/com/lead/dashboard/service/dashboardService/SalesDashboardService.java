@@ -37,5 +37,9 @@ public interface SalesDashboardService {
 
 	List<Map<String, Object>> getAllLeadMonthWise(GraphDateFilter graphDateFilter);
 
+	List<Map<String, Object>> getAllProjectMonthWise(GraphDateFilter graphDateFilter);
+
+	List<Map<String, Object>> getAllMonthProject(String date);
+
 
 }

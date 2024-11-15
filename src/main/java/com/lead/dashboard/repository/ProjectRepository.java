@@ -109,4 +109,11 @@ public interface ProjectRepository  extends JpaRepository<Project, Long> {
 	long findAllCount();
      
      
+     @Query(value = "SELECT p.id,p.name,p.create_date FROM project p WHERE create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+  	 List<Object[]> findIdAndNameAndCreateDateByInBetweenDate(String d1,String d2);
+  	 
+     @Query(value = "SELECT p.id,p.name,p.create_date FROM project p WHERE create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+  	 List<Object[]> findAByInBetweenDate(String d1,String d2);
+     
+     
 }
