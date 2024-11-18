@@ -65,5 +65,119 @@ public class VendorSubCategory {
 
     private int lastAssignedUserIndex = -1;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getVendorSubCategoryName() {
+		return vendorSubCategoryName;
+	}
+
+	public void setVendorSubCategoryName(String vendorSubCategoryName) {
+		this.vendorSubCategoryName = vendorSubCategoryName;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public boolean isEnable() {
+		return isEnable;
+	}
+
+	public void setEnable(boolean isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public Long getAddedBy() {
+		return addedBy;
+	}
+
+	public void setAddedBy(Long addedBy) {
+		this.addedBy = addedBy;
+	}
+
+	public Long getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Long updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public int getVendorCategoryResearchTat() {
+		return vendorCategoryResearchTat;
+	}
+
+	public void setVendorCategoryResearchTat(int vendorCategoryResearchTat) {
+		this.vendorCategoryResearchTat = vendorCategoryResearchTat;
+	}
+
+	public int getVendorCompletionTat() {
+		return vendorCompletionTat;
+	}
+
+	public void setVendorCompletionTat(int vendorCompletionTat) {
+		this.vendorCompletionTat = vendorCompletionTat;
+	}
+
+	public VendorCategory getVendorCategory() {
+		return vendorCategory;
+	}
+
+	public void setVendorCategory(VendorCategory vendorCategory) {
+		this.vendorCategory = vendorCategory;
+	}
+
+	public List<User> getAssignedUsers() {
+		return assignedUsers;
+	}
+
+	public void setAssignedUsers(List<User> assignedUsers) {
+		this.assignedUsers = assignedUsers;
+	}
+
+	public int getLastAssignedUserIndex() {
+		return lastAssignedUserIndex;
+	}
+
+	public void setLastAssignedUserIndex(int lastAssignedUserIndex) {
+		this.lastAssignedUserIndex = lastAssignedUserIndex;
+	}
+    
+    
+
 
 }

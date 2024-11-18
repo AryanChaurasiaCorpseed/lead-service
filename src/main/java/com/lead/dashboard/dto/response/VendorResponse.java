@@ -77,5 +77,167 @@ public class VendorResponse {
     public void setUpdateHistory(List<VendorUpdateHistoryResponse> updateHistory) {
         this.updateHistory = updateHistory;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getRequirementDescription() {
+		return requirementDescription;
+	}
+
+	public void setRequirementDescription(String requirementDescription) {
+		this.requirementDescription = requirementDescription;
+	}
+
+	public String getClientEmailId() {
+		return clientEmailId;
+	}
+
+	public void setClientEmailId(String clientEmailId) {
+		this.clientEmailId = clientEmailId;
+	}
+
+	public String getClientCompanyName() {
+		return clientCompanyName;
+	}
+
+	public void setClientCompanyName(String clientCompanyName) {
+		this.clientCompanyName = clientCompanyName;
+	}
+
+	public String getContactPersonName() {
+		return contactPersonName;
+	}
+
+	public void setContactPersonName(String contactPersonName) {
+		this.contactPersonName = contactPersonName;
+	}
+
+	public List<String> getVendorReferenceFile() {
+		return vendorReferenceFile;
+	}
+
+	public void setVendorReferenceFile(List<String> vendorReferenceFile) {
+		this.vendorReferenceFile = vendorReferenceFile;
+	}
+
+	public String getBudgetPrice() {
+		return budgetPrice;
+	}
+
+	public void setBudgetPrice(String budgetPrice) {
+		this.budgetPrice = budgetPrice;
+	}
+
+	public String getVendorSharedPrice() {
+		return vendorSharedPrice;
+	}
+
+	public void setVendorSharedPrice(String vendorSharedPrice) {
+		this.vendorSharedPrice = vendorSharedPrice;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public boolean isProposalSentStatus() {
+		return proposalSentStatus;
+	}
+
+	public void setProposalSentStatus(boolean proposalSentStatus) {
+		this.proposalSentStatus = proposalSentStatus;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public Long getLeadId() {
+		return leadId;
+	}
+
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
+
+	public String getLeadName() {
+		return leadName;
+	}
+
+	public void setLeadName(String leadName) {
+		this.leadName = leadName;
+	}
+
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
+	public String getAssigneeName() {
+		return assigneeName;
+	}
+
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
+	}
+
+	public String getVendorCategoryName() {
+		return vendorCategoryName;
+	}
+
+	public void setVendorCategoryName(String vendorCategoryName) {
+		this.vendorCategoryName = vendorCategoryName;
+	}
+
+	public String getVendorSubCategoryName() {
+		return vendorSubCategoryName;
+	}
+
+	public void setVendorSubCategoryName(String vendorSubCategoryName) {
+		this.vendorSubCategoryName = vendorSubCategoryName;
+	}
+
+	public List<String> getSalesAttachmentImage() {
+		return salesAttachmentImage;
+	}
+
+	public void setSalesAttachmentImage(List<String> salesAttachmentImage) {
+		this.salesAttachmentImage = salesAttachmentImage;
+	}
+    
+    
 }
 

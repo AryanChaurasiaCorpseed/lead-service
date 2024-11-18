@@ -97,13 +97,13 @@ public class SalesDashboardController {
 	
 	
 	@GetMapping(UrlsMapping.GET_ALL_PROJECT_MONTH_WISE)
-	public List<Map<String,Object>> getAllProjectMonthWise(GraphDateFilter graphDateFilter)
+	public List<Map<String,Object>> getAllProjectMonthWise(@RequestBody GraphDateFilter graphDateFilter)
 	{
 		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectMonthWise(graphDateFilter);
 		return alllead;
 	}
 	
-	
+	 
 	
 	@GetMapping(UrlsMapping.GET_ALL_MONTH_PROJECT)
 	public List<Map<String,Object>> getAllMonthProject(@RequestParam String date)
@@ -112,5 +112,13 @@ public class SalesDashboardController {
 		return alllead;
 	}
 	
+	
+	
+	@GetMapping(UrlsMapping.GET_ALL_TYPE_LEAD_COUNT)
+	public List<Map<String,Object>> getAllTypeLeadCount(@RequestBody GraphDateFilter graphDateFilter)
+	{
+		List<Map<String,Object>> alllead= salesDashboardService.getAllTypeLeadCount(graphDateFilter);
+		return alllead;
+	}
 	
 }

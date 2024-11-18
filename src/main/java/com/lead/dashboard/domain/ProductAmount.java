@@ -58,6 +58,13 @@ public class ProductAmount {
 	public void setTaxAmount(String taxAmount) {
 		this.taxAmount = taxAmount;
 	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
 	
 	
 	

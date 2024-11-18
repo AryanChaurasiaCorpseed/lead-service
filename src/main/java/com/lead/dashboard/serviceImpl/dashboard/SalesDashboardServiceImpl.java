@@ -919,6 +919,11 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 		return result;
 	}
+	@Override
+	public List<Map<String, Object>> getAllTypeLeadCount(GraphDateFilter graphDateFilter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 

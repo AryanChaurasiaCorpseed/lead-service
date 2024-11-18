@@ -463,8 +463,89 @@ public class CompanyForm {
 
 	public void setProjectCreated(boolean isProjectCreated) {
 		this.isProjectCreated = isProjectCreated;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getPrimaryDesignation() {
+		return primaryDesignation;
+	}
+
+	public void setPrimaryDesignation(String primaryDesignation) {
+		this.primaryDesignation = primaryDesignation;
+	}
+
+	public String getSecTitle() {
+		return secTitle;
+	}
+
+	public void setSecTitle(String secTitle) {
+		this.secTitle = secTitle;
+	}
+
+	public String getSecondaryDesignation() {
+		return secondaryDesignation;
+	}
+
+	public void setSecondaryDesignation(String secondaryDesignation) {
+		this.secondaryDesignation = secondaryDesignation;
+	}
+
+	public Industry getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(Industry industry) {
+		this.industry = industry;
+	}
+
+	public SubIndustry getSubIndustry() {
+		return subIndustry;
+	}
+
+	public void setSubIndustry(SubIndustry subIndustry) {
+		this.subIndustry = subIndustry;
+	}
+
+	public SubSubIndustry getSubsubIndustry() {
+		return subsubIndustry;
+	}
+
+	public void setSubsubIndustry(SubSubIndustry subsubIndustry) {
+		this.subsubIndustry = subsubIndustry;
+	}
+
+	public List<IndustryData> getIndustryDataList() {
+		return industryDataList;
+	}
+
+	public void setIndustryDataList(List<IndustryData> industryDataList) {
+		this.industryDataList = industryDataList;
+	}
+
+	public String getAddedByInOldCrm() {
+		return addedByInOldCrm;
+	}
+
+	public void setAddedByInOldCrm(String addedByInOldCrm) {
+		this.addedByInOldCrm = addedByInOldCrm;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}  
 	 
+	
 	
 	
 	

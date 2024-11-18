@@ -50,6 +50,89 @@ public class VendorCategory {
     @JsonBackReference
     private List<VendorSubCategory> vendorSubCategories;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getVendorCategoryName() {
+		return vendorCategoryName;
+	}
+
+	public void setVendorCategoryName(String vendorCategoryName) {
+		this.vendorCategoryName = vendorCategoryName;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public boolean isEnable() {
+		return isEnable;
+	}
+
+	public void setEnable(boolean isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public Long getAddedBy() {
+		return addedBy;
+	}
+
+	public void setAddedBy(Long addedBy) {
+		this.addedBy = addedBy;
+	}
+
+	public Long getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Long updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public List<VendorSubCategory> getVendorSubCategories() {
+		return vendorSubCategories;
+	}
+
+	public void setVendorSubCategories(List<VendorSubCategory> vendorSubCategories) {
+		this.vendorSubCategories = vendorSubCategories;
+	}
+    
+    
+    
+
 
 
 }

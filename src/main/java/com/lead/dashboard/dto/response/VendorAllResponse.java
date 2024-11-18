@@ -45,4 +45,193 @@ public class VendorAllResponse {
     boolean isView;
 
     private Long viewedBy;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getClientEmailId() {
+		return clientEmailId;
+	}
+
+	public void setClientEmailId(String clientEmailId) {
+		this.clientEmailId = clientEmailId;
+	}
+
+	public String getClientCompanyName() {
+		return clientCompanyName;
+	}
+
+	public void setClientCompanyName(String clientCompanyName) {
+		this.clientCompanyName = clientCompanyName;
+	}
+
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+
+	public String getClientMobileNumber() {
+		return clientMobileNumber;
+	}
+
+	public void setClientMobileNumber(String clientMobileNumber) {
+		this.clientMobileNumber = clientMobileNumber;
+	}
+
+	public String getRequirementDescription() {
+		return requirementDescription;
+	}
+
+	public void setRequirementDescription(String requirementDescription) {
+		this.requirementDescription = requirementDescription;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public boolean isProposalSentStatus() {
+		return proposalSentStatus;
+	}
+
+	public void setProposalSentStatus(boolean proposalSentStatus) {
+		this.proposalSentStatus = proposalSentStatus;
+	}
+
+	public Long getLeadId() {
+		return leadId;
+	}
+
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
+
+	public String getLeadName() {
+		return leadName;
+	}
+
+	public void setLeadName(String leadName) {
+		this.leadName = leadName;
+	}
+
+	public String getBudgetPrice() {
+		return budgetPrice;
+	}
+
+	public void setBudgetPrice(String budgetPrice) {
+		this.budgetPrice = budgetPrice;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public Long getAssigneeId() {
+		return assigneeId;
+	}
+
+	public void setAssigneeId(Long assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+
+	public String getAssigneeName() {
+		return assigneeName;
+	}
+
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
+	}
+
+	public Long getVendorCategoryId() {
+		return vendorCategoryId;
+	}
+
+	public void setVendorCategoryId(Long vendorCategoryId) {
+		this.vendorCategoryId = vendorCategoryId;
+	}
+
+	public String getVendorCategoryName() {
+		return vendorCategoryName;
+	}
+
+	public void setVendorCategoryName(String vendorCategoryName) {
+		this.vendorCategoryName = vendorCategoryName;
+	}
+
+	public Long getVendorSubCategoryId() {
+		return vendorSubCategoryId;
+	}
+
+	public void setVendorSubCategoryId(Long vendorSubCategoryId) {
+		this.vendorSubCategoryId = vendorSubCategoryId;
+	}
+
+	public String getVendorSubCategoryName() {
+		return vendorSubCategoryName;
+	}
+
+	public void setVendorSubCategoryName(String vendorSubCategoryName) {
+		this.vendorSubCategoryName = vendorSubCategoryName;
+	}
+
+	public String getRaiseBy() {
+		return raiseBy;
+	}
+
+	public void setRaiseBy(String raiseBy) {
+		this.raiseBy = raiseBy;
+	}
+
+	public List<String> getSalesAttachmentImage() {
+		return salesAttachmentImage;
+	}
+
+	public void setSalesAttachmentImage(List<String> salesAttachmentImage) {
+		this.salesAttachmentImage = salesAttachmentImage;
+	}
+
+	public List<VendorUpdateHistoryAllResponse> getVendorUpdateHistoryAllResponseList() {
+		return vendorUpdateHistoryAllResponseList;
+	}
+
+	public void setVendorUpdateHistoryAllResponseList(
+			List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList) {
+		this.vendorUpdateHistoryAllResponseList = vendorUpdateHistoryAllResponseList;
+	}
+
+	public boolean isView() {
+		return isView;
+	}
+
+	public void setView(boolean isView) {
+		this.isView = isView;
+	}
+
+	public Long getViewedBy() {
+		return viewedBy;
+	}
+
+	public void setViewedBy(Long viewedBy) {
+		this.viewedBy = viewedBy;
+	}
+    
+    
+    
+    
 }

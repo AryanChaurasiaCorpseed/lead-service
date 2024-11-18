@@ -136,6 +136,22 @@ public class LeadController {
 	}
 	
 	
+	@PostMapping(UrlsMapping.GET_ALL_LEAD_FOR_IMPORT)
+	public ResponseEntity <List<Map<String,Object>>> getAllLeadForImport(@RequestBody AllLeadFilter allLeadFilter,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{		
+		//type->active , inActive 
+		//status->new,potential . etc
+		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
+			List<Map<String,Object>> alllead= leadservice.getAllLeadForImport(allLeadFilter,page-1,size);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
+		}else {
+//			List<Lead> alllead= leadservice.getAllActiveCustomerLeadV3(allLeadFilter,page-1,size);
+
+			return new ResponseEntity<>(null,HttpStatus.OK);
+		}
+
+	}
 
 	@PutMapping(UrlsMapping.UPDATE_LEAD)
 	public ResponseEntity<Lead> updateCustomerLeadData(@RequestBody UpdateLeadDto updateLeadDto)
@@ -401,5 +417,7 @@ public class LeadController {
 		Boolean res=leadservice.addReopenByQuality(currentUerId,leadId,isMarked);
 		return res;
 	}
+	
+	
 
 }

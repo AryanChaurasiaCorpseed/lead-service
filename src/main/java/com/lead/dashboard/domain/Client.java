@@ -88,6 +88,12 @@ public class Client {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public boolean isPrimary() {
+		return isPrimary;
+	}
+	public void setPrimary(boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
 	
 	
 

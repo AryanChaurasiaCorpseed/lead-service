@@ -125,6 +125,244 @@ public class VendorUpdateHistory implements Serializable {
         }
     }
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getRaisedBy() {
+		return raisedBy;
+	}
+
+	public void setRaisedBy(User raisedBy) {
+		this.raisedBy = raisedBy;
+	}
+
+	public VendorCategory getVendorCategory() {
+		return vendorCategory;
+	}
+
+	public void setVendorCategory(VendorCategory vendorCategory) {
+		this.vendorCategory = vendorCategory;
+	}
+
+	public VendorSubCategory getVendorSubCategory() {
+		return vendorSubCategory;
+	}
+
+	public void setVendorSubCategory(VendorSubCategory vendorSubCategory) {
+		this.vendorSubCategory = vendorSubCategory;
+	}
+
+	public String getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Lead getLead() {
+		return lead;
+	}
+
+	public void setLead(Lead lead) {
+		this.lead = lead;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public boolean isDisplay() {
+		return isDisplay;
+	}
+
+	public void setDisplay(boolean isDisplay) {
+		this.isDisplay = isDisplay;
+	}
+
+	public String getBudgetPrice() {
+		return budgetPrice;
+	}
+
+	public void setBudgetPrice(String budgetPrice) {
+		this.budgetPrice = budgetPrice;
+	}
+
+	public User getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(User updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public List<String> getMailTo() {
+		return mailTo;
+	}
+
+	public void setMailTo(List<String> mailTo) {
+		this.mailTo = mailTo;
+	}
+
+	public List<String> getMailCc() {
+		return mailCc;
+	}
+
+	public void setMailCc(List<String> mailCc) {
+		this.mailCc = mailCc;
+	}
+
+	public String getUpdatedName() {
+		return updatedName;
+	}
+
+	public void setUpdatedName(String updatedName) {
+		this.updatedName = updatedName;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getExternalVendorPrice() {
+		return externalVendorPrice;
+	}
+
+	public void setExternalVendorPrice(String externalVendorPrice) {
+		this.externalVendorPrice = externalVendorPrice;
+	}
+
+	public String getExternalVendorFilePath() {
+		return externalVendorFilePath;
+	}
+
+	public void setExternalVendorFilePath(String externalVendorFilePath) {
+		this.externalVendorFilePath = externalVendorFilePath;
+	}
+
+	public String getInternalVendorPrices() {
+		return internalVendorPrices;
+	}
+
+	public void setInternalVendorPrices(String internalVendorPrices) {
+		this.internalVendorPrices = internalVendorPrices;
+	}
+
+	public String getInternalVendorFilePath() {
+		return internalVendorFilePath;
+	}
+
+	public void setInternalVendorFilePath(String internalVendorFilePath) {
+		this.internalVendorFilePath = internalVendorFilePath;
+	}
+
+	public String getQuotationAmount() {
+		return quotationAmount;
+	}
+
+	public void setQuotationAmount(String quotationAmount) {
+		this.quotationAmount = quotationAmount;
+	}
+
+	public String getQuotationFilePath() {
+		return quotationFilePath;
+	}
+
+	public void setQuotationFilePath(String quotationFilePath) {
+		this.quotationFilePath = quotationFilePath;
+	}
+
+	public boolean isProposalSentStatus() {
+		return proposalSentStatus;
+	}
+
+	public void setProposalSentStatus(boolean proposalSentStatus) {
+		this.proposalSentStatus = proposalSentStatus;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public LocalDate getCurrentUpdatedDate() {
+		return currentUpdatedDate;
+	}
+
+	public void setCurrentUpdatedDate(LocalDate currentUpdatedDate) {
+		this.currentUpdatedDate = currentUpdatedDate;
+	}
+
+	public Date getCancelledAt() {
+		return cancelledAt;
+	}
+
+	public void setCancelledAt(Date cancelledAt) {
+		this.cancelledAt = cancelledAt;
+	}
+
+	public User getCancelledBy() {
+		return cancelledBy;
+	}
+
+	public void setCancelledBy(User cancelledBy) {
+		this.cancelledBy = cancelledBy;
+	}
+
+	public String getAgreementWithClientDocumentPath() {
+		return agreementWithClientDocumentPath;
+	}
+
+	public void setAgreementWithClientDocumentPath(String agreementWithClientDocumentPath) {
+		this.agreementWithClientDocumentPath = agreementWithClientDocumentPath;
+	}
+
+	public String getUpdateDescription() {
+		return updateDescription;
+	}
+    
+    
+
 
 
 }

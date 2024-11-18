@@ -59,6 +59,18 @@ public class Stages {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public String getNoOfDays() {
+		return noOfDays;
+	}
+	public void setNoOfDays(String noOfDays) {
+		this.noOfDays = noOfDays;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 	
 	

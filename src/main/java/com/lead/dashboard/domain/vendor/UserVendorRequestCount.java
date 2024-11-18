@@ -44,5 +44,71 @@ public class UserVendorRequestCount {
     private Date updatedAt;
 
     private LocalDate date;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public VendorCategory getVendorCategory() {
+		return vendorCategory;
+	}
+
+	public void setVendorCategory(VendorCategory vendorCategory) {
+		this.vendorCategory = vendorCategory;
+	}
+
+	public VendorSubCategory getVendorSubCategory() {
+		return vendorSubCategory;
+	}
+
+	public void setVendorSubCategory(VendorSubCategory vendorSubCategory) {
+		this.vendorSubCategory = vendorSubCategory;
+	}
+
+	public int getRequestCount() {
+		return requestCount;
+	}
+
+	public void setRequestCount(int requestCount) {
+		this.requestCount = requestCount;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+    
+    
 }
 

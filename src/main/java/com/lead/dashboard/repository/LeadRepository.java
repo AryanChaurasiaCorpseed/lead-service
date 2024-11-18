@@ -119,6 +119,24 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id =:statusId and el.is_deleted =:b ORDER BY id desc", nativeQuery = true)
 	Page<Lead> findAllByStatusIdAndIsDeleted(Long statusId,boolean b,Pageable pageable);
 
+	// =========================== optimize =========
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id WHERE l.status_id in(:statusIds) and l.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and l.assignee_id in(:userIds) ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(List<Long> statusIds,boolean b,String d1,String d2,List<Long>userIds);
+
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id WHERE l.is_deleted =:b and l.assignee_id in(:userId)and l.create_date BETWEEN :d1 AND :d2 ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByAssigneeAndIsDeletedAndInBetweenDate(Long userId,boolean b,String d1,String d2);
+	
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id  WHERE l.status_id in(:statusIds) and l.is_deleted =:b and l.assignee_id in(:userId) ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByStatusIdInAndAssigneeIdInAndIsDeleted(List<Long> statusIds,List<Long>userId,boolean b); 
+	
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id WHERE l.status_id in(:statusIds) and l.is_deleted =:b ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByStatusIdInAndIsDeleted(List<Long> statusIds,boolean b);
+	
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id  WHERE l.is_deleted =:b and l.status_id in(:statusIds) and l.assignee_id in(:userId) ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByAssigneeAndStatusIdInAndIsDeleted(Long userId,List<Long> statusIds,boolean b);
+	
+	@Query(value = "SELECT l.id,l.lead_name,l.count,l.client_mob_no as client_contact_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality  FROM finalerp.erp_leads l left join status_details sd on sd.id=l.status_id left join user u on u.id=l.assignee_id  left join user ua on ua.id=l.reopen_marked_by_id WHERE l.status_id in(:statusIds) and l.is_deleted =:b and l.create_date BETWEEN :d1 AND :d2 ORDER BY id desc", nativeQuery = true)
+	List<Object[]> findByStatusIdInAndIsDeletedAndInBetweenDate(List<Long> statusIds,boolean b,String d1,String d2); 
 
 
 	//====================== end =============================================

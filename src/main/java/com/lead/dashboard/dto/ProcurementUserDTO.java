@@ -14,6 +14,15 @@ public class ProcurementUserDTO {
 	private String fullName;
 	private String department;
 	private String designation;
+	
+	
+	public ProcurementUserDTO(Long id, String fullName, String department, String designation) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.department = department;
+		this.designation = designation;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +47,8 @@ public class ProcurementUserDTO {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
+	
+	
 
 	
 }
