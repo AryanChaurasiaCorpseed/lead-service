@@ -16,17 +16,17 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Service
 public class AwsBlobAdapter {
-	
-	@Autowired
+
+    @Autowired
     AmazonS3 amazonS3Client;
-	
-	@Value("${aws.s3.bucket-name}")
+
+    @Value("${aws.s3.bucket-name}")
     private String awsBucketName;
 
     @Value("${aws.s3.bucket.crm.name}")
     private String awsCrmBucketName;
-	
-	public String uploadAws(MultipartFile file, long prefixName) {
+
+    public String uploadAws(MultipartFile file, long prefixName) {
         String fileName = null;
 
         if (file != null && file.getSize() > 0) {
@@ -69,7 +69,7 @@ public class AwsBlobAdapter {
             throw e;
         }
     }
-private boolean deleteFile(String fileName) {
+    private boolean deleteFile(String fileName) {
         try {
             amazonS3Client.deleteObject(awsBucketName, fileName);
             return true;
@@ -80,16 +80,16 @@ private boolean deleteFile(String fileName) {
     }
 
 
-public String uploadDocumentOnAws(InputStream inputStream, String finalFilename) {
-    ObjectMetadata metadata = new ObjectMetadata();
-    metadata.addUserMetadata("name", finalFilename);
-    // Create the PutObjectRequest with public read access
-    PutObjectRequest putObjectRequest = new PutObjectRequest(awsCrmBucketName, finalFilename, inputStream, metadata)
-            .withCannedAcl(CannedAccessControlList.PublicRead);
+    public String uploadDocumentOnAws(InputStream inputStream, String finalFilename) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.addUserMetadata("name", finalFilename);
+        // Create the PutObjectRequest with public read access
+        PutObjectRequest putObjectRequest = new PutObjectRequest(awsCrmBucketName,"crm/"+ finalFilename, inputStream, metadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead);
 
-    // Upload the file to the S3 bucket with public read access
-    amazonS3Client.putObject(putObjectRequest);
-    return finalFilename;
-}
+        // Upload the file to the S3 bucket with public read access
+        amazonS3Client.putObject(putObjectRequest);
+        return finalFilename;
+    }
 
 }

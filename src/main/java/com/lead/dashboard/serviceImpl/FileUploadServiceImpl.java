@@ -47,6 +47,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 	//    public final String PROD_PATH="https://recordplus.blob.core.windows.net/eeptest/";
 	//    public final String PROD_PATH="https://corpseeds.blob.core.windows.net/corpseed-erp/";
 	public final String PROD_PATH= "https://erp-corpseed.s3.ap-south-1.amazonaws.com/";
+	public final String PROD_PATH2="https://corpseed-crm.s3.ap-south-1.amazonaws.com/crm/";
 
 	public boolean uploadFilesData( MultipartFile multipartFile) {
 
@@ -161,18 +162,18 @@ public class FileUploadServiceImpl implements FileUploadService{
 		return image;
 	}
 
-	 @Override
-		public String uploadDocument(InputStream inputStream, String finalFileName) {
-			String documentName = awsBlobAdapter.uploadDocumentOnAws(inputStream, finalFileName);
-			String filePath=PROD_PATH+documentName;
-			FileData fileData = new FileData();
-			fileData.setName(documentName);
-			fileData.setType("application/octet-stream");
-			fileData.setFilePath(filePath);
-			if(isFileExist(documentName)==null) {
-				fileDataRepository.save(fileData);
-			}
-			return documentName;
+	@Override
+	public String uploadDocument(InputStream inputStream, String finalFileName) {
+		String documentName = awsBlobAdapter.uploadDocumentOnAws(inputStream, finalFileName);
+		String filePath=PROD_PATH2+documentName;
+		FileData fileData = new FileData();
+		fileData.setName(documentName);
+		fileData.setType("application/octet-stream");
+		fileData.setFilePath(filePath);
+		if(isFileExist(documentName)==null) {
+			fileDataRepository.save(fileData);
 		}
+		return documentName;
+	}
 	    
 }
