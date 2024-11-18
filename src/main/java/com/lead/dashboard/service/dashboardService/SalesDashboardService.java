@@ -41,7 +41,11 @@ public interface SalesDashboardService {
 
 	List<Map<String, Object>> getAllMonthProject(String date);
 
-	List<Map<String, Object>> getAllTypeLeadCount(GraphDateFilter graphDateFilter);
+	Map<String, Object> getAllTypeLeadCount(GraphDateFilter graphDateFilter);
+
+	long getTortalUserCount();
+
+	long getTotalCompanyCount();
 
 
 }

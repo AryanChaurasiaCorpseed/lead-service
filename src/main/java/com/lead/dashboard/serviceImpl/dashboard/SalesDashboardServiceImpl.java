@@ -29,6 +29,7 @@ import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 import com.lead.dashboard.serviceImpl.TaskManagmentImpl.TaskManagmentServiceImpl;
 
@@ -52,6 +53,9 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	TaskManagmentServiceImpl taskManagmentServiceImpl;
+	
+	@Autowired
+	UserRepo userRepo;
 
 
 
@@ -759,7 +763,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 
 		return result;
 
@@ -810,7 +814,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 		return result;
 	}
 	
@@ -828,7 +832,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		try {
 			date2 = formatter2.parse(sDate2);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		LocalDate now =convertToLocalDateViaInstant(date2);
@@ -851,7 +855,6 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		try {
 			date2 = formatter2.parse(sDate2);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		LocalDate now =convertToLocalDateViaInstant(date2);
@@ -916,17 +919,85 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 		return result;
 	}
 	@Override
-	public List<Map<String, Object>> getAllTypeLeadCount(GraphDateFilter graphDateFilter) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getAllTypeLeadCount(GraphDateFilter graphDateFilter) {
+		List<Object[]> projects=new ArrayList<>();
+
+
+		long ivrCount=0l;
+		long websiteCount=0l;
+		long qualityReopenCount=0l;
+		long totalCount=0l;
+		Map<String,Object>result=new HashMap<>();
+
+		Map<String,Object>map=new HashMap<>();
+		if(graphDateFilter.getToDate()!=null &&graphDateFilter.getFromDate()!=null) {
+			String toDate=graphDateFilter.getToDate();
+			String fromDate=graphDateFilter.getFromDate();
+			String startDate = toDate;
+			String endDate = fromDate;
+			List<Map<String,Object>>data =  new ArrayList<>();
+			ivrCount=leadRepository.findCountBySourceAndInBetweenDate("IVR",startDate, endDate);
+			Map<String,Object>m1=new HashMap<>();
+            m1.put("key", "Ivr");
+            m1.put("value", ivrCount);
+            data.add(m1);
+			websiteCount=leadRepository.findCountBySourceAndInBetweenDate("Corpseed Website",startDate, endDate);
+			Map<String,Object>m2=new HashMap<>();
+            m2.put("key", "Corpseed Website");
+            m2.put("value", websiteCount);
+            data.add(m2);
+
+			
+			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(startDate, endDate);
+			Map<String,Object>m3=new HashMap<>();
+			m3.put("key", "Reopen By Quality");
+			m3.put("value", qualityReopenCount);
+            data.add(m3);
+            result.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+            
+            result.put("data", data);
+
+
+		}else {
+			List<Map<String,Object>>data =  new ArrayList<>();
+
+			ivrCount=leadRepository.findCountBySource("IVR");
+			Map<String,Object>m1=new HashMap<>();
+            m1.put("key", "Ivr");
+            m1.put("value", ivrCount);
+            data.add(m1);
+			websiteCount=leadRepository.findCountBySource("Corpseed Website");
+			Map<String,Object>m2=new HashMap<>();
+            m2.put("key", "Corpseed Website");
+            m2.put("value", websiteCount);
+            data.add(m2);
+			qualityReopenCount=leadRepository.findCountByIsReopenByQuality();
+			
+			Map<String,Object>m3=new HashMap<>();
+			m3.put("key", "Reopen By Quality");
+			m3.put("value", qualityReopenCount);
+            data.add(m3);
+            result.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+            
+            result.put("data", data);
+
+		}
+		return result;
+	}
+	@Override
+	public long getTortalUserCount() {
+			long count=userRepo.findCountByIsDeleted(false);
+			return count;
+	}
+	@Override
+	public long getTotalCompanyCount() {
+		  long count=companyRepository.findAllCount();
+		return count;
 	}
 	
-
-
 }
-
 
