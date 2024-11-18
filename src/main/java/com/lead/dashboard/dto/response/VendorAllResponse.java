@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter@Setter
@@ -36,7 +37,9 @@ public class VendorAllResponse {
 
     private List<String> salesAttachmentImage;
 
+	private LocalDate receivedDate;
 
+	private int subCategoryTatDays;
 
 
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;
@@ -44,7 +47,7 @@ public class VendorAllResponse {
 
     boolean isView;
 
-    private Long viewedBy;
+    private String viewedBy;
 
 	public Long getId() {
 		return id;
@@ -223,13 +226,7 @@ public class VendorAllResponse {
 		this.isView = isView;
 	}
 
-	public Long getViewedBy() {
-		return viewedBy;
-	}
 
-	public void setViewedBy(Long viewedBy) {
-		this.viewedBy = viewedBy;
-	}
     
     
     

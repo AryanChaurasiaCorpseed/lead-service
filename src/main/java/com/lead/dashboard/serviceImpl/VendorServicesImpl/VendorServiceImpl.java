@@ -286,24 +286,72 @@ public class VendorServiceImpl implements VendorService {
 
         String[] mailCc = new String[]{mailSentBy.getEmail(), createdByEmail};
 
-        String subject = "Quotation for - " + vendor.getVendorCategory().getVendorCategoryName();
-        String body = vendorQuotationRequest.getComment();
 
-        try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject, body, vendorQuotationRequest,
-                    mailSentBy, vendorCategory, vendorSubCategory);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send email: " + e.getMessage());
+        if (vendorQuotationRequest.getAgreementName() != null && !vendorQuotationRequest.getAgreementName().isEmpty() &&
+                vendorQuotationRequest.getAgreementWithClientDocumentPath() != null && !vendorQuotationRequest.getAgreementWithClientDocumentPath().isEmpty()) {
+
+            String agreementSubject = "Agreement for - " + vendor.getVendorCategory().getVendorCategoryName();
+
+            try {
+                String[] agreementMailCc = new String[]{mailSentBy.getEmail()};
+
+                mailSendSerivce.sendEmailWithAgreementToClient(
+                        mailTo,
+                        agreementMailCc,
+                        agreementSubject,
+                        vendorQuotationRequest,
+                        mailSentBy,
+                        vendorCategory);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to send agreement email: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Agreement email not sent as agreementName or agreementWithClientDocumentPath is missing.");
+        }
+
+        if (vendorQuotationRequest.getResearchName() != null && !vendorQuotationRequest.getResearchName().isEmpty() &&
+                vendorQuotationRequest.getResearchDocumentName() != null && !vendorQuotationRequest.getResearchDocumentName().isEmpty()) {
+          List<User> userList =  userRepository.findByDesignationAndDepartment("Operations","Operations Managers");
+
+            String agreementSubject = "Research for - " + vendor.getVendorCategory().getVendorCategoryName() ;
+
+            try {
+                String[] agreementMailCc = new String[]{mailSentBy.getEmail()};
+
+                mailSendSerivce.sendEmailForResearch(
+                        mailTo,
+                        agreementSubject,
+                        vendorQuotationRequest,
+                        mailSentBy,
+                        vendorCategory);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to send agreement email: " + e.getMessage());
+            }
+        } else {
+            System.out.println("fghfghfgh");
         }
 
 
+        String subject = "Quotation for - " + vendor.getVendorCategory().getVendorCategoryName();
+
+        try {
+            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject,vendorQuotationRequest,
+                    mailSentBy, vendorCategory, vendorSubCategory);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send quotation email: " + e.getMessage());
+        }
+        String agreementImages = vendorQuotationRequest.getAgreementWithClientDocumentPath().
+                substring(vendorQuotationRequest.getAgreementWithClientDocumentPath().lastIndexOf("/") + 1);
+
+        // Update vendor and history
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
         vendorUpdateHistory.setRaisedBy(mailSentBy);
         vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setProposalSentStatus(true);
         vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
-//        vendorUpdateHistory.setUrlsManagment(urlsManagment);
         vendorUpdateHistory.setUpdatedBy(user);
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setQuotationAmount(vendorQuotationRequest.getQuotationAmount());
@@ -313,23 +361,22 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setCreateDate(new Date());
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setUpdateDescription(vendorQuotationRequest.getComment());
-        vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));  // Set mailTo
+        vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));
         vendorUpdateHistory.setMailCc(Arrays.asList(mailCc));
-        vendorUpdateHistory.setDeleted(true);// Set mailCc as List<String>
+        vendorUpdateHistory.setDeleted(false);
         vendorUpdateHistory.setDate(LocalDate.now());
         vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
+        vendorUpdateHistory.setAgreementName(vendorQuotationRequest.getAgreementName());
+        vendorUpdateHistory.setAgreementName(agreementImages);
 
-        vendorUpdateHistory.setVendorCategory(vendorCategory.get());
-        vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.get());
-
-//mooro
+        vendorUpdateHistory.setVendorCategory(vendorCategory.orElse(null));
+        vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.orElse(null));
 
         vendorHistoryRepository.save(vendorUpdateHistory);
 
         vendor.setProposalSentStatus(true);
         vendor.setUpdatedDate(new Date());
         vendor.setSharePriceToClient(vendorUpdateHistory.getQuotationAmount());
-        vendor.setVendorSharedPrice(vendorUpdateHistory.getExternalVendorPrice());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
         vendor.setDate(LocalDate.now());
         vendor.setStatus("Quotation Sent");
@@ -479,6 +526,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
+            vendorResponseDTO.setReceivedDate(vendor.getDate());
 
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
@@ -496,15 +544,16 @@ public class VendorServiceImpl implements VendorService {
             );
             vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
             vendorResponseDTO.setView(vendor.isView());
-            vendorResponseDTO.setViewedBy(vendor.getViewedBy().getId());
-            vendorResponseDTO.setViewedBy(vendor.getViewedBy() != null ? vendor.getViewedBy().getId(): null );
-
+            vendorResponseDTO.setViewedBy(
+                    vendor.getViewedBy() != null ? vendor.getViewedBy().getFullName() : null
+            );
 
             List<String> fullImagePaths = new ArrayList<>();
             for (String imagePath : vendor.getSalesAttachmentImage()) {
                 fullImagePaths.add(awsConfig.getS3BaseUrl() + imagePath);
             }
             vendorResponseDTO.setSalesAttachmentImage(fullImagePaths);
+
 
             List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
             for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
@@ -516,6 +565,7 @@ public class VendorServiceImpl implements VendorService {
                 historyDTO.setBudgetPrice(history.getBudgetPrice());
                 historyDTO.setProposalSentStatus(history.isProposalSentStatus());
                 historyDTO.setQuotationAmount(history.getQuotationAmount());
+                historyDTO.setAgreement(awsConfig.getS3BaseUrl()+history.getAgreementName());
 
                 historyDTO.setVendorCategoryName(
                         history.getVendorCategory() != null ? history.getVendorCategory().getVendorCategoryName() : null
@@ -600,8 +650,7 @@ public class VendorServiceImpl implements VendorService {
                         response.setSalesAttachmentImage(fullImagePaths);
 
                         response.setView(vendor.isView());
-                        response.setViewedBy(vendor.getViewedBy().getId());
-
+                        response.setViewedBy(vendor.getViewedBy()!=null ? vendor.getViewedBy().getFullName() : null  );
                         vendor.getVendorUpdateHistory().stream()
                                 .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
                                 .ifPresent(latestUpdate -> response.setCurrentStatus(latestUpdate.getRequestStatus()));
@@ -649,8 +698,6 @@ public class VendorServiceImpl implements VendorService {
         if (user == null) {
             throw new RuntimeException("User not found for ID: " + userId);
         }
-
-
 
         Optional<Vendor> vendorOptional = vendorRepository.findById(vendorRequestId);
 

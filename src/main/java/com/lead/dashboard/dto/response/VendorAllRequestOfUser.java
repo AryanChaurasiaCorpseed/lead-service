@@ -34,7 +34,7 @@ public class VendorAllRequestOfUser {
 
     boolean isView;
 
-    private Long viewedBy;
+    private String viewedBy;
 
 
     private Long assigneeId;
@@ -147,12 +147,8 @@ public class VendorAllRequestOfUser {
 	public void setView(boolean isView) {
 		this.isView = isView;
 	}
-	public Long getViewedBy() {
-		return viewedBy;
-	}
-	public void setViewedBy(Long viewedBy) {
-		this.viewedBy = viewedBy;
-	}
+
+
 	public Long getAssigneeId() {
 		return assigneeId;
 	}

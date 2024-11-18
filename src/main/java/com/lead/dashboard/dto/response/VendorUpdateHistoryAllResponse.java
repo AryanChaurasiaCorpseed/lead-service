@@ -33,6 +33,10 @@ public class VendorUpdateHistoryAllResponse {
 
     private String vendorCategoryName;
     private String vendorSubCategoryName;
+
+	private String agreement;
+
+
 	public Long getId() {
 		return id;
 	}

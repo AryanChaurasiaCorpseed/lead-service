@@ -71,5 +71,7 @@ public class SubIndustryServiceImpl implements SubIndustryService{
 		
 		return result;
 	}
+
+
 	
 }

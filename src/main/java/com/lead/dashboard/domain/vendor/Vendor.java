@@ -127,6 +127,10 @@ public class Vendor implements Serializable {
 
     private Long cancelledBy;
 
+	private boolean agreementStatus;
+
+
+
 	public Long getId() {
 		return id;
 	}

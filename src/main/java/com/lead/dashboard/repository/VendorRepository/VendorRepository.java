@@ -38,7 +38,7 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
 
     Page<Vendor> findByUser(User user, Pageable pageable);
 
-    @Query("SELECT v FROM Vendor v ORDER BY v.id DESC")
+    @Query("SELECT v FROM Vendor v where v.isDeleted = false ORDER BY v.id DESC")
     Page<Vendor> findAllVendors(Pageable pageable);
 
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreement Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<p>Dear <span th:text="${clientName}">Client</span>,</p>
+
+<p>We are pleased to share the agreement for your reference. Please find the details below:</p>
+
+<ul>
+    <li><b>Agreement Name:</b> <span th:text="${agreementName}">Agreement</span></li>
+    <li><b>Category:</b> <span th:text="${vendorCategoryName}">Category</span></li>
+</ul>
+
+<p>You can view and download the agreement from the link below:</p>
+<p><a th:href="${agreementFilePath}">Click here to download the agreement</a></p>
+
+<p>We kindly request that you acknowledge receipt of the agreement by replying to this email at your earliest convenience.</p>
+
+<p>We look forward to working with you. If you have any questions, feel free to contact us.</p>
+
+<p>Best regards,<br/>
+    <span th:text="${sentBy}">Corpseed Team</span></p>
+</body>
+</html>

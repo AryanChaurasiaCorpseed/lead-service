@@ -79,7 +79,6 @@ public interface UserRepo extends JpaRepository<User,Long>
 	List<User> findAllProcurementUsers();
 
 
-
-
-
+	@Query("SELECT u FROM User u WHERE u.userDesignation.name = :designation AND u.userDepartment.name = :department")
+	List<User> findByDesignationAndDepartment(@Param("designation") String designation, @Param("department") String department);
 }

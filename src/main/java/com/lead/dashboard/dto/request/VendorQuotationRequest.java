@@ -46,6 +46,15 @@ public class VendorQuotationRequest {
 
    private Long subVendorCategoryId;
 
+   private String agreementName;
+
+	private String agreementWithClientDocumentPath;
+
+	private String researchName;
+
+	private String researchDocumentName;
+
+
 public String getClientName() {
 	return clientName;
 }

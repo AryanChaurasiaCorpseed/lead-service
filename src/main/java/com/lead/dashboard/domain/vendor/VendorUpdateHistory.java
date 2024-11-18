@@ -115,8 +115,11 @@ public class VendorUpdateHistory implements Serializable {
     @ManyToOne
     private User cancelledBy;
 
-    private String agreementWithClientDocumentPath;
+	private String agreementName;
 
+	private String researchName;
+
+	private String researchDocumentName;
     public void setUpdateDescription(String updateDescription) {
         if (updateDescription != null && updateDescription.length() > 255) {
             this.updateDescription = updateDescription.substring(0, 255);  // Truncate to 255 characters
@@ -349,13 +352,6 @@ public class VendorUpdateHistory implements Serializable {
 		this.cancelledBy = cancelledBy;
 	}
 
-	public String getAgreementWithClientDocumentPath() {
-		return agreementWithClientDocumentPath;
-	}
-
-	public void setAgreementWithClientDocumentPath(String agreementWithClientDocumentPath) {
-		this.agreementWithClientDocumentPath = agreementWithClientDocumentPath;
-	}
 
 	public String getUpdateDescription() {
 		return updateDescription;
