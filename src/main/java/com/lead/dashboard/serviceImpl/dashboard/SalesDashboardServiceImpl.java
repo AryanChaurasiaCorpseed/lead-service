@@ -943,6 +943,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
             map.put("ivrCount", ivrCount);
             map.put("websiteCount", websiteCount);
             map.put("qualityReopenCount", qualityReopenCount);
+            map.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
 
 		}else {
 			ivrCount=leadRepository.findCountBySource("IVR");
@@ -952,6 +953,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			  map.put("ivrCount", ivrCount);
 	            map.put("websiteCount", websiteCount);
 	            map.put("qualityReopenCount", qualityReopenCount);
+	            map.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
 
 		}
 		return map;
