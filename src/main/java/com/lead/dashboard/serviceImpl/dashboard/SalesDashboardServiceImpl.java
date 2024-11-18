@@ -29,6 +29,7 @@ import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 import com.lead.dashboard.serviceImpl.TaskManagmentImpl.TaskManagmentServiceImpl;
 
@@ -52,6 +53,9 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	TaskManagmentServiceImpl taskManagmentServiceImpl;
+	
+	@Autowired
+	UserRepo userRepo;
 
 
 
@@ -759,7 +763,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 
 		return result;
 
@@ -810,7 +814,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 		return result;
 	}
 	
@@ -828,7 +832,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		try {
 			date2 = formatter2.parse(sDate2);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		LocalDate now =convertToLocalDateViaInstant(date2);
@@ -851,7 +855,6 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		try {
 			date2 = formatter2.parse(sDate2);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		LocalDate now =convertToLocalDateViaInstant(date2);
@@ -916,17 +919,53 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
 		return result;
 	}
 	@Override
-	public List<Map<String, Object>> getAllTypeLeadCount(GraphDateFilter graphDateFilter) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getAllTypeLeadCount(GraphDateFilter graphDateFilter) {
+		List<Object[]> projects=new ArrayList<>();
+
+
+		long ivrCount=0l;
+		long websiteCount=0l;
+		long qualityReopenCount=0l;
+		long totalCount=0l;
+		Map<String,Object>map=new HashMap<>();
+		if(graphDateFilter.getToDate()!=null &&graphDateFilter.getFromDate()!=null) {
+			String toDate=graphDateFilter.getToDate();
+			String fromDate=graphDateFilter.getFromDate();
+			String startDate = toDate;
+			String endDate = fromDate;
+			ivrCount=leadRepository.findCountBySourceAndInBetweenDate("IVR",startDate, endDate);
+			websiteCount=leadRepository.findCountBySourceAndInBetweenDate("Website",startDate, endDate);
+			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(startDate, endDate);
+            map.put("ivrCount", ivrCount);
+            map.put("websiteCount", websiteCount);
+            map.put("qualityReopenCount", qualityReopenCount);
+
+		}else {
+			ivrCount=leadRepository.findCountBySource("IVR");
+			websiteCount=leadRepository.findCountBySource("Website");
+			qualityReopenCount=leadRepository.findCountByIsReopenByQuality();
+			
+			  map.put("ivrCount", ivrCount);
+	            map.put("websiteCount", websiteCount);
+	            map.put("qualityReopenCount", qualityReopenCount);
+
+		}
+		return map;
+	}
+	@Override
+	public long getTortalUserCount() {
+			long count=userRepo.findCountByIsDeleted(false);
+			return count;
+	}
+	@Override
+	public long getTotalCompanyCount() {
+		  long count=companyRepository.findAllCount();
+		return count;
 	}
 	
-
-
 }
-
 

@@ -83,6 +83,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	@Query(value = "SELECT * FROM company c where c.parent_id = :id", nativeQuery = true)
 	List<Company> findAllByParentId(Long id);
 	
+	@Query(value = "SELECT count(*) FROM company c ", nativeQuery = true)
+	long findAllCount();
+	
 	@Query(value = "SELECT c.id FROM company c left join company_lead cl on c.id=cl.company_id where cl.company_lead_id in(:leadIds) LIMIT 1", nativeQuery = true)
 	Long findCompanyIdByLeadId(List<Long> leadIds);
 
