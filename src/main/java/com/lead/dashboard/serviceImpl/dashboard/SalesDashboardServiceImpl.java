@@ -931,32 +931,62 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		long websiteCount=0l;
 		long qualityReopenCount=0l;
 		long totalCount=0l;
+		Map<String,Object>result=new HashMap<>();
+
 		Map<String,Object>map=new HashMap<>();
 		if(graphDateFilter.getToDate()!=null &&graphDateFilter.getFromDate()!=null) {
 			String toDate=graphDateFilter.getToDate();
 			String fromDate=graphDateFilter.getFromDate();
 			String startDate = toDate;
 			String endDate = fromDate;
+			List<Map<String,Object>>data =  new ArrayList<>();
 			ivrCount=leadRepository.findCountBySourceAndInBetweenDate("IVR",startDate, endDate);
-			websiteCount=leadRepository.findCountBySourceAndInBetweenDate("Website",startDate, endDate);
+			Map<String,Object>m1=new HashMap<>();
+            m1.put("key", "Ivr");
+            m1.put("value", ivrCount);
+            data.add(m1);
+			websiteCount=leadRepository.findCountBySourceAndInBetweenDate("Corpseed Website",startDate, endDate);
+			Map<String,Object>m2=new HashMap<>();
+            m2.put("key", "Corpseed Website");
+            m2.put("value", websiteCount);
+            data.add(m2);
+
+			
 			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(startDate, endDate);
-            map.put("ivrCount", ivrCount);
-            map.put("websiteCount", websiteCount);
-            map.put("qualityReopenCount", qualityReopenCount);
-            map.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+			Map<String,Object>m3=new HashMap<>();
+			m3.put("key", "Reopen By Quality");
+			m3.put("value", qualityReopenCount);
+            data.add(m3);
+            result.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+            
+            result.put("data", data);
+
 
 		}else {
+			List<Map<String,Object>>data =  new ArrayList<>();
+
 			ivrCount=leadRepository.findCountBySource("IVR");
-			websiteCount=leadRepository.findCountBySource("Website");
+			Map<String,Object>m1=new HashMap<>();
+            m1.put("key", "Ivr");
+            m1.put("value", ivrCount);
+            data.add(m1);
+			websiteCount=leadRepository.findCountBySource("Corpseed Website");
+			Map<String,Object>m2=new HashMap<>();
+            m2.put("key", "Corpseed Website");
+            m2.put("value", websiteCount);
+            data.add(m2);
 			qualityReopenCount=leadRepository.findCountByIsReopenByQuality();
 			
-			  map.put("ivrCount", ivrCount);
-	            map.put("websiteCount", websiteCount);
-	            map.put("qualityReopenCount", qualityReopenCount);
-	            map.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+			Map<String,Object>m3=new HashMap<>();
+			m3.put("key", "Reopen By Quality");
+			m3.put("value", qualityReopenCount);
+            data.add(m3);
+            result.put("totalCount", ivrCount+websiteCount+qualityReopenCount);
+            
+            result.put("data", data);
 
 		}
-		return map;
+		return result;
 	}
 	@Override
 	public long getTortalUserCount() {
