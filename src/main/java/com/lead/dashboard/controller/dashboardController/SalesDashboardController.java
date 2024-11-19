@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
@@ -132,6 +133,13 @@ public class SalesDashboardController {
 	public long getTotalCompanyCount()
 	{
 		long alllead= salesDashboardService.getTotalCompanyCount();
+		return alllead;
+	}
+	
+	@GetMapping(UrlsMapping.GET_NEW_COMPANY)
+	public List<Company> getNewCompany(@RequestParam String date)
+	{
+		List<Company> alllead= salesDashboardService.getNewCompany(date);
 		return alllead;
 	}
 	

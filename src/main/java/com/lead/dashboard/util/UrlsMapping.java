@@ -143,7 +143,8 @@ public class UrlsMapping {
 	public static final String GET_ALL_TYPE_LEAD_COUNT=PREFIX+"/salesDashboard/getAllTypeLeadCount";
 	public static final String GET_TOTAL_USER_COUNT=PREFIX+"/salesDashboard/getTotalUserCount";
 	public static final String GET_TOTAL_COMPANY_COUNT=PREFIX+"/salesDashboard/getTotalCompanyCount";
-	
+	public static final String GET_NEW_COMPANY=PREFIX+"/salesDashboard/getNewCompany";
+
 	// Project
 	public static final String CREATE_PROJECT=PREFIX+"/project/createProject";
 	public static final String CREATE_PROJECT_V2=PREFIX+"/project/createProjectV2";

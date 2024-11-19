@@ -16,6 +16,18 @@ public class VendorCategoryDTO {
     private LocalDate date;
     private Long addedBy;
     private String addedByUserName;
+	public VendorCategoryDTO(Long id, String vendorCategoryName, boolean isEnable, LocalDate date, Long addedBy,
+			String addedByUserName) {
+		super();
+		this.id = id;
+		this.vendorCategoryName = vendorCategoryName;
+		this.isEnable = isEnable;
+		this.date = date;
+		this.addedBy = addedBy;
+		this.addedByUserName = addedByUserName;
+	}
+    
+    
 	
     
 }

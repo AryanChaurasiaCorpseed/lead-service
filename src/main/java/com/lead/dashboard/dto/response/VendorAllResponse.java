@@ -226,7 +226,31 @@ public class VendorAllResponse {
 		this.isView = isView;
 	}
 
+	public LocalDate getReceivedDate() {
+		return receivedDate;
+	}
 
+	public void setReceivedDate(LocalDate receivedDate) {
+		this.receivedDate = receivedDate;
+	}
+
+	public int getSubCategoryTatDays() {
+		return subCategoryTatDays;
+	}
+
+	public void setSubCategoryTatDays(int subCategoryTatDays) {
+		this.subCategoryTatDays = subCategoryTatDays;
+	}
+
+	public String getViewedBy() {
+		return viewedBy;
+	}
+
+	public void setViewedBy(String viewedBy) {
+		this.viewedBy = viewedBy;
+	}
+
+    
     
     
     

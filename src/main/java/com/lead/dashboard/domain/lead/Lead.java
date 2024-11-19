@@ -163,6 +163,11 @@ public class Lead {
 	boolean isReopenByQuality;  // reopen by quality and assigne to sales person
 	@ManyToOne
 	User reopenMarkedBy;
+	
+	@ManyToOne
+	User updatedBy;
+	
+	Date updatedDate;
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -547,6 +552,22 @@ public class Lead {
 
 	public void setReopenByQuality(boolean isReopenByQuality) {
 		this.isReopenByQuality = isReopenByQuality;
+	}
+
+	public User getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(User updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 	
 	

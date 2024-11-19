@@ -161,6 +161,12 @@ public class VendorAllRequestOfUser {
 	public void setAssigneeName(String assigneeName) {
 		this.assigneeName = assigneeName;
 	}
+	public String getViewedBy() {
+		return viewedBy;
+	}
+	public void setViewedBy(String viewedBy) {
+		this.viewedBy = viewedBy;
+	}
     
     
 

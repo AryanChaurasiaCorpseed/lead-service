@@ -1,5 +1,6 @@
 package com.lead.dashboard.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import com.lead.dashboard.domain.lead.Lead;
@@ -85,6 +86,7 @@ public class Company {
 	
 	boolean isDeleted;
 	
+	Date createDate;
 	
 
 	public String getPrimaryPinCode() {

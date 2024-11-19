@@ -998,6 +998,23 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		  long count=companyRepository.findAllCount();
 		return count;
 	}
+	@Override
+	public List<Company> getNewCompany(String date) {
+		String s=date;
+		Date sDate = getStartDateofMonth(s);
+		String pattern = "yyyy-MM-dd HH:mm";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date1 = simpleDateFormat.format(convertTime(sDate));
+		System.out.println("after start conveersion "+s);
+		 Date eDate = getEndDateofMonth(s);
+		
+		String date2 = simpleDateFormat.format(convertTime(eDate));
+		System.out.println(date1+"  ..  ..  time .. . . "+date2);
+		
+		 List<Company> company = companyRepository.findByInBetweenCreateDate(date1, date2);
+		 return company;
+		 
+	}
 	
 }
 

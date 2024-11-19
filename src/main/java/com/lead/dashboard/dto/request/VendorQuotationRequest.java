@@ -174,6 +174,38 @@ public Long getSubVendorCategoryId() {
 public void setSubVendorCategoryId(Long subVendorCategoryId) {
 	this.subVendorCategoryId = subVendorCategoryId;
 }
+
+public String getAgreementName() {
+	return agreementName;
+}
+
+public void setAgreementName(String agreementName) {
+	this.agreementName = agreementName;
+}
+
+public String getAgreementWithClientDocumentPath() {
+	return agreementWithClientDocumentPath;
+}
+
+public void setAgreementWithClientDocumentPath(String agreementWithClientDocumentPath) {
+	this.agreementWithClientDocumentPath = agreementWithClientDocumentPath;
+}
+
+public String getResearchName() {
+	return researchName;
+}
+
+public void setResearchName(String researchName) {
+	this.researchName = researchName;
+}
+
+public String getResearchDocumentName() {
+	return researchDocumentName;
+}
+
+public void setResearchDocumentName(String researchDocumentName) {
+	this.researchDocumentName = researchDocumentName;
+}
     
   
 

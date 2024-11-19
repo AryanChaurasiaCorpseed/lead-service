@@ -356,6 +356,30 @@ public class VendorUpdateHistory implements Serializable {
 	public String getUpdateDescription() {
 		return updateDescription;
 	}
+
+	public String getAgreementName() {
+		return agreementName;
+	}
+
+	public void setAgreementName(String agreementName) {
+		this.agreementName = agreementName;
+	}
+
+	public String getResearchName() {
+		return researchName;
+	}
+
+	public void setResearchName(String researchName) {
+		this.researchName = researchName;
+	}
+
+	public String getResearchDocumentName() {
+		return researchDocumentName;
+	}
+
+	public void setResearchDocumentName(String researchDocumentName) {
+		this.researchDocumentName = researchDocumentName;
+	}
     
     
 

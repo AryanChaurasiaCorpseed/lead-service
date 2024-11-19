@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
@@ -46,6 +47,8 @@ public interface SalesDashboardService {
 	long getTortalUserCount();
 
 	long getTotalCompanyCount();
+
+	List<Company> getNewCompany(String date);
 
 
 }

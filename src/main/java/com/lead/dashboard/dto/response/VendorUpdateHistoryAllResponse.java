@@ -121,6 +121,12 @@ public class VendorUpdateHistoryAllResponse {
 	public void setVendorSubCategoryName(String vendorSubCategoryName) {
 		this.vendorSubCategoryName = vendorSubCategoryName;
 	}
+	public String getAgreement() {
+		return agreement;
+	}
+	public void setAgreement(String agreement) {
+		this.agreement = agreement;
+	}
     
     
 
