@@ -144,6 +144,7 @@ public class UrlsMapping {
 	public static final String GET_TOTAL_USER_COUNT=PREFIX+"/salesDashboard/getTotalUserCount";
 	public static final String GET_TOTAL_COMPANY_COUNT=PREFIX+"/salesDashboard/getTotalCompanyCount";
 	public static final String GET_NEW_COMPANY=PREFIX+"/salesDashboard/getNewCompany";
+	public static final String GET_ALL_LEAD_COUNT_STATUS_WISE=PREFIX+"/salesDashboard/getAllLeadCountStatusWise";
 
 	// Project
 	public static final String CREATE_PROJECT=PREFIX+"/project/createProject";

@@ -143,4 +143,12 @@ public class SalesDashboardController {
 		return alllead;
 	}
 	
+	
+//	@GetMapping(UrlsMapping.GET_ALL_LEAD_COUNT_STATUS_WISE)
+//	public List<Company> getNewCompany(@RequestParam String date)
+//	{
+//		List<Company> alllead= salesDashboardService.getNewCompany(date);
+//		return alllead;
+//	}
+	
 }

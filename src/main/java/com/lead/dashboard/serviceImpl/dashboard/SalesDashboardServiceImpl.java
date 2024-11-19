@@ -932,6 +932,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		long qualityReopenCount=0l;
 		long totalCount=0l;
 		Map<String,Object>result=new HashMap<>();
+		Long statusId=10l;
 
 		Map<String,Object>map=new HashMap<>();
 		if(graphDateFilter.getToDate()!=null &&graphDateFilter.getFromDate()!=null) {
@@ -940,19 +941,19 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 			String startDate = toDate;
 			String endDate = fromDate;
 			List<Map<String,Object>>data =  new ArrayList<>();
-			ivrCount=leadRepository.findCountBySourceAndInBetweenDate("IVR",startDate, endDate);
+			ivrCount=leadRepository.findCountBySourceAndInBetweenDate(statusId,"IVR",startDate, endDate);
 			Map<String,Object>m1=new HashMap<>();
             m1.put("key", "Ivr");
             m1.put("value", ivrCount);
             data.add(m1);
-			websiteCount=leadRepository.findCountBySourceAndInBetweenDate("Corpseed Website",startDate, endDate);
+			websiteCount=leadRepository.findCountBySourceAndInBetweenDate(statusId,"Corpseed Website",startDate, endDate);
 			Map<String,Object>m2=new HashMap<>();
             m2.put("key", "Corpseed Website");
             m2.put("value", websiteCount);
             data.add(m2);
 
 			
-			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(startDate, endDate);
+			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(statusId,startDate, endDate);
 			Map<String,Object>m3=new HashMap<>();
 			m3.put("key", "Reopen By Quality");
 			m3.put("value", qualityReopenCount);
@@ -965,17 +966,17 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		}else {
 			List<Map<String,Object>>data =  new ArrayList<>();
 
-			ivrCount=leadRepository.findCountBySource("IVR");
+			ivrCount=leadRepository.findCountBySource(statusId,"IVR");
 			Map<String,Object>m1=new HashMap<>();
             m1.put("key", "Ivr");
             m1.put("value", ivrCount);
             data.add(m1);
-			websiteCount=leadRepository.findCountBySource("Corpseed Website");
+			websiteCount=leadRepository.findCountBySource(statusId,"Corpseed Website");
 			Map<String,Object>m2=new HashMap<>();
             m2.put("key", "Corpseed Website");
             m2.put("value", websiteCount);
             data.add(m2);
-			qualityReopenCount=leadRepository.findCountByIsReopenByQuality();
+			qualityReopenCount=leadRepository.findCountByIsReopenByQuality(statusId);
 			
 			Map<String,Object>m3=new HashMap<>();
 			m3.put("key", "Reopen By Quality");
