@@ -144,11 +144,11 @@ public class SalesDashboardController {
 	}
 	
 	
-//	@GetMapping(UrlsMapping.GET_ALL_LEAD_COUNT_STATUS_WISE)
-//	public List<Company> getNewCompany(@RequestParam String date)
-//	{
-//		List<Company> alllead= salesDashboardService.getNewCompany(date);
-//		return alllead;
-//	}
+	@PostMapping(UrlsMapping.GET_ALL_LEAD_COUNT_STATUS_WISE)
+	public Map<String, Object> getAllLeadCountStatusWise(@RequestBody GraphDateFilter graphDateFilter)
+	{
+		Map<String, Object> alllead= salesDashboardService.getAllLeadCountStatusWise(graphDateFilter);
+		return alllead;
+	}
 	
 }

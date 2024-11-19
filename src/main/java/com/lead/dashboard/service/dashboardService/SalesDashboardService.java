@@ -50,5 +50,7 @@ public interface SalesDashboardService {
 
 	List<Company> getNewCompany(String date);
 
+	Map<String, Object> getAllLeadCountStatusWise(GraphDateFilter graphDateFilter);
+
 
 }

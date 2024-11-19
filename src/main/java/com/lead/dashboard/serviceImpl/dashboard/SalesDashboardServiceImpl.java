@@ -23,12 +23,14 @@ import org.springframework.stereotype.Service;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Project;
+import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.GraphDateFilter;
 import com.lead.dashboard.dto.GraphFilterDto;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
+import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.dashboardService.SalesDashboardService;
 import com.lead.dashboard.serviceImpl.TaskManagmentImpl.TaskManagmentServiceImpl;
@@ -53,6 +55,9 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 	@Autowired
 	TaskManagmentServiceImpl taskManagmentServiceImpl;
+	
+	@Autowired
+	StatusRepository statusRepository;
 	
 	@Autowired
 	UserRepo userRepo;
@@ -1015,6 +1020,31 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		 List<Company> company = companyRepository.findByInBetweenCreateDate(date1, date2);
 		 return company;
 		 
+	}
+	@Override
+	public Map<String, Object> getAllLeadCountStatusWise(GraphDateFilter graphDateFilter) {
+		List<Status>  statusList = statusRepository.findAll();
+		List<Map<String,Object>>res=new ArrayList<>();
+		String toDate=graphDateFilter.getToDate();
+		String fromDate=graphDateFilter.getFromDate();
+		String startDate = toDate;
+		String endDate = fromDate;
+		long totalCount=0l;
+		Map<String,Object>resMap=new HashMap<>();
+
+		for(Status s:statusList) {
+			Map<String,Object>map=new HashMap<>();
+			long c1 = leadRepository.findCountByStatusIdAndInBetweenDate(s.getId(),startDate, endDate);
+		    map.put("key", s.getName());
+		    map.put("value", c1);
+		    totalCount=totalCount+c1;
+		    res.add(map);
+
+		}
+		resMap.put("totalCount", totalCount);
+		resMap.put("data", res);
+
+		return resMap;
 	}
 	
 }
