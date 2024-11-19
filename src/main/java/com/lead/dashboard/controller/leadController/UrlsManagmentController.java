@@ -91,7 +91,12 @@ public class UrlsManagmentController {
 		}
 		return urlsList;
 	}
-	
+	@GetMapping("/urls/getGlobalSearchUrls")
+	public 	List<UrlsManagment> getGlobalSearchUrls(@RequestParam String name) {	
+		
+     	List<UrlsManagment> urlsList = urlsManagmentRepo.findAllGlobal(name);
+		return urlsList;
+	}
 
 	
 }

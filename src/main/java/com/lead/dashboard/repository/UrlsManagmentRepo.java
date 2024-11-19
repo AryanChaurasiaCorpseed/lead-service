@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.lead.dashboard.domain.UrlsManagment;
 
@@ -17,5 +18,8 @@ public interface UrlsManagmentRepo extends JpaRepository<UrlsManagment, Long>{
 	
 	@Query(value = "SELECT * FROM urls_managment um WHERE um.id in(:urlsId)", nativeQuery = true)
 	List<UrlsManagment> findAllByIdIn(List<Long> urlsId);
+	
+	@Query(value = "SELECT * FROM urls_managment s WHERE s.urls_name LIKE %:searchTerm%", nativeQuery = true)
+	List<UrlsManagment> findAllGlobal(@Param("searchTerm") String searchTerm);
 
 }
