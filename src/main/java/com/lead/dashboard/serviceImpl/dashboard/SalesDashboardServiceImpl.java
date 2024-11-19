@@ -959,6 +959,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			
 			qualityReopenCount=leadRepository.findCountByIsReopenByQualityAndSourceAndInBetweenDate(statusId,startDate, endDate);
+			System.out.println("qality count  . . ."+qualityReopenCount);
 			Map<String,Object>m3=new HashMap<>();
 			m3.put("key", "Reopen By Quality");
 			m3.put("value", qualityReopenCount);
@@ -982,7 +983,8 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
             m2.put("value", websiteCount);
             data.add(m2);
 			qualityReopenCount=leadRepository.findCountByIsReopenByQuality(statusId);
-			
+			System.out.println("qality count  2. . ."+qualityReopenCount);
+
 			Map<String,Object>m3=new HashMap<>();
 			m3.put("key", "Reopen By Quality");
 			m3.put("value", qualityReopenCount);

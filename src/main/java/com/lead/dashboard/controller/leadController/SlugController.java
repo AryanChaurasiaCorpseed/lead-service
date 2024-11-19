@@ -78,6 +78,25 @@ public class SlugController {
 		}
 		return result;
 	}
+	@GetMapping("/slug/getGlobalSlug")
+	public 	List<Map<String,Object>> getGlobalSlug(@RequestParam String name) {	
+
+		List<Slug> urls = slugRepository.findByNameGlobal(name);
+		urls= urls.stream().sorted(Comparator.comparing(Slug::getId).reversed()).collect(Collectors.toList());
+		List<Map<String,Object>>result = new ArrayList<>();
+		System.out.println(urls.size());
+		for(Slug s:urls) {
+			Map<String,Object>map = new HashMap<>();
+            map.put("id", s.getId());
+            map.put("name", s.getName());
+            map.put("slugList", s.getSlugList());
+            map.put("isPlantSetup", s.isPlantSetup());
+            result.add(map);
+		}
+		return result;
+	}
+	
+	
 	@GetMapping("/slug/getAllSlug")
 	public 	List<Slug> getAllSlug() {	
 		List<Slug> urls = slugRepository.findAll();

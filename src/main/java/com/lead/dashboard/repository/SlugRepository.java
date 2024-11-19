@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Slug;
 
 
@@ -24,5 +26,8 @@ public interface SlugRepository extends JpaRepository<Slug, Long> {
 
 	@Query(value = "SELECT * FROM slug s WHERE s.name =:name and is_plant_setup =:b limit 1", nativeQuery = true)
 	Slug findByNameAndIsPlantSetUp(String name, boolean b);
+	
+	@Query(value = "SELECT * FROM slug s WHERE s.name LIKE %:searchTerm%", nativeQuery = true)
+	List<Slug> findByNameGlobal(@Param("searchTerm") String searchTerm);
 
 }

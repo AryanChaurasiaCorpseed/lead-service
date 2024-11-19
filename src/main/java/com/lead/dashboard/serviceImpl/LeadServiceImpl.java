@@ -65,7 +65,7 @@ public class LeadServiceImpl implements LeadService  {
 	@Autowired
 	CommonServices commonServices;
 
-	@Autowired
+	@Autowired 
 	CompanyFormController companyFormController;
 
 	@Autowired
@@ -1515,6 +1515,8 @@ public class LeadServiceImpl implements LeadService  {
 					l.setAuto(true);
 				}
 				l.setStatus(status);
+				l.setUpdatedDate(new Date());
+				l.setUpdatedBy(updatedBy);
 			}
 			l.setView(false);
 			leadRepository.save(l);

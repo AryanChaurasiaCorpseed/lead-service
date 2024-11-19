@@ -97,7 +97,7 @@ public class SalesDashboardController {
 	}
 	
 	
-	@GetMapping(UrlsMapping.GET_ALL_PROJECT_MONTH_WISE)
+	@PostMapping(UrlsMapping.GET_ALL_PROJECT_MONTH_WISE)
 	public List<Map<String,Object>> getAllProjectMonthWise(@RequestBody GraphDateFilter graphDateFilter)
 	{
 		List<Map<String,Object>> alllead= salesDashboardService.getAllProjectMonthWise(graphDateFilter);

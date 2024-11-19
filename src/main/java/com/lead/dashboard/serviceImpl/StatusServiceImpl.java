@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,7 +112,10 @@ public class StatusServiceImpl implements StatusService {
         if(filterStatus!=null && filterStatus.contains(newstatusdata)) {
         	lead.setAuto(true);
         }
-        lead.setStatus(newstatusdata);    
+        lead.setStatus(newstatusdata);   
+        lead.setUpdatedDate(new Date());
+        lead.setUpdatedBy(cUser);
+        
         leadRepository.save(lead);
         leadServiceImpl.multiLeadStatusHistory(leadId, prevStatus, newstatusdata, cUser);
         if(newstatusdata.getName().equals("Bad Fit")) {
