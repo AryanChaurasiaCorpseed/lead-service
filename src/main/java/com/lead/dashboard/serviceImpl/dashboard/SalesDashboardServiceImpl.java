@@ -819,7 +819,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+		result=result.stream().sorted(Comparator.comparing(i->(Date)i.get("name"))) .collect(Collectors.toList());	
 		return result;
 	}
 	
@@ -924,7 +924,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+		result=result.stream().sorted(Comparator.comparing(i->(Date)i.get("name"))) .collect(Collectors.toList());	
 		return result;
 	}
 	@Override
