@@ -172,7 +172,7 @@ public class VendorController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(UrlsMapping.VENDOR_REPORT)
+    @PostMapping(UrlsMapping.VENDOR_REPORT)
     public ResponseEntity<?> fetchVendorReport(@RequestBody VendorReportRequest vendorReportRequest) {
         try {
 

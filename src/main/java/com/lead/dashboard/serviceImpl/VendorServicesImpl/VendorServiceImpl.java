@@ -783,7 +783,7 @@ public class VendorServiceImpl implements VendorService {
 
             for (Vendor vendor : vendorList) {
                 String latestStatus = status;
-                if (latestStatus == null) {
+                if (latestStatus == null || latestStatus.isEmpty()) {
                     VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
                             .stream()
                             .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
