@@ -39,7 +39,16 @@ public class VendorAllResponse {
 
 	private LocalDate receivedDate;
 
+	private LocalDate completedDate;
+
+
 	private int subCategoryTatDays;
+
+	private int completionDays;
+
+	private int tatDaysLeft;
+
+	private int overDueTat;
 
 
     private List<VendorUpdateHistoryAllResponse> vendorUpdateHistoryAllResponseList;

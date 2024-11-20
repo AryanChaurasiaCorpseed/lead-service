@@ -260,6 +260,10 @@ public class UrlsMapping {
 
 
 
+	public static final String CREATE_VENDOR_STATUS = "/leadService/api/v1/vendor-status-create";
+	public static final String FETCH_ALL_VENDOR_STATUS = "/leadService/api/v1/vendor-status-all";
+	public static final String FETCH_VENDOR_STATUS_BY_ID = "/leadService/api/v1/vendor-status";
+	public static final String SOFT_DELETE_VENDOR_STATUS = "/leadService/api/v1/vendor-status-delete";
 
 
 

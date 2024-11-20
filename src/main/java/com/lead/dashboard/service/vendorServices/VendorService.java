@@ -1,5 +1,6 @@
 package com.lead.dashboard.service.vendorServices;
 
+import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
@@ -37,4 +38,6 @@ public interface VendorService {
     boolean cancelRequest(Long vendorRequestId, Long userId, String cancelReason);
 
     Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId);
+
+    Map<String, Object> searchVendors(Long userId, String searchInput);
 }
