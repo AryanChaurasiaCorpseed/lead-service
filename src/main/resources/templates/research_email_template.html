@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<h1>Research Details for Vendor Category</h1>
+
+<p>Dear Operations Team,</p>
+
+<p>We have conducted research for the following vendor category:</p>
+<ul>
+    <li><strong>Vendor Category Name:</strong> <span th:text="${vendorCategoryName}">Vendor Category</span></li>
+</ul>
+
+<p>Attached, you will find the necessary documentation and findings for your review.</p>
+
+<p>Please review the research and provide your feedback at your earliest convenience. If you have any questions or need additional details, feel free to reach out to the sender.</p>
+
+<p>For more information, visit our website: <a href="https://www.corpseed.com/" target="_blank">www.corpseed.com</a></p>
+
+<div class="footer">
+    <p>Best regards,<br/>
+        <span th:text="${sentBy}">Corpseed Team</span></p>
+</div>
+</body>
+</html>

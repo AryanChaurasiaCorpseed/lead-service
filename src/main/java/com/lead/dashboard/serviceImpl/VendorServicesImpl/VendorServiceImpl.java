@@ -311,24 +311,32 @@ public class VendorServiceImpl implements VendorService {
 
         if (vendorQuotationRequest.getResearchName() != null && !vendorQuotationRequest.getResearchName().isEmpty() &&
                 vendorQuotationRequest.getResearchDocumentName() != null && !vendorQuotationRequest.getResearchDocumentName().isEmpty()) {
-          List<User> userList =  userRepository.findByDesignationAndDepartment("Operations","Operations Managers");
 
-            String agreementSubject = "Research for - " + vendor.getVendorCategory().getVendorCategoryName() ;
+            // Fetch the list of users based on designation and department
+            List<User> userList = userRepository.findByDesignationAndDepartment("Operations", "Operations Managers");
+
+
+            List<String> emailList= userList.stream().map(User::getEmail).collect(Collectors.toList());
+
+            String[] operationEmailId= emailList.toArray(new String[0]);
+
+            String researchSubject = "Research for - " + vendor.getVendorCategory().getVendorCategoryName();
 
             try {
-                String[] agreementMailCc = new String[]{mailSentBy.getEmail()};
+                String[] sentByVendorInCC = new String[]{mailSentBy.getEmail()};
 
+                // Send the email
                 mailSendSerivce.sendEmailForResearch(
-                        mailTo,
-                        agreementSubject,
-                        vendorQuotationRequest,
-                        mailSentBy,
-                        vendorCategory);
+                        operationEmailId, // Pass the list of emails as mailTo
+                        researchSubject,
+                        sentByVendorInCC,
+                        vendorCategory
+                );
             } catch (Exception e) {
-                throw new RuntimeException("Failed to send agreement email: " + e.getMessage());
+                throw new RuntimeException("Failed to send Research email: " + e.getMessage());
             }
         } else {
-            System.out.println("fghfghfgh");
+            System.out.println("Research email not sent as  researchDocumentName is missing.");
         }
 
 
@@ -527,6 +535,30 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
             vendorResponseDTO.setReceivedDate(vendor.getDate());
+            vendorResponseDTO.setSubCategoryTatDays(vendor.getVendorSubCategory().getVendorCompletionTat());
+
+            LocalDate requestCreatedDate = vendor.getDate();
+            int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
+
+
+            VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
+                    .stream()
+                    .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
+                    .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                    .orElse(null);
+
+            if (finishedUpdate != null) {
+                LocalDate completedDate = finishedUpdate.getDate();
+                vendorResponseDTO.setCompletedDate(completedDate);
+                int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+                vendorResponseDTO.setCompletionDays(daysTaken);
+                vendorResponseDTO.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
+                vendorResponseDTO.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
+            } else {
+                int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+                vendorResponseDTO.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
+                vendorResponseDTO.setOverDueTat(0);
+            }
 
             vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
             vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
@@ -742,6 +774,7 @@ public class VendorServiceImpl implements VendorService {
         if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userIdBy);
         }
+
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
@@ -751,7 +784,6 @@ public class VendorServiceImpl implements VendorService {
             for (Vendor vendor : vendorList) {
                 String latestStatus = status;
                 if (latestStatus == null) {
-                    // Determine the last updated status from VendorUpdateHistory
                     VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
                             .stream()
                             .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
@@ -762,51 +794,106 @@ public class VendorServiceImpl implements VendorService {
                 }
 
                 if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    VendorReportResponse response = new VendorReportResponse();
-                    response.setId(vendor.getId());
-                    response.setGenerateByPersonName(userDetails.getFullName());
-                    response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
-                    response.setStartDate(startDate);
-                    response.setEndDate(endDate);
-                    response.setClientName(vendor.getClientName());
-                    response.setCurrentStatus(vendor.getStatus());
-                    response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
+                    vendorReportResponses.add(prepareVendorReportResponse(vendor, userDetails, startDate, endDate));
+                }
+            }
+        } else {
+            // Fetch vendor requests only assigned to the non-admin user
+            List<Vendor> vendorList = vendorRepository.findAllByAssignedUserAndDateRange(userIdBy, startDate, endDate);
 
-                    int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
-                    response.setVendorCompletionTat(vendorTat);
-                    response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
-
-                    // Calculate TAT days left and overdue TAT
-                    LocalDate requestCreatedDate = vendor.getDate();
-                    VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
+            for (Vendor vendor : vendorList) {
+                String latestStatus = status;
+                if (latestStatus == null) {
+                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
                             .stream()
-                            .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
-                            .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                            .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
                             .orElse(null);
-
-                    if (finishedUpdate != null) {
-                        LocalDate completedDate = finishedUpdate.getDate();
-                        response.setCompletionDate(completedDate); // Set the completion date
-                        int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
-                        response.setCompletionDays(daysTaken);
-                        response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
-                        response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
-                    } else {
-                        // Request still in progress, calculate days left
-                        int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
-                        response.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
-                        response.setOverDueTat(0);
+                    if (latestUpdate != null) {
+                        latestStatus = latestUpdate.getRequestStatus();
                     }
+                }
 
-                    vendorReportResponses.add(response);
+                if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
+                    vendorReportResponses.add(prepareVendorReportResponse(vendor, userDetails, startDate, endDate));
                 }
             }
         }
+
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
         return responseMap;
     }
 
+    private VendorReportResponse prepareVendorReportResponse(Vendor vendor, User userDetails, LocalDate startDate, LocalDate endDate) {
+        VendorReportResponse response = new VendorReportResponse();
+        response.setId(vendor.getId());
+        response.setGenerateByPersonName(userDetails.getFullName());
+        response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
+        response.setStartDate(startDate);
+        response.setEndDate(endDate);
+        response.setClientName(vendor.getClientName());
+        response.setCurrentStatus(vendor.getStatus());
+        response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
+
+        int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
+        response.setVendorCompletionTat(vendorTat);
+        response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
+
+        LocalDate requestCreatedDate = vendor.getDate();
+        VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
+                .stream()
+                .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
+                .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                .orElse(null);
+
+        if (finishedUpdate != null) {
+            LocalDate completedDate = finishedUpdate.getDate();
+            response.setCompletionDate(completedDate);
+            int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+            response.setCompletionDays(daysTaken);
+            response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
+            response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
+        } else {
+            int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+            response.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
+            response.setOverDueTat(0);
+        }
+
+        return response;
+    }
+
+    public Map<String, Object> searchVendors(Long userId, String searchInput, int page, int size) {
+
+//        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
+//
+//        if (userDetails == null) {
+//            throw new RuntimeException("User not found for ID: " + userId);
+//        }
+//
+//        Pageable pageable = PageRequest.of(page - 1, size);
+//
+//        Page<Vendor> vendorPage;
+//        boolean isAdmin = userDetails.getUserRole().stream()
+//                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
+//
+//        // Fetch vendors based on role
+//        if (isAdmin) {
+//            vendorPage = vendorRepository.searchVendors(searchInput, pageable);
+//        } else {
+//            vendorPage = vendorRepository.searchVendorsByUser(userDetails, pageable, searchInput);
+//        }
+//
+//        // Prepare response
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("vendors", vendorPage.getContent());
+//        response.put("currentPage", vendorPage.getNumber() + 1);
+//        response.put("totalItems", vendorPage.getTotalElements());
+//        response.put("totalPages", vendorPage.getTotalPages());
+//
+//        return response;
+
+        return  null ;
+    }
 
 
 }

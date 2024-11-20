@@ -260,37 +260,36 @@ public class MailSendSerivceImpl implements MailSendService {
         }
     }
 
-    public void sendEmailForResearch(String[] mailTo, String agreementSubject, VendorQuotationRequest vendorQuotationRequest, User mailSentBy, Optional<VendorCategory> vendorCategory) {
 
-//        try {
-//            validateEmailAddresses(mailTo, "To");
-//
-//            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-//
-//            helper.setFrom(fromEmail);
-//            helper.setTo(mailTo);
-//            helper.setSubject(subject);
-//            helper.setCc(mailCc);
-//
-//            Context context = new Context();
-//            context.setVariable("clientName", vendorQuotationRequest.getClientName());
-//            context.setVariable("agreementName", vendorQuotationRequest.getAgreementName());
-//            context.setVariable("vendorCategoryName", vendorCategory.map(VendorCategory::getVendorCategoryName).orElse("N/A"));
-//            context.setVariable("agreementFilePath", vendorQuotationRequest.getAgreementWithClientDocumentPath());
-//            context.setVariable("sentBy", mailSentBy.getFullName());
-//
-//            String htmlContent = templateEngine.process("agreement_email_template", context);
-//            helper.setText(htmlContent, true);
-//
-//            javaMailSender.send(mimeMessage);
-//            System.out.println("Agreement email sent successfully to: " + Arrays.toString(mailTo));
-//
-//        } catch (MessagingException e) {
-//            throw new RuntimeException("Failed to send agreement email due to MessagingException: " + e.getMessage(), e);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to send agreement email: " + e.getMessage(), e);
-//        }
+    public void sendEmailForResearch(String[] mailTo, String researchSubject, String[] sentByVendorInCC, Optional<VendorCategory> vendorCategory) {
+
+        try {
+            validateEmailAddresses(mailTo, "To");
+
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+            helper.setFrom(fromEmail);
+            helper.setTo(mailTo);
+            helper.setSubject(researchSubject);
+            helper.setCc(sentByVendorInCC);
+
+            Context context = new Context();
+
+            context.setVariable("vendorCategoryName", vendorCategory.map(VendorCategory::getVendorCategoryName).orElse("N/A"));
+
+
+            String htmlContent = templateEngine.process("research_email_template", context);
+            helper.setText(htmlContent, true);
+
+            javaMailSender.send(mimeMessage);
+//            System.out.println("Reasearch email sent successfully to: " + Arrays.toString(mailTo));
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send Reasearch email due to MessagingException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send Reasearch email: " + e.getMessage(), e);
+        }
 //
 
     }

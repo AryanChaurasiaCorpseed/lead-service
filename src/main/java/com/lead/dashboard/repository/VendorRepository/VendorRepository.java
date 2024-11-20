@@ -51,4 +51,16 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
             "AND v.isDeleted = false")
     List<Vendor> findAllVendorRequestByDate(@Param("startDate") LocalDate startDate,
                                             @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.date BETWEEN :startDate AND :endDate")
+    List<Vendor> findAllByAssignedUserAndDateRange(@Param("userId") Long userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT v FROM Vendor v WHERE " +
+            "LOWER(v.clientCompanyName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
+            "LOWER(v.clientName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
+            "v.clientMobileNumber LIKE CONCAT('%', :searchInput, '%')")
+    Page<Vendor> searchVendors(@Param("searchInput") String searchInput, Pageable pageable);
+
+
+
 }
