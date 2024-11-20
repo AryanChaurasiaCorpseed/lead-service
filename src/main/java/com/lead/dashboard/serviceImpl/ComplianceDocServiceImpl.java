@@ -5,15 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lead.dashboard.domain.ProductDocuments;
 import com.lead.dashboard.domain.product.Category;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateCategoryDocDto;
+import com.lead.dashboard.repository.ProductDocumentRepo;
 import com.lead.dashboard.repository.product.CategoryRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 import com.lead.dashboard.service.ComplianceDocService;
@@ -23,6 +27,9 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 
 	@Autowired
 	ProductRepo productRepo;
+	
+	@Autowired
+	ProductDocumentRepo productDocumentRepo;
 	
     @Autowired
     private CategoryRepo categoryRepo;
@@ -37,17 +44,20 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
    			map.put("id", product.getId());
    			map.put("name", product.getProductName());
    			List<String>doc = new ArrayList<>();
-   			if(product.getDocuments()!=null) {
-   				doc.addAll (product.getDocuments());
-   			}
-   			map.put("documents", doc);
+//   			if(product.getDocuments()!=null) {
+//   				doc.addAll (product.getDocuments());
+//   			}
+//   			map.put("documents", doc);
+   			
+   			map.put("documents", product.getProductDoc().stream().map(i->i.getName()).collect(Collectors.toList()));
+
    			res.add(map);
    		}
    		return res;
    	}
 	
-	@Override
-	public Boolean createDocumentInCategory(Long categoryId,String docList) {
+//	@Override
+	public Boolean createDocumentInCategoryV2(Long categoryId,String docList) {
 		Boolean flag = false;
 		Product product = productRepo.findById(categoryId).get();
 		List<String>doc=product.getDocuments();
@@ -64,6 +74,32 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 		return flag;
 	}
 	
+	@Override
+	public Boolean createDocumentInCategory(Long categoryId,String docList) {
+		Boolean flag = false;
+		Product product = productRepo.findById(categoryId).get();
+		List<ProductDocuments>doc=product.getProductDoc();
+		if(doc!=null) {
+			ProductDocuments pd= new ProductDocuments();
+			pd.setName(docList);
+			productDocumentRepo.save(pd);
+			doc.add(pd);
+			product.setProductDoc(doc);
+
+		}else {
+			doc=new ArrayList<>();
+			ProductDocuments pd= new ProductDocuments();
+			pd.setName(docList);
+			productDocumentRepo.save(pd);
+
+			doc.add(pd);
+			product.setProductDoc(doc);
+		}
+		
+		productRepo.save(product);
+		flag=true;
+		return flag;
+	}
 	
 	  @Override
 	   	public List<Map<String,Object>>getAllComplianceDocuments(int page, int size){
@@ -77,15 +113,37 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 	   			map.put("id", product.getId());
 	   			map.put("name", product.getProductName());
 	   			
-	   			List<String>doc = new ArrayList<>();
-	   			product.getProductDoc();
-	   			if(product.getDocuments()!=null) {
-	   				doc.addAll (product.getDocuments());
-	   			}
-	   			map.put("documents", doc);
+//	   			List<String>doc = new ArrayList<>();
+//	   			product.getProductDoc();
+//	   			if(product.getDocuments()!=null) {
+//	   				doc.addAll (product.getDocuments());
+//	   			}
+	   			map.put("documents", product.getProductDoc().stream().map(i->i.getName()).collect(Collectors.toList()));
 	   			res.add(map);
 	   		}
 	   		return res;
 	   	}
+
+	@Override
+	public void moveComplianceDoc() {
+		List<Product> productList = productRepo.findAll();
+		for(Product p:productList) {
+			List<ProductDocuments>proDoc = new ArrayList<>();
+			
+			List<String> doc = p.getDocuments();
+			if(doc!=null) {
+			for(String pd:doc) {
+				ProductDocuments pDoc = new ProductDocuments();
+				pDoc.setName(pd);
+				ProductDocuments pro = productDocumentRepo.save(pDoc);
+				proDoc.add(pro);                                                                                                         
+			}
+			}
+			p.setProductDoc(proDoc);
+			productRepo.save(p);
+			
+		}
+		
+	}
 	
 }

@@ -188,6 +188,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_COMPLIANCE_DOCUMENTS=PREFIX+"/complianceDocumnets/getAllComplianceDocuments";
 	public static final String CREATE_DOCUMENTS=PREFIX+"/complianceDocumnets/createDocuments";
 	public static final String GET_ALL_COMPLIANCE_DOCUMENTS_TOTAL_COUNT=PREFIX+"/complianceDocumnets/getAllComplianceDocumentsTotalCounts";
+	public static final String MOVE_COMPLIANCE_DOC=PREFIX+"/complianceDocumnets/moveComplianceDoc";
 
 	
 	//IVR Module

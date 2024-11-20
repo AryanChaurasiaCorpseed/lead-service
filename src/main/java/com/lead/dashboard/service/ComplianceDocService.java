@@ -16,4 +16,6 @@ public interface ComplianceDocService {
 
 	public List<Map<String, Object>> getAllComplianceDocuments(int page, int size);
 
+	public void moveComplianceDoc();
+
 }

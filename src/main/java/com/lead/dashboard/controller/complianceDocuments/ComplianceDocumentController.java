@@ -56,5 +56,11 @@ public class ComplianceDocumentController {
 		return res;
 	}
 	
+	@GetMapping(UrlsMapping.MOVE_COMPLIANCE_DOC)
+	public void moveComplianceDoc(){
+		 complianceDocService.moveComplianceDoc();	
+		
+	}
+	
 	
 } 
