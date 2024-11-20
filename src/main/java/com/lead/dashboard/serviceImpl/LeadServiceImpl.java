@@ -1280,6 +1280,9 @@ public class LeadServiceImpl implements LeadService  {
 			map.put("source",l[9]);
 			map.put("isReopenByQuality",l[10]);
 			map.put("reopenBy",l[11]);
+			map.put("clientName",l[12]);
+			map.put("createdBy",l[13]);
+			map.put("updatedBy",l[14]);
 
 			
 			
