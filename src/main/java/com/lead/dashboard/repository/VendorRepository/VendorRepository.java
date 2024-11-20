@@ -59,8 +59,8 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
             "LOWER(v.clientCompanyName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
             "LOWER(v.clientName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
             "v.clientMobileNumber LIKE CONCAT('%', :searchInput, '%')")
-    Page<Vendor> searchVendors(@Param("searchInput") String searchInput, Pageable pageable);
+    List<Vendor> searchVendors(@Param("searchInput") String searchInput);
 
 
-
+//    List<Vendor> searchVendorsByUser(User userDetails, String searchInput);
 }
