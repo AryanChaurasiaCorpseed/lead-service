@@ -862,7 +862,7 @@ public class VendorServiceImpl implements VendorService {
         return response;
     }
 
-    public Map<String, Object> searchVendors(Long userId, String searchInput, int page, int size) {
+    public Map<String, Object> searchVendors(Long userId, String searchInput) {
 
 //        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
 //
@@ -872,15 +872,15 @@ public class VendorServiceImpl implements VendorService {
 //
 //        Pageable pageable = PageRequest.of(page - 1, size);
 //
-//        Page<Vendor> vendorPage;
+//
 //        boolean isAdmin = userDetails.getUserRole().stream()
 //                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
 //
 //        // Fetch vendors based on role
 //        if (isAdmin) {
-//            vendorPage = vendorRepository.searchVendors(searchInput, pageable);
+//            vendorPage = vendorRepository.searchVendors(searchInput);
 //        } else {
-//            vendorPage = vendorRepository.searchVendorsByUser(userDetails, pageable, searchInput);
+//            vendorPage = vendorRepository.searchVendorsByUser(userDetails, searchInput);
 //        }
 //
 //        // Prepare response

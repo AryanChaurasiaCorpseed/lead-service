@@ -20,13 +20,17 @@ public class VendorStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String vStatusName;
+    private String statusName;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    private boolean isDeleted; // Default: 0 (false)
+
+    private boolean isDisplay; // Default: 1 (true)
 
     @Column(name = "date")
     private LocalDate date;

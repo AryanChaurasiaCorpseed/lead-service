@@ -196,10 +196,9 @@ public class VendorController {
     }
 
     @GetMapping(UrlsMapping.VENDOR_SEARCH)
-    public ResponseEntity<?> searchVendorDetails(@RequestParam Long userId, @RequestParam int page, @RequestParam int size,
-                                                 @RequestParam String searchInput) {
+    public ResponseEntity<?> searchVendorDetails(@RequestParam Long userId,@RequestParam String searchInput) {
         try {
-            Map<String,Object> vendors = vendorService.searchVendors(userId, searchInput,page,size);
+            Map<String,Object> vendors = vendorService.searchVendors(userId,searchInput);
             return new ResponseEntity<>(vendors, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

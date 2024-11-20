@@ -39,5 +39,5 @@ public interface VendorService {
 
     Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId);
 
-    Map<String, Object> searchVendors(Long userId, String searchInput, int page, int size);
+    Map<String, Object> searchVendors(Long userId, String searchInput);
 }
