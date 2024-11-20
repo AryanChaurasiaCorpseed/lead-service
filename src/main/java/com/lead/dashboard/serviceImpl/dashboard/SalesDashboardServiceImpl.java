@@ -819,7 +819,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+		result=result.stream().sorted(Comparator.comparing(i->(Date)i.get("name"))) .collect(Collectors.toList());	
 		return result;
 	}
 	
@@ -906,7 +906,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 					map.put(temp,c);
 				}else {
 					Long count = 1l; ;
-					Map<String,Object>m=new HashMap<>();
+					Map<String,Object>m=new HashMap<>();̥
 					m.put("counts", count);
 					m.put("date", createDate);
 					map.put(temp, m);
@@ -924,7 +924,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 			result.add(m);
 		}		
-//		result=result.stream().sorted(Comparator.comparing(i->(long)i.get("value"))) .collect(Collectors.toList());	
+		result=result.stream().sorted(Comparator.comparing(i->(Date)i.get("name"))) .collect(Collectors.toList());	
 		return result;
 	}
 	@Override
