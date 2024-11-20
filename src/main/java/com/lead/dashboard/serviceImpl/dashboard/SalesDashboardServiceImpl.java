@@ -906,7 +906,7 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 					map.put(temp,c);
 				}else {
 					Long count = 1l; ;
-					Map<String,Object>m=new HashMap<>();̥
+					Map<String,Object>m=new HashMap<>();
 					m.put("counts", count);
 					m.put("date", createDate);
 					map.put(temp, m);
