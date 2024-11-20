@@ -828,13 +828,15 @@ public class VendorServiceImpl implements VendorService {
         VendorReportResponse response = new VendorReportResponse();
         response.setId(vendor.getId());
         response.setGenerateByPersonName(userDetails.getFullName());
-        response.setAssignedByPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
+        response.setAssignedToPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
         response.setStartDate(startDate);
         response.setEndDate(endDate);
         response.setClientName(vendor.getClientName());
         response.setCurrentStatus(vendor.getStatus());
         response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
-
+        response.setCategoryName(vendor.getVendorCategory().getVendorCategoryName());
+        response.setClientCompany(vendor.getClientCompanyName());
+        response.setClientMobileNumber(vendor.getClientMobileNumber());
         int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
         response.setVendorCompletionTat(vendorTat);
         response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
@@ -866,41 +868,24 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
-
-        if (userDetails == null) {
-            throw new RuntimeException("User not found for ID: " + userId);
-        }
-
-        boolean isAdmin = userDetails.getUserRole().stream().anyMatch(role ->role.getName().equalsIgnoreCase("ADMIN"));
-
-        if(isAdmin)
-        {
-            List<Vendor> vendorSearch =vendorRepository.searchVendors(searchInput);
-
-        }
+//        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
 //
-//        Pageable pageable = PageRequest.of(page - 1, size);
-//
-//
-//        boolean isAdmin = userDetails.getUserRole().stream()
-//                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
-//
-//        // Fetch vendors based on role
-//        if (isAdmin) {
-//            vendorPage = vendorRepository.searchVendors(searchInput);
-//        } else {
-//            vendorPage = vendorRepository.searchVendorsByUser(userDetails, searchInput);
+//        if (userDetails == null) {
+//            throw new RuntimeException("User not found for ID: " + userId);
 //        }
 //
-//        // Prepare response
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("vendors", vendorPage.getContent());
-//        response.put("currentPage", vendorPage.getNumber() + 1);
-//        response.put("totalItems", vendorPage.getTotalElements());
-//        response.put("totalPages", vendorPage.getTotalPages());
+//        boolean isAdmin = userDetails.getUserRole().stream().anyMatch(role ->role.getName().equalsIgnoreCase("ADMIN"));
 //
-//        return response;
+//        if(isAdmin)
+//        {
+//            List<Vendor> vendorSearch =vendorRepository.searchVendors(searchInput);
+//
+//        }
+//
+//        else {
+//            List<Vendor> vendorSearch = vendorRepository.searchVendorsByUser(userDetails, searchInput);
+//        }
+
 
         return  null ;
     }

@@ -17,7 +17,7 @@ public class VendorReportResponse {
 
     private String generateByPersonName;
 
-    private String assignedByPersonName;
+    private String assignedToPersonName;
 
     private LocalDate startDate;
 
@@ -27,7 +27,13 @@ public class VendorReportResponse {
 
     private String clientName;
 
+	private String clientCompany;
+
+	private String clientMobileNumber;
+
     private String currentStatus;
+
+	private String categoryName;
 
     private String subCategoryName;
 
@@ -57,12 +63,13 @@ public class VendorReportResponse {
 		this.generateByPersonName = generateByPersonName;
 	}
 
-	public String getAssignedByPersonName() {
-		return assignedByPersonName;
+
+	public String getAssignedToPersonName() {
+		return assignedToPersonName;
 	}
 
-	public void setAssignedByPersonName(String assignedByPersonName) {
-		this.assignedByPersonName = assignedByPersonName;
+	public void setAssignedToPersonName(String assignedToPersonName) {
+		this.assignedToPersonName = assignedToPersonName;
 	}
 
 	public LocalDate getStartDate() {
@@ -153,9 +160,27 @@ public class VendorReportResponse {
 		this.overDueTat = overDueTat;
 	}
 
+	public String getClientMobileNumber() {
+		return clientMobileNumber;
+	}
 
-    
+	public void setClientMobileNumber(String clientMobileNumber) {
+		this.clientMobileNumber = clientMobileNumber;
+	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
 
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 
+	public String getClientCompany() {
+		return clientCompany;
+	}
+
+	public void setClientCompany(String clientCompany) {
+		this.clientCompany = clientCompany;
+	}
 }

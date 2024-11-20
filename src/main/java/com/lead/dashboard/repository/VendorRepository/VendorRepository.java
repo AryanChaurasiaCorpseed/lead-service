@@ -62,8 +62,5 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     List<Vendor> searchVendors(@Param("searchInput") String searchInput);
 
 
-
-
-
-
+//    List<Vendor> searchVendorsByUser(User userDetails, String searchInput);
 }
