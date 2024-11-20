@@ -864,11 +864,21 @@ public class VendorServiceImpl implements VendorService {
 
     public Map<String, Object> searchVendors(Long userId, String searchInput) {
 
-//        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
-//
-//        if (userDetails == null) {
-//            throw new RuntimeException("User not found for ID: " + userId);
-//        }
+
+
+        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
+
+        if (userDetails == null) {
+            throw new RuntimeException("User not found for ID: " + userId);
+        }
+
+        boolean isAdmin = userDetails.getUserRole().stream().anyMatch(role ->role.getName().equalsIgnoreCase("ADMIN"));
+
+        if(isAdmin)
+        {
+            List<Vendor> vendorSearch =vendorRepository.searchVendors(searchInput);
+
+        }
 //
 //        Pageable pageable = PageRequest.of(page - 1, size);
 //

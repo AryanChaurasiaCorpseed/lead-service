@@ -4,6 +4,7 @@ package com.lead.dashboard.controller.vendorController;
 import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
+import com.lead.dashboard.dto.request.VendorReportRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.VendorHistoryUpdated;
@@ -171,29 +172,31 @@ public class VendorController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     @GetMapping(UrlsMapping.VENDOR_REPORT)
-    public ResponseEntity<?> fetchVendorReport(@RequestParam Long userIdBy,
-                                               @RequestParam(required = false) String status,
-                                               @RequestParam(required = false) LocalDate startDate,
-                                               @RequestParam(required = false) LocalDate endDate,
-                                               @RequestParam(required = false) List<Long> userId) {
+    public ResponseEntity<?> fetchVendorReport(@RequestBody VendorReportRequest vendorReportRequest) {
         try {
-            // Default date handling: Current month's start date and today's date
-            if (startDate == null) {
-                startDate = LocalDate.now().withDayOfMonth(1); // Start of the current month
+
+            if (vendorReportRequest.getStartDate() == null) {
+                vendorReportRequest.setStartDate(LocalDate.now().withDayOfMonth(1));
             }
-            if (endDate == null) {
-                endDate = LocalDate.now(); // Current date
+            if (vendorReportRequest.getEndDate() == null) {
+                vendorReportRequest.setEndDate(LocalDate.now());
             }
 
-            Map<String, Object> vendorRequestResponse = vendorService.fetchVendorReport(userIdBy, status, startDate, endDate, userId);
+            Map<String, Object> vendorRequestResponse = vendorService.fetchVendorReport(
+                    vendorReportRequest.getUserIdBy(),
+                    vendorReportRequest.getStatus(),
+                    vendorReportRequest.getStartDate(),
+                    vendorReportRequest.getEndDate(),
+                    vendorReportRequest.getUserId()
+            );
             return new ResponseEntity<>(vendorRequestResponse, HttpStatus.OK);
         } catch (Exception e) {
             String msg = e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping(UrlsMapping.VENDOR_SEARCH)
     public ResponseEntity<?> searchVendorDetails(@RequestParam Long userId,@RequestParam String searchInput) {
