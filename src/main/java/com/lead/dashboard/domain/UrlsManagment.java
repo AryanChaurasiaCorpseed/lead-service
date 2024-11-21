@@ -34,6 +34,12 @@ public class UrlsManagment {
 	List<Slug>urlSlug;
 	boolean isQuality;
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="url_similar_slug",joinColumns = {@JoinColumn(name="urls_managment_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="url_similar_slug_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<Slug>urlSimilarSlug;
+	
 	boolean isProduct;
 	
 	public Long getId() {
@@ -66,13 +72,12 @@ public class UrlsManagment {
 	public void setProduct(boolean isProduct) {
 		this.isProduct = isProduct;
 	}
-	
-	
-	
-	
-	
-	
-	
+	public List<Slug> getUrlSimilarSlug() {
+		return urlSimilarSlug;
+	}
+	public void setUrlSimilarSlug(List<Slug> urlSimilarSlug) {
+		this.urlSimilarSlug = urlSimilarSlug;
+	}
 	
 	
 	  

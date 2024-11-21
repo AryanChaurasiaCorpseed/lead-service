@@ -20,6 +20,7 @@ import com.lead.dashboard.domain.Role;
 import com.lead.dashboard.domain.Slug;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.dto.EditUrlsDto;
+import com.lead.dashboard.dto.SimilarSlugDto;
 import com.lead.dashboard.dto.UrlsDto;
 import com.lead.dashboard.repository.SlugRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
@@ -27,10 +28,10 @@ import com.lead.dashboard.repository.UrlsManagmentRepo;
 @RestController
 @RequestMapping("/leadService/api/v1")
 public class UrlsManagmentController {
-	
+
 	@Autowired
 	SlugRepository slugRepository;
-	
+
 	@Autowired
 	UrlsManagmentRepo urlsManagmentRepo;
 
@@ -46,7 +47,7 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
-	
+
 	@PutMapping("/urls/updateUrls")
 	public 	UrlsManagment updateUrls(@RequestBody EditUrlsDto editUrlsDto) {
 		UrlsManagment urlsManagment = urlsManagmentRepo.findById(editUrlsDto.getUrlsId()).get();
@@ -60,26 +61,26 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
-	
-	
+
+
 	@GetMapping("/urls/getUrls")
 	public 	List<UrlsManagment> getUrls(@RequestParam(required=false) int pageSize,@RequestParam(required=false)  int pageNo) {	
-		
+
 		PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize);
-     	Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
-     	List<UrlsManagment>urlsList=urls.getContent();
+		Page<UrlsManagment> urls = urlsManagmentRepo.findAll(pageRequest);
+		List<UrlsManagment>urlsList=urls.getContent();
 		return urlsList;
 	}
-	
-	
+
+
 	@GetMapping("/urls/getAllUrls")
 	public 	List<UrlsManagment> getAllUrls() {	
-		
-     	List<UrlsManagment> urlsList = urlsManagmentRepo.findAll();
+
+		List<UrlsManagment> urlsList = urlsManagmentRepo.findAll();
 		return urlsList;
 	}
-	
-	
+
+
 	@GetMapping("/urls/getSlugByUrlId")
 	public 	List<Slug> getSlugByUrlId(@RequestParam Long id) {	
 		Optional<UrlsManagment> urlsOp = urlsManagmentRepo.findById(id);
@@ -87,16 +88,25 @@ public class UrlsManagmentController {
 		if(urlsOp!=null && urlsOp.get()!=null) {
 			UrlsManagment url = urlsOp.get();
 			urlsList= url.getUrlSlug();
-			
+
 		}
 		return urlsList;
 	}
 	@GetMapping("/urls/getGlobalSearchUrls")
 	public 	List<UrlsManagment> getGlobalSearchUrls(@RequestParam String name) {	
-		
-     	List<UrlsManagment> urlsList = urlsManagmentRepo.findAllGlobal(name);
+
+		List<UrlsManagment> urlsList = urlsManagmentRepo.findAllGlobal(name);
 		return urlsList;
 	}
 
-	
+	@PostMapping("/urls/createUrls")
+	public 	UrlsManagment addSimilarSlug(@RequestBody SimilarSlugDto similarSlugDto) {
+		UrlsManagment urlsManagment = urlsManagmentRepo.findById(similarSlugDto.getId()).get();
+		List<Slug> slugList = slugRepository.findAllByIdIn(similarSlugDto.getUrlSlugIds());
+		urlsManagment.setUrlSimilarSlug(slugList);
+		urlsManagmentRepo.save(urlsManagment);
+		return urlsManagment;
+	}
+
+
 }
