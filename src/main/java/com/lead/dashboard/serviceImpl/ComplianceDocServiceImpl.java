@@ -145,5 +145,14 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 		}
 		
 	}
+
+	@Override
+	public Map<String, Object> getComplianceDocByName(String name) {
+		Product p=productRepo.findByName(name);
+		Map<String, Object>res=new HashMap<>();
+		res.put("name", p.getProductName());
+		res.put("productDoc", p.getProductDoc());
+		return res;
+	}
 	
 }

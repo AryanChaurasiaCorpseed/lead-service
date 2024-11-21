@@ -58,9 +58,15 @@ public class ComplianceDocumentController {
 	
 	@GetMapping(UrlsMapping.MOVE_COMPLIANCE_DOC)
 	public void moveComplianceDoc(){
-		 complianceDocService.moveComplianceDoc();	
+		 complianceDocService.moveComplianceDoc();
 		
 	}
 	
+	@GetMapping(UrlsMapping.GET_COMPLIANCE_DOC_BY_NAME)
+	public Map<String, Object> getComplianceDocByName(@RequestParam String name){
+		Map<String, Object>res=complianceDocService.getComplianceDocByName(name);	
+		return res;
+		
+	}
 	
 } 

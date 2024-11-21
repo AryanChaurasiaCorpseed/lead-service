@@ -18,4 +18,6 @@ public interface ComplianceDocService {
 
 	public void moveComplianceDoc();
 
+	public Map<String, Object> getComplianceDocByName(String name);
+
 }
