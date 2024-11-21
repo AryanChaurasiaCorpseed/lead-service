@@ -286,9 +286,11 @@ public class VendorServiceImpl implements VendorService {
 
         String[] mailCc = new String[]{mailSentBy.getEmail(), createdByEmail};
 
-
+        // Send Agreement Email if agreement details are provided
+        String agreementImages = null;
         if (vendorQuotationRequest.getAgreementName() != null && !vendorQuotationRequest.getAgreementName().isEmpty() &&
-                vendorQuotationRequest.getAgreementWithClientDocumentPath() != null && !vendorQuotationRequest.getAgreementWithClientDocumentPath().isEmpty()) {
+                vendorQuotationRequest.getAgreementWithClientDocumentPath() != null &&
+                !vendorQuotationRequest.getAgreementWithClientDocumentPath().isEmpty()) {
 
             String agreementSubject = "Agreement for - " + vendor.getVendorCategory().getVendorCategoryName();
 
@@ -302,6 +304,9 @@ public class VendorServiceImpl implements VendorService {
                         vendorQuotationRequest,
                         mailSentBy,
                         vendorCategory);
+
+                agreementImages = vendorQuotationRequest.getAgreementWithClientDocumentPath()
+                        .substring(vendorQuotationRequest.getAgreementWithClientDocumentPath().lastIndexOf("/") + 1);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to send agreement email: " + e.getMessage());
             }
@@ -309,51 +314,50 @@ public class VendorServiceImpl implements VendorService {
             System.out.println("Agreement email not sent as agreementName or agreementWithClientDocumentPath is missing.");
         }
 
+        // Send Research Email if research details are provided
         if (vendorQuotationRequest.getResearchName() != null && !vendorQuotationRequest.getResearchName().isEmpty() &&
                 vendorQuotationRequest.getResearchDocumentName() != null && !vendorQuotationRequest.getResearchDocumentName().isEmpty()) {
 
-            // Fetch the list of users based on designation and department
             List<User> userList = userRepository.findByDesignationAndDepartment("Operations", "Operations Managers");
-
-
-            List<String> emailList= userList.stream().map(User::getEmail).collect(Collectors.toList());
-
-            String[] operationEmailId= emailList.toArray(new String[0]);
+            List<String> emailList = userList.stream().map(User::getEmail).collect(Collectors.toList());
+            String[] operationEmailId = emailList.toArray(new String[0]);
 
             String researchSubject = "Research for - " + vendor.getVendorCategory().getVendorCategoryName();
 
             try {
                 String[] sentByVendorInCC = new String[]{mailSentBy.getEmail()};
 
-                // Send the email
                 mailSendSerivce.sendEmailForResearch(
-                        operationEmailId, // Pass the list of emails as mailTo
+                        operationEmailId,
                         researchSubject,
                         sentByVendorInCC,
                         vendorCategory
                 );
             } catch (Exception e) {
-                throw new RuntimeException("Failed to send Research email: " + e.getMessage());
+                throw new RuntimeException("Failed to send research email: " + e.getMessage());
             }
         } else {
-            System.out.println("Research email not sent as  researchDocumentName is missing.");
+            System.out.println("Research email not sent as researchDocumentName is missing.");
         }
 
-
+        // Send Quotation Email
         String subject = "Quotation for - " + vendor.getVendorCategory().getVendorCategoryName();
 
         try {
-            mailSendSerivce.sendEmailWithAttachmentForVendor(mailTo, mailCc, subject,vendorQuotationRequest,
-                    mailSentBy, vendorCategory, vendorSubCategory);
-
-
+            mailSendSerivce.sendEmailWithAttachmentForVendor(
+                    mailTo,
+                    mailCc,
+                    subject,
+                    vendorQuotationRequest,
+                    mailSentBy,
+                    vendorCategory,
+                    vendorSubCategory
+            );
         } catch (Exception e) {
             throw new RuntimeException("Failed to send quotation email: " + e.getMessage());
         }
-        String agreementImages = vendorQuotationRequest.getAgreementWithClientDocumentPath().
-                substring(vendorQuotationRequest.getAgreementWithClientDocumentPath().lastIndexOf("/") + 1);
 
-        // Update vendor and history
+        // Update Vendor and History
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
         vendorUpdateHistory.setRaisedBy(mailSentBy);
@@ -374,8 +378,11 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setDeleted(false);
         vendorUpdateHistory.setDate(LocalDate.now());
         vendorUpdateHistory.setCurrentUpdatedDate(LocalDate.now());
-        vendorUpdateHistory.setAgreementName(vendorQuotationRequest.getAgreementName());
-        vendorUpdateHistory.setAgreementName(agreementImages);
+
+        // Set agreement name if available
+        if (agreementImages != null) {
+            vendorUpdateHistory.setAgreementName(agreementImages);
+        }
 
         vendorUpdateHistory.setVendorCategory(vendorCategory.orElse(null));
         vendorUpdateHistory.setVendorSubCategory(vendorSubCategory.orElse(null));
