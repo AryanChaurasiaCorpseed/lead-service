@@ -146,9 +146,9 @@ public class LeadController {
 			List<Map<String,Object>> alllead= leadservice.getAllLeadForImport(allLeadFilter,page-1,size);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-//			List<Lead> alllead= leadservice.getAllActiveCustomerLeadV3(allLeadFilter,page-1,size);
+			List<Map<String,Object>> alllead= leadservice.getAllActiveCustomerLeadForExport(allLeadFilter,page-1,size);
 
-			return new ResponseEntity<>(null,HttpStatus.OK);
+			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
 
 	}

@@ -546,6 +546,75 @@ public class LeadServiceImpl implements LeadService  {
 		}
 
 	}
+	
+	
+	public List<Map<String, Object>> getAllActiveCustomerLeadForExport(AllLeadFilter allLeadFilter, int page, int size) {
+		String toDate=allLeadFilter.getToDate();
+		String fromDate=allLeadFilter.getFromDate();
+		Long uId=allLeadFilter.getUserId();
+		List<Long>userList=allLeadFilter.getUserIdFilter();
+		Optional<User> user = userRepo.findById(uId);
+		List<Object[]>arrList = new ArrayList<>();
+		Pageable pageable = PageRequest.of(page, size);
+		if(toDate!=null && (!toDate.equals("")) && fromDate!=null &&(!fromDate.equals(""))) {
+			//			String startDate = convertLongToStringDateFormat(toDate);
+			//			String endDate = convertLongToStringDateFormat(fromDate);
+			String startDate = toDate;
+			String endDate = fromDate;
+			System.out.println(startDate+"  - - - - - ---- - - - - - "+endDate);
+			if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+				if(userList!=null &&userList.size()!=0) {
+					arrList= leadRepository.findByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
+				}else {
+					arrList= leadRepository.findByIsDeletedAndInBetweenDate(false,startDate,endDate);
+				}
+				//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+			}else {
+				arrList= leadRepository.findByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
+			}
+		}else {
+			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
+				//				return leadRepository.findAllByIsDeleted(false);
+				if(userList!=null &&userList.size()!=0) {
+					arrList= leadRepository.findByIsDeleted(false,userList);
+				}else {
+					arrList= leadRepository.findByStatusIdAndIsDeleted(1l,false);
+				}
+			}else {
+				arrList= leadRepository.findByAssigneeAndIsDeleted(uId, false);
+			}
+
+
+		}
+		 List<Map<String,Object>>res=new ArrayList<>();
+			for(Object[] l:arrList) {
+				Map<String,Object>map=new HashMap<>();
+				map.put("id",l[0]);
+	//l.lead_name,l.count,l.client_mob_no,l.email as client_email,sd.status_name ,u.full_name as assignee_name,u.email as assignee_email,
+//				l.create_date,l.source,l.is_reopen_by_quality ,ua.email as reopen_by_quality
+				map.put("leadName",l[1]);
+				map.put("count",l[2]);
+				map.put("clientMobNo",l[3]);
+				map.put("clientEmail",l[4]);
+				map.put("status",l[5]);
+				map.put("assigneeName",l[6]);
+				map.put("assigneeEmail",l[7]);
+				map.put("createDate",l[8]);
+				map.put("source",l[9]);
+				map.put("isReopenByQuality",l[10]);
+				map.put("reopenBy",l[11]);
+				map.put("clientName",l[12]);
+				map.put("createdBy",l[13]);
+				map.put("updatedBy",l[14]);
+
+				
+				
+				res.add(map);
+			}
+			return res;
+
+
+	}
 
 	public Integer getAllActiveCustomerLeadCount(AllLeadFilter allLeadFilter) {
 		String toDate=allLeadFilter.getToDate();
@@ -1240,10 +1309,10 @@ public class LeadServiceImpl implements LeadService  {
 
 				//				leadList= leadRepository.findAllByStatusAndIsDeletedAndInBetweenDate(statusId,flag,startDate,endDate);
 				if(userList!=null &&userList.size()!=0) {
-
 					leadList= leadRepository.findByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(statusIds,flag,startDate,endDate,userList);
 
 				}else {
+
 					leadList= leadRepository.findByStatusIdInAndIsDeletedAndInBetweenDate(statusIds,flag,startDate,endDate);
 
 				}
@@ -1259,7 +1328,6 @@ public class LeadServiceImpl implements LeadService  {
 				}
 
 			}else {
-
 				leadList= leadRepository.findByAssigneeAndStatusIdInAndIsDeleted(userId,statusIds,flag);
 			}
 		}
