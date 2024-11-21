@@ -316,7 +316,7 @@ public class VendorServiceImpl implements VendorService {
 
         // Send Research Email if research details are provided
         if (vendorQuotationRequest.getResearchName() != null && !vendorQuotationRequest.getResearchName().isEmpty() &&
-                vendorQuotationRequest.getResearchDocumentName() != null && !vendorQuotationRequest.getResearchDocumentName().isEmpty()) {
+                vendorQuotationRequest.getResearchDocumentPath() != null && !vendorQuotationRequest.getResearchDocumentPath().isEmpty()) {
 
             List<User> userList = userRepository.findByDesignationAndDepartment("Operations", "Operations Managers");
             List<String> emailList = userList.stream().map(User::getEmail).collect(Collectors.toList());

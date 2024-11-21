@@ -52,7 +52,7 @@ public class VendorQuotationRequest {
 
 	private String researchName;
 
-	private String researchDocumentName;
+	private String researchDocumentPath;
 
 
 public String getClientName() {
@@ -199,14 +199,11 @@ public void setResearchName(String researchName) {
 	this.researchName = researchName;
 }
 
-public String getResearchDocumentName() {
-	return researchDocumentName;
-}
+	public String getResearchDocumentPath() {
+		return researchDocumentPath;
+	}
 
-public void setResearchDocumentName(String researchDocumentName) {
-	this.researchDocumentName = researchDocumentName;
-}
-    
-  
-
+	public void setResearchDocumentPath(String researchDocumentPath) {
+		this.researchDocumentPath = researchDocumentPath;
+	}
 }
