@@ -99,7 +99,7 @@ public class UrlsManagmentController {
 		return urlsList;
 	}
 
-	@PostMapping("/urls/createUrls")
+	@PostMapping("/urls/addSimilarSlug")
 	public 	UrlsManagment addSimilarSlug(@RequestBody SimilarSlugDto similarSlugDto) {
 		UrlsManagment urlsManagment = urlsManagmentRepo.findById(similarSlugDto.getId()).get();
 		List<Slug> slugList = slugRepository.findAllByIdIn(similarSlugDto.getUrlSlugIds());
