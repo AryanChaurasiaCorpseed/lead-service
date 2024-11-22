@@ -50,6 +50,7 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setPrimaryContact(contact);
 			Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
 			proposal.setSecondaryContact(secondaryContact);
+			Long assigneeId = createservicedetails.getAssigneeId();
 			// company
 			proposal.setIsPresent(createservicedetails.getIsPresent());
 			proposal.setCompanyName(createservicedetails.getCompanyName());
@@ -128,5 +129,11 @@ public class ProposalServiceImpl implements ProposalService{
 		}
 		return flag;
 
+	}
+
+	@Override
+	public Proposal getProposalById(Long id) {
+		Proposal p=proposalRepository.findById(id).get();
+		return p;
 	}
 }

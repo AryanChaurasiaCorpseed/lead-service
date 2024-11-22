@@ -35,7 +35,7 @@ public class LeadEstimateController {
         return res;
     }
     @GetMapping(UrlsMapping.GET_ALL_ESTIMATE)
-    public List<ServiceDetails> getAllEstimate()
+    public List<ServiceDetails> getAllEst̥imate()
     {
     	List<ServiceDetails> res=estimateService.getAllEstimate();
         return res;
