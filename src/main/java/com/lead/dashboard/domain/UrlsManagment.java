@@ -34,7 +34,7 @@ public class UrlsManagment {
 	List<Slug>urlSlug;
 	boolean isQuality;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="url_similar_slug",joinColumns = {@JoinColumn(name="urls_managment_id",referencedColumnName="id",nullable=true)},
 			inverseJoinColumns = {@JoinColumn(name="url_similar_slug_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
