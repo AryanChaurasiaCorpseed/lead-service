@@ -107,6 +107,19 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
+	
+	
+	@GetMapping("/urls/getSimilarSlugByUrlId")
+	public 	List<Slug> getSimilarSlugByUrlId(@RequestParam Long id) {	
+		Optional<UrlsManagment> urlsOp = urlsManagmentRepo.findById(id);
+		List<Slug> urlsList = new ArrayList<>();
+		if(urlsOp!=null && urlsOp.get()!=null) {
+			UrlsManagment url = urlsOp.get();
+			urlsList= url.getUrlSimilarSlug();
+
+		}
+		return urlsList;
+	}
 
 
 }
