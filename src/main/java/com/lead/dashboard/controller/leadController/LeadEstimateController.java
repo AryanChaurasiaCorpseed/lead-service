@@ -61,5 +61,12 @@ public class LeadEstimateController {
     	ServiceDetails res=estimateService.editEstimateAddress(editEstimateAddress);
         return res;
     }
+    
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_LEAD_ID)
+    public ServiceDetails getEstimateByLeadId(@RequestParam Long  leadId)
+    {
+    	ServiceDetails res=estimateService.getEstimateByLeadId(leadId);
+        return res;
+    }
 }
 

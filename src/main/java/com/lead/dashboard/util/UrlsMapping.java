@@ -65,7 +65,8 @@ public class UrlsMapping {
 	public static final String GET_ESTIMATE=PREFIX+"/leadEstimate/getEstimate";	
 	public static final String EDIT_ESTIMATE_INVOICE=PREFIX+"/leadEstimate/editEstimateInvoice";
 	public static final String EDIT_ESTIMATE_ADDRESS=PREFIX+"/leadEstimate/editEstimateAddress";
-	
+	public static final String GET_ESTIMATE_BY_LEAD_ID=PREFIX+"/leadEstimate/getEstimateByLeadId";	
+
 	// - - - -  - - ---     create proposal - - - - -  
 	public static final String CREATE_PROPOSAL=PREFIX+"/proposal/createProposal";
 	public static final String GET_PROPOSAL_BY_ID=PREFIX+"/proposal/getProposalById";

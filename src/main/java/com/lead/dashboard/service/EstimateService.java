@@ -23,4 +23,6 @@ public interface EstimateService {
 
 	ServiceDetails editEstimateAddress(EditEstimateAddress editEstimateAddress);
 
+	ServiceDetails getEstimateByLeadId(Long leadId);
+
 }

@@ -245,7 +245,7 @@ public class EstimateServiceImpl implements EstimateService
 			 serviceDetails.setUnitId(createservicedetails.getUnitId());
 			 serviceDetails.setPanNo(createservicedetails.getPanNo());
 			 serviceDetails.setGstNo(createservicedetails.getGstNo());
-
+			 serviceDetails.setLeadId(createservicedetails.getLeadId());
 			 serviceDetails.setGstType(createservicedetails.getGstType());
 			 serviceDetails.setGstDocuments(createservicedetails.getGstDocuments());
 			 serviceDetails.setCompanyAge(createservicedetails.getCompanyAge());
@@ -395,6 +395,12 @@ public class EstimateServiceImpl implements EstimateService
 		serviceDetailsRepository.save(service);
 
 		return service;
+	}
+
+	@Override
+	public ServiceDetails getEstimateByLeadId(Long leadId) {
+		ServiceDetails s=serviceDetailsRepository.findByLeadId(leadId);
+		return s;
 	}
 
 }
