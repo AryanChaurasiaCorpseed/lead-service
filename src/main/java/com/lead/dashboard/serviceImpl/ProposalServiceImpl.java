@@ -1,6 +1,7 @@
 package com.lead.dashboard.serviceImpl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,5 +136,13 @@ public class ProposalServiceImpl implements ProposalService{
 	public Proposal getProposalById(Long id) {
 		Proposal p=proposalRepository.findById(id).get();
 		return p;
+	}
+
+	@Override
+	public List<Proposal> getAllProposalByUserId(Long userId) {
+		
+		List<Proposal>proposalList= proposalRepository.findAllByUserId(userId);
+		
+		return proposalList;
 	}
 }

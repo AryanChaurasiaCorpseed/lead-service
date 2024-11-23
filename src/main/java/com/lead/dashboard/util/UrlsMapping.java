@@ -71,6 +71,7 @@ public class UrlsMapping {
 	// - - - -  - - ---     create proposal - - - - -  
 	public static final String CREATE_PROPOSAL=PREFIX+"/proposal/createProposal";
 	public static final String GET_PROPOSAL_BY_ID=PREFIX+"/proposal/getProposalById";
+	public static final String GET_ALL_PROPOSAL_BY_USER_ID=PREFIX+"/proposal/getAllProposalByUserId";
 
 	
 	

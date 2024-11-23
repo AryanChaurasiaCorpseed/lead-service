@@ -37,4 +37,11 @@ public class ProposalController {
     	Proposal res=proposalService.getProposalById(id);
         return res;
     }
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_USER_ID)
+    public List<Proposal> getAllProposalByUserId(@RequestParam Long userId)
+    {
+		List<Proposal> res=proposalService.getAllProposalByUserId(userId);
+        return res;
+    }
 }
