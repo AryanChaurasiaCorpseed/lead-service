@@ -68,5 +68,12 @@ public class LeadEstimateController {
     	ServiceDetails res=estimateService.getEstimateByLeadId(leadId);
         return res;
     }
+    
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
+    public List<ServiceDetails> getEstimateByUserId(@RequestParam Long  userId)
+    {
+    	 List<ServiceDetails> res=estimateService.getEstimateByUserId(userId);
+        return res;
+    }
 }
 

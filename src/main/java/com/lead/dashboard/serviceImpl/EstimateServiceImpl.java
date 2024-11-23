@@ -15,6 +15,7 @@ import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateServiceDetails;
@@ -401,6 +402,18 @@ public class EstimateServiceImpl implements EstimateService
 	public ServiceDetails getEstimateByLeadId(Long leadId) {
 		ServiceDetails s=serviceDetailsRepository.findByLeadId(leadId);
 		return s;
+	}
+
+	@Override
+	public List<ServiceDetails> getEstimateByUserId(Long userId) {
+		Optional<User> user = userRepo.findById(userId);
+		List<ServiceDetails>arrList = new ArrayList<>();
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+			arrList=serviceDetailsRepository.findAll();
+		}else {
+			arrList=serviceDetailsRepository.findAllByAssigneeId(userId);
+		}
+		return arrList;
 	}
 
 }
