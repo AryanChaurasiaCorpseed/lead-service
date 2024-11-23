@@ -54,13 +54,26 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
 
     @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.date BETWEEN :startDate AND :endDate")
     List<Vendor> findAllByAssignedUserAndDateRange(@Param("userId") Long userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
+//
 //    @Query("SELECT v FROM Vendor v WHERE " +
 //            "LOWER(v.clientCompanyName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
 //            "LOWER(v.clientName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
-//            "v.clientMobileNumber LIKE CONCAT('%', :searchInput, '%')")
+//            "v.clientMobileNumber LIKE CONCAT('%', :searchInput, '%') OR " +
+//            "v.clientEmailId Like CONCAT('%', :searchInput, '%'");
 //    List<Vendor> searchVendors(@Param("searchInput") String searchInput);
-//// complete search API
-//
-//    List<Vendor> searchVendorsByUser(User userDetails, String searchInput);
+    @Query("SELECT v FROM Vendor v WHERE " +
+            "LOWER(v.clientCompanyName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
+            "LOWER(v.clientName) LIKE LOWER(CONCAT('%', :searchInput, '%')) OR " +
+            "v.clientMobileNumber LIKE CONCAT('%', :searchInput, '%') OR " +
+            "v.clientEmailId LIKE CONCAT('%', :searchInput, '%')")
+    List<Vendor> searchVendors(@Param("searchInput") String searchInput);
+
+    @Query("SELECT v FROM Vendor v " +
+            "WHERE v.assignedUser = :userDetails " +
+            "AND (LOWER(v.clientName) LIKE LOWER(CONCAT('%', :searchInput, '%')) " +
+            "OR LOWER(v.clientCompanyName) LIKE LOWER(CONCAT('%', :searchInput, '%')) " +
+            "OR LOWER(v.clientMobileNumber) LIKE (CONCAT('%', :searchInput, '%')) " +
+            "OR LOWER(v.clientEmailId) LIKE LOWER(CONCAT('%', :searchInput, '%')))")
+    List<Vendor> searchVendorsByUser(@Param("userDetails") User userDetails,
+                                     @Param("searchInput") String searchInput);
 }
