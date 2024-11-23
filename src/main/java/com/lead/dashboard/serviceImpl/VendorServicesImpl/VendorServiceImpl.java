@@ -801,7 +801,7 @@ public class VendorServiceImpl implements VendorService {
                 }
 
                 if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    vendorReportResponses.add(prepareVendorReportResponse(vendor, userDetails, startDate, endDate));
+                    vendorReportResponses.add(prepareVendorReportResponse(vendor,startDate, endDate));
                 }
             }
         } else {
@@ -821,7 +821,7 @@ public class VendorServiceImpl implements VendorService {
                 }
 
                 if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    vendorReportResponses.add(prepareVendorReportResponse(vendor, userDetails, startDate, endDate));
+                    vendorReportResponses.add(prepareVendorReportResponse(vendor,startDate, endDate));
                 }
             }
         }
@@ -831,10 +831,10 @@ public class VendorServiceImpl implements VendorService {
         return responseMap;
     }
 
-    private VendorReportResponse prepareVendorReportResponse(Vendor vendor, User userDetails, LocalDate startDate, LocalDate endDate) {
+    private VendorReportResponse prepareVendorReportResponse(Vendor vendor,LocalDate startDate, LocalDate endDate) {
         VendorReportResponse response = new VendorReportResponse();
         response.setId(vendor.getId());
-        response.setGenerateByPersonName(userDetails.getFullName());
+        response.setGenerateByPersonName(vendor.getAddedBy().getFullName());
         response.setAssignedToPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
         response.setStartDate(startDate);
         response.setEndDate(endDate);
@@ -871,31 +871,125 @@ public class VendorServiceImpl implements VendorService {
         return response;
     }
 
+    @Override
     public Map<String, Object> searchVendors(Long userId, String searchInput) {
+        // Find user details by userId
+        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
+        if (userDetails == null) {
+            throw new RuntimeException("User not found for ID: " + userId);
+        }
 
+        // Determine if the user is an admin
+        boolean isAdmin = userDetails.getUserRole().stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN"));
 
+        // Fetch vendor data based on the user's role
+        List<Vendor> vendorList;
+        if (isAdmin) {
+            vendorList = vendorRepository.searchVendors(searchInput); // Admin query
+        } else {
+            vendorList = vendorRepository.searchVendorsByUser(userDetails, searchInput); // Non-admin query
+        }
 
-//        User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userId);
-//
-//        if (userDetails == null) {
-//            throw new RuntimeException("User not found for ID: " + userId);
-//        }
-//
-//        boolean isAdmin = userDetails.getUserRole().stream().anyMatch(role ->role.getName().equalsIgnoreCase("ADMIN"));
-//
-//        if(isAdmin)
-//        {
-//            List<Vendor> vendorSearch =vendorRepository.searchVendors(searchInput);
-//
-//        }
-//
-//        else {
-//            List<Vendor> vendorSearch = vendorRepository.searchVendorsByUser(userDetails, searchInput);
-//        }
+        // Prepare response DTO list
+        List<VendorAllResponse> vendorResponseDTOList = new ArrayList<>();
+        for (Vendor vendor : vendorList) {
+            VendorAllResponse vendorResponseDTO = new VendorAllResponse();
+            vendorResponseDTO.setId(vendor.getId());
+            vendorResponseDTO.setClientEmailId(vendor.getClientEmailId());
+            vendorResponseDTO.setClientCompanyName(vendor.getClientCompanyName());
+            vendorResponseDTO.setClientName(vendor.getClientName());
+            vendorResponseDTO.setClientMobileNumber(vendor.getClientMobileNumber());
+            vendorResponseDTO.setRequirementDescription(vendor.getRequirementDescription());
+            vendorResponseDTO.setStatus(vendor.getStatus());
+            vendorResponseDTO.setProposalSentStatus(vendor.isProposalSentStatus());
+            vendorResponseDTO.setLeadId(vendor.getLead() != null ? vendor.getLead().getId() : null);
+            vendorResponseDTO.setLeadName(vendor.getLead() != null ? vendor.getLead().getLeadName() : null);
+            vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
+            vendorResponseDTO.setReceivedDate(vendor.getDate());
+            vendorResponseDTO.setSubCategoryTatDays(vendor.getVendorSubCategory().getVendorCompletionTat());
 
+            LocalDate requestCreatedDate = vendor.getDate();
+            int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
 
-        return  null ;
+            VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
+                    .stream()
+                    .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
+                    .max(Comparator.comparing(VendorUpdateHistory::getDate))
+                    .orElse(null);
+
+            if (finishedUpdate != null) {
+                LocalDate completedDate = finishedUpdate.getDate();
+                vendorResponseDTO.setCompletedDate(completedDate);
+                int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
+                vendorResponseDTO.setCompletionDays(daysTaken);
+                vendorResponseDTO.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
+                vendorResponseDTO.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
+            } else {
+                int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+                vendorResponseDTO.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
+                vendorResponseDTO.setOverDueTat(0);
+            }
+
+            vendorResponseDTO.setAssigneeId(vendor.getAssignedUser().getId());
+            vendorResponseDTO.setAssigneeName(vendor.getAssignedUser().getFullName());
+            vendorResponseDTO.setVendorCategoryName(
+                    vendor.getVendorCategory() != null ? vendor.getVendorCategory().getVendorCategoryName() : null
+            );
+            vendorResponseDTO.setVendorCategoryId(
+                    vendor.getVendorCategory() != null ? vendor.getVendorCategory().getId() : null
+            );
+            vendorResponseDTO.setVendorSubCategoryId(
+                    vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getId() : null
+            );
+            vendorResponseDTO.setVendorSubCategoryName(
+                    vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null
+            );
+            vendorResponseDTO.setRaiseBy(vendor.getUser().getFullName());
+            vendorResponseDTO.setView(vendor.isView());
+            vendorResponseDTO.setViewedBy(
+                    vendor.getViewedBy() != null ? vendor.getViewedBy().getFullName() : null
+            );
+
+            List<String> fullImagePaths = new ArrayList<>();
+            for (String imagePath : vendor.getSalesAttachmentImage()) {
+                fullImagePaths.add(awsConfig.getS3BaseUrl() + imagePath);
+            }
+            vendorResponseDTO.setSalesAttachmentImage(fullImagePaths);
+
+            List<VendorUpdateHistoryAllResponse> updateHistoryDTOList = new ArrayList<>();
+            for (VendorUpdateHistory history : vendor.getVendorUpdateHistory()) {
+                VendorUpdateHistoryAllResponse historyDTO = new VendorUpdateHistoryAllResponse();
+                historyDTO.setId(history.getId());
+                historyDTO.setRequestStatus(history.getRequestStatus());
+                historyDTO.setUpdateDescription(history.getUpdateDescription());
+                historyDTO.setUpdateDate(history.getUpdateDate());
+                historyDTO.setBudgetPrice(history.getBudgetPrice());
+                historyDTO.setProposalSentStatus(history.isProposalSentStatus());
+                historyDTO.setQuotationAmount(history.getQuotationAmount());
+                historyDTO.setAgreement(awsConfig.getS3BaseUrl() + history.getAgreementName());
+
+                historyDTO.setVendorCategoryName(
+                        history.getVendorCategory() != null ? history.getVendorCategory().getVendorCategoryName() : null
+                );
+                historyDTO.setVendorSubCategoryName(
+                        history.getVendorSubCategory() != null ? history.getVendorSubCategory().getVendorSubCategoryName() : null
+                );
+
+                updateHistoryDTOList.add(historyDTO);
+            }
+            vendorResponseDTO.setVendorUpdateHistoryAllResponseList(updateHistoryDTOList);
+
+            vendorResponseDTOList.add(vendorResponseDTO);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("vendorsRequests", vendorResponseDTOList);
+        response.put("totalItems", vendorList.size());
+
+        return response;
     }
+
 
 
 }

@@ -14,6 +14,7 @@ import com.lead.dashboard.util.UrlsMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,6 +28,9 @@ public class VendorController {
 
     @Autowired
     VendorService vendorService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @PostMapping(value = UrlsMapping.CREATE_VENDOR_REQUEST)
     public ResponseEntity<Object> createVendorRequest(
@@ -159,11 +163,19 @@ public class VendorController {
 
 
     @DeleteMapping(UrlsMapping.CANCEL_VENDOR_REQUEST)
-    public ResponseEntity<String> cancelRequest(@RequestParam Long vendorRequestId, @RequestParam Long userId,
+    public ResponseEntity<String> cancelRequest(@RequestParam Long vendorRequestId,
+                                                @RequestParam Long userId,
                                                 @RequestParam String cancelReason) {
         try {
-            boolean updated = vendorService.cancelRequest(vendorRequestId, userId,cancelReason);
+            boolean updated = vendorService.cancelRequest(vendorRequestId, userId, cancelReason);
+
             if (updated) {
+                // WebSocket notification
+                String topic = "/topic/user/" + userId; // User-specific topic
+                String notification = String.format("Your vendor request (ID: %d) has been canceled. Reason: %s",
+                        vendorRequestId, cancelReason);
+                messagingTemplate.convertAndSend(topic, notification);
+
                 return new ResponseEntity<>("Vendor request canceled successfully.", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Vendor request not found.", HttpStatus.NOT_FOUND);
@@ -172,6 +184,8 @@ public class VendorController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
     @PostMapping(UrlsMapping.VENDOR_REPORT)
     public ResponseEntity<?> fetchVendorReport(@RequestBody VendorReportRequest vendorReportRequest) {
         try {
