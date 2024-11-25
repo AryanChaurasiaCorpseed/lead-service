@@ -38,10 +38,29 @@ public class ProposalController {
         return res;
     }
 	
-	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_USER_ID)
-    public List<Proposal> getAllProposalByUserId(@RequestParam Long userId)
+//	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_USER_ID)
+    public List<Proposal> getAllProposalByUserIdv1(@RequestParam Long userId)
     {
-		List<Proposal> res=proposalService.getAllProposalByUserId(userId);
+//		List<Proposal> res=proposalService.getAllProposalByUserId(userId);
+//        return res;
+    	return null;
+    }
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_USER_ID)
+    public List<Proposal> getAllProposalByUserId(@RequestParam Long userId,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+    {
+		List<Proposal> res=proposalService.getAllProposalByUserId(userId,page-1,size);
         return res;
+    }
+	
+	
+	
+	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_USER_ID_COUNT)
+    public long getAllProposalByUserIdCount(@RequestParam Long userId)
+    {
+		long res=proposalService.getAllProposalByUserIdCount(userId);
+//         return res;
+    	return res;
     }
 }

@@ -14,6 +14,9 @@ public interface ProposalService {
 
 	Proposal getProposalById(Long id);
 
-	List<Proposal> getAllProposalByUserId(Long userId);
+	List<Proposal> getAllProposalByUserId(Long userId, int page, int size);
+	
+	long getAllProposalByUserIdCount(Long userId);
+
 
 }

@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Contact;
@@ -139,10 +142,16 @@ public class ProposalServiceImpl implements ProposalService{
 	}
 
 	@Override
-	public List<Proposal> getAllProposalByUserId(Long userId) {
-		
-		List<Proposal>proposalList= proposalRepository.findAllByUserId(userId);
+	public List<Proposal> getAllProposalByUserId(Long userId, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		List<Proposal>proposalList= proposalRepository.findAllByUserId(userId,pageable).getContent();
 		
 		return proposalList;
+	}
+
+	@Override
+	public long getAllProposalByUserIdCount(Long userId) {
+		long proposalCount= proposalRepository.findCountByUserId(userId);
+		return proposalCount;
 	}
 }
