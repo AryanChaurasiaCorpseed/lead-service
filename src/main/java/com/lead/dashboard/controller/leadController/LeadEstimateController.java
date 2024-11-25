@@ -69,11 +69,28 @@ public class LeadEstimateController {
         return res;
     }
     
-    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
-    public List<ServiceDetails> getEstimateByUserId(@RequestParam Long  userId)
+//    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
+    public List<ServiceDetails> getEstimateByUserIdV1(@RequestParam Long  userId)
     {
-    	 List<ServiceDetails> res=estimateService.getEstimateByUserId(userId);
+//    	 List<ServiceDetails> res=estimateService.getEstimateByUserId(userId);
+        return null;
+    }
+    
+    
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
+    public List<ServiceDetails> getEstimateByUserId(@RequestParam Long  userId,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+    {
+    	 List<ServiceDetails> res=estimateService.getEstimateByUserId(userId,page-1,size);
+        return res;
+    }   
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID_COUNT)
+    public long getEstimateByUserIdCount(@RequestParam Long  userId)
+    {
+    	 long res=estimateService.getEstimateByUserIdCount(userId);
         return res;
     }
+    
+    
 }
 

@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
@@ -405,15 +407,30 @@ public class EstimateServiceImpl implements EstimateService
 	}
 
 	@Override
-	public List<ServiceDetails> getEstimateByUserId(Long userId) {
+	public List<ServiceDetails> getEstimateByUserId(Long userId, int page, int size) {
+		
 		Optional<User> user = userRepo.findById(userId);
 		List<ServiceDetails>arrList = new ArrayList<>();
+		Pageable pageable = PageRequest.of(page, size);
+
 		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
-			arrList=serviceDetailsRepository.findAll();
+			arrList=serviceDetailsRepository.findAll(pageable).getContent();
 		}else {
-			arrList=serviceDetailsRepository.findAllByAssigneeId(userId);
+			arrList=serviceDetailsRepository.findAllByAssigneeId(userId,pageable).getContent();
 		}
 		return arrList;
+	}
+
+	@Override
+	public long getEstimateByUserIdCount(Long userId) {
+		Optional<User> user = userRepo.findById(userId);
+		long count=0;
+		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+			count=serviceDetailsRepository.findAllCount();
+		}else {
+			count=serviceDetailsRepository.findAllCountByAssigneeId(userId);
+		}
+		return count;
 	}
 
 }

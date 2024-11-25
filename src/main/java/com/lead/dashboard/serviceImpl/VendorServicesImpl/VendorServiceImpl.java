@@ -394,7 +394,7 @@ public class VendorServiceImpl implements VendorService {
         vendor.setSharePriceToClient(vendorUpdateHistory.getQuotationAmount());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
         vendor.setDate(LocalDate.now());
-        vendor.setStatus("Quotation Sent");
+        vendor.setStatus("Finished");
         vendor.setCurrentUpdatedDate(LocalDate.now());
         vendorRepository.save(vendor);
 

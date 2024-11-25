@@ -25,6 +25,8 @@ public interface EstimateService {
 
 	ServiceDetails getEstimateByLeadId(Long leadId);
 
-	List<ServiceDetails> getEstimateByUserId(Long userId);
+	List<ServiceDetails> getEstimateByUserId(Long userId, int page, int size);
+
+	long getEstimateByUserIdCount(Long userId);
 
 }
