@@ -801,7 +801,7 @@ public class VendorServiceImpl implements VendorService {
                 }
 
                 if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    vendorReportResponses.add(prepareVendorReportResponse(vendor,startDate, endDate));
+                    vendorReportResponses.add(prepareVendorReportResponse(vendor,vendor.getDate(), endDate));
                 }
             }
         } else {
