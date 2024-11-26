@@ -2,7 +2,9 @@ package com.lead.dashboard.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -443,14 +445,93 @@ public class EstimateServiceImpl implements EstimateService
 	}
 
 	@Override
-	public ServiceDetails getEstimateByLeadId(Long leadId) {
+	public Map<String,Object> getEstimateByLeadId(Long leadId) {
 		ServiceDetails s=serviceDetailsRepository.findByLeadId(leadId);
-		return s;
+
+		Map<String,Object>m=new HashMap<>();
+		m.put("id", s.getId());
+		m.put("productName", s.getProductName());
+		m.put("address", s.getAddress());
+		m.put("city", s.getCity());
+		m.put("companyAge", s.getCompanyAge());
+		m.put("company", s.getCompanyId());
+		m.put("companyName", s.getCompanyName());
+		m.put("consultingSales", s.getConsultingSale());
+		m.put("country", s.getCountry());
+		m.put("documents", s.getDocuments());
+		
+		m.put("govermentCode", s.getGovermentCode());
+		m.put("govermentFees", s.getGovermentfees());
+		m.put("govermentGst", s.getGovermentGst());
+		m.put("gstDocuments", s.getGstDocuments());
+		
+		m.put("gstNo", s.getGstNo());
+		m.put("gstType", s.getGstType());
+		m.put("invoiceNote", s.getInvoiceNote());
+		m.put("isPrimaryAddress", s.getIsPrimaryAddress());
+		m.put("isSecondaryAddress()", s.getIsSecondaryAddress());
+		m.put("leadId", s.getLeadId());
+		m.put("orderNumber", s.getOrderNumber());
+
+		m.put("otherCode", s.getOtherCode());
+		m.put("otherGst", s.getOtherGst());
+		m.put("otherFees", s.getOtherFees());
+		
+		m.put("panNo", s.getPanNo());
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryTitle", s.getPrimaryTitle());
+		
+		m.put("serviceCode", s.getServiceCode());
+		m.put("serviceGst", s.getServiceGst());
+		m.put("serviceCharge", s.getServiceCharge());
+
+		m.put("state", s.getState());
+		m.put("status", s.getStatus());
+		m.put("unitId", s.getUnitId());
+		m.put("unitName", s.getUnitName());
+		m.put("assigneeId", s.getAssigneeId());
+		m.put("ccMail", s.getCc());
+		m.put("createDate", s.getCreateDate());
+		m.put("estimateDate", s.getEstimateData())
+		;
+		m.put("profesionalGst", s.getProfesionalGst());
+		m.put("profesionalCode", s.getProfessionalCode());
+		m.put("professionalFees", s.getProfessionalFees());
+		
+		m.put("primaryContact", s.getPrimaryContact());
+
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryContact", s.getPrimaryContact());
+
+		m.put("secondaryAddress", s.getSecondaryAddress());
+		m.put("secondaryCity", s.getSecondaryCity());
+		m.put("secondaryPinCode", s.getSecondaryPinCode());
+		m.put("secondaryState", s.getSecondaryState());
+		
+		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+		m.put("totalAmount", totalAmount);
+
+
+	
+		return m;
 	}
 
+//	public List<ServiceDetails> getEstimateByUserId(Long userId, int page, int size) {
+//		
+//		Optional<User> user = userRepo.findById(userId);
+//		List<ServiceDetails>arrList = new ArrayList<>();
+//		Pageable pageable = PageRequest.of(page, size);
+//
+//		if(user.get()!=null && user.get().getRole().contains("ADMIN")) {
+//			arrList=serviceDetailsRepository.findAll(pageable).getContent();
+//		}else {
+//			arrList=serviceDetailsRepository.findAllByAssigneeId(userId,pageable).getContent();
+//		}
+//		
+//		return arrList;
+//	}
 	@Override
-	public List<ServiceDetails> getEstimateByUserId(Long userId, int page, int size) {
-		
+	public List<Map<String,Object>> getEstimateByUserId(Long userId, int page, int size) {
 		Optional<User> user = userRepo.findById(userId);
 		List<ServiceDetails>arrList = new ArrayList<>();
 		Pageable pageable = PageRequest.of(page, size);
@@ -460,7 +541,77 @@ public class EstimateServiceImpl implements EstimateService
 		}else {
 			arrList=serviceDetailsRepository.findAllByAssigneeId(userId,pageable).getContent();
 		}
-		return arrList;
+		List<Map<String,Object>>res=new ArrayList<>();
+
+		for(ServiceDetails s:arrList) {
+			Map<String,Object>m=new HashMap<>();
+			m.put("id", s.getId());
+			m.put("productName", s.getProductName());
+			m.put("address", s.getAddress());
+			m.put("city", s.getCity());
+			m.put("companyAge", s.getCompanyAge());
+			m.put("company", s.getCompanyId());
+			m.put("companyName", s.getCompanyName());
+			m.put("consultingSales", s.getConsultingSale());
+			m.put("country", s.getCountry());
+			m.put("documents", s.getDocuments());
+			
+			m.put("govermentCode", s.getGovermentCode());
+			m.put("govermentFees", s.getGovermentfees());
+			m.put("govermentGst", s.getGovermentGst());
+			m.put("gstDocuments", s.getGstDocuments());
+			
+			m.put("gstNo", s.getGstNo());
+			m.put("gstType", s.getGstType());
+			m.put("invoiceNote", s.getInvoiceNote());
+			m.put("isPrimaryAddress", s.getIsPrimaryAddress());
+			m.put("isSecondaryAddress()", s.getIsSecondaryAddress());
+			m.put("leadId", s.getLeadId());
+			m.put("orderNumber", s.getOrderNumber());
+
+			m.put("otherCode", s.getOtherCode());
+			m.put("otherGst", s.getOtherGst());
+			m.put("otherFees", s.getOtherFees());
+			
+			m.put("panNo", s.getPanNo());
+			m.put("primaryPinCode", s.getPrimaryPinCode());
+			m.put("primaryTitle", s.getPrimaryTitle());
+			
+			m.put("serviceCode", s.getServiceCode());
+			m.put("serviceGst", s.getServiceGst());
+			m.put("serviceCharge", s.getServiceCharge());
+
+			m.put("state", s.getState());
+			m.put("status", s.getStatus());
+			m.put("unitId", s.getUnitId());
+			m.put("unitName", s.getUnitName());
+			m.put("assigneeId", s.getAssigneeId());
+			m.put("ccMail", s.getCc());
+			m.put("createDate", s.getCreateDate());
+			m.put("estimateDate", s.getEstimateData())
+			;
+			m.put("profesionalGst", s.getProfesionalGst());
+			m.put("profesionalCode", s.getProfessionalCode());
+			m.put("professionalFees", s.getProfessionalFees());
+			
+			m.put("primaryContact", s.getPrimaryContact());
+
+			m.put("primaryPinCode", s.getPrimaryPinCode());
+			m.put("primaryContact", s.getPrimaryContact());
+
+			m.put("secondaryAddress", s.getSecondaryAddress());
+			m.put("secondaryCity", s.getSecondaryCity());
+			m.put("secondaryPinCode", s.getSecondaryPinCode());
+			m.put("secondaryState", s.getSecondaryState());
+			
+			int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+			m.put("totalAmount", totalAmount);
+
+			res.add(m);
+
+		}
+		
+		return res;
 	}
 
 	@Override

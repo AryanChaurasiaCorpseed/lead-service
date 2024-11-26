@@ -11,6 +11,7 @@ import com.lead.dashboard.service.LeadService;
 import com.lead.dashboard.util.UrlsMapping;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,9 +64,9 @@ public class LeadEstimateController {
     }
     
     @GetMapping(UrlsMapping.GET_ESTIMATE_BY_LEAD_ID)
-    public ServiceDetails getEstimateByLeadId(@RequestParam Long  leadId)
+    public Map<String,Object> getEstimateByLeadId(@RequestParam Long  leadId)
     {
-    	ServiceDetails res=estimateService.getEstimateByLeadId(leadId);
+    	Map<String,Object> res=estimateService.getEstimateByLeadId(leadId);
         return res;
     }
     
@@ -78,10 +79,10 @@ public class LeadEstimateController {
     
     
     @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
-    public List<ServiceDetails> getEstimateByUserId(@RequestParam Long  userId,@RequestParam(value = "page", defaultValue = "1") int page,
+    public List<Map<String,Object>> getEstimateByUserId(@RequestParam Long  userId,@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
     {
-    	 List<ServiceDetails> res=estimateService.getEstimateByUserId(userId,page-1,size);
+    	List<Map<String,Object>> res=estimateService.getEstimateByUserId(userId,page-1,size);
         return res;
     }   
     @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID_COUNT)

@@ -1,6 +1,7 @@
 package com.lead.dashboard.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ public interface EstimateService {
 
 	ServiceDetails editEstimateAddress(EditEstimateAddress editEstimateAddress);
 
-	ServiceDetails getEstimateByLeadId(Long leadId);
+	Map<String,Object> getEstimateByLeadId(Long leadId);
 
-	List<ServiceDetails> getEstimateByUserId(Long userId, int page, int size);
+	List<Map<String,Object>> getEstimateByUserId(Long userId, int page, int size);
 
 	long getEstimateByUserIdCount(Long userId);
 
