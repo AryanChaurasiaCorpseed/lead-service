@@ -19,7 +19,7 @@ public interface EstimateService {
 
 	ServiceDetails getEstimate(Long estimateId);
 
-	ServiceDetails editEstimateInvoice(EditEstimate editEstimate);
+	Boolean editEstimateInvoice(EditEstimate editEstimate);
 
 	ServiceDetails editEstimateAddress(EditEstimateAddress editEstimateAddress);
 

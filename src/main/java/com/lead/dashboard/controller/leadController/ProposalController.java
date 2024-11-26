@@ -67,7 +67,7 @@ public class ProposalController {
 	
 	
     
-	@PostMapping(UrlsMapping.CREATE_PROPOSAL)
+	@PostMapping(UrlsMapping.EDIT_PROPOSAL)
     public Boolean editProposal(@RequestBody EditProposalDto  editProposalDto) throws Exception
     {
     	Boolean res=proposalService.editProposal(editProposalDto);

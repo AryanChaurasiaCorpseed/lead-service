@@ -40,6 +40,7 @@ public class UrlsMapping {
 	public static final String LEAD_SEARCH=PREFIX+"/lead//searchLead";
 	public static final String ADD_REOPEN_BY_QUALITY=PREFIX+"/lead/addReopenByQuality";
 	public static final String GET_ALL_LEAD_FOR_IMPORT=PREFIX+"/lead/getAllLeadForImport";
+	public static final String CALCULATE_BASE_AMOUNT=PREFIX+"/lead/calculateBaseAmount";
 
 
 	//=================== Lead - Oppoertunity Service ===================
@@ -75,6 +76,7 @@ public class UrlsMapping {
 	public static final String GET_PROPOSAL_BY_ID=PREFIX+"/proposal/getProposalById";
 	public static final String GET_ALL_PROPOSAL_BY_USER_ID=PREFIX+"/proposal/getAllProposalByUserId";
 	public static final String GET_ALL_PROPOSAL_BY_USER_ID_COUNT=PREFIX+"/proposal/getAllProposalByUserIdUser";
+	public static final String EDIT_PROPOSAL=PREFIX+"/proposal/editProposal";
 
 	
 	

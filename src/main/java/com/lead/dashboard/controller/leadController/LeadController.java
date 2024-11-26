@@ -418,6 +418,13 @@ public class LeadController {
 		return res;
 	}
 	
-	
+	@PutMapping(UrlsMapping.CALCULATE_BASE_AMOUNT)
+	public double calculateBaseAmount(@RequestParam double totalAmount,@RequestParam double gstPercent )
+	{ 
+		double totalPercent = 100+gstPercent;
+		double baseAmont=totalAmount/totalPercent;
+		double res = baseAmont*100;
+		return res;
+	}
 
 }

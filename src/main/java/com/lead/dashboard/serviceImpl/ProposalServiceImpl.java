@@ -179,7 +179,7 @@ public class ProposalServiceImpl implements ProposalService{
 		Boolean flag=false;
 
 		Proposal proposal =proposalRepository.findById(null).get();
-		proposal.setAddress(editProposalDto.get);
+		proposal.setAddress(null);
 		if(editProposalDto.getProductId()!=null) {
 			Product product = productRepo.findById(editProposalDto.getProductId()).get();
 			proposal.setProductName(product.getProductName());

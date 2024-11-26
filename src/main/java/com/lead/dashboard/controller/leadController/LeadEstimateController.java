@@ -49,9 +49,9 @@ public class LeadEstimateController {
     }
 
     @PutMapping(UrlsMapping.EDIT_ESTIMATE_INVOICE)
-    public ServiceDetails editEstimateInvoice(@RequestBody EditEstimate  editEstimate)
+    public Boolean editEstimateInvoice(@RequestBody EditEstimate  editEstimate)
     {
-    	ServiceDetails res=estimateService.editEstimateInvoice(editEstimate);
+    	Boolean res=estimateService.editEstimateInvoice(editEstimate);
         return res;
     }
     
