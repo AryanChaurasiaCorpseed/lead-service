@@ -239,6 +239,11 @@ public class EstimateServiceImpl implements EstimateService
 			 serviceDetails.setPrimaryContact(contact);
 			 Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
 			 serviceDetails.setSecondaryContact(secondaryContact);
+			 Long assigneeId = createservicedetails.getAssigneeId();
+			 if(assigneeId!=null) {
+				User assignee = userRepo.findById(assigneeId).get();
+				serviceDetails.setAssigneeId(assignee);
+			 }
 			 // company
 			 serviceDetails.setIsPresent(createservicedetails.getIsPresent());
 			 serviceDetails.setCompanyName(createservicedetails.getCompanyName());
@@ -281,6 +286,11 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setPrimaryContact(contact);
 				 Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
 				 serviceDetails.setSecondaryContact(secondaryContact);
+				 Long assigneeId = createservicedetails.getAssigneeId();
+				 if(assigneeId!=null) {
+					User assignee = userRepo.findById(assigneeId).get();
+					serviceDetails.setAssigneeId(assignee);
+				 }
 				 // company
 				 serviceDetails.setIsPresent(createservicedetails.getIsPresent());
 				 serviceDetails.setCompanyName(createservicedetails.getCompanyName());
@@ -361,24 +371,56 @@ public class EstimateServiceImpl implements EstimateService
 	}
 
 	@Override
-	public ServiceDetails editEstimateInvoice(EditEstimate editEstimate) {
-		ServiceDetails service=serviceDetailsRepository.findById(editEstimate.getServiceDetailsId()).get();
-		service.setGovermentfees(editEstimate.getGovermentfees());
-		service.setGovermentCode(editEstimate.getGovermentCode());
-		service.setGovermentGst(editEstimate.getGovermentGst());
-		service.setProfessionalFees(editEstimate.getProfessionalFees());
-		service.setProfessionalCode(editEstimate.getProfessionalCode());
-		service.setProfesionalGst(editEstimate.getProfesionalGst());
-		service.setServiceCharge(editEstimate.getServiceCharge());
-		service.setServiceCode(editEstimate.getServiceCode());
-		service.setServiceGst(editEstimate.getServiceGst());
-		service.setOtherFees(editEstimate.getOtherFees());
-		service.setOtherCode(editEstimate.getOtherCode());
-		service.setOtherGst(editEstimate.getOtherGst());
-		serviceDetailsRepository.save(service);
+	public Boolean editEstimateInvoice(EditEstimate editEstimate) {
+         Boolean flag=false;
+		 Product product = productRepo.findById(editEstimate.getProductId()).get();
+		 ServiceDetails serviceDetails = new ServiceDetails();
+		 serviceDetails.setCreateDate(new Date());
+		 serviceDetails.setAddress(null);
+		 serviceDetails.setProductName(product.getProductName());
+		 Contact contact = contactRepo.findById(editEstimate.getPrimaryContact()).get();
+		 serviceDetails.setPrimaryContact(contact);
+		 Contact secondaryContact = contactRepo.findById(editEstimate.getSecondaryContact()).get();
+		 serviceDetails.setSecondaryContact(secondaryContact);
+		 
+		 Long assigneeId = editEstimate.getAssigneeId();
+		 if(assigneeId!=null) {
+			User assignee = userRepo.findById(assigneeId).get();
+			serviceDetails.setAssigneeId(assignee);
+		 }
+		 
+		 // company
+		 serviceDetails.setIsPresent(editEstimate.getIsPresent());
+		 serviceDetails.setCompanyName(editEstimate.getCompanyName());
+		 serviceDetails.setCompanyId(editEstimate.getCompanyId());
+		 serviceDetails.setUnit(editEstimate.isUnit());
+		 serviceDetails.setUnitName(editEstimate.getUnitName());
+		 serviceDetails.setUnitId(editEstimate.getUnitId());
+		 serviceDetails.setPanNo(editEstimate.getPanNo());
+		 serviceDetails.setGstNo(editEstimate.getGstNo());
+		 serviceDetails.setLeadId(editEstimate.getLeadId());
+		 serviceDetails.setGstType(editEstimate.getGstType());
+		 serviceDetails.setGstDocuments(editEstimate.getGstDocuments());
+		 serviceDetails.setCompanyAge(editEstimate.getCompanyAge());
+		 serviceDetails.setGovermentfees(editEstimate.getGovermentfees());
+		 serviceDetails.setGovermentCode(editEstimate.getGovermentCode());
+		 serviceDetails.setGovermentGst(editEstimate.getGovermentGst());
+		 serviceDetails.setProfessionalFees(editEstimate.getProfessionalFees());
+		 serviceDetails.setProfessionalCode(editEstimate.getProfessionalCode());
+		 serviceDetails.setProfesionalGst(editEstimate.getProfesionalGst());
+		 serviceDetails.setServiceCharge(editEstimate.getServiceCharge());
+		 serviceDetails.setServiceCode(editEstimate.getServiceCode());
+		 serviceDetails.setServiceGst(editEstimate.getServiceGst());
+		 serviceDetails.setOtherFees(editEstimate.getOtherFees());
+		 serviceDetails.setOtherCode(editEstimate.getOtherCode());
+		 serviceDetails.setOtherGst(editEstimate.getOtherGst());
+		 serviceDetailsRepository.save(serviceDetails);
 		
+		 flag=true;
+
+	 
 		
-		return service;
+		return flag;
 	}
 
 	@Override

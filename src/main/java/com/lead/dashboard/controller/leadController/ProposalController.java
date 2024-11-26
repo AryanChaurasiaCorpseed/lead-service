@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lead.dashboard.domain.lead.Proposal;
 import com.lead.dashboard.dto.CreateProposalDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
+import com.lead.dashboard.dto.EditProposalDto;
 import com.lead.dashboard.service.ProposalService;
 import com.lead.dashboard.util.UrlsMapping;
 
@@ -60,7 +61,17 @@ public class ProposalController {
     public long getAllProposalByUserIdCount(@RequestParam Long userId)
     {
 		long res=proposalService.getAllProposalByUserIdCount(userId);
-//         return res;
     	return res;
     }
+	
+	
+	
+    
+	@PostMapping(UrlsMapping.CREATE_PROPOSAL)
+    public Boolean editProposal(@RequestBody EditProposalDto  editProposalDto) throws Exception
+    {
+    	Boolean res=proposalService.editProposal(editProposalDto);
+        return res;
+    }
+	
 }

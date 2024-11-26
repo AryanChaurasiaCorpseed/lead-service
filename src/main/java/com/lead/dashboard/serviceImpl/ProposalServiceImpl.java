@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
+import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.Proposal;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateProposalDto;
+import com.lead.dashboard.dto.EditProposalDto;
 import com.lead.dashboard.repository.ContactRepo;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProposalRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.repository.product.ProductRepo;
 import com.lead.dashboard.service.ProposalService;
 
@@ -35,6 +38,9 @@ public class ProposalServiceImpl implements ProposalService{
 
 	@Autowired
 	ContactRepo contactRepo;
+	
+	@Autowired
+	UserRepo userRepo;
 
 	@Override
 	public Boolean createProposal(CreateProposalDto createservicedetails) throws Exception {
@@ -55,6 +61,11 @@ public class ProposalServiceImpl implements ProposalService{
 			Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
 			proposal.setSecondaryContact(secondaryContact);
 			Long assigneeId = createservicedetails.getAssigneeId();
+			// company
+			if(assigneeId!=null) {
+				User assignee = userRepo.findById(assigneeId).get();
+				proposal.setAssignee(assignee);
+			}
 			// company
 			proposal.setIsPresent(createservicedetails.getIsPresent());
 			proposal.setCompanyName(createservicedetails.getCompanyName());
@@ -96,6 +107,13 @@ public class ProposalServiceImpl implements ProposalService{
 				proposal.setPrimaryContact(contact);
 				Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
 				proposal.setSecondaryContact(secondaryContact);
+				Long assigneeId = createservicedetails.getAssigneeId();
+				// company
+				if(assigneeId!=null) {
+					User assignee = userRepo.findById(assigneeId).get();
+					proposal.setAssignee(assignee);
+				}
+				
 				// company
 				proposal.setIsPresent(createservicedetails.getIsPresent());
 				proposal.setCompanyName(createservicedetails.getCompanyName());
@@ -145,7 +163,7 @@ public class ProposalServiceImpl implements ProposalService{
 	public List<Proposal> getAllProposalByUserId(Long userId, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		List<Proposal>proposalList= proposalRepository.findAllByUserId(userId,pageable).getContent();
-		
+
 		return proposalList;
 	}
 
@@ -153,5 +171,59 @@ public class ProposalServiceImpl implements ProposalService{
 	public long getAllProposalByUserIdCount(Long userId) {
 		long proposalCount= proposalRepository.findCountByUserId(userId);
 		return proposalCount;
+	}
+
+	@Override
+	public Boolean editProposal(EditProposalDto editProposalDto) {
+
+		Boolean flag=false;
+
+		Proposal proposal =proposalRepository.findById(null).get();
+		proposal.setAddress(editProposalDto.get);
+		if(editProposalDto.getProductId()!=null) {
+			Product product = productRepo.findById(editProposalDto.getProductId()).get();
+			proposal.setProductName(product.getProductName());
+		}
+		Contact contact = contactRepo.findById(editProposalDto.getPrimaryContact()).get();
+		proposal.setPrimaryContact(contact);
+		Contact secondaryContact = contactRepo.findById(editProposalDto.getSecondaryContact()).get();
+		proposal.setSecondaryContact(secondaryContact);
+		Long assigneeId = editProposalDto.getAssigneeId();
+		// company
+		if(assigneeId!=null) {
+			User assignee = userRepo.findById(assigneeId).get();
+			proposal.setAssignee(assignee);
+		}
+		proposal.setAssignee(null);
+		proposal.setIsPresent(editProposalDto.getIsPresent());
+		proposal.setCompanyName(editProposalDto.getCompanyName());
+		proposal.setCompanyId(editProposalDto.getCompanyId());
+		proposal.setUnit(editProposalDto.isUnit());
+		proposal.setUnitName(editProposalDto.getUnitName());
+		proposal.setUnitId(editProposalDto.getUnitId());
+		proposal.setPanNo(editProposalDto.getPanNo());
+		proposal.setGstNo(editProposalDto.getGstNo());
+
+		proposal.setGstType(editProposalDto.getGstType());
+		proposal.setGstDocuments(editProposalDto.getGstDocuments());
+		proposal.setCompanyAge(editProposalDto.getCompanyAge());
+		proposal.setGovermentfees(editProposalDto.getGovermentfees());
+		proposal.setGovermentCode(editProposalDto.getGovermentCode());
+		proposal.setGovermentGst(editProposalDto.getGovermentGst());
+		proposal.setProfessionalFees(editProposalDto.getProfessionalFees());
+		proposal.setProfessionalCode(editProposalDto.getProfessionalCode());
+		proposal.setProfesionalGst(editProposalDto.getProfesionalGst());
+		proposal.setServiceCharge(editProposalDto.getServiceCharge());
+		proposal.setServiceCode(editProposalDto.getServiceCode());
+		proposal.setServiceGst(editProposalDto.getServiceGst());
+		proposal.setOtherFees(editProposalDto.getOtherFees());
+		proposal.setOtherCode(editProposalDto.getOtherCode());
+		proposal.setOtherGst(editProposalDto.getOtherGst());
+		proposalRepository.save(proposal);
+
+		flag=true;
+
+		return flag;
+
 	}
 }

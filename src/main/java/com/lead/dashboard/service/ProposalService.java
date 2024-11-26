@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.lead.Proposal;
 import com.lead.dashboard.dto.CreateProposalDto;
+import com.lead.dashboard.dto.EditProposalDto;
 
 @Service
 public interface ProposalService {
@@ -17,6 +18,8 @@ public interface ProposalService {
 	List<Proposal> getAllProposalByUserId(Long userId, int page, int size);
 	
 	long getAllProposalByUserIdCount(Long userId);
+
+	Boolean editProposal(EditProposalDto editProposalDto);
 
 
 }
