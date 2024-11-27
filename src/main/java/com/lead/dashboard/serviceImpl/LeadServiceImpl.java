@@ -2122,7 +2122,7 @@ public class LeadServiceImpl implements LeadService  {
 		Boolean flag=false;
         System.out.println("ttttttttt");
 		Pageable pageable = PageRequest.of(page, size);
-
+         User user = userRepo.findById(1l).get();
 	     List<Lead> leadList = leadRepository.findAllByStatusAndIsDeleted(12l, false,pageable).getContent();
 	     for(Lead l:leadList) {
              System.out.println("t2");
@@ -2141,6 +2141,9 @@ public class LeadServiceImpl implements LeadService  {
 	    			 clientList.add(c);
 	    		 }
 	    		 l.setClients(clientList);
+	    		 if(l.getAssignee()==null) {
+	    			 l.setAssignee(user);
+	    		 }
 	    		 leadRepository.save(l);
 	    		 flag=true;
               System.out.println(c.getContactNo());
