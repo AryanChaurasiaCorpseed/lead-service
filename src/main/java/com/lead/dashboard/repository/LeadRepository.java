@@ -239,5 +239,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
      
      @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
   	 long findCountByStatusIdAndInBetweenDate(Long statusId,String d1,String d2);
+     
+ 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id=:statusId and el.is_deleted =:b", nativeQuery = true)
+ 	Page<Lead> findAllByStatusAndIsDeleted(Long statusId,boolean b ,Pageable pageable); 
 
 }

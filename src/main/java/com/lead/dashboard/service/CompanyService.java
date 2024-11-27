@@ -29,7 +29,7 @@ public interface CompanyService {
 	List<Map<String, Object>> getAllCompanyUnit(Long id);
 
 	List<Company> getCompanyByGst(String gst);
-
+ 
 	Map<String, Object> getCompanyById(Long id);
 
 	boolean updateCompanyAssignee(Long companyId, Long assigneeId,Long currentUserId);
@@ -47,4 +47,6 @@ public interface CompanyService {
 	List<Map<String, Object>> getAllTempCompany(Long userId, Long filterUserId, int i, int size);
 
 	boolean deleteTempAssignee(UpdateCompanyDto updateCompanyDto);
+
+	List<Map<String, Object>> getAllConsultantByCompany(Long userId,int i, int size);
 }

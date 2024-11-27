@@ -795,6 +795,15 @@ public class CompanyServiceImpl implements CompanyService {
 		return flag;
 	}
 
+	@Override
+	public List<Map<String, Object>> getAllConsultantByCompany(Long userId,int page, int size) {
+		Optional<User> userOp = userRepo.findById(userId);
+		if(userOp!=null && userOp.get()!=null) {
+			User user = userOp.get();
+		}
+		return null;
+	}
+
 
 
 }

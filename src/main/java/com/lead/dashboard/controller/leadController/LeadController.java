@@ -426,5 +426,15 @@ public class LeadController {
 		double res = baseAmont*100;
 		return res;
 	}
+	
+	@PutMapping(UrlsMapping.CREATE_PRIMARY_CONTACT)
+	public Boolean createPrimaryContact(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{ 
+		Boolean res=leadservice.createPrimaryContact(page,size);
+		
+		return  res;
+
+	}
 
 }

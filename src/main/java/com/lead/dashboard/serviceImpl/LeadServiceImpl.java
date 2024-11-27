@@ -2117,6 +2117,39 @@ public class LeadServiceImpl implements LeadService  {
 	
 		return flag;
 	}
+	@Override
+	public Boolean createPrimaryContact( int page, int size) {
+		Boolean flag=false;
+        System.out.println("ttttttttt");
+		Pageable pageable = PageRequest.of(page, size);
+
+	     List<Lead> leadList = leadRepository.findAllByStatusAndIsDeleted(12l, false,pageable).getContent();
+	     for(Lead l:leadList) {
+             System.out.println("t2");
+
+	    	 int s=l.getClients()!=null?l.getClients().size():0;
+	    	 if(s<=0) {
+	    		 Client c = new Client();
+	    		 c.setEmails(l.getEmail());
+	    		 c.setContactNo(l.getMobileNo());
+	    		 clientRepository.save(c);
+	    		 List<Client> clientList = l.getClients();
+	    		 if(clientList==null) {
+	    			 clientList=new ArrayList<>();
+	    			 clientList.add(c);
+	    		 }else {
+	    			 clientList.add(c);
+	    		 }
+	    		 l.setClients(clientList);
+	    		 leadRepository.save(l);
+	    		 flag=true;
+              System.out.println(c.getContactNo());
+	    	 }
+             System.out.println("bbbbbbbbbbbbbbb33"+l.getId());
+
+	     }
+		return flag;
+	}
 	
 	
 

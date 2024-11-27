@@ -199,14 +199,14 @@ public class CompanyController {
 		return true;
 	}
 	
-//	@GetMapping(UrlsMapping.GET_ALL_TEMP_COMPANY)
-//	public List<Map<String,Object>> getAllConsultantByCompany(@RequestParam Long userId,@RequestParam(required = false) Long filterUserId,@RequestParam(value = "page", defaultValue = "1") int page,
-//			@RequestParam(value = "size", defaultValue = "10") int size)
-//	{
-//		List<Map<String,Object>> allCompany = companyService.getAllTempCompany(userId,filterUserId,page-1,size);
-//		
-//		return allCompany;
-// 
-//	}
+	@GetMapping(UrlsMapping.GET_ALL_CONSULTANT_BY_COMPANY)
+	public List<Map<String,Object>> getAllConsultantByCompany(@RequestParam Long userId,@RequestParam(required = false) Long filterUserId,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllConsultantByCompany(userId,page-1,size);
+		
+		return allCompany;
+ 
+	}
 
 }

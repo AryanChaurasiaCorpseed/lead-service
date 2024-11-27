@@ -56,4 +56,5 @@ public interface LeadService {
 	Boolean addReopenByQuality(Long currentUerId, Long leadId, boolean isMarked);
 	List<Map<String,Object>> getAllLeadForImport(AllLeadFilter allLeadFilter, int i, int size);
 	List<Map<String, Object>> getAllActiveCustomerLeadForExport(AllLeadFilter allLeadFilter, int i, int size);
+	Boolean createPrimaryContact( int page, int size);
 }
