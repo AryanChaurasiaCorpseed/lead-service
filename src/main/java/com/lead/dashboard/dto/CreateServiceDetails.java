@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-//@Data
+@Data
 public class CreateServiceDetails {
 	
 	
@@ -72,6 +72,12 @@ public class CreateServiceDetails {
 	@NotBlank
 	Date createDate;
 	Date estimateDate;
+	
+	boolean isConsultant;
+	String originalCompanyName;
+	String originalContact;
+	String originalEmail;
+	String address;
 	
 	public Long getProductId() {
 		return productId;
@@ -295,6 +301,8 @@ public class CreateServiceDetails {
 	public void setEstimateDate(Date estimateDate) {
 		this.estimateDate = estimateDate;
 	}
+	
+	
 	
 	
 	

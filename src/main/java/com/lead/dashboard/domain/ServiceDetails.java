@@ -22,9 +22,9 @@ import lombok.Getter;
 import lombok.Setter;
 @Entity
 @Table(name = "service_details")
-@Data
-@Getter
-@Setter
+//@Data
+//@Getter
+//@Setter
 // Send Estimate
 public class ServiceDetails {
 	@Id
@@ -86,7 +86,7 @@ public class ServiceDetails {
 	@ManyToOne
 	User  assigneeId;
 	Long leadId;
-	
+//	Long productId;
 	String status;
 	
 	/* ---------------- product details  ---------------  */
@@ -115,7 +115,8 @@ public class ServiceDetails {
     String otherGst;	
     boolean isDeleted;
     
-    
+    @ManyToOne
+    ConsultantByCompany consultantByCompany;
     
     
 	public Long getId() {
@@ -453,6 +454,18 @@ public class ServiceDetails {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+//	public Long getProductId() {
+//		return productId;
+//	}
+//	public void setProductId(Long productId) {
+//		this.productId = productId;
+//	}
+	public ConsultantByCompany getConsultantByCompany() {
+		return consultantByCompany;
+	}
+	public void setConsultantByCompany(ConsultantByCompany consultantByCompany) {
+		this.consultantByCompany = consultantByCompany;
 	} 
 	
 	

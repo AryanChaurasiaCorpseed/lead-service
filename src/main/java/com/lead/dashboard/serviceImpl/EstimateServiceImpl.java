@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.config.CommonServices;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.ConsultantByCompany;
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
@@ -27,6 +29,7 @@ import com.lead.dashboard.dto.EditEstimate;
 import com.lead.dashboard.dto.EditEstimateAddress;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.ConsultantByCompanyRepository;
 import com.lead.dashboard.repository.ContactRepo;
 import com.lead.dashboard.repository.LeadHistoryRepository;
 import com.lead.dashboard.repository.LeadRepository;
@@ -58,7 +61,8 @@ public class EstimateServiceImpl implements EstimateService
 	@Autowired
 	ServiceDetailsRepository serviceDetailsRepository;
 
-
+	@Autowired
+	ConsultantByCompanyRepository consultantByCompanyRepository;
 
 	@Autowired
 	ClientRepository clientRepository;
@@ -235,6 +239,7 @@ public class EstimateServiceImpl implements EstimateService
 			 Product product = productRepo.findById(createservicedetails.getProductId()).get();
 			 serviceDetails=new ServiceDetails();
 			 serviceDetails.setCreateDate(new Date());
+			 serviceDetails.setProduct(product);
 			 serviceDetails.setAddress(null);
 			 serviceDetails.setProductName(product.getProductName());
 			 Contact contact = contactRepo.findById(createservicedetails.getPrimaryContact()).get();
@@ -247,6 +252,17 @@ public class EstimateServiceImpl implements EstimateService
 				serviceDetails.setAssigneeId(assignee);
 			 }
 			 // company
+			 if(createservicedetails.isConsultant()) {
+				 ConsultantByCompany consultantByCompany =new ConsultantByCompany();
+				 consultantByCompany.setName(createservicedetails.getOriginalCompanyName());
+				 consultantByCompany.setOriginalContact(createservicedetails.getOriginalContact());
+				 consultantByCompany.setOriginalEmail(createservicedetails.getOriginalEmail());
+				 consultantByCompany.setAddress(createservicedetails.getAddress());
+				 consultantByCompanyRepository.save(consultantByCompany);
+				 serviceDetails.setConsultantByCompany(consultantByCompany);
+
+			 }
+			 
 			 serviceDetails.setIsPresent(createservicedetails.getIsPresent());
 			 serviceDetails.setCompanyName(createservicedetails.getCompanyName());
 			 serviceDetails.setCompanyId(createservicedetails.getCompanyId());
@@ -284,6 +300,8 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setCreateDate(new Date());
 				 serviceDetails.setAddress(null);
 				 serviceDetails.setProductName(product.getProductName());
+				 serviceDetails.setProduct(product);
+
 				 Contact contact = contactRepo.findById(createservicedetails.getPrimaryContact()).get();
 				 serviceDetails.setPrimaryContact(contact);
 				 Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
@@ -302,7 +320,16 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setUnitId(createservicedetails.getUnitId());
 				 serviceDetails.setPanNo(createservicedetails.getPanNo());
 				 serviceDetails.setGstNo(createservicedetails.getGstNo());
+				 if(createservicedetails.isConsultant()) {
+					 ConsultantByCompany consultantByCompany =new ConsultantByCompany();
+					 consultantByCompany.setName(createservicedetails.getOriginalCompanyName());
+					 consultantByCompany.setOriginalContact(createservicedetails.getOriginalContact());
+					 consultantByCompany.setOriginalEmail(createservicedetails.getOriginalEmail());
+					 consultantByCompany.setAddress(createservicedetails.getAddress());
+					 consultantByCompanyRepository.save(consultantByCompany);
+					 serviceDetails.setConsultantByCompany(consultantByCompany);
 
+				 }
 				 serviceDetails.setGstType(createservicedetails.getGstType());
 				 serviceDetails.setGstDocuments(createservicedetails.getGstDocuments());
 				 serviceDetails.setCompanyAge(createservicedetails.getCompanyAge());
@@ -378,6 +405,8 @@ public class EstimateServiceImpl implements EstimateService
 		 Product product = productRepo.findById(editEstimate.getProductId()).get();
 		 ServiceDetails serviceDetails = new ServiceDetails();
 		 serviceDetails.setCreateDate(new Date());
+		 serviceDetails.setProduct(product);
+
 		 serviceDetails.setAddress(null);
 		 serviceDetails.setProductName(product.getProductName());
 		 Contact contact = contactRepo.findById(editEstimate.getPrimaryContact()).get();
@@ -402,6 +431,16 @@ public class EstimateServiceImpl implements EstimateService
 		 serviceDetails.setGstNo(editEstimate.getGstNo());
 		 serviceDetails.setLeadId(editEstimate.getLeadId());
 		 serviceDetails.setGstType(editEstimate.getGstType());
+		 if(editEstimate.isConsultant()) {
+			 ConsultantByCompany consultantByCompany =new ConsultantByCompany();
+			 consultantByCompany.setName(editEstimate.getOriginalCompanyName());
+			 consultantByCompany.setOriginalContact(editEstimate.getOriginalContact());
+			 consultantByCompany.setOriginalEmail(editEstimate.getOriginalEmail());
+			 consultantByCompany.setAddress(editEstimate.getAddress());
+			 consultantByCompanyRepository.save(consultantByCompany);
+			 serviceDetails.setConsultantByCompany(consultantByCompany);
+
+		 }
 		 serviceDetails.setGstDocuments(editEstimate.getGstDocuments());
 		 serviceDetails.setCompanyAge(editEstimate.getCompanyAge());
 		 serviceDetails.setGovermentfees(editEstimate.getGovermentfees());
@@ -459,7 +498,8 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("consultingSales", s.getConsultingSale());
 		m.put("country", s.getCountry());
 		m.put("documents", s.getDocuments());
-		
+		m.put("product", s.getProduct());
+
 		m.put("govermentCode", s.getGovermentCode());
 		m.put("govermentFees", s.getGovermentfees());
 		m.put("govermentGst", s.getGovermentGst());
@@ -502,7 +542,8 @@ public class EstimateServiceImpl implements EstimateService
 
 		m.put("primaryPinCode", s.getPrimaryPinCode());
 		m.put("primaryContact", s.getPrimaryContact());
-
+		m.put("isUnit", s.getPrimaryContact());
+	
 		m.put("secondaryAddress", s.getSecondaryAddress());
 		m.put("secondaryCity", s.getSecondaryCity());
 		m.put("secondaryPinCode", s.getSecondaryPinCode());

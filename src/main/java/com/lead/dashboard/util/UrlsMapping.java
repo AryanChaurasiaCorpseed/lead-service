@@ -118,6 +118,7 @@ public class UrlsMapping {
 	public static final String DELETE_COMPANY=PREFIX+"/company/deleteCompany";
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String GET_ALL_TEMP_COMPANY=PREFIX+"/company/getAllTempCompany";
+	public static final String GET_ALL_CONSULTANT_BY_COMPANY=PREFIX+"/company/getAllConsultantByCompany";
 
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";

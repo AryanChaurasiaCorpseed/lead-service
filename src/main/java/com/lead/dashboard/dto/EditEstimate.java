@@ -62,6 +62,14 @@ public class EditEstimate {
 	@NotBlank
 	Date createDate;
 	Date estimateDate;
+	
+	
+	boolean isConsultant;
+	String originalCompanyName;
+	String originalContact;
+	String originalEmail;
+	String address;
+	
 	public Long getId() {
 		return id;
 	}
@@ -289,6 +297,36 @@ public class EditEstimate {
 	}
 	public void setEstimateDate(Date estimateDate) {
 		this.estimateDate = estimateDate;
+	}
+	public boolean isConsultant() {
+		return isConsultant;
+	}
+	public void setConsultant(boolean isConsultant) {
+		this.isConsultant = isConsultant;
+	}
+	public String getOriginalCompanyName() {
+		return originalCompanyName;
+	}
+	public void setOriginalCompanyName(String originalCompanyName) {
+		this.originalCompanyName = originalCompanyName;
+	}
+	public String getOriginalContact() {
+		return originalContact;
+	}
+	public void setOriginalContact(String originalContact) {
+		this.originalContact = originalContact;
+	}
+	public String getOriginalEmail() {
+		return originalEmail;
+	}
+	public void setOriginalEmail(String originalEmail) {
+		this.originalEmail = originalEmail;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	

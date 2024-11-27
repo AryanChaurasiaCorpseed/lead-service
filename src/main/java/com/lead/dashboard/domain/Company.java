@@ -88,6 +88,8 @@ public class Company {
 	
 	Date createDate;
 	
+	boolean isConsultant;
+	
 
 	public String getPrimaryPinCode() {
 		return primaryPinCode;
@@ -311,6 +313,22 @@ public class Company {
 
 	public void setTempAssignee(User tempAssignee) {
 		this.tempAssignee = tempAssignee;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public boolean isConsultant() {
+		return isConsultant;
+	}
+
+	public void setConsultant(boolean isConsultant) {
+		this.isConsultant = isConsultant;
 	}
     
 	
