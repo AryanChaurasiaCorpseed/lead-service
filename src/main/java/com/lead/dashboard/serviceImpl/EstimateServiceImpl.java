@@ -611,7 +611,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("gstType", s.getGstType());
 			m.put("invoiceNote", s.getInvoiceNote());
 			m.put("isPrimaryAddress", s.getIsPrimaryAddress());
-			m.put("isSecondaryAddress()", s.getIsSecondaryAddress());
+			m.put("isSecondaryAddress", s.getIsSecondaryAddress());
 			m.put("leadId", s.getLeadId());
 			m.put("orderNumber", s.getOrderNumber());
 
