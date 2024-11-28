@@ -777,6 +777,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
+        // Fetch user details
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
         if (userDetails == null) {
             throw new RuntimeException("User not found for ID: " + userIdBy);
@@ -786,50 +787,44 @@ public class VendorServiceImpl implements VendorService {
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
         if (isAdmin) {
-            List<Vendor> vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
+            List<Vendor> vendorList;
+
+            if (status != null) {
+                // Fetch vendors for admin by date range and status
+                vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status);
+            } else {
+                // Fetch vendors for admin by date range only
+                vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
+            }
 
             for (Vendor vendor : vendorList) {
-                String latestStatus = status;
-                if (latestStatus == null || latestStatus.isEmpty()) {
-                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
-                            .stream()
-                            .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
-                            .orElse(null);
-                    if (latestUpdate != null) {
-                        latestStatus = latestUpdate.getRequestStatus();
-                    }
-                }
-
-                if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    vendorReportResponses.add(prepareVendorReportResponse(vendor,vendor.getDate(), endDate));
-                }
+                vendorReportResponses.add(prepareVendorReportResponse(vendor, startDate, endDate));
             }
         } else {
-            // Fetch vendor requests only assigned to the non-admin user
-            List<Vendor> vendorList = vendorRepository.findAllByAssignedUserAndDateRange(userIdBy, startDate, endDate);
+            List<Vendor> vendorList;
+
+            if (status != null) {
+                // Fetch vendors for non-admin by assigned user, date range, and status
+                vendorList = vendorRepository.findAllByAssignedUserAndDateRangeAndStatus(userIdBy, startDate, endDate, status);
+            } else {
+                // Fetch vendors for non-admin by assigned user and date range only
+                vendorList = vendorRepository.findAllByAssignedUserAndDateRange(userIdBy, startDate, endDate);
+
+                System.out.println("dfddfg");
+            }
 
             for (Vendor vendor : vendorList) {
-                String latestStatus = status;
-                if (latestStatus == null) {
-                    VendorUpdateHistory latestUpdate = vendor.getVendorUpdateHistory()
-                            .stream()
-                            .max(Comparator.comparing(VendorUpdateHistory::getUpdateDate))
-                            .orElse(null);
-                    if (latestUpdate != null) {
-                        latestStatus = latestUpdate.getRequestStatus();
-                    }
-                }
-
-                if (latestStatus != null && latestStatus.equalsIgnoreCase(vendor.getStatus())) {
-                    vendorReportResponses.add(prepareVendorReportResponse(vendor,startDate, endDate));
-                }
+                vendorReportResponses.add(prepareVendorReportResponse(vendor, startDate, endDate));
             }
         }
 
+        // Prepare and return response map
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
         return responseMap;
     }
+
+
 
     private VendorReportResponse prepareVendorReportResponse(Vendor vendor,LocalDate startDate, LocalDate endDate) {
         VendorReportResponse response = new VendorReportResponse();
