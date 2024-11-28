@@ -86,15 +86,15 @@ public class LeadController {
 	}
 
 	@PostMapping(UrlsMapping.GET_ALL_LEAD_COUNT)
-	public ResponseEntity <Integer> getAllLeadCount(@RequestBody AllLeadFilter allLeadFilter)
+	public ResponseEntity <	Long> getAllLeadCount(@RequestBody AllLeadFilter allLeadFilter)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
 		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
-			Integer alllead= leadservice.getAllLeadCount(allLeadFilter);
+			long alllead= leadservice.getAllLeadCountV2(allLeadFilter);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-			Integer alllead= leadservice.getAllActiveCustomerLeadCount(allLeadFilter);
+			long alllead= leadservice.getAllActiveCustomerLeadCountV2(allLeadFilter);
 
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}

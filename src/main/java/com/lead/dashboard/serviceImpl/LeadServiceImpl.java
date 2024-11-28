@@ -1513,7 +1513,7 @@ public class LeadServiceImpl implements LeadService  {
 			}
 		}
 
-		return leadList.size();
+		return count;
 
 	}
 
