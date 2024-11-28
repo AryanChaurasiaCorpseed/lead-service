@@ -76,4 +76,19 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
             "OR LOWER(v.clientEmailId) LIKE LOWER(CONCAT('%', :searchInput, '%')))")
     List<Vendor> searchVendorsByUser(@Param("userDetails") User userDetails,
                                      @Param("searchInput") String searchInput);
+    
+    
+    
+    
+    
+    @Query("SELECT v FROM Vendor v WHERE v.date BETWEEN :startDate AND :endDate AND v.status = :status")
+    List<Vendor> findAllVendorRequestByDateAndStatus(@Param("startDate") LocalDate startDate,
+                                                     @Param("endDate") LocalDate endDate,
+                                                     @Param("status") String status);
+
+    @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.date BETWEEN :startDate AND :endDate AND v.status = :status")
+    List<Vendor> findAllByAssignedUserAndDateRangeAndStatus(@Param("userId") Long userIdBy,
+                                                            @Param("startDate") LocalDate startDate,
+                                                            @Param("endDate") LocalDate endDate,
+                                                            @Param("status") String status);
 }

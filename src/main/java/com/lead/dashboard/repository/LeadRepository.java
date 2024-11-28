@@ -105,7 +105,17 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and  el.assignee_id in(:userIds)", nativeQuery = true)
 	long findCountByIsDeletedAndInBetweenDateAndAssigneeIdIn(boolean b,String d1,String d2,List<Long>userIds);
 
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	long findCountByIsDeletedAndInBetweenDate(boolean b,String d1,String d2);
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userIds)", nativeQuery = true)
+	long findCountByIsDeleted(boolean b,List<Long>userIds);
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.status_id =:statusId and el.is_deleted =:b", nativeQuery = true)
+	long findCountByStatusIdAndIsDeleted(Long statusId,boolean b);
+	
 
+	
 	// ===============================================      pagination=====================================
 
 

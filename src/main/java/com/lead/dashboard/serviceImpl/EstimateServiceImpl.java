@@ -287,6 +287,20 @@ public class EstimateServiceImpl implements EstimateService
 			 serviceDetails.setOtherFees(createservicedetails.getOtherFees());
 			 serviceDetails.setOtherCode(createservicedetails.getOtherCode());
 			 serviceDetails.setOtherGst(createservicedetails.getOtherGst());
+			 
+			 serviceDetails.setAddress(createservicedetails.getAddress());
+			 serviceDetails.setCity(createservicedetails.getCity());
+			 serviceDetails.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+			 serviceDetails.setState(createservicedetails.getState());
+			 serviceDetails.setCountry(createservicedetails.getCountry());
+			 
+			 serviceDetails.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+			 serviceDetails.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+			 serviceDetails.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+			 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
+			 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+			 
+			 serviceDetails.setAddress(createservicedetails.getAddress());
 			 serviceDetailsRepository.save(serviceDetails);
 			 lead.setServiceDetails(serviceDetails);
 			 leadRepository.save(lead);
@@ -345,6 +359,19 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setOtherFees(createservicedetails.getOtherFees());
 				 serviceDetails.setOtherCode(createservicedetails.getOtherCode());
 				 serviceDetails.setOtherGst(createservicedetails.getOtherGst());
+				 
+				 serviceDetails.setAddress(createservicedetails.getAddress());
+				 serviceDetails.setCity(createservicedetails.getCity());
+				 serviceDetails.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+				 serviceDetails.setState(createservicedetails.getState());
+				 serviceDetails.setCountry(createservicedetails.getCountry());
+				 
+				 serviceDetails.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+				 serviceDetails.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+				 serviceDetails.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+				 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
+				 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+				 
 				 serviceDetailsRepository.save(serviceDetails);
 				 lead.setServiceDetails(serviceDetails);
 				 leadRepository.save(lead);
@@ -456,6 +483,18 @@ public class EstimateServiceImpl implements EstimateService
 		 serviceDetails.setOtherCode(editEstimate.getOtherCode());
 		 serviceDetails.setOtherGst(editEstimate.getOtherGst());
 		 
+		 serviceDetails.setAddress(editEstimate.getAddress());
+		 serviceDetails.setCity(editEstimate.getCity());
+		 serviceDetails.setPrimaryPinCode(editEstimate.getPrimaryPinCode());
+		 serviceDetails.setState(editEstimate.getState());
+		 serviceDetails.setCountry(editEstimate.getCountry());
+		 
+		 serviceDetails.setSecondaryAddress(editEstimate.getSecondaryAddress());
+		 serviceDetails.setSecondaryCity(editEstimate.getSecondaryCity()); 
+		 serviceDetails.setSecondaryPinCode(editEstimate.getSecondaryPinCode());
+		 serviceDetails.setSecondaryState(editEstimate.getSecondaryState());
+		 serviceDetails.setSecondaryCountry(editEstimate.getSecondaryCountry());
+		 
 		 serviceDetailsRepository.save(serviceDetails);
 		
 		 flag=true;
@@ -526,7 +565,19 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("serviceCode", s.getServiceCode());
 		m.put("serviceGst", s.getServiceGst());
 		m.put("serviceCharge", s.getServiceCharge());
-
+		
+		m.put("address", s.getAddress());
+		m.put("primaryCity", s.getCity());
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryState", s.getState());
+		m.put("primaryCountry", s.getCountry());
+		
+		m.put("secondaryAddress", s.getSecondaryAddress());
+		m.put("secondaryCity", s.getSecondaryCity());
+		m.put("secondaryPinCode", s.getSecondaryPinCode());
+		m.put("secondaryState", s.getSecondaryState());
+		m.put("secondaryCountry", s.getSecondaryCountry());
+		
 		m.put("state", s.getState());
 		m.put("status", s.getStatus());
 		m.put("unitId", s.getUnitId());
