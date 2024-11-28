@@ -80,6 +80,31 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 
 	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and el.assignee_id in(:userIds)", nativeQuery = true)
 	List<Lead> findAllByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(List<Long> statusIds,boolean b,String d1,String d2,List<Long>userIds);
+//===================================================================== optimized count  = = == =  
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and el.assignee_id in(:userIds)", nativeQuery = true)
+	long findCountByStatusIdInAndIsDeletedAndInBetweenDateAndAssigneeIdIn(List<Long> statusIds,boolean b,String d1,String d2,List<Long>userIds);
+
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	long findCountByStatusIdInAndIsDeletedAndInBetweenDate(List<Long> statusIds,boolean b,String d1,String d2); 
+
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId)and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+	long findCountByAssigneeAndIsDeletedAndInBetweenDate(Long userId,boolean b,String d1,String d2);
+
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	long findCountByStatusIdInAndAssigneeIdInAndIsDeleted(List<Long> statusIds,List<Long>userId,boolean b); 
+
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.status_id in(:statusIds) and el.is_deleted =:b", nativeQuery = true)
+	long findCountByStatusIdInAndIsDeleted(List<Long> statusIds,boolean b); 
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and el.assignee_id in(:userId)", nativeQuery = true)
+	long findCountByAssigneeAndIsDeleted(Long userId,boolean b);
+	
+	@Query(value = "SELECT count(*) FROM erp_leads el WHERE el.is_deleted =:b and create_date BETWEEN :d1 AND :d2 and  el.assignee_id in(:userIds)", nativeQuery = true)
+	long findCountByIsDeletedAndInBetweenDateAndAssigneeIdIn(boolean b,String d1,String d2,List<Long>userIds);
+
 
 	// ===============================================      pagination=====================================
 
