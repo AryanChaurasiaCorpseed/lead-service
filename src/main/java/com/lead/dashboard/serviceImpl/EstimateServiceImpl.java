@@ -513,6 +513,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("isSecondaryAddress", s.getIsSecondaryAddress());
 		m.put("leadId", s.getLeadId());
 		m.put("orderNumber", s.getOrderNumber());
+		m.put("purchaseDate", s.getPurchaseDate());
 
 		m.put("otherCode", s.getOtherCode());
 		m.put("otherGst", s.getOtherGst());
@@ -601,7 +602,8 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("consultingSales", s.getConsultingSale());
 			m.put("country", s.getCountry());
 			m.put("documents", s.getDocuments());
-			
+			m.put("purchaseDate", s.getPurchaseDate());
+
 			m.put("govermentCode", s.getGovermentCode());
 			m.put("govermentFees", s.getGovermentfees());
 			m.put("govermentGst", s.getGovermentGst());
