@@ -136,10 +136,17 @@ public class ProductServiceImpl implements ProductService {
     	pa.setHsnNo(addProductAmountDto.getHsnNo());
     	pa.setName(addProductAmountDto.getName());
     	pa.setTaxAmount(addProductAmountDto.getTaxAmount());
-
-    	List<ProductAmount>paList= new ArrayList<>();
-    	paList.add(pa);
-    	product.setProductAmount(paList); 
+//    	productAmountRepo.save(pa);
+    	List<ProductAmount>paList= product.getProductAmount();
+    	if(paList!=null &&paList.size()>0) {
+    		paList.add(pa);
+        	product.setProductAmount(paList);
+    	}else {
+        	paList= new ArrayList<>();
+        	paList.add(pa);
+        	product.setProductAmount(paList); 
+    	}
+    	 
     	productRepo.save(product);
     	flag=true;
         return flag;
