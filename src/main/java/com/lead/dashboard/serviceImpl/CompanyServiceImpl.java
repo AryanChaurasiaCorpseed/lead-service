@@ -765,7 +765,7 @@ public class CompanyServiceImpl implements CompanyService {
 				pMap.put("projectId", p.getId());
 				pMap.put("projectName", p.getName());
 				projectList.add(pMap);				
-			}
+			}̥
 			result.put("project", projectList);
 			res.add(result);
 
@@ -800,6 +800,10 @@ public class CompanyServiceImpl implements CompanyService {
 		Optional<User> userOp = userRepo.findById(userId);
 		if(userOp!=null && userOp.get()!=null) {
 			User user = userOp.get();
+			if(user!=null && user.getRole().contains("ADMIN")) {
+				pro
+			}
+			
 		}
 		return null;
 	}

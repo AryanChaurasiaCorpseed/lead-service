@@ -78,7 +78,9 @@ public class Project implements Serializable{
 	String sCountry;
 	String secondaryPinCode;
 
-	
+    @ManyToOne
+    ConsultantByCompany consultantByCompany;
+    
 	
 
 	public Long getId() {
@@ -267,6 +269,14 @@ public class Project implements Serializable{
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public ConsultantByCompany getConsultantByCompany() {
+		return consultantByCompany;
+	}
+
+	public void setConsultantByCompany(ConsultantByCompany consultantByCompany) {
+		this.consultantByCompany = consultantByCompany;
 	}
     
 	

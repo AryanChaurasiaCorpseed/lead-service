@@ -91,6 +91,21 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setOtherFees(createservicedetails.getOtherFees());
 			proposal.setOtherCode(createservicedetails.getOtherCode());
 			proposal.setOtherGst(createservicedetails.getOtherGst());
+			
+			
+			proposal.setAddress(createservicedetails.getAddress());
+			proposal.setCity(createservicedetails.getCity());
+			proposal.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+			proposal.setState(createservicedetails.getState());
+			proposal.setCountry(createservicedetails.getCountry());
+			 
+			proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+			proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+			proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+			proposal.setSecondaryState(createservicedetails.getSecondaryState());
+			proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+			
+			
 			proposalRepository.save(proposal);
 			lead.setProposal(proposal);
 			leadRepository.save(lead);
@@ -123,6 +138,18 @@ public class ProposalServiceImpl implements ProposalService{
 				proposal.setUnitId(createservicedetails.getUnitId());
 				proposal.setPanNo(createservicedetails.getPanNo());
 				proposal.setGstNo(createservicedetails.getGstNo());
+				
+				proposal.setAddress(createservicedetails.getAddress());
+				proposal.setCity(createservicedetails.getCity());
+				proposal.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+				proposal.setState(createservicedetails.getState());
+				proposal.setCountry(createservicedetails.getCountry());
+				 
+				proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+				proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+				proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+				proposal.setSecondaryState(createservicedetails.getSecondaryState());
+				proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
 
 				proposal.setGstType(createservicedetails.getGstType());
 				proposal.setGstDocuments(createservicedetails.getGstDocuments());
@@ -203,6 +230,18 @@ public class ProposalServiceImpl implements ProposalService{
 		proposal.setUnitId(editProposalDto.getUnitId());
 		proposal.setPanNo(editProposalDto.getPanNo());
 		proposal.setGstNo(editProposalDto.getGstNo());
+		
+		proposal.setAddress(editProposalDto.getAddress());
+		proposal.setCity(editProposalDto.getCity());
+		proposal.setPrimaryPinCode(editProposalDto.getPrimaryPinCode());
+		proposal.setState(editProposalDto.getState());
+		proposal.setCountry(editProposalDto.getCountry());
+		 
+		proposal.setSecondaryAddress(editProposalDto.getSecondaryAddress());
+		proposal.setSecondaryCity(editProposalDto.getSecondaryCity()); 
+		proposal.setSecondaryPinCode(editProposalDto.getSecondaryPinCode());
+		proposal.setSecondaryState(editProposalDto.getSecondaryState());
+		proposal.setSecondaryCountry(editProposalDto.getSecondaryCountry());
 
 		proposal.setGstType(editProposalDto.getGstType());
 		proposal.setGstDocuments(editProposalDto.getGstDocuments());
