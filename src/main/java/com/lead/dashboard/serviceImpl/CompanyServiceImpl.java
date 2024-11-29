@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Company;
+import com.lead.dashboard.domain.ConsultantByCompany;
 import com.lead.dashboard.domain.Project;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
@@ -24,6 +25,7 @@ import com.lead.dashboard.dto.CompanyDto;
 import com.lead.dashboard.dto.UpdateCompanyDto;
 import com.lead.dashboard.repository.CompanyHistoryRepo;
 import com.lead.dashboard.repository.CompanyRepository;
+import com.lead.dashboard.repository.ConsultantByCompanyRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
 import com.lead.dashboard.repository.UserRepo;
@@ -49,6 +51,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	ConsultantByCompanyRepository consultantByCompanyRepository;
+	
 	
 	@Autowired
 	MailSendSerivceImpl mailSendSerivceImpl;
@@ -798,14 +804,23 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public List<Map<String, Object>> getAllConsultantByCompany(Long userId,int page, int size) {
 		Optional<User> userOp = userRepo.findById(userId);
+		List<Map<String,Object>>arr = new ArrayList<>();
 		if(userOp!=null && userOp.get()!=null) {
 			User user = userOp.get();
 			if(user!=null && user.getRole().contains("ADMIN")) {
-				
+				List<ConsultantByCompany> consultList = consultantByCompanyRepository.findAll();
+			    for(ConsultantByCompany c:consultList) {
+			    	Map<String,Object>map=new HashMap<>();
+			    	map.put("id", c.getId());
+			    	map.put("originalName", c.getName());
+			    	map.put("originalContact", c.getOriginalContact());
+			    	map.put("originalEmail", c.getOriginalEmail());
+			    	arr.add(map);
+			    }
 			}
 			
 		}
-		return null;
+		return arr;
 	}
 
 
