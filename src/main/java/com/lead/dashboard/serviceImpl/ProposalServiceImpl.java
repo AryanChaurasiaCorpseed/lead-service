@@ -288,4 +288,9 @@ public class ProposalServiceImpl implements ProposalService{
 		return flag;
 
 	}
+	@Override
+	public Proposal getAllProposalByLeadId(Long leadId) {
+//		leadRepository.findProposalIdByLead
+		return null;
+	}
 }

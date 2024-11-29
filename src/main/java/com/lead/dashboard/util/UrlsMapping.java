@@ -76,10 +76,11 @@ public class UrlsMapping {
 	public static final String CREATE_PROPOSAL=PREFIX+"/proposal/createProposal";
 	public static final String GET_PROPOSAL_BY_ID=PREFIX+"/proposal/getProposalById";
 	public static final String GET_ALL_PROPOSAL_BY_USER_ID=PREFIX+"/proposal/getAllProposalByUserId";
-	public static final String GET_ALL_PROPOSAL_BY_USER_ID_COUNT=PREFIX+"/proposal/getAllProposalByUserIdUser";
+	public static final String GET_ALL_PROPOSAL_BY_USER_ID_COUNT=PREFIX+"/proposal/getAllProposalByUserIdCount";
 	public static final String EDIT_PROPOSAL=PREFIX+"/proposal/editProposal";
 
-	
+	public static final String GET_ALL_PROPOSAL_BY_LEAD_ID=PREFIX+"/proposal/getAllProposalByLeadId";
+
 	
 	
 	

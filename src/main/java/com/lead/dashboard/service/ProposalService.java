@@ -21,5 +21,7 @@ public interface ProposalService {
 
 	Boolean editProposal(EditProposalDto editProposalDto);
 
+	Proposal getAllProposalByLeadId(Long leadId);
+
 
 }
