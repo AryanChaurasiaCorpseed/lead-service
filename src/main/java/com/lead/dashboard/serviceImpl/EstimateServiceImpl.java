@@ -257,7 +257,7 @@ public class EstimateServiceImpl implements EstimateService
 				 consultantByCompany.setName(createservicedetails.getOriginalCompanyName());
 				 consultantByCompany.setOriginalContact(createservicedetails.getOriginalContact());
 				 consultantByCompany.setOriginalEmail(createservicedetails.getOriginalEmail());
-				 consultantByCompany.setAddress(createservicedetails.getAddress());
+				 consultantByCompany.setAddress(createservicedetails.getOriginalAddress());
 				 consultantByCompanyRepository.save(consultantByCompany);
 				 serviceDetails.setConsultantByCompany(consultantByCompany);
 
@@ -477,7 +477,7 @@ public class EstimateServiceImpl implements EstimateService
 			 consultantByCompany.setName(editEstimate.getOriginalCompanyName());
 			 consultantByCompany.setOriginalContact(editEstimate.getOriginalContact());
 			 consultantByCompany.setOriginalEmail(editEstimate.getOriginalEmail());
-			 consultantByCompany.setAddress(editEstimate.getAddress());
+			 consultantByCompany.setAddress(editEstimate.getOriginalAddress());
 			 consultantByCompanyRepository.save(consultantByCompany);
 			 serviceDetails.setConsultantByCompany(consultantByCompany);
 

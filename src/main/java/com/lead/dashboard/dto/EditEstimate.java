@@ -86,6 +86,8 @@ public class EditEstimate {
 	String originalCompanyName;
 	String originalContact;
 	String originalEmail;
+	String originalAddress;
+
 	String address;
 	
 	public Long getId() {
@@ -423,6 +425,12 @@ public class EditEstimate {
 	}
 	public void setSecondaryCountry(String secondaryCountry) {
 		this.secondaryCountry = secondaryCountry;
+	}
+	public String getOriginalAddress() {
+		return originalAddress;
+	}
+	public void setOriginalAddress(String originalAddress) {
+		this.originalAddress = originalAddress;
 	}
 	
 	

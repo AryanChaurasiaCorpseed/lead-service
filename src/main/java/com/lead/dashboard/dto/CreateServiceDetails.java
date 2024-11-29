@@ -77,6 +77,7 @@ public class CreateServiceDetails {
 	String originalCompanyName;
 	String originalContact;
 	String originalEmail;
+	String originalAddress;
 	
 	//primary
 	Boolean isPrimaryAddress=true;
@@ -425,6 +426,12 @@ public class CreateServiceDetails {
 	}
 	public void setSecondaryCountry(String secondaryCountry) {
 		this.secondaryCountry = secondaryCountry;
+	}
+	public String getOriginalAddress() {
+		return originalAddress;
+	}
+	public void setOriginalAddress(String originalAddress) {
+		this.originalAddress = originalAddress;
 	}
 	
 	

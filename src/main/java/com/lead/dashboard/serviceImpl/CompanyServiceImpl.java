@@ -765,7 +765,7 @@ public class CompanyServiceImpl implements CompanyService {
 				pMap.put("projectId", p.getId());
 				pMap.put("projectName", p.getName());
 				projectList.add(pMap);				
-			}̥
+			}
 			result.put("project", projectList);
 			res.add(result);
 
