@@ -300,7 +300,14 @@ public class EstimateServiceImpl implements EstimateService
 			 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
 			 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
 			 
-			 serviceDetails.setAddress(createservicedetails.getAddress());
+			 serviceDetails.setInvoiceNote(createservicedetails.getInvoiceNote());
+			 serviceDetails.setOrderNumber(createservicedetails.getOrderNumber());
+			 serviceDetails.setPurchaseDate(createservicedetails.getPurchaseDate());//CURRENT DATE 
+			 serviceDetails.setEstimateData(createservicedetails.getEstimateDate());
+			 serviceDetails.setRemarksForOption(createservicedetails.getRemarksForOption());
+			 serviceDetails.setCc(createservicedetails.getCc());
+			
+			 
 			 serviceDetailsRepository.save(serviceDetails);
 			 lead.setServiceDetails(serviceDetails);
 			 leadRepository.save(lead);
@@ -371,6 +378,13 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
 				 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
 				 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+
+				 serviceDetails.setInvoiceNote(createservicedetails.getInvoiceNote());
+				 serviceDetails.setOrderNumber(createservicedetails.getOrderNumber());
+				 serviceDetails.setPurchaseDate(createservicedetails.getPurchaseDate());//CURRENT DATE 
+				 serviceDetails.setEstimateData(createservicedetails.getEstimateDate());
+				 serviceDetails.setRemarksForOption(createservicedetails.getRemarksForOption());
+				 serviceDetails.setCc(createservicedetails.getCc());
 				 
 				 serviceDetailsRepository.save(serviceDetails);
 				 lead.setServiceDetails(serviceDetails);
@@ -495,6 +509,13 @@ public class EstimateServiceImpl implements EstimateService
 		 serviceDetails.setSecondaryState(editEstimate.getSecondaryState());
 		 serviceDetails.setSecondaryCountry(editEstimate.getSecondaryCountry());
 		 
+		 serviceDetails.setInvoiceNote(editEstimate.getInvoiceNote());
+		 serviceDetails.setOrderNumber(editEstimate.getOrderNumber());
+		 serviceDetails.setPurchaseDate(editEstimate.getPurchaseDate());//CURRENT DATE 
+		 serviceDetails.setEstimateData(editEstimate.getEstimateDate());
+		 serviceDetails.setRemarksForOption(editEstimate.getRemarksForOption());
+		 serviceDetails.setCc(editEstimate.getCc());
+		 
 		 serviceDetailsRepository.save(serviceDetails);
 		
 		 flag=true;
@@ -606,6 +627,8 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("isUnit", s.isUnit());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
+		
+		m.put("getRemarkForOperation", s.getRemarksForOption());
 		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
 		m.put("totalAmount", totalAmount);
 

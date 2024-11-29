@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
@@ -32,6 +34,9 @@ public class ProposalServiceImpl implements ProposalService{
 
 	@Autowired
 	ProductRepo productRepo;
+	
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 
 	@Autowired
 	ProposalRepository proposalRepository;
@@ -178,6 +183,24 @@ public class ProposalServiceImpl implements ProposalService{
 		}
 		return flag;
 
+	}
+	public  void sendEstimate(Long pId) {
+		Proposal p = proposalRepository.findById(pId).get();
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		User u=p.getAssignee();
+		String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
+        String email=u!=null?u.getFullName():"NA";
+		Context context = new Context();
+		context.setVariable("userName", "Aryan Chaurasia");
+		context.setVariable("user", u.getFullName());
+
+		context.setVariable("email", email);
+		context.setVariable("Rurl", feedbackStatusURL);
+		context.setVariable("currentYear", LocalDateTime.now().getYear());
+		String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+		String text="CLICK ON THIS link and set password";
+		String[] ccPersons= {email};
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 	}
 
 	@Override
