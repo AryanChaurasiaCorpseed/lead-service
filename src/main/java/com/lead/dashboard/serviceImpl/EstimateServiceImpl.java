@@ -627,6 +627,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("isUnit", s.isUnit());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
+        m.put("consultantByCompany", s.getConsultantByCompany());
 		
 		m.put("getRemarkForOperation", s.getRemarksForOption());
 		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
@@ -730,7 +731,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("isSecondary", s.getIsSecondaryAddress());
 			int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
 			m.put("totalAmount", totalAmount);
-
+		    m.put("consultantByCompany", s.getConsultantByCompany());
 			res.add(m);
 
 		}
