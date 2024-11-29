@@ -65,20 +65,20 @@ public class ProposalController {
     }
 	
 	
-	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_LEAD_ID)
-    public long getAllProposalByLeadId(@RequestParam Long leadId)
-    {
-		long res=proposalService.getAllProposalByLeadId(leadId);
-    	return res;
-    }
+//	@GetMapping(UrlsMapping.GET_ALL_PROPOSAL_BY_LEAD_ID)
+//    public long getAllProposalByLeadId(@RequestParam Long leadId)
+//    {
+//		long res=proposalService.getAllProposalByLeadId(leadId);
+//    	return res;
+//    }
 	
 	
 	
     
 	@PostMapping(UrlsMapping.EDIT_PROPOSAL)
-    public Proposal editProposal(@RequestBody EditProposalDto  editProposalDto) throws Exception
+    public boolean editProposal(@RequestBody EditProposalDto  editProposalDto) throws Exception
     {
-    	Proposal res=proposalService.editProposal(editProposalDto);
+    	boolean res=proposalService.editProposal(editProposalDto);
         return res;
     }
 	
