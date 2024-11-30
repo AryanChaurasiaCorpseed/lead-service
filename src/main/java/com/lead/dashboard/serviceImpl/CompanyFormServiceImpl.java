@@ -677,10 +677,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		List<String>domain = new ArrayList<>();
 		for(String data:s) {
 			if(data!=null) {
-				System.out.println(data+"................................................................................................d");
-
 				String d=breakString(data);
-				System.out.println(d+"...d");
 
 				domain.add(d);
 			}

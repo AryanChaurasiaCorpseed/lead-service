@@ -359,7 +359,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUserByHr(CreateUserDto createUserDto) {
-		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		String[] emailTo= {"erp@corpseed.com"};
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(createUserDto.getEmail());
 		System.out.println(isExistOrNot);
