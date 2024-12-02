@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUserByEmail(String userName, String email, List<String> role, Long userId, String designation,String department,Long designationId, Long departmentId) {
 
-		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		String[] emailTo= {email};
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(email);
 		System.out.println(isExistOrNot);
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
 			String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
 
 			Context context = new Context();
-			context.setVariable("userName", "Aryan Chaurasia");
+//			context.setVariable("userName", "Aryan Chaurasia");
 			context.setVariable("user", u.getFullName());
 
 			context.setVariable("email", email);
@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
 			context.setVariable("currentYear", LocalDateTime.now().getYear());
 			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 			String text="CLICK ON THIS link and set password";
-			String[] ccPersons= {email};
+			String[] ccPersons= {"hr@corpseed.com"};
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 			return u;
 		}else {
@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService {
 			String subject="Corpseed pvt ltd send a request for adding on team please go and Accept";
 			String text="CLICK ON THIS link and set password";
 			userRepo.save(u);
-			String[] ccPersons= {email};
+			String[] ccPersons= {"hr@corpseed.com"};
 			//			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text);
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"TeamAdd.html");
 
@@ -359,7 +359,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUserByHr(CreateUserDto createUserDto) {
-		String[] emailTo= {"erp@corpseed.com"};
+		String[] emailTo= {createUserDto.getEmail()};
 		String randomPass = getRandomNumber().toString();
 		boolean isExistOrNot = isUserEmailExistOrNot(createUserDto.getEmail());
 		System.out.println(isExistOrNot);
@@ -432,7 +432,7 @@ public class UserServiceImpl implements UserService {
 			context.setVariable("currentYear", LocalDateTime.now().getYear());
 			String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
 			String text="CLICK ON THIS link and set password";
-			String[] ccPersons= {createUserDto.getEmail()};
+			String[] ccPersons= {"hr@corpseed.com"};
 			mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 			//==================use mail manager =============================
 			//			String feedbackStatusURLs = "http://98.70.36.18:3000/erp/setpassword/"+u.getId();

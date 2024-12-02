@@ -249,7 +249,7 @@ public class EstimateServiceImpl implements EstimateService
 			 Long assigneeId = createservicedetails.getAssigneeId();
 			 if(assigneeId!=null) {
 				User assignee = userRepo.findById(assigneeId).get();
-				serviceDetails.setAssigneeId(assignee);
+				serviceDetails.setAssignee(assignee);
 			 }
 			 // company
 			 if(createservicedetails.isConsultant()) {
@@ -330,7 +330,7 @@ public class EstimateServiceImpl implements EstimateService
 				 Long assigneeId = createservicedetails.getAssigneeId();
 				 if(assigneeId!=null) {
 					User assignee = userRepo.findById(assigneeId).get();
-					serviceDetails.setAssigneeId(assignee);
+					serviceDetails.setAssignee(assignee);
 				 }
 				 // company
 				 serviceDetails.setIsPresent(createservicedetails.getIsPresent());
@@ -458,7 +458,7 @@ public class EstimateServiceImpl implements EstimateService
 		 Long assigneeId = editEstimate.getAssigneeId();
 		 if(assigneeId!=null) {
 			User assignee = userRepo.findById(assigneeId).get();
-			serviceDetails.setAssigneeId(assignee);
+			serviceDetails.setAssignee(assignee);
 		 }
 		 
 		 // company
@@ -603,7 +603,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("status", s.getStatus());
 		m.put("unitId", s.getUnitId());
 		m.put("unitName", s.getUnitName());
-		m.put("assigneeId", s.getAssigneeId());
+		m.put("assigneeId", s.getAssignee());
 		m.put("ccMail", s.getCc());
 		m.put("createDate", s.getCreateDate());
 		m.put("estimateDate", s.getEstimateData())
@@ -708,7 +708,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("status", s.getStatus());
 			m.put("unitId", s.getUnitId());
 			m.put("unitName", s.getUnitName());
-			m.put("assigneeId", s.getAssigneeId());  
+			m.put("assigneeId", s.getAssignee());  
 			m.put("ccMail", s.getCc());
 			m.put("createDate", s.getCreateDate());
 			m.put("estimateDate", s.getEstimateData())

@@ -84,7 +84,7 @@ public class ServiceDetails {
 	
 
 	@ManyToOne
-	User  assigneeId;
+	User  assignee;
 	Long leadId;
 //	Long productId;
 	String status;
@@ -311,11 +311,12 @@ public class ServiceDetails {
 	public void setSecondaryCountry(String secondaryCountry) {
 		this.secondaryCountry = secondaryCountry;
 	}
-	public User getAssigneeId() {
-		return assigneeId;
+	
+	public User getAssignee() {
+		return assignee;
 	}
-	public void setAssigneeId(User assigneeId) {
-		this.assigneeId = assigneeId;
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 	public Long getLeadId() {
 		return leadId;
