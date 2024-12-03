@@ -9,4 +9,3 @@ import com.lead.dashboard.domain.KnowledgeDocument;
 public interface KnowledgeDocRepository extends JpaRepository<KnowledgeDocument, Long> {
 
 }
-̥
