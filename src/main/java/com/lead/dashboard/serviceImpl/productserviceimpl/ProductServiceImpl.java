@@ -2,6 +2,7 @@ package com.lead.dashboard.serviceImpl.productserviceimpl;
 
 
 import com.lead.dashboard.controller.leadController.ProductImportDto;
+import com.lead.dashboard.domain.KnowledgeDocument;
 import com.lead.dashboard.domain.ProductAmount;
 import com.lead.dashboard.domain.ProductDocuments;
 import com.lead.dashboard.domain.Stages;
@@ -14,6 +15,7 @@ import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.TatAndDescDto;
+import com.lead.dashboard.repository.KnowledgeDocRepository;
 import com.lead.dashboard.repository.ProductAmountRepo;
 import com.lead.dashboard.repository.ProductDocumentRepo;
 import com.lead.dashboard.repository.StageRepository;
@@ -40,6 +42,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepo productRepo;
+    
+    @Autowired
+    KnowledgeDocRepository knowledgeDocRepository;
     
     @Autowired
     UrlsManagmentRepo urlsManagmentRepo;
@@ -275,6 +280,34 @@ public class ProductServiceImpl implements ProductService {
 		Stages stage = stageRepository.findById(productdocumentId).get();
 		stage.setDeleted(true);
 		stageRepository.save(stage);
+		flag=true;
+		return flag;
+	}
+
+
+	@Override
+	public Boolean addKnowledgeDocumentsInProduct(DocProductDto docProductDto) {
+		
+		Boolean flag = false;
+		Product product = productRepo.findById(docProductDto.getProductId()).get();
+		List<KnowledgeDocument> doc = product.getProductKnowledgeDocument();
+		if(doc!=null) {
+			KnowledgeDocument pd= new KnowledgeDocument();
+			pd.setName(docProductDto.getName());
+			knowledgeDocRepository.save(pd);
+			doc.add(pd);
+			product.setProductKnowledgeDocument(doc);
+
+		}else {
+			doc=new ArrayList<>();
+			KnowledgeDocument pd= new KnowledgeDocument();
+			pd.setName(docProductDto.getName());
+			knowledgeDocRepository.save(pd);
+			doc.add(pd);
+			product.setProductKnowledgeDocument(doc);
+		}
+		
+		productRepo.save(product);
 		flag=true;
 		return flag;
 	}

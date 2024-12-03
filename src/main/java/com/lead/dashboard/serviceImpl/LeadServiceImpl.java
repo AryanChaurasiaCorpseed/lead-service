@@ -2263,6 +2263,20 @@ public class LeadServiceImpl implements LeadService  {
 	     }
 		return flag;
 	}
+	@Override
+	public Boolean autoOnOff(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Boolean b=false;
+        User user = userRepo.findById(1l).get();
+	     List<Lead> leadList = leadRepository.findAllByStatusIdAndAuto(1L, true,pageable).getContent();
+		 for(Lead l:leadList) {
+			 l.setAuto(true);
+			 leadRepository.save(l);
+			 b=true;
+		 }
+			 
+	     return b;
+	}
 	
 	
 

@@ -49,7 +49,7 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 //   			}
 //   			map.put("documents", doc);
    			
-   			map.put("documents", product.getProductDoc().stream().map(i->i.getName()).collect(Collectors.toList()));
+   			map.put("documents", product.getProductKnowledgeDocument().stream().map(i->i.getName()).collect(Collectors.toList()));
 
    			res.add(map);
    		}
@@ -118,7 +118,7 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 //	   			if(product.getDocuments()!=null) {
 //	   				doc.addAll (product.getDocuments());
 //	   			}
-	   			map.put("documents", product.getProductDoc().stream().map(i->i.getName()).collect(Collectors.toList()));
+	   			map.put("documents", product.getProductKnowledgeDocument().stream().map(i->i.getName()).collect(Collectors.toList()));
 	   			res.add(map);
 	   		}
 	   		return res;

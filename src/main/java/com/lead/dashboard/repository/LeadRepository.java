@@ -277,5 +277,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
      
  	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id=:statusId and el.is_deleted =:b", nativeQuery = true)
  	Page<Lead> findAllByStatusAndIsDeleted(Long statusId,boolean b ,Pageable pageable); 
+ 	
+	@Query(value = "SELECT * FROM erp_leads el WHERE el.status_id =:statusId and el.auto =:auto", nativeQuery = true)
+	Page<Lead> findAllByStatusIdAndAuto(long statusId, boolean auto,Pageable pageable);
 
 }

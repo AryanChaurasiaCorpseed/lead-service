@@ -59,4 +59,5 @@ public interface LeadService {
 	Boolean createPrimaryContact( int page, int size);
 	long getAllLeadCountV2(AllLeadFilter allLeadFilter);
 	long getAllActiveCustomerLeadCountV2(AllLeadFilter allLeadFilter);
+	Boolean autoOnOff(int page, int size);
 }

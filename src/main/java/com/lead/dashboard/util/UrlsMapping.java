@@ -42,6 +42,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_LEAD_FOR_IMPORT=PREFIX+"/lead/getAllLeadForImport";
 	public static final String CALCULATE_BASE_AMOUNT=PREFIX+"/lead/calculateBaseAmount";
 	public static final String CREATE_PRIMARY_CONTACT=PREFIX+"/lead/createPrimaryContact";
+	public static final String AUTO_ON_OFF=PREFIX+"/lead/autoOnOff";
 
 
 	//=================== Lead - Oppoertunity Service ===================
