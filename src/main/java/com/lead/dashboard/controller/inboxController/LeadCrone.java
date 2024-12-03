@@ -3455,7 +3455,7 @@ public class LeadCrone {
 
 		}
 	}
-
+//final
 //		@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCrone() {
 		List<Long>croneStatus= new ArrayList<>();
@@ -3492,9 +3492,11 @@ public class LeadCrone {
 				lead.setAssignee(lastUser);
 			}else {
 				if(existingLead!=null && existingLead.size()>1) {
-					System.out.println("cccccccccc");
+					List<Long> ids = existingLead.stream().map(i->i.getId()).collect(Collectors.toList());
+					System.out.println("cccccccccc"+existingLead.size()+"    ....   "+ids);
 					User assignee=getAssignee(existingLead);
 					//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+					System.out.println("full name "+assignee.getFullName());
 					if(assignee!=null &&assignee.isDeleted()) {
 						User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 						lead.setAssignee(user);
@@ -3510,7 +3512,9 @@ public class LeadCrone {
 					UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 					System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 					count2++;
-					if(lead!=null & lead.getIsUrlsChecked()) {
+					
+					boolean isUrlsChecked=lead!=null?lead.getIsUrlsChecked()!=null?lead.getIsUrlsChecked():false:false;
+					if(isUrlsChecked) {
 						System.out.println("eeeeeeeeeeeeeee");
 						if(urlsManagment!=null &&(!urlsManagment.isQuality())) {
 							System.out.println("ffffffffffff");
@@ -3791,7 +3795,7 @@ public class LeadCrone {
 				}
 			}
 			//			lead.setIsUrlsChecked(false);
-			//			lead.setAuto(false);
+						lead.setAuto(false);
 			leadRepository.save(lead);
 		}
 	}
@@ -3849,7 +3853,9 @@ public class LeadCrone {
 						UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 						System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 						count2++;
-						if(lead!=null & lead.getIsUrlsChecked()) {
+						boolean isUrlsChecked=lead!=null?lead.getIsUrlsChecked()!=null?lead.getIsUrlsChecked():false:false;
+
+						if(isUrlsChecked) {
 							System.out.println("eeeeeeeeeeeeeee");
 							if(urlsManagment!=null &&(!urlsManagment.isQuality())) {
 								System.out.println("ffffffffffff");
@@ -4134,7 +4140,7 @@ public class LeadCrone {
 					}
 				}
 				//			lead.setIsUrlsChecked(false);
-				//			lead.setAuto(false);
+							lead.setAuto(false);
 				leadRepository.save(lead);
 			}
 		}

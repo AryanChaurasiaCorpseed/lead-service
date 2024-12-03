@@ -427,11 +427,11 @@ public class LeadController {
 		return res;
 	}
 	
-	@PutMapping(UrlsMapping.CREATE_PRIMARY_CONTACT)
-	public Boolean createPrimaryContact(@RequestParam(value = "page", defaultValue = "1") int page,
+	@PutMapping(UrlsMapping.AUTO_ON_OFF)
+	public Boolean autoOnOff(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{ 
-		Boolean res=leadservice.createPrimaryContact(page,size);
+		Boolean res=leadservice.autoOnOff(page,size);
 		
 		return  res;
 

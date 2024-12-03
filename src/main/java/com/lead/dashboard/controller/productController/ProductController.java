@@ -166,5 +166,14 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
+    @PostMapping("/addKnowledgeDocumentsInProduct")
+    public ResponseEntity<Boolean> addKnowledgeDocumentsInProduct(@RequestBody DocProductDto docProductDto) {
+
+
+        Boolean result = productService.addKnowledgeDocumentsInProduct(docProductDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
     
 }
