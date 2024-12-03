@@ -152,7 +152,7 @@ public class ComplianceDocServiceImpl implements ComplianceDocService{
 		Map<String, Object>res=new HashMap<>();
 		if(p!=null) {
 			res.put("name", p.getProductName());
-			res.put("productDoc", p.getProductDoc());
+			res.put("productDoc", p.getProductKnowledgeDocument());
 		}
 	
 		return res;
