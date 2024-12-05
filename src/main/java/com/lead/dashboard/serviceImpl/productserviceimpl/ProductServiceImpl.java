@@ -5,6 +5,7 @@ import com.lead.dashboard.controller.leadController.ProductImportDto;
 import com.lead.dashboard.domain.KnowledgeDocument;
 import com.lead.dashboard.domain.ProductAmount;
 import com.lead.dashboard.domain.ProductDocuments;
+import com.lead.dashboard.domain.RequiredDocuments;
 import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.UrlsManagment;
 import com.lead.dashboard.domain.User;
@@ -18,6 +19,7 @@ import com.lead.dashboard.dto.TatAndDescDto;
 import com.lead.dashboard.repository.KnowledgeDocRepository;
 import com.lead.dashboard.repository.ProductAmountRepo;
 import com.lead.dashboard.repository.ProductDocumentRepo;
+import com.lead.dashboard.repository.RequiredDocumentRepo;
 import com.lead.dashboard.repository.StageRepository;
 import com.lead.dashboard.repository.UrlsManagmentRepo;
 import com.lead.dashboard.repository.UserRepo;
@@ -44,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
     ProductRepo productRepo;
     
     @Autowired
+    RequiredDocumentRepo requiredDocumentRepo;
+    
+    @Autowired
     KnowledgeDocRepository knowledgeDocRepository;
     
     @Autowired
@@ -57,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Autowired
     StageRepository stageRepository;
+    
     
     @Autowired
     CategoryRepo categoryRepo;
@@ -102,11 +108,13 @@ public class ProductServiceImpl implements ProductService {
             map.put("id", p.getId());
             map.put("productName", p.getProductName());
             map.put("productAmount", p.getProductAmount());
-            map.put("productDoc", p.getProductDoc());
+            map.put("productDoc", p.getRequiredDocuments());
             map.put("productStage", p.getProductStage());
             map.put("description", p.getDescription());
             map.put("tatValue", p.getTatValue());
             map.put("tatType", p.getTatType());
+            map.put("doc", p.getProductDoc());
+
    
         }
       return  map;
@@ -221,8 +229,8 @@ public class ProductServiceImpl implements ProductService {
 		return flag;
 	}
 
-	@Override
-	public Boolean addDocumentsInProduct(DocProductDto docProductDto) {
+	
+	public Boolean addProductDocumentsInProduct(DocProductDto docProductDto) {
 		
 		Boolean flag=false;
 		Product product = productRepo.findById(docProductDto.getProductId()).get();
@@ -233,6 +241,24 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDocuments> prodList=product.getProductDoc();
 		prodList.add(pd);
 		product.setProductDoc(prodList);
+		productRepo.save(product);
+		flag=true;
+		return flag;
+
+	}
+	@Override
+	public Boolean addDocumentsInProduct(DocProductDto docProductDto) {
+		
+		Boolean flag=false;
+		Product product = productRepo.findById(docProductDto.getProductId()).get();
+		RequiredDocuments pd = new RequiredDocuments();
+		
+		pd.setDescription(docProductDto.getDescription());
+		pd.setName(docProductDto.getName());
+		pd.setType(docProductDto.getType());
+		List<RequiredDocuments> prodList=product.getRequiredDocuments();
+		prodList.add(pd);
+		product.setRequiredDocuments(prodList);
 		productRepo.save(product);
 		flag=true;
 		return flag;
