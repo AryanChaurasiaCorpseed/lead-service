@@ -49,4 +49,6 @@ public interface CompanyService {
 	boolean deleteTempAssignee(UpdateCompanyDto updateCompanyDto);
 
 	List<Map<String, Object>> getAllConsultantByCompany(Long userId,int i, int size);
+
+	int getAllConsultantByCompanyCount(Long userId);
 }

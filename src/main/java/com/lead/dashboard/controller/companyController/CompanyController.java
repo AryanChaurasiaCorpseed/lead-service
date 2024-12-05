@@ -208,5 +208,16 @@ public class CompanyController {
 		return allCompany;
  
 	}
+	
+	
+	
+	@GetMapping(UrlsMapping.GET_ALL_CONSULTANT_BY_COMPANY_COUNT)
+	public int getAllConsultantByCompanyCount(@RequestParam Long userId)
+	{
+		int allCompany = companyService.getAllConsultantByCompanyCount(userId);
+		
+		return allCompany;
+ 
+	}
 
 }
