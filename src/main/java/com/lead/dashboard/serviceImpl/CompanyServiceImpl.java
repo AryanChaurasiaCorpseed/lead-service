@@ -824,5 +824,21 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 
+	@Override
+	public int getAllConsultantByCompanyCount(Long userId) {
+		Optional<User> userOp = userRepo.findById(userId);
+		int consultList=0;
+		List<Map<String,Object>>arr = new ArrayList<>();
+		if(userOp!=null && userOp.get()!=null) {
+			User user = userOp.get();
+			if(user!=null && user.getRole().contains("ADMIN")) {
+				  consultList = consultantByCompanyRepository.findAll().size();
+
+			}
+		}
+		return consultList;
+	}
+
+
 
 }
