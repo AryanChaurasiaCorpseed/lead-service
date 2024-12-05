@@ -74,7 +74,7 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody CreateProduct createProduct) {
 
 
-    	̥        Product result = productService.createProduct(createProduct);
+    	    Product result = productService.createProduct(createProduct);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
