@@ -305,7 +305,7 @@ public class ProductServiceImpl implements ProductService {
 			knowledgeDocRepository.save(pd);
 			doc.add(pd);
 			product.setProductKnowledgeDocument(doc);
-		}̥
+		}
 		productRepo.save(product);
 		flag=true;
 		return flag;
