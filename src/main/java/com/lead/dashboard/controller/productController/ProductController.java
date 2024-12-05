@@ -74,7 +74,7 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody CreateProduct createProduct) {
 
 
-        Product result = productService.createProduct(createProduct);
+    	    Product result = productService.createProduct(createProduct);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -117,6 +117,15 @@ public class ProductController {
 
 
         Boolean result = productService.addDocumentsInProduct(docProductDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
+    @PostMapping("/addProductDocumentsInProduct")
+    public ResponseEntity<Boolean> addProductDocumentsInProduct(@RequestBody DocProductDto docProductDto) {
+
+
+        Boolean result = productService.addProductDocumentsInProduct(docProductDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
