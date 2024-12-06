@@ -722,7 +722,7 @@ public class LeadCrone {
 		System.out.println("service and user map :::"+mapCount);
 		//========================================start = 
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		// System.out.println(ql+"................");
@@ -876,7 +876,7 @@ public class LeadCrone {
 		System.out.println("service and user map :::"+mapCount);
 		//========================================start = 
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		// System.out.println(ql+"................");
@@ -1147,7 +1147,7 @@ public class LeadCrone {
 		List<Long> assigneeIdList = cronelead.stream().filter(i->i.getAssignee()!=null).map(i->i.getAssignee().getId()).collect(Collectors.toList());
 
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		System.out.println(cronelead.size());
@@ -1483,7 +1483,7 @@ public class LeadCrone {
 				return 0;
 			}
 		});
-		
+		  
 		//		System.out.println("=========start=============");
 		//		System.out.println(countMap);
 		//		for(User u:result) {
@@ -1693,7 +1693,7 @@ public class LeadCrone {
 		List<Long> assigneeIdList = cronelead.stream().filter(i->i.getAssignee()!=null).map(i->i.getAssignee().getId()).collect(Collectors.toList());
 
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		System.out.println(cronelead.size());
@@ -1704,7 +1704,7 @@ public class LeadCrone {
 				User assignee=getAssignee(existingLead);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				System.out.println("Extra Large");
-
+ 
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
@@ -1897,7 +1897,7 @@ public class LeadCrone {
 		croneStatus.add(1l);
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		int count1=0;
@@ -2449,7 +2449,7 @@ public class LeadCrone {
 		croneStatus.add(1l);
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		int qi=0;//initial statge og quality user
 		int ql=qualityUser.size();
 		int count1=0;
@@ -2747,7 +2747,7 @@ public class LeadCrone {
 		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		System.out.println("Quality User . . . "+qualityUser.size());
 		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 
@@ -2761,7 +2761,7 @@ public class LeadCrone {
 		for(Lead lead:cronelead) {
 			System.out.println("lead "+lead.getId());
 			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-			System.out.println("bbbbbbbbb");
+			System.out.println("bbbbbbbbb...............................------5rttryryrttttttttttttttttttttttttttttttttttttttttttttt------------------------------"+ql);
 			User lastUser = lastActiveUser(lead.getId());
 
 			if(lead.isBacklogTask()&& (!lead.isNotAssignSame()) && lastUser!=null) {
@@ -3070,6 +3070,7 @@ public class LeadCrone {
 		}
 	}
 
+	
 	public User sortArrayAndSingleUser(List<User>userList,List<Long>statusIds){
 		System.out.println("Testing env  . . . . .");
 		List<Long> userIds = userList.stream().map(i->i.getId()).collect(Collectors.toList());
@@ -3113,7 +3114,7 @@ public class LeadCrone {
 		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 
 		int qi=0;//initial statge og quality user
@@ -3465,7 +3466,7 @@ public class LeadCrone {
 		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 		List<User>userList = userRepo.findAllActiveUser();
-		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 		System.out.println("aaaaaaaaaaaaaaaaa");
 
@@ -3808,7 +3809,7 @@ public class LeadCrone {
 			croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
 			List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
 			List<User>userList = userRepo.findAllActiveUser();
-			List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality")).collect(Collectors.toList());
+			List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
 			qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
 			System.out.println("aaaaaaaaaaaaaaaaa");
 
@@ -3816,16 +3817,31 @@ public class LeadCrone {
 			int ql=qualityUser.size();
 			int count1=0;
 			int count2=0;
-			System.out.println("testing .......");
+			System.out.println("testing ......ql ...."+ql);
 			System.out.println("lead size ......."+cronelead);
 
 			for(Lead lead:cronelead) {
 				System.out.println("lead "+lead.getId());
 				List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-				if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
-					existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-				}else {
+//				if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
+//					System.out.println("cc Test final ..."+lead.getEmail());
+//
+//					existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+//				}else {
+//					System.out.println("cc Test final ...55");
+//
+//					existingLead=leadRepository.findAllByMobile(lead.getMobileNo());
+//
+//				}
+//				
+				if(lead.getEmail()==null ||(lead.getEmail().equals("NA"))) {
+					System.out.println("cc Test final ..."+lead.getEmail());
 					existingLead=leadRepository.findAllByMobile(lead.getMobileNo());
+
+				}else {
+					System.out.println("cc Test final ...55");
+
+					existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
 
 				}
 				System.out.println("bbbbbbbbb");
@@ -3837,11 +3853,17 @@ public class LeadCrone {
 					if(existingLead!=null && existingLead.size()>1) {
 						System.out.println("cccccccccc");
 						User assignee=getAssignee(existingLead);
+						System.out.println("cccccccccctemp"+assignee!=null?assignee.getFullName():"NA");
+
 						//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 						if(assignee!=null &&assignee.isDeleted()) {
+							System.out.println("cccccccccc11");
+
 							User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 							lead.setAssignee(user);
 						}else {
+							System.out.println("cccccccccc22");
+
 							lead.setAssignee(assignee);
 						}
 						System.out.println("cccccc");
@@ -3904,6 +3926,8 @@ public class LeadCrone {
 										for(int i=1;i<userMerged.size();i++) {
 											int lockerSize =userMerged!=null?userMerged.get(i)!=null?userMerged.get(i).getLockerSize():0:0;
 											int actualCount=leadRepository.findCountByAssigneeId(userMerged.get(i).getId(),croneStatus);
+											System.out.println("locker.."+lockerSize+"....."+actualCount);
+
 											if(lockerSize>=actualCount) {
 												u1=userMerged.get(i);
 											}
@@ -4131,6 +4155,8 @@ public class LeadCrone {
 	                                    	lead.setAssignee(getAllStarUser.get(0));
 	    									lead.setIsUrlsChecked(false);
 	    									lead.setAuto(false);
+	    									lead.setAuto(false);
+
 	                                    }		
 									}  
 								}
@@ -4147,4 +4173,48 @@ public class LeadCrone {
 
 
 
+	
+	
+	
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	public void assignIvrLeadByCroneV() {
+		List<Long>croneStatus= new ArrayList<>();
+		System.out.println("First tsting  .....");
+		List<Status>sList=statusRepository.findByEnableAutoAssign(true);
+		sList.addAll(sList);
+		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
+		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
+		List<User>userList = userRepo.findAllActiveUser();
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
+		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+		System.out.println("aaaaaaaaaaaaaaaaa");
+
+		int qi=0;//initial statge og quality user
+		int ql=qualityUser.size();
+		int count1=0;
+		int count2=0;
+		System.out.println("testing ......ql ...."+ql);
+		System.out.println("lead size ......."+cronelead);
+
+		for(Lead lead:cronelead) {
+			if(ql>0) {
+				System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww");
+				System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+				List<Long> statusList = sList.stream().map(i->i.getId()).collect(Collectors.toList());
+				User u=sortArrayAndSingleUser(qualityUser,statusList);
+				//								lead.setAssignee(qualityUser.get(qi));
+				System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+				System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
+				lead.setAssignee(u);
+				lead.setAuto(false);
+				System.out.println("User..... count with ...."+u.getId());
+				qi++;
+				if(qi==ql) {
+					qi=0;
+				}	
+			}
+		}
+			
+
+	}
 }

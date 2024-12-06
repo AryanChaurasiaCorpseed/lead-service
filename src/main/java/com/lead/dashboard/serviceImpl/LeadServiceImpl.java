@@ -2270,7 +2270,7 @@ public class LeadServiceImpl implements LeadService  {
         User user = userRepo.findById(1l).get();
 	     List<Lead> leadList = leadRepository.findAllByStatusIdAndAuto(1L, true,pageable).getContent();
 		 for(Lead l:leadList) {
-			 l.setAuto(true);
+			 l.setAuto(false);
 			 leadRepository.save(l);
 			 b=true;
 		 }
