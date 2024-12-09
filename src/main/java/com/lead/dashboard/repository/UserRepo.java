@@ -84,4 +84,7 @@ public interface UserRepo extends JpaRepository<User,Long>
 
 	@Query("SELECT u FROM User u WHERE u.userDesignation.name = :designation AND u.userDepartment.name = :department")
 	List<User> findByDesignationAndDepartment(@Param("designation") String designation, @Param("department") String department);
+
+	@Query(value = "SELECT * FROM user u WHERE ivr_agent_no =:agentNumber and is_deleted=false", nativeQuery = true)
+	User findByIvrAgentNo(String agentNumber);
 }

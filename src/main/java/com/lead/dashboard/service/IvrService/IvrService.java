@@ -14,4 +14,6 @@ public interface IvrService {
 
 	IvrData createIvrData(String callerNumber, String agentName,String aggentNumber, String startTime, String destination,String endTime, String callRecordingUrl);
 
+	List<Map<String, Object>> getAllIvrDataWithPage(int page, int size);
+
 }
