@@ -46,4 +46,13 @@ public class IvrController {
 		return ivrList;
 
 	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_IVR_DATA_COUNT)
+	public int getAllIvrDataCount()
+	{
+		int ivrList=ivrService.getAllIvrDataCount();
+		
+		return ivrList;
+
+	}
 }

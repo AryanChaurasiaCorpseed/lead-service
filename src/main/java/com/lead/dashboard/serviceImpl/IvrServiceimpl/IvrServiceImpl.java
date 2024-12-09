@@ -155,4 +155,13 @@ public class IvrServiceImpl implements IvrService {
 	}
 
 
+	@Override
+	public int getAllIvrDataCount() {
+		int ivrList = ivrDataRepository.findAllCount();
+
+		
+		return 0;
+	}
+
+
 }

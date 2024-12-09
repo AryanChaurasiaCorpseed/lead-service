@@ -16,4 +16,6 @@ public interface IvrService {
 
 	List<Map<String, Object>> getAllIvrDataWithPage(int page, int size);
 
+	int getAllIvrDataCount();
+
 }
