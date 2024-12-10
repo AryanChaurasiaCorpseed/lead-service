@@ -209,6 +209,8 @@ public class UrlsMapping {
 	//IVR Module
 	public static final String GET_ALL_IVR_DATA=PREFIX+"/rating/getAllIvrData";
 	public static final String CREATE_IVR_DATA=PREFIX+"/rating/createIvrData";
+	public static final String GET_ALL_IVR_DATA_WITH_PAGE=PREFIX+"/rating/getAllIvrDataWithPage";
+	public static final String GET_ALL_IVR_DATA_COUNT=PREFIX+"/rating/getAllIvrDataCount";
 
 
 	//Standard comment

@@ -25,6 +25,7 @@ public class IvrData {
 	Date endTime;
 	String duration;
 	String recording;
+	boolean isLeadCreated;
 	
 	boolean flag;
 	public Long getId() {
@@ -98,6 +99,12 @@ public class IvrData {
 	}
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	public boolean isLeadCreated() {
+		return isLeadCreated;
+	}
+	public void setLeadCreated(boolean isLeadCreated) {
+		this.isLeadCreated = isLeadCreated;
 	}
 	
 	

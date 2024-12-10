@@ -107,6 +107,8 @@ public class User implements Serializable{
     
     boolean autoActive;
     private String maritalStatus;
+    
+    private String ivrAgentNo;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="user_ratings",joinColumns = {@JoinColumn(name="user_id",referencedColumnName="id",nullable=true)},
@@ -512,6 +514,14 @@ public class User implements Serializable{
 
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+
+	public String getIvrAgentNo() {
+		return ivrAgentNo;
+	}
+
+	public void setIvrAgentNo(String ivrAgentNo) {
+		this.ivrAgentNo = ivrAgentNo;
 	}
 
 

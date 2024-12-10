@@ -169,7 +169,7 @@ public class Lead {
 	
 	Date updatedDate;
 	
-	boolean isIvrQuality;
+	boolean isIvrQuality;// ivr lead come first time they will assign to quality person (false mtlab quality ko assign nahi hua h)
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
