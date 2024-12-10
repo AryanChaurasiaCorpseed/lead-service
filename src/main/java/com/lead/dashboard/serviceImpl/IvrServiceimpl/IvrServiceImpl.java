@@ -49,6 +49,8 @@ public class IvrServiceImpl implements IvrService {
 			map.put("callerStatus", ivr.getCallStatus());
 			map.put("duration", ivr.getDuration());
 			map.put("startTime", ivr.getStartTime());
+			map.put("recordingUrls", ivr.getRecording());
+
 			map.put("endTime", ivr.getEndTime());
 			map.put("date", ivr.getDate());
 			res.add(map);
@@ -63,6 +65,7 @@ public class IvrServiceImpl implements IvrService {
 		IvrData ivrData = new IvrData();
 		ivrData.setAgentName(agentName);
 		ivrData.setAgentNumber(agentNumber);
+		ivrData.setRecording(callRecordingUrl);
 		ivrData.setCallerNumber(callerNumber);
 		ivrData.setDuration(duration);
 		SimpleDateFormat formatter=new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");  
@@ -102,6 +105,7 @@ public class IvrServiceImpl implements IvrService {
 		c.setContactNo(callerNumber);
 		List<Client>cList = new ArrayList<Client>();
 		cList.add(c);
+		
 		User assignee=null;
 		if(agentNumber!=null) {
 			 assignee=userRepo.findByIvrAgentNo(agentNumber);
@@ -144,6 +148,8 @@ public class IvrServiceImpl implements IvrService {
 			map.put("agentName", ivr.getAgentName());
 			map.put("agentNumber", ivr.getAgentNumber());
 			map.put("callerStatus", ivr.getCallStatus());
+			map.put("recordingUrls", ivr.getRecording());
+
 			map.put("duration", ivr.getDuration());
 			map.put("startTime", ivr.getStartTime());
 			map.put("endTime", ivr.getEndTime());
@@ -160,7 +166,7 @@ public class IvrServiceImpl implements IvrService {
 		int ivrList = ivrDataRepository.findAllCount();
 
 		
-		return 0;
+		return ivrList;
 	}
 
 
