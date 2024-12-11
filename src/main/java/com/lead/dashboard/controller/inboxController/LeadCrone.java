@@ -1393,10 +1393,10 @@ public class LeadCrone {
 				i++;
 			}
 		}
-		
-		
-				System.out.println("=========start============="+countMap);
-				System.out.println("=========start2============="+result.stream().map(L->L.getId()).collect(Collectors.toList()));
+
+
+		System.out.println("=========start============="+countMap);
+		System.out.println("=========start2============="+result.stream().map(L->L.getId()).collect(Collectors.toList()));
 
 		//		System.out.println(countMap);
 		//		for(User u:result) {
@@ -1408,7 +1408,7 @@ public class LeadCrone {
 
 		return result;
 	}
-	
+
 	public  ArrayList<User>mergeStarUserV3new(List<User>user4,List<User>user5,Map<Long,Integer>countMap){
 		int i=0;
 		int j=0;
@@ -1424,7 +1424,7 @@ public class LeadCrone {
 			int c4=countMap!=null?countMap.get(u4.getId())!=null?countMap.get(u4.getId())+10:10:10;
 			countManage.put(u4.getId(), c4);
 			int c5=countMap!=null?countMap.get(u5.getId())!=null?countMap.get(u5.getId()):0:0;
-     
+
 			if(c4>c5) {
 				result.add(u5);
 				j++;
@@ -1450,7 +1450,7 @@ public class LeadCrone {
 				i++;
 			}
 		}
-		
+
 		//test sort
 		Collections.sort(result, (a, b) -> {
 			Integer c1=0;
@@ -1460,11 +1460,11 @@ public class LeadCrone {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
 				int lockerSize = a.getLockerSize();
-			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
-			     }
+				if(lockerSize!=0) {
+					cp1= c1/lockerSize;
+				}
 			}
-			
+
 			Integer c2=0;
 			Integer cp2=100;
 
@@ -1473,10 +1473,10 @@ public class LeadCrone {
 				c2=c2*100;
 				int lockerSize = b.getLockerSize();
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
-			     }
+					cp2= c2/lockerSize;
+				}
 
-				
+
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
@@ -1487,7 +1487,7 @@ public class LeadCrone {
 				return 0;
 			}
 		});
-		  
+
 		//		System.out.println("=========start=============");
 		//		System.out.println(countMap);
 		//		for(User u:result) {
@@ -1594,7 +1594,7 @@ public class LeadCrone {
 
 		return resUser;	
 	}
-	
+
 	public List<User> mergeAllUser1to5StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
 		//		Map<Long,Integer>countManage=countMap;
 		Map<Long,Integer>countManage = new HashMap<Long,Integer>(countMap);
@@ -1651,11 +1651,11 @@ public class LeadCrone {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
 				int lockerSize = a.getLockerSize();
-			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
-			     }
+				if(lockerSize!=0) {
+					cp1= c1/lockerSize;
+				}
 			}
-			
+
 			Integer c2=0;
 			Integer cp2=100;
 
@@ -1664,10 +1664,10 @@ public class LeadCrone {
 				c2=c2*100;
 				int lockerSize = b.getLockerSize();
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
-			     }
+					cp2= c2/lockerSize;
+				}
 
-				
+
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
@@ -1708,7 +1708,7 @@ public class LeadCrone {
 				User assignee=getAssignee(existingLead);
 				//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 				System.out.println("Extra Large");
- 
+
 				if(assignee!=null &&assignee.isDeleted()) {
 					User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
 					lead.setAssignee(user);
@@ -2261,8 +2261,8 @@ public class LeadCrone {
 		System.out.println("res user .. .... ... ..."+resUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 		return resUser;	
 	}
-	
-	
+
+
 	//replace v3 ->v3new
 	public List<User> mergeAllUser1to3StarV3new(List<Ratings>ratings,Map<Long,Integer>countMap) {
 		Map<Long,Integer>countManage=countMap;
@@ -2307,11 +2307,11 @@ public class LeadCrone {
 				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
 				c1=c1*100;
 				int lockerSize = a.getLockerSize();
-			     if(lockerSize!=0) {
-			    	 cp1= c1/lockerSize;
-			     }
+				if(lockerSize!=0) {
+					cp1= c1/lockerSize;
+				}
 			}
-			
+
 			Integer c2=0;
 			Integer cp2=100;
 
@@ -2320,10 +2320,10 @@ public class LeadCrone {
 				c2=c2*100;
 				int lockerSize = b.getLockerSize();
 				if(lockerSize!=0) {
-			    	 cp2= c2/lockerSize;
-			     }
+					cp2= c2/lockerSize;
+				}
 
-				
+
 			}
 			System.out.println("Testing . . .. ");
 			if(cp1>cp2) {
@@ -3074,7 +3074,7 @@ public class LeadCrone {
 		}
 	}
 
-	
+
 	public User sortArrayAndSingleUser(List<User>userList,List<Long>statusIds){
 		System.out.println("Testing env  . . . . .");
 		List<Long> userIds = userList.stream().map(i->i.getId()).collect(Collectors.toList());
@@ -3101,6 +3101,40 @@ public class LeadCrone {
 				if(res.get(u.getId())<max) {
 					max=res.get(u.getId());
 					pUser=u;
+				}
+			}
+		}
+		System.out.println("user data  . . "+pUser);
+		return pUser;
+
+	}
+	public User sortArrayAndSingleUserWithBucket(List<User>userList,List<Long>statusIds){
+		System.out.println("Testing env  . . . . .");
+		List<Long> userIds = userList.stream().map(i->i.getId()).collect(Collectors.toList());
+		List<Lead> leadList = leadRepository.findAllByAssigneeIdInAndStatusIdIn(userIds, statusIds);
+		Map<Long ,Long>res = new HashMap<>();
+		for(Long uId:userIds) {
+			res.put(uId, 0l);
+		}
+		for(Lead l:leadList) {
+			Long assigneeId = l.getAssignee().getId();
+
+			Long count = res.get(assigneeId);
+			res.put(assigneeId, count+1);
+		}
+
+		User pUser=null;
+		Long max =0l;
+		for (User u:userList) {
+			if(u.getLockerSize()>=res.get(u.getId())) {
+				if(pUser==null) {
+					pUser=u;
+					max=res.get(u.getId());
+				}else {
+					if(res.get(u.getId())<max) {
+						max=res.get(u.getId());
+						pUser=u;
+					}
 				}
 			}
 		}
@@ -3284,12 +3318,12 @@ public class LeadCrone {
 									int lockerSize=0;
 									int actualCount=0;
 									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
-										 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-										 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
-										
+										lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+
 									}
-//									int lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-//									int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+									//									int lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+									//									int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
 									//                         System.out.println(getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 
 									if(lockerSize>=actualCount) {
@@ -3460,8 +3494,8 @@ public class LeadCrone {
 
 		}
 	}
-//final
-//		@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	//final
+	//		@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCrone() {
 		List<Long>croneStatus= new ArrayList<>();
 		System.out.println("First tsting  .....");
@@ -3517,7 +3551,7 @@ public class LeadCrone {
 					UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
 					System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 					count2++;
-					
+
 					boolean isUrlsChecked=lead!=null?lead.getIsUrlsChecked()!=null?lead.getIsUrlsChecked():false:false;
 					if(isUrlsChecked) {
 						System.out.println("eeeeeeeeeeeeeee");
@@ -3529,7 +3563,7 @@ public class LeadCrone {
 								isProf= checkEmailDomain(lead.getEmail());
 							}
 							if(isProf) {
-						System.out.println("gggggggg");
+								System.out.println("gggggggg");
 								Long productId=urlsManagment.getId();
 								String rating4="4";
 								Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
@@ -3551,11 +3585,11 @@ public class LeadCrone {
 								int cInt=0;
 								int count=0;
 								if(userMerged!=null && userMerged.size()>0) {
-									 cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-										 count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+									cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+									count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 
 								}
-//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+								//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 								//					System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 								if(count>cInt) {
 									System.out.println("kkkkkkkkkkkkkk");
@@ -3616,7 +3650,7 @@ public class LeadCrone {
 										lead.setIsUrlsChecked(false);
 										lead.setAuto(false);
 									}
-									
+
 								}
 							}else { 
 								System.out.println("sssssssssssssssssssssssssssssssssssssss");
@@ -3631,8 +3665,8 @@ public class LeadCrone {
 									int lockerSize=0;
 									int actualCount=0;
 									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
-										 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-										 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+										lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
 									}
 									if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
 										lead.setAssignee(getAllStarUser.get(0));
@@ -3657,7 +3691,7 @@ public class LeadCrone {
 											lead.setIsUrlsChecked(false);
 											lead.setAuto(false);
 										}
-										
+
 									}
 								}
 
@@ -3724,8 +3758,8 @@ public class LeadCrone {
 								cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
 								count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;							
 							}
-//							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-//							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+							//							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+							//							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 							//				System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 							if(count>cInt) {
 
@@ -3787,11 +3821,11 @@ public class LeadCrone {
 								if(ratingList!=null&&ratingList.size()>0) {
 									List<User> getAllStarUser = mergeAllUser1to5StarV3(ratingList, userCounts);
 									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-                                    if(getAllStarUser.get(0)!=null) {
-                                    	lead.setAssignee(getAllStarUser.get(0));
-    									lead.setIsUrlsChecked(false);
-    									lead.setAuto(false);
-                                    }		
+									if(getAllStarUser.get(0)!=null) {
+										lead.setAssignee(getAllStarUser.get(0));
+										lead.setIsUrlsChecked(false);
+										lead.setAuto(false);
+									}		
 								}  
 							}
 
@@ -3800,375 +3834,375 @@ public class LeadCrone {
 				}
 			}
 			//			lead.setIsUrlsChecked(false);
-						lead.setAuto(false);
+			lead.setAuto(false);
 			leadRepository.save(lead);
 		}
 	}
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
-		public void assignLeadByCroneV() {
-			List<Long>croneStatus= new ArrayList<>();
-			System.out.println("First tsting  .....");
-			List<Status>sList=statusRepository.findByEnableAutoAssign(true);
-			sList.addAll(sList);
-			croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
-			List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
-			List<User>userList = userRepo.findAllActiveUser();
-			List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
-			qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-			System.out.println("aaaaaaaaaaaaaaaaa");
+	//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	public void assignLeadByCroneV() {
+		List<Long>croneStatus= new ArrayList<>();
+		System.out.println("First tsting  .....");
+		List<Status>sList=statusRepository.findByEnableAutoAssign(true);
+		sList.addAll(sList);
+		croneStatus.addAll(sList.stream().map(i->i.getId()).collect(Collectors.toList()));
+		List<Lead>cronelead=leadRepository.findAllByStatusIdInAndIsDeletedAndAuto(croneStatus, false,true);
+		List<User>userList = userRepo.findAllActiveUser();
+		List<User>qualityUser = userList.stream().filter(i->i.getDepartment().equalsIgnoreCase("Quality Team")).collect(Collectors.toList());
+		qualityUser=qualityUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+		System.out.println("aaaaaaaaaaaaaaaaa");
 
-			int qi=0;//initial statge og quality user
-			int ql=qualityUser.size();
-			int count1=0;
-			int count2=0;
-			System.out.println("testing ......ql ...."+ql);
-			System.out.println("lead size ......."+cronelead);
+		int qi=0;//initial statge og quality user
+		int ql=qualityUser.size();
+		int count1=0;
+		int count2=0;
+		System.out.println("testing ......ql ...."+ql);
+		System.out.println("lead size ......."+cronelead);
 
-			for(Lead lead:cronelead) {
-				System.out.println("lead "+lead.getId());
-				List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
-				if(lead.getEmail()==null ||(lead.getEmail().equals("NA"))) {
-					System.out.println("cc Test final ..."+lead.getEmail());
-					existingLead=leadRepository.findAllByMobile(lead.getMobileNo());
+		for(Lead lead:cronelead) {
+			System.out.println("lead "+lead.getId());
+			List<Lead>existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+			if(lead.getEmail()==null ||(lead.getEmail().equals("NA"))) {
+				System.out.println("cc Test final ..."+lead.getEmail());
+				existingLead=leadRepository.findAllByMobile(lead.getMobileNo());
 
-				}else {
-					System.out.println("cc Test final ...55");
+			}else {
+				System.out.println("cc Test final ...55");
 
-					existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
+				existingLead=leadRepository.findAllByEmailAndMobile(lead.getEmail(),lead.getMobileNo());
 
-				}
-				System.out.println("bbbbbbbbb");
-				User lastUser = lastActiveUser(lead.getId());
-				if(lead.isBacklogTask()&& (!lead.isNotAssignSame()) && lastUser!=null) {
-					//				User user = lastActiveUser(lead.getId());
-					lead.setAssignee(lastUser);
-				}else {
-					if(existingLead!=null && existingLead.size()>1) {
-						System.out.println("cccccccccc");
-						User assignee=getAssignee(existingLead);
-						System.out.println("cccccccccctemp"+assignee!=null?assignee.getFullName():"NA");
+			}
+			System.out.println("bbbbbbbbb");
+			User lastUser = lastActiveUser(lead.getId());
+			if(lead.isBacklogTask()&& (!lead.isNotAssignSame()) && lastUser!=null) {
+				//				User user = lastActiveUser(lead.getId());
+				lead.setAssignee(lastUser);
+			}else {
+				if(existingLead!=null && existingLead.size()>1) {
+					System.out.println("cccccccccc");
+					User assignee=getAssignee(existingLead);
+					System.out.println("cccccccccctemp"+assignee!=null?assignee.getFullName():"NA");
 
-						//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
-						if(assignee!=null &&assignee.isDeleted()) {
-							System.out.println("cccccccccc11");
+					//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
+					if(assignee!=null &&assignee.isDeleted()) {
+						System.out.println("cccccccccc11");
 
-							User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
-							lead.setAssignee(user);
-						}else {
-							System.out.println("cccccccccc22");
-
-							lead.setAssignee(assignee);
-						}
-						System.out.println("cccccc");
+						User user = userRepo.findAllByIsDeletedAndIsMaster(false,true);
+						lead.setAssignee(user);
 					}else {
-						System.out.println("dddddddddddd");
-						System.out.println(lead.getOriginalName()+""+lead.getId());
-						System.out.println(lead.getOriginalName());
+						System.out.println("cccccccccc22");
 
-						UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
-						System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-						count2++;
-						boolean isUrlsChecked=lead!=null?lead.getIsUrlsChecked()!=null?lead.getIsUrlsChecked():false:false;
+						lead.setAssignee(assignee);
+					}
+					System.out.println("cccccc");
+				}else {
+					System.out.println("dddddddddddd");
+					System.out.println(lead.getOriginalName()+""+lead.getId());
+					System.out.println(lead.getOriginalName());
 
-						if(isUrlsChecked) {
-							System.out.println("eeeeeeeeeeeeeee");
-							if(urlsManagment!=null &&(!urlsManagment.isQuality())) {
-								System.out.println("ffffffffffff");
-								count1++;
-								Boolean isProf =false;
-								if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
-									isProf= checkEmailDomain(lead.getEmail());
-								}
-								if(isProf||((lead.getEmail()==null)||(lead.getEmail()!=null &&(lead.getEmail().equals("NA"))))) {
-									System.out.println("gggggggg");
-									Long productId=urlsManagment.getId();
-									String rating4="4";
-									Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
-									List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
-									//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
-									System.out.println("hhhhhhhhhhhhh");
-									String rating5="5";
-									System.out.println(productId);
-									Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
-									List<User> user5Rating = ratings5!=null?ratings5.getRatingsUser():null;
-									//								 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
-									System.out.println("iiiiiiiiiiiiiiiiiiiiii");
-									Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
-									List<User> userMerged = mergeStarUserV3new(user4Rating,user5Rating,userCounts);
-									userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-									System.out.println("jjjjjjjjjjjjjjjjj");
-									User u1=null;
-									//					System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
-									int cInt=0;
-									int count=0;
-									if(userMerged!=null && userMerged.size()>0) {
-										 cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-											 count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+					UrlsManagment urlsManagment = urlsManagmentRepo.findByUrlsName(lead.getOriginalName());
+					System.out.println(urlsManagment+"tttttttttttttttttttttttttttttttttttttttttttttttttLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+					count2++;
+					boolean isUrlsChecked=lead!=null?lead.getIsUrlsChecked()!=null?lead.getIsUrlsChecked():false:false;
 
-									}
-//									int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
-									//					System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
-									if(count>cInt) {
-										System.out.println("kkkkkkkkkkkkkk");
-
-										u1=userMerged.get(0);
-									}
-									else {
-										System.out.println("llllllllllll"+userMerged.size());
-
-										for(int i=1;i<userMerged.size();i++) {
-											int lockerSize =userMerged!=null?userMerged.get(i)!=null?userMerged.get(i).getLockerSize():0:0;
-											int actualCount=leadRepository.findCountByAssigneeId(userMerged.get(i).getId(),croneStatus);
-											System.out.println("locker.."+lockerSize+"....."+actualCount);
-
-											if(lockerSize>=actualCount) {
-												u1=userMerged.get(i);
-											}
-										}
-									}
-									System.out.println("mmmmmmmm");
-
-									if(u1==null) {
-										System.out.println("nnnnnnnnnnnnn");
-										System.out.println(productId);
-										List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
-										ratingList=ratingList.stream().filter(i->i.getRating().equals("3")||i.getRating().equals("2")||i.getRating().equals("1")).collect(Collectors.toList());
-										System.out.println("ooooooooooooooooooooo"+ratingList.size());
-										if(ratingList!=null && ratingList.size()>0) {
-											System.out.println("pppppppppppppppppppppppppppp");
-											List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
-											getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-											System.out.println("p1-testfgddgdfgdfg  "+getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
-											for(int i=0;i<getAllStarUser.size();i++) {
-
-												//										if(getAllStarUser.get(i).getLockerSize()<=cInt) {
-												//
-												//											u1=getAllStarUser.get(i);
-												//											break;
-												//										}
-												int lockerSize =getAllStarUser!=null?getAllStarUser.get(i)!=null?getAllStarUser.get(i).getLockerSize():0:0;
-												int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(i).getId(),croneStatus);
-												System.out.println("Locker size "+lockerSize+"testing    . .  "+actualCount+"    count "+getAllStarUser.get(i));
-												if(lockerSize>=actualCount) {
-													u1=getAllStarUser.get(i);
-												}
-											}
-										}  
-									}
-									if(u1!=null) {
-										System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq  .."+u1.getFullName());
-										lead.setAssignee(u1);
-										lead.setIsUrlsChecked(false);
-										lead.setAuto(false);
-									}else {
-										System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-										User user=userRepo.findByIsBackupTeam(true);
-										System.out.println("user is.... "+user);
-										if(user!=null) {
-											lead.setAssignee(user);
-											lead.setIsUrlsChecked(false);
-											lead.setAuto(false);
-										}
-										
-									}
-								}else { 
-									System.out.println("sssssssssssssssssssssssssssssssssssssss");
-									User u=null;
-									Long productId=urlsManagment.getId();
-									Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
-									List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);                            
-									if(ratingList!=null&&ratingList.size()>0) {
-										System.out.println("tttttttttttttttttt");
-										List<User> getAllStarUser = mergeAllUser1to3StarV3new(ratingList, userCounts);
-										getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-										int lockerSize=0;
-										int actualCount=0;
-										if(getAllStarUser!=null && getAllStarUser.size()!=0) {
-											 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-											 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
-										}
-										if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
-											lead.setAssignee(getAllStarUser.get(0)
-													
-													
-													
-													);
-											lead.setAuto(false);
-										}else {
-											System.out.println("uuuuuuuuuuuuuuu");
-
-											List<User> get4to5StarUser = mergeAllUser4to5StarV3(ratingList, userCounts);
-											getAllStarUser.addAll(get4to5StarUser);
-											getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-
-											for(int i=0;i<getAllStarUser.size();i++) {
-												int lSize =getAllStarUser!=null?getAllStarUser.get(i)!=null?getAllStarUser.get(i).getLockerSize():0:0;
-												int aCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(i).getId(),croneStatus);
-												if(lSize>=aCount) {
-													u=getAllStarUser.get(i);
-													break;
-												}
-											}
-											if(u!=null) {
-												lead.setAssignee(u);
-												lead.setIsUrlsChecked(false);
-												lead.setAuto(false);
-											}
-											
-										}
-									}
-
-								}
-							}else {
-								System.out.println("vvvvvvvvvvvvvvvvvvv");
-
-								if(ql>0) {
-									System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww");
-									System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
-									List<Long> statusList = sList.stream().map(i->i.getId()).collect(Collectors.toList());
-									User u=sortArrayAndSingleUser(qualityUser,statusList);
-									//								lead.setAssignee(qualityUser.get(qi));
-									System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
-									System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
-									lead.setAssignee(u);
-									lead.setAuto(false);
-									System.out.println("User..... count with ...."+u.getId());
-									qi++;
-									if(qi==ql) {
-										qi=0;
-									}	
-								}
-							}
-							lead.setIsUrlsChecked(false);
-						}else{
-							System.out.println("xxxxxxxxxxxxxxxxxx");
-
+					if(isUrlsChecked) {
+						System.out.println("eeeeeeeeeeeeeee");
+						if(urlsManagment!=null &&(!urlsManagment.isQuality())) {
+							System.out.println("ffffffffffff");
+							count1++;
 							Boolean isProf =false;
-							if(lead.getEmail()!=null&& (!lead.getEmail().equals("NA"))) {
-								System.out.println(lead.getEmail());
+							if(lead.getEmail()!=null &&(!lead.getEmail().equals("NA"))) {
 								isProf= checkEmailDomain(lead.getEmail());
-								System.out.println("yyyyyyyyyyyyyyyyyyyy");
 							}
-							if(isProf && urlsManagment!=null) {
-								System.out.println(urlsManagment+"zzzzzzzzzzzzzzzzzzzzzzzzzzz");
-
+							if(isProf||((lead.getEmail()==null)||(lead.getEmail()!=null &&(lead.getEmail().equals("NA"))))) {
+								System.out.println("gggggggg");
 								Long productId=urlsManagment.getId();
-								//							String rating4="4";
-								//							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
-								//
-								//							String rating5="5";
-								//							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
-
 								String rating4="4";
 								Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
 								List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
-
 								//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
 								System.out.println("hhhhhhhhhhhhh");
-
 								String rating5="5";
+								System.out.println(productId);
 								Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
 								List<User> user5Rating = ratings5!=null?ratings5.getRatingsUser():null;
-
+								//								 List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+								System.out.println("iiiiiiiiiiiiiiiiiiiiii");
 								Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
 								List<User> userMerged = mergeStarUserV3new(user4Rating,user5Rating,userCounts);
 								userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+								System.out.println("jjjjjjjjjjjjjjjjj");
 								User u1=null;
-								//				System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
+								//					System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
 								int cInt=0;
-								int count =0;
-								if(userMerged!=null&&userMerged.size()!=0) {
+								int count=0;
+								if(userMerged!=null && userMerged.size()>0) {
 									cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-									count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;							
+									count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+
 								}
-//								int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
-								//				System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
+								//									int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+								//					System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 								if(count>cInt) {
+									System.out.println("kkkkkkkkkkkkkk");
 
 									u1=userMerged.get(0);
 								}
 								else {
+									System.out.println("llllllllllll"+userMerged.size());
+
 									for(int i=1;i<userMerged.size();i++) {
 										int lockerSize =userMerged!=null?userMerged.get(i)!=null?userMerged.get(i).getLockerSize():0:0;
-										int actualCount=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+										int actualCount=leadRepository.findCountByAssigneeId(userMerged.get(i).getId(),croneStatus);
+										System.out.println("locker.."+lockerSize+"....."+actualCount);
+
 										if(lockerSize>=actualCount) {
 											u1=userMerged.get(i);
 										}
 									}
 								}
+								System.out.println("mmmmmmmm");
 
 								if(u1==null) {
-
+									System.out.println("nnnnnnnnnnnnn");
+									System.out.println(productId);
 									List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
 									ratingList=ratingList.stream().filter(i->i.getRating().equals("3")||i.getRating().equals("2")||i.getRating().equals("1")).collect(Collectors.toList());
-
-									if(ratingList!=null&&ratingList.size()>0) {
-
+									System.out.println("ooooooooooooooooooooo"+ratingList.size());
+									if(ratingList!=null && ratingList.size()>0) {
+										System.out.println("pppppppppppppppppppppppppppp");
 										List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
 										getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-
+										System.out.println("p1-testfgddgdfgdfg  "+getAllStarUser.stream().map(i->i.getFullName()).collect(Collectors.toList()));
 										for(int i=0;i<getAllStarUser.size();i++) {
 
-											if(getAllStarUser.get(i).getLockerSize()<=cInt) {
+											//										if(getAllStarUser.get(i).getLockerSize()<=cInt) {
+											//
+											//											u1=getAllStarUser.get(i);
+											//											break;
+											//										}
+											int lockerSize =getAllStarUser!=null?getAllStarUser.get(i)!=null?getAllStarUser.get(i).getLockerSize():0:0;
+											int actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(i).getId(),croneStatus);
+											System.out.println("Locker size "+lockerSize+"testing    . .  "+actualCount+"    count "+getAllStarUser.get(i));
+											if(lockerSize>=actualCount) {
 												u1=getAllStarUser.get(i);
-												break;
 											}
 										}
 									}  
 								}
 								if(u1!=null) {
+									System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq  .."+u1.getFullName());
 									lead.setAssignee(u1);
 									lead.setIsUrlsChecked(false);
 									lead.setAuto(false);
 								}else {
-									System.out.println("User is in backup team"+lead.getId());
+									System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 									User user=userRepo.findByIsBackupTeam(true);
+									System.out.println("user is.... "+user);
 									if(user!=null) {
 										lead.setAssignee(user);
 										lead.setIsUrlsChecked(false);
 										lead.setAuto(false);
-										sendMail();
+									}
+
+								}
+							}else { 
+								System.out.println("sssssssssssssssssssssssssssssssssssssss");
+								User u=null;
+								Long productId=urlsManagment.getId();
+								Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
+								List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);                            
+								if(ratingList!=null&&ratingList.size()>0) {
+									System.out.println("tttttttttttttttttt");
+									List<User> getAllStarUser = mergeAllUser1to3StarV3new(ratingList, userCounts);
+									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+									int lockerSize=0;
+									int actualCount=0;
+									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
+										lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+									}
+									if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
+										lead.setAssignee(getAllStarUser.get(0)
+
+
+
+												);
+										lead.setAuto(false);
 									}else {
-										sendMail();
+										System.out.println("uuuuuuuuuuuuuuu");
+
+										List<User> get4to5StarUser = mergeAllUser4to5StarV3(ratingList, userCounts);
+										getAllStarUser.addAll(get4to5StarUser);
+										getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+
+										for(int i=0;i<getAllStarUser.size();i++) {
+											int lSize =getAllStarUser!=null?getAllStarUser.get(i)!=null?getAllStarUser.get(i).getLockerSize():0:0;
+											int aCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(i).getId(),croneStatus);
+											if(lSize>=aCount) {
+												u=getAllStarUser.get(i);
+												break;
+											}
+										}
+										if(u!=null) {
+											lead.setAssignee(u);
+											lead.setIsUrlsChecked(false);
+											lead.setAuto(false);
+										}
 
 									}
 								}
 
-							}else { 
-								System.out.println("a1aaaaaaaaaaaaaaaaaaaaaaaaaa");
-								if(urlsManagment!=null) {
-									Long productId=urlsManagment.getId();
-									Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
-									List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
-									if(ratingList!=null&&ratingList.size()>0) {
-										List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
-										getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-	                                    if(getAllStarUser.get(0)!=null) {
-	                                    	lead.setAssignee(getAllStarUser.get(0));
-	    									lead.setIsUrlsChecked(false);
-	    									lead.setAuto(false);
-	    									lead.setAuto(false);
-
-	                                    }		
-									}  
-								}
-
 							}
+						}else {
+							System.out.println("vvvvvvvvvvvvvvvvvvv");
+
+							if(ql>0) {
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww");
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+								List<Long> statusList = sList.stream().map(i->i.getId()).collect(Collectors.toList());
+								User u=sortArrayAndSingleUser(qualityUser,statusList);
+								//								lead.setAssignee(qualityUser.get(qi));
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
+								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
+								lead.setAssignee(u);
+								lead.setAuto(false);
+								System.out.println("User..... count with ...."+u.getId());
+								qi++;
+								if(qi==ql) {
+									qi=0;
+								}	
+							}
+						}
+						lead.setIsUrlsChecked(false);
+					}else{
+						System.out.println("xxxxxxxxxxxxxxxxxx");
+
+						Boolean isProf =false;
+						if(lead.getEmail()!=null&& (!lead.getEmail().equals("NA"))) {
+							System.out.println(lead.getEmail());
+							isProf= checkEmailDomain(lead.getEmail());
+							System.out.println("yyyyyyyyyyyyyyyyyyyy");
+						}
+						if(isProf && urlsManagment!=null) {
+							System.out.println(urlsManagment+"zzzzzzzzzzzzzzzzzzzzzzzzzzz");
+
+							Long productId=urlsManagment.getId();
+							//							String rating4="4";
+							//							List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).getRatingsUser();
+							//
+							//							String rating5="5";
+							//							List<User> user5Rating = ratingRepository.findByRatingAndProdctId(rating5,productId).getRatingsUser();
+
+							String rating4="4";
+							Ratings ratings4 = ratingRepository.findByRatingAndProdctId(rating4,productId);
+							List<User> user4Rating = ratings4!=null? ratings4.getRatingsUser():null;
+
+							//								List<User> user4Rating = ratingRepository.findByRatingAndProdctId(rating4,productId).g̥etRatingsUser();
+							System.out.println("hhhhhhhhhhhhh");
+
+							String rating5="5";
+							Ratings ratings5 = ratingRepository.findByRatingAndProdctId(rating5,productId);
+							List<User> user5Rating = ratings5!=null?ratings5.getRatingsUser():null;
+
+							Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
+							List<User> userMerged = mergeStarUserV3new(user4Rating,user5Rating,userCounts);
+							userMerged=userMerged.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+							User u1=null;
+							//				System.out.println(userMerged.stream().map(i->i.getId()).collect(Collectors.toList())+"......|||||||||||||||||dash");
+							int cInt=0;
+							int count =0;
+							if(userMerged!=null&&userMerged.size()!=0) {
+								cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+								count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;							
+							}
+							//								int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+							//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+							//				System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
+							if(count>cInt) {
+
+								u1=userMerged.get(0);
+							}
+							else {
+								for(int i=1;i<userMerged.size();i++) {
+									int lockerSize =userMerged!=null?userMerged.get(i)!=null?userMerged.get(i).getLockerSize():0:0;
+									int actualCount=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+									if(lockerSize>=actualCount) {
+										u1=userMerged.get(i);
+									}
+								}
+							}
+
+							if(u1==null) {
+
+								List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+								ratingList=ratingList.stream().filter(i->i.getRating().equals("3")||i.getRating().equals("2")||i.getRating().equals("1")).collect(Collectors.toList());
+
+								if(ratingList!=null&&ratingList.size()>0) {
+
+									List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
+									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+
+									for(int i=0;i<getAllStarUser.size();i++) {
+
+										if(getAllStarUser.get(i).getLockerSize()<=cInt) {
+											u1=getAllStarUser.get(i);
+											break;
+										}
+									}
+								}  
+							}
+							if(u1!=null) {
+								lead.setAssignee(u1);
+								lead.setIsUrlsChecked(false);
+								lead.setAuto(false);
+							}else {
+								System.out.println("User is in backup team"+lead.getId());
+								User user=userRepo.findByIsBackupTeam(true);
+								if(user!=null) {
+									lead.setAssignee(user);
+									lead.setIsUrlsChecked(false);
+									lead.setAuto(false);
+									sendMail();
+								}else {
+									sendMail();
+
+								}
+							}
+
+						}else { 
+							System.out.println("a1aaaaaaaaaaaaaaaaaaaaaaaaaa");
+							if(urlsManagment!=null) {
+								Long productId=urlsManagment.getId();
+								Map<Long, Integer> userCounts = calculateLeadCount(lead.getOriginalName(),croneStatus);
+								List<Ratings> ratingList = ratingRepository.findAllByProductId(productId);
+								if(ratingList!=null&&ratingList.size()>0) {
+									List<User> getAllStarUser = mergeAllUser1to5StarV3new(ratingList, userCounts);
+									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
+									if(getAllStarUser.get(0)!=null) {
+										lead.setAssignee(getAllStarUser.get(0));
+										lead.setIsUrlsChecked(false);
+										lead.setAuto(false);
+										lead.setAuto(false);
+
+									}		
+								}  
+							}
+
 						}
 					}
 				}
-				//			lead.setIsUrlsChecked(false);
-							lead.setAuto(false);
-				leadRepository.save(lead);
 			}
+			//			lead.setIsUrlsChecked(false);
+			lead.setAuto(false);
+			leadRepository.save(lead);
 		}
+	}
 
 
 
-	
-	
-	
+
+
+
 //	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignIvrLeadByCroneV() {
 		List<Long>croneStatus= new ArrayList<>();
@@ -4209,14 +4243,14 @@ public class LeadCrone {
 				}	
 			}
 		}
-			
+
 
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 //	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCronePrime() {
 		List<Long>croneStatus= new ArrayList<>();
@@ -4319,11 +4353,11 @@ public class LeadCrone {
 								int cInt=0;
 								int count=0;
 								if(userMerged!=null && userMerged.size()>0) {
-									 cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-										 count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+									cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+									count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 
 								}
-//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+								//								int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 								//					System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 								if(count>cInt) {
 									System.out.println("kkkkkkkkkkkkkk");
@@ -4386,7 +4420,7 @@ public class LeadCrone {
 										lead.setIsUrlsChecked(false);
 										lead.setAuto(false);
 									}
-									
+
 								}
 							}else { 
 								System.out.println("sssssssssssssssssssssssssssssssssssssss");
@@ -4401,8 +4435,8 @@ public class LeadCrone {
 									int lockerSize=0;
 									int actualCount=0;
 									if(getAllStarUser!=null && getAllStarUser.size()!=0) {
-										 lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
-										 actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
+										lockerSize =getAllStarUser!=null?getAllStarUser.get(0)!=null?getAllStarUser.get(0).getLockerSize():0:0;
+										actualCount=leadRepository.findCountByAssigneeId(getAllStarUser.get(0).getId(),croneStatus);
 									}
 									if((getAllStarUser!=null && getAllStarUser.size()!=0)&&lockerSize>=actualCount) {
 										lead.setAssignee(getAllStarUser.get(0));
@@ -4427,7 +4461,7 @@ public class LeadCrone {
 											lead.setIsUrlsChecked(false);
 											lead.setAuto(false);
 										}
-										
+
 									}
 								}
 
@@ -4439,13 +4473,20 @@ public class LeadCrone {
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww");
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
 								List<Long> statusList = sList.stream().map(i->i.getId()).collect(Collectors.toList());
-								User u=sortArrayAndSingleUser(qualityUser,statusList);
+								User u=sortArrayAndSingleUserWithBucket(qualityUser,statusList);
 								//								lead.setAssignee(qualityUser.get(qi));
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww t1");
 								System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwww testing");
-								lead.setAssignee(u);
-								lead.setAuto(false);
-								System.out.println("User..... count with ...."+u.getId());
+								if(u!=null) {
+									lead.setAssignee(u);
+									lead.setAuto(false);	
+								}else {
+									sendMail();
+
+								}
+//								lead.setAssignee(u);
+//								lead.setAuto(false);
+								System.out.println("User..... count with ...."+u!=null?u.getId():"NA");
 								qi++;
 								if(qi==ql) {
 									qi=0;
@@ -4494,8 +4535,8 @@ public class LeadCrone {
 								cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
 								count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;							
 							}
-//							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
-//							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
+							//							int cInt=leadRepository.findCountByAssigneeId(userMerged.get(0).getId(),croneStatus);
+							//							int count =userMerged!=null?userMerged.get(0)!=null?userMerged.get(0).getLockerSize():0:0;
 							//				System.out.println("count size . . "+cInt+"  ...  "+userMerged.get(0));
 							if(count>cInt) {
 
@@ -4557,13 +4598,13 @@ public class LeadCrone {
 								if(ratingList!=null&&ratingList.size()>0) {
 									List<User> getAllStarUser = mergeAllUser1to5StarV3(ratingList, userCounts);
 									getAllStarUser=getAllStarUser.stream().filter(i->i.isAutoActive()).collect(Collectors.toList());
-                                    if(getAllStarUser.get(0)!=null) {
-                                    	lead.setAssignee(getAllStarUser.get(0));
-    									lead.setIsUrlsChecked(false);
-    									lead.setAuto(false);
-    									lead.setAuto(false);
+									if(getAllStarUser.get(0)!=null) {
+										lead.setAssignee(getAllStarUser.get(0));
+										lead.setIsUrlsChecked(false);
+										lead.setAuto(false);
+										lead.setAuto(false);
 
-                                    }		
+									}		
 								}  
 							}
 
@@ -4572,7 +4613,7 @@ public class LeadCrone {
 				}
 			}
 			//			lead.setIsUrlsChecked(false);
-//						lead.setAuto(false);
+			//						lead.setAuto(false);
 			leadRepository.save(lead);
 		}
 	}
