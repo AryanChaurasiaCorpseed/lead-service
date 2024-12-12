@@ -1862,7 +1862,11 @@ public class CompanyFormController {
 					}
 					company.setPrimaryContact(c);
 					company.setSecondaryContact(sc);
-
+                    //==industry add 
+					company.setIndustries(companyForm.getIndustry());
+					company.setSubIndustry(companyForm.getSubIndustry());
+					company.setSubsubIndustry(companyForm.getSubsubIndustry());
+					company.setIndustryDataList(companyForm.getIndustryDataList());
 					//Address
 					company.setAddress(companyForm.getAddress());
 					company.setCity(companyForm.getCity());
@@ -1873,6 +1877,8 @@ public class CompanyFormController {
 					company.setSCity(companyForm.getSCity());
 					company.setSState(companyForm.getSState());
 					company.setSCountry(companyForm.getSCountry());
+					
+					
 
 					//Assignee
 

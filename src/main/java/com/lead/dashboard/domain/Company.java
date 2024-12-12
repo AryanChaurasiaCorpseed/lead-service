@@ -90,6 +90,19 @@ public class Company {
 	
 	boolean isConsultant;
 	
+    @ManyToOne
+	Industry industries;
+    @ManyToOne
+	SubIndustry subIndustry;
+    @ManyToOne
+	SubSubIndustry subsubIndustry;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="company_form_industry_data",joinColumns = {@JoinColumn(name="company_form_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="company_form_industry_data_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<IndustryData>industryDataList;
+	
 
 	public String getPrimaryPinCode() {
 		return primaryPinCode;
