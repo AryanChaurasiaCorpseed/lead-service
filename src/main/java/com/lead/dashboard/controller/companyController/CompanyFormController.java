@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -989,7 +990,7 @@ public class CompanyFormController {
 		for(String data:s) {
 			if(data!=null) {
 				String d=breakString(data);
-				System.out.println(d+"...d");
+//				System.out.println(d+"...d");
 				if(d!=null) {
 					domain.add(d);
 				}
@@ -1733,7 +1734,7 @@ public class CompanyFormController {
                         
 						// SecondaryContact
 						Contact sc=null;
-						if(companyForm.isSecondaryContact()) {
+						if(companyForm.isSecondaryContact() &&companyForm.getSContactId()!=null) {
 							sc = new Contact();
 							sc.setTitle(companyForm.getSecTitle());
 							sc.setName(companyForm.getSContactName());
@@ -1744,7 +1745,9 @@ public class CompanyFormController {
 							contactRepo.save(sc);
 
 						}else {
-							sc=contactRepo.findById(companyForm.getSContactId()).get();
+							if(companyForm.getSContactId()!=null) {
+								sc=contactRepo.findById(companyForm.getSContactId()).get();
+							}
 						}
 						unit.setSecondaryContact(sc);
 
@@ -1866,7 +1869,7 @@ public class CompanyFormController {
 					company.setIndustries(companyForm.getIndustry());
 					company.setSubIndustry(companyForm.getSubIndustry());
 					company.setSubsubIndustry(companyForm.getSubsubIndustry());
-					company.setIndustryDataList(companyForm.getIndustryDataList());
+//					company.setIndustryDatas(companyForm.getIndustryDataList());
 					//Address
 					company.setAddress(companyForm.getAddress());
 					company.setCity(companyForm.getCity());

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -384,6 +385,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		return company;
 	}
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
+//	@Transactional
 	public Boolean AccountApprovalOnInvoice(String status,Long id,Long currentUserId){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
