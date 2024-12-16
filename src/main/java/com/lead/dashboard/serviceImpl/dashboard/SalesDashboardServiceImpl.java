@@ -729,10 +729,10 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		String endDate = fromDate;
 		List<Object[]> leads=new ArrayList<>();
 
-		System.out.println("aaaaaa  ......"+startDate);
+//		System.out.println("aaaaaa  ......"+startDate);
 		//		projects = projectRepository.findIdAndNameAndAmountByInBetweenDate(startDate, endDate);
 		leads=leadRepository.findIdAndNameAndCreateDateByInBetweenDate(startDate, endDate);
-		System.out.println("t..........................t"+leads.size());
+//		System.out.println("t..........................t"+leads.size());
 
 		Map<String,Map<String,Object>>map=new LinkedHashMap();
 		for(Object[] l:leads) {
