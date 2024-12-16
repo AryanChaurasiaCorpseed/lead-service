@@ -1957,8 +1957,11 @@ public class CompanyFormController {
 			Pageable pageable = PageRequest.of(page, size);
 
 			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {
-				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
-				compList = companyForms.getContent(); 
+//				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
+//				compList = companyForms.getContent(); 
+				
+				compList = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status);
+
 			}
 			if (compList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
