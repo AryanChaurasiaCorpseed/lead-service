@@ -1,5 +1,6 @@
 package com.lead.dashboard.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
@@ -32,6 +34,9 @@ public class ProposalServiceImpl implements ProposalService{
 
 	@Autowired
 	ProductRepo productRepo;
+	
+	@Autowired
+	MailSendSerivceImpl mailSendSerivceImpl;
 
 	@Autowired
 	ProposalRepository proposalRepository;
@@ -91,6 +96,21 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setOtherFees(createservicedetails.getOtherFees());
 			proposal.setOtherCode(createservicedetails.getOtherCode());
 			proposal.setOtherGst(createservicedetails.getOtherGst());
+			
+			
+			proposal.setAddress(createservicedetails.getAddress());
+			proposal.setCity(createservicedetails.getCity());
+			proposal.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+			proposal.setState(createservicedetails.getState());
+			proposal.setCountry(createservicedetails.getCountry());
+			 
+			proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+			proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+			proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+			proposal.setSecondaryState(createservicedetails.getSecondaryState());
+			proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+			
+			
 			proposalRepository.save(proposal);
 			lead.setProposal(proposal);
 			leadRepository.save(lead);
@@ -123,6 +143,18 @@ public class ProposalServiceImpl implements ProposalService{
 				proposal.setUnitId(createservicedetails.getUnitId());
 				proposal.setPanNo(createservicedetails.getPanNo());
 				proposal.setGstNo(createservicedetails.getGstNo());
+				
+				proposal.setAddress(createservicedetails.getAddress());
+				proposal.setCity(createservicedetails.getCity());
+				proposal.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+				proposal.setState(createservicedetails.getState());
+				proposal.setCountry(createservicedetails.getCountry());
+				 
+				proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+				proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+				proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+				proposal.setSecondaryState(createservicedetails.getSecondaryState());
+				proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
 
 				proposal.setGstType(createservicedetails.getGstType());
 				proposal.setGstDocuments(createservicedetails.getGstDocuments());
@@ -151,6 +183,24 @@ public class ProposalServiceImpl implements ProposalService{
 		}
 		return flag;
 
+	}
+	public  void sendEstimate(Long pId) {
+		Proposal p = proposalRepository.findById(pId).get();
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+		User u=p.getAssignee();
+		String feedbackStatusURL = "https://erp.corpseed.com/erp/setpassword/"+u.getId();
+        String email=u!=null?u.getFullName():"NA";
+		Context context = new Context();
+		context.setVariable("userName", "Aryan Chaurasia");
+		context.setVariable("user", u.getFullName());
+
+		context.setVariable("email", email);
+		context.setVariable("Rurl", feedbackStatusURL);
+		context.setVariable("currentYear", LocalDateTime.now().getYear());
+		String subject="Corpseed pvt ltd send a request for adding on team please go and set password and accept";
+		String text="CLICK ON THIS link and set password";
+		String[] ccPersons= {email};
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons,ccPersons, subject,text,context,"newUserCreate.html");
 	}
 
 	@Override
@@ -203,6 +253,18 @@ public class ProposalServiceImpl implements ProposalService{
 		proposal.setUnitId(editProposalDto.getUnitId());
 		proposal.setPanNo(editProposalDto.getPanNo());
 		proposal.setGstNo(editProposalDto.getGstNo());
+		
+		proposal.setAddress(editProposalDto.getAddress());
+		proposal.setCity(editProposalDto.getCity());
+		proposal.setPrimaryPinCode(editProposalDto.getPrimaryPinCode());
+		proposal.setState(editProposalDto.getState());
+		proposal.setCountry(editProposalDto.getCountry());
+		 
+		proposal.setSecondaryAddress(editProposalDto.getSecondaryAddress());
+		proposal.setSecondaryCity(editProposalDto.getSecondaryCity()); 
+		proposal.setSecondaryPinCode(editProposalDto.getSecondaryPinCode());
+		proposal.setSecondaryState(editProposalDto.getSecondaryState());
+		proposal.setSecondaryCountry(editProposalDto.getSecondaryCountry());
 
 		proposal.setGstType(editProposalDto.getGstType());
 		proposal.setGstDocuments(editProposalDto.getGstDocuments());
@@ -225,5 +287,10 @@ public class ProposalServiceImpl implements ProposalService{
 
 		return flag;
 
+	}
+	@Override
+	public Proposal getAllProposalByLeadId(Long leadId) {
+//		leadRepository.findProposalIdByLead
+		return null;
 	}
 }

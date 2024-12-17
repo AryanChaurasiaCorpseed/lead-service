@@ -37,8 +37,8 @@ public class VendorServiceImpl implements VendorService {
 //    @Autowired
 //    private UrlsManagmentRepo urlsManagmentRepo;
 
- @Autowired
- private VendorRepository vendorRepository;
+    @Autowired
+    private VendorRepository vendorRepository;
 
     @Autowired
     private FileUploadServiceImpl fileUploadService;

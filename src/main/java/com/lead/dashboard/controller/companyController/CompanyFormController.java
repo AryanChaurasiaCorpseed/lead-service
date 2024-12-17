@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.CompanyForm;
 import com.lead.dashboard.domain.Contact;
+import com.lead.dashboard.domain.Industry;
+import com.lead.dashboard.domain.IndustryData;
 import com.lead.dashboard.domain.Project;
+import com.lead.dashboard.domain.SubIndustry;
+import com.lead.dashboard.domain.SubSubIndustry;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.dto.CompanyDto;
@@ -35,8 +40,12 @@ import com.lead.dashboard.dto.UpdateMultiFormDto;
 import com.lead.dashboard.repository.CompanyFormRepo;
 import com.lead.dashboard.repository.CompanyRepository;
 import com.lead.dashboard.repository.ContactRepo;
+import com.lead.dashboard.repository.IndustryDataRepo;
+import com.lead.dashboard.repository.IndustryRepo;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProjectRepository;
+import com.lead.dashboard.repository.SubIndustryRepo;
+import com.lead.dashboard.repository.SubSubIndustryRepo;
 import com.lead.dashboard.repository.UserRepo;
 import com.lead.dashboard.service.CompanyFormService;
 import com.lead.dashboard.util.UrlsMapping;
@@ -60,6 +69,19 @@ public class CompanyFormController {
 
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	IndustryRepo industryRepo;
+	
+	@Autowired
+	SubIndustryRepo subIndustryRepo;
+	
+	@Autowired
+	SubSubIndustryRepo subSubIndustryRepo;
+	
+	@Autowired
+	
+	IndustryDataRepo industryDataRepo;
 
 	@Autowired
 	ProjectRepository projectRepository;
@@ -349,6 +371,10 @@ public class CompanyFormController {
 			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
 
+			map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
+			map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
+			map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
+			map.put("industryData", c.getIndustryDataList());
 
 			result.add(map);
 
@@ -943,14 +969,17 @@ public class CompanyFormController {
 			map.put("sState", c.getSState());
 			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
-
+			
+			map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
+			map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
+			map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
+			map.put("industryData", c.getIndustryDataList());
 
 			result.add(map);
 
 		}
 		return result;
 	}
-
 	@GetMapping(UrlsMapping.CHECK_EMAIL_IN_COMPANY)
 	public boolean checkEmailInCompany(@RequestParam String email)
 	{
@@ -961,7 +990,7 @@ public class CompanyFormController {
 		for(String data:s) {
 			if(data!=null) {
 				String d=breakString(data);
-				System.out.println(d+"...d");
+//				System.out.println(d+"...d");
 				if(d!=null) {
 					domain.add(d);
 				}
@@ -1056,6 +1085,26 @@ public class CompanyFormController {
 		companyForm.setLead(lead);
 		companyForm.setPanNo(UpdateCompanyFormDto.getPanNo());
 		companyForm.setState(UpdateCompanyFormDto.getState());
+		
+		if(UpdateCompanyFormDto.getIndustryId()!=null) {
+			Industry industry = industryRepo.findById(UpdateCompanyFormDto.getIndustryId()).get();
+			companyForm.setIndustry(industry);
+			
+			if(UpdateCompanyFormDto.getSubIndustryId()!=null) {
+				SubIndustry subIndustry = subIndustryRepo.findById(UpdateCompanyFormDto.getSubIndustryId()).get();
+				companyForm.setSubIndustry(subIndustry);
+			}
+			
+			if(UpdateCompanyFormDto.getSubsubIndustryId()!=null) {
+				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(UpdateCompanyFormDto.getSubsubIndustryId()).get();
+				companyForm.setSubsubIndustry(subSubIndustry);
+			}
+			
+			if(UpdateCompanyFormDto.getIndustrydataId()!=null) {
+				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(UpdateCompanyFormDto.getIndustrydataId());
+				companyForm.setIndustryDataList(industryData);
+			}
+		}
 		companyFormRepo.save(companyForm);
 		return companyForm;
 
@@ -1146,6 +1195,10 @@ public class CompanyFormController {
 			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
 
+			map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
+			map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
+			map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
+			map.put("industryData", c.getIndustryDataList());
 
 			result.add(map);
 
@@ -1265,11 +1318,40 @@ public class CompanyFormController {
 	@PostMapping(UrlsMapping.CREATE_COMPANY_FORM)
 	public CompanyForm createCompanyFormv3(@RequestBody CreateFormDto createFormDto)
 	{				
+		System.out.println("final . . .. . . . . . . . .");
 		CompanyForm companyForm =  new CompanyForm();
 		companyForm.setIsPresent(createFormDto.getIsPresent());
 		companyForm.setPanNo(createFormDto.getPanNo());
 		companyForm.setCompanyName(createFormDto.getCompanyName());
 		companyForm.setAmount(createFormDto.getAmount());
+		if(createFormDto.getIndustryId()!=null) {
+			System.out.println("test.......");
+			Industry industry = industryRepo.findById(createFormDto.getIndustryId()).get();
+			companyForm.setIndustry(industry);
+			
+			if(createFormDto.getSubIndustryId()!=null) {
+
+				SubIndustry subIndustry = subIndustryRepo.findById(createFormDto.getSubIndustryId()).get();
+				System.out.println("test1......."+subIndustry.getId());
+
+				companyForm.setSubIndustry(subIndustry);
+			}
+			
+			if(createFormDto.getSubsubIndustryId()!=null) {
+				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
+					System.out.println("test2......."+subSubIndustry.getId());
+
+				 companyForm.setSubsubIndustry(subSubIndustry);
+			}
+			
+			if(createFormDto.getIndustrydataId()!=null) {
+				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
+					System.out.println("test3......."+industryData.size());
+
+				  companyForm.setIndustryDataList(industryData);
+			}
+			companyFormRepo.save(companyForm);
+		}
 		Company comp=null;
 		if(createFormDto.getIsPresent()) {
 			comp = companyRepository.findById(createFormDto.getCompanyId()).get();
@@ -1302,14 +1384,12 @@ public class CompanyFormController {
 			companyForm.setGstNo(createFormDto.getGstNo());
 			companyForm.setCompanyAge(createFormDto.getCompanyAge());
 			companyForm.setPanNo(createFormDto.getPanNo());
-			System.out.println("44444444444444444444444444444444444444444444444444444444444444");
 
 		}
 		else {
 			System.out.println("cccccccccccccccccc");
 
 			if(!createFormDto.getIsUnit()) {
-				System.out.println("55555555555555555555555555555555555555555555555555555555555555");
 
 				System.out.println("bbbbbbbbbbbb");
 				companyForm.setUnitName(createFormDto.getUnitName());
@@ -1434,6 +1514,30 @@ public class CompanyFormController {
 
 			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
+		}
+		//  ========= industry modified
+
+		if(createFormDto.getIndustryId()!=null) {
+			Industry industry = industryRepo.findById(createFormDto.getIndustryId()).get();
+			companyForm.setIndustry(industry);
+			
+			if(createFormDto.getSubIndustryId()!=null) {
+
+				SubIndustry subIndustry = subIndustryRepo.findById(createFormDto.getSubIndustryId()).get();
+				companyForm.setSubIndustry(subIndustry);
+			}
+			
+			if(createFormDto.getSubsubIndustryId()!=null) {
+				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
+				 companyForm.setSubsubIndustry(subSubIndustry);
+			}
+			
+			if(createFormDto.getIndustrydataId()!=null) {
+				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
+
+				  companyForm.setIndustryDataList(industryData);
+			}
+			companyFormRepo.save(companyForm);
 		}
 
 		Lead lead = leadRepository.findById(createFormDto.getLeadId()).get();
@@ -1630,7 +1734,7 @@ public class CompanyFormController {
                         
 						// SecondaryContact
 						Contact sc=null;
-						if(companyForm.isSecondaryContact()) {
+						if(companyForm.isSecondaryContact() &&companyForm.getSContactId()!=null) {
 							sc = new Contact();
 							sc.setTitle(companyForm.getSecTitle());
 							sc.setName(companyForm.getSContactName());
@@ -1641,7 +1745,9 @@ public class CompanyFormController {
 							contactRepo.save(sc);
 
 						}else {
-							sc=contactRepo.findById(companyForm.getSContactId()).get();
+							if(companyForm.getSContactId()!=null) {
+								sc=contactRepo.findById(companyForm.getSContactId()).get();
+							}
 						}
 						unit.setSecondaryContact(sc);
 
@@ -1759,7 +1865,11 @@ public class CompanyFormController {
 					}
 					company.setPrimaryContact(c);
 					company.setSecondaryContact(sc);
-
+                    //==industry add 
+					company.setIndustries(companyForm.getIndustry());
+					company.setSubIndustry(companyForm.getSubIndustry());
+					company.setSubsubIndustry(companyForm.getSubsubIndustry());
+//					company.setIndustryDatas(companyForm.getIndustryDataList());
 					//Address
 					company.setAddress(companyForm.getAddress());
 					company.setCity(companyForm.getCity());
@@ -1770,6 +1880,8 @@ public class CompanyFormController {
 					company.setSCity(companyForm.getSCity());
 					company.setSState(companyForm.getSState());
 					company.setSCountry(companyForm.getSCountry());
+					
+					
 
 					//Assignee
 
@@ -1845,8 +1957,11 @@ public class CompanyFormController {
 			Pageable pageable = PageRequest.of(page, size);
 
 			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {
-				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
-				compList = companyForms.getContent(); 
+//				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
+//				compList = companyForms.getContent(); 
+				
+				compList = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status);
+
 			}
 			if (compList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);

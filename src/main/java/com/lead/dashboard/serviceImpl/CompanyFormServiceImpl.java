@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -384,6 +385,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		return company;
 	}
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
+//	@Transactional
 	public Boolean AccountApprovalOnInvoice(String status,Long id,Long currentUserId){
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
@@ -677,10 +679,7 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 		List<String>domain = new ArrayList<>();
 		for(String data:s) {
 			if(data!=null) {
-				System.out.println(data+"................................................................................................d");
-
 				String d=breakString(data);
-				System.out.println(d+"...d");
 
 				domain.add(d);
 			}
@@ -901,11 +900,15 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 					sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
 					sc.setDeleteStatus(false);
 					contactRepo.save(sc);
-
-
-
+                    unit.setSecondaryContact(sc);
 					p.setStatus("initiated");
 					p.setCreateDate(new Date());
+					
+					
+					
+					p.setAmount(companyForm.getAmount());
+					p.setAddress(companyForm.getAddress());
+					
 					List<Project> projectList = unit.getCompanyProject();
 					projectList.add(p);
 					unit.setCompanyProject(projectList);
@@ -983,6 +986,19 @@ public class CompanyFormServiceImpl implements CompanyFormService{
 
 					p.setAssignee(assignee);
 					p.setStatus("initiated");
+					
+					
+					p.setAddress(companyForm.getAddress());
+					p.setCity(companyForm.getCity());
+					p.setState(companyForm.getState());
+					p.setCountry(companyForm.getCountry());
+
+					p.setSAddress(companyForm.getSAddress());
+					p.setSCity(companyForm.getSCity());
+					p.setSState(companyForm.getSState());
+					p.setSCountry(companyForm.getSCountry());
+					
+					
 					p.setCreateDate(new Date());
 					List<Project> projectList = new ArrayList<>();
 					//					List<Project> projectList = unit.getCompanyProject();

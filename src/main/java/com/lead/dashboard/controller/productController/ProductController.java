@@ -74,7 +74,7 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody CreateProduct createProduct) {
 
 
-        Product result = productService.createProduct(createProduct);
+    	    Product result = productService.createProduct(createProduct);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -121,6 +121,15 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
+    @PostMapping("/addProductDocumentsInProduct")
+    public ResponseEntity<Boolean> addProductDocumentsInProduct(@RequestBody DocProductDto docProductDto) {
+
+
+        Boolean result = productService.addProductDocumentsInProduct(docProductDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
     @PostMapping("/addAmountInProduct")
     public ResponseEntity<Boolean> addAmountInProduct(@RequestBody AddProductAmountDto addProductAmountDto) {
 
@@ -162,6 +171,15 @@ public class ProductController {
 
 
         Boolean result = productService.deleteStageFromProduct(productStageId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
+    @PostMapping("/addKnowledgeDocumentsInProduct")
+    public ResponseEntity<Boolean> addKnowledgeDocumentsInProduct(@RequestBody DocProductDto docProductDto) {
+
+
+        Boolean result = productService.addKnowledgeDocumentsInProduct(docProductDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

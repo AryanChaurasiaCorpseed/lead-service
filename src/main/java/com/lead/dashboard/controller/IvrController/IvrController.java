@@ -33,7 +33,26 @@ public class IvrController {
 	{
 		IvrData ivrData=ivrService.createIvrData(callerNumber,agentName,aggentNumber,startTime,duration,endTime,callRecordingUrl);
 		
-		return ivrData ;		 
+		return ivrData ;
+
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_IVR_DATA_WITH_PAGE)
+	public List<Map<String ,Object>> getAllIvrDataWithPage(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+		List<Map<String ,Object>> ivrList=ivrService.getAllIvrDataWithPage(page-1,size);
+		
+		return ivrList;
+
+	}
+	
+	@GetMapping(UrlsMapping.GET_ALL_IVR_DATA_COUNT)
+	public int getAllIvrDataCount()
+	{
+		int ivrList=ivrService.getAllIvrDataCount();
+		
+		return ivrList;
 
 	}
 }

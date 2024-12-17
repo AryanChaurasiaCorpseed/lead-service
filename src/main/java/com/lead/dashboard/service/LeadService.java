@@ -57,4 +57,7 @@ public interface LeadService {
 	List<Map<String,Object>> getAllLeadForImport(AllLeadFilter allLeadFilter, int i, int size);
 	List<Map<String, Object>> getAllActiveCustomerLeadForExport(AllLeadFilter allLeadFilter, int i, int size);
 	Boolean createPrimaryContact( int page, int size);
+	long getAllLeadCountV2(AllLeadFilter allLeadFilter);
+	long getAllActiveCustomerLeadCountV2(AllLeadFilter allLeadFilter);
+	Boolean autoOnOff(int page, int size);
 }

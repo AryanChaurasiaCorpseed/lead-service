@@ -23,36 +23,36 @@ import java.util.List;
 @NoArgsConstructor
 public class Vendor implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="created_by")
-    private User user;
+	@ManyToOne
+	@JoinColumn(name="created_by")
+	private User user;
 
-    @ManyToOne
-    @JoinColumn(name="assigned_user")
-    private User assignedUser;
+	@ManyToOne
+	@JoinColumn(name="assigned_user")
+	private User assignedUser;
 
-    @ElementCollection
-    @CollectionTable(name = "vendor_sales_attachments", joinColumns = @JoinColumn(name = "vendor_id"))
-    @Column(name = "attachment_path")
-    private List<String> salesAttachmentReferencePath;
+	@ElementCollection
+	@CollectionTable(name = "vendor_sales_attachments", joinColumns = @JoinColumn(name = "vendor_id"))
+	@Column(name = "attachment_path")
+	private List<String> salesAttachmentReferencePath;
 
-    @ElementCollection
-    @CollectionTable(name = "vendor_sales_images", joinColumns = @JoinColumn(name = "vendor_id"))
-    @Column(name = "attachment_image")
-    private List<String> salesAttachmentImage;
+	@ElementCollection
+	@CollectionTable(name = "vendor_sales_images", joinColumns = @JoinColumn(name = "vendor_id"))
+	@Column(name = "attachment_image")
+	private List<String> salesAttachmentImage;
 
-    @ManyToOne
-    @JoinColumn(name="lead_id")
-    @JsonIgnore
-    private Lead lead;
+	@ManyToOne
+	@JoinColumn(name="lead_id")
+	@JsonIgnore
+	private Lead lead;
 
-    private String requirementDescription;
+	private String requirementDescription;
 
-    private String clientEmailId;
+	private String clientEmailId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "service_id")
@@ -61,71 +61,71 @@ public class Vendor implements Serializable {
 //    @JoinColumn(name = "service_id")
 //    private UrlsManagment urlsManagment;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_category_id")
-    private VendorCategory vendorCategory;
+	@ManyToOne
+	@JoinColumn(name = "vendor_category_id")
+	private VendorCategory vendorCategory;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_sub_category_id")
-    private VendorSubCategory vendorSubCategory;
-
-
-    private String clientCompanyName;
-
-    private String clientName;
-
-    private String clientMobileNumber;
+	@ManyToOne
+	@JoinColumn(name = "vendor_sub_category_id")
+	private VendorSubCategory vendorSubCategory;
 
 
-    private boolean isDeleted;
+	private String clientCompanyName;
 
-    private boolean isDisplay;
+	private String clientName;
 
-    private String clientBudget;
+	private String clientMobileNumber;
 
-    private String vendorSharedDocument;
 
-    private String vendorSharedPrice;
+	private boolean isDeleted;
 
-    private String vendorComment;
+	private boolean isDisplay;
 
-    @ManyToOne
-    private User addedBy;
+	private String clientBudget;
 
-    @ManyToOne
-    private User updatedBy;
+	private String vendorSharedDocument;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+	private String vendorSharedPrice;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedDate;
+	private String vendorComment;
 
-    private String status;
+	@ManyToOne
+	private User addedBy;
 
-    private boolean proposalSentStatus;
+	@ManyToOne
+	private User updatedBy;
 
-    boolean isView = false;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createDate;
 
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VendorUpdateHistory> vendorUpdateHistory;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updatedDate;
 
-    private String sharePriceToClient;
+	private String status;
 
-    @Column(name = "date")
-    private LocalDate date;
+	private boolean proposalSentStatus;
 
-    @Column(name = "current_updated_date")
-    private LocalDate currentUpdatedDate;
+	boolean isView = false;
 
-    @ManyToOne
-    private User viewedBy;
+	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VendorUpdateHistory> vendorUpdateHistory;
 
-    private Date viewedAt;
+	private String sharePriceToClient;
 
-    private Date cancelledAt;
+	@Column(name = "date")
+	private LocalDate date;
 
-    private Long cancelledBy;
+	@Column(name = "current_updated_date")
+	private LocalDate currentUpdatedDate;
+
+	@ManyToOne
+	private User viewedBy;
+
+	private Date viewedAt;
+
+	private Date cancelledAt;
+
+	private Long cancelledBy;
 
 	private boolean agreementStatus;
 
@@ -403,7 +403,7 @@ public class Vendor implements Serializable {
 		this.cancelledBy = cancelledBy;
 	}
 
-    
+
 
 
 

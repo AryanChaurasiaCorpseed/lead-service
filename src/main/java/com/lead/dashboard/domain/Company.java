@@ -7,6 +7,7 @@ import com.lead.dashboard.domain.lead.Lead;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -90,6 +91,19 @@ public class Company {
 	
 	boolean isConsultant;
 	
+    @ManyToOne
+	Industry industries;
+    @ManyToOne
+	SubIndustry subIndustry;
+    @ManyToOne
+	SubSubIndustry subsubIndustry;
+	
+//	@ManyToMany(fetch = FetchType.EAGER)
+//	@JoinTable(name="company_industry_data",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
+//			inverseJoinColumns = {@JoinColumn(name="company_industry_data_id"
+//					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+//	List<IndustryData>industryData;
+//	
 
 	public String getPrimaryPinCode() {
 		return primaryPinCode;

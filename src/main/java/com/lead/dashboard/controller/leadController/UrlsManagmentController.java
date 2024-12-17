@@ -94,8 +94,13 @@ public class UrlsManagmentController {
 	}
 	@GetMapping("/urls/getGlobalSearchUrls")
 	public 	List<UrlsManagment> getGlobalSearchUrls(@RequestParam String name) {	
-
-		List<UrlsManagment> urlsList = urlsManagmentRepo.findAllGlobal(name);
+		List<UrlsManagment> urlsList=new ArrayList<>();
+		urlsList = urlsManagmentRepo.findAllGlobal(name);
+		List<Long>urlsId=slugRepository.findUrlsIdGlobalSearchInSlug(name);
+		if(urlsId!=null &&urlsId.size()>0) {
+			List<UrlsManagment> urls = urlsManagmentRepo.findAllByIdIn(urlsId);
+			urlsList.addAll(urls);
+		}
 		return urlsList;
 	}
 
@@ -119,6 +124,22 @@ public class UrlsManagmentController {
 
 		}
 		return urlsList;
+	}
+	
+	
+	@PutMapping("/urls/removeSlugFromUrls")
+	public 	UrlsManagment removeSlugFromUrls(@RequestBody EditUrlsDto editUrlsDto) {
+		UrlsManagment urlsManagment = urlsManagmentRepo.findById(editUrlsDto.getUrlsId()).get();
+		List<Slug> slugList = urlsManagment.getUrlSlug();
+		List<Slug>sList=new ArrayList<>();
+		for(Slug s:slugList) {
+			if(!editUrlsDto.getUrlSlug().contains(s.getId())) {
+				sList.add(s);
+			}
+		}
+		urlsManagment.setUrlSlug(sList);
+		urlsManagmentRepo.save(urlsManagment);
+		return urlsManagment;
 	}
 
 

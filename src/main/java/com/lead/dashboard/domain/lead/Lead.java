@@ -168,6 +168,8 @@ public class Lead {
 	User updatedBy;
 	
 	Date updatedDate;
+	
+	boolean isIvrQuality;// ivr lead come first time they will assign to quality person (false mtlab quality ko assign nahi hua h)
 
 //	@OneToMany
 //	private List<Opportunities> opportunities;
@@ -568,6 +570,14 @@ public class Lead {
 
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public boolean isIvrQuality() {
+		return isIvrQuality;
+	}
+
+	public void setIvrQuality(boolean isIvrQuality) {
+		this.isIvrQuality = isIvrQuality;
 	}
 	
 	

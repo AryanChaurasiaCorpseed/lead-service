@@ -6,13 +6,13 @@ import java.util.List;
 import jakarta.validation.constraints.NotBlank;
 
 public class CreateProposalDto {
-	
+
 	Long productId;
 
 	Long primaryContact;
-	
+
 	Long secondaryContact;
-	
+
 	Boolean isPresent;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
@@ -27,33 +27,52 @@ public class CreateProposalDto {
 	String gstType;
 	String gstDocuments;
 	String companyAge;
-	 
-	
+
+
 	int  govermentfees;
-    String govermentCode;
-    String govermentGst;
-    int professionalFees;
-    String professionalCode;
-    String profesionalGst;
-    int serviceCharge;
-    String serviceCode;
-    String serviceGst;
-    int otherFees;
-    String otherCode;
-    String otherGst;
-	
-    
+	String govermentCode;
+	String govermentGst;
+	int professionalFees;
+	String professionalCode;
+	String profesionalGst;
+	int serviceCharge;
+	String serviceCode;
+	String serviceGst;
+	int otherFees;
+	String otherCode;
+	String otherGst;
+
+
 	Long assigneeId; 
-	
-	
-	
+
+
+
 	String productType;
-	
+
+
+	//primary
+	Boolean isPrimaryAddress=true;
+	String primaryTitle;
+	String Address;
+	String City;
+	String State;
+	String primaryPinCode;
+	String Country;
+
+	//secondary address
+	Boolean isSecondaryAddress=true;
+	String secondaryTitle;
+	String secondaryAddress;
+	String secondaryCity;
+	String secondaryState;
+	String secondaryPinCode;
+	String secondaryCountry;
+
 	List<String>cc;
 
-	
+
 	Long leadId;
-	
+
 	@NotBlank
 	Date createDate;
 
@@ -304,8 +323,122 @@ public class CreateProposalDto {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	
-	
-	
-	
+
+	public Boolean getIsPrimaryAddress() {
+		return isPrimaryAddress;
+	}
+
+	public void setIsPrimaryAddress(Boolean isPrimaryAddress) {
+		this.isPrimaryAddress = isPrimaryAddress;
+	}
+
+	public String getPrimaryTitle() {
+		return primaryTitle;
+	}
+
+	public void setPrimaryTitle(String primaryTitle) {
+		this.primaryTitle = primaryTitle;
+	}
+
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+
+	public String getState() {
+		return State;
+	}
+
+	public void setState(String state) {
+		State = state;
+	}
+
+	public String getPrimaryPinCode() {
+		return primaryPinCode;
+	}
+
+	public void setPrimaryPinCode(String primaryPinCode) {
+		this.primaryPinCode = primaryPinCode;
+	}
+
+	public String getCountry() {
+		return Country;
+	}
+
+	public void setCountry(String country) {
+		Country = country;
+	}
+
+	public Boolean getIsSecondaryAddress() {
+		return isSecondaryAddress;
+	}
+
+	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
+		this.isSecondaryAddress = isSecondaryAddress;
+	}
+
+	public String getSecondaryTitle() {
+		return secondaryTitle;
+	}
+
+	public void setSecondaryTitle(String secondaryTitle) {
+		this.secondaryTitle = secondaryTitle;
+	}
+
+	public String getSecondaryAddress() {
+		return secondaryAddress;
+	}
+
+	public void setSecondaryAddress(String secondaryAddress) {
+		this.secondaryAddress = secondaryAddress;
+	}
+
+	public String getSecondaryCity() {
+		return secondaryCity;
+	}
+
+	public void setSecondaryCity(String secondaryCity) {
+		this.secondaryCity = secondaryCity;
+	}
+
+	public String getSecondaryState() {
+		return secondaryState;
+	}
+
+	public void setSecondaryState(String secondaryState) {
+		this.secondaryState = secondaryState;
+	}
+
+	public String getSecondaryPinCode() {
+		return secondaryPinCode;
+	}
+
+	public void setSecondaryPinCode(String secondaryPinCode) {
+		this.secondaryPinCode = secondaryPinCode;
+	}
+
+	public String getSecondaryCountry() {
+		return secondaryCountry;
+	}
+
+	public void setSecondaryCountry(String secondaryCountry) {
+		this.secondaryCountry = secondaryCountry;
+	}
+
+
+
+
+
+
 }

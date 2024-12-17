@@ -9,8 +9,10 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
+import com.lead.dashboard.domain.KnowledgeDocument;
 import com.lead.dashboard.domain.ProductAmount;
 import com.lead.dashboard.domain.ProductDocuments;
+import com.lead.dashboard.domain.RequiredDocuments;
 import com.lead.dashboard.domain.Stages;
 import com.lead.dashboard.domain.User;
 
@@ -65,12 +67,21 @@ public class Product {
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<ProductAmount>productAmount;
 	
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="product_knowledge_documents",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="product_knowledge_documents_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<KnowledgeDocument>ProductKnowledgeDocument;
 	
 	String tatValue;
 	String tatType;
 	String description;
 	
-	
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="product_knowledge_documents",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="product_knowledge_documents_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<RequiredDocuments>requiredDocuments;
 	
 	
 	public Long getId() {
@@ -216,6 +227,18 @@ public class Product {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public List<KnowledgeDocument> getProductKnowledgeDocument() {
+		return ProductKnowledgeDocument;
+	}
+	public void setProductKnowledgeDocument(List<KnowledgeDocument> productKnowledgeDocument) {
+		ProductKnowledgeDocument = productKnowledgeDocument;
+	}
+	public List<RequiredDocuments> getRequiredDocuments() {
+		return requiredDocuments;
+	}
+	public void setRequiredDocuments(List<RequiredDocuments> requiredDocuments) {
+		this.requiredDocuments = requiredDocuments;
 	}
 	
 

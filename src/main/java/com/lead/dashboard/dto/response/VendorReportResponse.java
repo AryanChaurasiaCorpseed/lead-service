@@ -14,39 +14,39 @@ import java.util.Date;
 @NoArgsConstructor
 public class VendorReportResponse {
 
-    private Long id ;
+	private Long id ;
 
-    private String generateByPersonName;
+	private String generateByPersonName;
 
-    private String assignedToPersonName;
+	private String assignedToPersonName;
 
-    private Date startDate;
+	private Date startDate;
 
-    private LocalDate endDate;
+	private LocalDate endDate;
 
-    private LocalDate completionDate;
+	private LocalDate completionDate;
 
-    private String clientName;
+	private String clientName;
 
 	private String clientCompany;
 
 	private String clientMobileNumber;
 
-    private String currentStatus;
+	private String currentStatus;
 
 	private String categoryName;
 
-    private String subCategoryName;
+	private String subCategoryName;
 
-    private int vendorCategoryResearchTat = 0;
+	private int vendorCategoryResearchTat = 0;
 
-    private int vendorCompletionTat =0;
+	private int vendorCompletionTat =0;
 
-    private int completionDays;
+	private int completionDays;
 
-    private int tatDaysLeft;
+	private int tatDaysLeft;
 
-    private int overDueTat;
+	private int overDueTat;
 
 	public Long getId() {
 		return id;

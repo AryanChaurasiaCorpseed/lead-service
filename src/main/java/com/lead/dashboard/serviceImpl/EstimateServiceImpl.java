@@ -249,7 +249,7 @@ public class EstimateServiceImpl implements EstimateService
 			 Long assigneeId = createservicedetails.getAssigneeId();
 			 if(assigneeId!=null) {
 				User assignee = userRepo.findById(assigneeId).get();
-				serviceDetails.setAssigneeId(assignee);
+				serviceDetails.setAssignee(assignee);
 			 }
 			 // company
 			 if(createservicedetails.isConsultant()) {
@@ -257,7 +257,7 @@ public class EstimateServiceImpl implements EstimateService
 				 consultantByCompany.setName(createservicedetails.getOriginalCompanyName());
 				 consultantByCompany.setOriginalContact(createservicedetails.getOriginalContact());
 				 consultantByCompany.setOriginalEmail(createservicedetails.getOriginalEmail());
-				 consultantByCompany.setAddress(createservicedetails.getAddress());
+				 consultantByCompany.setAddress(createservicedetails.getOriginalAddress());
 				 consultantByCompanyRepository.save(consultantByCompany);
 				 serviceDetails.setConsultantByCompany(consultantByCompany);
 
@@ -287,6 +287,27 @@ public class EstimateServiceImpl implements EstimateService
 			 serviceDetails.setOtherFees(createservicedetails.getOtherFees());
 			 serviceDetails.setOtherCode(createservicedetails.getOtherCode());
 			 serviceDetails.setOtherGst(createservicedetails.getOtherGst());
+			 
+			 serviceDetails.setAddress(createservicedetails.getAddress());
+			 serviceDetails.setCity(createservicedetails.getCity());
+			 serviceDetails.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+			 serviceDetails.setState(createservicedetails.getState());
+			 serviceDetails.setCountry(createservicedetails.getCountry());
+			 
+			 serviceDetails.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+			 serviceDetails.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+			 serviceDetails.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+			 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
+			 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+			 
+			 serviceDetails.setInvoiceNote(createservicedetails.getInvoiceNote());
+			 serviceDetails.setOrderNumber(createservicedetails.getOrderNumber());
+			 serviceDetails.setPurchaseDate(createservicedetails.getPurchaseDate());//CURRENT DATE 
+			 serviceDetails.setEstimateData(createservicedetails.getEstimateDate());
+			 serviceDetails.setRemarksForOption(createservicedetails.getRemarksForOption());
+			 serviceDetails.setCc(createservicedetails.getCc());
+			
+			 
 			 serviceDetailsRepository.save(serviceDetails);
 			 lead.setServiceDetails(serviceDetails);
 			 leadRepository.save(lead);
@@ -309,7 +330,7 @@ public class EstimateServiceImpl implements EstimateService
 				 Long assigneeId = createservicedetails.getAssigneeId();
 				 if(assigneeId!=null) {
 					User assignee = userRepo.findById(assigneeId).get();
-					serviceDetails.setAssigneeId(assignee);
+					serviceDetails.setAssignee(assignee);
 				 }
 				 // company
 				 serviceDetails.setIsPresent(createservicedetails.getIsPresent());
@@ -345,6 +366,26 @@ public class EstimateServiceImpl implements EstimateService
 				 serviceDetails.setOtherFees(createservicedetails.getOtherFees());
 				 serviceDetails.setOtherCode(createservicedetails.getOtherCode());
 				 serviceDetails.setOtherGst(createservicedetails.getOtherGst());
+				 
+				 serviceDetails.setAddress(createservicedetails.getAddress());
+				 serviceDetails.setCity(createservicedetails.getCity());
+				 serviceDetails.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
+				 serviceDetails.setState(createservicedetails.getState());
+				 serviceDetails.setCountry(createservicedetails.getCountry());
+				 
+				 serviceDetails.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+				 serviceDetails.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+				 serviceDetails.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+				 serviceDetails.setSecondaryState(createservicedetails.getSecondaryState());
+				 serviceDetails.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+
+				 serviceDetails.setInvoiceNote(createservicedetails.getInvoiceNote());
+				 serviceDetails.setOrderNumber(createservicedetails.getOrderNumber());
+				 serviceDetails.setPurchaseDate(createservicedetails.getPurchaseDate());//CURRENT DATE 
+				 serviceDetails.setEstimateData(createservicedetails.getEstimateDate());
+				 serviceDetails.setRemarksForOption(createservicedetails.getRemarksForOption());
+				 serviceDetails.setCc(createservicedetails.getCc());
+				 
 				 serviceDetailsRepository.save(serviceDetails);
 				 lead.setServiceDetails(serviceDetails);
 				 leadRepository.save(lead);
@@ -417,7 +458,7 @@ public class EstimateServiceImpl implements EstimateService
 		 Long assigneeId = editEstimate.getAssigneeId();
 		 if(assigneeId!=null) {
 			User assignee = userRepo.findById(assigneeId).get();
-			serviceDetails.setAssigneeId(assignee);
+			serviceDetails.setAssignee(assignee);
 		 }
 		 
 		 // company
@@ -436,7 +477,7 @@ public class EstimateServiceImpl implements EstimateService
 			 consultantByCompany.setName(editEstimate.getOriginalCompanyName());
 			 consultantByCompany.setOriginalContact(editEstimate.getOriginalContact());
 			 consultantByCompany.setOriginalEmail(editEstimate.getOriginalEmail());
-			 consultantByCompany.setAddress(editEstimate.getAddress());
+			 consultantByCompany.setAddress(editEstimate.getOriginalAddress());
 			 consultantByCompanyRepository.save(consultantByCompany);
 			 serviceDetails.setConsultantByCompany(consultantByCompany);
 
@@ -455,6 +496,25 @@ public class EstimateServiceImpl implements EstimateService
 		 serviceDetails.setOtherFees(editEstimate.getOtherFees());
 		 serviceDetails.setOtherCode(editEstimate.getOtherCode());
 		 serviceDetails.setOtherGst(editEstimate.getOtherGst());
+		 
+		 serviceDetails.setAddress(editEstimate.getAddress());
+		 serviceDetails.setCity(editEstimate.getCity());
+		 serviceDetails.setPrimaryPinCode(editEstimate.getPrimaryPinCode());
+		 serviceDetails.setState(editEstimate.getState());
+		 serviceDetails.setCountry(editEstimate.getCountry());
+		 
+		 serviceDetails.setSecondaryAddress(editEstimate.getSecondaryAddress());
+		 serviceDetails.setSecondaryCity(editEstimate.getSecondaryCity()); 
+		 serviceDetails.setSecondaryPinCode(editEstimate.getSecondaryPinCode());
+		 serviceDetails.setSecondaryState(editEstimate.getSecondaryState());
+		 serviceDetails.setSecondaryCountry(editEstimate.getSecondaryCountry());
+		 
+		 serviceDetails.setInvoiceNote(editEstimate.getInvoiceNote());
+		 serviceDetails.setOrderNumber(editEstimate.getOrderNumber());
+		 serviceDetails.setPurchaseDate(editEstimate.getPurchaseDate());//CURRENT DATE 
+		 serviceDetails.setEstimateData(editEstimate.getEstimateDate());
+		 serviceDetails.setRemarksForOption(editEstimate.getRemarksForOption());
+		 serviceDetails.setCc(editEstimate.getCc());
 		 
 		 serviceDetailsRepository.save(serviceDetails);
 		
@@ -526,12 +586,24 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("serviceCode", s.getServiceCode());
 		m.put("serviceGst", s.getServiceGst());
 		m.put("serviceCharge", s.getServiceCharge());
-
+		
+		m.put("address", s.getAddress());
+		m.put("primaryCity", s.getCity());
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryState", s.getState());
+		m.put("primaryCountry", s.getCountry());
+		
+		m.put("secondaryAddress", s.getSecondaryAddress());
+		m.put("secondaryCity", s.getSecondaryCity());
+		m.put("secondaryPinCode", s.getSecondaryPinCode());
+		m.put("secondaryState", s.getSecondaryState());
+		m.put("secondaryCountry", s.getSecondaryCountry());
+		
 		m.put("state", s.getState());
 		m.put("status", s.getStatus());
 		m.put("unitId", s.getUnitId());
 		m.put("unitName", s.getUnitName());
-		m.put("assigneeId", s.getAssigneeId());
+		m.put("assigneeId", s.getAssignee());
 		m.put("ccMail", s.getCc());
 		m.put("createDate", s.getCreateDate());
 		m.put("estimateDate", s.getEstimateData())
@@ -555,6 +627,9 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("isUnit", s.isUnit());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
+        m.put("consultantByCompany", s.getConsultantByCompany());
+		
+		m.put("getRemarkForOperation", s.getRemarksForOption());
 		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
 		m.put("totalAmount", totalAmount);
 
@@ -633,7 +708,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("status", s.getStatus());
 			m.put("unitId", s.getUnitId());
 			m.put("unitName", s.getUnitName());
-			m.put("assigneeId", s.getAssigneeId());  
+			m.put("assigneeId", s.getAssignee());  
 			m.put("ccMail", s.getCc());
 			m.put("createDate", s.getCreateDate());
 			m.put("estimateDate", s.getEstimateData())
@@ -656,7 +731,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("isSecondary", s.getIsSecondaryAddress());
 			int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
 			m.put("totalAmount", totalAmount);
-
+		    m.put("consultantByCompany", s.getConsultantByCompany());
 			res.add(m);
 
 		}

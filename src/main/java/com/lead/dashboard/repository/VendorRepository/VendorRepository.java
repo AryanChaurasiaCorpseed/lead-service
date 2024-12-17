@@ -83,4 +83,6 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
                                                             @Param("status") String status);
 
 
+
+
 }

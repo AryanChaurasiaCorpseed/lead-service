@@ -46,4 +46,8 @@ public interface ProductService {
 	Boolean deleteDocumentFromProduct(Long productdocumentId);
 
 	Boolean deleteStageFromProduct(Long productdocumentId);
+
+	Boolean addKnowledgeDocumentsInProduct(DocProductDto docProductDto);
+
+	Boolean addProductDocumentsInProduct(DocProductDto docProductDto);
 }

@@ -42,6 +42,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_LEAD_FOR_IMPORT=PREFIX+"/lead/getAllLeadForImport";
 	public static final String CALCULATE_BASE_AMOUNT=PREFIX+"/lead/calculateBaseAmount";
 	public static final String CREATE_PRIMARY_CONTACT=PREFIX+"/lead/createPrimaryContact";
+	public static final String AUTO_ON_OFF=PREFIX+"/lead/autoOnOff";
 
 
 	//=================== Lead - Oppoertunity Service ===================
@@ -76,10 +77,11 @@ public class UrlsMapping {
 	public static final String CREATE_PROPOSAL=PREFIX+"/proposal/createProposal";
 	public static final String GET_PROPOSAL_BY_ID=PREFIX+"/proposal/getProposalById";
 	public static final String GET_ALL_PROPOSAL_BY_USER_ID=PREFIX+"/proposal/getAllProposalByUserId";
-	public static final String GET_ALL_PROPOSAL_BY_USER_ID_COUNT=PREFIX+"/proposal/getAllProposalByUserIdUser";
+	public static final String GET_ALL_PROPOSAL_BY_USER_ID_COUNT=PREFIX+"/proposal/getAllProposalByUserIdCount";
 	public static final String EDIT_PROPOSAL=PREFIX+"/proposal/editProposal";
 
-	
+	public static final String GET_ALL_PROPOSAL_BY_LEAD_ID=PREFIX+"/proposal/getAllProposalByLeadId";
+
 	
 	
 	
@@ -120,6 +122,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_COMPANY=PREFIX+"/company/getAllCompany";
 	public static final String GET_ALL_TEMP_COMPANY=PREFIX+"/company/getAllTempCompany";
 	public static final String GET_ALL_CONSULTANT_BY_COMPANY=PREFIX+"/company/getAllConsultantByCompany";
+	public static final String GET_ALL_CONSULTANT_BY_COMPANY_COUNT=PREFIX+"/company/getAllConsultantByCompanyCount";
 
 	public static final String UPDATE_COMPANY=PREFIX+"/company/updateCompany";
 	public static final String GET_ALL_PROJECT_BY_COMPANY =PREFIX+"/company/getAllProjectByCompany";
@@ -206,6 +209,8 @@ public class UrlsMapping {
 	//IVR Module
 	public static final String GET_ALL_IVR_DATA=PREFIX+"/rating/getAllIvrData";
 	public static final String CREATE_IVR_DATA=PREFIX+"/rating/createIvrData";
+	public static final String GET_ALL_IVR_DATA_WITH_PAGE=PREFIX+"/rating/getAllIvrDataWithPage";
+	public static final String GET_ALL_IVR_DATA_COUNT=PREFIX+"/rating/getAllIvrDataCount";
 
 
 	//Standard comment

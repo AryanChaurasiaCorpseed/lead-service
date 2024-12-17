@@ -664,7 +664,7 @@ public class LeadServiceImpl implements LeadService  {
 	}
 	
 	
-	public Integer getAllActiveCustomerLeadCountV2(AllLeadFilter allLeadFilter) {
+	public long getAllActiveCustomerLeadCountV2(AllLeadFilter allLeadFilter) {
 		String toDate=allLeadFilter.getToDate();
 		String fromDate=allLeadFilter.getFromDate();
 		Long uId=allLeadFilter.getUserId();
@@ -682,33 +682,33 @@ public class LeadServiceImpl implements LeadService  {
 				if(userList!=null &&userList.size()!=0) {
 					count= leadRepository.findCountByIsDeletedAndInBetweenDateAndAssigneeIdIn(false,startDate,endDate,userList);
 				}else {
-					leadList= leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
+					count= leadRepository.findCountByIsDeletedAndInBetweenDate(false,startDate,endDate);
 
 				}
 				//				return leadRepository.findAllByIsDeletedAndInBetweenDate(false,startDate,endDate);
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
+				count= leadRepository.findCountByAssigneeAndIsDeletedAndInBetweenDate(uId, false,startDate,endDate);
 			}
 		}else {
 
 			if(user.get()!=null &&user.get().getRole().contains("ADMIN")) {
 				//				return leadRepository.findAllByIsDeleted(false);
 				if(userList!=null &&userList.size()!=0) {
-					leadList= leadRepository.findAllByIsDeleted(false,userList);
+					count= leadRepository.findCountByIsDeleted(false,userList);
 				}else {
-					leadList= leadRepository.findAllByStatusIdAndIsDeleted(1l,false);
+					count= leadRepository.findCountByStatusIdAndIsDeleted(1l,false);
 				}
 			}else {
-				leadList= leadRepository.findAllByAssigneeAndIsDeleted(uId, false);
+				count= leadRepository.findCountByAssigneeAndIsDeleted(uId, false);
 			}
 
 
 		}
-		int count1=0;
-		if(leadList!=null) {
-			count=leadList.size();
-		}
-		return count1;
+//		int count1=0;
+//		if(leadList!=null) {
+//			count=leadList.size();
+//		}
+		return count;
 
 	}
 
@@ -973,7 +973,7 @@ public class LeadServiceImpl implements LeadService  {
 					clientMap.put("contactNo", c.getContactNo());
 					listOfMap.add(clientMap);
 				}
-				if(clientList==null |clientList.size()<=0) {
+				if(clientList==null |(clientList!=null && clientList.size()<=0)) {
 					Map<String,Object>clientMap = new HashMap<>();
 					clientMap.put("clientId", 0);
 					clientMap.put("clientName", lead.getName());
@@ -1469,7 +1469,7 @@ public class LeadServiceImpl implements LeadService  {
 
 	}
 	
-	public Integer getAllLeadCountV2(AllLeadFilter allLeadFilter) {
+	public long getAllLeadCountV2(AllLeadFilter allLeadFilter) {
 
 		//		boolean flag=type.equalsIgnoreCase("inActive")?true:false;
 		String toDate=allLeadFilter.getToDate();
@@ -1513,7 +1513,7 @@ public class LeadServiceImpl implements LeadService  {
 			}
 		}
 
-		return leadList.size();
+		return count;
 
 	}
 
@@ -2262,6 +2262,20 @@ public class LeadServiceImpl implements LeadService  {
 
 	     }
 		return flag;
+	}
+	@Override
+	public Boolean autoOnOff(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Boolean b=false;
+        User user = userRepo.findById(1l).get();
+	     List<Lead> leadList = leadRepository.findAllByStatusIdAndAuto(1L, true,pageable).getContent();
+		 for(Lead l:leadList) {
+			 l.setAuto(false);
+			 leadRepository.save(l);
+			 b=true;
+		 }
+			 
+	     return b;
 	}
 	
 	

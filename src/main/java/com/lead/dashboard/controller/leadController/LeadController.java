@@ -86,15 +86,15 @@ public class LeadController {
 	}
 
 	@PostMapping(UrlsMapping.GET_ALL_LEAD_COUNT)
-	public ResponseEntity <Integer> getAllLeadCount(@RequestBody AllLeadFilter allLeadFilter)
+	public ResponseEntity <	Long> getAllLeadCount(@RequestBody AllLeadFilter allLeadFilter)
 	{		
 		//type->active , inActive 
 		//status->new,potential . etc
 		if(allLeadFilter.getStatusId()!=null && allLeadFilter.getStatusId().size()!=0) {
-			Integer alllead= leadservice.getAllLeadCount(allLeadFilter);
+			long alllead= leadservice.getAllLeadCountV2(allLeadFilter);
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}else {
-			Integer alllead= leadservice.getAllActiveCustomerLeadCount(allLeadFilter);
+			long alllead= leadservice.getAllActiveCustomerLeadCountV2(allLeadFilter);
 
 			return new ResponseEntity<>(alllead,HttpStatus.OK);
 		}
@@ -427,11 +427,11 @@ public class LeadController {
 		return res;
 	}
 	
-	@PutMapping(UrlsMapping.CREATE_PRIMARY_CONTACT)
-	public Boolean createPrimaryContact(@RequestParam(value = "page", defaultValue = "1") int page,
+	@PutMapping(UrlsMapping.AUTO_ON_OFF)
+	public Boolean autoOnOff(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{ 
-		Boolean res=leadservice.createPrimaryContact(page,size);
+		Boolean res=leadservice.autoOnOff(page,size);
 		
 		return  res;
 

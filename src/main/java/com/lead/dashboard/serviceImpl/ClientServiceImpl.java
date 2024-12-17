@@ -113,8 +113,21 @@ public class ClientServiceImpl implements ClientService{
 			 leadRepository.save(lead);
 
 			 return clientDetails;
+		}else{
+			List<Client>cList=new ArrayList<>();
+			 clientDetails =new Client(); 
+			 clientDetails.setName(client.getName());
+			 clientDetails.setContactNo(client.getContactNo());
+			 clientDetails.setEmails(client.getEmail());
+			 clientDetails.setPrimary(true);
+			 clientRepository.save(clientDetails);
+			 cList.add(clientDetails);
+			 lead.setEmail(client.getEmail());
+			 lead.setMobileNo(client.getContactNo());
+			 lead.setClients(cList);
+			 leadRepository.save(lead);
 		}
-		return null;
+		return clientDetails;
 	}
 
 	public void updateClientNameHistory(User currentUser,String pName,String cName,Long leadId) {
