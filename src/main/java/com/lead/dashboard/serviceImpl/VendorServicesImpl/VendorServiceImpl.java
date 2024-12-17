@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -798,7 +799,7 @@ public class VendorServiceImpl implements VendorService {
             }
 
             for (Vendor vendor : vendorList) {
-                vendorReportResponses.add(prepareVendorReportResponse(vendor, startDate, endDate));
+                vendorReportResponses.add(prepareVendorReportResponse(vendor));
             }
         } else {
             List<Vendor> vendorList;
@@ -814,7 +815,7 @@ public class VendorServiceImpl implements VendorService {
             }
 
             for (Vendor vendor : vendorList) {
-                vendorReportResponses.add(prepareVendorReportResponse(vendor, startDate, endDate));
+                vendorReportResponses.add(prepareVendorReportResponse(vendor));
             }
         }
 
@@ -826,24 +827,27 @@ public class VendorServiceImpl implements VendorService {
 
 
 
-    private VendorReportResponse prepareVendorReportResponse(Vendor vendor,LocalDate startDate, LocalDate endDate) {
+    private VendorReportResponse prepareVendorReportResponse(Vendor vendor) {
         VendorReportResponse response = new VendorReportResponse();
         response.setId(vendor.getId());
         response.setGenerateByPersonName(vendor.getAddedBy().getFullName());
         response.setAssignedToPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
-        response.setStartDate(startDate);
-        response.setEndDate(endDate);
+
+        response.setStartDate(vendor.getCreateDate());
+        response.setEndDate(vendor.getDate());
+
         response.setClientName(vendor.getClientName());
         response.setCurrentStatus(vendor.getStatus());
         response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
         response.setCategoryName(vendor.getVendorCategory().getVendorCategoryName());
         response.setClientCompany(vendor.getClientCompanyName());
         response.setClientMobileNumber(vendor.getClientMobileNumber());
+
         int vendorTat = vendor.getVendorSubCategory().getVendorCompletionTat();
         response.setVendorCompletionTat(vendorTat);
         response.setVendorCategoryResearchTat(vendor.getVendorSubCategory().getVendorCategoryResearchTat());
 
-        LocalDate requestCreatedDate = vendor.getDate();
+        // Convert createDate to LocalDate
         VendorUpdateHistory finishedUpdate = vendor.getVendorUpdateHistory()
                 .stream()
                 .filter(history -> "Finished".equalsIgnoreCase(history.getRequestStatus()) || "Quotation Sent".equalsIgnoreCase(history.getRequestStatus()))
@@ -852,19 +856,32 @@ public class VendorServiceImpl implements VendorService {
 
         if (finishedUpdate != null) {
             LocalDate completedDate = finishedUpdate.getDate();
+
+            // Convert vendor's createDate (Date) to LocalDate
+            LocalDate createDateLocal = vendor.getCreateDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            // Calculate the number of days between createDate and completedDate
+            int daysTaken = (int) ChronoUnit.DAYS.between(createDateLocal, completedDate);
             response.setCompletionDate(completedDate);
-            int daysTaken = (int) ChronoUnit.DAYS.between(requestCreatedDate, completedDate);
             response.setCompletionDays(daysTaken);
+
+            // Calculate TAT metrics
             response.setTatDaysLeft(Math.max(vendorTat - daysTaken, 0));
             response.setOverDueTat(Math.max(daysTaken - vendorTat, 0));
         } else {
-            int daysElapsed = (int) ChronoUnit.DAYS.between(requestCreatedDate, LocalDate.now());
+            int daysElapsed = (int) ChronoUnit.DAYS.between(
+                    vendor.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    LocalDate.now()
+            );
             response.setTatDaysLeft(Math.max(vendorTat - daysElapsed, 0));
             response.setOverDueTat(0);
         }
 
         return response;
     }
+
 
     @Override
     public Map<String, Object> searchVendors(Long userId, String searchInput) {

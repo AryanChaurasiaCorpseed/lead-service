@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class VendorReportResponse {
 
     private String assignedToPersonName;
 
-    private LocalDate startDate;
+    private Date startDate;
 
     private LocalDate endDate;
 
@@ -72,11 +73,11 @@ public class VendorReportResponse {
 		this.assignedToPersonName = assignedToPersonName;
 	}
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 

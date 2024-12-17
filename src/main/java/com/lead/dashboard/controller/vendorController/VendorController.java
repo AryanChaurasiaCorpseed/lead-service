@@ -1,7 +1,6 @@
 package com.lead.dashboard.controller.vendorController;
 
 
-import com.lead.dashboard.domain.vendor.Vendor;
 import com.lead.dashboard.domain.vendor.VendorUpdateHistory;
 import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorReportRequest;
