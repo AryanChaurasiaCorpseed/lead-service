@@ -97,13 +97,20 @@ public class Company {
 	SubIndustry subIndustry;
     @ManyToOne
 	SubSubIndustry subsubIndustry;
+    
+
 	
-//	@ManyToMany(fetch = FetchType.EAGER)
+//	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name="company_industry_data",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
 //			inverseJoinColumns = {@JoinColumn(name="company_industry_data_id"
 //					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 //	List<IndustryData>industryData;
-//	
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="company_industries_data",joinColumns = {@JoinColumn(name="company_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="company_industries_data_id"
+					+ "",referencedColumnName = "id",nullable=true,unique=false)})
+	List<IndustryData>industriesData;
 
 	public String getPrimaryPinCode() {
 		return primaryPinCode;

@@ -266,7 +266,7 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
      @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and source=:source and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
   	 Long findCountBySourceAndInBetweenDate(Long statusId,String source,String d1,String d2);
 
-     @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and is_reopen_by_quality=true and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
+     @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and is_reopen_by_quality=true and reopen_date BETWEEN :d1 AND :d2", nativeQuery = true)
   	 Long findCountByIsReopenByQualityAndSourceAndInBetweenDate(Long statusId,String d1,String d2);
      
      @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and source=:source", nativeQuery = true)
@@ -274,7 +274,7 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
      
      @Query(value = "SELECT count(*) FROM erp_leads l WHERE is_reopen_by_quality=true", nativeQuery = true)
   	 Long findCountByIsReopenByQuality(Long statusId);
-     
+     ̥
      
      @Query(value = "SELECT count(*) FROM erp_leads l WHERE status_id=:statusId and create_date BETWEEN :d1 AND :d2", nativeQuery = true)
   	 long findCountByStatusIdAndInBetweenDate(Long statusId,String d1,String d2);
