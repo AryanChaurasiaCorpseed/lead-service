@@ -121,7 +121,12 @@ public class SalesDashboardController {
 		Map<String, Object> alllead= salesDashboardService.getAllTypeLeadCount(graphDateFilter);
 		return alllead;
 	}
-	
+	@PostMapping(UrlsMapping.GET_ALL_TYPE_LEAD)
+	public List<Lead> getAllTypeLead(@RequestBody GraphDateFilter graphDateFilter)
+	{
+		List<Lead> alllead= salesDashboardService.getAllTypeLead(graphDateFilter);
+		return alllead;
+	}
 	@GetMapping(UrlsMapping.GET_TOTAL_USER_COUNT)
 	public long getTotalUserCount()
 	{

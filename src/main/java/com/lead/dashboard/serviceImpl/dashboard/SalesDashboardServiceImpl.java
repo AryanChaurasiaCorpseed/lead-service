@@ -996,6 +996,23 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 		}
 		return result;
 	}
+	
+	public List<Lead> getAllTypeLead(GraphDateFilter graphDateFilter) {
+		
+		String startDate = graphDateFilter.getToDate();
+		String endDate = graphDateFilter.getFromDate();
+		Long statusId=10l; 
+		List<Lead> qualityData =new ArrayList<>();
+         if(startDate!=null && endDate!=null) {
+     		qualityData = leadRepository.findAllByIsReopenByQualityAndSourceAndInBetweenDate(statusId,startDate, endDate);
+
+         }else {
+     		qualityData = leadRepository.findAllByIsReopenByQuality(statusId);
+
+         }
+		return qualityData;
+	}
+	
 	@Override
 	public long getTortalUserCount() {
 			long count=userRepo.findCountByIsDeleted(false);
@@ -1048,6 +1065,8 @@ public class SalesDashboardServiceImpl implements SalesDashboardService{
 
 		return resMap;
 	}
+	
+	
 	
 }
 
