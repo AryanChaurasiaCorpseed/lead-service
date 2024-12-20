@@ -777,7 +777,8 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId) {
+    public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate,
+                                                 List<Long> assignedUserIds) {
         // Fetch user details
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
         if (userDetails == null) {
@@ -787,36 +788,18 @@ public class VendorServiceImpl implements VendorService {
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
         boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
+        List<Vendor> vendorList;
+
         if (isAdmin) {
-            List<Vendor> vendorList;
-
-            if (status != null) {
-                // Fetch vendors for admin by date range and status
-                vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status);
-            } else {
-                // Fetch vendors for admin by date range only
-                vendorList = vendorRepository.findAllVendorRequestByDate(startDate, endDate);
-            }
-
-            for (Vendor vendor : vendorList) {
-                vendorReportResponses.add(prepareVendorReportResponse(vendor));
-            }
+            vendorList = (status != null)
+                    ? vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status, assignedUserIds)
+                    : vendorRepository.findAllVendorRequestByDate(startDate, endDate, assignedUserIds);
         } else {
-            List<Vendor> vendorList;
+            vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status, List.of(userIdBy));
+        }
 
-            if (status != null) {
-                // Fetch vendors for non-admin by assigned user, date range, and status
-                vendorList = vendorRepository.findAllByAssignedUserAndDateRangeAndStatus(userIdBy, startDate, endDate, status);
-            } else {
-                // Fetch vendors for non-admin by assigned user and date range only
-                vendorList = vendorRepository.findAllByAssignedUserAndDateRange(userIdBy, startDate, endDate);
-
-                System.out.println("dfddfg");
-            }
-
-            for (Vendor vendor : vendorList) {
-                vendorReportResponses.add(prepareVendorReportResponse(vendor));
-            }
+        for (Vendor vendor : vendorList) {
+            vendorReportResponses.add(prepareVendorReportResponse(vendor));
         }
 
         // Prepare and return response map
@@ -824,6 +807,8 @@ public class VendorServiceImpl implements VendorService {
         responseMap.put("vendorReports", vendorReportResponses);
         return responseMap;
     }
+
+
 
 
 
@@ -881,6 +866,7 @@ public class VendorServiceImpl implements VendorService {
 
         return response;
     }
+
 
 
     @Override
