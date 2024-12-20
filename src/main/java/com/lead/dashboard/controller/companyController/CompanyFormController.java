@@ -1869,7 +1869,9 @@ public class CompanyFormController {
 					company.setIndustries(companyForm.getIndustry());
 					company.setSubIndustry(companyForm.getSubIndustry());
 					company.setSubsubIndustry(companyForm.getSubsubIndustry());
-//					company.setIndustryDatas(companyForm.getIndustryDataList());
+					List<IndustryData> industryDataList = companyForm.getIndustryDataList();
+//					company.setIndustriesData(industryDataList);
+
 					//Address
 					company.setAddress(companyForm.getAddress());
 					company.setCity(companyForm.getCity());

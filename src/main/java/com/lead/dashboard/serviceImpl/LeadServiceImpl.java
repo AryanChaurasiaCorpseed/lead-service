@@ -2221,6 +2221,7 @@ public class LeadServiceImpl implements LeadService  {
 			User user = userRepo.findById(currentUerId).get();
 			lead.setReopenByQuality(isMarked);
 			lead.setReopenMarkedBy(user);
+			lead.setReopenDate(new Date());
 			leadRepository.save(lead);
 			flag=true;
 		}

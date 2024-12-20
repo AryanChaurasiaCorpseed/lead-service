@@ -161,6 +161,9 @@ public class Lead {
 	Proposal proposal;
 	
 	boolean isReopenByQuality;  // reopen by quality and assigne to sales person
+	
+	Date reopenDate;
+	
 	@ManyToOne
 	User reopenMarkedBy;
 	
@@ -578,6 +581,14 @@ public class Lead {
 
 	public void setIvrQuality(boolean isIvrQuality) {
 		this.isIvrQuality = isIvrQuality;
+	}
+
+	public Date getReopenDate() {
+		return reopenDate;
+	}
+
+	public void setReopenDate(Date reopenDate) {
+		this.reopenDate = reopenDate;
 	}
 	
 	
