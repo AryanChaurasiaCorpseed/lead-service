@@ -2023,6 +2023,12 @@ public class CompanyFormController {
 				map.put("sState", c.getSState());
 				map.put("secondaryPinCode", c.getSecondaryPinCode());
 				map.put("sCountry", c.getSCountry());
+				
+				map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
+				map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
+				map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
+				map.put("industryData", c.getIndustryDataList());
+
 
 				result.add(map);
 			}
