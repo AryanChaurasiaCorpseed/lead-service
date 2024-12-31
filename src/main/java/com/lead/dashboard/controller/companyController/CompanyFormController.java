@@ -69,18 +69,18 @@ public class CompanyFormController {
 
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Autowired
 	IndustryRepo industryRepo;
-	
+
 	@Autowired
 	SubIndustryRepo subIndustryRepo;
-	
+
 	@Autowired
 	SubSubIndustryRepo subSubIndustryRepo;
-	
+
 	@Autowired
-	
+
 	IndustryDataRepo industryDataRepo;
 
 	@Autowired
@@ -133,7 +133,7 @@ public class CompanyFormController {
 		companyForm.setContactNo(createFormDto.getContactNo());
 		companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
 
-		
+
 		companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 		System.out.println(createFormDto.getSContactName());
 		companyForm.setSContactName(createFormDto.getSContactName());
@@ -142,7 +142,7 @@ public class CompanyFormController {
 		companyForm.setSContactEmails(createFormDto.getSContactEmails());
 		companyForm.setSContactNo(createFormDto.getSContactNo());
 		companyForm.setSContactWhatsappNo(createFormDto.getSContactWhatsappNo());
-		
+
 		if(createFormDto.getUpdatedBy()!=null) {
 			User user = userRepo.findById(createFormDto.getUpdatedBy()).get();
 			companyForm.setUpdatedBy(user);
@@ -402,7 +402,7 @@ public class CompanyFormController {
 		Company company=null;
 
 		Long compId = companyRepository.findCompanyIdByLeadId(leadId);
-		
+
 		if(compId!=null) {
 			Optional<Company> comp = companyRepository.findById(compId);
 			if(comp!=null && comp.get()!=null) {
@@ -969,7 +969,7 @@ public class CompanyFormController {
 			map.put("sState", c.getSState());
 			map.put("secondaryPinCode", c.getSecondaryPinCode());
 			map.put("sCountry", c.getSCountry());
-			
+
 			map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
 			map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
 			map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
@@ -990,7 +990,7 @@ public class CompanyFormController {
 		for(String data:s) {
 			if(data!=null) {
 				String d=breakString(data);
-//				System.out.println(d+"...d");
+				//				System.out.println(d+"...d");
 				if(d!=null) {
 					domain.add(d);
 				}
@@ -1066,7 +1066,7 @@ public class CompanyFormController {
 		companyForm.setContactNo(UpdateCompanyFormDto.getContactNo());
 		companyForm.setContactWhatsappNo(UpdateCompanyFormDto.getContactWhatsappNo());
 		companyForm.setPrimaryDesignation(UpdateCompanyFormDto.getPrimaryDesignation());
-		
+
 		companyForm.setSecondaryContact(UpdateCompanyFormDto.isSecondaryContact());
 		System.out.println(UpdateCompanyFormDto.getSContactName());
 		companyForm.setSContactName(UpdateCompanyFormDto.getSContactName());
@@ -1085,23 +1085,23 @@ public class CompanyFormController {
 		companyForm.setLead(lead);
 		companyForm.setPanNo(UpdateCompanyFormDto.getPanNo());
 		companyForm.setState(UpdateCompanyFormDto.getState());
-		
+
 		if(UpdateCompanyFormDto.getIndustryId()!=null) {
 			Industry industry = industryRepo.findById(UpdateCompanyFormDto.getIndustryId()).get();
 			companyForm.setIndustry(industry);
-			
+
 			if(UpdateCompanyFormDto.getSubIndustryId()!=null) {
 				SubIndustry subIndustry = subIndustryRepo.findById(UpdateCompanyFormDto.getSubIndustryId()).get();
 				companyForm.setSubIndustry(subIndustry);
 			}
-			
+
 			if(UpdateCompanyFormDto.getSubsubIndustryId()!=null) {
-				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(UpdateCompanyFormDto.getSubsubIndustryId()).get();
+				SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(UpdateCompanyFormDto.getSubsubIndustryId()).get();
 				companyForm.setSubsubIndustry(subSubIndustry);
 			}
-			
+
 			if(UpdateCompanyFormDto.getIndustrydataId()!=null) {
-				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(UpdateCompanyFormDto.getIndustrydataId());
+				List<IndustryData> industryData = industryDataRepo.findAllByIdIn(UpdateCompanyFormDto.getIndustrydataId());
 				companyForm.setIndustryDataList(industryData);
 			}
 		}
@@ -1121,7 +1121,7 @@ public class CompanyFormController {
 	public List<Map<String,Object>> getAllCompanyFormByStatus(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
- 		List<Map<String,Object>>result = new ArrayList<>();
+		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		String dep = user.get()!=null?user.get().getDepartment():"NA";
@@ -1207,11 +1207,11 @@ public class CompanyFormController {
 	}
 
 
-//	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
+	//	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FORM_BY_STATUS_AND_COMPANY)
 	public Map<String,List<Map<String,Object>>>  getAllCompanyFormByStatusAndCompany(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
-// 		List<Map<String,Object>>result = new ArrayList<>();
+		// 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		String dep = user.get()!=null?user.get().getDepartment():"NA";
@@ -1247,7 +1247,7 @@ public class CompanyFormController {
 
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
-//			Map<String,Object>map = new HashMap<>();
+			//			Map<String,Object>map = new HashMap<>();
 			map.put("totalLeadFor", total);
 			map.put("id", c.getId());
 			map.put("unitName", c.getUnitName());
@@ -1289,9 +1289,9 @@ public class CompanyFormController {
 			map.put("sCountry", c.getSCountry());
 
 			if(res.containsKey(c.getCompanyName())) {
-				    List<Map<String, Object>> cList = res.get(c.getCompanyName());
-				    cList.add(map);
-				   res.put(c.getCompanyName(), cList);
+				List<Map<String, Object>> cList = res.get(c.getCompanyName());
+				cList.add(map);
+				res.put(c.getCompanyName(), cList);
 			}else {
 				List<Map<String, Object>> cList=new ArrayList<>();
 				cList.add(map);
@@ -1300,7 +1300,7 @@ public class CompanyFormController {
 			}
 
 		}
-	
+
 		return res;
 	}
 
@@ -1328,7 +1328,7 @@ public class CompanyFormController {
 			System.out.println("test.......");
 			Industry industry = industryRepo.findById(createFormDto.getIndustryId()).get();
 			companyForm.setIndustry(industry);
-			
+
 			if(createFormDto.getSubIndustryId()!=null) {
 
 				SubIndustry subIndustry = subIndustryRepo.findById(createFormDto.getSubIndustryId()).get();
@@ -1336,19 +1336,19 @@ public class CompanyFormController {
 
 				companyForm.setSubIndustry(subIndustry);
 			}
-			
+
 			if(createFormDto.getSubsubIndustryId()!=null) {
-				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
-					System.out.println("test2......."+subSubIndustry.getId());
+				SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
+				System.out.println("test2......."+subSubIndustry.getId());
 
-				 companyForm.setSubsubIndustry(subSubIndustry);
+				companyForm.setSubsubIndustry(subSubIndustry);
 			}
-			
-			if(createFormDto.getIndustrydataId()!=null) {
-				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
-					System.out.println("test3......."+industryData.size());
 
-				  companyForm.setIndustryDataList(industryData);
+			if(createFormDto.getIndustrydataId()!=null) {
+				List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
+				System.out.println("test3......."+industryData.size());
+
+				companyForm.setIndustryDataList(industryData);
 			}
 			companyFormRepo.save(companyForm);
 		}
@@ -1396,9 +1396,9 @@ public class CompanyFormController {
 				Long assigneeId = createFormDto.getAssigneeId()!=null?createFormDto.getAssigneeId():comp.getAssignee().getId();
 				companyForm.setAssigneeId(assigneeId);   
 				companyForm.setCompanyAge(createFormDto.getCompanyAge());
-//				companyForm.setCompanyName(createFormDto.getCompanyName());
+				//				companyForm.setCompanyName(createFormDto.getCompanyName());
 				companyForm.setCompanyName(createFormDto.getUnitName());  // company name
-				
+
 				companyForm.setGstType(createFormDto.getGstType());
 				companyForm.setGstDocuments(createFormDto.getGstDocuments());
 				companyForm.setGstNo(createFormDto.getGstNo());
@@ -1420,7 +1420,7 @@ public class CompanyFormController {
 				companyForm.setCompanyAge(unit.getCompanyAge());
 
 				if(!createFormDto.getIsPrimaryAddress()) {
-					
+
 					companyForm.setIsPrimaryAddress(createFormDto.getIsPrimaryAddress());
 					companyForm.setTitle(createFormDto.getPrimaryTitle() );
 					companyForm.setAddress(unit.getAddress());
@@ -1431,7 +1431,7 @@ public class CompanyFormController {
 
 				}
 				if(!createFormDto.getIsSecondaryAddress()) {
-					
+
 					companyForm.setIsSecondaryAddress(createFormDto.getIsSecondaryAddress());
 					companyForm.setSecTitle(createFormDto.getSecondaryTitle());
 					companyForm.setSAddress(unit.getSAddress());
@@ -1471,7 +1471,7 @@ public class CompanyFormController {
 			companyForm.setContactEmails(createFormDto.getContactEmails());
 			companyForm.setContactNo(createFormDto.getContactNo());
 			companyForm.setContactWhatsappNo(createFormDto.getContactWhatsappNo());
-	        companyForm.setPrimaryDesignation(createFormDto.getPrimaryDesignation());
+			companyForm.setPrimaryDesignation(createFormDto.getPrimaryDesignation());
 
 		}else {
 
@@ -1482,12 +1482,12 @@ public class CompanyFormController {
 			companyForm.setContactEmails(cont.getEmails());
 			companyForm.setContactNo(cont.getContactNo());
 			companyForm.setContactWhatsappNo(cont.getWhatsappNo());
-	        companyForm.setPrimaryDesignation(cont.getDesignation());
+			companyForm.setPrimaryDesignation(cont.getDesignation());
 
 		}
 
 		if(createFormDto.isSecondaryContact()) {
-            companyForm.setSecTitle(createFormDto.getSecondaryTitle());
+			companyForm.setSecTitle(createFormDto.getSecondaryTitle());
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
 			companyForm.setSContactName(createFormDto.getSContactName());
 			companyForm.setSContactEmails(createFormDto.getSContactEmails());
@@ -1499,7 +1499,7 @@ public class CompanyFormController {
 
 			Contact cont = contactRepo.findById(createFormDto.getSContactId()).get();
 			companyForm.setSecondaryContact(createFormDto.isSecondaryContact());
-            companyForm.setSecTitle(cont.getTitle());
+			companyForm.setSecTitle(cont.getTitle());
 			companyForm.setSContactName(cont.getName());
 			companyForm.setSContactEmails(cont.getEmails());
 			companyForm.setSContactNo(cont.getContactNo());
@@ -1520,22 +1520,22 @@ public class CompanyFormController {
 		if(createFormDto.getIndustryId()!=null) {
 			Industry industry = industryRepo.findById(createFormDto.getIndustryId()).get();
 			companyForm.setIndustry(industry);
-			
+
 			if(createFormDto.getSubIndustryId()!=null) {
 
 				SubIndustry subIndustry = subIndustryRepo.findById(createFormDto.getSubIndustryId()).get();
 				companyForm.setSubIndustry(subIndustry);
 			}
-			
-			if(createFormDto.getSubsubIndustryId()!=null) {
-				 SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
-				 companyForm.setSubsubIndustry(subSubIndustry);
-			}
-			
-			if(createFormDto.getIndustrydataId()!=null) {
-				  List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
 
-				  companyForm.setIndustryDataList(industryData);
+			if(createFormDto.getSubsubIndustryId()!=null) {
+				SubSubIndustry subSubIndustry = subSubIndustryRepo.findById(createFormDto.getSubsubIndustryId()).get();
+				companyForm.setSubsubIndustry(subSubIndustry);
+			}
+
+			if(createFormDto.getIndustrydataId()!=null) {
+				List<IndustryData> industryData = industryDataRepo.findAllByIdIn(createFormDto.getIndustrydataId());
+
+				companyForm.setIndustryDataList(industryData);
 			}
 			companyFormRepo.save(companyForm);
 		}
@@ -1546,7 +1546,7 @@ public class CompanyFormController {
 		companyFormRepo.save(companyForm);
 		return companyForm;
 	}
-	
+
 	@PutMapping(UrlsMapping.UPDATE_MULTI_COMPANY_FORM_STATUS)
 	public Boolean updateMultiCompanyFormStatus(@RequestBody
 			UpdateMultiFormDto updateMultiFormDto){
@@ -1555,12 +1555,12 @@ public class CompanyFormController {
 		System.out.println("test.............."+ids);
 		for(Long fId:ids) {
 			AccountApprovalOnInvoiceV3(updateMultiFormDto.getStatus(),fId,updateMultiFormDto.getCurrentUserId());
-		flag=true; 
+			flag=true; 
 		}
 		return flag;
 	}
-	
-	
+
+
 
 
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
@@ -1571,8 +1571,10 @@ public class CompanyFormController {
 
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
+
 		if("approved".equals(status)) {
 			if(!companyForm.isProjectCreated()) {
+				System.out.println("tata test . . . final");
 				if(companyForm.getIsPresent()) {
 					Company parentCompany = companyRepository.findById(companyForm.getCompanyId()).get();
 					if(companyForm.getIsUnit()) {                                                  
@@ -1623,7 +1625,7 @@ public class CompanyFormController {
 						Contact c=null;
 						if(companyForm.isPrimaryContact() ||companyForm.getContactId()==null) {
 							c = new Contact();
-                            c.setTitle(companyForm.getTitle());
+							c.setTitle(companyForm.getTitle());
 							c.setName(companyForm.getContactName());
 							c.setContactNo(companyForm.getContactNo());
 							c.setEmails(companyForm.getContactEmails());
@@ -1641,7 +1643,7 @@ public class CompanyFormController {
 						Contact sc=null;
 						if(companyForm.isSecondaryContact()) {
 							sc = new Contact();
-						    sc.setTitle(companyForm.getSecTitle());
+							sc.setTitle(companyForm.getSecTitle());
 							sc.setName(companyForm.getSContactName());
 							sc.setContactNo(companyForm.getSContactNo());
 							sc.setEmails(companyForm.getSContactEmails());
@@ -1720,7 +1722,7 @@ public class CompanyFormController {
 						Contact c=null;
 						if(companyForm.isPrimaryContact()||companyForm.getContactId()==null) {
 							c = new Contact();
-                            c.setTitle(companyForm.getTitle());
+							c.setTitle(companyForm.getTitle());
 							c.setName(companyForm.getContactName());
 							c.setContactNo(companyForm.getContactNo());
 							c.setEmails(companyForm.getContactEmails());
@@ -1731,7 +1733,7 @@ public class CompanyFormController {
 							c=contactRepo.findById(companyForm.getContactId()).get();
 						}	
 						unit.setPrimaryContact(c);
-                        
+
 						// SecondaryContact
 						Contact sc=null;
 						if(companyForm.isSecondaryContact() &&companyForm.getSContactId()!=null) {
@@ -1758,59 +1760,70 @@ public class CompanyFormController {
 						unit.setCompanyLead(leadList);
 						unit.setParent(false);
 						unit.setParent(parentCompany);
-
-						Project p = new Project();
-						p.setName(companyForm.getLead().getName());
-						p.setLead(companyForm.getLead());
-						p.setAmount(companyForm.getAmount());
-
-						//ADDRESS
-						p.setSAddress(companyForm.getSAddress());
-						p.setSCity(companyForm.getSCity());
-						p.setSState(companyForm.getSState());
-						p.setSCountry(companyForm.getSCountry());
-						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
-
-						p.setSAddress(companyForm.getSAddress());
-						p.setSCity(companyForm.getSCity());
-						p.setSState(companyForm.getSState());
-						p.setSCountry(companyForm.getSCountry());
-						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
-                        
-						p.setContact(c);
-
-						User assignee = unit.getAssignee();
-
-
-
-						p.setAssignee(assignee);
-						p.setStatus("initiated");
-						p.setCreateDate(new Date());
-						projectRepository.save(p);
-						List<Project> projectList = new ArrayList<>();
-						//					List<Project> projectList = unit.getCompanyProject();
-						if(unit.getCompanyProject()!=null) {
-							projectList.addAll(unit.getCompanyProject());
-						}
-						projectList.add(p);
-						unit.setCompanyProject(projectList);
-						//					p.setCompany(unit);
 						companyRepository.save(unit);
 						companyForm.setStatus(status);
-						companyForm.setProjectCreated(true);
 						companyForm.setApproved(true);
-
 						companyFormRepo.save(companyForm);
-						flag=true;
+
+						try {
+							Project p = new Project();
+							p.setName(companyForm.getLead().getName());
+							p.setLead(companyForm.getLead());
+							p.setAmount(companyForm.getAmount());
+
+							//ADDRESS
+							p.setSAddress(companyForm.getSAddress());
+							p.setSCity(companyForm.getSCity());
+							p.setSState(companyForm.getSState());
+							p.setSCountry(companyForm.getSCountry());
+							p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
+
+							p.setSAddress(companyForm.getSAddress());
+							p.setSCity(companyForm.getSCity());
+							p.setSState(companyForm.getSState());
+							p.setSCountry(companyForm.getSCountry());
+							p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
+
+							p.setContact(c);
+
+							User assignee = unit.getAssignee();
+
+
+
+							p.setAssignee(assignee);
+							p.setStatus("initiated");
+							p.setCreateDate(new Date());
+							projectRepository.save(p);
+							List<Project> projectList = new ArrayList<>();
+							//					List<Project> projectList = unit.getCompanyProject();
+							if(unit.getCompanyProject()!=null) {
+								projectList.addAll(unit.getCompanyProject());
+							}
+							projectList.add(p);
+							unit.setCompanyProject(projectList);
+							//					p.setCompany(unit);
+							companyRepository.save(unit);
+							//						companyForm.setStatus(status);
+							companyForm.setProjectCreated(true);
+							companyForm.setApproved(true);
+
+							companyFormRepo.save(companyForm);
+							flag=true;
+
+						}catch (Exception e) {
+
+						}
 
 					}
 
 
 				}else {
+					System.out.println("tata test . . . final2");
+
 					User assignee = userRepo.findById(companyForm.getAssigneeId()).get();
 
 					Company company = new Company();
-					company.setName(companyForm.getCompanyName());
+					//					company.setName(companyForm.getCompanyName());
 					company.setAssignee(assignee);
 
 					company.setGstNo(companyForm.getGstNo());
@@ -1854,7 +1867,7 @@ public class CompanyFormController {
 						sc=contactRepo.findById(companyForm.getSContactId()).get();
 					}else {
 						sc = new Contact();
-                        sc.setTitle(companyForm.getSecTitle());
+						sc.setTitle(companyForm.getSecTitle());
 						sc.setName(companyForm.getSContactName());
 						sc.setContactNo(companyForm.getSContactNo());
 						sc.setEmails(companyForm.getSContactEmails());
@@ -1865,12 +1878,12 @@ public class CompanyFormController {
 					}
 					company.setPrimaryContact(c);
 					company.setSecondaryContact(sc);
-                    //==industry add 
+					//==industry add 
 					company.setIndustries(companyForm.getIndustry());
 					company.setSubIndustry(companyForm.getSubIndustry());
 					company.setSubsubIndustry(companyForm.getSubsubIndustry());
 					List<IndustryData> industryDataList = companyForm.getIndustryDataList();
-//					company.setIndustriesData(industryDataList);
+					//					company.setIndustriesData(industryDataList);
 
 					//Address
 					company.setAddress(companyForm.getAddress());
@@ -1882,47 +1895,55 @@ public class CompanyFormController {
 					company.setSCity(companyForm.getSCity());
 					company.setSState(companyForm.getSState());
 					company.setSCountry(companyForm.getSCountry());
-					
-					
 
-					//Assignee
-
-					Project p = new Project();
-					p.setName(companyForm.getLead().getName());
-					p.setLead(companyForm.getLead());
-					p.setAmount(companyForm.getAmount());
-
-					//ADDRESS
-					p.setSAddress(companyForm.getSAddress());
-					p.setSCity(companyForm.getSCity());
-					p.setSState(companyForm.getSState());
-					p.setSCountry(companyForm.getSCountry());
-					p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
-
-					p.setSAddress(companyForm.getSAddress());
-					p.setSCity(companyForm.getSCity());
-					p.setSState(companyForm.getSState());
-					p.setSCountry(companyForm.getSCountry());
-					p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
-
-					p.setAssignee(assignee);
-					p.setStatus("initiated");
-					p.setCreateDate(new Date());
-					projectRepository.save(p);
-
-					List<Project> projectList =new ArrayList<>();
-					projectList.add(p);
-					company.setCompanyProject(projectList);
-					//				p.setCompany(unit);
 					companyRepository.save(company);
 					companyForm.setStatus(status);
-					companyForm.setProjectCreated(true);
 					companyForm.setApproved(true);
 					companyFormRepo.save(companyForm);
-					flag=true;
+
+
+					//Assignee̥
+					try {
+						Project p = new Project();
+						p.setName(companyForm.getLead().getName());
+						p.setLead(companyForm.getLead());
+						p.setAmount(companyForm.getAmount());
+
+						//ADDRESS
+						p.setSAddress(companyForm.getSAddress());
+						p.setSCity(companyForm.getSCity());
+						p.setSState(companyForm.getSState());
+						p.setSCountry(companyForm.getSCountry());
+						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
+
+						p.setSAddress(companyForm.getSAddress());
+						p.setSCity(companyForm.getSCity());
+						p.setSState(companyForm.getSState());
+						p.setSCountry(companyForm.getSCountry());
+						p.setSecondaryPinCode(companyForm.getSecondaryPinCode());
+
+						p.setAssignee(assignee);
+						p.setStatus("initiated");
+						p.setCreateDate(new Date());
+						projectRepository.save(p);
+
+						List<Project> projectList =new ArrayList<>();
+						projectList.add(p);
+						company.setCompanyProject(projectList);
+						//				p.setCompany(unit);
+						companyRepository.save(company);
+						companyForm.setStatus(status);
+						companyForm.setProjectCreated(true);
+						companyForm.setApproved(true);
+						companyFormRepo.save(companyForm);
+						flag=true;
+					}catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
 
 				}
 			}else {
+				System.out.println("Final version -v6555");
 				companyForm.setApproved(true);
 				companyForm.setStatus(status);
 				companyFormRepo.save(companyForm);
@@ -1930,6 +1951,8 @@ public class CompanyFormController {
 			}
 
 		}else {
+			System.out.println("Final version -v77777777");
+
 			companyForm.setStatus(status);
 			companyForm.setApproved(false);
 			companyFormRepo.save(companyForm);
@@ -1959,9 +1982,9 @@ public class CompanyFormController {
 			Pageable pageable = PageRequest.of(page, size);
 
 			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {
-//				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
-//				compList = companyForms.getContent(); 
-				
+				//				Page<CompanyForm> companyForms = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status, pageable);
+				//				compList = companyForms.getContent(); 
+
 				compList = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status);
 
 			}
@@ -2000,6 +2023,12 @@ public class CompanyFormController {
 				map.put("sState", c.getSState());
 				map.put("secondaryPinCode", c.getSecondaryPinCode());
 				map.put("sCountry", c.getSCountry());
+				
+				map.put("industry", c.getIndustry()!=null?c.getIndustry().getName():"NA");
+				map.put("subIndustry", c.getSubIndustry()!=null?c.getSubIndustry().getName():"NA");
+				map.put("subSubIndustry", c.getSubsubIndustry()!=null?c.getSubsubIndustry().getName():"NA");
+				map.put("industryData", c.getIndustryDataList());
+
 
 				result.add(map);
 			}
@@ -2031,7 +2060,7 @@ public class CompanyFormController {
 	public Map<String,Object>  getAllCompanyFormCountByStatusAndCompany(@RequestParam String status,@RequestParam Long userId, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
-// 		List<Map<String,Object>>result = new ArrayList<>();
+		// 		List<Map<String,Object>>result = new ArrayList<>();
 		//		List<CompanyForm> compList = companyFormRepo.findAll();
 		Optional<User> user = userRepo.findById(userId);
 		String dep = user.get()!=null?user.get().getDepartment():"NA";
@@ -2068,8 +2097,8 @@ public class CompanyFormController {
 
 		for(CompanyForm c:compList) {
 			Map<String,Object>map = new HashMap<>();
-//			Map<String,Object>map = new HashMap<>();
-//			map.put("totalLeadFor", total);
+			//			Map<String,Object>map = new HashMap<>();
+			//			map.put("totalLeadFor", total);
 			map.put("id", c.getId());
 			map.put("unitName", c.getUnitName());
 			//			map.put("primaryAddress", c.get);
@@ -2110,9 +2139,9 @@ public class CompanyFormController {
 			map.put("sCountry", c.getSCountry());
 
 			if(res.containsKey(c.getCompanyName())) {
-				    List<Map<String, Object>> cList = res.get(c.getCompanyName());
-				    cList.add(map);
-				   res.put(c.getCompanyName(), cList);
+				List<Map<String, Object>> cList = res.get(c.getCompanyName());
+				cList.add(map);
+				res.put(c.getCompanyName(), cList);
 			}else {
 				List<Map<String, Object>> cList=new ArrayList<>();
 				cList.add(map);
@@ -2121,17 +2150,17 @@ public class CompanyFormController {
 			}
 		}
 		result.put("count", total);
-	    result.put("data", res);
+		result.put("data", res);
 		return result;
 	}
 
-     
+
 	@GetMapping(UrlsMapping.GET_COMPANY_FORM_COMPANYWISE)
 	public ResponseEntity<Map<String,List<Map<String,Object>>>> searchCompanyFormDataByStatusAndCompanywise(
 			@RequestParam String searchNameAndGSt,
 			@RequestParam Long userId,
 			@RequestParam String status) {
-		
+
 
 		try {
 			Optional<User> user = userRepo.findById(userId);
@@ -2141,12 +2170,12 @@ public class CompanyFormController {
 
 			String dep = user.get().getDepartment();
 			List<CompanyForm> compList = new ArrayList<>();
-  
-			
+
+
 			if (user.get().getRole().contains("ADMIN") || "Accounts".equals(dep)) {
-				
+
 				compList = companyFormRepo.findByCompanyNameOrGstNoAndStatus(searchNameAndGSt, status);
-//				compList = companyForms.getContent(); 
+				//				compList = companyForms.getContent(); 
 			}
 
 			if (compList.isEmpty()) {
@@ -2156,8 +2185,8 @@ public class CompanyFormController {
 			Map<String,List<Map<String,Object>>>res = new HashMap<>();
 			for(CompanyForm c:compList) {
 				Map<String,Object>map = new HashMap<>();
-//				Map<String,Object>map = new HashMap<>();
-//				map.put("totalLeadFor", total);
+				//				Map<String,Object>map = new HashMap<>();
+				//				map.put("totalLeadFor", total);
 				map.put("id", c.getId());
 				map.put("unitName", c.getUnitName());
 				//			map.put("primaryAddress", c.get);
@@ -2198,9 +2227,9 @@ public class CompanyFormController {
 				map.put("sCountry", c.getSCountry());
 
 				if(res.containsKey(c.getCompanyName())) {
-					    List<Map<String, Object>> cList = res.get(c.getCompanyName());
-					    cList.add(map);
-					   res.put(c.getCompanyName(), cList);
+					List<Map<String, Object>> cList = res.get(c.getCompanyName());
+					cList.add(map);
+					res.put(c.getCompanyName(), cList);
 				}else {
 					List<Map<String, Object>> cList=new ArrayList<>();
 					cList.add(map);
