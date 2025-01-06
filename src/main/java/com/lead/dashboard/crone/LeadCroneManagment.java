@@ -38,7 +38,7 @@ public class LeadCroneManagment {
 	@Autowired
 	LeadRepository leadRepository;
 	
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	@Transactional
 	public void scheduleWithCron() {
 	   System.out.println("Cron Job is running at : ");

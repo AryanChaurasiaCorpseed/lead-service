@@ -1565,9 +1565,9 @@ public class CompanyFormController {
 
 	@PutMapping(UrlsMapping.UPDATE_COMPANY_FORM_STATUS)
 	public Boolean AccountApprovalOnInvoiceV3(String status,Long id,Long currentUserId){
-		System.out.println("test1 . . . "+status);
-		System.out.println("test2 . . . "+id);
-		System.out.println("test3 . . . "+currentUserId);
+//		System.out.println("test1 . . . "+status);
+//		System.out.println("test2 . . . "+id);
+//		System.out.println("test3 . . . "+currentUserId);
 
 		CompanyForm companyForm = companyFormRepo.findById(id).get();
 		Boolean flag=false;
@@ -1818,7 +1818,7 @@ public class CompanyFormController {
 
 
 				}else {
-					System.out.println("tata test . . . final2");
+//					System.out.println("tata test . . . final2");
 
 					User assignee = userRepo.findById(companyForm.getAssigneeId()).get();
 
