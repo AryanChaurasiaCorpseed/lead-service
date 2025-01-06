@@ -81,7 +81,7 @@ public class LeadCroneManagment {
 	    	String ccMail[]= {"aryan.chaurasia@corpseed.com"};
 	    	String fromMail[]= {l.getAssignee().getEmail()};
 	    	String subject="Urgent: Pending Task Notification";
-	    	mailSendSerivceImpl.sendEmail(ccMail, fromMail,ccMail, subject,"Testing",context,"missedTask.html");
+//	    	mailSendSerivceImpl.sendEmail(ccMail, fromMail,ccMail, subject,"Testing",context,"missedTask.html");
 
 		   Notification notification = new Notification();
 		   notification.setUser(taskManagment.getAssignedBy());
