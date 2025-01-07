@@ -751,4 +751,76 @@ public class EstimateServiceImpl implements EstimateService
 		return count;
 	}
 
+	@Override
+	public Map<String, Object> getEstimateById(Long estimateId) {
+		ServiceDetails s = serviceDetailsRepository.findById(estimateId).get();
+		Map<String,Object>m=new HashMap<>();
+		m.put("id", s.getId());
+		m.put("productName", s.getProductName());
+		m.put("address", s.getAddress());
+		m.put("city", s.getCity());
+		m.put("companyAge", s.getCompanyAge());
+		m.put("company", s.getCompanyId());
+		m.put("companyName", s.getCompanyName());
+		m.put("consultingSales", s.getConsultingSale());
+		m.put("country", s.getCountry());
+		m.put("documents", s.getDocuments());
+		m.put("purchaseDate", s.getPurchaseDate());
+
+		m.put("govermentCode", s.getGovermentCode());
+		m.put("govermentFees", s.getGovermentfees());
+		m.put("govermentGst", s.getGovermentGst());
+		m.put("gstDocuments", s.getGstDocuments());
+		
+		m.put("gstNo", s.getGstNo());
+		m.put("gstType", s.getGstType());
+		m.put("invoiceNote", s.getInvoiceNote());
+		m.put("isPrimaryAddress", s.getIsPrimaryAddress());
+		m.put("isSecondaryAddress", s.getIsSecondaryAddress());
+		m.put("leadId", s.getLeadId());
+		m.put("orderNumber", s.getOrderNumber());
+
+		m.put("otherCode", s.getOtherCode());
+		m.put("otherGst", s.getOtherGst());
+		m.put("otherFees", s.getOtherFees());
+		
+		m.put("panNo", s.getPanNo());
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryTitle", s.getPrimaryTitle());
+		
+		m.put("serviceCode", s.getServiceCode());
+		m.put("serviceGst", s.getServiceGst());
+		m.put("serviceCharge", s.getServiceCharge());
+
+		m.put("state", s.getState());
+		m.put("status", s.getStatus());
+		m.put("unitId", s.getUnitId());
+		m.put("unitName", s.getUnitName());
+		m.put("assigneeId", s.getAssignee());  
+		m.put("ccMail", s.getCc());
+		m.put("createDate", s.getCreateDate());
+		m.put("estimateDate", s.getEstimateData())
+		;
+		m.put("profesionalGst", s.getProfesionalGst());
+		m.put("profesionalCode", s.getProfessionalCode());
+		m.put("professionalFees", s.getProfessionalFees());
+		
+		m.put("primaryContact", s.getPrimaryContact());
+
+		m.put("primaryPinCode", s.getPrimaryPinCode());
+		m.put("primaryContact", s.getPrimaryContact());
+
+		m.put("secondaryAddress", s.getSecondaryAddress());
+		m.put("secondaryCity", s.getSecondaryCity());
+		m.put("secondaryPinCode", s.getSecondaryPinCode());
+		m.put("secondaryState", s.getSecondaryState());
+		m.put("isUnit", s.isUnit());
+		m.put("secondaryContact", s.getSecondaryContact());
+		m.put("isSecondary", s.getIsSecondaryAddress());
+		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+		m.put("totalAmount", totalAmount);
+	    m.put("consultantByCompany", s.getConsultantByCompany());
+		return m;
+	}
+
 }

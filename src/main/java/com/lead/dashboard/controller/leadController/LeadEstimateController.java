@@ -92,7 +92,12 @@ public class LeadEstimateController {
         return res;
     }
     
-    
+    @PostMapping(UrlsMapping.GET_ESTIMATE_BY_ID)
+    public Map<String,Object> getEstimateById(@RequestBody Long  estimateId)
+    {
+    	Map<String,Object> res=estimateService.getEstimateById(estimateId);
+        return res;
+    }
     
     
 }
