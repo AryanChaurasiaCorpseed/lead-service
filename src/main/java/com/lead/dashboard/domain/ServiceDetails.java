@@ -81,7 +81,11 @@ public class ServiceDetails {
 	String secondaryPinCode;
 	String secondaryCountry;
 	
-	
+	//hsn details
+    boolean hsnSacPrsent;
+	String hsnSacDetails;
+	String HsnSac;
+	String hsnDescription;
 
 	@ManyToOne
 	User  assignee;
@@ -467,6 +471,30 @@ public class ServiceDetails {
 	}
 	public void setConsultantByCompany(ConsultantByCompany consultantByCompany) {
 		this.consultantByCompany = consultantByCompany;
+	}
+	public boolean isHsnSacPrsent() {
+		return hsnSacPrsent;
+	}
+	public String getHsnSacDetails() {
+		return hsnSacDetails;
+	}
+	public String getHsnSac() {
+		return HsnSac;
+	}
+	public String getHsnDescription() {
+		return hsnDescription;
+	}
+	public void setHsnSacPrsent(boolean hsnSacPrsent) {
+		this.hsnSacPrsent = hsnSacPrsent;
+	}
+	public void setHsnSacDetails(String hsnSacDetails) {
+		this.hsnSacDetails = hsnSacDetails;
+	}
+	public void setHsnSac(String hsnSac) {
+		HsnSac = hsnSac;
+	}
+	public void setHsnDescription(String hsnDescription) {
+		this.hsnDescription = hsnDescription;
 	} 
 	
 	
