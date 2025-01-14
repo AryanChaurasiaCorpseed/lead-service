@@ -806,6 +806,21 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("professionalFees", s.getProfessionalFees());
 		
 		m.put("primaryContact", s.getPrimaryContact());
+		
+		m.put("primaryContactId", s.getPrimaryContact().getId());
+		m.put("primaryContactTitle", s.getPrimaryContact().getTitle());
+		m.put("primaryContactName", s.getPrimaryContact().getName());
+		m.put("primaryContactEmails", s.getPrimaryContact().getEmails());
+		m.put("primaryContactDesignation", s.getPrimaryContact().getDesignation());
+		m.put("primaryContactContactNo", s.getPrimaryContact().getContactNo());
+
+		m.put("secondaryContactId", s.getSecondaryContact().getId());
+		m.put("secondaryContactTitle", s.getSecondaryContact().getTitle());
+		m.put("secondaryContactName", s.getSecondaryContact().getName());
+		m.put("secondaryContactEmails", s.getSecondaryContact().getEmails());
+		m.put("secondaryContactDesignation", s.getSecondaryContact().getDesignation());
+		m.put("secondaryContactContactNo", s.getSecondaryContact().getContactNo());
+
 
 		m.put("primaryPinCode", s.getPrimaryPinCode());
 		m.put("primaryContact", s.getPrimaryContact());
@@ -814,6 +829,9 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("secondaryCity", s.getSecondaryCity());
 		m.put("secondaryPinCode", s.getSecondaryPinCode());
 		m.put("secondaryState", s.getSecondaryState());
+		m.put("secondaryCountry", s.getSecondaryCountry());
+		m.put("remarkForOperation", s.getRemarksForOption());
+
 		m.put("isUnit", s.isUnit());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());

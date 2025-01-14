@@ -86,6 +86,9 @@ public class ServiceDetails {
 	String hsnSacDetails;
 	String HsnSac;
 	String hsnDescription;
+	
+	boolean tdsPresent;
+	String tdsDetuctedPrsent;
 
 	@ManyToOne
 	User  assignee;
@@ -117,6 +120,7 @@ public class ServiceDetails {
     int otherFees;
     String otherCode;
     String otherGst;	
+    String  totalAmount;
     boolean isDeleted;
     
     @ManyToOne
@@ -495,6 +499,12 @@ public class ServiceDetails {
 	}
 	public void setHsnDescription(String hsnDescription) {
 		this.hsnDescription = hsnDescription;
+	}
+	public String getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
 	} 
 	
 	
