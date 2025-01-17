@@ -1823,7 +1823,7 @@ public class CompanyFormController {
 					User assignee = userRepo.findById(companyForm.getAssigneeId()).get();
 
 					Company company = new Company();
-					//					company.setName(companyForm.getCompanyName());
+					company.setName(companyForm.getCompanyName());
 					company.setAssignee(assignee);
 
 					company.setGstNo(companyForm.getGstNo());
