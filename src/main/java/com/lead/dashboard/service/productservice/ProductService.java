@@ -8,6 +8,7 @@ import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.TatAndDescDto;
+import com.lead.dashboard.dto.UpdateAmountProductDto;
 
 import java.util.List;
 import java.util.Map;
@@ -52,4 +53,6 @@ public interface ProductService {
 	Boolean addKnowledgeDocumentsInProduct(DocProductDto docProductDto);
 
 	Boolean addProductDocumentsInProduct(DocProductDto docProductDto);
+
+	Boolean updateAmountInProduct(UpdateAmountProductDto updateAmountProductDto);
 }

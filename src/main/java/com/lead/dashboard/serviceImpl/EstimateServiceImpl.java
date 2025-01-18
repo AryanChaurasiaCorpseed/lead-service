@@ -235,6 +235,7 @@ public class EstimateServiceImpl implements EstimateService
 		Boolean flag=false;
 		Lead lead = leadRepository.findById(createservicedetails.getLeadId()).get();
 		 ServiceDetails serviceDetails = lead.getServiceDetails();
+		 System.out.println(serviceDetails+"  . ...service Details");
 		 if(serviceDetails==null) {
 			 Product product = productRepo.findById(createservicedetails.getProductId()).get();
 			 serviceDetails=new ServiceDetails();
@@ -836,6 +837,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
 		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+		System.out.println("total amount tttttt"+totalAmount);
 		m.put("totalAmount", totalAmount);
 	    m.put("consultantByCompany", s.getConsultantByCompany());
 		return m;
