@@ -28,7 +28,7 @@ spring:
     host: smtppro.zoho.in
     port: 465
     username: erp@corpseed.com
-    password: ERP@5454
+    password: Erp@5454
     properties:
       mail:
         smtp:
