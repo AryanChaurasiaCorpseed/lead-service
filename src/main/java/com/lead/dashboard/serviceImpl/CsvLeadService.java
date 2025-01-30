@@ -5,9 +5,12 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lead.dashboard.config.AwsConfig;
 import com.lead.dashboard.domain.Status;
+import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.StatusRepository;
+import com.lead.dashboard.repository.UserRepo;
 import com.sun.mail.iap.ResponseInputStream;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -28,6 +31,9 @@ public class CsvLeadService {
 
     @Autowired
     private LeadRepository leadRepository;
+    
+    @Autowired
+    UserRepo userRepo;
     
     @Autowired
     StatusRepository statusRepository;
@@ -91,14 +97,31 @@ public class CsvLeadService {
             lead.setSource(record.get("Source"));
             Status status = statusRepository.findByName("New");
             lead.setStatus(status);
-            
+            String assigneeEmail = record.get("assignee")!=null?record.get("assignee").toString():null;
+            if(assigneeEmail!=null) {
+                User assignee = userRepo.findByemail(assigneeEmail);
+                if(assignee!=null) {
+                    lead.setAssignee(assignee);
+
+                }else {
+                     
+                     User a = userRepo.findByemail("navjot.singh@corpseed.com");
+                     
+
+                    lead.setAssignee(a);
+                }
+            }else {
+                User a = userRepo.findByemail("navjot.singh@corpseed.com");
+                lead.setAssignee(a);
+            }
+
             lead.setPrimaryAddress(record.get("Primary Address"));
             lead.setCity(record.get("City"));
             lead.setCategoryId(record.get("Category Id"));
             lead.setServiceId(record.get("Service Id"));
             lead.setIndustryId(record.get("Industry Id"));
             lead.setIpAddress(record.get("IP Address"));
-
+            leadRepository.save(lead);
             leads.add(lead);
         }
 
