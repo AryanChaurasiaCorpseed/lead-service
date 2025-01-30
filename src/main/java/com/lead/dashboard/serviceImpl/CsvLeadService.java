@@ -4,8 +4,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lead.dashboard.config.AwsConfig;
+import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.StatusRepository;
 import com.sun.mail.iap.ResponseInputStream;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -26,6 +28,9 @@ public class CsvLeadService {
 
     @Autowired
     private LeadRepository leadRepository;
+    
+    @Autowired
+    StatusRepository statusRepository;
 
     @Autowired
     private AwsConfig awsConfig;
@@ -84,6 +89,9 @@ public class CsvLeadService {
             lead.setMobileNo(record.get("Mobile No"));
             lead.setEmail(record.get("Email"));
             lead.setSource(record.get("Source"));
+            Status status = statusRepository.findByName("New");
+            lead.setStatus(status);
+            
             lead.setPrimaryAddress(record.get("Primary Address"));
             lead.setCity(record.get("City"));
             lead.setCategoryId(record.get("Category Id"));

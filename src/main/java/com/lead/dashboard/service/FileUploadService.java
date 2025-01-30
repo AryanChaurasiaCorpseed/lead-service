@@ -22,4 +22,6 @@ public interface FileUploadService {
 
 	String getImageToFileSystem(String filePath);
 	String uploadDocument(InputStream inputStream, String finalFileName);
+
+	String importCSV(MultipartFile files) throws IllegalStateException, IOException;
 }
