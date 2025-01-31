@@ -78,8 +78,8 @@ public class Product {
 	String description;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinTable(name="product_knowledge_documents",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="product_knowledge_documents_id"
+	@JoinTable(name="product_required_documents",joinColumns = {@JoinColumn(name="product_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="product_required_documents_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
 	List<RequiredDocuments>requiredDocuments;
 	

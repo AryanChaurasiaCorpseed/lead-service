@@ -81,6 +81,8 @@ public class UrlsMapping {
 	public static final String EDIT_PROPOSAL=PREFIX+"/proposal/editProposal";
 
 	public static final String GET_ALL_PROPOSAL_BY_LEAD_ID=PREFIX+"/proposal/getAllProposalByLeadId";
+	public static final String CREATE_NEW_PROPOSAL=PREFIX+"/proposal/createNewProposal";
+	public static final String ATTACH_DOCUMENT_WITH_PROPOSAL  =PREFIX+"/proposal/attachDocumentWithProposal";
 
 	
 	

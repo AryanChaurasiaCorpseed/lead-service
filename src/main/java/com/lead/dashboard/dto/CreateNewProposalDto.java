@@ -3,17 +3,18 @@ package com.lead.dashboard.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.lead.dashboard.domain.lead.FileData;
 
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateProposalDto {
+public class CreateNewProposalDto {
+
+
 
 	Long productId;
 
 	Long primaryContact;
 
+	Long secondaryContact;
 
 	Boolean isPresent;
 	String companyName;//isPresentFalse
@@ -25,10 +26,7 @@ public class CreateProposalDto {
 
 	String panNo;
 
-	String gstNo;
-	String gstType;
-	String gstDocuments;
-	String companyAge;
+
 
 	int  govermentfees;
 	String govermentCode;
@@ -60,14 +58,19 @@ public class CreateProposalDto {
 	String primaryPinCode;
 	String Country;
 
-	
+
 	List<String>cc;
 
 
 	Long leadId;
+     
+	Long fileDataId;
+	
 
 	@NotBlank
 	Date createDate;
+	
+	boolean mailSendOrNot;
 
 	public Long getProductId() {
 		return productId;
@@ -84,6 +87,15 @@ public class CreateProposalDto {
 	public void setPrimaryContact(Long primaryContact) {
 		this.primaryContact = primaryContact;
 	}
+
+	public Long getSecondaryContact() {
+		return secondaryContact;
+	}
+
+	public void setSecondaryContact(Long secondaryContact) {
+		this.secondaryContact = secondaryContact;
+	}
+
 	public Boolean getIsPresent() {
 		return isPresent;
 	}
@@ -140,37 +152,7 @@ public class CreateProposalDto {
 		this.panNo = panNo;
 	}
 
-	public String getGstNo() {
-		return gstNo;
-	}
-
-	public void setGstNo(String gstNo) {
-		this.gstNo = gstNo;
-	}
-
-	public String getGstType() {
-		return gstType;
-	}
-
-	public void setGstType(String gstType) {
-		this.gstType = gstType;
-	}
-
-	public String getGstDocuments() {
-		return gstDocuments;
-	}
-
-	public void setGstDocuments(String gstDocuments) {
-		this.gstDocuments = gstDocuments;
-	}
-
-	public String getCompanyAge() {
-		return companyAge;
-	}
-
-	public void setCompanyAge(String companyAge) {
-		this.companyAge = companyAge;
-	}
+	
 
 	public int getGovermentfees() {
 		return govermentfees;
@@ -364,5 +346,25 @@ public class CreateProposalDto {
 		Country = country;
 	}
 
+	public Long getFileDataId() {
+		return fileDataId;
+	}
+
+	public void setFileDataId(Long fileDataId) {
+		this.fileDataId = fileDataId;
+	}
+
+	public boolean isMailSendOrNot() {
+		return mailSendOrNot;
+	}
+
+	public void setMailSendOrNot(boolean mailSendOrNot) {
+		this.mailSendOrNot = mailSendOrNot;
+	}
+     
+	
+	
+     
+	
 	
 }
