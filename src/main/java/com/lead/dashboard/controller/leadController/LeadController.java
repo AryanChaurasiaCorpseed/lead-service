@@ -76,13 +76,16 @@ public class LeadController {
 		if (leadDTO!=null) {
 			try {
 				User user = userRepo.findByUserIdAndIsDeletedFalse(leadDTO.getCreatedById());
-				if(user!=null) {
-					Lead createdLead = leadservice.createLeadV2New(leadDTO);
-					return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
+				Lead createdLead = leadservice.createLeadV2New(leadDTO);
+				return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
 
-				}else {
-					return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-				}
+//				if(user!=null) {
+//					Lead createdLead = leadservice.createLeadV2New(leadDTO);
+//					return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
+//
+//				}else {
+//					return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//				}
 			} catch (Exception e) {
 				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create lead", e);
 			}
