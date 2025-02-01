@@ -75,7 +75,7 @@ public class LeadController {
 	{
 		if (leadDTO!=null) {
 			try {
-				User user = userRepo.findByUserIdAndIsDeletedFalse(leadDTO.getCreatedById());
+//				User user = userRepo.findByUserIdAndIsDeletedFalse(leadDTO.getCreatedById());
 				Lead createdLead = leadservice.createLeadV2New(leadDTO);
 				return new ResponseEntity<>(createdLead, HttpStatus.CREATED);
 
