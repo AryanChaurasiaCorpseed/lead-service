@@ -71,6 +71,7 @@ public class UrlsMapping {
 	public static final String GET_ESTIMATE_BY_LEAD_ID=PREFIX+"/leadEstimate/getEstimateByLeadId";	
 	public static final String GET_ESTIMATE_BY_USER_ID=PREFIX+"/leadEstimate/getEstimateByUserId";
 	public static final String GET_ESTIMATE_BY_USER_ID_COUNT=PREFIX+"/leadEstimate/getEstimateByUserIdCount";	
+	public static final String GET_ESTIMATE_BY_ID=PREFIX+"/leadEstimate/getEstimateById";	
 
 
 	// - - - -  - - ---     create proposal - - - - -  

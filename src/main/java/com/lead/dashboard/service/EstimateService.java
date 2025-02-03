@@ -30,4 +30,6 @@ public interface EstimateService {
 
 	long getEstimateByUserIdCount(Long userId);
 
+	Map<String, Object> getEstimateById(Long estimateId);
+
 }

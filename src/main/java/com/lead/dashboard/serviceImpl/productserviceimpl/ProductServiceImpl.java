@@ -16,6 +16,7 @@ import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.TatAndDescDto;
+import com.lead.dashboard.dto.UpdateAmountProductDto;
 import com.lead.dashboard.repository.KnowledgeDocRepository;
 import com.lead.dashboard.repository.ProductAmountRepo;
 import com.lead.dashboard.repository.ProductDocumentRepo;
@@ -335,6 +336,22 @@ public class ProductServiceImpl implements ProductService {
 		productRepo.save(product);
 		flag=true;
 		return flag;
+	}
+
+
+	@Override
+	public Boolean updateAmountInProduct(UpdateAmountProductDto updateAmountProductDto) {
+		
+    	Boolean flag=false;
+    	ProductAmount pa = productAmountRepo.findById(updateAmountProductDto.getProductAmountId()).get();
+    	pa.setFees(updateAmountProductDto.getFees());
+    	pa.setHsnNo(updateAmountProductDto.getHsnNo());
+    	pa.setName(updateAmountProductDto.getName());
+    	pa.setTaxAmount(updateAmountProductDto.getTaxAmount());
+    	productAmountRepo.save(pa);
+    	
+    	flag=true;
+        return flag;
 	}
 
 }

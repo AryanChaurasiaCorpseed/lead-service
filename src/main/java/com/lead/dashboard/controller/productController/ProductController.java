@@ -8,6 +8,7 @@ import com.lead.dashboard.dto.CreateProduct;
 import com.lead.dashboard.dto.DocProductDto;
 import com.lead.dashboard.dto.StageDto;
 import com.lead.dashboard.dto.TatAndDescDto;
+import com.lead.dashboard.dto.UpdateAmountProductDto;
 import com.lead.dashboard.dto.UpdateProduct;
 import com.lead.dashboard.service.productservice.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,6 +184,16 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+    
+    @PostMapping("/updateAmountInProduct")
+    public ResponseEntity<Boolean> updateAmountInProduct(@RequestBody UpdateAmountProductDto updateAmountProductDto) {
+
+
+        Boolean result = productService.updateAmountInProduct(updateAmountProductDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+    
     
     
 }
