@@ -32,4 +32,8 @@ public interface EstimateService {
 
 	Map<String, Object> getEstimateById(Long estimateId);
 
+	List<Map<String, Object>> getEstimateByStatus(String status);
+
+	Boolean approvedEstimate(String status,Long estimateId,Long userId);
+
 }

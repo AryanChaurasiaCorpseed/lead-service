@@ -72,6 +72,8 @@ public class UrlsMapping {
 	public static final String GET_ESTIMATE_BY_USER_ID=PREFIX+"/leadEstimate/getEstimateByUserId";
 	public static final String GET_ESTIMATE_BY_USER_ID_COUNT=PREFIX+"/leadEstimate/getEstimateByUserIdCount";	
 	public static final String GET_ESTIMATE_BY_ID=PREFIX+"/leadEstimate/getEstimateById";	
+	public static final String GET_ESTIMATE_BY_STATUS=PREFIX+"/leadEstimate/getEstimateByStatus";
+	public static final String APPROVE_ESTIMATE=PREFIX+"/leadEstimate/approvedEstimate";
 
 
 	// - - - -  - - ---     create proposal - - - - -  
@@ -84,6 +86,7 @@ public class UrlsMapping {
 	public static final String GET_ALL_PROPOSAL_BY_LEAD_ID=PREFIX+"/proposal/getAllProposalByLeadId";
 	public static final String CREATE_NEW_PROPOSAL=PREFIX+"/proposal/createNewProposal";
 	public static final String ATTACH_DOCUMENT_WITH_PROPOSAL  =PREFIX+"/proposal/attachDocumentWithProposal";
+	public static final String SEND_PROPOSAL_MAIL  =PREFIX+"/proposal/sendProposalMail";
 
 	
 	

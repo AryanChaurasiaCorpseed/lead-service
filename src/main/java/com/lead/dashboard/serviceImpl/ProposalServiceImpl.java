@@ -22,6 +22,7 @@ import com.lead.dashboard.domain.lead.Proposal;
 import com.lead.dashboard.domain.product.Product;
 import com.lead.dashboard.dto.CreateNewProposalDto;
 import com.lead.dashboard.dto.CreateProposalDto;
+import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.EditProposalDto;
 import com.lead.dashboard.repository.ContactRepo;
 import com.lead.dashboard.repository.FileDataRepository;
@@ -418,5 +419,37 @@ public class ProposalServiceImpl implements ProposalService{
 		}
 		return flag;
 	}
+	@Override
+	public boolean sendProposalMail(Long proposalId) {
+		Proposal proposal = proposalRepository.findById(proposalId).get();
+		sendProposalMail(proposal,"proposal test");
+		return false;
+	}
 	
+	
+	private void sendProposalMail(Proposal proposal,String subject) {
+		//		List<String> emailList = lead.getClients().stream().map(i->i.getEmails()).collect(Collectors.toList());
+		//		String[] emailTo= (String[]) emailList.toArray();
+		String[] emailTo= {"aryan.chaurasia@corpseed.com"};
+
+
+		String[] ccPersons= {"aryan.chaurasia@corpseed.com"};
+		String[] bccPersons= {"aryan.chaurasia@corpseed.com"};
+
+		//		String[] ccPersons=(String[]) createservicedetails.getCc().toArray();
+		//		String[] bccPersons=(String[]) createservicedetails.getCc().toArray();
+
+		Context context = new Context();
+		context.setVariable("companyName", "INDIAN INDIA PRIVATE LIMITED");
+		
+		context.setVariable("totalAmount", "79001");
+
+		context.setVariable("estimateUrl", "http://corpseed.com");
+		context.setVariable("estimateNo", "ESTD0626");
+		context.setVariable("estimateDate", "23-10-2023");
+
+		mailSendSerivceImpl.sendEmail(emailTo, ccPersons, bccPersons, subject, "for testing Text", context, "newEstimateMail.html");
+		//	    public void sendEmail(String[] emailTo, String[] ccPersons, String[] bccPersons,String subject,String text, Context context,String templateName) {
+
+	}
 }

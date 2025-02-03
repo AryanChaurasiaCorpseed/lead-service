@@ -27,5 +27,8 @@ public interface ServiceDetailsRepository extends JpaRepository<ServiceDetails, 
 	
 	@Query(value = "SELECT * FROM service_details sd where sd.assignee_id=:userId", nativeQuery = true)
 	Page<ServiceDetails> findAllByAssigneeId(Long userId,Pageable pageable);
+	
+	@Query(value = "SELECT * FROM service_details sd where sd.status=:status", nativeQuery = true)
+	List<ServiceDetails> findAllByStatus(String status);
 
 }

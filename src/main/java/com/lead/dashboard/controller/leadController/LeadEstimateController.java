@@ -99,6 +99,19 @@ public class LeadEstimateController {
         return res;
     }
     
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_STATUS)
+    public List<Map<String,Object>> getEstimateByStatus(@RequestParam String status)
+    {
+    	List<Map<String,Object>> res=estimateService.getEstimateByStatus(status);
+        return res;
+    }
+    
+    @PutMapping(UrlsMapping.APPROVE_ESTIMATE)
+    public Boolean approvedEstimate(@RequestParam String status,@RequestParam Long estimateId ,@RequestParam Long userId)
+    {
+    	Boolean res=estimateService.approvedEstimate(status,estimateId, userId);
+        return res;
+    }
     
 }
 

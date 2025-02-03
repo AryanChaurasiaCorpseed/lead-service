@@ -27,6 +27,8 @@ public interface ProposalService {
 	Boolean createNewProposal(CreateNewProposalDto createNewProposalDto) throws Exception;
 
 	Boolean attachDocumentsWithProposal(Long proposalId, Long docId);
+
+	boolean sendProposalMail(Long proposalId);
 	
 	
 

@@ -46,6 +46,9 @@ public class ServiceDetails {
 	Date estimateData;
 	Date createDate;
 	
+	User updatedBy;
+	
+	Date updateDate;
 	
 	/* --------------- company detail -------------------------------- */
 	Boolean isPresent;
@@ -505,6 +508,18 @@ public class ServiceDetails {
 	}
 	public void setTotalAmount(String totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+	public User getUpdatedBy() {
+		return updatedBy;
+	}
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdatedBy(User updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	} 
 	
 	

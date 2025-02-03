@@ -97,6 +97,11 @@ public class ProposalController {
     	boolean res=proposalService.attachDocumentsWithProposal(proposalId,docId);
         return res;
     }
-	
+	@PostMapping(UrlsMapping.SEND_PROPOSAL_MAIL)
+    public boolean sendProposalMail(@RequestParam Long proposalId) throws Exception
+    {
+    	boolean res=proposalService.sendProposalMail(proposalId);
+        return res;
+    }
 	
 }
