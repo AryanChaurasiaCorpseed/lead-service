@@ -1653,7 +1653,20 @@ public class CompanyFormController {
 							contactRepo.save(sc);
 
 						}else {
-							sc=contactRepo.findById(companyForm.getSContactId()).get();
+							if(companyForm.getSContactId()!=null) {
+								sc=contactRepo.findById(companyForm.getSContactId()).get();
+
+							}else {
+								sc = new Contact();
+								sc.setTitle(companyForm.getSecTitle());
+								sc.setName(companyForm.getSContactName());
+								sc.setContactNo(companyForm.getSContactNo());
+								sc.setEmails(companyForm.getSContactEmails());
+								sc.setWhatsappNo(companyForm.getSContactWhatsappNo());
+								sc.setDesignation(companyForm.getSecondaryDesignation());
+								sc.setDeleteStatus(false);
+								contactRepo.save(sc);
+							}
 						}
 						unit.setSecondaryContact(sc);
 

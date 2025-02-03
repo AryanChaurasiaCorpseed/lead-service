@@ -34,6 +34,9 @@ public class FileUploadServiceImpl implements FileUploadService{
 	//	@Autowired
 	//    private AzureBlobAdapter azureAdapter;
 	//	
+	
+	@Autowired
+	CsvLeadService csvLeadService;
 	@Autowired
 	AwsBlobAdapter awsBlobAdapter;
 
@@ -175,5 +178,36 @@ public class FileUploadServiceImpl implements FileUploadService{
 		}
 		return documentName;
 	}
+	
+	
+	public String importCSV(MultipartFile file) throws IllegalStateException, IOException {
+
+		//		String filePath=PROD_PATH+file.getOriginalFilename();
+
+		//		String s=azureAdapter.uploadv2(file, 0);
+		long d = new Date().getTime();
+		String s =awsBlobAdapter.uploadAws(file, d);
+		String filePath=PROD_PATH+s;
+		FileData fileData = new FileData();
+		fileData.setName(s);
+		fileData.setType(file.getContentType());
+		fileData.setFilePath(filePath);
+		String fs = isFileExist(s);
+		if(isFileExist(s)==null) {
+			fileDataRepository.save(fileData);
+		}else {
+			filePath=PROD_PATH+fs;
+
+		}
+
+		//		file.transferTo(new File(filePath));
+		if(filePath!=null) {
+			csvLeadService.processCsvFileFromPath(filePath);
+			return filePath;
+		}
+		return null;
+
+	}
+
 	    
 }

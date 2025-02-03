@@ -3,23 +3,28 @@ package com.lead.dashboard.serviceImpl;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
 
 import com.lead.dashboard.domain.Contact;
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.User;
+import com.lead.dashboard.domain.lead.FileData;
 import com.lead.dashboard.domain.lead.Lead;
 import com.lead.dashboard.domain.lead.Proposal;
 import com.lead.dashboard.domain.product.Product;
+import com.lead.dashboard.dto.CreateNewProposalDto;
 import com.lead.dashboard.dto.CreateProposalDto;
 import com.lead.dashboard.dto.EditProposalDto;
 import com.lead.dashboard.repository.ContactRepo;
+import com.lead.dashboard.repository.FileDataRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.ProposalRepository;
 import com.lead.dashboard.repository.UserRepo;
@@ -46,6 +51,9 @@ public class ProposalServiceImpl implements ProposalService{
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	FileDataRepository fileDataRepository;
 
 	@Override
 	public Boolean createProposal(CreateProposalDto createservicedetails) throws Exception {
@@ -63,8 +71,7 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setProductName(product.getProductName());
 			Contact contact = contactRepo.findById(createservicedetails.getPrimaryContact()).get();
 			proposal.setPrimaryContact(contact);
-			Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
-			proposal.setSecondaryContact(secondaryContact);
+
 			Long assigneeId = createservicedetails.getAssigneeId();
 			// company
 			if(assigneeId!=null) {
@@ -79,11 +86,7 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setUnitName(createservicedetails.getUnitName());
 			proposal.setUnitId(createservicedetails.getUnitId());
 			proposal.setPanNo(createservicedetails.getPanNo());
-			proposal.setGstNo(createservicedetails.getGstNo());
 
-			proposal.setGstType(createservicedetails.getGstType());
-			proposal.setGstDocuments(createservicedetails.getGstDocuments());
-			proposal.setCompanyAge(createservicedetails.getCompanyAge());
 			proposal.setGovermentfees(createservicedetails.getGovermentfees());
 			proposal.setGovermentCode(createservicedetails.getGovermentCode());
 			proposal.setGovermentGst(createservicedetails.getGovermentGst());
@@ -104,11 +107,11 @@ public class ProposalServiceImpl implements ProposalService{
 			proposal.setState(createservicedetails.getState());
 			proposal.setCountry(createservicedetails.getCountry());
 			 
-			proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
-			proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
-			proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
-			proposal.setSecondaryState(createservicedetails.getSecondaryState());
-			proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+//			proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+//			proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+//			proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+//			proposal.setSecondaryState(createservicedetails.getSecondaryState());
+//			proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
 			
 			
 			proposalRepository.save(proposal);
@@ -125,8 +128,7 @@ public class ProposalServiceImpl implements ProposalService{
 				proposal.setProductName(product.getProductName());
 				Contact contact = contactRepo.findById(createservicedetails.getPrimaryContact()).get();
 				proposal.setPrimaryContact(contact);
-				Contact secondaryContact = contactRepo.findById(createservicedetails.getSecondaryContact()).get();
-				proposal.setSecondaryContact(secondaryContact);
+
 				Long assigneeId = createservicedetails.getAssigneeId();
 				// company
 				if(assigneeId!=null) {
@@ -142,23 +144,19 @@ public class ProposalServiceImpl implements ProposalService{
 				proposal.setUnitName(createservicedetails.getUnitName());
 				proposal.setUnitId(createservicedetails.getUnitId());
 				proposal.setPanNo(createservicedetails.getPanNo());
-				proposal.setGstNo(createservicedetails.getGstNo());
 				
 				proposal.setAddress(createservicedetails.getAddress());
 				proposal.setCity(createservicedetails.getCity());
 				proposal.setPrimaryPinCode(createservicedetails.getPrimaryPinCode());
 				proposal.setState(createservicedetails.getState());
 				proposal.setCountry(createservicedetails.getCountry());
-				 
-				proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
-				proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
-				proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
-				proposal.setSecondaryState(createservicedetails.getSecondaryState());
-				proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
+//				 
+//				proposal.setSecondaryAddress(createservicedetails.getSecondaryAddress());
+//				proposal.setSecondaryCity(createservicedetails.getSecondaryCity()); 
+//				proposal.setSecondaryPinCode(createservicedetails.getSecondaryPinCode());
+//				proposal.setSecondaryState(createservicedetails.getSecondaryState());
+//				proposal.setSecondaryCountry(createservicedetails.getSecondaryCountry());
 
-				proposal.setGstType(createservicedetails.getGstType());
-				proposal.setGstDocuments(createservicedetails.getGstDocuments());
-				proposal.setCompanyAge(createservicedetails.getCompanyAge());
 				proposal.setGovermentfees(createservicedetails.getGovermentfees());
 				proposal.setGovermentCode(createservicedetails.getGovermentCode());
 				proposal.setGovermentGst(createservicedetails.getGovermentGst());
@@ -252,7 +250,6 @@ public class ProposalServiceImpl implements ProposalService{
 		proposal.setUnitName(editProposalDto.getUnitName());
 		proposal.setUnitId(editProposalDto.getUnitId());
 		proposal.setPanNo(editProposalDto.getPanNo());
-		proposal.setGstNo(editProposalDto.getGstNo());
 		
 		proposal.setAddress(editProposalDto.getAddress());
 		proposal.setCity(editProposalDto.getCity());
@@ -260,15 +257,7 @@ public class ProposalServiceImpl implements ProposalService{
 		proposal.setState(editProposalDto.getState());
 		proposal.setCountry(editProposalDto.getCountry());
 		 
-		proposal.setSecondaryAddress(editProposalDto.getSecondaryAddress());
-		proposal.setSecondaryCity(editProposalDto.getSecondaryCity()); 
-		proposal.setSecondaryPinCode(editProposalDto.getSecondaryPinCode());
-		proposal.setSecondaryState(editProposalDto.getSecondaryState());
-		proposal.setSecondaryCountry(editProposalDto.getSecondaryCountry());
-
-		proposal.setGstType(editProposalDto.getGstType());
-		proposal.setGstDocuments(editProposalDto.getGstDocuments());
-		proposal.setCompanyAge(editProposalDto.getCompanyAge());
+		
 		proposal.setGovermentfees(editProposalDto.getGovermentfees());
 		proposal.setGovermentCode(editProposalDto.getGovermentCode());
 		proposal.setGovermentGst(editProposalDto.getGovermentGst());
@@ -293,4 +282,141 @@ public class ProposalServiceImpl implements ProposalService{
 //		leadRepository.findProposalIdByLead
 		return null;
 	}
+	@Override
+	public Boolean createNewProposal(CreateNewProposalDto createNewProposalDto) throws Exception {
+
+		Boolean flag=false;
+		Lead lead = leadRepository.findById(createNewProposalDto.getLeadId()).get();
+
+		Proposal proposal = lead.getProposal();
+
+		if(proposal==null) {
+			Product product = productRepo.findById(createNewProposalDto.getProductId()).get();
+			proposal=new Proposal();
+			proposal.setCreateDate(new Date());
+			proposal.setAddress(null);
+			proposal.setProductName(product.getProductName());
+			Contact contact = contactRepo.findById(createNewProposalDto.getPrimaryContact()).get();
+			proposal.setPrimaryContact(contact);
+
+			Long assigneeId = createNewProposalDto.getAssigneeId();
+			// company
+			if(assigneeId!=null) {
+				User assignee = userRepo.findById(assigneeId).get();
+				proposal.setAssignee(assignee);
+			}
+			// company
+			proposal.setIsPresent(createNewProposalDto.getIsPresent());
+			proposal.setCompanyName(createNewProposalDto.getCompanyName());
+			proposal.setCompanyId(createNewProposalDto.getCompanyId());
+			proposal.setUnit(createNewProposalDto.isUnit());
+			proposal.setUnitName(createNewProposalDto.getUnitName());
+			proposal.setUnitId(createNewProposalDto.getUnitId());
+			proposal.setPanNo(createNewProposalDto.getPanNo());
+
+			proposal.setGovermentfees(createNewProposalDto.getGovermentfees());
+			proposal.setGovermentCode(createNewProposalDto.getGovermentCode());
+			proposal.setGovermentGst(createNewProposalDto.getGovermentGst());
+			proposal.setProfessionalFees(createNewProposalDto.getProfessionalFees());
+			proposal.setProfessionalCode(createNewProposalDto.getProfessionalCode());
+			proposal.setProfesionalGst(createNewProposalDto.getProfesionalGst());
+			proposal.setServiceCharge(createNewProposalDto.getServiceCharge());
+			proposal.setServiceCode(createNewProposalDto.getServiceCode());
+			proposal.setServiceGst(createNewProposalDto.getServiceGst());
+			proposal.setOtherFees(createNewProposalDto.getOtherFees());
+			proposal.setOtherCode(createNewProposalDto.getOtherCode());
+			proposal.setOtherGst(createNewProposalDto.getOtherGst());
+			
+			if(createNewProposalDto.getFileDataId()!=null) {
+				FileData fileData = fileDataRepository.findById(createNewProposalDto.getFileDataId()).get();
+				proposal.setFileData(fileData);
+			}
+			proposal.setAddress(createNewProposalDto.getAddress());
+			proposal.setCity(createNewProposalDto.getCity());
+			proposal.setPrimaryPinCode(createNewProposalDto.getPrimaryPinCode());
+			proposal.setState(createNewProposalDto.getState());
+			proposal.setCountry(createNewProposalDto.getCountry());
+			 
+
+			proposalRepository.save(proposal);
+			lead.setProposal(proposal);
+			leadRepository.save(lead);
+			flag=true;
+
+		}else {
+			if(proposal.isDeleted()){
+				Product product = productRepo.findById(createNewProposalDto.getProductId()).get();
+				proposal=new Proposal();
+				proposal.setCreateDate(new Date());
+				proposal.setAddress(null);
+				proposal.setProductName(product.getProductName());
+				Contact contact = contactRepo.findById(createNewProposalDto.getPrimaryContact()).get();
+				proposal.setPrimaryContact(contact);
+
+				Long assigneeId = createNewProposalDto.getAssigneeId();
+				// company
+				if(assigneeId!=null) {
+					User assignee = userRepo.findById(assigneeId).get();
+					proposal.setAssignee(assignee);
+				}
+				if(createNewProposalDto.getFileDataId()!=null) {
+					FileData fileData = fileDataRepository.findById(createNewProposalDto.getFileDataId()).get();
+					proposal.setFileData(fileData);
+				}
+				// company
+				proposal.setIsPresent(createNewProposalDto.getIsPresent());
+				proposal.setCompanyName(createNewProposalDto.getCompanyName());
+				proposal.setCompanyId(createNewProposalDto.getCompanyId());
+				proposal.setUnit(createNewProposalDto.isUnit());
+				proposal.setUnitName(createNewProposalDto.getUnitName());
+				proposal.setUnitId(createNewProposalDto.getUnitId());
+				proposal.setPanNo(createNewProposalDto.getPanNo());
+				
+				proposal.setAddress(createNewProposalDto.getAddress());
+				proposal.setCity(createNewProposalDto.getCity());
+				proposal.setPrimaryPinCode(createNewProposalDto.getPrimaryPinCode());
+				proposal.setState(createNewProposalDto.getState());
+				proposal.setCountry(createNewProposalDto.getCountry());
+
+
+				proposal.setGovermentfees(createNewProposalDto.getGovermentfees());
+				proposal.setGovermentCode(createNewProposalDto.getGovermentCode());
+				proposal.setGovermentGst(createNewProposalDto.getGovermentGst());
+				proposal.setProfessionalFees(createNewProposalDto.getProfessionalFees());
+				proposal.setProfessionalCode(createNewProposalDto.getProfessionalCode());
+				proposal.setProfesionalGst(createNewProposalDto.getProfesionalGst());
+				proposal.setServiceCharge(createNewProposalDto.getServiceCharge());
+				proposal.setServiceCode(createNewProposalDto.getServiceCode());
+				proposal.setServiceGst(createNewProposalDto.getServiceGst());
+				proposal.setOtherFees(createNewProposalDto.getOtherFees());
+				proposal.setOtherCode(createNewProposalDto.getOtherCode());
+				proposal.setOtherGst(createNewProposalDto.getOtherGst());
+				proposalRepository.save(proposal);
+				lead.setProposal(proposal);
+				leadRepository.save(lead);
+				flag=true;
+
+			}else {
+				throw new Exception("Already exist please edit in existing Proposal");
+
+			}
+		}
+		return flag;
+
+	}
+	@Override
+	public Boolean attachDocumentsWithProposal(Long proposalId, Long docId) {
+		Boolean flag=false;
+		if(docId!=null) {
+			if(docId!=null && proposalId!=null) {
+				Proposal proposal = proposalRepository.findById(proposalId).get();
+				FileData file = fileDataRepository.findById(docId).get();
+				proposal.setFileData(file);
+				proposalRepository.save(proposal);		
+				flag=true;
+			}
+		}
+		return flag;
+	}
+	
 }

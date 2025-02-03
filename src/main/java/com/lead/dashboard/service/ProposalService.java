@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.lead.dashboard.domain.lead.Proposal;
+import com.lead.dashboard.dto.CreateNewProposalDto;
 import com.lead.dashboard.dto.CreateProposalDto;
 import com.lead.dashboard.dto.EditProposalDto;
 
@@ -22,6 +23,12 @@ public interface ProposalService {
 	Boolean editProposal(EditProposalDto editProposalDto);
 
 	Proposal getAllProposalByLeadId(Long leadId);
+
+	Boolean createNewProposal(CreateNewProposalDto createNewProposalDto) throws Exception;
+
+	Boolean attachDocumentsWithProposal(Long proposalId, Long docId);
+	
+	
 
 
 }

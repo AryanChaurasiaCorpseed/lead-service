@@ -86,5 +86,11 @@ public class FileUploadController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
 			}
 		}
+	  
+	  @PostMapping(value = UrlsMapping.IMPORT_CSV, consumes = {"multipart/form-data"})
+	  public String importCSV(@RequestParam(name = "file", required = false) MultipartFile files) throws IllegalStateException, IOException {
+		  String imageData=storageService.importCSV(files);
+           return imageData;
+	  }
 
 }

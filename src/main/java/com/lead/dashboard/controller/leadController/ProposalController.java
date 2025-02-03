@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.domain.lead.Proposal;
+import com.lead.dashboard.dto.CreateNewProposalDto;
 import com.lead.dashboard.dto.CreateProposalDto;
 import com.lead.dashboard.dto.CreateServiceDetails;
 import com.lead.dashboard.dto.EditProposalDto;
@@ -31,6 +32,14 @@ public class ProposalController {
     	Boolean res=proposalService.createProposal(createProposalDto);
         return res;
     }
+	
+	@PostMapping(UrlsMapping.CREATE_NEW_PROPOSAL)
+    public Boolean createNewProposal(@RequestBody CreateNewProposalDto createNewProposalDto) throws Exception
+    {
+    	Boolean res=proposalService.createNewProposal(createNewProposalDto);
+        return res;
+    }
+	
 	
 	@GetMapping(UrlsMapping.GET_PROPOSAL_BY_ID)
     public Proposal getProposalById(@RequestParam Long id)
@@ -81,5 +90,13 @@ public class ProposalController {
     	boolean res=proposalService.editProposal(editProposalDto);
         return res;
     }
+	
+	@PostMapping(UrlsMapping.ATTACH_DOCUMENT_WITH_PROPOSAL)
+    public boolean attachDocumentWithProposal(@RequestParam Long proposalId,@RequestParam Long docId) throws Exception
+    {
+    	boolean res=proposalService.attachDocumentsWithProposal(proposalId,docId);
+        return res;
+    }
+	
 	
 }

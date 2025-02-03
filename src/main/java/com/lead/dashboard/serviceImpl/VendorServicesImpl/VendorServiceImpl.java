@@ -82,14 +82,18 @@ public class VendorServiceImpl implements VendorService {
             VendorSubCategory vendorSubCategory = vendorSubCategoryRepository.findById(vendorRequest.getSubVendorCategoryId())
                     .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
 
-            List<User> alignedUserListForSubCategory = vendorSubCategory.getAssignedUsers();
+            // ✅ Get only active users (not deleted)
+            List<User> activeUsersForSubCategory = vendorSubCategory.getAssignedUsers().stream()
+                    .filter(user -> !user.isDeleted())  // 🔥 Filter out deleted users
+                    .collect(Collectors.toList());
+
             User assignedUser;
 
-            if (alignedUserListForSubCategory == null || alignedUserListForSubCategory.isEmpty()) {
-                assignedUser = assignAdminUser();
+            if (activeUsersForSubCategory.isEmpty()) {
+                assignedUser = assignAdminUser(); // ✅ Fallback: Assign Admin if no active users exist
             } else {
-                int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % alignedUserListForSubCategory.size();
-                assignedUser = alignedUserListForSubCategory.get(nextUserIndex);
+                int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % activeUsersForSubCategory.size();
+                assignedUser = activeUsersForSubCategory.get(nextUserIndex);
                 vendorSubCategory.setLastAssignedUserIndex(nextUserIndex);
                 vendorSubCategoryRepository.save(vendorSubCategory);
             }
@@ -112,7 +116,6 @@ public class VendorServiceImpl implements VendorService {
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
             vendor.setClientBudget(vendorRequest.getClientBudgetPrice());
-
             vendor.setSalesAttachmentReferencePath(vendorRequest.getSalesAttachmentReferencePath());
 
             List<String> imageNames = vendorRequest.getSalesAttachmentReferencePath().stream()

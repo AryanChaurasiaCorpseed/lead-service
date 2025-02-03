@@ -61,10 +61,10 @@ public class Proposal {
 
 	String panNo;
 
-	String gstNo;
-	String gstType;
-	String gstDocuments;
-	String companyAge;
+//	String gstNo;
+//	String gstType;
+//	String gstDocuments;
+//	String companyAge;
 
 	//primary
 	Boolean isPrimaryAddress=true;
@@ -74,18 +74,12 @@ public class Proposal {
 	String State;
 	String primaryPinCode;
 	String Country;
-
-	//secondary address
-	Boolean isSecondaryAddress=true;
-	String secondaryTitle;
-	String secondaryAddress;
-	String secondaryCity;
-	String secondaryState;
-	String secondaryPinCode;
-	String secondaryCountry;
 	
-	
+	boolean proposalSendOrNot;
 
+	@ManyToOne
+	FileData fileData;
+	
 	@ManyToOne
 	User  assignee;
 	
@@ -113,6 +107,9 @@ public class Proposal {
     String otherCode;
     String otherGst;	
     boolean isDeleted;
+    
+    
+    
 	public Long getId() {
 		return id;
 	}
@@ -197,30 +194,7 @@ public class Proposal {
 	public void setPanNo(String panNo) {
 		this.panNo = panNo;
 	}
-	public String getGstNo() {
-		return gstNo;
-	}
-	public void setGstNo(String gstNo) {
-		this.gstNo = gstNo;
-	}
-	public String getGstType() {
-		return gstType;
-	}
-	public void setGstType(String gstType) {
-		this.gstType = gstType;
-	}
-	public String getGstDocuments() {
-		return gstDocuments;
-	}
-	public void setGstDocuments(String gstDocuments) {
-		this.gstDocuments = gstDocuments;
-	}
-	public String getCompanyAge() {
-		return companyAge;
-	}
-	public void setCompanyAge(String companyAge) {
-		this.companyAge = companyAge;
-	}
+	
 	public Boolean getIsPrimaryAddress() {
 		return isPrimaryAddress;
 	}
@@ -263,48 +237,7 @@ public class Proposal {
 	public void setCountry(String country) {
 		Country = country;
 	}
-	public Boolean getIsSecondaryAddress() {
-		return isSecondaryAddress;
-	}
-	public void setIsSecondaryAddress(Boolean isSecondaryAddress) {
-		this.isSecondaryAddress = isSecondaryAddress;
-	}
-	public String getSecondaryTitle() {
-		return secondaryTitle;
-	}
-	public void setSecondaryTitle(String secondaryTitle) {
-		this.secondaryTitle = secondaryTitle;
-	}
-	public String getSecondaryAddress() {
-		return secondaryAddress;
-	}
-	public void setSecondaryAddress(String secondaryAddress) {
-		this.secondaryAddress = secondaryAddress;
-	}
-	public String getSecondaryCity() {
-		return secondaryCity;
-	}
-	public void setSecondaryCity(String secondaryCity) {
-		this.secondaryCity = secondaryCity;
-	}
-	public String getSecondaryState() {
-		return secondaryState;
-	}
-	public void setSecondaryState(String secondaryState) {
-		this.secondaryState = secondaryState;
-	}
-	public String getSecondaryPinCode() {
-		return secondaryPinCode;
-	}
-	public void setSecondaryPinCode(String secondaryPinCode) {
-		this.secondaryPinCode = secondaryPinCode;
-	}
-	public String getSecondaryCountry() {
-		return secondaryCountry;
-	}
-	public void setSecondaryCountry(String secondaryCountry) {
-		this.secondaryCountry = secondaryCountry;
-	}
+	
 	public User getAssignee() {
 		return assignee;
 	}
@@ -418,6 +351,18 @@ public class Proposal {
 	}
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public FileData getFileData() {
+		return fileData;
+	}
+	public void setFileData(FileData fileData) {
+		this.fileData = fileData;
+	}
+	public boolean isProposalSendOrNot() {
+		return proposalSendOrNot;
+	}
+	public void setProposalSendOrNot(boolean proposalSendOrNot) {
+		this.proposalSendOrNot = proposalSendOrNot;
 	}
     
     

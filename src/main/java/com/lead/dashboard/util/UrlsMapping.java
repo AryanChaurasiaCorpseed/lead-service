@@ -82,6 +82,8 @@ public class UrlsMapping {
 	public static final String EDIT_PROPOSAL=PREFIX+"/proposal/editProposal";
 
 	public static final String GET_ALL_PROPOSAL_BY_LEAD_ID=PREFIX+"/proposal/getAllProposalByLeadId";
+	public static final String CREATE_NEW_PROPOSAL=PREFIX+"/proposal/createNewProposal";
+	public static final String ATTACH_DOCUMENT_WITH_PROPOSAL  =PREFIX+"/proposal/attachDocumentWithProposal";
 
 	
 	
@@ -180,6 +182,7 @@ public class UrlsMapping {
 	//    Urls
 	public static final String UPLOAD_IMAGE_TO_FILE=PREFIX+"/upload/uploadimageToFileSystem";
 	public static final String GET_IMAGE_TO_FILE=PREFIX+"/upload/getImageToFileSystem";
+	public static final String IMPORT_CSV=PREFIX+"/upload/importCSV";
 
 
 	public static final String IMPORT_CSV_FILE=PREFIX+"/upload/importCsvFile";
