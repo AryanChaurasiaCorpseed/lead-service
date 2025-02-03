@@ -30,7 +30,7 @@ public interface SlugRepository extends JpaRepository<Slug, Long> {
 	@Query(value = "SELECT * FROM slug s WHERE s.name LIKE %:searchTerm%", nativeQuery = true)
 	List<Slug> findByNameGlobal(@Param("searchTerm") String searchTerm);
 
-	@Query(value = "SELECT us.urls_managment_id FROM slug s left join finalerp.url_slug us on us.url_slug_id=s.id WHERE s.name LIKE %:searchTerm%", nativeQuery = true)
+	@Query(value = "SELECT us.urls_managment_id FROM slug s left join url_slug us on us.url_slug_id=s.id WHERE s.name LIKE %:searchTerm%", nativeQuery = true)
 	List<Long> findUrlsIdGlobalSearchInSlug(String searchTerm);
 
 }
