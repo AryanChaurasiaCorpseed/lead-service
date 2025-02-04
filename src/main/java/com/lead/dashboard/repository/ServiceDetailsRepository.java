@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.lead.dashboard.domain.Company;
 import com.lead.dashboard.domain.ServiceDetails;
 
 @Repository
@@ -33,6 +35,9 @@ public interface ServiceDetailsRepository extends JpaRepository<ServiceDetails, 
 	
 	@Query(value = "SELECT count(*) FROM service_details sd where sd.status=:status", nativeQuery = true)
 	long findAllCountByStatus(String status);
+	
+	@Query(value = "SELECT * FROM service_details sd WHERE sd.company_Name LIKE %:searchTerm% or sd.gst_no like %:searchTerm%", nativeQuery = true)
+	List<ServiceDetails> findByNameOrGST(@Param("searchTerm") String searchTerm);
 	
 
 

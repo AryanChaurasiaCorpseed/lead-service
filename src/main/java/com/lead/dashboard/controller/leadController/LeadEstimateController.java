@@ -114,6 +114,13 @@ public class LeadEstimateController {
         return res;
     }
     
+    @GetMapping(UrlsMapping.SEARCH_ESTIMATE)
+    public List<Map<String,Object>> searchEstimate(@RequestParam String status,@RequestParam Long userId)
+    {
+    	List<Map<String,Object>> res=estimateService.searchEstimate(status,userId);
+        return res;
+    }
+    
     
     @PutMapping(UrlsMapping.APPROVE_ESTIMATE)
     public Boolean approvedEstimate(@RequestParam String status,@RequestParam Long estimateId ,@RequestParam Long userId)

@@ -39,4 +39,6 @@ public interface EstimateService {
 
 	long getEstimateByStatusCount(String status, Long userId);
 
+	List<Map<String, Object>> searchEstimate(String status, Long userId);
+
 }
