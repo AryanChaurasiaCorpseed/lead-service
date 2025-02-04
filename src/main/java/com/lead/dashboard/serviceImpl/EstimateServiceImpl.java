@@ -904,7 +904,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("unitId", s.getUnitId());
 			m.put("unitName", s.getUnitName());
 			m.put("assigneeId", s.getAssignee());  
-			m.put("assigneeIds", s.getAssignee().getId());  
+			m.put("assigneeIds", s.getAssignee()!=null?s.getAssignee().getId():0);  
 
 			m.put("ccMail", s.getCc());
 			m.put("createDate", s.getCreateDate());
