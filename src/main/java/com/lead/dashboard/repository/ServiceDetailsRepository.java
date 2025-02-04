@@ -30,5 +30,10 @@ public interface ServiceDetailsRepository extends JpaRepository<ServiceDetails, 
 	
 	@Query(value = "SELECT * FROM service_details sd where sd.status=:status", nativeQuery = true)
 	Page<ServiceDetails> findAllByStatus(String status,Pageable pageable);
+	
+	@Query(value = "SELECT count(*) FROM service_details sd where sd.status=:status", nativeQuery = true)
+	long findAllCountByStatus(String status);
+	
+
 
 }

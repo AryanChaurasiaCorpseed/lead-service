@@ -969,4 +969,21 @@ public class EstimateServiceImpl implements EstimateService
 		return flag;
 	}
 
+	@Override
+	public long getEstimateByStatusCount(String status, Long userId) {
+		
+	
+		User user = userRepo.findById(userId).get();
+		long count=0;
+		List<String> role = user.getUserRole().stream().map(i->i.getName()).collect(Collectors.toList());
+		if(role.contains("ADMIN")||role.contains("ACCOUNT")) {
+			if(status.equals("All")) {
+				count=serviceDetailsRepository.findAllCount();
+			}else {
+				count=serviceDetailsRepository.findAllCountByStatus(status);
+			}
+		}
+		return count;
+	}
+
 }

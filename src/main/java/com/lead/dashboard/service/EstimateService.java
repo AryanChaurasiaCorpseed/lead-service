@@ -37,4 +37,6 @@ public interface EstimateService {
 
 	Boolean approvedEstimate(String status,Long estimateId,Long userId);
 
+	long getEstimateByStatusCount(String status, Long userId);
+
 }

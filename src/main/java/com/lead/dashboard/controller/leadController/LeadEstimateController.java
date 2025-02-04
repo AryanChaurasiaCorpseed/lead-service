@@ -107,6 +107,14 @@ public class LeadEstimateController {
         return res;
     }
     
+    @GetMapping(UrlsMapping.GET_ESTIMATE_BY_STATUS_COUNT)
+    public long getEstimateByStatusCount(@RequestParam String status,@RequestParam Long userId)
+    {
+    	long res=estimateService.getEstimateByStatusCount(status,userId);
+        return res;
+    }
+    
+    
     @PutMapping(UrlsMapping.APPROVE_ESTIMATE)
     public Boolean approvedEstimate(@RequestParam String status,@RequestParam Long estimateId ,@RequestParam Long userId)
     {
