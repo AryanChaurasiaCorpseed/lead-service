@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lead.dashboard.domain.ServiceDetails;
 import com.lead.dashboard.domain.lead.Lead;
@@ -32,7 +33,7 @@ public interface EstimateService {
 
 	Map<String, Object> getEstimateById(Long estimateId);
 
-	List<Map<String, Object>> getEstimateByStatus(String status);
+	List<Map<String, Object>> getEstimateByStatus(String status,int page,int size,Long userId);
 
 	Boolean approvedEstimate(String status,Long estimateId,Long userId);
 
