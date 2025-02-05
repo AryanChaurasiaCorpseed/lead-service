@@ -103,7 +103,7 @@ public class LeadEstimateController {
     public List<Map<String,Object>> getEstimateByStatus(@RequestParam String status, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size,@RequestParam Long userId)
     {
-    	List<Map<String,Object>> res=estimateService.getEstimateByStatus(status,page,size,userId);
+    	List<Map<String,Object>> res=estimateService.getEstimateByStatus(status,page-1,size,userId);
         return res;
     }
     

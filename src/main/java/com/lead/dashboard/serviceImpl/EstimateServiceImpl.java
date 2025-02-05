@@ -53,7 +53,6 @@ public class EstimateServiceImpl implements EstimateService
 
 	@Autowired
 	ContactRepo contactRepo;
-
 	@Autowired
 	UserRepo userRepo;
 
@@ -962,7 +961,7 @@ public class EstimateServiceImpl implements EstimateService
 			ServiceDetails service = serviceDetailsRepository.findById(estimateId).get();
 			service.setStatus(status);
 			service.setUpdateDate(new Date());
-			service.setUpdatedBy(user);
+//			service.setUpdatedBy(user);
 			serviceDetailsRepository.save(service);
 			flag=true;
 		}
