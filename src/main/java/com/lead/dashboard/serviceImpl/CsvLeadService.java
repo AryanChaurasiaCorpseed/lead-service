@@ -95,8 +95,20 @@ public class CsvLeadService {
             lead.setMobileNo(record.get("Mobile No"));
             lead.setEmail(record.get("Email"));
             lead.setSource(record.get("Source"));
-            Status status = statusRepository.findByName("New");
-            lead.setStatus(status);
+            String stage=record.get("stage");
+            if(stage!=null) {
+                Status status = statusRepository.findByName(stage);
+                if(status!=null) {
+                	lead.setStatus(status);
+                }else {
+                     status = statusRepository.findByName("New");
+                	lead.setStatus(status);
+                }
+            }else {
+                Status status = statusRepository.findByName("New");
+            	lead.setStatus(status);
+            }
+//            Status status = statusRepository.findByName("New");
             String assigneeEmail = record.get("assignee")!=null?record.get("assignee").toString():null;
             if(assigneeEmail!=null) {
                 User assignee = userRepo.findByemail(assigneeEmail);
@@ -114,7 +126,10 @@ public class CsvLeadService {
                 User a = userRepo.findByemail("navjot.singh@corpseed.com");
                 lead.setAssignee(a);
             }
-
+            String cStatus = record.get("cStatus");
+            String company = record.get("company");
+            lead.setUrls(company+" "+cStatus);
+            
             lead.setPrimaryAddress(record.get("Primary Address"));
             lead.setCity(record.get("City"));
             lead.setCategoryId(record.get("Category Id"));
