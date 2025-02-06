@@ -149,12 +149,13 @@ public class UrlsManagmentController {
 	}
 	
 	@PostMapping("/urls/createUrlsAndSlugFromWebsite")
-	public 	UrlsManagment createUrlsAndSlugFromWebsite(@RequestParam String urlsName,@RequestParam String slugName) {
+	public 	Boolean createUrlsAndSlugFromWebsite(@RequestParam String urlsName,@RequestParam String slugName) {
+		Boolean flag=false;
 		UrlsManagment urls = urlsManagmentRepo.findByUrlsName(urlsName);
 		if(urls!=null) {
 			Slug slug = slugRepository.findByName(slugName);
 			if(slug!=null) {
-				
+				 flag=true;
 				
 			}else {
 				 slug = new Slug();
@@ -165,6 +166,7 @@ public class UrlsManagmentController {
 				 sList.add(slug);
 				 urls.setUrlSlug(sList);
 				urlsManagmentRepo.save(urls);
+				 flag=true;
 
   			}
 		}else {
@@ -177,6 +179,8 @@ public class UrlsManagmentController {
 				sList.add(slug);
 				urlsManagment.setUrlSlug(sList);
 				urlsManagmentRepo.save(urlsManagment);
+				 flag=true;
+
 			}else {
 				slug = new Slug();
 				 slug.setName(slugName);
@@ -186,6 +190,7 @@ public class UrlsManagmentController {
 				 sList.add(slug);
 				 urlsManagment.setUrlSlug(sList);
 				 urlsManagmentRepo.save(urlsManagment);
+				 flag=true;
 			}
 
 		}
@@ -199,7 +204,7 @@ public class UrlsManagmentController {
 //		System.out.println(slugList);
 //		urlsManagment.setUrlSlug(slugList);
 //		urlsManagmentRepo.save(urlsManagment);
-		return urls;
+		return flag;
 	}
 
 
