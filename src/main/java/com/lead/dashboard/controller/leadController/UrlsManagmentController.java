@@ -155,12 +155,38 @@ public class UrlsManagmentController {
 			Slug slug = slugRepository.findByName(slugName);
 			if(slug!=null) {
 				
-			}
+				
+			}else {
+				 slug = new Slug();
+				 slug.setName(slugName);
+				 slug.setPlantSetup(false); 
+				 slugRepository.save(slug);
+				 List<Slug>sList=urls.getUrlSlug();
+				 sList.add(slug);
+				 urls.setUrlSlug(sList);
+				urlsManagmentRepo.save(urls);
+
+  			}
 		}else {
 			UrlsManagment urlsManagment = new UrlsManagment();
 			urlsManagment.setQuality(true);
 //			System.out.println(urlsDto.getUrlSlug());
 			Slug slug=slugRepository.findByName(slugName);
+			if(slug!=null) {
+				List<Slug>sList=new ArrayList();
+				sList.add(slug);
+				urlsManagment.setUrlSlug(sList);
+				urlsManagmentRepo.save(urlsManagment);
+			}else {
+				slug = new Slug();
+				 slug.setName(slugName);
+				 slug.setPlantSetup(false); 
+				 slugRepository.save(slug);
+				 List<Slug>sList=new ArrayList();
+				 sList.add(slug);
+				 urlsManagment.setUrlSlug(sList);
+				 urlsManagmentRepo.save(urlsManagment);
+			}
 
 		}
 		
