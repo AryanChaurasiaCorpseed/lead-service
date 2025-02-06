@@ -47,6 +47,14 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
+	
+	@PostMapping("/urls/createUrlsForWebsites")
+	public 	UrlsManagment createUrlsForWebsites(@RequestParam String name) {
+		UrlsManagment urlsManagment = new UrlsManagment();
+		urlsManagment.setUrlsName(name);
+		urlsManagmentRepo.save(urlsManagment);
+		return urlsManagment;
+	}
 
 	@PutMapping("/urls/updateUrls")
 	public 	UrlsManagment updateUrls(@RequestBody EditUrlsDto editUrlsDto) {
@@ -141,6 +149,72 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
+	
+	@GetMapping("/urls/getUrlsNameForWebsite")
+	public 	List<String> getUrlsNameForWebsite() {	
+		List<String> urls = urlsManagmentRepo.findAllUrlsName();
+		return urls;
+	}
+	
+	@PostMapping("/urls/createUrlsAndSlugFromWebsite")
+	public 	Boolean createUrlsAndSlugFromWebsite(@RequestParam String urlsName,@RequestParam String slugName) {
+		Boolean flag=false;
+		UrlsManagment urls = urlsManagmentRepo.findByUrlsName(urlsName);
+		if(urls!=null) {
+			Slug slug = slugRepository.findByName(slugName);
+			if(slug!=null) {
+				 flag=true;
+				
+			}else {
+				 slug = new Slug();
+				 slug.setName(slugName);
+				 slug.setPlantSetup(false); 
+				 slugRepository.save(slug);
+				 List<Slug>sList=urls.getUrlSlug();
+				 sList.add(slug);
+				 urls.setUrlSlug(sList);
+				urlsManagmentRepo.save(urls);
+				 flag=true;
+
+  			}
+		}else {
+			UrlsManagment urlsManagment = new UrlsManagment();
+			urlsManagment.setQuality(true);
+//			System.out.println(urlsDto.getUrlSlug());
+			Slug slug=slugRepository.findByName(slugName);
+			if(slug!=null) {
+				List<Slug>sList=new ArrayList();
+				sList.add(slug);
+				urlsManagment.setUrlSlug(sList);
+				urlsManagmentRepo.save(urlsManagment);
+				 flag=true;
+
+			}else {
+				slug = new Slug();
+				 slug.setName(slugName);
+				 slug.setPlantSetup(false); 
+				 slugRepository.save(slug);
+				 List<Slug>sList=new ArrayList();
+				 sList.add(slug);
+				 urlsManagment.setUrlSlug(sList);
+				 urlsManagmentRepo.save(urlsManagment);
+				 flag=true;
+			}
+
+		}
+		
+		
+//		UrlsManagment urlsManagment = new UrlsManagment();
+//		urlsManagment.setUrlsName(urlsDto.getName());
+//		urlsManagment.setQuality(urlsDto.isQuality());
+//		System.out.println(urlsDto.getUrlSlug());
+//		List<Slug>slugList=slugRepository.findAllByIdIn(urlsDto.getUrlSlug());
+//		System.out.println(slugList);
+//		urlsManagment.setUrlSlug(slugList);
+//		urlsManagmentRepo.save(urlsManagment);
+		return flag;
+	}
+
 
 
 }

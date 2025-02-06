@@ -22,4 +22,7 @@ public interface UrlsManagmentRepo extends JpaRepository<UrlsManagment, Long>{
 	@Query(value = "SELECT * FROM urls_managment s WHERE s.urls_name LIKE %:searchTerm%", nativeQuery = true)
 	List<UrlsManagment> findAllGlobal(@Param("searchTerm") String searchTerm);
 
+	@Query(value = "SELECT s.urls_name FROM urls_managment s", nativeQuery = true)
+	List<String> findAllUrlsName();
+
 }
