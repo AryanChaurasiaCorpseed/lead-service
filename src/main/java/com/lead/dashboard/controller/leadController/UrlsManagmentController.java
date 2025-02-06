@@ -47,6 +47,14 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
+	
+	@PostMapping("/urls/createUrlsForWebsites")
+	public 	UrlsManagment createUrlsForWebsites(@RequestParam String name) {
+		UrlsManagment urlsManagment = new UrlsManagment();
+		urlsManagment.setUrlsName(name);
+		urlsManagmentRepo.save(urlsManagment);
+		return urlsManagment;
+	}
 
 	@PutMapping("/urls/updateUrls")
 	public 	UrlsManagment updateUrls(@RequestBody EditUrlsDto editUrlsDto) {
