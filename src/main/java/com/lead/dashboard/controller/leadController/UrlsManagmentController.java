@@ -141,6 +141,12 @@ public class UrlsManagmentController {
 		urlsManagmentRepo.save(urlsManagment);
 		return urlsManagment;
 	}
+	
+	@GetMapping("/urls/getUrlsNameForWebsite")
+	public 	List<String> getUrlsNameForWebsite() {	
+		List<String> urls = urlsManagmentRepo.findAllUrlsName();
+		return urls;
+	}
 
 
 }
