@@ -216,8 +216,8 @@ public class UrlsManagmentController {
 	}
 
 	
-	@GetMapping("/urls/updateSlugByUrlsName")
-	public 	Boolean updateSlugByUrlsName(@RequestParam String preUrls,String urlsName,String preSlugName,String slugName) {	
+	@PutMapping("/urls/updateSlugAndUrlsName")
+	public 	Boolean updateSlugAndUrlsName(@RequestParam String preUrls,String urlsName,String preSlugName,String slugName) {	
 		Boolean flag=false;
 		UrlsManagment urls;
 		if(preUrls.equals(urlsName)) {
@@ -270,6 +270,16 @@ public class UrlsManagmentController {
 		}
 		return flag;
 		
+	}
+	
+
+	@PostMapping("/urls/createUrlsFromWebsites")
+	public 	UrlsManagment createUrlsFromWebsites(@RequestParam String urlsName) {
+		UrlsManagment urlsManagment = new UrlsManagment();
+		urlsManagment.setUrlsName(urlsName);
+		urlsManagment.setQuality(true);
+		urlsManagmentRepo.save(urlsManagment);
+		return urlsManagment;
 	}
 
 
