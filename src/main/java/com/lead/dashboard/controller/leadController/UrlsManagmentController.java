@@ -215,6 +215,63 @@ public class UrlsManagmentController {
 		return flag;
 	}
 
+	
+	@GetMapping("/urls/updateSlugByUrlsName")
+	public 	Boolean updateSlugByUrlsName(@RequestParam String preUrls,String urlsName,String preSlugName,String slugName) {	
+		Boolean flag=false;
+		UrlsManagment urls;
+		if(preUrls.equals(urlsName)) {
+			if(!preSlugName.equals(slugName)) {
+				String[] s= {preSlugName};
+				urls = urlsManagmentRepo.findByUrlsName(preUrls);
+				List<Slug> slugList = urls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
+                Slug slug = slugRepository.findByName(slugName);
+                slugList.add(slug);
+                urls.setUrlSlug(slugList);
+                urlsManagmentRepo.save(urls);
+                flag=true;
+			}
+			
+		}else {
+			UrlsManagment previousUrls = urlsManagmentRepo.findByUrlsName(preUrls);
+			UrlsManagment currentUrls = urlsManagmentRepo.findByUrlsName(urlsName);
+			if(!preSlugName.equals(slugName)) {
+				String[] s= {preSlugName};
+				List<Slug> slugList = previousUrls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
+				previousUrls.setUrlSlug(slugList);
+				urlsManagmentRepo.save(previousUrls);				
+				Slug currentSlug = slugRepository.findByName(slugName);
+				if(currentSlug ==null) {
+					currentSlug=new Slug();
+					currentSlug.setName(slugName);
+					currentSlug.setPlantSetup(false);
+					slugRepository.save(currentSlug);
+				}
+				List<Slug> sList = currentUrls.getUrlSlug();
+				sList.add(currentSlug);
+				currentUrls.setUrlSlug(sList);
+				urlsManagmentRepo.save(currentUrls);
+				flag=true;
+				
+			}else {
+				String[] s= {preSlugName};
+				List<Slug> slugList = previousUrls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
+				previousUrls.setUrlSlug(slugList);
+				urlsManagmentRepo.save(previousUrls);
+				Slug slug = slugRepository.findByName(slugName);
+				List<Slug> sList = currentUrls.getUrlSlug();
+				sList.add(slug);
+				currentUrls.setUrlSlug(sList);
+				urlsManagmentRepo.save(currentUrls);
+				flag=true;
+			}
+			
+
+		}
+		return flag;
+		
+	}
+
 
 
 }
