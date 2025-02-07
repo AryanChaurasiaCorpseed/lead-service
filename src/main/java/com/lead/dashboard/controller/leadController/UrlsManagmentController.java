@@ -263,7 +263,7 @@ public class UrlsManagmentController {
 				}else {
 					sList=new ArrayList();
 					sList.add(currentSlug);
-					̥
+					
 				}
 //				sList.add(currentSlug);
 				currentUrls.setUrlSlug(sList);
