@@ -235,6 +235,12 @@ public class UrlsManagmentController {
 		}else {
 			UrlsManagment previousUrls = urlsManagmentRepo.findByUrlsName(preUrls);
 			UrlsManagment currentUrls = urlsManagmentRepo.findByUrlsName(urlsName);
+			if(currentUrls ==null) {
+				currentUrls=new UrlsManagment();
+				currentUrls.setUrlsName(urlsName);
+				currentUrls.setQuality(true);
+				urlsManagmentRepo.save(currentUrls);
+			}
 			if(!preSlugName.equals(slugName)) {
 				String[] s= {preSlugName};
 				List<Slug> slugList = previousUrls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
