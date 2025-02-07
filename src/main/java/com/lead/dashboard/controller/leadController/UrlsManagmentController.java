@@ -257,7 +257,15 @@ public class UrlsManagmentController {
 					slugRepository.save(currentSlug);
 				}
 				List<Slug> sList = currentUrls.getUrlSlug();
-				sList.add(currentSlug);
+				if(sList!=null) {
+					sList.add(currentSlug);
+
+				}else {
+					sList=new ArrayList();
+					sList.add(currentSlug);
+					̥
+				}
+//				sList.add(currentSlug);
 				currentUrls.setUrlSlug(sList);
 				urlsManagmentRepo.save(currentUrls);
 				flag=true;
