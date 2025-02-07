@@ -217,7 +217,7 @@ public class UrlsManagmentController {
 
 	
 	@PutMapping("/urls/updateSlugAndUrlsName")
-	public 	Boolean updateSlugAndUrlsName(@RequestParam String preUrls,String urlsName,String preSlugName,String slugName) {	
+	public 	Boolean updateSlugAndUrlsName(@RequestParam String preUrls,@RequestParam String urlsName,@RequestParam String preSlugName,@RequestParam String slugName) {	
 		Boolean flag=false;
 		UrlsManagment urls;
 		if(preUrls.equals(urlsName)) {
