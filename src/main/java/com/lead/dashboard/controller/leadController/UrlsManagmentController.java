@@ -48,7 +48,7 @@ public class UrlsManagmentController {
 		return urlsManagment;
 	}
 
-	@PostMapping("/urls/createUrlsForWebsites")
+//	@PostMapping("/urls/createUrlsForWebsites")
 	public 	UrlsManagment createUrlsForWebsites(@RequestParam String name) {
 		UrlsManagment urlsManagment = new UrlsManagment();
 		urlsManagment.setUrlsName(name);
@@ -207,14 +207,6 @@ public class UrlsManagmentController {
 		}
 
 
-		//		UrlsManagment urlsManagment = new UrlsManagment();
-		//		urlsManagment.setUrlsName(urlsDto.getName());
-		//		urlsManagment.setQuality(urlsDto.isQuality());
-		//		System.out.println(urlsDto.getUrlSlug());
-		//		List<Slug>slugList=slugRepository.findAllByIdIn(urlsDto.getUrlSlug());
-		//		System.out.println(slugList);
-		//		urlsManagment.setUrlSlug(slugList);
-		//		urlsManagmentRepo.save(urlsManagment);
 		return flag;
 	}
 
@@ -241,6 +233,7 @@ public class UrlsManagmentController {
 				urlsManagmentRepo.save(currentUrls);
 			}
 			if(!preSlugName.equals(slugName)) {
+
 				String[] s= {preSlugName};
 				List<Slug> slugList = previousUrls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
 				previousUrls.setUrlSlug(slugList);
@@ -264,16 +257,22 @@ public class UrlsManagmentController {
 				List<Slug> slugList = previousUrls.getUrlSlug().stream().filter(i->(!i.getName().equals(s[0]))).collect(Collectors.toList());
 				previousUrls.setUrlSlug(slugList);
 				urlsManagmentRepo.save(previousUrls);
+				
 				Slug slug = slugRepository.findByName(slugName);
+				System.out.println(slug);
 				List<Slug> sList = currentUrls.getUrlSlug();
 				if(sList!=null) {
 					sList.add(slug);
+					currentUrls.setUrlSlug(sList);
+
 				}else {
 					sList=new ArrayList<>();	
 					sList.add(slug);
+					currentUrls.setUrlSlug(sList);
 
 				}
-				currentUrls.setUrlSlug(sList);
+				System.out.println(sList);
+
 				urlsManagmentRepo.save(currentUrls);
 				flag=true;
 			}
@@ -290,24 +289,40 @@ public class UrlsManagmentController {
 		urls = urlsManagmentRepo.findByUrlsName(preUrls);
 		urls.setUrlsName(urlsName);
 		urlsManagmentRepo.save(urls);
-		Slug slug = slugRepository.findByName(slugName);
+		Slug slug = slugRepository.findByName(preSlugName);
 		slug.setName(slugName);
 		slugRepository.save(slug);
 		flag=true;
 
-		
 		return flag;
 
 	}
 
 
-	@PostMapping("/urls/createUrlsFromWebsites")
-	public 	UrlsManagment createUrlsFromWebsites(@RequestParam String urlsName) {
-		UrlsManagment urlsManagment = new UrlsManagment();
-		urlsManagment.setUrlsName(urlsName);
-		urlsManagment.setQuality(true);
-		urlsManagmentRepo.save(urlsManagment);
-		return urlsManagment;
+
+	@PostMapping("/urls/createUrlsAndSlugFromWebsitesForService")
+	public 	Boolean createUrlsFromWebsites(@RequestParam String urlsName,@RequestParam String slugName) {
+		Boolean flag=false;
+		UrlsManagment urls = urlsManagmentRepo.findByUrlsName(urlsName);
+		if(urls==null) {
+			UrlsManagment urlsManagment = new UrlsManagment();
+			urlsManagment.setUrlsName(urlsName);
+			urlsManagment.setQuality(true);
+			urlsManagmentRepo.save(urlsManagment);
+
+			Slug slug = new Slug();
+			slug.setName(slugName);
+			slug.setPlantSetup(false);
+			slugRepository.save(slug);
+			List<Slug>sList = new ArrayList<>();
+			sList.add(slug);
+			urlsManagment.setUrlSlug(sList);
+			urlsManagmentRepo.save(urlsManagment);
+			flag=true;
+		}
+
+
+		return flag;
 	}
 
 
