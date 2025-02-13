@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lead.dashboard.service.ChatService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.lead.Remark;
 import com.lead.dashboard.dto.CreateRemark;
@@ -69,6 +70,20 @@ public class ChatController {
 			return ResponseEntity.ok(updatedDeatils);
 	}
 	
+	@PutMapping("api/v1/TestObjectMapper")
+	public void TestObjectMapper(){
+		String jsonString = "{\"name\":\"John\", \"address\":{\"street\":\"123 Main St\", \"city\":\"New York\"}}";
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+		    Person person = objectMapper.readValue(jsonString, Person.class);
+		    System.out.println("Name: " + person.getName());
+		    System.out.println("Street: " + person.getAddress().getStreet());
+		    System.out.println("City: " + person.getAddress().getCity());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	}
 	
 
 }

@@ -299,7 +299,6 @@ public class UrlsManagmentController {
 	}
 
 
-
 	@PostMapping("/urls/createUrlsAndSlugFromWebsitesForService")
 	public 	Boolean createUrlsFromWebsites(@RequestParam String urlsName,@RequestParam String slugName) {
 		Boolean flag=false;

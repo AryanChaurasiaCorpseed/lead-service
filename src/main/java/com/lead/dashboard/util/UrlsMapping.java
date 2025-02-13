@@ -76,6 +76,7 @@ public class UrlsMapping {
 	public static final String APPROVE_ESTIMATE=PREFIX+"/leadEstimate/approvedEstimate";
 	public static final String GET_ESTIMATE_BY_STATUS_COUNT=PREFIX+"/leadEstimate/getEstimateByStatusCount";
 	public static final String SEARCH_ESTIMATE=PREFIX+"/leadEstimate/searchEstimate";
+	public static final String CHECK_PENDING_AMOUNT=PREFIX+"/leadEstimate/checkPendingAmount";
 
 
 	// - - - -  - - ---     create proposal - - - - -  

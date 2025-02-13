@@ -185,7 +185,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
-    @PostMapping("/updateAmountInProduct")
+    @PutMapping("/updateAmountInProduct")
     public ResponseEntity<Boolean> updateAmountInProduct(@RequestBody UpdateAmountProductDto updateAmountProductDto) {
 
 

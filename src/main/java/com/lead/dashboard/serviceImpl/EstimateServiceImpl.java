@@ -632,9 +632,11 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("consultantByCompany", s.getConsultantByCompany());
 
 		m.put("getRemarkForOperation", s.getRemarksForOption());
-		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
-		m.put("totalAmount", totalAmount);
-
+		int gst=s.getProfesionalGst()!=null?Integer.valueOf(s.getProfesionalGst()):0;
+		System.out.println("GST...."+gst);
+		double totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+		Double proGst = findGstAmount(s.getProfesionalGst(), s.getProfessionalFees());
+		m.put("totalAmount", totalAmount+proGst);
 
 
 		return m;
@@ -838,9 +840,11 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("isUnit", s.isUnit());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
-		int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
-		System.out.println("total amount tttttt"+totalAmount);
-		m.put("totalAmount", totalAmount);
+		int gst=s.getProfesionalGst()!=null?Integer.valueOf(s.getProfesionalGst()):0;
+		System.out.println("GST...."+gst);
+		double totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+		Double proGst = findGstAmount(s.getProfesionalGst(), s.getProfessionalFees());
+		m.put("totalAmount", totalAmount+proGst);
 		m.put("consultantByCompany", s.getConsultantByCompany());
 		return m;
 	}
@@ -943,13 +947,31 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("isUnit", s.isUnit());
 			m.put("secondaryContact", s.getSecondaryContact());
 			m.put("isSecondary", s.getIsSecondaryAddress());
-			int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
-			System.out.println("total amount tttttt"+totalAmount);
-			m.put("totalAmount", totalAmount);
+			int gst=s.getProfesionalGst()!=null?Integer.valueOf(s.getProfesionalGst()):0;
+			System.out.println("GST...."+gst);
+			double totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
+			Double proGst = findGstAmount(s.getProfesionalGst(), s.getProfessionalFees());
+			m.put("totalAmount", totalAmount+proGst);
 			m.put("consultantByCompany", s.getConsultantByCompany());
 			sList.add(m);
 		}
 		return sList;
+	}
+	public 	Double findGstAmount(String gstPercent, int amount) {
+		System.out.println("gst percent .. . . "+gstPercent);
+		System.out.println("amount .. . . "+amount);
+
+		Double gst=gstPercent!=null? Double.valueOf(gstPercent):0;
+		if(gst!=0 && amount!=0) {
+			double a=amount;
+			Double totalAmount = (a*gst)/100;
+			System.out.println(totalAmount);
+			return totalAmount;
+		}
+		else {
+			return 0.0;
+		}
+
 	}
 
 	@Override
@@ -1087,6 +1109,12 @@ public class EstimateServiceImpl implements EstimateService
 			
 		}
 		return res;
+	}
+
+	@Override
+	public Boolean checkPendingAmount(Long estimateId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

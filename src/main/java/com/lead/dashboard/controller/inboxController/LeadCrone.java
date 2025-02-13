@@ -4251,7 +4251,7 @@ public class LeadCrone {
 
 
 
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCronePrime() {
 		List<Long>croneStatus= new ArrayList<>();
 		System.out.println("First tsting  .....");

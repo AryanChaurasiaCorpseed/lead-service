@@ -80,7 +80,7 @@ public class LeadEstimateController {
     
     @GetMapping(UrlsMapping.GET_ESTIMATE_BY_USER_ID)
     public List<Map<String,Object>> getEstimateByUserId(@RequestParam Long  userId,@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size)
+			@RequestParam(value = "size", defaultValue = "100") int size)
     {
     	List<Map<String,Object>> res=estimateService.getEstimateByUserId(userId,page-1,size);
         return res;
@@ -118,6 +118,13 @@ public class LeadEstimateController {
     public List<Map<String,Object>> searchEstimate(@RequestParam String status,@RequestParam Long userId)
     {
     	List<Map<String,Object>> res=estimateService.searchEstimate(status,userId);
+        return res;
+    }
+    
+    @GetMapping(UrlsMapping.CHECK_PENDING_AMOUNT)
+    public Boolean checkPendingAmount(@RequestParam Long estimateId)
+    {
+    	Boolean res=estimateService.checkPendingAmount(estimateId);
         return res;
     }
     

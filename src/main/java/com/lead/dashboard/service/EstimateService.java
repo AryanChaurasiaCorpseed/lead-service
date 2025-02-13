@@ -41,4 +41,6 @@ public interface EstimateService {
 
 	List<Map<String, Object>> searchEstimate(String status, Long userId);
 
+	Boolean checkPendingAmount(Long estimateId);
+
 }
