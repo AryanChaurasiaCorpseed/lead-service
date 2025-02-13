@@ -9,6 +9,7 @@ import com.lead.dashboard.dto.response.VendorHistoryUpdated;
 import com.lead.dashboard.dto.response.VendorResponse;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,8 @@ public interface VendorService {
 
     boolean cancelRequest(Long vendorRequestId, Long userId, String cancelReason);
 
-    Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate, List<Long> userId);
 
     Map<String, Object> searchVendors(Long userId, String searchInput);
+
+    Map<String, Object> fetchVendorReport(Long userIdBy, List<String> statuses, Date startDate, Date endDate, List<Long> userIds);
 }

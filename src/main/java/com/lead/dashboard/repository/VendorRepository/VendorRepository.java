@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -67,32 +68,47 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     List<Vendor> searchVendorsByUser(@Param("userDetails") User userDetails,
                                      @Param("searchInput") String searchInput);
 
-    @Query("SELECT v FROM Vendor v " +
-            "WHERE (v.date BETWEEN :startDate AND :endDate) " +
-            "AND (:status IS NULL OR v.status = :status) " +
-            "AND v.assignedUser.id IN :assignedUserIds")
+    @Query(value = "SELECT * FROM vendor v " +
+            "WHERE v.create_date BETWEEN :startDate AND :endDate " +
+            "AND (:statusList IS NULL OR :statusList = '' OR v.status IN (:statusList)) " +
+            "AND v.assigned_user IN (:assignedUserIds)",
+            nativeQuery = true)
     List<Vendor> findAllVendorRequestByDateAndStatus(
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate,
-            @Param("status") String status,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate,
+            @Param("statusList") List<String> statusList,
+            @Param("assignedUserIds") List<Long> assignedUserIds
+    );
+    @Query(value = "SELECT * FROM vendor v " +
+            "WHERE v.create_date BETWEEN :startDate AND :endDate " +
+            "AND (:statusList IS NULL OR v.status IN (:statusList))",
+            nativeQuery = true)
+    List<Vendor> findAllVendorRequestByDateAndStatusOnly(
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate,
+            @Param("statusList") List<String> statusList
+    );
+
+    @Query("SELECT v FROM Vendor v " +
+            "WHERE v.createDate BETWEEN :startDate AND :endDate " +
+            "AND v.assignedUser.id IN :assignedUserIds")
+    List<Vendor> findVendorsByDateAndAssignedUsers(
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate,
             @Param("assignedUserIds") List<Long> assignedUserIds
     );
 
     @Query("SELECT v FROM Vendor v " +
-            "WHERE (v.date BETWEEN :startDate AND :endDate) " +
-            "AND v.assignedUser.id IN :assignedUserIds")
-    List<Vendor> findAllVendorRequestByDate(
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate,
-            @Param("assignedUserIds") List<Long> assignedUserIds
+            "WHERE v.createDate BETWEEN :startDate AND :endDate")
+    List<Vendor> findVendorsByDateOnly(
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate
     );
 
 
-    @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.date BETWEEN :startDate AND :endDate AND v.status = :status")
-    List<Vendor> findAllByAssignedUserAndDateRangeAndStatus(@Param("userId") Long userIdBy,
-                                                            @Param("startDate") LocalDate startDate,
-                                                            @Param("endDate") LocalDate endDate,
-                                                            @Param("status") String status);
+
+
+
 
 
 
