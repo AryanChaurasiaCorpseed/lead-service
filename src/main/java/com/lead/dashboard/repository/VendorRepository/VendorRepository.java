@@ -47,8 +47,6 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     Page<Vendor> findVendorsByAssignedUser(@Param("user") User user, Pageable pageable);
 
 
-
-
     @Query("SELECT v FROM Vendor v WHERE v.assignedUser.id = :userId AND v.date BETWEEN :startDate AND :endDate")
     List<Vendor> findAllByAssignedUserAndDateRange(@Param("userId") Long userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
@@ -68,27 +66,6 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     List<Vendor> searchVendorsByUser(@Param("userDetails") User userDetails,
                                      @Param("searchInput") String searchInput);
 
-    @Query(value = "SELECT * FROM vendor v " +
-            "WHERE v.create_date BETWEEN :startDate AND :endDate " +
-            "AND (:statusList IS NULL OR :statusList = '' OR v.status IN (:statusList)) " +
-            "AND v.assigned_user IN (:assignedUserIds)",
-            nativeQuery = true)
-    List<Vendor> findAllVendorRequestByDateAndStatus(
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate,
-            @Param("statusList") List<String> statusList,
-            @Param("assignedUserIds") List<Long> assignedUserIds
-    );
-    @Query(value = "SELECT * FROM vendor v " +
-            "WHERE v.create_date BETWEEN :startDate AND :endDate " +
-            "AND (:statusList IS NULL OR v.status IN (:statusList))",
-            nativeQuery = true)
-    List<Vendor> findAllVendorRequestByDateAndStatusOnly(
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate,
-            @Param("statusList") List<String> statusList
-    );
-
     @Query("SELECT v FROM Vendor v " +
             "WHERE v.createDate BETWEEN :startDate AND :endDate " +
             "AND v.assignedUser.id IN :assignedUserIds")
@@ -106,11 +83,19 @@ public interface VendorRepository  extends JpaRepository<Vendor,Long> {
     );
 
 
+    @Query(value = "SELECT * FROM vendor v WHERE v.status in(:statuses)and create_date BETWEEN :startDateConverted AND :endDateConverted", nativeQuery = true)
+    List<Vendor> findAllVendorRequestByDateAndStatusOnly(Date startDateConverted, Date endDateConverted, List<String> statuses);
 
 
-
-
-
-
+    @Query(value = "SELECT * FROM vendor v WHERE v.status IN (:statuses) " +
+            "AND v.assigned_user IN (:assignedUserIds) " +
+            "AND v.create_date BETWEEN :startDateConverted AND :endDateConverted",
+            nativeQuery = true)
+    List<Vendor> findAllVendorRequestByDateAndStatus(
+            @Param("startDateConverted") Date startDateConverted,
+            @Param("endDateConverted") Date endDateConverted,
+            @Param("statuses") List<String> statuses,
+            @Param("assignedUserIds") List<Long> assignedUserIds
+    );
 
 }

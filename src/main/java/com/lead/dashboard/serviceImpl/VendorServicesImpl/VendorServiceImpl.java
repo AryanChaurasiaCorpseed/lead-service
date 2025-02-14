@@ -778,6 +778,8 @@ public class VendorServiceImpl implements VendorService {
 
 
 
+
+
     @Override
     public Map<String, Object> fetchVendorReport(Long userIdBy, List<String> statuses, LocalDate startDate, LocalDate endDate,
                                                  List<Long> assignedUserIds) {
@@ -795,22 +797,26 @@ public class VendorServiceImpl implements VendorService {
 
         List<Vendor> vendorList = new ArrayList<>();
 
-        if (statuses != null) {
-            statuses.removeIf(status -> status == null || status.trim().isEmpty());
+        // Ensure list parameters are handled correctly before query execution
+        if (statuses != null && statuses.isEmpty()) {
+            statuses = null;
         }
 
-        // Handle different conditions dynamically
-        if (statuses == null || statuses.isEmpty()) {
-            if (assignedUserIds == null || assignedUserIds.isEmpty()) {
+        if (assignedUserIds != null && assignedUserIds.isEmpty()) {
+            assignedUserIds = null;
+        }
+
+        // Determine the correct query method based on provided parameters
+        if (statuses == null) {
+            if (assignedUserIds == null) {
                 // Case 1: No statuses & No assigned user IDs → Fetch only by date range
                 vendorList = vendorRepository.findVendorsByDateOnly(startDateConverted, endDateConverted);
             } else {
                 // Case 2: No statuses but assigned user IDs are present → Fetch by date & assigned users
                 vendorList = vendorRepository.findVendorsByDateAndAssignedUsers(startDateConverted, endDateConverted, assignedUserIds);
             }
-        }
-        else {
-            if (assignedUserIds == null || assignedUserIds.isEmpty()) {
+        } else {
+            if (assignedUserIds == null) {
                 // Case 3: Status is present but no assigned user IDs → Fetch by date & status
                 vendorList = vendorRepository.findAllVendorRequestByDateAndStatusOnly(startDateConverted, endDateConverted, statuses);
             } else {
@@ -818,7 +824,6 @@ public class VendorServiceImpl implements VendorService {
                 vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDateConverted, endDateConverted, statuses, assignedUserIds);
             }
         }
-
         for (Vendor vendor : vendorList) {
             vendorReportResponses.add(prepareVendorReportResponse(vendor));
         }
@@ -827,7 +832,9 @@ public class VendorServiceImpl implements VendorService {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
         return responseMap;
+
     }
+
 
     private VendorReportResponse prepareVendorReportResponse(Vendor vendor) {
         VendorReportResponse response = new VendorReportResponse();
