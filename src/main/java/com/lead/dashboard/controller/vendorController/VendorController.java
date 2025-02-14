@@ -191,10 +191,10 @@ public class VendorController {
     public ResponseEntity<?> fetchVendorReport(@RequestBody VendorReportRequest vendorReportRequest) {
         try {
             if (vendorReportRequest.getStartDate() == null) {
-                vendorReportRequest.setStartDate(new Date()); // Default to current date if null
+                vendorReportRequest.setStartDate(LocalDate.now()); // Default to current date if null
             }
             if (vendorReportRequest.getEndDate() == null) {
-                vendorReportRequest.setEndDate(new Date());
+                vendorReportRequest.setEndDate(LocalDate.now());
             }
 
             Map<String, Object> vendorRequestResponse = vendorService.fetchVendorReport(
@@ -204,11 +204,13 @@ public class VendorController {
                     vendorReportRequest.getEndDate(),
                     vendorReportRequest.getUserIds()
             );
+
             return ResponseEntity.ok(vendorRequestResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
 
 
 

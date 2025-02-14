@@ -777,8 +777,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
 
+
     @Override
-    public Map<String, Object> fetchVendorReport(Long userIdBy, List<String> statuses, Date startDate, Date endDate,
+    public Map<String, Object> fetchVendorReport(Long userIdBy, List<String> statuses, LocalDate startDate, LocalDate endDate,
                                                  List<Long> assignedUserIds) {
         // Fetch user details
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
@@ -787,7 +788,10 @@ public class VendorServiceImpl implements VendorService {
         }
 
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
-        boolean isAdmin = userDetails.getRole().contains("ADMIN");
+
+        // Convert LocalDate to Date for repository query
+        Date startDateConverted = (startDate != null) ? Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant()) : new Date();
+        Date endDateConverted = (endDate != null) ? Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant()) : new Date();
 
         List<Vendor> vendorList = new ArrayList<>();
 
@@ -799,19 +803,19 @@ public class VendorServiceImpl implements VendorService {
         if (statuses == null || statuses.isEmpty()) {
             if (assignedUserIds == null || assignedUserIds.isEmpty()) {
                 // Case 1: No statuses & No assigned user IDs → Fetch only by date range
-                vendorList = vendorRepository.findVendorsByDateOnly(startDate, endDate);
+                vendorList = vendorRepository.findVendorsByDateOnly(startDateConverted, endDateConverted);
             } else {
                 // Case 2: No statuses but assigned user IDs are present → Fetch by date & assigned users
-                vendorList = vendorRepository.findVendorsByDateAndAssignedUsers(startDate, endDate, assignedUserIds);
+                vendorList = vendorRepository.findVendorsByDateAndAssignedUsers(startDateConverted, endDateConverted, assignedUserIds);
             }
         }
         else {
             if (assignedUserIds == null || assignedUserIds.isEmpty()) {
                 // Case 3: Status is present but no assigned user IDs → Fetch by date & status
-                vendorList = vendorRepository.findAllVendorRequestByDateAndStatusOnly(startDate, endDate, statuses);
+                vendorList = vendorRepository.findAllVendorRequestByDateAndStatusOnly(startDateConverted, endDateConverted, statuses);
             } else {
                 // Case 4: Both status & assigned user IDs are present → Fetch by date, status & assigned users
-                vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, statuses, assignedUserIds);
+                vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDateConverted, endDateConverted, statuses, assignedUserIds);
             }
         }
 

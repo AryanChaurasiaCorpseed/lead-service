@@ -42,15 +42,6 @@ public class VendorUpdateHistory implements Serializable {
     @JoinColumn(name="raised_by")
     private User raisedBy;
 
-//    @ManyToOne
-//    @JoinColumn(name = "service_id")
-//    private UrlsManagment urlsManagment;
-
-
-//    @ManyToOne
-//    @JoinColumn(name = "service_id")
-//    private UrlsManagment urlsManagment;
-
     @ManyToOne
     @JoinColumn(name = "vendor_category_id")
     private VendorCategory vendorCategory;
@@ -61,7 +52,7 @@ public class VendorUpdateHistory implements Serializable {
 
     private String requestStatus;
 
-    @Column(length = 255)
+	@Column(name = "requirement_description", length = 1000)
     private String updateDescription;
 
     @Temporal(TemporalType.TIMESTAMP)

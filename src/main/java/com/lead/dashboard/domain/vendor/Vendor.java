@@ -50,6 +50,7 @@ public class Vendor implements Serializable {
 	@JsonIgnore
 	private Lead lead;
 
+	@Column(name = "requirement_description", length = 1000)
 	private String requirementDescription;
 
 	private String clientEmailId;
