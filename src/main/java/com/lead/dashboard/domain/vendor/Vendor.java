@@ -50,16 +50,10 @@ public class Vendor implements Serializable {
 	@JsonIgnore
 	private Lead lead;
 
+	@Column(name = "requirement_description", length = 1000)
 	private String requirementDescription;
 
 	private String clientEmailId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "service_id")
-//    private UrlsManagment urlsManagment;
-//    @ManyToOne
-//    @JoinColumn(name = "service_id")
-//    private UrlsManagment urlsManagment;
 
 	@ManyToOne
 	@JoinColumn(name = "vendor_category_id")
@@ -82,15 +76,6 @@ public class Vendor implements Serializable {
 	private boolean isDisplay;
 
 	private String clientBudget;
-
-	private String vendorSharedDocument;
-
-	private String vendorSharedPrice;
-
-	private String vendorComment;
-
-	@ManyToOne
-	private User addedBy;
 
 	@ManyToOne
 	private User updatedBy;
@@ -259,37 +244,6 @@ public class Vendor implements Serializable {
 		this.clientBudget = clientBudget;
 	}
 
-	public String getVendorSharedDocument() {
-		return vendorSharedDocument;
-	}
-
-	public void setVendorSharedDocument(String vendorSharedDocument) {
-		this.vendorSharedDocument = vendorSharedDocument;
-	}
-
-	public String getVendorSharedPrice() {
-		return vendorSharedPrice;
-	}
-
-	public void setVendorSharedPrice(String vendorSharedPrice) {
-		this.vendorSharedPrice = vendorSharedPrice;
-	}
-
-	public String getVendorComment() {
-		return vendorComment;
-	}
-
-	public void setVendorComment(String vendorComment) {
-		this.vendorComment = vendorComment;
-	}
-
-	public User getAddedBy() {
-		return addedBy;
-	}
-
-	public void setAddedBy(User addedBy) {
-		this.addedBy = addedBy;
-	}
 
 	public User getUpdatedBy() {
 		return updatedBy;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -15,8 +16,8 @@ import java.util.List;
 public class VendorReportRequest {
 
     private Long userIdBy;
-    private String status;
+    private List<String> statuses;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<Long> userId;
+    private List<Long> userIds;
 }

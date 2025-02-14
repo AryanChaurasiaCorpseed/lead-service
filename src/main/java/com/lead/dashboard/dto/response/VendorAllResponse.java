@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter@Setter
@@ -37,7 +38,7 @@ public class VendorAllResponse {
 
     private List<String> salesAttachmentImage;
 
-	private LocalDate receivedDate;
+	private Date receivedDate;
 
 	private LocalDate completedDate;
 
@@ -235,11 +236,11 @@ public class VendorAllResponse {
 		this.isView = isView;
 	}
 
-	public LocalDate getReceivedDate() {
+	public Date getReceivedDate() {
 		return receivedDate;
 	}
 
-	public void setReceivedDate(LocalDate receivedDate) {
+	public void setReceivedDate(Date receivedDate) {
 		this.receivedDate = receivedDate;
 	}
 

@@ -13,6 +13,7 @@ import com.lead.dashboard.repository.VendorRepository.*;
 import com.lead.dashboard.service.vendorServices.VendorService;
 import com.lead.dashboard.serviceImpl.FileUploadServiceImpl;
 import com.lead.dashboard.serviceImpl.MailSendSerivceImpl;
+import com.lead.dashboard.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,10 +34,6 @@ public class VendorServiceImpl implements VendorService {
 
     @Autowired
     private UserRepo userRepository;
-//
-//    @Autowired
-//    private UrlsManagmentRepo urlsManagmentRepo;
-
     @Autowired
     private VendorRepository vendorRepository;
 
@@ -108,10 +105,11 @@ public class VendorServiceImpl implements VendorService {
             vendor.setVendorCategory(vendorCategory);
             vendor.setVendorSubCategory(vendorSubCategory);
             vendor.setDisplay(true);
-            vendor.setAddedBy(userDetails.get());
             vendor.setLead(leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found")));
-            vendor.setCreateDate(new Date());
-            vendor.setUpdatedDate(new Date());
+            vendor.setCreateDate(DateTimeUtil.getCurrentISTDate());
+            vendor.setUpdatedDate(DateTimeUtil.getCurrentISTDate());
+
+
             vendor.setStatus("Initial");
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
@@ -147,11 +145,11 @@ public class VendorServiceImpl implements VendorService {
             VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
             vendorUpdate.setVendor(vendor);
             vendorUpdate.setRequestStatus("Initial");
-            vendorUpdate.setUpdateDate(new Date());
+            vendorUpdate.setUpdateDate(DateTimeUtil.getCurrentISTDate());
             vendorUpdate.setUpdateDescription("Vendor request created");
             vendorUpdate.setLead(vendor.getLead());
             vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
-            vendorUpdate.setCreateDate(new Date());
+            vendorUpdate.setCreateDate(DateTimeUtil.getCurrentISTDate());
             vendorUpdate.setDisplay(true);
             vendorUpdate.setVendorCategory(vendorCategory);
             vendorUpdate.setVendorSubCategory(vendorSubCategory);
@@ -247,7 +245,7 @@ public class VendorServiceImpl implements VendorService {
 
             vendor.setUpdatedBy(updatedByUser);
             vendor.setAssignedUser(assignedToUser);
-            vendor.setUpdatedDate(new Date());
+            vendor.setUpdatedDate(DateTimeUtil.getCurrentISTDate());
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
 
@@ -365,7 +363,6 @@ public class VendorServiceImpl implements VendorService {
         VendorUpdateHistory vendorUpdateHistory = new VendorUpdateHistory();
         vendorUpdateHistory.setVendor(vendor);
         vendorUpdateHistory.setRaisedBy(mailSentBy);
-        vendorUpdateHistory.setUpdateDate(new Date());
         vendorUpdateHistory.setProposalSentStatus(true);
         vendorUpdateHistory.setRequestStatus(vendorQuotationRequest.getRequestStatus());
         vendorUpdateHistory.setUpdatedBy(user);
@@ -374,7 +371,8 @@ public class VendorServiceImpl implements VendorService {
         vendorUpdateHistory.setQuotationFilePath(vendorQuotationRequest.getQuotationFilePath());
         vendorUpdateHistory.setRequestStatus("Quotation Sent");
         vendorUpdateHistory.setBudgetPrice(vendor.getClientBudget());
-        vendorUpdateHistory.setCreateDate(new Date());
+        vendorUpdateHistory.setCreateDate(DateTimeUtil.getCurrentISTDate());
+        vendorUpdateHistory.setUpdateDate(DateTimeUtil.getCurrentISTDate());
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setUpdateDescription(vendorQuotationRequest.getComment());
         vendorUpdateHistory.setMailTo(Arrays.asList(mailTo));
@@ -394,10 +392,9 @@ public class VendorServiceImpl implements VendorService {
         vendorHistoryRepository.save(vendorUpdateHistory);
 
         vendor.setProposalSentStatus(true);
-        vendor.setUpdatedDate(new Date());
+        vendor.setUpdatedDate(DateTimeUtil.getCurrentISTDate());
         vendor.setSharePriceToClient(vendorUpdateHistory.getQuotationAmount());
         vendor.setUpdatedBy(vendorUpdateHistory.getUpdatedBy());
-        vendor.setDate(LocalDate.now());
         vendor.setStatus("Finished");
         vendor.setCurrentUpdatedDate(LocalDate.now());
         vendorRepository.save(vendor);
@@ -453,15 +450,14 @@ public class VendorServiceImpl implements VendorService {
 
         vendorUpdateHistory.setUpdateDescription(vendorRequestUpdate.getComment());
         vendorUpdateHistory.setUpdatedBy(user);
-        vendorUpdateHistory.setUpdateDate(new Date());
+        vendorUpdateHistory.setCreateDate(DateTimeUtil.getCurrentISTDate());
+        vendorUpdateHistory.setUpdateDate(DateTimeUtil.getCurrentISTDate());
         vendorUpdateHistory.setLead(lead);
         vendorUpdateHistory.setUser(user);
         vendorUpdateHistory.setVendor(vendor);
         vendorUpdateHistory.setBudgetPrice(vendor.getClientBudget());
-        vendorUpdateHistory.setCreateDate(new Date());
         vendorUpdateHistory.setDisplay(true);
         vendorUpdateHistory.setRaisedBy(vendor.getUser());
-//        vendorUpdateHistory.setUrlsManagment(vendor.getUrlsManagment());
         vendorUpdateHistory.setExternalVendorPrice(vendorRequestUpdate.getExternalVendorPrice());
         vendorUpdateHistory.setInternalVendorPrices(vendorRequestUpdate.getInternalVendorPrices());
         vendorUpdateHistory.setExternalVendorFilePath(vendorRequestUpdate.getExternalVendorFilePath());
@@ -545,7 +541,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead().getId());
             vendorResponseDTO.setLeadName(vendor.getLead().getLeadName());
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
-            vendorResponseDTO.setReceivedDate(vendor.getDate());
+            vendorResponseDTO.setReceivedDate(vendor.getCreateDate());
             vendorResponseDTO.setSubCategoryTatDays(vendor.getVendorSubCategory().getVendorCompletionTat());
 
             LocalDate requestCreatedDate = vendor.getDate();
@@ -753,7 +749,8 @@ public class VendorServiceImpl implements VendorService {
             vendor.setVendorCategory(vendorOptional.get().getVendorCategory());
             vendor.setVendorSubCategory(vendorOptional.get().getVendorSubCategory());
             vendor.setLead(vendorOptional.get().getLead());
-            vendor.setUpdatedDate(new Date());
+            vendor.setUpdatedDate(DateTimeUtil.getCurrentISTDate());
+
             vendor.setUpdatedBy(user);
 
             vendorRepository.save(vendor);
@@ -762,15 +759,15 @@ public class VendorServiceImpl implements VendorService {
             history.setVendor(vendor);
             history.setRequestStatus("Cancel");
             history.setUpdateDescription(cancelReason);
-            history.setUpdateDate(new Date());
+            history.setUpdateDate(DateTimeUtil.getCurrentISTDate());
             history.setUpdatedBy(user);
             history.setUpdatedName(user.getFullName());
             history.setCancelledBy(user);
-            history.setCancelledAt(new Date());
-            history.setCreateDate(new Date());
+            history.setCancelledAt(DateTimeUtil.getCurrentISTDate());
+            history.setCreateDate(DateTimeUtil.getCurrentISTDate());
             history.setDate(LocalDate.now());
             history.setLead(vendorOptional.get().getLead());
-            history.setUpdateDate(new Date());
+            history.setUpdateDate(DateTimeUtil.getCurrentISTDate());
             vendorHistoryRepository.save(history);
 
             return true;
@@ -779,8 +776,12 @@ public class VendorServiceImpl implements VendorService {
         }
     }
 
+
+
+
+
     @Override
-    public Map<String, Object> fetchVendorReport(Long userIdBy, String status, LocalDate startDate, LocalDate endDate,
+    public Map<String, Object> fetchVendorReport(Long userIdBy, List<String> statuses, LocalDate startDate, LocalDate endDate,
                                                  List<Long> assignedUserIds) {
         // Fetch user details
         User userDetails = userRepository.findByUserIdAndIsDeletedFalse(userIdBy);
@@ -789,18 +790,40 @@ public class VendorServiceImpl implements VendorService {
         }
 
         List<VendorReportResponse> vendorReportResponses = new ArrayList<>();
-        boolean isAdmin = userDetails.getRole().contains("ADMIN");
 
-        List<Vendor> vendorList;
+        // Convert LocalDate to Date for repository query
+        Date startDateConverted = (startDate != null) ? Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant()) : new Date();
+        Date endDateConverted = (endDate != null) ? Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant()) : new Date();
 
-        if (isAdmin) {
-            vendorList = (status != null)
-                    ? vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status, assignedUserIds)
-                    : vendorRepository.findAllVendorRequestByDate(startDate, endDate, assignedUserIds);
-        } else {
-            vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDate, endDate, status, List.of(userIdBy));
+        List<Vendor> vendorList = new ArrayList<>();
+
+        // Ensure list parameters are handled correctly before query execution
+        if (statuses != null && statuses.isEmpty()) {
+            statuses = null;
         }
 
+        if (assignedUserIds != null && assignedUserIds.isEmpty()) {
+            assignedUserIds = null;
+        }
+
+        // Determine the correct query method based on provided parameters
+        if (statuses == null) {
+            if (assignedUserIds == null) {
+                // Case 1: No statuses & No assigned user IDs → Fetch only by date range
+                vendorList = vendorRepository.findVendorsByDateOnly(startDateConverted, endDateConverted);
+            } else {
+                // Case 2: No statuses but assigned user IDs are present → Fetch by date & assigned users
+                vendorList = vendorRepository.findVendorsByDateAndAssignedUsers(startDateConverted, endDateConverted, assignedUserIds);
+            }
+        } else {
+            if (assignedUserIds == null) {
+                // Case 3: Status is present but no assigned user IDs → Fetch by date & status
+                vendorList = vendorRepository.findAllVendorRequestByDateAndStatusOnly(startDateConverted, endDateConverted, statuses);
+            } else {
+                // Case 4: Both status & assigned user IDs are present → Fetch by date, status & assigned users
+                vendorList = vendorRepository.findAllVendorRequestByDateAndStatus(startDateConverted, endDateConverted, statuses, assignedUserIds);
+            }
+        }
         for (Vendor vendor : vendorList) {
             vendorReportResponses.add(prepareVendorReportResponse(vendor));
         }
@@ -809,21 +832,18 @@ public class VendorServiceImpl implements VendorService {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("vendorReports", vendorReportResponses);
         return responseMap;
+
     }
-
-
-
 
 
     private VendorReportResponse prepareVendorReportResponse(Vendor vendor) {
         VendorReportResponse response = new VendorReportResponse();
         response.setId(vendor.getId());
-        response.setGenerateByPersonName(vendor.getAddedBy().getFullName());
         response.setAssignedToPersonName(vendor.getAssignedUser() != null ? vendor.getAssignedUser().getFullName() : null);
 
         response.setStartDate(vendor.getCreateDate());
         response.setEndDate(vendor.getDate());
-
+        response.setGenerateByPersonName(vendor.getUser().getFullName());
         response.setClientName(vendor.getClientName());
         response.setCurrentStatus(vendor.getStatus());
         response.setSubCategoryName(vendor.getVendorSubCategory() != null ? vendor.getVendorSubCategory().getVendorSubCategoryName() : null);
@@ -907,7 +927,7 @@ public class VendorServiceImpl implements VendorService {
             vendorResponseDTO.setLeadId(vendor.getLead() != null ? vendor.getLead().getId() : null);
             vendorResponseDTO.setLeadName(vendor.getLead() != null ? vendor.getLead().getLeadName() : null);
             vendorResponseDTO.setBudgetPrice(vendor.getClientBudget());
-            vendorResponseDTO.setReceivedDate(vendor.getDate());
+            vendorResponseDTO.setReceivedDate(vendor.getCreateDate());
             vendorResponseDTO.setSubCategoryTatDays(vendor.getVendorSubCategory().getVendorCompletionTat());
 
             LocalDate requestCreatedDate = vendor.getDate();
