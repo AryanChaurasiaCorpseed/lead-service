@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1408,6 +1409,124 @@ public class LeadCrone {
 
 		return result;
 	}
+	
+	
+    public ArrayList<User>sortUser(List<User>user4,Map<Long,Integer>countManage){
+    	System.out.println("sIZE . . . "+user4.size());
+    	Map<User,Double>map=new LinkedHashMap<>();
+    	for(User a:user4){
+			double c1=0;
+			double cp1=100;
+
+			if(countManage!=null && a.getId()!=null) {
+				
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				
+				c1=c1*100;
+				int lockerSize = a.getLockerSize();
+				if(lockerSize!=0) {
+					cp1= c1/lockerSize;
+					map.put(a, cp1);
+				}
+			}
+
+		}
+
+    	 for (int i = 1; i < user4.size(); i++) {
+             User key = user4.get(i);  // The element to be inserted in the sorted part
+             Integer keyCount = countManage.get(key.getId());
+             
+             int j = i - 1;
+             
+             // Move elements of list[0..i-1] that are greater than key to one position ahead
+             Integer userCount = countManage.get(user4.get(j).getId());
+             while (j >= 0 && userCount> keyCount) {
+            	 user4.set(j + 1, user4.get(j));  // Shift element to the right
+                 j = j - 1;
+             }
+             user4.set(j + 1, key);  // Insert the key at the correct position
+         } 
+     	System.out.println("sIZE .2 . . "+user4.size());
+     	
+     	System.out.println("=========start=====444========");
+		for(User u:user4) {
+
+			System.out.println(u.getId()+"...count..."+" ..."+u.getFullName());
+		}
+		System.out.println("==========end====444========");
+
+
+    	
+    	return new ArrayList<>(user4);
+    }
+    
+    public ArrayList<User>sortUserV2(List<User>user4,Map<Long,Integer>countManage){
+    	System.out.println("sIZE . . . "+user4.size());
+    	Map<User,Double>map=new LinkedHashMap<>();
+    	for(User a:user4){
+			double c1=0;
+			double cp1=100;
+
+			if(countManage!=null && a.getId()!=null) {
+				
+				c1=countManage.get(a.getId())!=null?countManage.get(a.getId()):0;
+				
+				c1=c1*100;
+				int lockerSize = a.getLockerSize();
+				if(lockerSize!=0) {
+					cp1= c1/lockerSize;
+					map.put(a, cp1);
+				}
+			}
+
+		}
+
+//    	 for (int i = 1; i < user4.size(); i++) {
+//             User key = user4.get(i);  // The element to be inserted in the sorted part
+//             Integer keyCount = countManage.get(key.getId());
+//             
+//             int j = i - 1;
+//             
+//             // Move elements of list[0..i-1] that are greater than key to one position ahead
+//             Integer userCount = countManage.get(user4.get(j).getId());
+//             while (j >= 0 && userCount> keyCount) {
+//            	 user4.set(j + 1, user4.get(j));  // Shift element to the right
+//                 j = j - 1;
+//             }
+//             user4.set(j + 1, key);  // Insert the key at the correct position
+//         }
+    	 
+    	  for (int i = 0; i < user4.size() - 1; i++) {
+              
+              // Inner loop to compare adjacent elements
+              for (int j = 0; j < user4.size() - 1 - i; j++) {
+                Integer userCount1 = countManage.get(user4.get(j).getId());
+                Integer userCount2 = countManage.get(user4.get(j+1).getId());
+
+                  if (userCount1 > userCount2) {
+                      // Swap if the element is greater than the next one
+                      User temp = user4.get(j);
+                      user4.set(j, user4.get(j + 1));
+                      user4.set(j + 1, temp);
+                  }
+              }
+              
+              // If no elements were swapped, break early as the list is sorted
+              
+          }
+     	System.out.println("sIZE .2 . . "+user4.size());
+     	
+     	System.out.println("=========start=====444========");
+		for(User u:user4) {
+
+			System.out.println(u.getId()+"...count..."+" ..."+u.getFullName());
+		}
+		System.out.println("==========end====444========");
+
+
+    	
+    	return new ArrayList<>(user4);
+    }
 
 	public  ArrayList<User>mergeStarUserV3new(List<User>user4,List<User>user5,Map<Long,Integer>countMap){
 		int i=0;
@@ -1451,7 +1570,17 @@ public class LeadCrone {
 			}
 		}
 
-		//test sort
+		ArrayList<User> test = sortUserV2(user4,countManage);
+		
+		System.out.println("=========start=====444========");
+				System.out.println(countMap);
+				for(User u:test) {
+					int c=countMap!=null?countMap.get(u.getId())!=null?countMap.get(u.getId()):0:0;
+		
+					System.out.println(u.getId()+"...count..."+c+" ..."+u.getFullName());
+				}
+				System.out.println("==========end====444========");
+
 		Collections.sort(result, (a, b) -> {
 			Integer c1=0;
 			Integer cp1=100;
@@ -1497,7 +1626,7 @@ public class LeadCrone {
 		//		}
 		//		System.out.println("==========end============");
 
-		return result;
+		return test;
 	}
 
 	public List<User> mergeAllUser1to5StarV3(List<Ratings>ratings,Map<Long,Integer>countMap) {
@@ -4251,7 +4380,7 @@ public class LeadCrone {
 
 
 
-//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCronePrime() {
 		List<Long>croneStatus= new ArrayList<>();
 		System.out.println("First tsting  .....");
@@ -4614,7 +4743,7 @@ public class LeadCrone {
 			}
 			//			lead.setIsUrlsChecked(false);
 			//						lead.setAuto(false);
-			leadRepository.save(lead);
+//			leadRepository.save(lead);
 		}
 	}
 
