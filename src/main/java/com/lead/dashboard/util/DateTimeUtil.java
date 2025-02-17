@@ -15,12 +15,11 @@ public class DateTimeUtil {
 
     // Get current Date in IST (for legacy support)
     public static Date getCurrentISTDate() {
-        return Date.from(Instant.now().atZone(IST_ZONE).toInstant());
+        return Date.from(LocalDateTime.now(IST_ZONE).atZone(IST_ZONE).toInstant());
     }
 
-    // Get current LocalDate in IST
+    // Get current LocalDateTime in IST with seconds
     public static LocalDateTime getCurrentISTDateTimeWithSeconds() {
         return LocalDateTime.now(IST_ZONE);
     }
-
 }
