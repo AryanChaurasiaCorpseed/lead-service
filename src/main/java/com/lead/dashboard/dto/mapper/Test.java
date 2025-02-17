@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class Test {
 	Meta meta;
-	private List<Object> objects; 
+	private List<Objects> objects; 
 }
