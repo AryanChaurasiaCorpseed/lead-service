@@ -158,7 +158,7 @@ public class ApiService {
 				l.setAuto(true);
 				
 			}
-			l.setLeadName("IVR CALL "+i.getCallerNumber());
+			l.setLeadName("IVR Call "+i.getCallerNumber());
 			l.setMobileNo(i.getCallerNumber());
 			Client c=new Client();
 			c.setContactNo(i.getCallerNumber());

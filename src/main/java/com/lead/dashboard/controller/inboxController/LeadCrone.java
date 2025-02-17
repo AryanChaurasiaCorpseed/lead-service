@@ -4251,7 +4251,7 @@ public class LeadCrone {
 
 
 
-	@Scheduled(cron = "0 * * ? * *", zone = "IST")
+//	@Scheduled(cron = "0 * * ? * *", zone = "IST")
 	public void assignLeadByCronePrime() {
 		List<Long>croneStatus= new ArrayList<>();
 		System.out.println("First tsting  .....");
@@ -4295,7 +4295,7 @@ public class LeadCrone {
 				if(existingLead!=null && existingLead.size()>1) {
 					System.out.println("cccccccccc");
 					User assignee=getAssignee(existingLead);
-					System.out.println("cccccccccctemp"+assignee!=null?assignee.getFullName():"NA");
+
 
 					//CHECK USER IS NOT ACTIVE THEN WE ASSIGN A TEAM 
 					if(assignee!=null &&assignee.isDeleted()) {
