@@ -8,6 +8,7 @@ import com.lead.dashboard.dto.request.VendorQuotationRequest;
 import com.lead.dashboard.dto.request.VendorRequest;
 import com.lead.dashboard.dto.request.VendorRequestUpdate;
 import com.lead.dashboard.dto.response.*;
+import com.lead.dashboard.feignClient.GlobalFeignClient;
 import com.lead.dashboard.repository.*;
 import com.lead.dashboard.repository.VendorRepository.*;
 import com.lead.dashboard.service.vendorServices.VendorService;
@@ -64,7 +65,8 @@ public class VendorServiceImpl implements VendorService {
     @Autowired
     private AwsConfig awsConfig;
 
-
+    @Autowired
+    private GlobalFeignClient globalFeignClient;
 
     @Override
     public VendorResponse generateVendorRequest(VendorRequest vendorRequest, Long userId, Long leadId) {
@@ -79,18 +81,16 @@ public class VendorServiceImpl implements VendorService {
             VendorSubCategory vendorSubCategory = vendorSubCategoryRepository.findById(vendorRequest.getSubVendorCategoryId())
                     .orElseThrow(() -> new RuntimeException("Vendor SubCategory not found"));
 
-            // ✅ Get only active users (not deleted)
             List<User> activeUsersForSubCategory = vendorSubCategory.getAssignedUsers().stream()
-                    .filter(user -> !user.isDeleted())  // 🔥 Filter out deleted users
+                    .filter(user -> !user.isDeleted())
                     .collect(Collectors.toList());
 
-            User assignedUser;
+            User assignedUser = getAvailableUserForAssignment(activeUsersForSubCategory);
 
-            if (activeUsersForSubCategory.isEmpty()) {
-                assignedUser = assignAdminUser(); // ✅ Fallback: Assign Admin if no active users exist
+            if (assignedUser == null) {
+                assignedUser = assignAdminUser();
             } else {
                 int nextUserIndex = (vendorSubCategory.getLastAssignedUserIndex() + 1) % activeUsersForSubCategory.size();
-                assignedUser = activeUsersForSubCategory.get(nextUserIndex);
                 vendorSubCategory.setLastAssignedUserIndex(nextUserIndex);
                 vendorSubCategoryRepository.save(vendorSubCategory);
             }
@@ -108,8 +108,6 @@ public class VendorServiceImpl implements VendorService {
             vendor.setLead(leadRepository.findById(leadId).orElseThrow(() -> new RuntimeException("Lead not found")));
             vendor.setCreateDate(DateTimeUtil.getCurrentISTDate());
             vendor.setUpdatedDate(DateTimeUtil.getCurrentISTDate());
-
-
             vendor.setStatus("Initial");
             vendor.setDate(LocalDate.now());
             vendor.setCurrentUpdatedDate(LocalDate.now());
@@ -123,48 +121,22 @@ public class VendorServiceImpl implements VendorService {
 
             vendor = vendorRepository.save(vendor);
 
-            Optional<UserVendorRequestCount> userVendorRequestCountOpt = userVendorRequestCountRepository
-                    .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
-
-            UserVendorRequestCount userVendorRequestCount;
-            if (userVendorRequestCountOpt.isPresent()) {
-                userVendorRequestCount = userVendorRequestCountOpt.get();
-                userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
-            } else {
-                userVendorRequestCount = new UserVendorRequestCount();
-                userVendorRequestCount.setUser(assignedUser);
-                userVendorRequestCount.setVendorCategory(vendorCategory);
-                userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
-                userVendorRequestCount.setRequestCount(1);
-                userVendorRequestCount.setDate(LocalDate.now());
-                userVendorRequestCount.setCreatedAt(new Date());
-            }
-            userVendorRequestCount.setUpdatedAt(new Date());
-            userVendorRequestCountRepository.save(userVendorRequestCount);
-
-            VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
-            vendorUpdate.setVendor(vendor);
-            vendorUpdate.setRequestStatus("Initial");
-            vendorUpdate.setUpdateDate(DateTimeUtil.getCurrentISTDate());
-            vendorUpdate.setUpdateDescription("Vendor request created");
-            vendorUpdate.setLead(vendor.getLead());
-            vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
-            vendorUpdate.setCreateDate(DateTimeUtil.getCurrentISTDate());
-            vendorUpdate.setDisplay(true);
-            vendorUpdate.setVendorCategory(vendorCategory);
-            vendorUpdate.setVendorSubCategory(vendorSubCategory);
-            vendorUpdate.setRaisedBy(userDetails.get());
-            vendorUpdate.setUser(vendor.getAssignedUser());
-            vendorUpdate.setDate(LocalDate.now());
-            vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
-            vendorUpdate.setBudgetPrice(vendor.getClientBudget());
-            vendorHistoryRepository.save(vendorUpdate);
-
             return new VendorResponse(vendor);
         } else {
             throw new RuntimeException("User not found for ID: " + userId);
         }
     }
+
+    public User getAvailableUserForAssignment(List<User> activeUsersForSubCategory) {
+        for (User user : activeUsersForSubCategory) {
+            Boolean isPresent = globalFeignClient.checkUserPresence(user.getEmail());
+            if (Boolean.TRUE.equals(isPresent)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 
 
 
@@ -176,6 +148,7 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException("No ADMIN user found");
         }
     }
+
 
     @Override
     public List<VendorResponse> findVendorRequestsByUserId(Long userId, Long leadId) {
