@@ -13,9 +13,11 @@ public class DateTimeUtil {
         return LocalDateTime.now(IST_ZONE);
     }
 
-    // Get current Date in IST (for legacy support)
+    // Get current Date in IST (for legacy support) with explicit UTC +5:30 adjustment
     public static Date getCurrentISTDate() {
-        return Date.from(LocalDateTime.now(IST_ZONE).atZone(IST_ZONE).toInstant());
+        Instant nowUtc = Instant.now(); // Get UTC time
+        Instant istInstant = nowUtc.plusSeconds(19800); // Add 5 hours 30 minutes (19800 seconds)
+        return Date.from(istInstant);
     }
 
     // Get current LocalDateTime in IST with seconds
