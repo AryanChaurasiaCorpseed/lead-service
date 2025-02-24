@@ -265,10 +265,10 @@ public class EstimateServiceImpl implements EstimateService
 
 			}
 
-			serviceDetails.setIsPresent(createservicedetails.getIsPresent());
+			serviceDetails.setParentCompany(createservicedetails.isParentCompany());
 			serviceDetails.setCompanyName(createservicedetails.getCompanyName());
 			serviceDetails.setCompanyId(createservicedetails.getCompanyId());
-			serviceDetails.setUnit(createservicedetails.isUnit());
+			serviceDetails.setUnitCompany(createservicedetails.isUnitCompany());
 			serviceDetails.setUnitName(createservicedetails.getUnitName());
 			serviceDetails.setUnitId(createservicedetails.getUnitId());
 			serviceDetails.setPanNo(createservicedetails.getPanNo());
@@ -335,10 +335,11 @@ public class EstimateServiceImpl implements EstimateService
 					serviceDetails.setAssignee(assignee);
 				}
 				// company
-				serviceDetails.setIsPresent(createservicedetails.getIsPresent());
+				
+				serviceDetails.setParentCompany(createservicedetails.isParentCompany());		
 				serviceDetails.setCompanyName(createservicedetails.getCompanyName());
 				serviceDetails.setCompanyId(createservicedetails.getCompanyId());
-				serviceDetails.setUnit(createservicedetails.isUnit());
+				serviceDetails.setUnitCompany(createservicedetails.isUnitCompany());
 				serviceDetails.setUnitName(createservicedetails.getUnitName());
 				serviceDetails.setUnitId(createservicedetails.getUnitId());
 				serviceDetails.setPanNo(createservicedetails.getPanNo());
@@ -464,10 +465,11 @@ public class EstimateServiceImpl implements EstimateService
 		}
 
 		// company
-		serviceDetails.setIsPresent(editEstimate.getIsPresent());
+		
+		serviceDetails.setParentCompany(editEstimate.isParentCompany());		
 		serviceDetails.setCompanyName(editEstimate.getCompanyName());
 		serviceDetails.setCompanyId(editEstimate.getCompanyId());
-		serviceDetails.setUnit(editEstimate.isUnit());
+		serviceDetails.setUnitCompany(editEstimate.isUnitCompany());
 		serviceDetails.setUnitName(editEstimate.getUnitName());
 		serviceDetails.setUnitId(editEstimate.getUnitId());
 		serviceDetails.setPanNo(editEstimate.getPanNo());
@@ -618,7 +620,7 @@ public class EstimateServiceImpl implements EstimateService
 
 		m.put("primaryPinCode", s.getPrimaryPinCode());
 		m.put("primaryContact", s.getPrimaryContact());
-		m.put("isUnit", s.isUnit());
+		m.put("isUnit", s.isUnitCompany());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
 
@@ -626,7 +628,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("secondaryCity", s.getSecondaryCity());
 		m.put("secondaryPinCode", s.getSecondaryPinCode());
 		m.put("secondaryState", s.getSecondaryState());
-		m.put("isUnit", s.isUnit());
+		m.put("isUnit", s.isUnitCompany());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
 		m.put("consultantByCompany", s.getConsultantByCompany());
@@ -729,7 +731,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("secondaryCity", s.getSecondaryCity());
 			m.put("secondaryPinCode", s.getSecondaryPinCode());
 			m.put("secondaryState", s.getSecondaryState());
-			m.put("isUnit", s.isUnit());
+			m.put("isUnit", s.isUnitCompany());
 			m.put("secondaryContact", s.getSecondaryContact());
 			m.put("isSecondary", s.getIsSecondaryAddress());
 			int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();
@@ -837,7 +839,7 @@ public class EstimateServiceImpl implements EstimateService
 		m.put("secondaryCountry", s.getSecondaryCountry());
 		m.put("remarkForOperation", s.getRemarksForOption());
 
-		m.put("isUnit", s.isUnit());
+		m.put("isUnit", s.isUnitCompany());
 		m.put("secondaryContact", s.getSecondaryContact());
 		m.put("isSecondary", s.getIsSecondaryAddress());
 		int gst=s.getProfesionalGst()!=null?Integer.valueOf(s.getProfesionalGst()):0;
@@ -944,7 +946,7 @@ public class EstimateServiceImpl implements EstimateService
 			m.put("secondaryCountry", s.getSecondaryCountry());
 			m.put("remarkForOperation", s.getRemarksForOption());
 
-			m.put("isUnit", s.isUnit());
+			m.put("isUnit", s.isUnitCompany());
 			m.put("secondaryContact", s.getSecondaryContact());
 			m.put("isSecondary", s.getIsSecondaryAddress());
 			int gst=s.getProfesionalGst()!=null?Integer.valueOf(s.getProfesionalGst()):0;
@@ -1096,7 +1098,7 @@ public class EstimateServiceImpl implements EstimateService
 				m.put("secondaryCountry", s.getSecondaryCountry());
 				m.put("remarkForOperation", s.getRemarksForOption());
 
-				m.put("isUnit", s.isUnit());
+				m.put("isUnit", s.isUnitCompany());
 				m.put("secondaryContact", s.getSecondaryContact());
 				m.put("isSecondary", s.getIsSecondaryAddress());
 				int totalAmount = s.getGovermentfees()+s.getProfessionalFees()+s.getOtherFees();

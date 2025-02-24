@@ -51,11 +51,11 @@ public class ServiceDetails {
 	Date updateDate;
 	
 	/* --------------- company detail -------------------------------- */
-	Boolean isPresent;
+	boolean parentCompany;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 
-	boolean isUnit;
+	boolean unitCompany;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 
@@ -172,12 +172,7 @@ public class ServiceDetails {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public Boolean getIsPresent() {
-		return isPresent;
-	}
-	public void setIsPresent(Boolean isPresent) {
-		this.isPresent = isPresent;
-	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -190,12 +185,7 @@ public class ServiceDetails {
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
-	public boolean isUnit() {
-		return isUnit;
-	}
-	public void setUnit(boolean isUnit) {
-		this.isUnit = isUnit;
-	}
+	
 	public String getUnitName() {
 		return unitName;
 	}
@@ -520,6 +510,18 @@ public class ServiceDetails {
 	}
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+	public boolean isParentCompany() {
+		return parentCompany;
+	}
+	public boolean isUnitCompany() {
+		return unitCompany;
+	}
+	public void setParentCompany(boolean parentCompany) {
+		this.parentCompany = parentCompany;
+	}
+	public void setUnitCompany(boolean unitCompany) {
+		this.unitCompany = unitCompany;
 	} 
 	
 	

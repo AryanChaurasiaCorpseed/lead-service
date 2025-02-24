@@ -14,11 +14,11 @@ public class EditEstimate {
 	
 	Long secondaryContact;
 	
-	Boolean isPresent;
+	boolean parentCompany;
 	String companyName;//isPresentFalse
 	Long companyId;  //isPrsentTrue
 
-	boolean isUnit;
+	boolean unitCompany;
 	String unitName; // isUnitFalse
 	Long unitId; //ISUNIT TRUE
 
@@ -114,12 +114,7 @@ public class EditEstimate {
 	public void setSecondaryContact(Long secondaryContact) {
 		this.secondaryContact = secondaryContact;
 	}
-	public Boolean getIsPresent() {
-		return isPresent;
-	}
-	public void setIsPresent(Boolean isPresent) {
-		this.isPresent = isPresent;
-	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -132,12 +127,7 @@ public class EditEstimate {
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
-	public boolean isUnit() {
-		return isUnit;
-	}
-	public void setUnit(boolean isUnit) {
-		this.isUnit = isUnit;
-	}
+	
 	public String getUnitName() {
 		return unitName;
 	}
@@ -431,6 +421,18 @@ public class EditEstimate {
 	}
 	public void setOriginalAddress(String originalAddress) {
 		this.originalAddress = originalAddress;
+	}
+	public boolean isParentCompany() {
+		return parentCompany;
+	}
+	public boolean isUnitCompany() {
+		return unitCompany;
+	}
+	public void setParentCompany(boolean parentCompany) {
+		this.parentCompany = parentCompany;
+	}
+	public void setUnitCompany(boolean unitCompany) {
+		this.unitCompany = unitCompany;
 	}
 	
 	
