@@ -120,6 +120,43 @@ public class VendorServiceImpl implements VendorService {
             vendor.setSalesAttachmentImage(imageNames);
 
             vendor = vendorRepository.save(vendor);
+            
+            Optional<UserVendorRequestCount> userVendorRequestCountOpt = userVendorRequestCountRepository
+                    .findByUserAndVendorCategoryAndVendorSubCategory(assignedUser, vendorCategory, vendorSubCategory);
+
+            UserVendorRequestCount userVendorRequestCount;
+            if (userVendorRequestCountOpt.isPresent()) {
+                userVendorRequestCount = userVendorRequestCountOpt.get();
+                userVendorRequestCount.setRequestCount(userVendorRequestCount.getRequestCount() + 1);
+            } else {
+                userVendorRequestCount = new UserVendorRequestCount();
+                userVendorRequestCount.setUser(assignedUser);
+                userVendorRequestCount.setVendorCategory(vendorCategory);
+                userVendorRequestCount.setVendorSubCategory(vendorSubCategory);
+                userVendorRequestCount.setRequestCount(1);
+                userVendorRequestCount.setDate(LocalDate.now());
+                userVendorRequestCount.setCreatedAt(new Date());
+            }
+            userVendorRequestCount.setUpdatedAt(new Date());
+            userVendorRequestCountRepository.save(userVendorRequestCount);
+
+            VendorUpdateHistory vendorUpdate = new VendorUpdateHistory();
+            vendorUpdate.setVendor(vendor);
+            vendorUpdate.setRequestStatus("Initial");
+            vendorUpdate.setUpdateDate(new Date());
+            vendorUpdate.setUpdateDescription("Vendor request created");
+            vendorUpdate.setLead(vendor.getLead());
+            vendorUpdate.setUpdatedBy(vendor.getUpdatedBy());
+            vendorUpdate.setCreateDate(new Date());
+            vendorUpdate.setDisplay(true);
+            vendorUpdate.setVendorCategory(vendorCategory);
+            vendorUpdate.setVendorSubCategory(vendorSubCategory);
+            vendorUpdate.setRaisedBy(userDetails.get());
+            vendorUpdate.setUser(vendor.getAssignedUser());
+            vendorUpdate.setDate(LocalDate.now());
+            vendorUpdate.setCurrentUpdatedDate(LocalDate.now());
+            vendorUpdate.setBudgetPrice(vendor.getClientBudget());
+            vendorHistoryRepository.save(vendorUpdate);
 
             return new VendorResponse(vendor);
         } else {
