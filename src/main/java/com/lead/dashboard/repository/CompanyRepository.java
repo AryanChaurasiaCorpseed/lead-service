@@ -73,6 +73,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchTerm% or c.gst_no like %:searchTerm%", nativeQuery = true)
 	List<Company> findByNameOrGST(@Param("searchTerm") String searchTerm);
+	
+	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.contact_no LIKE %:searchTerm% or pc.emails like %:searchTerm%", nativeQuery = true)
+	List<Long> findByContactNoAndEmail(@Param("searchTerm") String searchTerm);
 
 	@Query(value = "SELECT * FROM company c WHERE c.assignee_id = :userId AND (c.name LIKE %:searchNameAndGST% OR c.gst_no LIKE %:searchNameAndGST%)", nativeQuery = true)
 	List<Company> findAllByCompanyNameAndGSTNumber(@Param("searchNameAndGST") String searchNameAndGST, @Param("userId") Long userId);
@@ -91,5 +94,17 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
 	@Query(value = "SELECT * FROM company c where create_date BETWEEN :d1 AND :d2", nativeQuery = true)
 	List<Company> findByInBetweenCreateDate(String d1,String d2);
+	
+	
+	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchNameAndGST%", nativeQuery = true)
+	List<Company> findByNameLike(String searchNameAndGST);
+	
+	@Query(value = "SELECT * FROM company c WHERE c.gst_no LIKE %:searchNameAndGSt%", nativeQuery = true)
+	List<Company> findByGstNumberLike(String searchNameAndGSt);
+	
+	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.contact_no like %:searchTerm%", nativeQuery = true)
+	List<Long> findByContactNoLike(String searchTerm);
+	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.emails like %:searchTerm%", nativeQuery = true)
+	List<Long> findByEmailLike(@Param("searchTerm") String searchTerm);
 
 }

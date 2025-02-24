@@ -263,6 +263,7 @@ public class UrlsMapping {
 
 	public static final String GET_COMPANY_FORM_COMPANYWISE=PREFIX+"/company/searchCompanyFormDataCompanywise";
 
+	public static final String COMPANY_SEARCH_BY_GST_AND_CONTACT_DETAILS=PREFIX+"//company/companySearchByGstAndContactDetails";
 
 
 
