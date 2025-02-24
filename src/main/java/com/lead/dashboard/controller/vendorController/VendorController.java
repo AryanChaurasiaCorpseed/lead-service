@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -188,9 +190,8 @@ public class VendorController {
     @PostMapping(UrlsMapping.VENDOR_REPORT)
     public ResponseEntity<?> fetchVendorReport(@RequestBody VendorReportRequest vendorReportRequest) {
         try {
-
             if (vendorReportRequest.getStartDate() == null) {
-                vendorReportRequest.setStartDate(LocalDate.now().withDayOfMonth(1));
+                vendorReportRequest.setStartDate(LocalDate.now()); // Default to current date if null
             }
             if (vendorReportRequest.getEndDate() == null) {
                 vendorReportRequest.setEndDate(LocalDate.now());
@@ -198,17 +199,19 @@ public class VendorController {
 
             Map<String, Object> vendorRequestResponse = vendorService.fetchVendorReport(
                     vendorReportRequest.getUserIdBy(),
-                    vendorReportRequest.getStatus(),
+                    vendorReportRequest.getStatuses(),
                     vendorReportRequest.getStartDate(),
                     vendorReportRequest.getEndDate(),
-                    vendorReportRequest.getUserId()
+                    vendorReportRequest.getUserIds()
             );
-            return new ResponseEntity<>(vendorRequestResponse, HttpStatus.OK);
+
+            return ResponseEntity.ok(vendorRequestResponse);
         } catch (Exception e) {
-            String msg = e.getMessage();
-            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
 
 
     @GetMapping(UrlsMapping.VENDOR_SEARCH)
