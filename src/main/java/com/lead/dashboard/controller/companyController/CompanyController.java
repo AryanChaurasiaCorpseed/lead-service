@@ -219,5 +219,27 @@ public class CompanyController {
 		return allCompany;
  
 	}
+	
+
+
+
+
+
+	@GetMapping(UrlsMapping.COMPANY_SEARCH_BY_GST_AND_CONTACT_DETAILS)
+	public ResponseEntity<List<Map<String, Object>>> companySearchByGstAndContactDetails(
+			@RequestParam String searchNameAndGSt, @RequestParam Long userId,@RequestParam String fieldSearch) {
+
+		try {
+			List<Map<String, Object>> companies = companyService.companySearchByGstAndContactDetails(searchNameAndGSt, userId,fieldSearch);
+			if (companies.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(companies, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
 
 }

@@ -51,4 +51,7 @@ public interface CompanyService {
 	List<Map<String, Object>> getAllConsultantByCompany(Long userId,int i, int size);
 
 	int getAllConsultantByCompanyCount(Long userId);
+
+	List<Map<String, Object>> companySearchByGstAndContactDetails(String searchNameAndGSt, Long userId,
+			String fieldSearch);
 }

@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -839,6 +841,71 @@ public class CompanyServiceImpl implements CompanyService {
 		return consultList;
 	}
 
+	@Override
+	public List<Map<String, Object>> companySearchByGstAndContactDetails(String searchNameAndGSt, Long userId ,String fieldSearch) {
+		List<Company> comp=new ArrayList<>();
+		if(fieldSearch.equals("companyName")) {
+			 comp = companyRepository.findByNameLike(searchNameAndGSt);
+		}else if(fieldSearch.equals("gstNumber")) {
+			comp = companyRepository.findByGstNumberLike(searchNameAndGSt);
+		}else if(fieldSearch.equals("contactNumber")) {
+			List<Long> compIds = companyRepository.findByContactNoLike(searchNameAndGSt);
+			comp =companyRepository.findByIdIn(compIds);
+		}else if(fieldSearch.equals("contactEmail")) {
+			List<Long> compIds =companyRepository.findByEmailLike(searchNameAndGSt);
+			comp =companyRepository.findByIdIn(compIds);
+		}else {
+			comp = companyRepository.findByNameOrGST(searchNameAndGSt);
 
+		}
+		
+		Set<Company>compSet = new HashSet<>(comp);
+		List<Map<String, Object>> res = new ArrayList<>();
+		for (Company c : compSet) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("companyId", c.getId());
+			result.put("companyName", c.getName());
+			result.put("country", c.getCountry());
+			result.put("gstNo", c.getGstNo());
+			result.put("gstType", c.getGstType());
+			result.put("gstDoc", c.getGstDocuments());
+			result.put("assignee", c.getAssignee());
+			result.put("address", c.getAddress());
+			result.put("city", c.getCity());
+			result.put("state", c.getState());
+			result.put("country", c.getCountry());
+			result.put("secAddress", c.getSAddress());
+			result.put("secCity", c.getSCity());
+			result.put("secState", c.getSState());
+			result.put("seCountry", c.getSCountry());
+			result.put("primaryContact", c.getPrimaryContact());
+			result.put("secondaryContact", c.getSecondaryContact());
+
+			List<Lead> lList = c.getCompanyLead();
+			List<Map<String, Object>> leadList = new ArrayList<>();
+			for (Lead l : lList) {
+				Map<String, Object> lMap = new HashMap<>();
+				lMap.put("leadId", l.getId());
+				lMap.put("leadNameame", l.getLeadName());
+				leadList.add(lMap);
+			}
+			result.put("lead", leadList);
+
+			List<Project> pList = c.getCompanyProject();
+			List<Map<String, Object>> projectList = new ArrayList<>();
+			for (Project p : pList) {
+				Map<String, Object> pMap = new HashMap<>();
+				pMap.put("projectId", p.getId());
+				pMap.put("projectName", p.getName());
+				projectList.add(pMap);
+			}
+			result.put("project", projectList);
+
+			res.add(result);
+		}
+
+		return res;
+	
+	}
 
 }
