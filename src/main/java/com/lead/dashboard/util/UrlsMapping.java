@@ -144,6 +144,7 @@ public class UrlsMapping {
 	public static final String UPDATE_MULTI_COMPANY_ASSIGNEE=PREFIX+"/company/updateMultiCompanyAssignee";
 	public static final String UPDATE_MULTI_COMPANY_TEMP_ASSIGNEE=PREFIX+"/company/updateMultiCompanyTempAssignee";
 	public static final String DELETE_TEMP_ASSIGNEE=PREFIX+"/company/deleteTempAssignee";
+	public static final String GET_ALL_COMPANY_FOR_EXPORT=PREFIX+"/company/getAllCompanyForExport";
 
 	public static final String COMPANY_SEARCH_BY_GST_AND_CONTACT_DETAILS=PREFIX+"//company/companySearchByGstAndContactDetails";
 	public static final String GET_ALL_COMPANY_HISTORY=PREFIX+"/companyHistory/getAllCompanyHistory";

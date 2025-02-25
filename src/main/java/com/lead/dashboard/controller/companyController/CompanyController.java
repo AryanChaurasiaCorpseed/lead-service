@@ -240,6 +240,14 @@ public class CompanyController {
 		}
 	}
 	
-	
+	@GetMapping(UrlsMapping.GET_ALL_COMPANY_FOR_EXPORT)
+	public List<Map<String,Object>> getAllCompanyForExport(@RequestParam Long userId,@RequestParam(required = false) Long filterUserId,@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size)
+	{
+		List<Map<String,Object>> allCompany = companyService.getAllCompanyV2(userId,filterUserId,page-1,size);
+		
+		return allCompany;
+ 
+	}
 
 }
