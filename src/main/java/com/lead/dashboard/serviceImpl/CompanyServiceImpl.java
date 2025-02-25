@@ -471,11 +471,9 @@ public class CompanyServiceImpl implements CompanyService {
 		res.put("state", comp.getState());
 		res.put("country", comp.getCountry());
 		
-		String sAddress;
-		String sCity;
-		String sState;
-		String sCountry;
-		String secondaryPinCode;
+		res.put("companyAge", comp.getCompanyAge());
+		res.put("panNo", comp.getPanNo());
+
 
 		res.put("status", comp.getStatus());
 		res.put("email", comp.getPrimaryContact());
