@@ -843,29 +843,31 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<Map<String, Object>> companySearchByGstAndContactDetails(String searchNameAndGSt, Long userId ,String fieldSearch) {
-		List<Company> comp=new ArrayList<>();
+		List<Object[]> comp=new ArrayList<>();
 		if(fieldSearch.equals("companyName")) {
 			 comp = companyRepository.findByNameLike(searchNameAndGSt);
 		}else if(fieldSearch.equals("gstNumber")) {
 			comp = companyRepository.findByGstNumberLike(searchNameAndGSt);
 		}else if(fieldSearch.equals("contactNumber")) {
-			List<Long> compIds = companyRepository.findByContactNoLike(searchNameAndGSt);
-			comp =companyRepository.findByIdIn(compIds);
+			comp = companyRepository.findByContactNoLike(searchNameAndGSt);
+//			comp =companyRepository.findByIdIn(compIds);
 		}else if(fieldSearch.equals("contactEmail")) {
-			List<Long> compIds =companyRepository.findByEmailLike(searchNameAndGSt);
-			comp =companyRepository.findByIdIn(compIds);
+			comp =companyRepository.findByEmailLike(searchNameAndGSt);
+//			comp =companyRepository.findByIdIn(compIds);
 		}else {
-			comp = companyRepository.findByNameOrGST(searchNameAndGSt);
+			comp = companyRepository.findByNameOrGSTLike(searchNameAndGSt);
 
 		}
 		
-		Set<Company>compSet = new HashSet<>(comp);
+		Set<Object[]>compSet = new HashSet<>(comp);
 		List<Map<String, Object>> res = new ArrayList<>();
-		for (Company c : compSet) {
+		for (Object[] c : compSet) {
 			Map<String, Object> result = new HashMap<>();
-			result.put("companyId", c.getId());
-			result.put("companyName", c.getName());
-			
+			result.put("companyId", c[0]);
+			result.put("companyName", c[1]);
+			result.put("assigneeId", c[2]);
+			result.put("assigneeName", c[3]);
+
 			res.add(result);
 		}
 

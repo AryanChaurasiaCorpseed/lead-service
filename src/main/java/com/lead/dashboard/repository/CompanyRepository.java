@@ -94,15 +94,30 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 
 
-	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchNameAndGST%", nativeQuery = true)
-	List<Company> findByNameLike(String searchNameAndGST);
+//	@Query(value = "SELECT * FROM company c WHERE c.name LIKE %:searchNameAndGST%", nativeQuery = true)
+//	List<Company> findByNameLike(String searchNameAndGST);
+//
+//	@Query(value = "SELECT * FROM company c WHERE c.gst_no LIKE %:searchNameAndGSt%", nativeQuery = true)
+//	List<Company> findByGstNumberLike(String searchNameAndGSt);
+//
+//	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.contact_no like %:searchTerm%", nativeQuery = true)
+//	List<Long> findByContactNoLike(String searchTerm);
+//	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.emails like %:searchTerm%", nativeQuery = true)
+//	List<Long> findByEmailLike(@Param("searchTerm") String searchTerm);
+	
+	
+	@Query(value = "SELECT c.id , c.name , u.id , u.full_name FROM company c left join user u on u.id=c.assignee_id WHERE c.name LIKE %:searchNameAndGST%", nativeQuery = true)
+	List<Object[]> findByNameLike(String searchNameAndGST);
 
-	@Query(value = "SELECT * FROM company c WHERE c.gst_no LIKE %:searchNameAndGSt%", nativeQuery = true)
-	List<Company> findByGstNumberLike(String searchNameAndGSt);
+	@Query(value = "SELECT c.id , c.name , u.id , u.full_name FROM company c left join user u on u.id=c.assignee_id WHERE c.gst_no LIKE %:searchNameAndGSt%", nativeQuery = true)
+	List<Object[]> findByGstNumberLike(String searchNameAndGSt);
 
-	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.contact_no like %:searchTerm%", nativeQuery = true)
-	List<Long> findByContactNoLike(String searchTerm);
-	@Query(value = "SELECT c.id FROM company c left join contact pc on pc.id=c.primary_contact_id WHERE pc.emails like %:searchTerm%", nativeQuery = true)
-	List<Long> findByEmailLike(@Param("searchTerm") String searchTerm);
+	@Query(value = "SELECT c.id , c.name , u.id , u.full_name FROM company c left join contact pc on pc.id=c.primary_contact_id left join user u on u.id=c.assignee_id WHERE pc.contact_no like %:searchTerm%", nativeQuery = true)
+	List<Object[]> findByContactNoLike(String searchTerm);
+	@Query(value = "SELECT c.id ,c.name , u.id , u.full_name FROM company c left join contact pc on pc.id=c.primary_contact_id left join user u on u.id=c.assignee_id WHERE pc.emails like %:searchTerm%", nativeQuery = true)
+	List<Object[]> findByEmailLike(@Param("searchTerm") String searchTerm);
+	
+	@Query(value = "SELECT c.id , c.name , u.id , u.full_name FROM company c left join user u on u.id=c.assignee_id WHERE c.name LIKE %:searchTerm% or c.gst_no like %:searchTerm%", nativeQuery = true)
+	List<Object[]> findByNameOrGSTLike(@Param("searchTerm") String searchTerm);
 
 }
