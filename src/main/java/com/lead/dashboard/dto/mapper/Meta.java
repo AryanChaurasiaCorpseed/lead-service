@@ -13,7 +13,7 @@ public class Meta {
 		return total_count;
 	}
 	public String getNext() {
-		return next;̥
+		return next;
 	}
 	public int getLimit() {
 		return limit;
