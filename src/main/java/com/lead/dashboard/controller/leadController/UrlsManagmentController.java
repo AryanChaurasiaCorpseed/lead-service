@@ -211,7 +211,7 @@ public class UrlsManagmentController {
 	}
 
 
-	@PutMapping("/urls/updateSlugAndUrlsName")
+	@PostMapping("/urls/updateSlugAndUrlsName")
 	public 	Boolean updateSlugAndUrlsName(@RequestParam String preUrls,@RequestParam String urlsName,@RequestParam String preSlugName,@RequestParam String slugName) {	
 		Boolean flag=false;
 		UrlsManagment urls;
@@ -282,7 +282,7 @@ public class UrlsManagmentController {
 
 	}
 
-	@PutMapping("/urls/updateSlugAndUrlsNameForService")
+	@PostMapping("/urls/updateSlugAndUrlsNameForService")
 	public 	Boolean updateSlugAndUrlsNameForService(@RequestParam String preUrls,@RequestParam String urlsName,@RequestParam String preSlugName,@RequestParam String slugName) {	
 		Boolean flag=false;
 		UrlsManagment urls;
