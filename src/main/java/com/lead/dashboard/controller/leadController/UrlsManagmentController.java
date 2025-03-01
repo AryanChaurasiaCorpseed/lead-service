@@ -323,7 +323,15 @@ public class UrlsManagmentController {
 
 		return flag;
 	}
-
+	@PostMapping("/urls/updateSlugNameForWebsites")
+	public 	Boolean updateSlugNameForWebsites(@RequestParam String preSlug,@RequestParam String slugName) {
+		Boolean flag=false;
+		Slug slug = slugRepository.findByName(slugName);
+		slug.setName(slugName);
+		slugRepository.save(slug);
+		flag=true;
+		return flag;
+	}
 
 
 }
