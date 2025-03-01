@@ -744,7 +744,7 @@ public class CompanyServiceImpl implements CompanyService {
 		List<Map<String,Object>>res = new ArrayList<>();
 		for(Company c:companyList) {
 		
-			Map<String,Object>result = new HashMap<>();̥
+			Map<String,Object>result = new HashMap<>();
 			result.put("total", total);
 
 			result.put("companyId", c.getId());
