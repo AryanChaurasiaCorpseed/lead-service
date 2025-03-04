@@ -119,5 +119,17 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	
 	@Query(value = "SELECT c.id , c.name , u.id , u.full_name FROM company c left join user u on u.id=c.assignee_id WHERE c.name LIKE %:searchTerm% or c.gst_no like %:searchTerm%", nativeQuery = true)
 	List<Object[]> findByNameOrGSTLike(@Param("searchTerm") String searchTerm);
+	@Query(value = "SELECT c.id , c.name , u.email as assignee , c.gst_no ,cont.emails , cont.contact_no ,c.address,  c.city,c.state,c.country ,c.primary_pin_code ,c.s_address,c.s_city,c.s_state,c.s_country FROM finalerp.company c left join finalerp.user u on u.id=c.assignee_id left join finalerp.contact cont on cont.id=c.primary_contact_id", nativeQuery = true)
+	List<Object[]> findAllData();
+	
+	@Query(value = "SELECT c.id , c.name , u.email as assignee , c.gst_no ,cont.emails , cont.contact_no ,c.address,  c.city,c.state,c.country ,c.primary_pin_code ,c.s_address,c.s_city,c.s_state,c.s_country FROM finalerp.company c left join finalerp.user u on u.id=c.assignee_id left join finalerp.contact cont on cont.id=c.primary_contact_id where c.assignee_id in(:userList)", nativeQuery = true)
+	List<Object[]> findAllDataByAssigneeIdIn(List<Long> userList);
+	
+	@Query(value = "SELECT c.id , c.name , u.email as assignee , c.gst_no ,cont.emails , cont.contact_no ,c.address,  c.city,c.state,c.country ,c.primary_pin_code ,c.s_address,c.s_city,c.s_state,c.s_country FROM finalerp.company c left join finalerp.user u on u.id=c.assignee_id left join finalerp.contact cont on cont.id=c.primary_contact_id where c.assignee_id=:userId", nativeQuery = true)
+	List<Object[]> findDataByAssigneeId(Long userId);
+	
+//	
+//	@Query(value = "SELECT c.id , c.name , u.email as assignee , c.gst_no ,cont.emails , cont.contact_no ,c.address,  c.city,c.state,c.country ,c.primary_pin_code ,c.s_address,c.s_city,c.s_state,c.s_country FROM finalerp.company c left join finalerp.user u on u.id=c.assignee_id left join finalerp.contact cont on cont.id=c.primary_contact_id where c.assignee_id in(:userList)", nativeQuery = true)
+//	List<Company> findAllDataByAssigneeIdIn(List<Long> userList);
 
 }

@@ -892,17 +892,16 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	}
 	
-	public List<Map<String,Object>> getAllCompanyForExport(Long userId, Long filterUserId, int page, int size) {
+	public List<Map<String,Object>> getAllCompanyForExport(Long userId, Long filterUserId) {
 		Optional<User> userOp = userRepo.findById(userId);
-		List<Company> companyList = new ArrayList<>();
+		List<Object[]> companyList = new ArrayList<>();
 		User user = userOp.get();
-		Pageable pageable = PageRequest.of(page, size);
 		List<String> roleList = user.getRole();
 		int total=0;
 		if(filterUserId==null||filterUserId==0) {
 
 			if(roleList.contains("ADMIN")) {
-				companyList=companyRepository.findAll(pageable).getContent();
+				companyList=companyRepository.findAllData();
 				total=companyRepository.findAll().size();
 
 			}else {
@@ -911,12 +910,12 @@ public class CompanyServiceImpl implements CompanyService {
 					userList.add(userId);
 					List<Long> uList = userServiceImpl.getUserManager(userId);
 					userList.addAll(uList);
-					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+					companyList =companyRepository.findAllDataByAssigneeIdIn(userList);
 					total =companyRepository.findAllCountByAssigneeIdIn(userList);
 
 				}else {
 
-					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+					companyList =companyRepository.findDataByAssigneeId(userId);
 					total =companyRepository.findCountByAssigneeId(userId);
 
 				}
@@ -925,7 +924,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if(roleList.contains("ADMIN")) {
 				List<Long>userIds = new ArrayList<>();
 				userIds.add(filterUserId);
-				companyList =companyRepository.findAllByAssigneeIdIn(userIds,pageable).getContent();
+				companyList =companyRepository.findAllDataByAssigneeIdIn(userIds);
 				total =companyRepository.findAllCountByAssigneeIdIn(userIds);
 
 			}else {
@@ -934,71 +933,54 @@ public class CompanyServiceImpl implements CompanyService {
 					userList.add(userId);
 					List<Long> uList = userServiceImpl.getUserManager(userId);
 					userList.addAll(uList);
-					companyList =companyRepository.findAllByAssigneeIdIn(userList,pageable).getContent();
+					companyList =companyRepository.findAllDataByAssigneeIdIn(userList);
 					total =companyRepository.findAllCountByAssigneeIdIn(userList);
 
 
 				}else {
 
-					companyList =companyRepository.findByAssigneeId(userId,pageable).getContent();
+					companyList =companyRepository.findDataByAssigneeId(userId);
 					total =companyRepository.findCountByAssigneeId(userId);
 
 				}
 			}
 		}
 		List<Map<String,Object>>res = new ArrayList<>();
-		for(Company c:companyList) {
+		for(Object[] c:companyList) {
 		
 			Map<String,Object>result = new HashMap<>();
 			result.put("total", total);
-
-			result.put("companyId", c.getId());
-			result.put("companyName", c.getName());
-			result.put("country", c.getCountry());
-			result.put("gstNo", c.getGstNo());
-			result.put("gstType", c.getGstType());
-			result.put("gstDoc", c.getGstDocuments());
-			result.put("tempAssignee", c.getTempAssignee());
-
-
-			result.put("assignee", c.getAssignee());
-
-			result.put("address", c.getAddress());
-			result.put("city", c.getCity());
-			result.put("state", c.getState());
-			result.put("country", c.getCountry());
-
-			result.put("secAddress", c.getSAddress());
-			result.put("secCity", c.getSCity());
-			result.put("secState", c.getSState());
-			result.put("seCountry", c.getSCountry());
-
-			result.put("primaryContact", c.getPrimaryContact());
-			result.put("secondaryContact", c.getSecondaryContact());
+//			1c.id , 2c.name , 3u.email as assignee ,
+//			4c.gst_no ,5cont.emails ,
+//			6cont.contact_no ,7c.address, 
+//			8c.city,9c.state,10c.country ,
+//			11c.primary_pin_code ,
+//			12c.s_address,13c.s_city,
+//			14c.s_state,15c.s_country
+			result.put("companyId", c[0]);
+			result.put("companyName", c[1]);
+			result.put("country", c[9]);
+			result.put("gstNo", c[3]);
+			result.put("gstType", c[4]);
+//			result.put("gstDoc", c.getGstDocuments());
+//			result.put("tempAssignee", c.getTempAssignee());
 
 
-			List<Lead> lList = c.getCompanyLead();
-			List<Map<String,Object>>leadList = new ArrayList<>();
-			for(Lead l:lList) {
-				Map<String,Object>lMap = new HashMap<>();
-				lMap.put("leadId", l.getId());
-				lMap.put("leadNameame", l.getLeadName());
-				leadList.add(lMap);
+			result.put("assignee", c[2]);
 
-			}
-			result.put("lead", leadList);
+			result.put("address", c[6]);
+			result.put("city", c[7]);
+			result.put("state", c[8]);
+			result.put("country", c[9]);
 
-			List<Project> pList = c.getCompanyProject();
-			List<Map<String,Object>>projectList = new ArrayList<>();
-			for(Project p:pList) {
-				Map<String,Object>pMap = new HashMap<>();
-				pMap.put("projectId", p.getId());
-				pMap.put("projectName", p.getName());
-				projectList.add(pMap);				
-			}
-			result.put("project", projectList);
+			result.put("secAddress", c[11]);
+			result.put("secCity", c[12]);
+			result.put("secState", c[13]);
+			result.put("seCountry", c[14]);
+
+			result.put("clientContactNo", c[5]);
+			result.put("clientContactEmail", c[4]);
 			res.add(result);
-
 		}
 		
 		return res;

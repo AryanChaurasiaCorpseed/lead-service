@@ -54,4 +54,6 @@ public interface CompanyService {
 
 	List<Map<String, Object>> companySearchByGstAndContactDetails(String searchNameAndGSt, Long userId,
 			String fieldSearch);
+
+	List<Map<String, Object>> getAllCompanyForExport(Long userId, Long filterUserId);
 }
