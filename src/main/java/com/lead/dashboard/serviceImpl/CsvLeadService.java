@@ -4,10 +4,12 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.lead.dashboard.config.AwsConfig;
+import com.lead.dashboard.domain.Client;
 import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.LeadRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
@@ -29,117 +31,138 @@ import java.util.List;
 @Service
 public class CsvLeadService {
 
-    @Autowired
-    private LeadRepository leadRepository;
-    
-    @Autowired
-    UserRepo userRepo;
-    
-    @Autowired
-    StatusRepository statusRepository;
+	@Autowired
+	private LeadRepository leadRepository;
 
-    @Autowired
-    private AwsConfig awsConfig;
+	@Autowired
+	UserRepo userRepo;
 
-    @Value("${aws.s3.bucket-name}")
-    private String awsBucketName;
+	@Autowired
+	StatusRepository statusRepository;
 
-    @Value("${aws.accessKey}")
-    private String accessKey;
+	@Autowired
+	ClientRepository  clientRepository;
 
-    @Value("${aws.secretKey}")
-    private String secretKey;
+	@Autowired
+	private AwsConfig awsConfig;
 
-    @Value("${aws_path}")
-    private String s3BaseUrl;
+	@Value("${aws.s3.bucket-name}")
+	private String awsBucketName;
 
-    @Autowired
-    private AmazonS3 amazonS3Client; //
+	@Value("${aws.accessKey}")
+	private String accessKey;
 
-    public List<Lead> processCsvFileFromPath(String filePath) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            return parseCsv(reader);
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading local CSV file: " + e.getMessage());
-        }
-    }
+	@Value("${aws.secretKey}")
+	private String secretKey;
 
-    public List<Lead> processCsvFileFromS3(String s3Url) {
-        try {
-            if (!s3Url.startsWith(s3BaseUrl)) {
-                throw new RuntimeException("Invalid S3 URL: " + s3Url);
-            }
+	@Value("${aws_path}")
+	private String s3BaseUrl;
 
-            String fileKey = s3Url.replace(s3BaseUrl, "");
+	@Autowired
+	private AmazonS3 amazonS3Client; //
 
-            S3Object s3Object = amazonS3Client.getObject(awsBucketName, fileKey);
+	public List<Lead> processCsvFileFromPath(String filePath) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+			return parseCsv(reader);
+		} catch (IOException e) {
+			throw new RuntimeException("Error reading local CSV file: " + e.getMessage());
+		}
+	}
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent(), StandardCharsets.UTF_8))) {
-                return parseCsv(reader);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading CSV file from S3: " + e.getMessage());
-        }
-    }
+	public List<Lead> processCsvFileFromS3(String s3Url) {
+		try {
+			if (!s3Url.startsWith(s3BaseUrl)) {
+				throw new RuntimeException("Invalid S3 URL: " + s3Url);
+			}
 
-    private List<Lead> parseCsv(BufferedReader reader) throws IOException {
-        List<Lead> leads = new ArrayList<>();
-        CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
+			String fileKey = s3Url.replace(s3BaseUrl, "");
 
-        for (CSVRecord record : csvParser) {
-            Lead lead = new Lead();
+			S3Object s3Object = amazonS3Client.getObject(awsBucketName, fileKey);
 
-            lead.setName(record.get("Client Name"));
-            lead.setLeadName(record.get("Lead Name"));
-            lead.setLeadDescription(record.get("Lead Description"));
-            lead.setMobileNo(record.get("Mobile No"));
-            lead.setEmail(record.get("Email"));
-            lead.setSource(record.get("Source"));
-            String stage=record.get("stage");
-            if(stage!=null) {
-                Status status = statusRepository.findByName(stage);
-                if(status!=null) {
-                	lead.setStatus(status);
-                }else {
-                     status = statusRepository.findByName("New");
-                	lead.setStatus(status);
-                }
-            }else {
-                Status status = statusRepository.findByName("New");
-            	lead.setStatus(status);
-            }
-//            Status status = statusRepository.findByName("New");
-            String assigneeEmail = record.get("assignee")!=null?record.get("assignee").toString():null;
-            if(assigneeEmail!=null) {
-                User assignee = userRepo.findByemail(assigneeEmail);
-                if(assignee!=null) {
-                    lead.setAssignee(assignee);
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent(), StandardCharsets.UTF_8))) {
+				return parseCsv(reader);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Error reading CSV file from S3: " + e.getMessage());
+		}
+	}
 
-                }else {
-                     
-                     User a = userRepo.findByemail("navjot.singh@corpseed.com");
-                     
+	private List<Lead> parseCsv(BufferedReader reader) throws IOException {
+		List<Lead> leads = new ArrayList<>();
+		CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
 
-                    lead.setAssignee(a);
-                }
-            }else {
-                User a = userRepo.findByemail("navjot.singh@corpseed.com");
-                lead.setAssignee(a);
-            }
-            String cStatus = record.get("cStatus");
-            String company = record.get("company");
-            lead.setUrls(company+" "+cStatus);
-            
-            lead.setPrimaryAddress(record.get("Primary Address"));
-            lead.setCity(record.get("City"));
-            lead.setCategoryId(record.get("Category Id"));
-            lead.setServiceId(record.get("Service Id"));
-            lead.setIndustryId(record.get("Industry Id"));
-            lead.setIpAddress(record.get("IP Address"));
-            leadRepository.save(lead);
-            leads.add(lead);
-        }
+		for (CSVRecord record : csvParser) {
+			Lead lead = new Lead();
 
-        return leads;
-    }
+			lead.setName(record.get("Client Name"));
+			lead.setLeadName(record.get("Lead Name"));
+			lead.setLeadDescription(record.get("Lead Description"));
+			lead.setMobileNo(record.get("Mobile No"));
+			lead.setEmail(record.get("Email"));
+			lead.setSource(record.get("Source"));
+			List<Client>cList=new ArrayList<>();
+			if(record.get("Mobile No")!=null || record.get("Email")!=null){
+				Client c1=new Client();
+				c1.setContactNo(record.get("Mobile No"));
+				c1.setEmails(record.get("Email"));
+				c1.setName(record.get("Client Name"));
+				c1.setPrimary(true);
+				clientRepository.save(c1);
+				cList.add(c1);
+			}
+			if(record.get("Smobile No")!=null && record.get("Semail")!=null) {
+				Client c2 = new Client();
+				c2.setContactNo(record.get("Smobile No"));
+				c2.setEmails(record.get("Semail"));
+				c2.setPrimary(false);
+				clientRepository.save(c2);
+				cList.add(c2);
+				lead.setClients(cList);
+			}
+			String stage=record.get("stage");
+			if(stage!=null) {
+				Status status = statusRepository.findByName(stage);
+				if(status!=null) {
+					lead.setStatus(status);
+				}else {
+					status = statusRepository.findByName("New");
+					lead.setStatus(status);
+				}
+			}else {
+				Status status = statusRepository.findByName("New");
+				lead.setStatus(status);
+			}
+			//            Status status = statusRepository.findByName("New");
+			String assigneeEmail = record.get("assignee")!=null?record.get("assignee").toString():null;
+			if(assigneeEmail!=null) {
+				User assignee = userRepo.findByemail(assigneeEmail);
+				if(assignee!=null) {
+					lead.setAssignee(assignee);
+
+				}else {
+
+					User a = userRepo.findByemail("navjot.singh@corpseed.com");
+
+
+					lead.setAssignee(a);
+				}
+			}else {
+				User a = userRepo.findByemail("navjot.singh@corpseed.com");
+				lead.setAssignee(a);
+			}
+			String cStatus = record.get("cStatus");
+			String company = record.get("company");
+			lead.setUrls(company+" "+cStatus);
+			lead.setPrimaryAddress(record.get("Primary Address"));
+			lead.setCity(record.get("City"));
+			lead.setCategoryId(record.get("Category Id"));
+			lead.setServiceId(record.get("Service Id"));
+			lead.setIndustryId(record.get("Industry Id"));
+			lead.setIpAddress(record.get("IP Address"));
+			leadRepository.save(lead);
+			leads.add(lead);
+		}
+
+		return leads;
+	}
 }

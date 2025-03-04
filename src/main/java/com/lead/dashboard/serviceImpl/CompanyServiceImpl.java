@@ -961,7 +961,7 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("companyName", c[1]);
 			result.put("country", c[9]);
 			result.put("gstNo", c[3]);
-			result.put("gstType", c[4]);
+			result.put("gstType", c[15]);
 //			result.put("gstDoc", c.getGstDocuments());
 //			result.put("tempAssignee", c.getTempAssignee());
 
