@@ -9,8 +9,10 @@ import com.lead.dashboard.domain.Status;
 import com.lead.dashboard.domain.User;
 import com.lead.dashboard.domain.UserRecord;
 import com.lead.dashboard.domain.lead.Lead;
+import com.lead.dashboard.domain.lead.Remark;
 import com.lead.dashboard.repository.ClientRepository;
 import com.lead.dashboard.repository.LeadRepository;
+import com.lead.dashboard.repository.RemarkRepository;
 import com.lead.dashboard.repository.StatusRepository;
 import com.lead.dashboard.repository.UserRepo;
 import com.sun.mail.iap.ResponseInputStream;
@@ -26,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,6 +42,9 @@ public class CsvLeadService {
 
 	@Autowired
 	StatusRepository statusRepository;
+	
+	@Autowired
+	RemarkRepository remarkRepository;
 
 	@Autowired
 	ClientRepository  clientRepository;
@@ -110,7 +116,8 @@ public class CsvLeadService {
 				clientRepository.save(c1);
 				cList.add(c1);
 			}
-			if(record.get("Smobile No")!=null && record.get("Semail")!=null) {
+
+			if((record.get("Smobile No")!=null && record.get("Smobile No").equals("")) && ( record.get("Semail")!=null && (!record.get("Semail").equals("")))) {
 				Client c2 = new Client();
 				c2.setContactNo(record.get("Smobile No"));
 				c2.setEmails(record.get("Semail"));
@@ -131,6 +138,19 @@ public class CsvLeadService {
 			}else {
 				Status status = statusRepository.findByName("New");
 				lead.setStatus(status);
+			}
+			String comment=record.get("comment");
+			if(comment!=null && (!comment.equals(""))) {
+				User a = userRepo.findByemail("navjot.singh@corpseed.com");
+                List<Remark>remarks=new ArrayList<>();
+				Remark remark=new Remark();
+				remark.setMessage(comment);
+				remark.setLatestUpdated(new Date());
+				remark.setUpdatedBy(a);
+				remark.setType("Other");
+				remarkRepository.save(remark);
+				remarks.add(remark);
+				lead.setRemarks(remarks);
 			}
 			//            Status status = statusRepository.findByName("New");
 			String assigneeEmail = record.get("assignee")!=null?record.get("assignee").toString():null;
