@@ -10,49 +10,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Table
 @Entity
-public class Country {
-	
+public class State {
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
     Long id ;
-	
 	String name;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="country_state",joinColumns = {@JoinColumn(name="country_id",referencedColumnName="id",nullable=true)},
-			inverseJoinColumns = {@JoinColumn(name="country_state_id"
+	@JoinTable(name="state_city",joinColumns = {@JoinColumn(name="state_id",referencedColumnName="id",nullable=true)},
+			inverseJoinColumns = {@JoinColumn(name="state_city_id"
 					+ "",referencedColumnName = "id",nullable=true,unique=false)})
-	List<State>countryState;
-
+	List<City>stateCity;
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<State> getCountryState() {
-		return countryState;
+	public List<City> getStateCity() {
+		return stateCity;
 	}
-
-	public void setCountryState(List<State> countryState) {
-		this.countryState = countryState;
+	public void setStateCity(List<City> stateCity) {
+		this.stateCity = stateCity;
 	}
 	
 	
-
 }

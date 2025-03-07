@@ -321,6 +321,21 @@ public class UrlsMapping {
 		public static final String DELETE_CLIENT_DESIGNATION = PREFIX+"/clientDesignation/deleteClientDesignation";
 		public static final String GET_CLIENT_DESIGNATION_BY_ID = PREFIX+"/clientDesignation/getClientDesignationById";
 		public static final String UPDATE_CLIENT_DESIGNATION = PREFIX+"/clientDesignation/updateClientDesignation";
+		
+		//================================ Country = ========================================
+		public static final String CREATE_COUNTRTY=PREFIX+"/country/createCompany";
+		public static final String GET_ALL_COUNTRTY=PREFIX+"/country/getAllCountry";
+		public static final String ADD_STATE_IN_COUNTRY=PREFIX+"/country/addStateInCountry";
+
+		
+		//================================= State  ===========================================
+		public static final String CREATE_STATE=PREFIX+"/state/createState";
+		public static final String GET_ALL_STATE=PREFIX+"/state/getAllState";
+
+		//================================= City ==============================================
+		
+		public static final String CREATE_CITY=PREFIX+"/state/createCity";
+		public static final String GET_ALL_CITY=PREFIX+"/state/getAllCity";
 
 }
 
