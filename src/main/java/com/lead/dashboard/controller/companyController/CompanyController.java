@@ -64,7 +64,7 @@ public class CompanyController {
 	public List<Map<String,Object>> getAllCompany(@RequestParam Long userId,@RequestParam(required = false) Long filterUserId,@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size)
 	{
-		List<Map<String,Object>> allCompany = companyService.getAllCompanyV2(userId,filterUserId,page-1,size);
+		List<Map<String,Object>> allCompany = companyService.getAllCompanyV3(userId,filterUserId,page-1,size);
 		
 		return allCompany;
  

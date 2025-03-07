@@ -302,6 +302,8 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		return res;
 	}
+	
+	
 
 	@Override
 	public boolean deleteCompany(Long companyId) {
@@ -892,6 +894,98 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	}
 	
+	public List<Map<String,Object>> getAllCompanyV3(Long userId, Long filterUserId, int page, int size) {
+		Optional<User> userOp = userRepo.findById(userId);
+		List<Object[]> companyList = new ArrayList<>();
+		User user = userOp.get();
+		Pageable pageable = PageRequest.of(page, size);
+		List<String> roleList = user.getRole();
+		int total=0;
+		if(filterUserId==null||filterUserId==0) {
+
+			if(roleList.contains("ADMIN")) {
+				companyList=companyRepository.findAllData(pageable);
+				total=companyRepository.findAll().size();
+
+			}else {
+				if(user.isManager()) {
+					List<Long>userList = new ArrayList<>();
+					userList.add(userId);
+					List<Long> uList = userServiceImpl.getUserManager(userId);
+					userList.addAll(uList);
+					companyList =companyRepository.findAllDataByAssigneeIdIn(userList,pageable);
+					total =companyRepository.findAllCountByAssigneeIdIn(userList);
+
+				}else {
+
+					companyList =companyRepository.findDataByAssigneeId(userId,pageable);
+					total =companyRepository.findCountByAssigneeId(userId);
+
+				}
+			}
+		}else {
+			if(roleList.contains("ADMIN")) {
+				List<Long>userIds = new ArrayList<>();
+				userIds.add(filterUserId);
+				companyList =companyRepository.findAllDataByAssigneeIdIn(userIds,pageable);
+				total =companyRepository.findAllCountByAssigneeIdIn(userIds);
+
+			}else {
+				if(user.isManager()) {
+					List<Long>userList = new ArrayList<>();
+					userList.add(userId);
+					List<Long> uList = userServiceImpl.getUserManager(userId);
+					userList.addAll(uList);
+					companyList =companyRepository.findAllDataByAssigneeIdIn(userList,pageable);
+					total =companyRepository.findAllCountByAssigneeIdIn(userList);
+
+
+				}else {
+
+					companyList =companyRepository.findDataByAssigneeId(userId,pageable);
+					total =companyRepository.findCountByAssigneeId(userId);
+
+				}
+			}
+		}
+		List<Map<String,Object>>res = new ArrayList<>();
+		for(Object[] c:companyList) {
+		
+			Map<String,Object>result = new HashMap<>();
+			result.put("total", total);
+
+			result.put("total", total);
+			result.put("companyId", c[0]);
+			result.put("companyName", c[1]);
+			result.put("country", c[9]);
+			result.put("gstNo", c[3]);
+			result.put("gstType", c[15]);
+//			result.put("gstDoc", c.getGstDocuments());
+
+			result.put("assignee", c[2]);
+
+			result.put("address", c[6]);
+			result.put("city", c[7]);
+			result.put("state", c[8]);
+			result.put("country", c[9]);
+
+			result.put("secAddress", c[11]);
+			result.put("secCity", c[12]);
+			result.put("secState", c[13]);
+			result.put("seCountry", c[14]);
+			result.put("assigneeId", c[16]); 
+
+
+			result.put("clientContactNo", c[5]);
+			result.put("clientContactEmail", c[4]);
+			res.add(result);
+
+		}
+		
+		return res;
+	}
+
+	
 	public List<Map<String,Object>> getAllCompanyForExport(Long userId, Long filterUserId) {
 		Optional<User> userOp = userRepo.findById(userId);
 		List<Object[]> companyList = new ArrayList<>();
@@ -950,21 +1044,11 @@ public class CompanyServiceImpl implements CompanyService {
 		
 			Map<String,Object>result = new HashMap<>();
 			result.put("total", total);
-//			1c.id , 2c.name , 3u.email as assignee ,
-//			4c.gst_no ,5cont.emails ,
-//			6cont.contact_no ,7c.address, 
-//			8c.city,9c.state,10c.country ,
-//			11c.primary_pin_code ,
-//			12c.s_address,13c.s_city,
-//			14c.s_state,15c.s_country
 			result.put("companyId", c[0]);
 			result.put("companyName", c[1]);
 			result.put("country", c[9]);
 			result.put("gstNo", c[3]);
 			result.put("gstType", c[15]);
-//			result.put("gstDoc", c.getGstDocuments());
-//			result.put("tempAssignee", c.getTempAssignee());
-
 
 			result.put("assignee", c[2]);
 

@@ -56,4 +56,6 @@ public interface CompanyService {
 			String fieldSearch);
 
 	List<Map<String, Object>> getAllCompanyForExport(Long userId, Long filterUserId);
+
+	List<Map<String, Object>> getAllCompanyV3(Long userId, Long filterUserId, int i, int size);
 }
