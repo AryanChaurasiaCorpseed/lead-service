@@ -584,7 +584,9 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("gstNo", c.getGstNo());
 			result.put("gstType", c.getGstType());
 			result.put("gstDoc", c.getGstDocuments());
-			result.put("assignee", c.getAssignee());
+			result.put("assignee", c.getAssignee()!=null?c.getAssignee().getEmail():"NA");
+			result.put("assigneeId",c.getAssignee()!=null?c.getAssignee().getId():"1"); 
+
 			result.put("address", c.getAddress());
 			result.put("city", c.getCity());
 			result.put("state", c.getState());
@@ -595,6 +597,9 @@ public class CompanyServiceImpl implements CompanyService {
 			result.put("seCountry", c.getSCountry());
 			result.put("primaryContact", c.getPrimaryContact());
 			result.put("secondaryContact", c.getSecondaryContact());
+			
+			result.put("clientContactNo", c.getPrimaryContact()!=null?c.getPrimaryContact().getContactNo():"NA");
+			result.put("clientContactEmail", c.getPrimaryContact()!=null?c.getPrimaryContact().getEmails():"NA");
 
 			List<Lead> lList = c.getCompanyLead();
 			List<Map<String, Object>> leadList = new ArrayList<>();
